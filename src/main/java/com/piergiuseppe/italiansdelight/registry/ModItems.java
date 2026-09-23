@@ -19,6 +19,7 @@ public final class ModItems {
     private ModItems() {
     }
 
+    // Pasta cruda - da togliere
     public static final ResourceKey<Item> RAW_PASTA_DOUGH_KEY =
             ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("raw_pasta_dough"));
 
@@ -27,6 +28,7 @@ public final class ModItems {
             new Item.Properties()
     );
 
+    // Cacio e pepe - da togliere
     public static final ResourceKey<Item> CACIO_E_PEPE_KEY =
             ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cacio_e_pepe"));
 
@@ -38,6 +40,25 @@ public final class ModItems {
                             .saturationModifier(0.8f)
                             .build()
             )
+    );
+
+    //Pasta al sugo
+    public static final ResourceKey<Item> PASTA_WITH_TOMATO_SAUCE_KEY =
+            ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), 
+                ModRegistries.id("pasta_with_tomato_sauce")
+            );
+
+    public static final Item PASTA_WITH_TOMATO_SAUCE = register(
+            PASTA_WITH_TOMATO_SAUCE_KEY,
+            new Item.Properties().food(
+                    new FoodProperties.Builder()
+                            .nutrition(8)
+                            .saturationModifier(0.8f)
+                            .build()
+            )
+            .craftRemainder(net.minecraft.world.item.Items.BOWL) // Resto della ciotola dopo il consumo
+            .stacksTo(16)
     );
 
     private static Item register(ResourceKey<Item> itemKey, Item.Properties properties) {
