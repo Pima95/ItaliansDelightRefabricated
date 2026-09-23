@@ -3,8 +3,7 @@ package com.piergiuseppe.italiansdelight.registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.component.ItemFoodProperties;
-import net.minecraft.world.item.component.ItemFoodProperties.Builder;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.core.Registry;
 
 import com.piergiuseppe.italiansdelight.ItaliansDelight;
@@ -34,7 +33,7 @@ public final class ModItems {
     public static final Item CACIO_E_PEPE = register(
             CACIO_E_PEPE_KEY,
             new Item.Properties().food(
-                    new ItemFoodProperties.Builder()
+                    new FoodProperties.Builder()
                             .nutrition(8)
                             .saturationModifier(0.8f)
                             .build()
