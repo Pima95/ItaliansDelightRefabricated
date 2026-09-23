@@ -29,7 +29,7 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Farmer's Delight Refabricated
-    modImplementation("vectorwing:FarmersDelight:${project.fdrf_version}") {
+    implementation("vectorwing:FarmersDelight:${project.fdrf_version}") {
         exclude(group: "net.fabricmc")
     }
 }
