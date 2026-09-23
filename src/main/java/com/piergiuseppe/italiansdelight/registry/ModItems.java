@@ -7,26 +7,24 @@ import net.minecraft.registry.Registry;
 
 /**
  * Registro centrale degli item di Italian's Delight.
- * <p>
- * Convenzione: un campo statico per item, inizializzato con {@link #register}.
- * I FoodComponent seguono lo stile di Farmer's Delight (nutrimento contenuto,
- * saturazione più alta della media vanilla) invece di quello vanilla puro.
- * <p>
- * Questo file contiene solo 2 item di esempio (Pasta secca cruda, Cacio e Pepe
- * pronto) per fissare il pattern: gli item veri verranno aggiunti nel prossimo
- * step insieme alle relative recipe di Cutting Board / Cooking Pot.
+ *
+ * Gli item vengono registrati nel namespace della mod tramite ModRegistries.
+ * Per ora contiene solamente gli item utilizzati per verificare la struttura
+ * tecnica del progetto; gli ingredienti e i piatti definitivi verranno aggiunti
+ * nella fase dedicata al contenuto.
  */
 public final class ModItems {
 
-    private ModItems() {}
+    private ModItems() {
+    }
 
-    // --- Ingredienti crudi ---
+    // --- Ingredienti di base ---
     public static final Item RAW_PASTA_DOUGH = register(
             "raw_pasta_dough",
             new Item.Settings()
     );
 
-    // --- Piatti pronti (esempio di food component in stile Farmer's Delight) ---
+    // --- Piatti pronti ---
     public static final Item CACIO_E_PEPE = register(
             "cacio_e_pepe",
             new Item.Settings().food(
@@ -37,12 +35,24 @@ public final class ModItems {
             )
     );
 
+    /**
+     * Registra un item nel registry di Minecraft.
+     */
     private static Item register(String path, Item.Settings settings) {
-        return Registry.register(Registries.ITEM, ModRegistries.id(path), new Item(settings));
+        return Registry.register(
+                Registries.ITEM,
+                ModRegistries.id(path),
+                new Item(settings)
+        );
     }
 
+    /**
+     * Metodo chiamato dall'entrypoint della mod.
+     *
+     * Il caricamento della classe inizializza i campi statici e quindi
+     * esegue automaticamente le registrazioni degli item.
+     */
     public static void register() {
-        // Il caricamento della classe (tramite i riferimenti statici sopra)
-        // è sufficiente a far scattare le Registry.register(...).
+        // Le registrazioni avvengono durante l'inizializzazione dei campi statici.
     }
 }
