@@ -1,6 +1,6 @@
 package com.piergiuseppe.italiansdelight.item.group;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricCreativeModeTab;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
