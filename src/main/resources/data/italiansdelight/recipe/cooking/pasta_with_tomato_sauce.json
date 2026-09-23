@@ -2,12 +2,8 @@
   "type": "farmersdelight:cooking",
   "experience": 1.0,
   "ingredients": [
-    {
-      "tag": "c:foods/pasta"
-    },
-    {
-      "item": "farmersdelight:tomato_sauce"
-    }
+    "#c:foods/pasta",
+    "farmersdelight:tomato_sauce"
   ],
   "recipe_book_tab": "meals",
   "container": {
@@ -15,7 +11,6 @@
     "count": 1
   },
   "result": {
-    "id": "italiansdelight:pasta_al_sugo",
-    "count": 1
+    "id": "italiansdelight:pasta_with_tomato_sauce"
   }
 }
