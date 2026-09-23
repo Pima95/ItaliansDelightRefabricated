@@ -1,11 +1,12 @@
 package com.piergiuseppe.italiansdelight.item.group;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricCreativeModeTab;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
 import com.piergiuseppe.italiansdelight.registry.ModItems;
 import com.piergiuseppe.italiansdelight.registry.ModRegistries;
@@ -15,20 +16,26 @@ public final class ModItemGroups {
 
     private ModItemGroups() {}
 
-    public static final ItemGroup ITALIANS_DELIGHT_GROUP = Registry.register(
-            Registries.ITEM_GROUP,
-            ModRegistries.id("italiansdelight_group"),
-            FabricItemGroup.builder()
-                    .icon(() -> new ItemStack(ModItems.CACIO_E_PEPE))
-                    .displayName(Text.translatable("itemGroup.italiansdelight.main"))
-                    .entries((displayContext, entries) -> {
-                        entries.add(ModItems.RAW_PASTA_DOUGH);
-                        entries.add(ModItems.CACIO_E_PEPE);
-                    })
-                    .build()
-    );
+    public static final ResourceKey<CreativeModeTab> ITALIANS_DELIGHT_GROUP_KEY =
+            ResourceKey.create(
+                    BuiltInRegistries.CREATIVE_MODE_TAB.key(),
+                    ModRegistries.id("italiansdelight_group")
+            );
+
+    public static final CreativeModeTab ITALIANS_DELIGHT_GROUP = FabricCreativeModeTab.builder()
+            .icon(() -> new ItemStack(ModItems.CACIO_E_PEPE))
+            .title(Component.translatable("itemGroup.italiansdelight.main"))
+            .displayItems((params, output) -> {
+                output.accept(ModItems.RAW_PASTA_DOUGH);
+                output.accept(ModItems.CACIO_E_PEPE);
+            })
+            .build();
 
     public static void register() {
-        // Il caricamento della classe è sufficiente.
+        Registry.register(
+                BuiltInRegistries.CREATIVE_MODE_TAB,
+                ITALIANS_DELIGHT_GROUP_KEY,
+                ITALIANS_DELIGHT_GROUP
+        );
     }
 }
