@@ -1,58 +1,52 @@
 package com.piergiuseppe.italiansdelight.registry;
 
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.ItemFoodProperties;
+import net.minecraft.world.item.component.ItemFoodProperties.Builder;
+import net.minecraft.core.Registry;
+
+import com.piergiuseppe.italiansdelight.ItaliansDelight;
 
 /**
  * Registro centrale degli item di Italian's Delight.
  *
- * Gli item vengono registrati nel namespace della mod tramite ModRegistries.
- * Per ora contiene solamente gli item utilizzati per verificare la struttura
- * tecnica del progetto; gli ingredienti e i piatti definitivi verranno aggiunti
- * nella fase dedicata al contenuto.
+ * Gli item vengono registrati nel namespace della mod tramite ResourceKey,
+ * come richiesto dalle API di Minecraft 26.2.
  */
 public final class ModItems {
 
     private ModItems() {
     }
 
-    // --- Ingredienti di base ---
+    public static final ResourceKey<Item> RAW_PASTA_DOUGH_KEY =
+            ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("raw_pasta_dough"));
+
     public static final Item RAW_PASTA_DOUGH = register(
-            "raw_pasta_dough",
-            new Item.Settings()
+            RAW_PASTA_DOUGH_KEY,
+            new Item.Properties()
     );
 
-    // --- Piatti pronti ---
+    public static final ResourceKey<Item> CACIO_E_PEPE_KEY =
+            ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cacio_e_pepe"));
+
     public static final Item CACIO_E_PEPE = register(
-            "cacio_e_pepe",
-            new Item.Settings().food(
-                    new FoodComponent.Builder()
+            CACIO_E_PEPE_KEY,
+            new Item.Properties().food(
+                    new ItemFoodProperties.Builder()
                             .nutrition(8)
                             .saturationModifier(0.8f)
                             .build()
             )
     );
 
-    /**
-     * Registra un item nel registry di Minecraft.
-     */
-    private static Item register(String path, Item.Settings settings) {
-        return Registry.register(
-                Registries.ITEM,
-                ModRegistries.id(path),
-                new Item(settings)
-        );
+    private static Item register(ResourceKey<Item> itemKey, Item.Properties properties) {
+        Item item = new Item(properties.setId(itemKey));
+        Registry.register(BuiltInRegistries.ITEM, itemKey, item);
+        return item;
     }
 
-    /**
-     * Metodo chiamato dall'entrypoint della mod.
-     *
-     * Il caricamento della classe inizializza i campi statici e quindi
-     * esegue automaticamente le registrazioni degli item.
-     */
     public static void register() {
-        // Le registrazioni avvengono durante l'inizializzazione dei campi statici.
     }
 }
