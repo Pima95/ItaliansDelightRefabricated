@@ -23,13 +23,13 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
 
     // Fabric Loader
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Farmer's Delight Refabricated
-    modImplementation("vectorwing:FarmersDelight:${project.fdrf_version}") {
+    implementation("vectorwing:FarmersDelight:${project.fdrf_version}") {
         exclude(group: "net.fabricmc")
     }
 }
