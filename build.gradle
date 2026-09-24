@@ -16,6 +16,12 @@ repositories {
         name = "Cassian's Maven"
         url = 'https://maven.cassian.cc'
     }
+
+    // JEI - CurseForge Maven
+    maven {
+        name = "CurseForge"
+        url = "https://www.cursemaven.com"
+    }
 }
 
 dependencies {
@@ -32,6 +38,9 @@ dependencies {
     implementation("vectorwing:FarmersDelight:${project.fdrf_version}") {
         exclude(group: "net.fabricmc")
     }
+
+    // JEI
+    modImplementation "curse.maven:jei-238222:8937443"
 }
 
 processResources {
