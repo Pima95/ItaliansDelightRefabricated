@@ -1,15 +1,18 @@
 package com.piergiuseppe.italiansdelight.client.jei;
 
+import com.piergiuseppe.italiansdelight.ItaliansDelight;
+import com.piergiuseppe.italiansdelight.client.screen.CheeseVatScreen;
+import com.piergiuseppe.italiansdelight.registry.ModBlocks;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-
-import com.piergiuseppe.italiansdelight.registry.ModBlocks;
 
 @JeiPlugin
 public class ItaliansDelightJeiPlugin implements IModPlugin {
@@ -40,11 +43,20 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
     public void registerRecipes(
         IRecipeRegistration registration
     ) {
-        CheeseVatJeiRecipes recipes = new CheeseVatJeiRecipes();
+        CheeseVatJeiRecipes recipes =
+            new CheeseVatJeiRecipes();
+
+        var cheeseVatRecipes =
+            recipes.getRecipes();
+
+        ItaliansDelight.LOGGER.info(
+            "[Italian's Delight / JEI] Ricette Cheese Vat sincronizzate: {}",
+            cheeseVatRecipes.size()
+        );
 
         registration.addRecipes(
             CheeseVatJeiRecipeTypes.CHEESE_VAT,
-            recipes.getRecipes()
+            cheeseVatRecipes
         );
     }
 
@@ -55,6 +67,23 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addCraftingStation(
             CheeseVatJeiRecipeTypes.CHEESE_VAT,
             new ItemStack(ModBlocks.CHEESE_VAT)
+        );
+    }
+
+    @Override
+    public void registerGuiHandlers(
+        IGuiHandlerRegistration registration
+    ) {
+        registration.addRecipeClickArea(
+            CheeseVatScreen.class,
+
+            // Freccia di avanzamento della GUI
+            89,
+            25,
+            24,
+            17,
+
+            CheeseVatJeiRecipeTypes.CHEESE_VAT
         );
     }
 }
