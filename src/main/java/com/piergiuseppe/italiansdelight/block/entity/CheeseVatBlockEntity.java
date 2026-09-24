@@ -116,12 +116,21 @@ public class CheeseVatBlockEntity
                 cheeseVatRecipe.getCookingTime()
             );
 
-        cheeseVat.cookTime++;
+        if (cheeseVat.cookTime < cheeseVat.cookTimeTotal) {
+            cheeseVat.cookTime++;
+        }
 
         if (cheeseVat.cookTime >= cheeseVat.cookTimeTotal) {
-            cheeseVat.finishCooking(
+            cheeseVat.cookTime =
+                cheeseVat.cookTimeTotal;
+
+            if (cheeseVat.hasRequiredContainer(
                 cheeseVatRecipe
-            );
+            )) {
+                cheeseVat.finishCooking(
+                    cheeseVatRecipe
+                );
+            }
         }
 
         cheeseVat.setChanged();
@@ -142,8 +151,7 @@ public class CheeseVatBlockEntity
         return new CheeseVatRecipeInput(
             items.get(0),
             items.get(1),
-            items.get(2),
-            items.get(CONTAINER_SLOT)
+            items.get(2)
         );
     }
 
@@ -162,58 +170,54 @@ public class CheeseVatBlockEntity
         ItemStack output =
             items.get(OUTPUT_SLOT);
 
-        if (!output.isEmpty()) {
-            if (!ItemStack.isSameItemSameComponents(
-                output,
-                result
-            )) {
-                return false;
-            }
-
-            if (
-                output.getCount() + result.getCount()
-                    > output.getMaxStackSize()
-            ) {
-                return false;
-            }
+        if (output.isEmpty()) {
+            return true;
         }
 
-        if (recipe.getContainerTemplate().isPresent()) {
+        if (!ItemStack.isSameItemSameComponents(
+            output,
+            result
+        )) {
+            return false;
+        }
 
-            ItemStack required =
-                recipe
-                    .getContainerTemplate()
-                    .get()
-                    .create();
+        return output.getCount() + result.getCount()
+            <= output.getMaxStackSize();
+    }
 
-            ItemStack provided =
-                items.get(CONTAINER_SLOT);
+    private boolean hasRequiredContainer(
+        CheeseVatRecipe recipe
+    ) {
+        if (recipe.getContainerTemplate().isEmpty()) {
+            return true;
+        }
 
-            if (provided.isEmpty()) {
-                return false;
-            }
+        ItemStack required =
+            recipe
+                .getContainerTemplate()
+                .get()
+                .create();
 
-            if (!ItemStack.isSameItemSameComponents(
+        ItemStack provided =
+            items.get(CONTAINER_SLOT);
+
+        return !provided.isEmpty()
+            && ItemStack.isSameItemSameComponents(
                 provided,
                 required
-            )) {
-                return false;
-            }
-
-            if (
-                provided.getCount()
-                    < required.getCount()
-            ) {
-                return false;
-            }
-        }
-
-        return true;
+            )
+            && provided.getCount()
+                >= required.getCount();
     }
 
     private void finishCooking(
         CheeseVatRecipe recipe
     ) {
+        if (!hasRequiredContainer(recipe)) {
+            cookTime = cookTimeTotal;
+            return;
+        }
+
         CheeseVatRecipeInput input =
             createRecipeInput();
 
@@ -246,6 +250,13 @@ public class CheeseVatBlockEntity
             container.shrink(
                 required.getCount()
             );
+
+            if (container.isEmpty()) {
+                items.set(
+                    CONTAINER_SLOT,
+                    ItemStack.EMPTY
+                );
+            }
         }
 
         ItemStack output =

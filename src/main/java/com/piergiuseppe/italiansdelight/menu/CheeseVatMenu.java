@@ -146,9 +146,18 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             return 0;
         }
 
-        return cookTime
-            * 24
-            / cookTimeTotal;
+        int scaled =
+            cookTime
+                * 24
+                / cookTimeTotal;
+
+        return Math.min(
+            24,
+            Math.max(
+                1,
+                scaled
+            )
+        );
     }
 
     public boolean isHeated() {

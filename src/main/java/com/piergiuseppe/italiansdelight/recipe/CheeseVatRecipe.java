@@ -90,130 +90,9 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         return cookingTime;
     }
 
-    public int[] findMatchingIngredientSlots(
-    CheeseVatRecipeInput input
-) {
-    int nonEmptySlots = 0;
-
-    for (int slot = 0; slot < 3; slot++) {
-        if (!input.getItem(slot).isEmpty()) {
-            nonEmptySlots++;
-        }
-    }
-
-    if (nonEmptySlots != ingredients.size()) {
-        return null;
-    }
-
-    int[] matchedSlots =
-        new int[ingredients.size()];
-
-    boolean[] usedSlots =
-        new boolean[3];
-
-    if (findMatches(
-        input,
-        0,
-        usedSlots,
-        matchedSlots
-    )) {
-        return matchedSlots;
-    }
-
-    return null;
-}
-
-    private boolean findMatches(
-        CheeseVatRecipeInput input,
-        int ingredientIndex,
-        boolean[] usedSlots,
-        int[] matchedSlots
-    ) {
-        if (ingredientIndex >= ingredients.size()) {
-            return true;
-        }
-
-        Ingredient ingredient =
-            ingredients.get(ingredientIndex);
-
-        for (int slot = 0; slot < 3; slot++) {
-
-            if (usedSlots[slot]) {
-                continue;
-            }
-
-            ItemStack stack =
-                input.getItem(slot);
-
-            if (
-                !stack.isEmpty()
-                && ingredient.test(stack)
-            ) {
-                usedSlots[slot] = true;
-                matchedSlots[ingredientIndex] = slot;
-
-                if (findMatches(
-                    input,
-                    ingredientIndex + 1,
-                    usedSlots,
-                    matchedSlots
-                )) {
-                    return true;
-                }
-
-                usedSlots[slot] = false;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean matches(
-        CheeseVatRecipeInput input,
-        Level level
-    ) {
-        // Gli ingredienti possono essere inseriti in qualsiasi
-        // dei tre slot, come nel Cooking Pot di Farmer's Delight.
-        if (findMatchingIngredientSlots(input) == null) {
-            return false;
-        }
-
-        // Se la ricetta richiede un contenitore,
-        // deve essere presente nello slot dedicato.
-        if (container.isPresent()) {
-
-            ItemStack required =
-                container.get().create();
-
-            ItemStack provided =
-                input.container();
-
-            if (provided.isEmpty()) {
-                return false;
-            }
-
-            if (!ItemStack.isSameItemSameComponents(
-                provided,
-                required
-            )) {
-                return false;
-            }
-
-            if (provided.getCount() < required.getCount()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     /**
-     * Cerca gli slot della Caldaia che corrispondono
-     * agli ingredienti della ricetta.
-     *
-     * Il matching è shapeless, come nel Cooking Pot
-     * di Farmer's Delight.
+     * Finds the machine input slots that match this recipe.
+     * Ingredient order is intentionally shapeless, like Farmer's Delight's Cooking Pot.
      */
     public int[] findMatchingIngredientSlots(
         CheeseVatRecipeInput input
@@ -262,7 +141,6 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
             ingredients.get(ingredientIndex);
 
         for (int slot = 0; slot < 3; slot++) {
-
             if (usedSlots[slot]) {
                 continue;
             }
@@ -291,6 +169,27 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean matches(
+        CheeseVatRecipeInput input,
+        Level level
+    ) {
+        /*
+         * The container is deliberately NOT part of recipe matching.
+         * The vat cooks the ingredients first and, when a recipe asks
+         * for a container, waits at 100% until the correct container
+         * is supplied in the dedicated slot.
+         */
+        return findMatchingIngredientSlots(input) != null;
+    }
+
+    @Override
+    public ItemStack assemble(
+        CheeseVatRecipeInput input
+    ) {
+        return result.create();
     }
 
     @Override
