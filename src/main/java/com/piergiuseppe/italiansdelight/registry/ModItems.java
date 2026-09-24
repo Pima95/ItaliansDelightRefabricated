@@ -61,6 +61,24 @@ public final class ModItems {
             .stacksTo(16)
     );
 
+    public static final ResourceKey<Item> RISOTTO_WITH_TOMATO_SAUCE_KEY =
+            ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), 
+                ModRegistries.id("risotto_with_tomato_sauce")
+            );
+
+    public static final Item RISOTTO_WITH_TOMATO_SAUCE = register(
+            RISOTTO_WITH_TOMATO_SAUCE_KEY,
+            new Item.Properties().food(
+                    new FoodProperties.Builder()
+                            .nutrition(8)
+                            .saturationModifier(0.8f)
+                            .build()
+            )
+            .craftRemainder(net.minecraft.world.item.Items.BOWL)
+            .stacksTo(16)
+    );
+
     private static Item register(ResourceKey<Item> itemKey, Item.Properties properties) {
         Item item = new Item(properties.setId(itemKey));
         Registry.register(BuiltInRegistries.ITEM, itemKey, item);

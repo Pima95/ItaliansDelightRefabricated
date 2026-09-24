@@ -23,12 +23,13 @@ public final class ModItemGroups {
             );
 
     public static final CreativeModeTab ITALIANS_DELIGHT_GROUP = FabricCreativeModeTab.builder()
-            .icon(() -> new ItemStack(ModItems.CACIO_E_PEPE)) //Modifica icona del tab creative
+            .icon(() -> new ItemStack(ModItems.PASTA_WITH_TOMATO_SAUCE)) //Modifica icona del tab creative
             .title(Component.translatable("itemGroup.italiansdelight.main"))
             .displayItems((params, output) -> {
                 output.accept(ModItems.RAW_PASTA_DOUGH);
                 output.accept(ModItems.CACIO_E_PEPE);
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
+                output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
             })
             .build();
 
