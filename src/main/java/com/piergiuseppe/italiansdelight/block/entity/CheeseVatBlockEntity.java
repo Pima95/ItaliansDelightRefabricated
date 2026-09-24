@@ -11,10 +11,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 
 import vectorwing.farmersdelight.common.block.entity.HeatableBlockEntity;
 
-public class CheeseVatBlockEntity extends BlockEntity implements Container, HeatableBlockEntity {
+public class CheeseVatBlockEntity extends BlockEntity implements Container, HeatableBlockEntity, MenuProvider {
 
     private static final int CONTAINER_SIZE = 3;
 
@@ -99,5 +104,15 @@ public class CheeseVatBlockEntity extends BlockEntity implements Container, Heat
     protected void saveAdditional(ValueOutput output) {
         ContainerHelper.saveAllItems(output, this.items);
         super.saveAdditional(output);
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("block.italiansdelight.cheese_vat");
+    }
+
+    @Override
+    public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
+        return null;
     }
 }
