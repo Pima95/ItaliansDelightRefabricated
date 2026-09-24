@@ -30,6 +30,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.CACIO_E_PEPE);
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
+                output.accept(ModItems.MOZZARELLA);
             })
             .build();
 
