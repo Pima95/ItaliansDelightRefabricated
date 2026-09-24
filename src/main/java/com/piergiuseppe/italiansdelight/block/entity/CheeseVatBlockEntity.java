@@ -218,12 +218,16 @@ public class CheeseVatBlockEntity
         ItemStack result =
             recipe.assemble(input);
 
-        for (
-            int i = 0;
-            i < recipe.getIngredientsList().size();
-            i++
-        ) {
-            consumeIngredient(i);
+        int[] matchingSlots =
+            recipe.findMatchingIngredientSlots(input);
+
+        if (matchingSlots == null) {
+            cookTime = 0;
+            return;
+        }
+
+        for (int slot : matchingSlots) {
+            consumeIngredient(slot);
         }
 
         if (recipe.getContainerTemplate().isPresent()) {
