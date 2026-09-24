@@ -1,15 +1,15 @@
 {
   "type": "farmersdelight:cutting",
   "ingredients": [
-    {
-      "item": "italiansdelight:mozzarella"
-    }
+      "italiansdelight:mozzarella"
   ],
   "tool": "#c:tools/knife",
   "result": [
     {
-      "item": "italiansdelight:mozzarella_slice",
-      "count": 4
+      "item": {
+        "count": 4,
+        "id": "italiansdelight:mozzarella_slice"
+      }
     }
   ]
 }

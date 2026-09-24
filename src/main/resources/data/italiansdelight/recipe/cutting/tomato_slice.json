@@ -1,15 +1,15 @@
 {
   "type": "farmersdelight:cutting",
   "ingredients": [
-    {
-      "item": "#c:crops/tomato"
-    }
+    "#c:crops/tomato"
   ],
   "tool": "#c:tools/knife",
   "result": [
     {
-      "item": "italiansdelight:tomato_slice",
-      "count": 4
+      "item": {
+        "count": 4,
+        "id": "italiansdelight:tomato_slice"
+      }
     }
   ]
 }
