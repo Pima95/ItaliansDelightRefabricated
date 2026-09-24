@@ -113,7 +113,7 @@ public class CheeseVatRecipeCategory
 
         // Risultato
         builder.addOutputSlot(
-            94,
+            95,
             41
         ).add(
             recipe.getResultTemplate()
