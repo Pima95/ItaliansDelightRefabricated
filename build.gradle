@@ -40,7 +40,7 @@ dependencies {
     }
 
     // JEI
-    modImplementation "curse.maven:jei-238222:8937443"
+    implementation "curse.maven:jei-238222:8937443"
 }
 
 processResources {
