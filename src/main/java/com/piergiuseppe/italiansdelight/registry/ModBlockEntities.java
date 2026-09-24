@@ -13,15 +13,25 @@ public final class ModBlockEntities {
     }
 
     public static final BlockEntityType<CheeseVatBlockEntity> CHEESE_VAT =
-        Registry.register(
-            BuiltInRegistries.BLOCK_ENTITY_TYPE,
-            ModRegistries.id("cheese_vat"),
-            FabricBlockEntityTypeBuilder.create(
-                CheeseVatBlockEntity::new,
-                ModBlocks.CHEESE_VAT
-            ).build()
+        register(
+            "cheese_vat",
+            CheeseVatBlockEntity::new,
+            ModBlocks.CHEESE_VAT
         );
 
+    private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
+        String name,
+        FabricBlockEntityTypeBuilder.Factory<? extends T> entityFactory,
+        net.minecraft.world.level.block.Block... blocks
+    ) {
+        return Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ModRegistries.id(name),
+            FabricBlockEntityTypeBuilder.<T>create(entityFactory, blocks).build()
+        );
+    }
+
     public static void register() {
+        
     }
 }
