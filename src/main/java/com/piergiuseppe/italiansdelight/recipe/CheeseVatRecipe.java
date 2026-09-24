@@ -112,16 +112,6 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     }
 
     @Override
-    public @org.jetbrains.annotations.Nullable net.minecraft.world.item.crafting.RecipeBookCategory recipeBookCategory() {
-        return null;
-    }
-
-    @Override
-    public PlacementInfo placementInfo() {
-        return PlacementInfo.NOT_PLACEABLE;
-    }
-
-    @Override
     public boolean isSpecial() {
         return true;
     }
@@ -129,10 +119,5 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     @Override
     public boolean showNotification() {
         return true;
-    }
-
-    @Override
-    public String group() {
-        return "cheese_vat";
     }
 }
