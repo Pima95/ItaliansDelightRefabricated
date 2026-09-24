@@ -35,7 +35,6 @@ public class CheeseVatRecipeCategory
     private final IDrawable background;
 
     public CheeseVatRecipeCategory(IGuiHelper guiHelper) {
-
         this.icon = guiHelper.createDrawableItemLike(
             ModBlocks.CHEESE_VAT
         );
@@ -81,8 +80,13 @@ public class CheeseVatRecipeCategory
 
     @Override
     public void setRecipe(
+        IRecipeLayoutBuilder builder,
+        RecipeHolder<CheeseVatRecipe> holder,
+        IFocusGroup focuses
+    ) {
         CheeseVatRecipe recipe = holder.value();
 
+        // Ingredienti
         for (
             int i = 0;
             i < recipe.getIngredientsList().size();
@@ -98,6 +102,7 @@ public class CheeseVatRecipeCategory
             );
         }
 
+        // Contenitore opzionale
         recipe.getContainerTemplate().ifPresent(
             container ->
                 builder.addInputSlot(
@@ -106,6 +111,7 @@ public class CheeseVatRecipeCategory
                 ).add(container)
         );
 
+        // Risultato
         builder.addOutputSlot(
             94,
             41

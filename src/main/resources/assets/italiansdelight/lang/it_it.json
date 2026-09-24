@@ -8,5 +8,7 @@
   "item.italiansdelight.mozzarella": "Mozzarella",
   "item.italiansdelight.mozzarella_slice": "Fetta di Mozzarella",
   "item.italiansdelight.tomato_slice": "Fetta di Pomodoro",
-  "block.italiansdelight.cheese_vat": "Caldaia Vasearia"
+  "item.italiansdelight.rennet": "Caglio",
+  "item.italiansdelight.curd": "Cagliata",
+  "block.italiansdelight.cheese_vat": "Caldaia Casearia"
 }

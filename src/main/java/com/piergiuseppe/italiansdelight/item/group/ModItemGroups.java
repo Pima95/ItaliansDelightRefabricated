@@ -33,6 +33,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.MOZZARELLA_SLICE);
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModBlocks.CHEESE_VAT);
+                output.accept(ModItems.RENNET);
+                output.accept(ModItems.CURD);
             })
             .build();
 

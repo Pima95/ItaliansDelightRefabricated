@@ -94,6 +94,29 @@ public final class ModItems {
                                                         .nutrition(1)
                                                         .saturationModifier(0.2f)
                                                         .build()));
+        
+        // Caglio
+        public static final ResourceKey<Item> RENNET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("rennet"));
+
+        public static final Item RENNET = register(
+                RENNET_KEY,
+                new Item.Properties()
+                        .stacksTo(64));
+
+        // Cagliata
+        public static final ResourceKey<Item> CURD_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("curd"));
+
+        public static final Item CURD = register(
+                CURD_KEY,
+                new Item.Properties().food(
+                        new FoodProperties.Builder()
+                                .nutrition(1)
+                                .saturationModifier(0.1f)
+                                .build()));
 
         public static void register() {
         }
