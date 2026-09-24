@@ -22,7 +22,7 @@
       "com.piergiuseppe.italiansdelight.ItaliansDelightClient"
     ],
     "jei_mod_plugin": [
-      "com.piergiuseppe.italiansdelight.client.jei.ItaliansDelightJeiPlugin"
+      "com.piergiuseppe.italiansdelight.integration.jei.ItaliansDelightJeiPlugin"
     ]
   },
   "mixins": [],

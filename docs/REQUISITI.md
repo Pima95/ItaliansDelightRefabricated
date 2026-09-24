@@ -43,48 +43,37 @@ invece curare:
    (`c:foods`, `farmersdelight:snacks`, `farmersdelight:sweets`) invece di tag
    proprietari quando un tag condiviso esiste già.
 
-## 3. Struttura del progetto (creata in questo step)
+## 3. Struttura del progetto
 
-```
-italiansdelight/
-├── build.gradle
-├── settings.gradle
-├── gradle.properties
-├── LICENSE
-├── .gitignore
-├── docs/
-│   └── REQUISITI.md          <- questo file
-└── src/main/
-    ├── java/com/piergiuseppe/italiansdelight/
-    │   ├── ItaliansDelight.java         (entrypoint comune)
-    │   ├── ItaliansDelightClient.java   (entrypoint client)
-    │   ├── registry/
-    │   │   ├── ModRegistries.java       (helper Identifier)
-    │   │   ├── ModItems.java            (2 item di esempio già registrati)
-    │   │   └── ModBlocks.java           (vuoto, pronto)
-    │   ├── item/group/
-    │   │   └── ModItemGroups.java       (tab creativa dedicata)
-    │   ├── block/       (vuoto)
-    │   ├── recipe/      (vuoto, per eventuali recipe type custom)
-    │   └── datagen/     (vuoto, per il datagen Fabric quando lo attiveremo)
-    └── resources/
-        ├── fabric.mod.json             (dipendenza hard su "farmersdelight")
-        ├── assets/italiansdelight/
-        │   ├── lang/it_it.json, en_us.json
-        │   ├── textures/{item,block}/  (vuote)
-        │   ├── models/{item,block}/    (vuote)
-        │   └── blockstates/            (vuota)
-        └── data/
-            ├── italiansdelight/{recipes/{cutting,cooking},loot_table/blocks,
-            │                    tags/{items,blocks},advancements}/  (vuote)
-            └── farmersdelight/tags/items/knife.json  (esempio: rende
-                                          "raw_pasta_dough" affettabile)
+La logica di gioco condivisa è in `common`, la schermata è in `client` e
+l'integrazione JEI è in `integration/jei`. Gli entrypoint restano nel
+package principale. I percorsi delle risorse seguono le convenzioni di
+Minecraft 26.2.
+
+```text
+src/main/
+├── java/com/piergiuseppe/italiansdelight/
+│   ├── ItaliansDelight.java
+│   ├── ItaliansDelightClient.java
+│   ├── common/
+│   │   ├── block/CheeseVatBlock.java
+│   │   ├── block/entity/CheeseVatBlockEntity.java
+│   │   ├── block/entity/container/CheeseVatMenu.java
+│   │   ├── crafting/{CheeseVatRecipe,CheeseVatRecipeInput}.java
+│   │   ├── item/group/ModItemGroups.java
+│   │   └── registry/Mod*.java
+│   ├── client/gui/CheeseVatScreen.java
+│   └── integration/jei/{ItaliansDelightJeiPlugin,CheeseVat*}.java
+└── resources/
+    ├── fabric.mod.json
+    ├── assets/italiansdelight/{items,models,textures,lang,blockstates}/
+    └── data/{italiansdelight,c}/
 ```
 
-Item di esempio già registrati (solo per fissare il pattern di registrazione,
-**non contenuto definitivo**):
-- `italiansdelight:raw_pasta_dough` — impasto crudo
-- `italiansdelight:cacio_e_pepe` — piatto pronto con FoodComponent in stile FD
+Le ricette della Cheese Vat restano in
+`data/italiansdelight/recipe/cheese_vat/`. Le altre ricette sono nelle
+cartelle `cooking/` e `cutting/`. I tag usano `tags/item/` (singolare).
+La generazione dati verrà aggiunta quando servirà, senza cartelle vuote.
 
 ## 4. Roadmap proposta (prossimi step, uno alla volta)
 

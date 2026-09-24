@@ -4,12 +4,12 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.piergiuseppe.italiansdelight.registry.ModItems;
-import com.piergiuseppe.italiansdelight.registry.ModBlocks;
-import com.piergiuseppe.italiansdelight.item.group.ModItemGroups;
-import com.piergiuseppe.italiansdelight.registry.ModBlockEntities;
-import com.piergiuseppe.italiansdelight.registry.ModMenuTypes;
-import com.piergiuseppe.italiansdelight.registry.ModRecipes;
+import com.piergiuseppe.italiansdelight.common.registry.ModItems;
+import com.piergiuseppe.italiansdelight.common.registry.ModBlocks;
+import com.piergiuseppe.italiansdelight.common.item.group.ModItemGroups;
+import com.piergiuseppe.italiansdelight.common.registry.ModBlockEntities;
+import com.piergiuseppe.italiansdelight.common.registry.ModMenuTypes;
+import com.piergiuseppe.italiansdelight.common.registry.ModRecipes;
 
 /**
  * Entrypoint comune (server + client) di Italian's Delight.

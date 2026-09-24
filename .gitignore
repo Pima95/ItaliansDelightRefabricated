@@ -5,6 +5,9 @@ out/
 classes/
 
 # eclipse
+.classpath
+.project
+.settings/
 *.launch
 
 # idea

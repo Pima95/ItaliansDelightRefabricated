@@ -2,8 +2,8 @@ package com.piergiuseppe.italiansdelight;
 
 import net.fabricmc.api.ClientModInitializer;
 
-import com.piergiuseppe.italiansdelight.client.screen.CheeseVatScreen;
-import com.piergiuseppe.italiansdelight.registry.ModMenuTypes;
+import com.piergiuseppe.italiansdelight.client.gui.CheeseVatScreen;
+import com.piergiuseppe.italiansdelight.common.registry.ModMenuTypes;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 
