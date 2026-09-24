@@ -9,6 +9,7 @@ import com.piergiuseppe.italiansdelight.registry.ModBlockEntities;
 import com.piergiuseppe.italiansdelight.registry.ModRecipes;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -29,6 +30,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 import vectorwing.farmersdelight.common.block.entity.HeatableBlockEntity;
+import vectorwing.farmersdelight.common.utility.ItemUtils;
 
 public class CheeseVatBlockEntity
     extends BlockEntity
@@ -273,17 +275,71 @@ public class CheeseVatBlockEntity
         ItemStackTemplate remainder =
             stack.getCraftingRemainder();
 
+        // Farmer's Delight behavior:
+        // the remainder is ejected from the machine instead of
+        // replacing the ingredient stack in the input slot.
+        if (remainder != null) {
+            ItemStack remainderStack =
+                remainder.create();
+
+            if (!remainderStack.isEmpty()) {
+                ejectIngredientRemainder(
+                    remainderStack
+                );
+            }
+        }
+
         stack.shrink(1);
 
-        if (
-            stack.isEmpty()
-            && remainder != null
-        ) {
+        if (stack.isEmpty()) {
             items.set(
                 slot,
-                remainder.create()
+                ItemStack.EMPTY
             );
         }
+    }
+
+    private void ejectIngredientRemainder(
+        ItemStack remainderStack
+    ) {
+        if (
+            level == null
+            || remainderStack.isEmpty()
+        ) {
+            return;
+        }
+
+        // Cheese Vat does not currently have a FACING block state,
+        // so remainders are consistently ejected from its north side.
+        // This mirrors Farmer's Delight's physical ejection behavior
+        // without changing the blockstate/model yet.
+        Direction direction =
+            Direction.NORTH;
+
+        double x =
+            worldPosition.getX()
+                + 0.5D
+                + direction.getStepX() * 0.35D;
+
+        double y =
+            worldPosition.getY()
+                + 0.7D;
+
+        double z =
+            worldPosition.getZ()
+                + 0.5D
+                + direction.getStepZ() * 0.35D;
+
+        ItemUtils.spawnItemEntity(
+            level,
+            remainderStack,
+            x,
+            y,
+            z,
+            direction.getStepX() * 0.08D,
+            0.25D,
+            direction.getStepZ() * 0.08D
+        );
     }
 
     public boolean isHeated() {
