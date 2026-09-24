@@ -1,15 +1,12 @@
 {
   "type": "italiansdelight:cheese_vat",
   "ingredients": [
-    {
-      "tag": "c:drinks/milk"
-    },
-    {
-      "tag": "c:rennet"
-    }
+    "#c:drinks/milk",
+    "#c:rennet"
   ],
   "container": {
-    "id": "minecraft:glass_bottle"
+    "id": "minecraft:glass_bottle",
+    "count": 1
   },
   "result": {
     "id": "italiansdelight:curd"
