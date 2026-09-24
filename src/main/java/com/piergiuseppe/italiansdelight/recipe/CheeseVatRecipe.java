@@ -95,42 +95,88 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         CheeseVatRecipeInput input,
         Level level
     ) {
-        for (int i = 0; i < ingredients.size(); i++) {
-            if (!ingredients.get(i).test(input.getItem(i))) {
-                return false;
+        return findMatchingIngredientSlots(input) != null;
+    }
+
+    /**
+     * Finds the three machine input slots used by this recipe.
+     * Ingredients are intentionally shapeless, like Farmer's Delight's Cooking Pot.
+     */
+    public int[] findMatchingIngredientSlots(
+        CheeseVatRecipeInput input
+    ) {
+        int nonEmptySlots = 0;
+
+        for (int slot = 0; slot < 3; slot++) {
+            if (!input.getItem(slot).isEmpty()) {
+                nonEmptySlots++;
             }
         }
 
-        // Gli slot ingredienti non usati devono essere vuoti.
-        for (int i = ingredients.size(); i < 3; i++) {
-            if (!input.getItem(i).isEmpty()) {
-                return false;
+        if (nonEmptySlots != ingredients.size()) {
+            return null;
+        }
+
+        int[] matchedSlots =
+            new int[ingredients.size()];
+
+        boolean[] usedSlots =
+            new boolean[3];
+
+        if (findMatches(
+            input,
+            0,
+            usedSlots,
+            matchedSlots
+        )) {
+            return matchedSlots;
+        }
+
+        return null;
+    }
+
+    private boolean findMatches(
+        CheeseVatRecipeInput input,
+        int ingredientIndex,
+        boolean[] usedSlots,
+        int[] matchedSlots
+    ) {
+        if (ingredientIndex >= ingredients.size()) {
+            return true;
+        }
+
+        Ingredient ingredient =
+            ingredients.get(ingredientIndex);
+
+        for (int slot = 0; slot < 3; slot++) {
+            if (usedSlots[slot]) {
+                continue;
+            }
+
+            ItemStack stack =
+                input.getItem(slot);
+
+            if (
+                !stack.isEmpty()
+                && ingredient.test(stack)
+            ) {
+                usedSlots[slot] = true;
+                matchedSlots[ingredientIndex] = slot;
+
+                if (findMatches(
+                    input,
+                    ingredientIndex + 1,
+                    usedSlots,
+                    matchedSlots
+                )) {
+                    return true;
+                }
+
+                usedSlots[slot] = false;
             }
         }
 
-        // Se la ricetta richiede un contenitore,
-        // deve essere presente nello slot 3.
-        if (container.isPresent()) {
-            ItemStack required = container.get().create();
-            ItemStack provided = input.container();
-
-            if (provided.isEmpty()) {
-                return false;
-            }
-
-            if (!ItemStack.isSameItemSameComponents(
-                provided,
-                required
-            )) {
-                return false;
-            }
-
-            if (provided.getCount() < required.getCount()) {
-                return false;
-            }
-        }
-
-        return true;
+        return false;
     }
 
     @Override
