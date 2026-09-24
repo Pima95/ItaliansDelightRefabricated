@@ -7,8 +7,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import com.piergiuseppe.italiansdelight.registry.ModRecipes;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -85,18 +83,6 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     }
 
     @Override
-    public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> result = NonNullList.create();
-        result.addAll(this.ingredients);
-        return result;
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return this.result.create();
-    }
-
-    @Override
     public RecipeSerializer<? extends Recipe<CheeseVatRecipeInput>> getSerializer() {
         return ModRecipes.CHEESE_VAT_SERIALIZER;
     }
@@ -104,11 +90,6 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     @Override
     public RecipeType<? extends Recipe<CheeseVatRecipeInput>> getType() {
         return ModRecipes.CHEESE_VAT_TYPE;
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return true;
     }
 
     @Override
@@ -136,13 +117,4 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         return "cheese_vat";
     }
 
-    @Override
-    public boolean isSpecial() {
-        return true;
-    }
-
-    @Override
-    public boolean showNotification() {
-        return true;
-    }
 }
