@@ -79,6 +79,22 @@ public final class ModItems {
             .stacksTo(16)
     );
 
+    public static final ResourceKey<Item> MOZZARELLA_KEY =
+            ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), 
+                ModRegistries.id("mozzarella")
+            );
+
+    public static final Item MOZZARELLA = register(
+            MOZZARELLA_KEY,
+            new Item.Properties().food(
+                    new FoodProperties.Builder()
+                            .nutrition(2)
+                            .saturationModifier(0.3f)
+                            .build()
+            )
+    );
+
     private static Item register(ResourceKey<Item> itemKey, Item.Properties properties) {
         Item item = new Item(properties.setId(itemKey));
         Registry.register(BuiltInRegistries.ITEM, itemKey, item);
