@@ -1,21 +1,40 @@
 package com.piergiuseppe.italiansdelight.registry;
 
-/**
- * Registro centrale dei blocchi di Italian's Delight.
- *
- * I blocchi effettivi verranno aggiunti nella fase dedicata al contenuto,
- * ad esempio il forno a legna e gli eventuali blocchi decorativi.
- */
+import com.piergiuseppe.italiansdelight.block.CheeseVatBlock;
+
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.Block;
+
 public final class ModBlocks {
 
     private ModBlocks() {
     }
 
-    /**
-     * Metodo chiamato dall'entrypoint della mod.
-     *
-     * Per ora non sono presenti blocchi da registrare.
-     */
+    // Cheese Vat Block
+    public static final ResourceKey<Block> CHEESE_VAT_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(),
+        ModRegistries.id("cheese_vat")
+    );
+
+    public static final Block CHEESE_VAT = register(
+        CHEESE_VAT_KEY,
+        new CheeseVatBlock(
+            Block.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.IRON_BLOCK)
+                .setId(CHEESE_VAT_KEY)
+                .strength(2.0F, 6.0F)
+        )
+    );
+
+    private static Block register(ResourceKey<Block> blockKey, Block block) {
+        return Registry.register(
+            BuiltInRegistries.BLOCK,
+            blockKey,
+            block
+        );
+    }
+
     public static void register() {
         // Nessun blocco da registrare per ora.
     }
