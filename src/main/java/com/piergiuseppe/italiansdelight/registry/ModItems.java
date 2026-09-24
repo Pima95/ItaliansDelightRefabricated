@@ -16,91 +16,85 @@ import com.piergiuseppe.italiansdelight.ItaliansDelight;
  */
 public final class ModItems {
 
-    private ModItems() {
-    }
+        private ModItems() {
+        }
 
-    // Pasta cruda - da togliere
-    public static final ResourceKey<Item> RAW_PASTA_DOUGH_KEY =
-            ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("raw_pasta_dough"));
+        // Pasta al sugo
+        public static final ResourceKey<Item> PASTA_WITH_TOMATO_SAUCE_KEY = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id("pasta_with_tomato_sauce"));
 
-    public static final Item RAW_PASTA_DOUGH = register(
-            RAW_PASTA_DOUGH_KEY,
-            new Item.Properties()
-    );
+        public static final Item PASTA_WITH_TOMATO_SAUCE = register(
+                        PASTA_WITH_TOMATO_SAUCE_KEY,
+                        new Item.Properties().food(
+                                        new FoodProperties.Builder()
+                                                        .nutrition(8)
+                                                        .saturationModifier(0.8f)
+                                                        .build())
+                                        .craftRemainder(net.minecraft.world.item.Items.BOWL) // Resto della ciotola dopo
+                                                                                             // il consumo
+                                        .stacksTo(16));
 
-    // Cacio e pepe - da togliere
-    public static final ResourceKey<Item> CACIO_E_PEPE_KEY =
-            ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cacio_e_pepe"));
+        // Risotto al sugo
+        public static final ResourceKey<Item> RISOTTO_WITH_TOMATO_SAUCE_KEY = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id("risotto_with_tomato_sauce"));
 
-    public static final Item CACIO_E_PEPE = register(
-            CACIO_E_PEPE_KEY,
-            new Item.Properties().food(
-                    new FoodProperties.Builder()
-                            .nutrition(8)
-                            .saturationModifier(0.8f)
-                            .build()
-            )
-    );
+        public static final Item RISOTTO_WITH_TOMATO_SAUCE = register(
+                        RISOTTO_WITH_TOMATO_SAUCE_KEY,
+                        new Item.Properties().food(
+                                        new FoodProperties.Builder()
+                                                        .nutrition(8)
+                                                        .saturationModifier(0.8f)
+                                                        .build())
+                                        .craftRemainder(net.minecraft.world.item.Items.BOWL)
+                                        .stacksTo(16));
 
-    //Pasta al sugo
-    public static final ResourceKey<Item> PASTA_WITH_TOMATO_SAUCE_KEY =
-            ResourceKey.create(
-                BuiltInRegistries.ITEM.key(), 
-                ModRegistries.id("pasta_with_tomato_sauce")
-            );
+        public static final ResourceKey<Item> MOZZARELLA_KEY = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id("mozzarella"));
 
-    public static final Item PASTA_WITH_TOMATO_SAUCE = register(
-            PASTA_WITH_TOMATO_SAUCE_KEY,
-            new Item.Properties().food(
-                    new FoodProperties.Builder()
-                            .nutrition(8)
-                            .saturationModifier(0.8f)
-                            .build()
-            )
-            .craftRemainder(net.minecraft.world.item.Items.BOWL) // Resto della ciotola dopo il consumo
-            .stacksTo(16)
-    );
+        // Mozzarella
+        public static final Item MOZZARELLA = register(
+                        MOZZARELLA_KEY,
+                        new Item.Properties().food(
+                                        new FoodProperties.Builder()
+                                                        .nutrition(2)
+                                                        .saturationModifier(0.3f)
+                                                        .build()));
 
-    public static final ResourceKey<Item> RISOTTO_WITH_TOMATO_SAUCE_KEY =
-            ResourceKey.create(
-                BuiltInRegistries.ITEM.key(), 
-                ModRegistries.id("risotto_with_tomato_sauce")
-            );
+        private static Item register(ResourceKey<Item> itemKey, Item.Properties properties) {
+                Item item = new Item(properties.setId(itemKey));
+                Registry.register(BuiltInRegistries.ITEM, itemKey, item);
+                return item;
+        }
 
-    public static final Item RISOTTO_WITH_TOMATO_SAUCE = register(
-            RISOTTO_WITH_TOMATO_SAUCE_KEY,
-            new Item.Properties().food(
-                    new FoodProperties.Builder()
-                            .nutrition(8)
-                            .saturationModifier(0.8f)
-                            .build()
-            )
-            .craftRemainder(net.minecraft.world.item.Items.BOWL)
-            .stacksTo(16)
-    );
+        // Fette di mozzarella
+        public static final ResourceKey<Item> MOZZARELLA_SLICE_KEY = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id("mozzarella_slice"));
 
-    public static final ResourceKey<Item> MOZZARELLA_KEY =
-            ResourceKey.create(
-                BuiltInRegistries.ITEM.key(), 
-                ModRegistries.id("mozzarella")
-            );
+        public static final Item MOZZARELLA_SLICE = register(
+                        MOZZARELLA_SLICE_KEY,
+                        new Item.Properties().food(
+                                        new FoodProperties.Builder()
+                                                        .nutrition(1)
+                                                        .saturationModifier(0.2f)
+                                                        .build()));
 
-    public static final Item MOZZARELLA = register(
-            MOZZARELLA_KEY,
-            new Item.Properties().food(
-                    new FoodProperties.Builder()
-                            .nutrition(2)
-                            .saturationModifier(0.3f)
-                            .build()
-            )
-    );
+        // Fette di pomodoro
+        public static final ResourceKey<Item> TOMATO_SLICE_KEY = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id("tomato_slice"));
+        
+        public static final Item TOMATO_SLICE = register(
+                        TOMATO_SLICE_KEY,
+                        new Item.Properties().food(
+                                        new FoodProperties.Builder()
+                                                        .nutrition(1)
+                                                        .saturationModifier(0.2f)
+                                                        .build()));
 
-    private static Item register(ResourceKey<Item> itemKey, Item.Properties properties) {
-        Item item = new Item(properties.setId(itemKey));
-        Registry.register(BuiltInRegistries.ITEM, itemKey, item);
-        return item;
-    }
-
-    public static void register() {
-    }
+        public static void register() {
+        }
 }

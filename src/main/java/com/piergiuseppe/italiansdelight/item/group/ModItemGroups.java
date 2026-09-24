@@ -26,11 +26,11 @@ public final class ModItemGroups {
             .icon(() -> new ItemStack(ModItems.PASTA_WITH_TOMATO_SAUCE)) //Modifica icona del tab creative
             .title(Component.translatable("itemGroup.italiansdelight.main"))
             .displayItems((params, output) -> {
-                output.accept(ModItems.RAW_PASTA_DOUGH);
-                output.accept(ModItems.CACIO_E_PEPE);
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.MOZZARELLA);
+                output.accept(ModItems.MOZZARELLA_SLICE);
+                output.accept(ModItems.TOMATO_SLICE);
             })
             .build();
 

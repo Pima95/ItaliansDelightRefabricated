@@ -2,13 +2,13 @@
   "type": "farmersdelight:cutting",
   "ingredients": [
     {
-      "item": "italiansdelight:mozzarella"
+      "item": "#c:crops/tomato"
     }
   ],
   "tool": "#c:tools/knife",
   "result": [
     {
-      "item": "italiansdelight:mozzarella_slice",
+      "item": "italiansdelight:tomato_slice",
       "count": 4
     }
   ]
