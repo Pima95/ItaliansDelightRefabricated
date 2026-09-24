@@ -47,8 +47,8 @@ public class CheeseVatMenu extends AbstractContainerMenu {
                 new Slot(
                     container,
                     i,
-                    62 + i * 18,
-                    35
+                    30 + i * 18,
+                    26
                 )
             );
         }

@@ -11,7 +11,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.types.IRecipeType;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -28,10 +28,14 @@ public class CheeseVatRecipeCategory
     public static final IRecipeType<RecipeHolder<CheeseVatRecipe>> RECIPE_TYPE =
         CheeseVatJeiRecipeTypes.CHEESE_VAT;
 
+    private static final int WIDTH = 116;
+    private static final int HEIGHT = 58;
+
     private final IDrawable icon;
     private final IDrawable background;
 
     public CheeseVatRecipeCategory(IGuiHelper guiHelper) {
+
         this.icon = guiHelper.createDrawableItemLike(
             ModBlocks.CHEESE_VAT
         );
@@ -43,8 +47,8 @@ public class CheeseVatRecipeCategory
             ),
             0,
             0,
-            100,
-            50
+            WIDTH,
+            HEIGHT
         );
     }
 
@@ -62,12 +66,12 @@ public class CheeseVatRecipeCategory
 
     @Override
     public int getWidth() {
-        return 100;
+        return WIDTH;
     }
 
     @Override
     public int getHeight() {
-        return 50;
+        return HEIGHT;
     }
 
     @Override
@@ -84,19 +88,28 @@ public class CheeseVatRecipeCategory
         CheeseVatRecipe recipe = holder.value();
 
         for (int i = 0; i < recipe.getIngredientsList().size(); i++) {
-            builder.addInputSlot(10 + i * 20, 18)
-                .addIngredients(recipe.getIngredientsList().get(i));
+
+            builder.addInputSlot(
+                1 + i * 18,
+                12
+            ).addIngredients(
+                recipe.getIngredientsList().get(i)
+            );
         }
 
-        builder.addOutputSlot(70, 18)
-            .addItemStack(recipe.getResultTemplate().create());
+        builder.addOutputSlot(
+            95,
+            41
+        ).addItemStack(
+            recipe.getResultTemplate().create()
+        );
     }
 
     @Override
     public void draw(
         RecipeHolder<CheeseVatRecipe> recipe,
         IRecipeSlotsView recipeSlotsView,
-        GuiGraphics guiGraphics,
+        GuiGraphicsExtractor guiGraphics,
         double mouseX,
         double mouseY
     ) {
