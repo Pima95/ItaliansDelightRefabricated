@@ -15,10 +15,11 @@ import net.minecraft.world.item.ItemStack;
 
 public class CheeseVatMenu extends AbstractContainerMenu {
 
-    private static final int DATA_COUNT = 3;
+    private static final int DATA_COUNT = 4;
 
+    // Only the three inputs, container and output are visible menu slots.
     private static final int MACHINE_SLOT_COUNT =
-        CheeseVatBlockEntity.CONTAINER_SIZE;
+        CheeseVatBlockEntity.OUTPUT_SLOT + 1;
 
     private static final int PLAYER_INVENTORY_START =
         MACHINE_SLOT_COUNT;
@@ -111,6 +112,29 @@ public class CheeseVatMenu extends AbstractContainerMenu {
                 55
             ) {
                 @Override
+                public ItemStack getItem() {
+                    if (container instanceof CheeseVatBlockEntity vat
+                        && vat.isPreviewVisible()) {
+                        return vat.getPendingResult();
+                    }
+                    return super.getItem();
+                }
+
+                @Override
+                public boolean mayPickup(Player player) {
+                    return data.get(3) == 0
+                        && super.mayPickup(player);
+                }
+
+                @Override
+                public ItemStack remove(int amount) {
+                    if (data.get(3) != 0) {
+                        return ItemStack.EMPTY;
+                    }
+                    return super.remove(amount);
+                }
+
+                @Override
                 public boolean mayPlace(
                     ItemStack stack
                 ) {
@@ -172,7 +196,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         Slot slot =
             this.slots.get(slotIndex);
 
-        if (!slot.hasItem()) {
+        if (!slot.hasItem() || !slot.mayPickup(player)) {
             return ItemStack.EMPTY;
         }
 

@@ -41,7 +41,11 @@ public class CheeseVatBlockEntity
     public static final int CONTAINER_SLOT = 3;
     public static final int OUTPUT_SLOT = 4;
 
-    public static final int CONTAINER_SIZE = 5;
+    // Internal slots keep cooked food safe while it waits for its container.
+    private static final int PENDING_RESULT_SLOT = 5;
+    private static final int PENDING_CONTAINER_SLOT = 6;
+
+    public static final int CONTAINER_SIZE = 7;
 
     private final NonNullList<ItemStack> items =
         NonNullList.withSize(
@@ -83,6 +87,12 @@ public class CheeseVatBlockEntity
         BlockState state,
         CheeseVatBlockEntity cheeseVat
     ) {
+        // Packaging a cooked serving does not need heat or recipe inputs.
+        if (cheeseVat.hasPendingResult()) {
+            cheeseVat.tryFillContainer();
+            return;
+        }
+
         if (!cheeseVat.isHeated(level, pos)) {
             cheeseVat.decreaseCookingProgress();
             return;
@@ -121,16 +131,7 @@ public class CheeseVatBlockEntity
         }
 
         if (cheeseVat.cookTime >= cheeseVat.cookTimeTotal) {
-            cheeseVat.cookTime =
-                cheeseVat.cookTimeTotal;
-
-            if (cheeseVat.hasRequiredContainer(
-                cheeseVatRecipe
-            )) {
-                cheeseVat.finishCooking(
-                    cheeseVatRecipe
-                );
-            }
+            cheeseVat.finishCooking(cheeseVatRecipe);
         }
 
         cheeseVat.setChanged();
@@ -158,124 +159,112 @@ public class CheeseVatBlockEntity
     private boolean canCook(
         CheeseVatRecipe recipe
     ) {
-        ItemStack result =
-            recipe.assemble(
-                createRecipeInput()
-            );
+        return canOutput(
+            recipe.assemble(createRecipeInput())
+        );
+    }
 
+    private boolean canOutput(ItemStack result) {
         if (result.isEmpty()) {
             return false;
         }
 
-        ItemStack output =
-            items.get(OUTPUT_SLOT);
-
+        ItemStack output = items.get(OUTPUT_SLOT);
         if (output.isEmpty()) {
             return true;
         }
 
-        if (!ItemStack.isSameItemSameComponents(
-            output,
-            result
-        )) {
-            return false;
-        }
-
-        return output.getCount() + result.getCount()
-            <= output.getMaxStackSize();
+        return ItemStack.isSameItemSameComponents(output, result)
+            && output.getCount() + result.getCount()
+                <= output.getMaxStackSize();
     }
 
-    private boolean hasRequiredContainer(
-        CheeseVatRecipe recipe
-    ) {
-        if (recipe.getContainerTemplate().isEmpty()) {
-            return true;
-        }
-
-        ItemStack required =
-            recipe
-                .getContainerTemplate()
-                .get()
-                .create();
-
-        ItemStack provided =
-            items.get(CONTAINER_SLOT);
+    private boolean hasRequiredContainer(ItemStack required) {
+        ItemStack provided = items.get(CONTAINER_SLOT);
 
         return !provided.isEmpty()
-            && ItemStack.isSameItemSameComponents(
-                provided,
-                required
-            )
-            && provided.getCount()
-                >= required.getCount();
+            && ItemStack.isSameItemSameComponents(provided, required)
+            && provided.getCount() >= required.getCount();
     }
 
-    private void finishCooking(
-        CheeseVatRecipe recipe
-    ) {
-        if (!hasRequiredContainer(recipe)) {
-            cookTime = cookTimeTotal;
-            return;
-        }
+    public boolean hasPendingResult() {
+        return !items.get(PENDING_RESULT_SLOT).isEmpty();
+    }
 
-        CheeseVatRecipeInput input =
-            createRecipeInput();
+    public boolean isPreviewVisible() {
+        return hasPendingResult() && items.get(OUTPUT_SLOT).isEmpty();
+    }
 
-        ItemStack result =
-            recipe.assemble(input);
+    public ItemStack getPendingResult() {
+        return items.get(PENDING_RESULT_SLOT);
+    }
 
+    private void finishCooking(CheeseVatRecipe recipe) {
+        CheeseVatRecipeInput input = createRecipeInput();
+        ItemStack result = recipe.assemble(input);
         int[] matchingSlots =
             recipe.findMatchingIngredientSlots(input);
 
-        if (matchingSlots == null) {
+        if (matchingSlots == null || !canOutput(result)) {
             cookTime = 0;
+            setChanged();
             return;
         }
+
+        ItemStack required = recipe.getContainerTemplate()
+            .map(ItemStackTemplate::create)
+            .orElse(ItemStack.EMPTY);
 
         for (int slot : matchingSlots) {
             consumeIngredient(slot);
         }
 
-        if (recipe.getContainerTemplate().isPresent()) {
-
-            ItemStack required =
-                recipe
-                    .getContainerTemplate()
-                    .get()
-                    .create();
-
-            ItemStack container =
-                items.get(CONTAINER_SLOT);
-
-            container.shrink(
-                required.getCount()
-            );
-
-            if (container.isEmpty()) {
-                items.set(
-                    CONTAINER_SLOT,
-                    ItemStack.EMPTY
-                );
-            }
-        }
-
-        ItemStack output =
-            items.get(OUTPUT_SLOT);
-
-        if (output.isEmpty()) {
-            items.set(
-                OUTPUT_SLOT,
-                result.copy()
-            );
+        if (!required.isEmpty() && !hasRequiredContainer(required)) {
+            items.set(PENDING_RESULT_SLOT, result.copy());
+            items.set(PENDING_CONTAINER_SLOT, required.copy());
         } else {
-            output.grow(
-                result.getCount()
-            );
+            if (!required.isEmpty()) {
+                consumeContainer(required);
+            }
+            addOutput(result);
         }
 
         cookTime = 0;
-
         setChanged();
+    }
+
+    private void tryFillContainer() {
+        ItemStack pending = items.get(PENDING_RESULT_SLOT);
+        ItemStack required = items.get(PENDING_CONTAINER_SLOT);
+
+        if (!hasRequiredContainer(required) || !canOutput(pending)) {
+            return;
+        }
+
+        consumeContainer(required);
+        addOutput(pending);
+        items.set(PENDING_RESULT_SLOT, ItemStack.EMPTY);
+        items.set(PENDING_CONTAINER_SLOT, ItemStack.EMPTY);
+        setChanged();
+    }
+
+    private void consumeContainer(ItemStack required) {
+        ItemStack container = items.get(CONTAINER_SLOT);
+        container.shrink(required.getCount());
+
+        if (container.isEmpty()) {
+            items.set(CONTAINER_SLOT, ItemStack.EMPTY);
+        }
+    }
+
+    private void addOutput(ItemStack result) {
+        ItemStack output = items.get(OUTPUT_SLOT);
+
+        if (output.isEmpty()) {
+            items.set(OUTPUT_SLOT, result.copy());
+        } else {
+            output.grow(result.getCount());
+        }
     }
 
     private void consumeIngredient(int slot) {
@@ -384,6 +373,11 @@ public class CheeseVatBlockEntity
                             ? 1
                             : 0;
 
+                    case 3 ->
+                        CheeseVatBlockEntity.this.isPreviewVisible()
+                            ? 1
+                            : 0;
+
                     default -> 0;
                 };
             }
@@ -410,7 +404,7 @@ public class CheeseVatBlockEntity
 
             @Override
             public int getCount() {
-                return 3;
+                return 4;
             }
         };
     }
@@ -446,6 +440,10 @@ public class CheeseVatBlockEntity
         int slot,
         int amount
     ) {
+        if (slot >= PENDING_RESULT_SLOT) {
+            return ItemStack.EMPTY;
+        }
+
         ItemStack stack =
             ContainerHelper.removeItem(
                 items,
@@ -464,6 +462,10 @@ public class CheeseVatBlockEntity
     public ItemStack removeItemNoUpdate(
         int slot
     ) {
+        if (slot >= PENDING_RESULT_SLOT) {
+            return ItemStack.EMPTY;
+        }
+
         return ContainerHelper.takeItem(
             items,
             slot
@@ -475,6 +477,10 @@ public class CheeseVatBlockEntity
         int slot,
         ItemStack stack
     ) {
+        if (slot >= PENDING_RESULT_SLOT) {
+            return;
+        }
+
         items.set(
             slot,
             stack
@@ -513,7 +519,8 @@ public class CheeseVatBlockEntity
         int slot,
         ItemStack stack
     ) {
-        return slot != OUTPUT_SLOT;
+        return slot >= 0
+            && slot <= CONTAINER_SLOT;
     }
 
     @Override

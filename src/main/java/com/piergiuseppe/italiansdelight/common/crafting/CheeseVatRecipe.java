@@ -178,9 +178,8 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     ) {
         /*
          * The container is deliberately NOT part of recipe matching.
-         * The vat cooks the ingredients first and, when a recipe asks
-         * for a container, waits at 100% until the correct container
-         * is supplied in the dedicated slot.
+         * The vat cooks the ingredients first and stores the completed
+         * serving as a preview until the required container is supplied.
          */
         return findMatchingIngredientSlots(input) != null;
     }
