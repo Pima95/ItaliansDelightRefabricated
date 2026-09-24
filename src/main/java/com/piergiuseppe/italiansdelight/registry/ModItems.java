@@ -112,11 +112,15 @@ public final class ModItems {
 
         public static final Item CURD = register(
                 CURD_KEY,
-                new Item.Properties().food(
-                        new FoodProperties.Builder()
-                                .nutrition(1)
-                                .saturationModifier(0.1f)
-                                .build()));
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(1)
+                                        .saturationModifier(0.1f)
+                                        .build()
+                        )
+                        .craftRemainder(net.minecraft.world.item.Items.GLASS_BOTTLE)
+                        .stacksTo(16));
 
         // Sale
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(

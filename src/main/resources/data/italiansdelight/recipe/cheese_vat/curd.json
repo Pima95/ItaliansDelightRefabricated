@@ -8,6 +8,9 @@
       "tag": "c:rennet"
     }
   ],
+  "container": {
+    "id": "minecraft:glass_bottle"
+  },
   "result": {
     "id": "italiansdelight:curd"
   },
