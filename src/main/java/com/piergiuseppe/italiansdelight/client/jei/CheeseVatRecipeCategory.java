@@ -81,27 +81,36 @@ public class CheeseVatRecipeCategory
 
     @Override
     public void setRecipe(
-        IRecipeLayoutBuilder builder,
-        RecipeHolder<CheeseVatRecipe> holder,
-        IFocusGroup focuses
-    ) {
         CheeseVatRecipe recipe = holder.value();
 
-        for (int i = 0; i < recipe.getIngredientsList().size(); i++) {
-
+        for (
+            int i = 0;
+            i < recipe.getIngredientsList().size();
+            i++
+        ) {
             builder.addInputSlot(
                 1 + i * 18,
                 12
-            ).addIngredients(
-                recipe.getIngredientsList().get(i)
+            ).add(
+                recipe
+                    .getIngredientsList()
+                    .get(i)
             );
         }
 
+        recipe.getContainerTemplate().ifPresent(
+            container ->
+                builder.addInputSlot(
+                    63,
+                    41
+                ).add(container)
+        );
+
         builder.addOutputSlot(
-            95,
+            94,
             41
-        ).addItemStack(
-            recipe.getResultTemplate().create()
+        ).add(
+            recipe.getResultTemplate()
         );
     }
 

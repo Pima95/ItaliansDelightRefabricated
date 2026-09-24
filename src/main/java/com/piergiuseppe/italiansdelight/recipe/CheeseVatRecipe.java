@@ -1,7 +1,9 @@
 package com.piergiuseppe.italiansdelight.recipe;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -21,20 +23,35 @@ import net.minecraft.world.level.Level;
 
 public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
-    public static final MapCodec<CheeseVatRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
-        instance.group(
-            Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.ingredients),
-            ItemStackTemplate.CODEC.fieldOf("result").forGetter(recipe -> recipe.result)
-        ).apply(instance, CheeseVatRecipe::new)
-    );
+    public static final MapCodec<CheeseVatRecipe> CODEC =
+        RecordCodecBuilder.mapCodec(instance ->
+            instance.group(
+                Ingredient.CODEC
+                    .listOf(1, 3)
+                    .fieldOf("ingredients")
+                    .forGetter(recipe -> recipe.ingredients),
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, CheeseVatRecipe> STREAM_CODEC =
-        StreamCodec.composite(
-            Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()),
-            recipe -> recipe.ingredients,
-            ItemStackTemplate.STREAM_CODEC,
-            recipe -> recipe.result,
-            CheeseVatRecipe::new
+                ItemStackTemplate.CODEC
+                    .fieldOf("result")
+                    .forGetter(recipe -> recipe.result),
+
+                ItemStackTemplate.CODEC
+                    .optionalFieldOf("container")
+                    .forGetter(CheeseVatRecipe::getContainerTemplate),
+
+                Codec.INT
+                    .optionalFieldOf("cookingtime", 200)
+                    .forGetter(CheeseVatRecipe::getCookingTime)
+            ).apply(instance, CheeseVatRecipe::new)
+        );
+
+    public static final StreamCodec<
+        RegistryFriendlyByteBuf,
+        CheeseVatRecipe
+    > STREAM_CODEC =
+        StreamCodec.of(
+            CheeseVatRecipe::toNetwork,
+            CheeseVatRecipe::fromNetwork
         );
 
     public static final RecipeSerializer<CheeseVatRecipe> SERIALIZER =
@@ -42,34 +59,73 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
     private final List<Ingredient> ingredients;
     private final ItemStackTemplate result;
+    private final Optional<ItemStackTemplate> container;
+    private final int cookingTime;
 
-    public CheeseVatRecipe(List<Ingredient> ingredients, ItemStackTemplate result) {
-        if (ingredients.isEmpty() || ingredients.size() > 3) {
-            throw new IllegalArgumentException("Cheese Vat recipes must have between 1 and 3 ingredients.");
-        }
-
+    public CheeseVatRecipe(
+        List<Ingredient> ingredients,
+        ItemStackTemplate result,
+        Optional<ItemStackTemplate> container,
+        int cookingTime
+    ) {
         this.ingredients = List.copyOf(ingredients);
         this.result = result;
+        this.container = container;
+        this.cookingTime = cookingTime;
     }
 
     public List<Ingredient> getIngredientsList() {
-        return this.ingredients;
+        return ingredients;
     }
 
     public ItemStackTemplate getResultTemplate() {
-        return this.result;
+        return result;
+    }
+
+    public Optional<ItemStackTemplate> getContainerTemplate() {
+        return container;
+    }
+
+    public int getCookingTime() {
+        return cookingTime;
     }
 
     @Override
-    public boolean matches(CheeseVatRecipeInput input, Level level) {
-        for (int i = 0; i < this.ingredients.size(); i++) {
-            if (!this.ingredients.get(i).test(input.getItem(i))) {
+    public boolean matches(
+        CheeseVatRecipeInput input,
+        Level level
+    ) {
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (!ingredients.get(i).test(input.getItem(i))) {
                 return false;
             }
         }
 
-        for (int i = this.ingredients.size(); i < input.size(); i++) {
+        // Gli slot ingredienti non usati devono essere vuoti.
+        for (int i = ingredients.size(); i < 3; i++) {
             if (!input.getItem(i).isEmpty()) {
+                return false;
+            }
+        }
+
+        // Se la ricetta richiede un contenitore,
+        // deve essere presente nello slot 3.
+        if (container.isPresent()) {
+            ItemStack required = container.get().create();
+            ItemStack provided = input.container();
+
+            if (provided.isEmpty()) {
+                return false;
+            }
+
+            if (!ItemStack.isSameItemSameComponents(
+                provided,
+                required
+            )) {
+                return false;
+            }
+
+            if (provided.getCount() < required.getCount()) {
                 return false;
             }
         }
@@ -79,21 +135,25 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
     @Override
     public ItemStack assemble(CheeseVatRecipeInput input) {
-        return this.result.create();
+        return result.create();
     }
 
     @Override
-    public RecipeSerializer<? extends Recipe<CheeseVatRecipeInput>> getSerializer() {
+    public RecipeSerializer<? extends Recipe<CheeseVatRecipeInput>>
+    getSerializer() {
         return ModRecipes.CHEESE_VAT_SERIALIZER;
     }
 
     @Override
-    public RecipeType<? extends Recipe<CheeseVatRecipeInput>> getType() {
+    public RecipeType<? extends Recipe<CheeseVatRecipeInput>>
+    getType() {
         return ModRecipes.CHEESE_VAT_TYPE;
     }
 
     @Override
-    public @org.jetbrains.annotations.Nullable net.minecraft.world.item.crafting.RecipeBookCategory recipeBookCategory() {
+    public @org.jetbrains.annotations.Nullable
+    net.minecraft.world.item.crafting.RecipeBookCategory
+    recipeBookCategory() {
         return null;
     }
 
@@ -117,4 +177,49 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         return "cheese_vat";
     }
 
+    private static CheeseVatRecipe fromNetwork(
+        RegistryFriendlyByteBuf buffer
+    ) {
+        List<Ingredient> ingredients =
+            Ingredient.CONTENTS_STREAM_CODEC
+                .apply(ByteBufCodecs.list())
+                .decode(buffer);
+
+        ItemStackTemplate result =
+            ItemStackTemplate.STREAM_CODEC.decode(buffer);
+
+        Optional<ItemStackTemplate> container =
+            ByteBufCodecs
+                .optional(ItemStackTemplate.STREAM_CODEC)
+                .decode(buffer);
+
+        int cookingTime = buffer.readVarInt();
+
+        return new CheeseVatRecipe(
+            ingredients,
+            result,
+            container,
+            cookingTime
+        );
+    }
+
+    private static void toNetwork(
+        RegistryFriendlyByteBuf buffer,
+        CheeseVatRecipe recipe
+    ) {
+        Ingredient.CONTENTS_STREAM_CODEC
+            .apply(ByteBufCodecs.list())
+            .encode(buffer, recipe.ingredients);
+
+        ItemStackTemplate.STREAM_CODEC.encode(
+            buffer,
+            recipe.result
+        );
+
+        ByteBufCodecs
+            .optional(ItemStackTemplate.STREAM_CODEC)
+            .encode(buffer, recipe.container);
+
+        buffer.writeVarInt(recipe.cookingTime);
+    }
 }

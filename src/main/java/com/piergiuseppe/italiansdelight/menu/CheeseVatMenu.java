@@ -1,5 +1,6 @@
 package com.piergiuseppe.italiansdelight.menu;
 
+import com.piergiuseppe.italiansdelight.block.entity.CheeseVatBlockEntity;
 import com.piergiuseppe.italiansdelight.registry.ModMenuTypes;
 
 import net.minecraft.world.Container;
@@ -7,42 +8,80 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 public class CheeseVatMenu extends AbstractContainerMenu {
 
-    private static final int CONTAINER_SIZE = 3;
+    private static final int DATA_COUNT = 3;
 
-    private static final int CONTAINER_START = 0;
-    private static final int CONTAINER_END = CONTAINER_START + CONTAINER_SIZE;
+    private static final int MACHINE_SLOT_COUNT =
+        CheeseVatBlockEntity.CONTAINER_SIZE;
 
-    private static final int INVENTORY_START = CONTAINER_END;
-    private static final int INVENTORY_END = INVENTORY_START + Inventory.INVENTORY_SIZE;
+    private static final int PLAYER_INVENTORY_START =
+        MACHINE_SLOT_COUNT;
+
+    private static final int PLAYER_INVENTORY_END =
+        PLAYER_INVENTORY_START
+            + Inventory.INVENTORY_SIZE;
 
     private final Container container;
+    private final ContainerData data;
 
-    // Costruttore utilizzato dal client
-    public CheeseVatMenu(int containerId, Inventory inventory) {
-        this(containerId, inventory, new SimpleContainer(CONTAINER_SIZE));
+    // Client
+    public CheeseVatMenu(
+        int containerId,
+        Inventory inventory
+    ) {
+        this(
+            containerId,
+            inventory,
+            new SimpleContainer(
+                CheeseVatBlockEntity.CONTAINER_SIZE
+            ),
+            new SimpleContainerData(
+                DATA_COUNT
+            )
+        );
     }
 
-    // Costruttore utilizzato dal server
+    // Server
     public CheeseVatMenu(
         int containerId,
         Inventory inventory,
-        Container container
+        Container container,
+        ContainerData data
     ) {
-        super(ModMenuTypes.CHEESE_VAT, containerId);
+        super(
+            ModMenuTypes.CHEESE_VAT,
+            containerId
+        );
 
-        checkContainerSize(container, CONTAINER_SIZE);
+        checkContainerSize(
+            container,
+            CheeseVatBlockEntity.CONTAINER_SIZE
+        );
+
+        checkContainerDataCount(
+            data,
+            DATA_COUNT
+        );
 
         this.container = container;
+        this.data = data;
 
-        container.startOpen(inventory.player);
+        container.startOpen(
+            inventory.player
+        );
 
-        // I 3 slot della Caldaia
-        for (int i = 0; i < CONTAINER_SIZE; i++) {
+        // Ingredienti
+        for (
+            int i = 0;
+            i < CheeseVatBlockEntity.INPUT_SLOT_COUNT;
+            i++
+        ) {
             this.addSlot(
                 new Slot(
                     container,
@@ -53,62 +92,147 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             );
         }
 
-        // Inventario del giocatore
+        // Contenitore
+        this.addSlot(
+            new Slot(
+                container,
+                CheeseVatBlockEntity.CONTAINER_SLOT,
+                92,
+                55
+            )
+        );
+
+        // Risultato
+        this.addSlot(
+            new Slot(
+                container,
+                CheeseVatBlockEntity.OUTPUT_SLOT,
+                124,
+                55
+            ) {
+                @Override
+                public boolean mayPlace(
+                    ItemStack stack
+                ) {
+                    return false;
+                }
+            }
+        );
+
+        // Inventario giocatore
         this.addStandardInventorySlots(
             inventory,
             8,
             84
         );
+
+        this.addDataSlots(
+            data
+        );
+    }
+
+    public int getCookProgressionScaled() {
+
+        int cookTime =
+            data.get(0);
+
+        int cookTimeTotal =
+            data.get(1);
+
+        if (
+            cookTimeTotal == 0
+            || cookTime == 0
+        ) {
+            return 0;
+        }
+
+        return cookTime
+            * 24
+            / cookTimeTotal;
+    }
+
+    public boolean isHeated() {
+        return data.get(2) != 0;
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int slotIndex) {
-        Slot slot = this.slots.get(slotIndex);
+    public ItemStack quickMoveStack(
+        Player player,
+        int slotIndex
+    ) {
+        Slot slot =
+            this.slots.get(slotIndex);
 
         if (!slot.hasItem()) {
             return ItemStack.EMPTY;
         }
 
-        ItemStack stack = slot.getItem();
-        ItemStack clicked = stack.copy();
+        ItemStack stack =
+            slot.getItem();
 
-        if (slotIndex < CONTAINER_END) {
-            if (!this.moveItemStackTo(
-                stack,
-                INVENTORY_START,
-                INVENTORY_END,
-                true
-            )) {
+        ItemStack copy =
+            stack.copy();
+
+        if (
+            slotIndex
+                < MACHINE_SLOT_COUNT
+        ) {
+
+            if (
+                !moveItemStackTo(
+                    stack,
+                    PLAYER_INVENTORY_START,
+                    PLAYER_INVENTORY_END,
+                    true
+                )
+            ) {
                 return ItemStack.EMPTY;
             }
+
         } else {
-            if (!this.moveItemStackTo(
-                stack,
-                CONTAINER_START,
-                CONTAINER_END,
-                false
-            )) {
+
+            // Shift-click dal giocatore:
+            // prova solamente i 3 slot ingredienti.
+            if (
+                !moveItemStackTo(
+                    stack,
+                    0,
+                    CheeseVatBlockEntity.INPUT_SLOT_COUNT,
+                    false
+                )
+            ) {
                 return ItemStack.EMPTY;
             }
         }
 
         if (stack.isEmpty()) {
-            slot.setByPlayer(ItemStack.EMPTY);
+            slot.setByPlayer(
+                ItemStack.EMPTY
+            );
         } else {
             slot.setChanged();
         }
 
-        return clicked;
+        return copy;
     }
 
     @Override
-    public boolean stillValid(Player player) {
-        return this.container.stillValid(player);
+    public boolean stillValid(
+        Player player
+    ) {
+        return container.stillValid(
+            player
+        );
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(
+        Player player
+    ) {
         super.removed(player);
-        this.container.stopOpen(player);
+
+        container.stopOpen(
+            player
+        );
     }
 }
