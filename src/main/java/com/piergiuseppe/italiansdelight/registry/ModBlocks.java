@@ -5,6 +5,8 @@ import com.piergiuseppe.italiansdelight.block.CheeseVatBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public final class ModBlocks {
@@ -28,14 +30,34 @@ public final class ModBlocks {
     );
 
     private static Block register(ResourceKey<Block> blockKey, Block block) {
-        return Registry.register(
+        Block registeredBlock = Registry.register(
             BuiltInRegistries.BLOCK,
             blockKey,
             block
         );
+
+        ResourceKey<Item> itemKey = ResourceKey.create(
+            BuiltInRegistries.ITEM.key(),
+            ModRegistries.id("cheese_vat")
+        );
+
+        BlockItem blockItem = new BlockItem(
+            registeredBlock,
+            new Item.Properties()
+                .useBlockDescriptionPrefix()
+                .setId(itemKey)
+        );
+
+        Registry.register(
+            BuiltInRegistries.ITEM,
+            itemKey,
+            blockItem
+        );
+
+        return registeredBlock;
     }
 
     public static void register() {
-        // Nessun blocco da registrare per ora.
+
     }
 }

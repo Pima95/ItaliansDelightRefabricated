@@ -9,6 +9,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 import com.piergiuseppe.italiansdelight.registry.ModItems;
+import com.piergiuseppe.italiansdelight.registry.ModBlocks;
 import com.piergiuseppe.italiansdelight.registry.ModRegistries;
 
 /** Tab creativa dedicata a Italian's Delight, separata da quella di Farmer's Delight. */
@@ -31,6 +32,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.MOZZARELLA);
                 output.accept(ModItems.MOZZARELLA_SLICE);
                 output.accept(ModItems.TOMATO_SLICE);
+                output.accept(ModBlocks.CHEESE_VAT);
             })
             .build();
 
