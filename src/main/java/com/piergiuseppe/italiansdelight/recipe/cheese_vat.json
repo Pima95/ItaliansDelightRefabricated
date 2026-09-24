@@ -1,0 +1,9 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+      "c:milk"
+  ],
+  "result": {
+    "id": "italiansdelight:mozzarella"
+  }
+}
