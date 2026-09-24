@@ -1,7 +1,5 @@
 package com.piergiuseppe.italiansdelight.block;
 
-import javax.annotation.Nullable;
-
 import com.piergiuseppe.italiansdelight.block.entity.CheeseVatBlockEntity;
 
 import net.minecraft.core.BlockPos;
@@ -21,7 +19,6 @@ public class CheeseVatBlock extends BaseEntityBlock {
         return simpleCodec(CheeseVatBlock::new);
     }
 
-    @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CheeseVatBlockEntity(pos, state);
