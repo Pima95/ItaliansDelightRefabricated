@@ -1,5 +1,6 @@
 package com.piergiuseppe.italiansdelight.block.entity;
 
+import com.piergiuseppe.italiansdelight.menu.CheeseVatMenu;
 import com.piergiuseppe.italiansdelight.registry.ModBlockEntities;
 
 import net.minecraft.core.BlockPos;
@@ -113,6 +114,6 @@ public class CheeseVatBlockEntity extends BlockEntity implements Container, Heat
 
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return null;
+        return new CheeseVatMenu(containerId, inventory, this);
     }
 }
