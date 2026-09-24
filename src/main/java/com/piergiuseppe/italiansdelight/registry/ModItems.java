@@ -118,6 +118,16 @@ public final class ModItems {
                                 .saturationModifier(0.1f)
                                 .build()));
 
+        // Sale
+        public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("salt"));
+
+        public static final Item SALT = register(
+                SALT_KEY,
+                new Item.Properties()
+                        .stacksTo(64));
+
         public static void register() {
         }
 }

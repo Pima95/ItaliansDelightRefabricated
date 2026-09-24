@@ -1,0 +1,15 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    {
+      "tag": "c:drinks/milk"
+    },
+    {
+      "tag": "c:rennet"
+    }
+  ],
+  "result": {
+    "id": "italiansdelight:curd"
+  },
+  "cookingtime": 200
+}

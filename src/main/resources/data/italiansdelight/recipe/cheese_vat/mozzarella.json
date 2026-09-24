@@ -1,0 +1,15 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    {
+      "tag": "c:foods/curd"
+    },
+    {
+      "tag": "c:dusts/salt"
+    }
+  ],
+  "result": {
+    "id": "italiansdelight:mozzarella"
+  },
+  "cookingtime": 160
+}
