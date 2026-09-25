@@ -17,9 +17,9 @@ public class CheeseVatMenu extends AbstractContainerMenu {
 
     private static final int DATA_COUNT = 3;
 
-    // Three inputs, the container, the output and the preview are visible.
+    // Five real slots plus the virtual preview slot.
     private static final int MACHINE_SLOT_COUNT =
-        CheeseVatBlockEntity.PREVIEW_SLOT + 1;
+        CheeseVatBlockEntity.CONTAINER_SIZE + 1;
 
     private static final int PLAYER_INVENTORY_START =
         MACHINE_SLOT_COUNT;
@@ -122,11 +122,19 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         // Non è mai prelevabile né sostituibile.
         this.addSlot(
             new Slot(
-                container,
-                CheeseVatBlockEntity.PREVIEW_SLOT,
+                new SimpleContainer(1),
+                0,
                 124,
                 26
             ) {
+                @Override
+                public ItemStack getItem() {
+                    if (CheeseVatMenu.this.container instanceof CheeseVatBlockEntity vat) {
+                        return vat.getPendingPreview();
+                    }
+                    return super.getItem();
+                }
+
                 @Override
                 public boolean mayPlace(ItemStack stack) {
                     return false;

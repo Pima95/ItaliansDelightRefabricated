@@ -42,15 +42,17 @@ public class CheeseVatBlockEntity
     public static final int CONTAINER_SLOT = 3;
     public static final int OUTPUT_SLOT = 4;
 
-    // The preview is a read-only menu slot; the requirement stays internal.
+    // Only slots 0-4 contain real inventory items.
+    public static final int CONTAINER_SIZE = OUTPUT_SLOT + 1;
+
+    // These slots are persisted internally but must never be dropped as items.
     public static final int PREVIEW_SLOT = 5;
     private static final int PENDING_CONTAINER_SLOT = 6;
-
-    public static final int CONTAINER_SIZE = 7;
+    private static final int INTERNAL_SLOT_COUNT = 7;
 
     private final NonNullList<ItemStack> items =
         NonNullList.withSize(
-            CONTAINER_SIZE,
+            INTERNAL_SLOT_COUNT,
             ItemStack.EMPTY
         );
 
@@ -190,6 +192,10 @@ public class CheeseVatBlockEntity
 
     public boolean hasPendingResult() {
         return !items.get(PREVIEW_SLOT).isEmpty();
+    }
+
+    public ItemStack getPendingPreview() {
+        return items.get(PREVIEW_SLOT).copy();
     }
 
     private void finishCooking(CheeseVatRecipe recipe) {
@@ -408,8 +414,8 @@ public class CheeseVatBlockEntity
     @Override
     public boolean isEmpty() {
 
-        for (ItemStack stack : items) {
-            if (!stack.isEmpty()) {
+        for (int slot = 0; slot < CONTAINER_SIZE; slot++) {
+            if (!items.get(slot).isEmpty()) {
                 return false;
             }
         }
@@ -419,7 +425,9 @@ public class CheeseVatBlockEntity
 
     @Override
     public ItemStack getItem(int slot) {
-        return items.get(slot);
+        return slot >= 0 && slot < CONTAINER_SIZE
+            ? items.get(slot)
+            : ItemStack.EMPTY;
     }
 
     @Override

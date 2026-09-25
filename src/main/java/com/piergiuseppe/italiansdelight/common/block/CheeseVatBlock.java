@@ -55,7 +55,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected VoxelShape getShape(
+    public VoxelShape getShape(
         BlockState state,
         BlockGetter level,
         BlockPos pos,
