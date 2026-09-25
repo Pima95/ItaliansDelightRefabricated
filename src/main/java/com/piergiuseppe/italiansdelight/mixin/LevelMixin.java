@@ -14,12 +14,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
+ * Mixin server-side che intercetta i cambi di stato dei calderoni vanilla e aggiorna il sistema di evaporazione del sale.
+ */
+
+/**
  * Observes vanilla cauldron state changes without replacing vanilla cauldron
  * interactions.
  */
 @Mixin(Level.class)
 public abstract class LevelMixin {
 
+    // L'iniezione avviene al RETURN: il manager viene notificato soltanto
+    // se Minecraft ha realmente applicato il nuovo BlockState.
     @Inject(
         method =
             "setBlock(Lnet/minecraft/core/BlockPos;"
