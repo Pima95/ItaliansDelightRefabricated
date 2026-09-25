@@ -28,6 +28,9 @@ public class ItaliansDelight implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("[Italian's Delight] Inizializzazione in corso...");
 
+        // I registry vengono inizializzati prima dei sistemi che li utilizzano.
+        // In questo modo BlockEntity, menu, ricette ed eventi trovano già gli
+        // oggetti e i blocchi registrati quando vengono configurati.
         ModItems.register();
         ModBlocks.register();
         ModBlockEntities.register();
