@@ -9,6 +9,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
+/**
+ * Schermata client della Cheese Vat. Disegna la GUI e visualizza stato del calore e avanzamento della lavorazione.
+ */
+
 public class CheeseVatScreen
     extends AbstractContainerScreen<CheeseVatMenu> {
 

@@ -13,8 +13,13 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * Menu sincronizzato della Cheese Vat. Definisce slot macchina, inventario giocatore, dati GUI e shift-click.
+ */
+
 public class CheeseVatMenu extends AbstractContainerMenu {
 
+    // -------------------- Indici e dimensioni del menu --------------------
     private static final int DATA_COUNT = 3;
 
     // Five real slots plus the virtual preview slot.
@@ -31,6 +36,8 @@ public class CheeseVatMenu extends AbstractContainerMenu {
     private final Container container;
     private final ContainerData data;
 
+    // Costruttore client: usa contenitori fittizi che vengono sincronizzati
+    // con i dati ricevuti dal server.
     // Client
     public CheeseVatMenu(
         int containerId,
@@ -48,6 +55,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         );
     }
 
+    // Costruttore server: collega il menu alla vera BlockEntity.
     // Server
     public CheeseVatMenu(
         int containerId,
@@ -164,6 +172,10 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         );
     }
 
+    /**
+     * Converte il progresso reale della ricetta nei 24 pixel usati dalla
+     * freccia della GUI.
+     */
     public int getCookProgressionScaled() {
 
         int cookTime =
@@ -197,6 +209,10 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         return data.get(2) != 0;
     }
 
+    /**
+     * Gestisce lo shift-click: dalla macchina verso l'inventario del giocatore
+     * oppure dall'inventario verso i soli slot ingredienti.
+     */
     @Override
     public ItemStack quickMoveStack(
         Player player,

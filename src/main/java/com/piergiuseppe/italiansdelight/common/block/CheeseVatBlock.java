@@ -29,6 +29,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * Blocco della Cheese Vat. Gestisce stato, orientamento, interazioni del giocatore e collegamento con la block entity.
+ */
+
 public class CheeseVatBlock extends BaseEntityBlock {
 
     public static final EnumProperty<Direction> FACING =

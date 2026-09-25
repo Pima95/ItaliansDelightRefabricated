@@ -21,8 +21,13 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
+/**
+ * Definizione di una ricetta della Cheese Vat, inclusi matching shapeless, serializzazione JSON e sincronizzazione di rete.
+ */
+
 public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
+    // -------------------- Serializzazione datapack --------------------
     public static final MapCodec<CheeseVatRecipe> CODEC =
         RecordCodecBuilder.mapCodec(instance ->
             instance.group(
@@ -45,6 +50,7 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
             ).apply(instance, CheeseVatRecipe::new)
         );
 
+    // -------------------- Sincronizzazione client-server --------------------
     public static final StreamCodec<
         RegistryFriendlyByteBuf,
         CheeseVatRecipe
@@ -57,6 +63,7 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     public static final RecipeSerializer<CheeseVatRecipe> SERIALIZER =
         new RecipeSerializer<>(CODEC, STREAM_CODEC);
 
+    // -------------------- Dati immutabili della ricetta --------------------
     private final List<Ingredient> ingredients;
     private final ItemStackTemplate result;
     private final Optional<ItemStackTemplate> container;
@@ -127,6 +134,8 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         return null;
     }
 
+    // Backtracking: ogni ingrediente viene provato su uno slot ancora libero,
+    // quindi l'ordine degli ingredienti nei tre input non è significativo.
     private boolean findMatches(
         CheeseVatRecipeInput input,
         int ingredientIndex,
@@ -171,6 +180,7 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         return false;
     }
 
+    // -------------------- Contratto Recipe di Minecraft --------------------
     @Override
     public boolean matches(
         CheeseVatRecipeInput input,
@@ -230,6 +240,7 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         return "cheese_vat";
     }
 
+    // -------------------- Codec di rete --------------------
     private static CheeseVatRecipe fromNetwork(
         RegistryFriendlyByteBuf buffer
     ) {

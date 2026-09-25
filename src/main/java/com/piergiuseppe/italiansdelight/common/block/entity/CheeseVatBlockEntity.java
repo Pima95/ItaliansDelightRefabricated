@@ -33,10 +33,16 @@ import net.minecraft.world.level.storage.ValueOutput;
 import vectorwing.farmersdelight.common.block.entity.HeatableBlockEntity;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
 
+/**
+ * Logica server-side della Cheese Vat: inventario, ricerca ricette, cottura, contenitori, output e persistenza.
+ */
+
 public class CheeseVatBlockEntity
     extends BlockEntity
     implements Container, HeatableBlockEntity, MenuProvider {
 
+    // -------------------- Layout dell'inventario --------------------
+    // Gli slot 0-2 sono ingredienti; 3 è il contenitore; 4 è l'output.
     public static final int INPUT_SLOT_COUNT = 3;
 
     public static final int CONTAINER_SLOT = 3;
@@ -50,12 +56,16 @@ public class CheeseVatBlockEntity
     private static final int PENDING_CONTAINER_SLOT = 6;
     private static final int INTERNAL_SLOT_COUNT = 7;
 
+    // Lista interna completa. Gli slot tecnici oltre CONTAINER_SIZE non
+    // vengono esposti al giocatore, ma servono a conservare risultati pendenti.
     private final NonNullList<ItemStack> items =
         NonNullList.withSize(
             INTERNAL_SLOT_COUNT,
             ItemStack.EMPTY
         );
 
+    // -------------------- Stato della lavorazione --------------------
+    // cookTime avanza soltanto quando esistono ricetta valida, calore e spazio.
     private int cookTime = 0;
     private int cookTimeTotal = 200;
 
@@ -84,6 +94,11 @@ public class CheeseVatBlockEntity
         this.cheeseVatData = createContainerData();
     }
 
+    /**
+     * Tick principale della macchina. L'ordine dei controlli è intenzionale:
+     * prima si prova a confezionare un risultato già cotto, poi si verificano
+     * calore, ricetta e possibilità di produrre l'output.
+     */
     public static void serverTick(
         ServerLevel level,
         BlockPos pos,
@@ -151,6 +166,7 @@ public class CheeseVatBlockEntity
         }
     }
 
+    // Crea una vista dei soli tre slot ingredienti per il RecipeManager.
     private CheeseVatRecipeInput createRecipeInput() {
         return new CheeseVatRecipeInput(
             items.get(0),
@@ -198,6 +214,11 @@ public class CheeseVatBlockEntity
         return items.get(PREVIEW_SLOT).copy();
     }
 
+    /**
+     * Consuma gli ingredienti e conclude la ricetta. Se manca il contenitore
+     * richiesto, il prodotto cotto resta nello slot preview interno finché
+     * il giocatore non inserisce il contenitore corretto.
+     */
     private void finishCooking(CheeseVatRecipe recipe) {
         CheeseVatRecipeInput input = createRecipeInput();
         ItemStack result = recipe.assemble(input);
@@ -232,6 +253,7 @@ public class CheeseVatBlockEntity
         setChanged();
     }
 
+    // Completa un risultato pendente non appena compare il contenitore richiesto.
     private void tryFillContainer() {
         ItemStack pending = items.get(PREVIEW_SLOT);
         ItemStack required = items.get(PENDING_CONTAINER_SLOT);
@@ -266,6 +288,10 @@ public class CheeseVatBlockEntity
         }
     }
 
+    /**
+     * Consuma una singola unità di ingrediente. Eventuali crafting remainder
+     * vengono espulsi lateralmente come nelle macchine di Farmer's Delight.
+     */
     private void consumeIngredient(int slot) {
 
         ItemStack stack =
@@ -352,6 +378,8 @@ public class CheeseVatBlockEntity
             );
     }
 
+    // -------------------- Sincronizzazione menu/client --------------------
+    // I tre interi sincronizzati sono: progresso, durata totale e stato calore.
     private ContainerData createContainerData() {
 
         return new ContainerData() {
@@ -406,6 +434,7 @@ public class CheeseVatBlockEntity
         return cheeseVatData;
     }
 
+    // -------------------- Implementazione Container --------------------
     @Override
     public int getContainerSize() {
         return CONTAINER_SIZE;
@@ -518,6 +547,7 @@ public class CheeseVatBlockEntity
             && slot <= CONTAINER_SLOT;
     }
 
+    // -------------------- Persistenza dati del mondo --------------------
     @Override
     protected void loadAdditional(
         ValueInput input
@@ -564,6 +594,7 @@ public class CheeseVatBlockEntity
         super.saveAdditional(output);
     }
 
+    // -------------------- Apertura del menu --------------------
     @Override
     public Component getDisplayName() {
         return Component.translatable(
