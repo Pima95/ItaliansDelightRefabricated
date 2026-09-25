@@ -20,9 +20,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Internal ready state of a cauldron after all water has evaporated.
- * Right-clicking collects a random amount of salt and restores the vanilla
- * empty cauldron.
+ * Final cauldron state after all water has evaporated.
+ * The block visually keeps the salt residue; right-clicking lets the player
+ * collect a random amount of salt and restores an empty cauldron.
  */
 public final class SaltCauldronBlock extends Block {
 
@@ -62,9 +62,9 @@ public final class SaltCauldronBlock extends Block {
     }
 
     /**
-     * Pick Block returns the hidden BlockItem for this exact ready state.
-     * No block-entity NBT is required because the presence of salt is already
-     * represented by the block id italiansdelight:salt_cauldron itself.
+     * Pick Block returns the hidden BlockItem for this ready state.
+     * No BlockEntity with NBT is required because the presence of salt is
+     * already represented by the italiansdelight:salt_cauldron block id.
      */
     @Override
     protected ItemStack getCloneItemStack(
@@ -129,6 +129,7 @@ public final class SaltCauldronBlock extends Block {
             return InteractionResult.FAIL;
         }
 
+        // Bounds are inclusive: each collection yields between 3 and 7 units.
         int saltCount =
             level.getRandom()
                 .nextIntBetweenInclusive(

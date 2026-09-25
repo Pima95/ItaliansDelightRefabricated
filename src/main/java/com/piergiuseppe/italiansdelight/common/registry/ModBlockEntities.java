@@ -7,6 +7,10 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
+/**
+ * Central registry for Italian's Delight BlockEntities.
+ */
+
 public final class ModBlockEntities {
 
     private ModBlockEntities() {

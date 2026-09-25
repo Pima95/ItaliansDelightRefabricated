@@ -1,3 +1,4 @@
+// Repositories used by Gradle to resolve project plugins, including Fabric Loom.
 pluginManagement {
     repositories {
         maven {
@@ -9,4 +10,5 @@ pluginManagement {
     }
 }
 
+// Logical Gradle project name; it should not be confused with the mod id.
 rootProject.name = 'italiansdelight'

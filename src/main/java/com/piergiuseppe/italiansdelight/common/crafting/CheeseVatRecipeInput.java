@@ -3,6 +3,10 @@ package com.piergiuseppe.italiansdelight.common.crafting;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 
+/**
+ * Represents the immutable input passed to the Cheese Vat recipe system.
+ */
+
 public record CheeseVatRecipeInput(
     ItemStack first,
     ItemStack second,

@@ -9,17 +9,20 @@ import net.minecraft.core.Registry;
 import com.piergiuseppe.italiansdelight.ItaliansDelight;
 
 /**
- * Registro centrale degli item di Italian's Delight.
+ * Central registry for Italian's Delight items.
  *
- * Gli item vengono registrati nel namespace della mod tramite ResourceKey,
- * come richiesto dalle API di Minecraft 26.2.
+ * Items are registered in the mod namespace through ResourceKey,
+ * as required by the Minecraft 26.2 APIs.
  */
 public final class ModItems {
+
+    // Every item uses a stable ResourceKey: the same identifier is reused by
+    // the registry, models, and datapacks.
 
         private ModItems() {
         }
 
-        // Pasta al sugo
+        // Pasta with tomato sauce
         public static final ResourceKey<Item> PASTA_WITH_TOMATO_SAUCE_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
                         ModRegistries.id("pasta_with_tomato_sauce"));
@@ -31,11 +34,11 @@ public final class ModItems {
                                                         .nutrition(8)
                                                         .saturationModifier(0.8f)
                                                         .build())
-                                        .craftRemainder(net.minecraft.world.item.Items.BOWL) // Resto della ciotola dopo
-                                                                                             // il consumo
+                                        .craftRemainder(net.minecraft.world.item.Items.BOWL) // Returns the bowl after
+                                                                                             // consumption
                                         .stacksTo(16));
 
-        // Risotto al sugo
+        // Risotto with tomato sauce
         public static final ResourceKey<Item> RISOTTO_WITH_TOMATO_SAUCE_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
                         ModRegistries.id("risotto_with_tomato_sauce"));
@@ -69,7 +72,7 @@ public final class ModItems {
                 return item;
         }
 
-        // Fette di mozzarella
+        // Mozzarella slices
         public static final ResourceKey<Item> MOZZARELLA_SLICE_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
                         ModRegistries.id("mozzarella_slice"));
@@ -82,7 +85,7 @@ public final class ModItems {
                                                         .saturationModifier(0.2f)
                                                         .build()));
 
-        // Fette di pomodoro
+        // Tomato slices
         public static final ResourceKey<Item> TOMATO_SLICE_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
                         ModRegistries.id("tomato_slice"));
@@ -95,7 +98,7 @@ public final class ModItems {
                                                         .saturationModifier(0.2f)
                                                         .build()));
         
-        // Caglio
+        // Rennet
         public static final ResourceKey<Item> RENNET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("rennet"));
@@ -105,7 +108,7 @@ public final class ModItems {
                 new Item.Properties()
                         .stacksTo(64));
 
-        // Cagliata
+        // Curd
         public static final ResourceKey<Item> CURD_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("curd"));
@@ -123,7 +126,7 @@ public final class ModItems {
                         .usingConvertsTo(net.minecraft.world.item.Items.BOWL)
                         .stacksTo(16));
 
-        // Sale
+        // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("salt"));

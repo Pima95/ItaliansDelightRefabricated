@@ -9,6 +9,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
+/**
+ * Client screen for the Cheese Vat. Draws the GUI and displays heat state and processing progress.
+ */
+
 public class CheeseVatScreen
     extends AbstractContainerScreen<CheeseVatMenu> {
 
@@ -63,7 +67,7 @@ public class CheeseVatScreen
             delta
         );
 
-        // GUI principale
+        // Main GUI
         graphics.blit(
             RenderPipelines.GUI_TEXTURED,
             TEXTURE,
@@ -77,7 +81,7 @@ public class CheeseVatScreen
             TEXTURE_HEIGHT
         );
 
-        // Fiamma attiva
+        // Active flame indicator
         if (menu.isHeated()) {
 
             graphics.blit(
@@ -94,7 +98,7 @@ public class CheeseVatScreen
             );
         }
 
-        // Avanzamento ricetta
+        // Recipe progress
         int progress =
             menu.getCookProgressionScaled();
 

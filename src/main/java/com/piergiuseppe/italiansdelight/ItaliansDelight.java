@@ -13,11 +13,11 @@ import com.piergiuseppe.italiansdelight.common.registry.ModRecipes;
 import com.piergiuseppe.italiansdelight.common.salt.SaltCauldronManager;
 
 /**
- * Entrypoint comune (server + client) di Italian's Delight.
+ * Common entrypoint (server + client) for Italian's Delight.
  * <p>
- * Questa mod è un add-on di Farmer's Delight Refabricated (mod id: "farmersdelight"):
- * riusa i suoi sistemi (Cutting Board, Cooking Pot, Stove, qualità del cibo) invece
- * di reinventarli, e li estende con ingredienti e piatti della cucina italiana.
+ * This mod is an add-on for Farmer's Delight Refabricated (mod id: "farmersdelight"):
+ * it reuses its systems (Cutting Board, Cooking Pot, Stove, food quality) instead of
+ * reinventing them, and extends them with Italian ingredients and dishes.
  */
 public class ItaliansDelight implements ModInitializer {
 
@@ -28,6 +28,9 @@ public class ItaliansDelight implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("[Italian's Delight] Inizializzazione in corso...");
 
+        // Registries are initialized before the systems that depend on them.
+        // This ensures BlockEntities, menus, recipes, and events can already find
+        // all registered items and blocks when they are configured.
         ModItems.register();
         ModBlocks.register();
         ModBlockEntities.register();

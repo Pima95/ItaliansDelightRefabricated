@@ -8,6 +8,10 @@ import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 
+/**
+ * Registry for menu types used to synchronize server containers and client screens.
+ */
+
 public final class ModMenuTypes {
 
     private ModMenuTypes() {

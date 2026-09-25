@@ -10,6 +10,10 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import com.piergiuseppe.italiansdelight.common.crafting.CheeseVatRecipe;
 import com.piergiuseppe.italiansdelight.common.registry.ModRecipes;
 
+/**
+ * Collects and adapts Cheese Vat recipes that must be exposed through the JEI integration.
+ */
+
 public class CheeseVatJeiRecipes {
 
     private final SynchronizedRecipes synchronizedRecipes;

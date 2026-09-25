@@ -12,8 +12,11 @@ import com.piergiuseppe.italiansdelight.common.registry.ModItems;
 import com.piergiuseppe.italiansdelight.common.registry.ModBlocks;
 import com.piergiuseppe.italiansdelight.common.registry.ModRegistries;
 
-/** Tab creativa dedicata a Italian's Delight, separata da quella di Farmer's Delight. */
+/** Dedicated Italian's Delight creative tab, separate from Farmer's Delight. */
 public final class ModItemGroups {
+
+    // The creative group is only a view of items that are already registered:
+    // adding an item here does not register it automatically.
 
     private ModItemGroups() {}
 
@@ -24,7 +27,7 @@ public final class ModItemGroups {
             );
 
     public static final CreativeModeTab ITALIANS_DELIGHT_GROUP = FabricCreativeModeTab.builder()
-            .icon(() -> new ItemStack(ModItems.PASTA_WITH_TOMATO_SAUCE)) //Modifica icona del tab creative
+            .icon(() -> new ItemStack(ModItems.PASTA_WITH_TOMATO_SAUCE)) // Changes the creative tab icon
             .title(Component.translatable("itemGroup.italiansdelight.main"))
             .displayItems((params, output) -> {
                 output.accept(ModBlocks.CHEESE_VAT);

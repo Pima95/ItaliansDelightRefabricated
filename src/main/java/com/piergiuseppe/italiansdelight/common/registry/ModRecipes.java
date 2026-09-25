@@ -9,6 +9,10 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
+/**
+ * Registry for the Cheese Vat custom recipe type and serializer.
+ */
+
 public final class ModRecipes {
 
     private ModRecipes() {

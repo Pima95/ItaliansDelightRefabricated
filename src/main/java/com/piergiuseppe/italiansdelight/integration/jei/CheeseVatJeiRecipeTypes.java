@@ -6,6 +6,10 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import com.piergiuseppe.italiansdelight.common.crafting.CheeseVatRecipe;
 import com.piergiuseppe.italiansdelight.common.registry.ModRecipes;
 
+/**
+ * Defines the JEI recipe types used to display Cheese Vat processing recipes.
+ */
+
 public final class CheeseVatJeiRecipeTypes {
 
     private CheeseVatJeiRecipeTypes() {

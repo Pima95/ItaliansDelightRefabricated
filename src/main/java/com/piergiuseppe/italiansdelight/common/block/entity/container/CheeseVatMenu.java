@@ -13,8 +13,13 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * Synchronized Cheese Vat menu. Defines machine slots, player inventory, GUI data, and shift-click behavior.
+ */
+
 public class CheeseVatMenu extends AbstractContainerMenu {
 
+    // -------------------- Menu indices and sizes --------------------
     private static final int DATA_COUNT = 3;
 
     // Five real slots plus the virtual preview slot.
@@ -31,6 +36,8 @@ public class CheeseVatMenu extends AbstractContainerMenu {
     private final Container container;
     private final ContainerData data;
 
+    // Client constructor: uses placeholder containers synchronized with
+    // data received from the server.
     // Client
     public CheeseVatMenu(
         int containerId,
@@ -48,6 +55,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         );
     }
 
+    // Server constructor: links the menu to the actual BlockEntity.
     // Server
     public CheeseVatMenu(
         int containerId,
@@ -77,7 +85,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             inventory.player
         );
 
-        // Ingredienti
+        // Ingredients
         for (
             int i = 0;
             i < CheeseVatBlockEntity.INPUT_SLOT_COUNT;
@@ -93,7 +101,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             );
         }
 
-        // Contenitore
+        // Container
         this.addSlot(
             new Slot(
                 container,
@@ -103,7 +111,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             )
         );
 
-        // Risultato reale: contiene soltanto oggetti già confezionati.
+        // Real output: contains only items that have already been packaged.
         this.addSlot(
             new Slot(
                 container,
@@ -118,8 +126,8 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             }
         );
 
-        // Anteprima del prodotto cotto, a destra della freccia.
-        // Non è mai prelevabile né sostituibile.
+        // Preview of the cooked product, to the right of the arrow.
+        // It can never be picked up or replaced.
         this.addSlot(
             new Slot(
                 new SimpleContainer(1),
@@ -152,7 +160,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             }
         );
 
-        // Inventario giocatore
+        // Player inventory
         this.addStandardInventorySlots(
             inventory,
             8,
@@ -164,6 +172,10 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         );
     }
 
+    /**
+     * Converts the actual recipe progress into the 24 pixels used by the
+     * GUI progress arrow.
+     */
     public int getCookProgressionScaled() {
 
         int cookTime =
@@ -197,6 +209,10 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         return data.get(2) != 0;
     }
 
+    /**
+     * Handles shift-click: from the machine to the player's inventory,
+     * or from the inventory to ingredient slots only.
+     */
     @Override
     public ItemStack quickMoveStack(
         Player player,
@@ -233,8 +249,8 @@ public class CheeseVatMenu extends AbstractContainerMenu {
 
         } else {
 
-            // Shift-click dal giocatore:
-            // prova solamente i 3 slot ingredienti.
+            // Shift-click from the player inventory:
+            // only try the 3 ingredient slots.
             if (
                 !moveItemStackTo(
                     stack,

@@ -14,12 +14,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Observes vanilla cauldron state changes without replacing vanilla cauldron
- * interactions.
+ * Server-side mixin that observes vanilla cauldron state changes without
+ * replacing vanilla interactions, and keeps the salt evaporation system updated.
  */
 @Mixin(Level.class)
 public abstract class LevelMixin {
 
+    // The injection runs at RETURN, so the manager is notified only after
+    // Minecraft has actually applied the new BlockState.
     @Inject(
         method =
             "setBlock(Lnet/minecraft/core/BlockPos;"

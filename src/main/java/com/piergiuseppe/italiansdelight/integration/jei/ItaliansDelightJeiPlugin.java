@@ -14,6 +14,10 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * JEI plugin for the mod. Registers categories, recipes, catalysts, and Cheese Vat GUI integration.
+ */
+
 @JeiPlugin
 public class ItaliansDelightJeiPlugin implements IModPlugin {
 
@@ -77,7 +81,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addRecipeClickArea(
             CheeseVatScreen.class,
 
-            // Freccia di avanzamento della GUI
+            // GUI progress arrow
             89,
             25,
             24,
