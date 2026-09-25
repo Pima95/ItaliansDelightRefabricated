@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "italiansdelight:item/salt",
+    "salt": "italiansdelight:item/salt"
+  },
+  "elements": [
+    {
+      "from": [2, 4, 2],
+      "to": [14, 6, 14],
+      "faces": {
+        "north": {
+          "uv": [2, 14, 14, 16],
+          "texture": "#salt"
+        },
+        "east": {
+          "uv": [2, 14, 14, 16],
+          "texture": "#salt"
+        },
+        "south": {
+          "uv": [2, 14, 14, 16],
+          "texture": "#salt"
+        },
+        "west": {
+          "uv": [2, 14, 14, 16],
+          "texture": "#salt"
+        },
+        "up": {
+          "uv": [2, 2, 14, 14],
+          "texture": "#salt"
+        },
+        "down": {
+          "uv": [2, 2, 14, 14],
+          "texture": "#salt"
+        }
+      }
+    }
+  ]
+}
