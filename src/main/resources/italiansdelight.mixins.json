@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "package": "com.piergiuseppe.italiansdelight.mixin",
+  "mixins": [
+    "LevelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

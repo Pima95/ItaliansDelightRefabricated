@@ -10,6 +10,7 @@ import com.piergiuseppe.italiansdelight.common.item.group.ModItemGroups;
 import com.piergiuseppe.italiansdelight.common.registry.ModBlockEntities;
 import com.piergiuseppe.italiansdelight.common.registry.ModMenuTypes;
 import com.piergiuseppe.italiansdelight.common.registry.ModRecipes;
+import com.piergiuseppe.italiansdelight.common.salt.SaltCauldronManager;
 
 /**
  * Entrypoint comune (server + client) di Italian's Delight.
@@ -33,6 +34,8 @@ public class ItaliansDelight implements ModInitializer {
         ModMenuTypes.register();
         ModRecipes.register();
         ModItemGroups.register();
+
+        SaltCauldronManager.register();
 
         LOGGER.info("[Italian's Delight] Pronta! Buon appetito.");
     }
