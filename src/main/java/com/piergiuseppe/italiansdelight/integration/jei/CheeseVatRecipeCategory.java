@@ -16,6 +16,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
+/**
+ * Descrive a JEI layout, slot, icona e grafica della categoria ricette della Cheese Vat.
+ */
+
 public class CheeseVatRecipeCategory
     implements IRecipeCategory<RecipeHolder<CheeseVatRecipe>> {
 
