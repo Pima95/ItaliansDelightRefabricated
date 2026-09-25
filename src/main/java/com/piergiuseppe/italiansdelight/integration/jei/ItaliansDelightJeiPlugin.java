@@ -14,6 +14,10 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * Plugin JEI della mod. Registra categorie, ricette, catalyst e integrazione con la GUI della Cheese Vat.
+ */
+
 @JeiPlugin
 public class ItaliansDelightJeiPlugin implements IModPlugin {
 
