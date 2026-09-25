@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,12 +21,16 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
  * Internal ready state of a cauldron after all water has evaporated.
- * Right-clicking collects four salt and restores the vanilla empty cauldron.
+ * Right-clicking collects a random amount of salt and restores the vanilla
+ * empty cauldron.
  */
 public final class SaltCauldronBlock extends Block {
 
     public static final MapCodec<SaltCauldronBlock> CODEC =
         simpleCodec(SaltCauldronBlock::new);
+
+    private static final int MIN_SALT_DROP = 3;
+    private static final int MAX_SALT_DROP = 7;
 
     private static final VoxelShape SHAPE =
         Blocks.CAULDRON
@@ -54,6 +59,21 @@ public final class SaltCauldronBlock extends Block {
         CollisionContext context
     ) {
         return SHAPE;
+    }
+
+    /**
+     * Pick Block returns the hidden BlockItem for this exact ready state.
+     * No block-entity NBT is required because the presence of salt is already
+     * represented by the block id italiansdelight:salt_cauldron itself.
+     */
+    @Override
+    protected ItemStack getCloneItemStack(
+        LevelReader level,
+        BlockPos pos,
+        BlockState state,
+        boolean includeData
+    ) {
+        return new ItemStack(this);
     }
 
     @Override
@@ -109,10 +129,17 @@ public final class SaltCauldronBlock extends Block {
             return InteractionResult.FAIL;
         }
 
+        int saltCount =
+            level.getRandom()
+                .nextIntBetweenInclusive(
+                    MIN_SALT_DROP,
+                    MAX_SALT_DROP
+                );
+
         ItemStack salt =
             new ItemStack(
                 ModItems.SALT,
-                4
+                saltCount
             );
 
         if (!player.addItem(salt)) {
