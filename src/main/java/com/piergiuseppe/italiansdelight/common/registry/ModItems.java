@@ -16,6 +16,9 @@ import com.piergiuseppe.italiansdelight.ItaliansDelight;
  */
 public final class ModItems {
 
+    // Ogni item usa una ResourceKey stabile: lo stesso identificatore viene
+    // usato dal registry, dai modelli e dai datapack.
+
         private ModItems() {
         }
 
