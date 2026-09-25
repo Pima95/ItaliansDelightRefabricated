@@ -8,7 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 /**
- * Registro centralizzato delle BlockEntity appartenenti a Italian's Delight.
+ * Central registry for Italian's Delight BlockEntities.
  */
 
 public final class ModBlockEntities {
