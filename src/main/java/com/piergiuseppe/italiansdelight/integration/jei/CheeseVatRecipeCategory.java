@@ -17,7 +17,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
 /**
- * Descrive a JEI layout, slot, icona e grafica della categoria ricette della Cheese Vat.
+ * Describes the Cheese Vat JEI recipe category layout, slots, icon, and background.
  */
 
 public class CheeseVatRecipeCategory
@@ -90,7 +90,7 @@ public class CheeseVatRecipeCategory
     ) {
         CheeseVatRecipe recipe = holder.value();
 
-        // Ingredienti
+        // Ingredients
         for (
             int i = 0;
             i < recipe.getIngredientsList().size();
@@ -106,7 +106,7 @@ public class CheeseVatRecipeCategory
             );
         }
 
-        // Contenitore opzionale
+        // Optional container
         recipe.getContainerTemplate().ifPresent(
             container ->
                 builder.addInputSlot(
@@ -115,7 +115,7 @@ public class CheeseVatRecipeCategory
                 ).add(container)
         );
 
-        // Risultato
+        // Result
         builder.addOutputSlot(
             95,
             41
