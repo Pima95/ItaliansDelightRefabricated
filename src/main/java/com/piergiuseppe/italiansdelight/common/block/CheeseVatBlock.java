@@ -30,7 +30,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Blocco della Cheese Vat. Gestisce stato, orientamento, interazioni del giocatore e collegamento con la block entity.
+ * Cheese Vat block. Handles block state, facing, player interactions, and the link to its BlockEntity.
  */
 
 public class CheeseVatBlock extends BaseEntityBlock {
