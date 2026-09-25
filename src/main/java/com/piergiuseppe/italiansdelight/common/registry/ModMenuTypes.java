@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 
 /**
- * Registro dei tipi di menu usati per sincronizzare container server e schermate client.
+ * Registry for menu types used to synchronize server containers and client screens.
  */
 
 public final class ModMenuTypes {
