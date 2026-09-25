@@ -2,8 +2,8 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
-    "particle": "italiansdelight:item/salt",
-    "salt": "italiansdelight:item/salt"
+    "particle": "italiansdelight:block/salt_residue",
+    "salt": "italiansdelight:block/salt_residue"
   },
   "elements": [
     {
