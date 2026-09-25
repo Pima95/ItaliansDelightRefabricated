@@ -24,11 +24,15 @@ import net.minecraft.world.level.levelgen.Heightmap;
  */
 public final class SaltCauldronManager {
 
+    // Numero di tick realmente validi richiesti; notte, maltempo e ostacoli
+    // mettono in pausa il conteggio e non contribuiscono al totale.
     public static final int REQUIRED_USEFUL_TICKS = 12_000;
 
     private SaltCauldronManager() {
     }
 
+    // Registra i due ingressi del sistema: tick della dimensione e scansione
+    // dei chunk caricati per recuperare calderoni già esistenti.
     public static void register() {
         ServerTickEvents.END_LEVEL_TICK.register(
             SaltCauldronManager::tickLevel
@@ -84,6 +88,11 @@ public final class SaltCauldronManager {
             ) == LayeredCauldronBlock.MAX_FILL_LEVEL;
     }
 
+    /**
+     * Cerca calderoni pieni già presenti nel chunk. Prima controlla la palette
+     * di ogni section, evitando di scandire 4096 blocchi quando è impossibile
+     * che la section contenga un water cauldron pieno.
+     */
     private static void onChunkLoad(
         ServerLevel level,
         LevelChunk chunk,
@@ -166,6 +175,10 @@ public final class SaltCauldronManager {
         }
     }
 
+    /**
+     * Aggiorna tutti i calderoni monitorati della dimensione. Non forza mai il
+     * caricamento di chunk: quelli scaricati restano semplicemente in pausa.
+     */
     private static void tickLevel(
         ServerLevel level
     ) {
@@ -236,6 +249,7 @@ public final class SaltCauldronManager {
         }
     }
 
+    // Tutte le condizioni ambientali devono essere vere nello stesso tick.
     private static boolean canEvaporate(
         ServerLevel level,
         BlockPos pos
