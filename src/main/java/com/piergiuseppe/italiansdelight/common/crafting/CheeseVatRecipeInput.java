@@ -4,7 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 
 /**
- * Rappresenta l'input immutabile passato al sistema ricette della Cheese Vat.
+ * Represents the immutable input passed to the Cheese Vat recipe system.
  */
 
 public record CheeseVatRecipeInput(
