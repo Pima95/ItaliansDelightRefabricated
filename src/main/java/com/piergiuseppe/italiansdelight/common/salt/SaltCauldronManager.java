@@ -24,15 +24,15 @@ import net.minecraft.world.level.levelgen.Heightmap;
  */
 public final class SaltCauldronManager {
 
-    // Numero di tick realmente validi richiesti; notte, maltempo e ostacoli
-    // mettono in pausa il conteggio e non contribuiscono al totale.
+    // Number of actually valid ticks required; night, bad weather, and obstacles
+    // pause the counter and therefore do not contribute to the total.
     public static final int REQUIRED_USEFUL_TICKS = 12_000;
 
     private SaltCauldronManager() {
     }
 
-    // Registra i due ingressi del sistema: tick della dimensione e scansione
-    // dei chunk caricati per recuperare calderoni già esistenti.
+    // Registers the two system entry points: dimension ticks and loaded-chunk
+    // scanning used to recover cauldrons that already exist.
     public static void register() {
         ServerTickEvents.END_LEVEL_TICK.register(
             SaltCauldronManager::tickLevel
@@ -89,9 +89,9 @@ public final class SaltCauldronManager {
     }
 
     /**
-     * Cerca calderoni pieni già presenti nel chunk. Prima controlla la palette
-     * di ogni section, evitando di scandire 4096 blocchi quando è impossibile
-     * che la section contenga un water cauldron pieno.
+     * Looks for full cauldrons that already exist in the chunk. It first checks
+     * each section palette, avoiding a 4096-block scan when the section cannot
+     * possibly contain a full water cauldron.
      */
     private static void onChunkLoad(
         ServerLevel level,
@@ -176,8 +176,8 @@ public final class SaltCauldronManager {
     }
 
     /**
-     * Aggiorna tutti i calderoni monitorati della dimensione. Non forza mai il
-     * caricamento di chunk: quelli scaricati restano semplicemente in pausa.
+     * Updates all tracked cauldrons in the dimension. It never force-loads
+     * chunks: unloaded chunks simply remain paused.
      */
     private static void tickLevel(
         ServerLevel level
@@ -249,7 +249,7 @@ public final class SaltCauldronManager {
         }
     }
 
-    // Tutte le condizioni ambientali devono essere vere nello stesso tick.
+    // All environmental conditions must be true during the same tick.
     private static boolean canEvaporate(
         ServerLevel level,
         BlockPos pos
