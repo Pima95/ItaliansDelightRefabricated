@@ -1,6 +1,6 @@
-// Build script principale della mod.
- // Loom prepara l'ambiente Fabric/Minecraft; maven-publish servirà per
- // eventuali pubblicazioni future degli artefatti.
+// Main build script for the mod.
+// Loom prepares the Fabric/Minecraft development environment; maven-publish
+// is available for possible future artifact publishing.
 plugins {
     id 'net.fabricmc.fabric-loom' version '1.17-SNAPSHOT'
     id 'maven-publish'
@@ -13,7 +13,7 @@ base {
     archivesName = project.archives_base_name
 }
 
-// Repository aggiuntivi necessari per dipendenze non disponibili su Maven Central.
+// Additional repositories required for dependencies not available on Maven Central.
 repositories {
     // Farmer's Delight Refabricated
     maven {
@@ -28,7 +28,7 @@ repositories {
     }
 }
 
-// Dipendenze di runtime/compilazione della mod.
+// Mod runtime and compile-time dependencies.
 dependencies {
     // Minecraft
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -48,7 +48,7 @@ dependencies {
     implementation "curse.maven:jei-238222:8937443"
 }
 
-// Sostituisce il placeholder della versione dentro fabric.mod.json durante la build.
+// Replaces the version placeholder inside fabric.mod.json during the build.
 processResources {
     inputs.property "version", project.version
 
@@ -57,20 +57,20 @@ processResources {
     }
 }
 
-// Minecraft 26.2 richiede Java 25: il release target impedisce l'uso accidentale
-// di bytecode o API appartenenti a versioni Java differenti.
+// Minecraft 26.2 requires Java 25: the release target prevents accidental use
+// of bytecode or APIs from a different Java version.
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 25
 }
 
-// Configurazione della toolchain sorgente/target e generazione del sources JAR.
+// Source/target toolchain configuration and sources JAR generation.
 java {
     sourceCompatibility = JavaVersion.VERSION_25
     targetCompatibility = JavaVersion.VERSION_25
     withSourcesJar()
 }
 
-// Include la licenza nel JAR finale con un nome legato all'artefatto.
+// Includes the license in the final JAR with an artifact-specific name.
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archives_base_name}" }
