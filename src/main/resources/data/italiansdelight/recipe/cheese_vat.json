@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "W": "#minecraft:logs",
+    "W": "#minecraft:planks",
     "C": "minecraft:cauldron"
   },
   "pattern": [
