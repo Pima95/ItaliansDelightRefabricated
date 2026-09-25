@@ -2,6 +2,7 @@ package com.piergiuseppe.italiansdelight.common.block.entity;
 
 import java.util.Optional;
 
+import com.piergiuseppe.italiansdelight.common.block.CheeseVatBlock;
 import com.piergiuseppe.italiansdelight.common.block.entity.container.CheeseVatMenu;
 import com.piergiuseppe.italiansdelight.common.crafting.CheeseVatRecipe;
 import com.piergiuseppe.italiansdelight.common.crafting.CheeseVatRecipeInput;
@@ -305,17 +306,16 @@ public class CheeseVatBlockEntity
             return;
         }
 
-        // Cheese Vat does not currently have a FACING block state,
-        // so remainders are consistently ejected from its north side.
-        // This mirrors Farmer's Delight's physical ejection behavior
-        // without changing the blockstate/model yet.
+        // Eject to the right of the vat, just like the Cooking Pot.
         Direction direction =
-            Direction.NORTH;
+            getBlockState()
+                .getValue(CheeseVatBlock.FACING)
+                .getCounterClockWise();
 
         double x =
             worldPosition.getX()
                 + 0.5D
-                + direction.getStepX() * 0.35D;
+                + direction.getStepX() * 0.25D;
 
         double y =
             worldPosition.getY()
@@ -324,7 +324,7 @@ public class CheeseVatBlockEntity
         double z =
             worldPosition.getZ()
                 + 0.5D
-                + direction.getStepZ() * 0.35D;
+                + direction.getStepZ() * 0.25D;
 
         ItemUtils.spawnItemEntity(
             level,
