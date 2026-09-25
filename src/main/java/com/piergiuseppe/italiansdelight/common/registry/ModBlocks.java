@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 /**
- * Registro centralizzato dei blocchi della mod e dei relativi BlockItem quando devono essere piazzabili dall'inventario.
+ * Central registry for mod blocks and their BlockItems when they need to be placeable from the inventory.
  */
 
 public final class ModBlocks {
@@ -20,7 +20,7 @@ public final class ModBlocks {
     private ModBlocks() {
     }
 
-    // -------------------- Blocchi registrati --------------------
+    // -------------------- Registered blocks --------------------
     // Cheese Vat Block
     public static final ResourceKey<Block> CHEESE_VAT_KEY =
         ResourceKey.create(
@@ -60,8 +60,8 @@ public final class ModBlocks {
         );
 
     /**
-     * Registra sia il blocco sia il BlockItem con lo stesso identificatore.
-     * Usare questo helper per i blocchi che devono essere piazzabili dall'inventario.
+     * Registers both the block and its BlockItem with the same identifier.
+     * Use this helper for blocks that need to be placeable from the inventory.
      */
     private static Block register(
         ResourceKey<Block> blockKey,
@@ -96,7 +96,7 @@ public final class ModBlocks {
         return registeredBlock;
     }
 
-    // Registra soltanto il blocco, senza creare automaticamente un item.
+    // Registers only the block, without automatically creating an item.
     private static Block registerBlockOnly(
         ResourceKey<Block> blockKey,
         Block block
