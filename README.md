@@ -1,80 +1,78 @@
 # Italian's Delight
 
-**Italian's Delight** è un add-on per **Farmer's Delight Refabricated** su
-**Fabric / Minecraft 26.2**, dedicato alla cucina italiana.
+**Italian's Delight** is an add-on for **Farmer's Delight Refabricated** on
+**Fabric / Minecraft 26.2**, focused on Italian cuisine.
 
-L'obiettivo del progetto non è aggiungere soltanto nuovi food item, ma costruire
-catene di lavorazione integrate con i sistemi di Farmer's Delight, riutilizzando
-quando possibile Cooking Pot, Cutting Board, fonti di calore, contenitori e tag
-condivisi.
+The goal of the project is not to add isolated food items, but to build
+production chains that integrate with Farmer's Delight systems whenever
+possible, reusing the Cooking Pot, Cutting Board, heat sources, containers, and
+shared tags.
 
-## Stato del progetto
+## Project status
 
-La mod è attualmente in sviluppo, ma contiene già diverse funzionalità
-utilizzabili in gioco.
+The mod is currently in development, but several gameplay features are already
+implemented and usable in-game.
 
 ### Cheese Vat
 
-La **Cheese Vat** è una macchina personalizzata dedicata alla produzione di
-formaggi e ingredienti caseari.
+The **Cheese Vat** is a custom machine dedicated to producing cheeses and dairy
+ingredients.
 
-Attualmente supporta:
+It currently supports:
 
-- inventario persistente;
-- 3 slot ingrediente;
-- slot per il contenitore;
-- output separato dalla preview del prodotto cotto;
-- ricette shapeless personalizzate;
-- requisito di una fonte di calore;
-- GUI dedicata con indicatore di progresso;
+- persistent inventory;
+- 3 ingredient slots;
+- a container slot;
+- a real output separated from the cooked-product preview;
+- custom shapeless recipes;
+- a heat-source requirement;
+- a dedicated GUI with a progress indicator;
 - shift-click;
-- crafting remainder;
-- sincronizzazione client/server;
-- integrazione con JEI.
+- crafting remainders;
+- client/server synchronization;
+- JEI integration.
 
-Le prime lavorazioni disponibili sono:
+The first available processes are:
 
-- latte + caglio → **cagliata**;
-- allium → **caglio**;
-- cagliata + sale → **mozzarella**.
+- milk + rennet → **curd**;
+- allium → **rennet**;
+- curd + salt → **mozzarella**.
 
-### Integrazione con Farmer's Delight
+### Farmer's Delight integration
 
-Sono già presenti ricette che utilizzano direttamente i sistemi di Farmer's
-Delight, tra cui:
+Several recipes already use Farmer's Delight systems directly, including:
 
-- pasta + tomato sauce → **pasta al sugo** tramite Cooking Pot;
-- riso + tomato sauce → **risotto al sugo** tramite Cooking Pot;
-- mozzarella → **4 fette di mozzarella** tramite Cutting Board;
-- pomodoro → **4 fette di pomodoro** tramite Cutting Board.
+- pasta + tomato sauce → **pasta with tomato sauce** through the Cooking Pot;
+- rice + tomato sauce → **risotto with tomato sauce** through the Cooking Pot;
+- mozzarella → **4 mozzarella slices** through the Cutting Board;
+- tomato → **4 tomato slices** through the Cutting Board.
 
-### Produzione del sale
+### Salt production
 
-Il sale può essere prodotto facendo evaporare l'acqua in un normale calderone
-vanilla.
+Salt can be produced by evaporating water in a normal vanilla cauldron.
 
-Un calderone completamente pieno richiede **12.000 tick utili** di evaporazione.
+A completely full cauldron requires **12,000 useful ticks** of evaporation.
 
-Il processo:
+The process:
 
-- avanza soltanto durante il giorno;
-- si mette in pausa con pioggia o temporale;
-- si mette in pausa se esiste qualsiasi blocco sopra il calderone;
-- non avanza quando il chunk non è caricato;
-- si azzera se l'acqua viene rimossa o ridotta oppure se il calderone viene
-  rotto o sostituito;
-- conserva il progresso tra i riavvii del mondo.
+- advances only during daytime;
+- pauses during rain or thunderstorms;
+- pauses if any block exists above the cauldron;
+- does not advance while the chunk is unloaded;
+- resets if the water is removed or lowered, or if the cauldron is broken or
+  replaced;
+- keeps its progress across world restarts.
 
-Quando l'evaporazione termina, sul fondo del calderone compare uno strato
-visibile di sale. Interagendo con esso si ottengono casualmente **da 3 a 7
-unità di sale** e il blocco torna a essere un calderone vuoto.
+When evaporation finishes, a visible salt layer appears at the bottom of the
+cauldron. Interacting with it yields a random **3 to 7 units of salt** and
+restores an empty cauldron.
 
-In modalità creativa il Pick Block permette inoltre di copiare direttamente il
-calderone con il residuo di sale e ripiazzarlo mantenendo quello stato.
+In Creative mode, Pick Block can also copy the cauldron with salt residue and
+place it again while preserving that state.
 
-## Requisiti di sviluppo
+## Development requirements
 
-| Componente | Versione |
+| Component | Version |
 |---|---|
 | Minecraft | 26.2 |
 | Java | 25 |
@@ -84,30 +82,30 @@ calderone con il residuo di sale e ripiazzarlo mantenendo quello stato.
 | Farmer's Delight Refabricated | 26.2-3.6.26+refabricated |
 | JEI | Curse Maven file 8937443 |
 
-Farmer's Delight Refabricated viene scaricato automaticamente tramite
-**Cassian's Maven** durante la configurazione Gradle.
+Farmer's Delight Refabricated is downloaded automatically through
+**Cassian's Maven** during Gradle configuration.
 
 ## Build
 
-Su Windows:
+On Windows:
 
 ```powershell
 .\gradlew build
 ```
 
-Su Linux/macOS:
+On Linux/macOS:
 
 ```bash
 ./gradlew build
 ```
 
-Il JAR risultante viene generato nella cartella:
+The resulting JAR is generated in:
 
 ```text
 build/libs/
 ```
 
-Per avviare il client di sviluppo:
+To start the development client:
 
 ### Windows
 
@@ -121,38 +119,38 @@ Per avviare il client di sviluppo:
 ./gradlew runClient
 ```
 
-## Struttura del codice
+## Code structure
 
-Il progetto separa la logica per responsabilità:
+The project separates responsibilities across dedicated packages:
 
-- `common/` — blocchi, BlockEntity, ricette, registri e logica condivisa;
-- `client/` — GUI e codice esclusivamente client;
-- `integration/jei/` — integrazione con JEI;
-- `mixin/` — hook sulle meccaniche vanilla;
-- `resources/assets/` — modelli, texture, blockstate e traduzioni;
-- `resources/data/` — ricette, tag, loot table e advancement.
+- `common/` — blocks, BlockEntities, recipes, registries, and shared logic;
+- `client/` — GUI and client-only code;
+- `integration/jei/` — JEI integration;
+- `mixin/` — hooks into vanilla mechanics;
+- `resources/assets/` — models, textures, blockstates, and translations;
+- `resources/data/` — recipes, tags, loot tables, and advancements.
 
-Il codice sorgente contiene commenti dedicati soprattutto nei punti in cui il
-flusso non è immediatamente evidente, così da rendere più semplice la
-manutenzione e l'aggiunta di nuove feature.
+The source code includes comments especially around non-obvious control flow, so
+future maintenance and feature development are easier to follow.
 
-## Roadmap e documentazione
+## Roadmap and documentation
 
-La roadmap completa, le decisioni di design, la struttura dettagliata del
-progetto e lo stato delle feature sono mantenuti in:
+The full roadmap, design decisions, detailed project structure, and feature
+status are documented here:
 
-[**docs/REQUISITI.md**](docs/REQUISITI.md)
+- [**Requirements and Roadmap — English**](docs/REQUIREMENTS.md)
+- [**Requisiti e Roadmap — Italiano**](docs/REQUISITI.md)
 
-Tra le funzionalità pianificate figurano:
+Planned features include:
 
-- filiera completa della pasta;
-- ulteriori formaggi e possibile stagionatura;
-- nuove colture e ingredienti;
-- forno a legna;
+- a complete pasta production chain;
+- additional cheeses and possible aging mechanics;
+- new crops and ingredients;
+- a wood-fired oven;
 - pizza;
-- advancement dedicati;
-- ulteriore compatibilità con l'ecosistema Farmer's Delight.
+- dedicated advancements;
+- broader compatibility with the Farmer's Delight ecosystem.
 
-## Licenza
+## License
 
-Il progetto include un file [LICENSE](LICENSE) nella root del repository.
+This project includes a [LICENSE](LICENSE) file in the repository root.
