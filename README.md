@@ -139,7 +139,7 @@ The full roadmap, design decisions, detailed project structure, and feature
 status are documented here:
 
 - [**Requirements and Roadmap — English**](docs/REQUIREMENTS.md)
-- [**Requisiti e Roadmap — Italiano**](docs/REQUISITI.md)
+- [**Requirements and Roadmap — Italian version**](docs/REQUISITI.md)
 
 Planned features include:
 
