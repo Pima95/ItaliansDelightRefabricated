@@ -15,6 +15,9 @@ import com.piergiuseppe.italiansdelight.common.registry.ModRegistries;
 /** Tab creativa dedicata a Italian's Delight, separata da quella di Farmer's Delight. */
 public final class ModItemGroups {
 
+    // Il gruppo creativo è soltanto una vista degli item già registrati:
+    // aggiungere un item qui non lo registra automaticamente.
+
     private ModItemGroups() {}
 
     public static final ResourceKey<CreativeModeTab> ITALIANS_DELIGHT_GROUP_KEY =
