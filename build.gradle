@@ -1,3 +1,6 @@
+// Build script principale della mod.
+ // Loom prepara l'ambiente Fabric/Minecraft; maven-publish servirà per
+ // eventuali pubblicazioni future degli artefatti.
 plugins {
     id 'net.fabricmc.fabric-loom' version '1.17-SNAPSHOT'
     id 'maven-publish'
@@ -10,6 +13,7 @@ base {
     archivesName = project.archives_base_name
 }
 
+// Repository aggiuntivi necessari per dipendenze non disponibili su Maven Central.
 repositories {
     // Farmer's Delight Refabricated
     maven {
@@ -24,6 +28,7 @@ repositories {
     }
 }
 
+// Dipendenze di runtime/compilazione della mod.
 dependencies {
     // Minecraft
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -43,6 +48,7 @@ dependencies {
     implementation "curse.maven:jei-238222:8937443"
 }
 
+// Sostituisce il placeholder della versione dentro fabric.mod.json durante la build.
 processResources {
     inputs.property "version", project.version
 
@@ -51,16 +57,20 @@ processResources {
     }
 }
 
+// Minecraft 26.2 richiede Java 25: il release target impedisce l'uso accidentale
+// di bytecode o API appartenenti a versioni Java differenti.
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 25
 }
 
+// Configurazione della toolchain sorgente/target e generazione del sources JAR.
 java {
     sourceCompatibility = JavaVersion.VERSION_25
     targetCompatibility = JavaVersion.VERSION_25
     withSourcesJar()
 }
 
+// Include la licenza nel JAR finale con un nome legato all'artefatto.
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archives_base_name}" }
