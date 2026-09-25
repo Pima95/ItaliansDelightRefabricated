@@ -20,9 +20,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Stato finale del calderone dopo l'evaporazione completa dell'acqua.
- * Il blocco mantiene visivamente il residuo di sale; con il tasto destro il
- * giocatore raccoglie una quantità casuale di sale e torna al calderone vuoto.
+ * Final cauldron state after all water has evaporated.
+ * The block visually keeps the salt residue; right-clicking lets the player
+ * collect a random amount of salt and restores an empty cauldron.
  */
 public final class SaltCauldronBlock extends Block {
 
@@ -62,9 +62,9 @@ public final class SaltCauldronBlock extends Block {
     }
 
     /**
-     * Pick Block restituisce il BlockItem nascosto di questo stato già pronto.
-     * Non serve una BlockEntity con NBT perché la presenza del sale è già
-     * rappresentata dall'id del blocco italiansdelight:salt_cauldron.
+     * Pick Block returns the hidden BlockItem for this ready state.
+     * No BlockEntity with NBT is required because the presence of salt is
+     * already represented by the italiansdelight:salt_cauldron block id.
      */
     @Override
     protected ItemStack getCloneItemStack(
@@ -129,7 +129,7 @@ public final class SaltCauldronBlock extends Block {
             return InteractionResult.FAIL;
         }
 
-        // Gli estremi sono inclusivi: ogni raccolta produce da 3 a 7 unità.
+        // Bounds are inclusive: each collection yields between 3 and 7 units.
         int saltCount =
             level.getRandom()
                 .nextIntBetweenInclusive(
