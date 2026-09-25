@@ -25,6 +25,7 @@ public final class ModBlocks {
         new CheeseVatBlock(
             Block.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.IRON_BLOCK)
                 .setId(CHEESE_VAT_KEY)
+                .noOcclusion()
                 .strength(2.0F, 6.0F)
         )
     );

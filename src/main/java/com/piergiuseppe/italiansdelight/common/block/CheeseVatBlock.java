@@ -10,9 +10,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -22,11 +25,24 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class CheeseVatBlock extends BaseEntityBlock {
 
     public static final EnumProperty<Direction> FACING =
         BlockStateProperties.HORIZONTAL_FACING;
+
+    // Vanilla cauldron, filled to one pixel below the rim, with wooden side braces.
+    private static final VoxelShape SHAPE = Shapes.or(
+        Blocks.CAULDRON.defaultBlockState().getShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO),
+        Block.box(2, 4, 2, 14, 15, 14),
+        Block.box(1, 8, -1, 15, 12, 0),
+        Block.box(1, 8, 16, 15, 12, 17),
+        Block.box(-1, 8, 1, 0, 12, 15),
+        Block.box(16, 8, 1, 17, 12, 15)
+    );
 
     public CheeseVatBlock(
         Properties properties
@@ -36,6 +52,16 @@ public class CheeseVatBlock extends BaseEntityBlock {
             stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
         );
+    }
+
+    @Override
+    protected VoxelShape getShape(
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        CollisionContext context
+    ) {
+        return SHAPE;
     }
 
     @Override
