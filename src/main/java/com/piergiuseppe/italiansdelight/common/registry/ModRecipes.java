@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
 /**
- * Registro del tipo e del serializer delle ricette personalizzate della Cheese Vat.
+ * Registry for the Cheese Vat custom recipe type and serializer.
  */
 
 public final class ModRecipes {
