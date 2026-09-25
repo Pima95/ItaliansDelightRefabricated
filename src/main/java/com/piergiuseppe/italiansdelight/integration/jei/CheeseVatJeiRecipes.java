@@ -11,7 +11,7 @@ import com.piergiuseppe.italiansdelight.common.crafting.CheeseVatRecipe;
 import com.piergiuseppe.italiansdelight.common.registry.ModRecipes;
 
 /**
- * Adatta e raccoglie le ricette della Cheese Vat che devono essere esposte all'integrazione JEI.
+ * Collects and adapts Cheese Vat recipes that must be exposed through the JEI integration.
  */
 
 public class CheeseVatJeiRecipes {
