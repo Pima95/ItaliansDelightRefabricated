@@ -18,6 +18,8 @@ import net.minecraft.world.level.saveddata.SavedDataType;
  */
 public final class SaltCauldronProgressData extends SavedData {
 
+    // Forma compatta usata solo per serializzare la mappa runtime.
+    // BlockPos viene salvato come long per ridurre lo spazio occupato.
     private record ProgressEntry(long pos, int progress) {
 
         private static final Codec<ProgressEntry> CODEC =
@@ -34,6 +36,7 @@ public final class SaltCauldronProgressData extends SavedData {
             );
     }
 
+    // Codec dell'intero SavedData: converte la mappa in una lista di entry.
     private static final Codec<SaltCauldronProgressData> CODEC =
         RecordCodecBuilder.create(instance ->
             instance.group(
@@ -58,12 +61,14 @@ public final class SaltCauldronProgressData extends SavedData {
             null
         );
 
+    // Mappa runtime: posizione del calderone -> tick utili accumulati.
     private final Map<Long, Integer> progressByPosition =
         new HashMap<>();
 
     public SaltCauldronProgressData() {
     }
 
+    // Costruttore usato dal codec durante il caricamento del mondo.
     private SaltCauldronProgressData(
         List<ProgressEntry> entries
     ) {
@@ -75,6 +80,7 @@ public final class SaltCauldronProgressData extends SavedData {
         }
     }
 
+    // Restituisce il SavedData della dimensione corrente, creandolo se manca.
     public static SaltCauldronProgressData get(
         ServerLevel level
     ) {
@@ -86,6 +92,7 @@ public final class SaltCauldronProgressData extends SavedData {
         return progressByPosition;
     }
 
+    // Converte la mappa runtime nella forma serializzabile prevista dal CODEC.
     private List<ProgressEntry> serializedEntries() {
         return progressByPosition
             .entrySet()
