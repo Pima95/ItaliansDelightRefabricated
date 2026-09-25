@@ -1,30 +1,39 @@
-# gradle
+# Gradle and build output
 .gradle/
 build/
 out/
+bin/
 classes/
+*.class
 
-# eclipse
+# Fabric development environment
+run/
+
+# Eclipse
 .classpath
 .project
 .settings/
+.factorypath
 *.launch
 
-# idea
+# IntelliJ IDEA
 .idea/
 *.iml
 *.ipr
 *.iws
 
-# vscode
+# Visual Studio Code
 .vscode/
-.factorypath
 
-# macos
+# Local configuration
+.env
+.env.*
+!.env.example
+
+# OS and crash diagnostics
 .DS_Store
-
-# fabric
-run/
-
-# generated
-bin/
+Thumbs.db
+Desktop.ini
+*.log
+*.hprof
+hs_err_pid*
