@@ -8,15 +8,15 @@ import com.piergiuseppe.italiansdelight.common.registry.ModMenuTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
 
 /**
- * Entrypoint esclusivamente client di Italian's Delight.
- * Qui vengono registrate schermate, renderer e altre funzionalità che non
- * devono essere inizializzate su un server dedicato.
+ * Client-only entrypoint for Italian's Delight.
+ * Screens, renderers, and other client-side features are registered here and
+ * must never be initialized on a dedicated server.
  */
 public class ItaliansDelightClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        // Collega il MenuType sincronizzato dal server alla schermata grafica client.
+        // Links the server-synchronized MenuType to the client-side screen.
         MenuScreens.register(
             ModMenuTypes.CHEESE_VAT,
             CheeseVatScreen::new
