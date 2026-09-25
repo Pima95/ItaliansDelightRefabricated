@@ -5,9 +5,9 @@ import net.minecraft.resources.Identifier;
 import com.piergiuseppe.italiansdelight.ItaliansDelight;
 
 /**
- * Utility per creare Identifier sempre nel namespace di Italian's Delight.
- * Centralizzare questa operazione evita di ripetere il mod id e riduce il
- * rischio di registrare accidentalmente risorse con un namespace errato.
+ * Utility for creating Identifiers in the Italian's Delight namespace.
+ * Centralizing this operation avoids repeating the mod id and reduces the
+ * risk of accidentally registering resources under the wrong namespace.
  */
 public final class ModRegistries {
 
