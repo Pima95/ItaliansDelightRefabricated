@@ -93,24 +93,32 @@ public final class SaltCauldronBlock extends Block {
         BlockPos pos,
         Player player
     ) {
-        if (!level.isClientSide()) {
-            ItemStack salt =
-                new ItemStack(
-                    ModItems.SALT,
-                    4
-                );
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
+        }
 
-            if (!player.addItem(salt)) {
-                player.drop(
-                    salt,
-                    false
-                );
-            }
-
-            level.setBlockAndUpdate(
+        // Change the block first. If another mod prevents the transition, do
+        // not hand out salt and therefore do not risk duplicating the result.
+        if (
+            !level.setBlockAndUpdate(
                 pos,
                 Blocks.CAULDRON
                     .defaultBlockState()
+            )
+        ) {
+            return InteractionResult.FAIL;
+        }
+
+        ItemStack salt =
+            new ItemStack(
+                ModItems.SALT,
+                4
+            );
+
+        if (!player.addItem(salt)) {
+            player.drop(
+                salt,
+                false
             );
         }
 
