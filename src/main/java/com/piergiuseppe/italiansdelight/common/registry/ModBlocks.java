@@ -35,8 +35,8 @@ public final class ModBlocks {
     );
 
     // Internal state used when a full water cauldron has finished evaporating.
-    // It deliberately has no BlockItem: players only reach it through the
-    // evaporation mechanic.
+    // A BlockItem is registered so Creative Pick Block can copy and re-place
+    // the exact salt-filled state. It is not added to the mod creative tab.
     public static final ResourceKey<Block> SALT_CAULDRON_KEY =
         ResourceKey.create(
             BuiltInRegistries.BLOCK.key(),
@@ -44,7 +44,7 @@ public final class ModBlocks {
         );
 
     public static final Block SALT_CAULDRON =
-        registerBlockOnly(
+        register(
             SALT_CAULDRON_KEY,
             new SaltCauldronBlock(
                 Block.Properties
