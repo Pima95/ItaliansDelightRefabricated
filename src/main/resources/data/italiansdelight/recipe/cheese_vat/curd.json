@@ -5,7 +5,7 @@
     "#c:rennet"
   ],
   "container": {
-    "id": "minecraft:glass_bottle",
+    "id": "minecraft:bowl",
     "count": 1
   },
   "result": {

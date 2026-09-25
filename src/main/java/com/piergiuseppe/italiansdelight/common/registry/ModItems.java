@@ -119,7 +119,8 @@ public final class ModItems {
                                         .saturationModifier(0.1f)
                                         .build()
                         )
-                        .craftRemainder(net.minecraft.world.item.Items.GLASS_BOTTLE)
+                        .craftRemainder(net.minecraft.world.item.Items.BOWL)
+                        .usingConvertsTo(net.minecraft.world.item.Items.BOWL)
                         .stacksTo(16));
 
         // Sale
