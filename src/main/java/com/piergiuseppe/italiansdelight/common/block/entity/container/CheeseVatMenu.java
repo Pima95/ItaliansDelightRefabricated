@@ -15,11 +15,11 @@ import net.minecraft.world.item.ItemStack;
 
 public class CheeseVatMenu extends AbstractContainerMenu {
 
-    private static final int DATA_COUNT = 4;
+    private static final int DATA_COUNT = 3;
 
-    // Only the three inputs, container and output are visible menu slots.
+    // Three inputs, the container, the output and the preview are visible.
     private static final int MACHINE_SLOT_COUNT =
-        CheeseVatBlockEntity.OUTPUT_SLOT + 1;
+        CheeseVatBlockEntity.PREVIEW_SLOT + 1;
 
     private static final int PLAYER_INVENTORY_START =
         MACHINE_SLOT_COUNT;
@@ -103,7 +103,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             )
         );
 
-        // Risultato
+        // Risultato reale: contiene soltanto oggetti già confezionati.
         this.addSlot(
             new Slot(
                 container,
@@ -112,33 +112,34 @@ public class CheeseVatMenu extends AbstractContainerMenu {
                 55
             ) {
                 @Override
-                public ItemStack getItem() {
-                    if (container instanceof CheeseVatBlockEntity vat
-                        && vat.isPreviewVisible()) {
-                        return vat.getPendingResult();
-                    }
-                    return super.getItem();
+                public boolean mayPlace(ItemStack stack) {
+                    return false;
+                }
+            }
+        );
+
+        // Anteprima del prodotto cotto, a destra della freccia.
+        // Non è mai prelevabile né sostituibile.
+        this.addSlot(
+            new Slot(
+                container,
+                CheeseVatBlockEntity.PREVIEW_SLOT,
+                124,
+                26
+            ) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return false;
                 }
 
                 @Override
                 public boolean mayPickup(Player player) {
-                    return data.get(3) == 0
-                        && super.mayPickup(player);
+                    return false;
                 }
 
                 @Override
                 public ItemStack remove(int amount) {
-                    if (data.get(3) != 0) {
-                        return ItemStack.EMPTY;
-                    }
-                    return super.remove(amount);
-                }
-
-                @Override
-                public boolean mayPlace(
-                    ItemStack stack
-                ) {
-                    return false;
+                    return ItemStack.EMPTY;
                 }
             }
         );

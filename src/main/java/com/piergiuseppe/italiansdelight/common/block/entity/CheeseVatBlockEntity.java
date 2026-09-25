@@ -41,8 +41,8 @@ public class CheeseVatBlockEntity
     public static final int CONTAINER_SLOT = 3;
     public static final int OUTPUT_SLOT = 4;
 
-    // Internal slots keep cooked food safe while it waits for its container.
-    private static final int PENDING_RESULT_SLOT = 5;
+    // The preview is a read-only menu slot; the requirement stays internal.
+    public static final int PREVIEW_SLOT = 5;
     private static final int PENDING_CONTAINER_SLOT = 6;
 
     public static final int CONTAINER_SIZE = 7;
@@ -188,15 +188,7 @@ public class CheeseVatBlockEntity
     }
 
     public boolean hasPendingResult() {
-        return !items.get(PENDING_RESULT_SLOT).isEmpty();
-    }
-
-    public boolean isPreviewVisible() {
-        return hasPendingResult() && items.get(OUTPUT_SLOT).isEmpty();
-    }
-
-    public ItemStack getPendingResult() {
-        return items.get(PENDING_RESULT_SLOT);
+        return !items.get(PREVIEW_SLOT).isEmpty();
     }
 
     private void finishCooking(CheeseVatRecipe recipe) {
@@ -220,7 +212,7 @@ public class CheeseVatBlockEntity
         }
 
         if (!required.isEmpty() && !hasRequiredContainer(required)) {
-            items.set(PENDING_RESULT_SLOT, result.copy());
+            items.set(PREVIEW_SLOT, result.copy());
             items.set(PENDING_CONTAINER_SLOT, required.copy());
         } else {
             if (!required.isEmpty()) {
@@ -234,7 +226,7 @@ public class CheeseVatBlockEntity
     }
 
     private void tryFillContainer() {
-        ItemStack pending = items.get(PENDING_RESULT_SLOT);
+        ItemStack pending = items.get(PREVIEW_SLOT);
         ItemStack required = items.get(PENDING_CONTAINER_SLOT);
 
         if (!hasRequiredContainer(required) || !canOutput(pending)) {
@@ -243,7 +235,7 @@ public class CheeseVatBlockEntity
 
         consumeContainer(required);
         addOutput(pending);
-        items.set(PENDING_RESULT_SLOT, ItemStack.EMPTY);
+        items.set(PREVIEW_SLOT, ItemStack.EMPTY);
         items.set(PENDING_CONTAINER_SLOT, ItemStack.EMPTY);
         setChanged();
     }
@@ -373,11 +365,6 @@ public class CheeseVatBlockEntity
                             ? 1
                             : 0;
 
-                    case 3 ->
-                        CheeseVatBlockEntity.this.isPreviewVisible()
-                            ? 1
-                            : 0;
-
                     default -> 0;
                 };
             }
@@ -404,7 +391,7 @@ public class CheeseVatBlockEntity
 
             @Override
             public int getCount() {
-                return 4;
+                return 3;
             }
         };
     }
@@ -440,7 +427,7 @@ public class CheeseVatBlockEntity
         int slot,
         int amount
     ) {
-        if (slot >= PENDING_RESULT_SLOT) {
+        if (slot >= PREVIEW_SLOT) {
             return ItemStack.EMPTY;
         }
 
@@ -462,7 +449,7 @@ public class CheeseVatBlockEntity
     public ItemStack removeItemNoUpdate(
         int slot
     ) {
-        if (slot >= PENDING_RESULT_SLOT) {
+        if (slot >= PREVIEW_SLOT) {
             return ItemStack.EMPTY;
         }
 
@@ -477,7 +464,7 @@ public class CheeseVatBlockEntity
         int slot,
         ItemStack stack
     ) {
-        if (slot >= PENDING_RESULT_SLOT) {
+        if (slot >= PREVIEW_SLOT) {
             return;
         }
 
