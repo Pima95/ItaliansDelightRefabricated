@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": "#minecraft:logs",
+    "C": "minecraft:cauldron"
+  },
+  "pattern": [
+    " W ",
+    "WCW",
+    " W "
+  ],
+  "result": {
+    "id": "italiansdelight:cheese_vat"
+  }
+}
