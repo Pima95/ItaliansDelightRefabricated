@@ -7,7 +7,7 @@ import com.piergiuseppe.italiansdelight.common.crafting.CheeseVatRecipe;
 import com.piergiuseppe.italiansdelight.common.registry.ModRecipes;
 
 /**
- * Definisce i tipi ricetta JEI utilizzati per mostrare le lavorazioni della Cheese Vat.
+ * Defines the JEI recipe types used to display Cheese Vat processing recipes.
  */
 
 public final class CheeseVatJeiRecipeTypes {
