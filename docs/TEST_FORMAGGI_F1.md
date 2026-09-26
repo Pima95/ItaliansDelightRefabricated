@@ -85,7 +85,7 @@ finché non vengono provate con una nuova build e in gioco.
       con una pozione d'acqua; l'ampolla vuota viene restituita.
 - [X] La caldaia richiede più tempo per essere rotta rispetto alla versione
       precedente.
-- [ ] **Particelle:** da ritestare. Le particelle di rottura mantengono il
+- [X] **Particelle:** da ritestare. Le particelle di rottura mantengono il
       normale colore metallico del calderone ma vengono generate in quantità
       ridotta. Quando la caldaia è riscaldata, dalla superficie interna salgono
       invece leggere particelle color crema simili al contenuto caldo.
@@ -99,7 +99,7 @@ finché non vengono provate con una nuova build e in gioco.
       calderone; con calore torna alla superficie chiara della caldaia.
 - [X] Lo spawn del cardo è ridotto rispetto alla prima implementazione e le
       generazioni valide formano gruppi più consistenti.
-- [ ] **Scarti di produzione:** da ritestare. Bottiglie, secchi e ciotole
+- [X] **Scarti di produzione:** da ritestare. Bottiglie, secchi e ciotole
       vengono ora generati oltre il bordo laterale della caldaia con una spinta
       orizzontale maggiore, così non dovrebbero ricadere al suo interno.
 
