@@ -77,8 +77,9 @@ La panna è un intermedio comune per almeno:
 - Burrata;
 - Mascarpone.
 
-La forma esatta dell'item/contenitore e la sua ricetta di produzione sono ancora
-da definire.
+La panna viene rappresentata come **ciotola di panna**. La ricetta esatta di
+produzione è ancora da definire. Quando viene consumata come ingrediente, la
+ciotola deve essere restituita secondo le normali regole dei contenitori.
 
 ### Coltura erborinata
 
@@ -86,17 +87,14 @@ da definire.
 
 La modalità di ottenimento è ancora da definire.
 
-### Laccio per formaggi
+### Laccio per la Scamorza
 
-Per la Scamorza non viene usata la stringa vanilla.
+Non viene creato un nuovo item dedicato.
 
-È previsto un item dedicato:
+Per legare la Scamorza si usa direttamente il **lazzo vanilla**
+(`minecraft:lead`).
 
-- id di riferimento: `italiansdelight:cheese_tie`
-- italiano: **Laccio per Formaggi**
-- inglese: **Cheese Tie**
-
-Il laccio viene inserito nello **slot contenitore** della Cheese Vat, non negli
+Il lazzo viene inserito nello **slot contenitore** della Cheese Vat, non negli
 slot ingrediente.
 
 La Cheese Vat dovrà quindi poter considerare il contenitore richiesto anche nel
@@ -107,29 +105,19 @@ possono essere distinte correttamente.
 
 L'ingrediente acido scelto per il Mascarpone è l'**Aceto di Mele**.
 
-Filiera prevista:
-
-```text
-Mele
-  ↓
-Sidro di mele
-  ↓ fermentazione nel Brewing Barrel
-Aceto di mele
-```
-
-L'aceto sarà poi usato nella lavorazione:
+Nel branch formaggi interessa soltanto il suo utilizzo:
 
 ```text
 Panna + Aceto di mele
 → Mascarpone
 ```
 
-Nel branch sono già presenti texture dedicate al sidro:
+La produzione, il crafting e l'eventuale fermentazione dell'aceto vengono
+progettati e implementati nel branch dedicato al sistema vino/barile, non in
+`feature/cheeses`.
 
-- `textures/block/fluids/booze/cider_still.png`
-- `textures/block/fluids/booze/cider_flow.png`
-
-con relativi file `.mcmeta` animati.
+Nel repository sono già presenti asset per il sidro che potranno essere usati
+da quel lavoro separato.
 
 ## 4. Serbatoio del siero della Cheese Vat
 
@@ -228,37 +216,39 @@ definire.
 
 ## 6. Siero nei calderoni
 
-Il siero deve poter essere contenuto nei **calderoni vanilla**.
+Il siero deve poter essere contenuto nei **calderoni vanilla** mantenendo un
+comportamento il più possibile coerente con i calderoni di Minecraft.
 
-Requisiti già fissati:
+Regole concordate:
 
-- un calderone può contenere siero;
-- il siero deve poter essere trasferito tra calderone e contenitori compatibili;
-- questa possibilità non consente comunque di riversare siero nel tank interno
-  della Cheese Vat.
+- il calderone usa i normali **tre livelli**;
+- i livelli del calderone non vengono espressi né salvati in mB;
+- una bottiglia di siero aumenta di un livello un calderone non pieno;
+- una bottiglia di vetro preleva un livello da un calderone con siero;
+- un secchio di siero riempie direttamente un calderone vuoto;
+- un secchio vuoto può prelevare il siero soltanto da un calderone pieno;
+- non si possono usare secchio o bottiglia del calderone per riversare siero nel
+  tank interno della Cheese Vat.
 
-Dettagli ancora aperti:
+I **mB restano l'unità interna del serbatoio della Cheese Vat**. Il calderone è
+invece una meccanica discreta a livelli, come i calderoni vanilla.
 
-- corrispondenza tra i tre livelli del calderone e i mB;
-- interazioni precise con bottiglia e secchio;
-- block state / implementazione tecnica del calderone con siero;
-- texture/colore del contenuto;
-- comportamento dei drop e della sostituzione del blocco.
+Restano da definire soltanto:
 
-Questi punti devono essere definiti prima dell'implementazione del calderone con
-siero.
+- implementazione tecnica/block state;
+- texture e colore del siero nel calderone;
+- comportamento preciso in caso di sostituzione/rottura del blocco.
 
 ## 7. Decisioni ancora aperte
 
 Non sono ancora stati fissati:
 
-- ricetta e forma definitiva della panna;
+- ricetta di produzione della ciotola di panna;
 - modalità di ottenimento della coltura erborinata;
-- ricetta del Laccio per Formaggi;
-- produzione esatta del sidro e dell'aceto nel Brewing Barrel;
+- produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
 - quantità, tempi e valori nutritivi dei nuovi formaggi;
 - tempi e regole della stagionatura/asciugatura;
-- quantità/livelli del siero nei calderoni;
+- texture e implementazione tecnica del siero nei calderoni;
 - dettagli finali della ricetta della ricotta;
 - nomi definitivi di registrazione per gli item non ancora implementati.
 

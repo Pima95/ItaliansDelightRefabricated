@@ -59,7 +59,7 @@ restano estensioni da valutare successivamente.
 | Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
 | Gorgonzola | Cagliata + sale + coltura erborinata → forma fresca → stagionatura | Da implementare |
 | Provolone | Cagliata + sale + acqua → forma fresca → stagionatura → fette | Da implementare |
-| Scamorza | Cagliata + sale + filo/spago → scamorza fresca → breve asciugatura; possibile variante affumicata | Da implementare |
+| Scamorza | Cagliata + sale → scamorza fresca usando `minecraft:lead` nello slot contenitore → breve asciugatura; possibile variante affumicata | Da implementare |
 | Burrata | Mozzarella + panna → burrata; prodotto fresco senza stagionatura | Da implementare |
 | Mascarpone | Panna + ingrediente acido → mascarpone nella Cheese Vat | Da implementare |
 
@@ -109,8 +109,10 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 - [x] Prevedere panna come intermedio comune per Burrata e Mascarpone.
 - [x] Distinguere Parmigiano e Pecorino anche per origine del latte, prevedendo
       latte di pecora per il Pecorino.
-- [ ] Definire esattamente ingredienti/contenitori ancora aperti, in particolare
-      coltura erborinata, filo/spago e ingrediente acido del Mascarpone.
+- [ ] Definire esattamente gli ingredienti ancora aperti, in particolare la
+      coltura erborinata e la ricetta della panna. Per la Scamorza si usa
+      `minecraft:lead` nello slot contenitore; per il Mascarpone si usa aceto
+      di mele, la cui produzione resta nel branch dedicato al vino/barile.
 - [ ] Definire rese, tempi di lavorazione, tempi di stagionatura/asciugatura,
       valori nutritivi e quantità ottenute dalle porzionature.
 - [ ] Definire capacità, interazioni, condizioni e recupero delle forme del
