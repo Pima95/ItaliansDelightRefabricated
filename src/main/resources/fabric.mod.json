@@ -16,13 +16,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.piergiuseppe.italiansdelight.ItaliansDelight"
+      "dev.italiansdelight.ItaliansDelight"
     ],
     "client": [
-      "com.piergiuseppe.italiansdelight.ItaliansDelightClient"
+      "dev.italiansdelight.ItaliansDelightClient"
     ],
     "jei_mod_plugin": [
-      "com.piergiuseppe.italiansdelight.integration.jei.ItaliansDelightJeiPlugin"
+      "dev.italiansdelight.integration.jei.ItaliansDelightJeiPlugin"
     ]
   },
   "mixins": [

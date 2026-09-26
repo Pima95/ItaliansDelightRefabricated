@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.piergiuseppe.italiansdelight.mixin",
+  "package": "dev.italiansdelight.mixin",
   "mixins": [
     "LevelMixin"
   ],

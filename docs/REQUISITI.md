@@ -120,7 +120,7 @@ in `client`, le integrazioni esterne in `integration` e i mixin nel package
 
 ```text
 src/main/
-├── java/com/piergiuseppe/italiansdelight/
+├── java/dev/italiansdelight/
 │   ├── ItaliansDelight.java
 │   ├── ItaliansDelightClient.java
 │   ├── client/
