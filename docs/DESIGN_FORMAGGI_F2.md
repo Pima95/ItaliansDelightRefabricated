@@ -67,8 +67,13 @@ Sono previsti entrambi:
 - `italiansdelight:sheep_milk_bottle`
 
 La bottiglia di latte di pecora deve essere l'equivalente della Milk Bottle di
-Farmer's Delight Refabricated. Il latte di pecora è la materia prima
-caratterizzante del Pecorino Romano.
+Farmer's Delight Refabricated. Sia il secchio sia la bottiglia devono essere
+compatibili con il tag del latte usato dalla Cheese Vat
+(`#c:drinks/milk`), così possono essere impiegati nelle lavorazioni generiche
+come cagliata e panna.
+
+Il latte di pecora resta comunque la materia prima caratterizzante del Pecorino
+Romano, la cui ricetta dovrà richiedere specificamente latte di pecora.
 
 ### Panna
 
@@ -77,15 +82,42 @@ La panna è un intermedio comune per almeno:
 - Burrata;
 - Mascarpone.
 
-La panna viene rappresentata come **ciotola di panna**. La ricetta esatta di
-produzione è ancora da definire. Quando viene consumata come ingrediente, la
-ciotola deve essere restituita secondo le normali regole dei contenitori.
+La panna viene rappresentata come **ciotola di panna**.
+
+La Cheese Vat usa una sola ricetta generica per il latte:
+
+```text
+#c:drinks/milk
++ ciotola nello slot contenitore
+↓ Cheese Vat
+Ciotola di panna
+```
+
+Non esistono ricette o rese differenti tra secchio e bottiglia di latte: il
+giocatore può usare qualunque item compatibile con il tag
+`#c:drinks/milk`, compresi i futuri contenitori di latte di pecora.
+
+Il contenitore del latte usato come ingrediente viene restituito secondo le sue
+normali regole di remainder. La ciotola nello slot contenitore viene invece
+consumata per confezionare la panna.
+
+Quando la ciotola di panna viene successivamente usata come ingrediente, la
+ciotola vuota deve essere restituita.
+
+La produzione della panna **non produce siero** e non viene bloccata da un
+serbatoio del siero pieno.
 
 ### Coltura erborinata
 
 È un nuovo ingrediente necessario per la produzione del Gorgonzola.
 
-La modalità di ottenimento è ancora da definire.
+La coltura erborinata è un **item normale e craftabile**:
+
+- non è contenuta in una bottiglia;
+- non richiede uno slot contenitore;
+- viene consumata direttamente come ingrediente della Cheese Vat.
+
+La ricetta di crafting esatta resta da definire.
 
 ### Laccio per la Scamorza
 
@@ -243,8 +275,8 @@ Restano da definire soltanto:
 
 Non sono ancora stati fissati:
 
-- ricetta di produzione della ciotola di panna;
-- modalità di ottenimento della coltura erborinata;
+- tempo/resa finale della lavorazione della panna;
+- ricetta di crafting della coltura erborinata;
 - produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
 - quantità, tempi e valori nutritivi dei nuovi formaggi;
 - tempi e regole della stagionatura/asciugatura;
