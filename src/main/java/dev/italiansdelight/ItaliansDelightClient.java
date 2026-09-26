@@ -3,7 +3,11 @@ package dev.italiansdelight;
 import net.fabricmc.api.ClientModInitializer;
 
 import dev.italiansdelight.client.gui.CheeseVatScreen;
+import dev.italiansdelight.client.particle.WhiteBubblePopParticle;
 import dev.italiansdelight.common.registry.ModMenuTypes;
+import dev.italiansdelight.common.registry.ModParticles;
+
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 
@@ -20,6 +24,11 @@ public class ItaliansDelightClient implements ClientModInitializer {
         MenuScreens.register(
             ModMenuTypes.CHEESE_VAT,
             CheeseVatScreen::new
+        );
+
+        ParticleProviderRegistry.getInstance().register(
+            ModParticles.WHITE_BUBBLE_POP,
+            WhiteBubblePopParticle.Provider::new
         );
     }
 }

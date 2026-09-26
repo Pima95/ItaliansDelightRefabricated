@@ -9,6 +9,7 @@ import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.item.group.ModItemGroups;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModMenuTypes;
+import dev.italiansdelight.common.registry.ModParticles;
 import dev.italiansdelight.common.registry.ModRecipes;
 import dev.italiansdelight.common.registry.ModWorldGeneration;
 import dev.italiansdelight.common.salt.SaltCauldronManager;
@@ -37,6 +38,7 @@ public class ItaliansDelight implements ModInitializer {
         ModBlockEntities.register();
         ModMenuTypes.register();
         ModRecipes.register();
+        ModParticles.register();
         ModItemGroups.register();
         ModWorldGeneration.register();
 
