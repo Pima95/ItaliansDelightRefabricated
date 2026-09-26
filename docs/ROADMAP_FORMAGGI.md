@@ -74,9 +74,7 @@ accompagnano ciascuna implementazione, così ogni fase produce contenuti provabi
 
 ### F1 — Consolidare la filiera esistente
 
-**Stato:** implementazione pronta per la prova in gioco. Build riuscita e quattro
-verifiche automatiche della mod superate su server GameTest. La validazione
-manuale finale è descritta nella [checklist F1](TEST_FORMAGGI_F1.md).
+**Stato:** completo. La validazione manuale finale è descritta nella [checklist F1](TEST_FORMAGGI_F1.md).
 
 - [x] Restituire la bottiglia quando il caglio viene consumato come ingrediente.
 - [x] Verificare restituzione di secchi di latte/acqua e ciotola della cagliata.
@@ -84,7 +82,7 @@ manuale finale è descritta nella [checklist F1](TEST_FORMAGGI_F1.md).
       1,6 punti saturazione complessivi in entrambi i casi.
 - [x] Verificare lato server contenitore errato, output bloccato,
       perdita del calore e cambio di ricetta durante la lavorazione.
-- [ ] Verificare shift-click, persistenza dopo riavvio e comportamento alla
+- [x] Verificare shift-click, persistenza dopo riavvio e comportamento alla
       rottura in gioco. Lo shift-click è stato corretto; il salvataggio e
       ripristino del prodotto nel drop sono già verificati automaticamente.
 - [x] Sostituire la ricetta placeholder con allium: cardo selvatico
