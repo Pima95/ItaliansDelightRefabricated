@@ -23,13 +23,16 @@ Funzionalità già presenti nel codice, da sottoporre alle verifiche della fase 
 - [x] Mozzarella → quattro fette tramite Cutting Board.
 - [x] Produzione del sale tramite evaporazione nel calderone.
 
-Ricotta, parmigiano, pecorino e stagionatura sono ancora da implementare.
+Gli altri prodotti concordati e i sistemi di stagionatura/asciugatura sono ancora
+da implementare.
 
 ## 2. Perimetro e principi
 
 Il branch comprende ingredienti caseari, formaggi, caldaia, stagionatura,
 porzionatura, risorse grafiche, traduzioni, tag, JEI e progressione casearia.
-La selezione iniziale è mozzarella, ricotta, parmigiano e pecorino.
+La selezione concordata comprende mozzarella, bocconcini, ricotta, Parmigiano
+Reggiano, Pecorino Romano, Gorgonzola, Provolone, Scamorza, Burrata e
+Mascarpone.
 
 La caldaia rimane il punto di partenza della produzione. Il Cutting Board serve
 per le porzioni; un ripiano con forme visibili è la direzione prevista per la
@@ -47,12 +50,18 @@ restano estensioni da valutare successivamente.
 
 ## 3. Ruolo dei formaggi
 
-| Formaggio | Ruolo previsto | Lavorazione prevista | Stato |
-|---|---|---|---|
-| Mozzarella | Formaggio fresco di accesso alla filiera; ingrediente per futuri piatti e pizza | Caldaia → mozzarella → fette al tagliere | Base presente, da rifinire |
-| Ricotta | Secondo prodotto fresco, con una ricetta distinta dalla mozzarella | Produzione in caldaia; ingredienti e contenitore da definire | Da progettare |
-| Parmigiano | Formaggio stagionato destinato anche a porzioni per condire | Preparazione della forma → stagionatura → porzionatura | Da progettare |
-| Pecorino | Formaggio stagionato con identità produttiva e culinaria propria | Preparazione distinta → stagionatura → porzionatura | Da progettare |
+| Formaggio | Processo produttivo concordato | Stato |
+|---|---|---|
+| Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board | Base presente, da rifinire |
+| Bocconcini | Cagliata + acqua normale → bocconcini nella Cheese Vat; nessun item "acqua calda" | Da implementare |
+| Ricotta | La produzione della cagliata recupera anche il siero; siero + una piccola quantità di latte → ricotta nella Cheese Vat | Da implementare |
+| Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
+| Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
+| Gorgonzola | Cagliata + sale + coltura erborinata → forma fresca → stagionatura | Da implementare |
+| Provolone | Cagliata + sale + acqua → forma fresca → stagionatura → fette | Da implementare |
+| Scamorza | Cagliata + sale + filo/spago → scamorza fresca → breve asciugatura; possibile variante affumicata | Da implementare |
+| Burrata | Mozzarella + panna → burrata; prodotto fresco senza stagionatura | Da implementare |
+| Mascarpone | Panna + ingrediente acido → mascarpone nella Cheese Vat | Da implementare |
 
 I nomi delle nuove registrazioni, le quantità, i tempi e i valori nutritivi
 saranno fissati nella fase F2. Gli identificatori dei contenuti esistenti vanno
@@ -90,23 +99,28 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 
 ### F2 — Definire ricette e progressione
 
-- [ ] Scrivere una tabella delle ricette con ingredienti, macchina, calore,
-      contenitori, risultati, rese, durata e usi di ogni nuovo prodotto.
-- [ ] Scegliere la filiera della ricotta e decidere se introdurre il siero.
-      La caldaia attuale gestisce un solo prodotto per ricetta: un eventuale
-      sottoprodotto richiede di progettare anche raccolta, GUI e JEI.
-- [ ] Definire una differenza concreta tra parmigiano e pecorino nella
-      produzione e negli impieghi. Decidere se il latte resta condiviso o se
-      serve una provenienza distinta, valutandone il costo di implementazione.
-- [ ] Evitare ricette ambigue: nella stessa macchina, combinazioni di
-      ingredienti equivalenti non devono selezionare formaggi diversi per caso.
-- [ ] Scegliere porzioni, eventuale formaggio grattugiato, valori nutritivi e
-      possibili bonus della lavorazione, mantenendo sotto controllo le rese.
-- [ ] Definire capacità, interazioni, tempi, condizioni e recupero delle forme
-      del ripiano di stagionatura, risolvendo le decisioni della sezione 5.
+- [x] Scegliere il catalogo di prodotti: mozzarella, bocconcini, ricotta,
+      Parmigiano Reggiano, Pecorino Romano, Gorgonzola, Provolone, Scamorza,
+      Burrata e Mascarpone.
+- [x] Definire la struttura generale dei processi produttivi riportata nella
+      sezione 3.
+- [x] Stabilire che i bocconcini usano acqua normale: non viene introdotto un
+      item separato per l'acqua calda.
+- [x] Introdurre il siero come recupero della lavorazione della cagliata e
+      riutilizzarlo nella filiera della ricotta.
+- [x] Prevedere panna come intermedio comune per Burrata e Mascarpone.
+- [x] Distinguere Parmigiano e Pecorino anche per origine del latte, prevedendo
+      latte di pecora per il Pecorino.
+- [ ] Definire esattamente ingredienti/contenitori ancora aperti, in particolare
+      coltura erborinata, filo/spago e ingrediente acido del Mascarpone.
+- [ ] Definire rese, tempi di lavorazione, tempi di stagionatura/asciugatura,
+      valori nutritivi e quantità ottenute dalle porzionature.
+- [ ] Definire capacità, interazioni, condizioni e recupero delle forme del
+      sistema di stagionatura/asciugatura.
 
-**Completamento:** ogni formaggio ha una catena ottenibile con gli ingredienti
-previsti, un ruolo distinto e regole sufficienti per implementare F3–F5.
+**Completamento:** ogni prodotto ha una catena definita, senza ambiguità, con
+ingredienti, rese, tempi, porzioni e regole di stagionatura sufficienti per
+l'implementazione.
 
 ### F3 — Completare i formaggi freschi
 
@@ -188,7 +202,7 @@ dell'implementazione della fase interessata.
 
 ## 6. Estensioni successive
 
-Gorgonzola, provolone, scamorza, burrata, affumicatura, fermenti dedicati e nuove
-fonti di latte potranno essere valutati dopo il completamento della selezione
-iniziale. La struttura delle ricette e della stagionatura dovrà consentire
-l'aggiunta di altre varietà senza duplicare la logica di base.
+Altri formaggi italiani oltre ai dieci prodotti già concordati potranno essere
+valutati dopo il completamento della filiera principale. La struttura delle
+ricette e della stagionatura dovrà consentire nuove varietà senza duplicare la
+logica di base.
