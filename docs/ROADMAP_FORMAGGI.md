@@ -109,10 +109,10 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 - [x] Prevedere panna come intermedio comune per Burrata e Mascarpone.
 - [x] Distinguere Parmigiano e Pecorino anche per origine del latte, prevedendo
       latte di pecora per il Pecorino.
-- [ ] Definire gli ultimi dettagli degli ingredienti: la panna usa una sola
+- [x] Definire gli ingredienti intermedi principali: la panna usa una sola
       ricetta con `#c:drinks/milk` e ciotola, senza differenze tra secchio e
-      bottiglia; la coltura erborinata è un item craftabile senza contenitore
-      ma la sua ricetta resta da scegliere. Per la Scamorza si usa
+      bottiglia; la coltura erborinata è un item craftabile shapeless da
+      `minecraft:bread` + `#c:mushrooms`. Per la Scamorza si usa
       `minecraft:lead` nello slot contenitore; per il Mascarpone si usa aceto
       di mele, la cui produzione resta nel branch dedicato al vino/barile.
 - [ ] Definire rese, tempi di lavorazione, tempi di stagionatura/asciugatura,

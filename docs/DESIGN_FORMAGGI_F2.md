@@ -117,7 +117,17 @@ La coltura erborinata è un **item normale e craftabile**:
 - non richiede uno slot contenitore;
 - viene consumata direttamente come ingrediente della Cheese Vat.
 
-La ricetta di crafting esatta resta da definire.
+Ricetta shapeless concordata:
+
+```text
+1x minecraft:bread
++ 1x #c:mushrooms
+→ 1x Coltura Erborinata
+```
+
+Si usa il tag comune `#c:mushrooms`, così sono validi i funghi vanilla
+(`minecraft:red_mushroom` e `minecraft:brown_mushroom`) e gli eventuali
+funghi aggiunti da altre mod compatibili con lo stesso tag.
 
 ### Laccio per la Scamorza
 
@@ -276,7 +286,7 @@ Restano da definire soltanto:
 Non sono ancora stati fissati:
 
 - tempo/resa finale della lavorazione della panna;
-- ricetta di crafting della coltura erborinata;
+
 - produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
 - quantità, tempi e valori nutritivi dei nuovi formaggi;
 - tempi e regole della stagionatura/asciugatura;
