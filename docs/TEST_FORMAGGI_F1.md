@@ -47,7 +47,7 @@ naturale riguarda soltanto nuovi chunk di `plains`, `sunflower_plains` e
 - [X] **Output pieno:** riempire lo slot con il prodotto fino al limite dello
       stack e avviare un altro ciclo. Gli ingredienti non devono essere
       consumati finché non si libera spazio. Provare anche con un prodotto
-      diverso rimasto nell'output. DA SISTEMARE (dettagli sotto)
+      diverso rimasto nell'output. DA RITESTARE DOPO LA CORREZIONE DEL BUFFER.
 - [X] **Cambio ricetta e calore:** avviare una mozzarella, poi sostituire gli
       ingredienti con cardo e acqua. La nuova lavorazione deve partire da zero.
       Ingredienti non validi azzerano il progresso; spegnere il calore o
@@ -68,19 +68,36 @@ naturale riguarda soltanto nuovi chunk di `plains`, `sunflower_plains` e
 - [X] **JEI e mondo:** controllare la nuova ricetta del caglio, le altre due
       ricette e le traduzioni; cercare cardo nei biomi previsti in chunk nuovi.
 
-## Da sistemare / aggiunte suggerite
+## Correzioni implementate da verificare
 
-- [ ] Mofificare il nome "Rennet" in "Bottle of Rennet" con relative traduzioni;
-- [ ] Rendere la pianta cardoon piazzabile in un pot;
-- [ ] Le ricette della caldaia non danno XP;
-- [ ] Interagendo con il contenitore corretto, se un crafting è stato completato senza aver messo il contenitore, si ottiene il prodotto finito;
-- [ ] Permettere la creazione della "Bottle of Rennet" anche con le ampolle di acqua, non solo i secchi;
-- [ ] Aumentare tempo di rottura della caldaia;
-- [ ] Controllare particelle dottura calderone e caladia: sono troppe rispetto agli altri blocchi;
-- [ ] Limitare stack di "Bottle of Renent" a 16
-- [ ] Se si sta producendo un prodotto che richiede un contenitore e il contenitore non è presente viene bloccata la produzione dopo che un elemento è presente in preview... NO: gli item in preview devono esere stakabili fino al loro massimo, poi la produzione viene direttamente interrotta;
-- [ ] Calderone posizionato sopra un campfire non visualizza un supporto, vedi cooking pot sopra un calderone: viene messo un supporto;
-- [ ] Modificare spawn di Cardoon: ridurre del 40% lo spawn rate della pianta (adesso spawna quasi con la stessa frequenza dei fiori normali, non va bene), creare dei gruppi di piante più grandi del 7%.
+Le richieste seguenti sono ora presenti nel codice del branch, ma restano aperte
+finché non vengono provate con una nuova build e in gioco.
+
+- [ ] Il nome del caglio è **Bottle of Rennet** / **Bottiglia di Caglio**.
+- [ ] Il cardo può essere inserito in un vaso da fiori e viene recuperato
+      correttamente insieme al vaso quando viene rotto.
+- [ ] Le ricette della caldaia accumulano esperienza e la rilasciano alla
+      raccolta del prodotto o alla rimozione della caldaia.
+- [ ] Con un prodotto già cotto in preview, usare direttamente il contenitore
+      corretto sulla caldaia deve consumare il contenitore e consegnare una
+      singola porzione senza aprire obbligatoriamente la GUI.
+- [ ] La Bottle of Rennet può essere prodotta sia con un secchio d'acqua sia
+      con una pozione d'acqua; l'ampolla vuota viene restituita.
+- [ ] La caldaia richiede più tempo per essere rotta rispetto alla versione
+      precedente.
+- [ ] Le particelle di rottura della caldaia usano una texture dedicata simile
+      alla superficie interna; la shape è cava per evitare una quantità
+      eccessiva di particelle.
+- [ ] La Bottle of Rennet ha stack massimo 16.
+- [ ] I prodotti che richiedono un contenitore continuano ad accumularsi nella
+      preview fino al limite massimo dello stack; solo a quel punto la produzione
+      si interrompe. L'output occupato non deve impedire questo accumulo.
+- [ ] Sopra le fonti incluse in `farmersdelight:tray_heat_sources`, incluso il
+      campfire, la caldaia mostra il supporto/vassoio come il Cooking Pot.
+- [ ] Senza calore la superficie interna usa l'aspetto scuro del fondo del
+      calderone; con calore torna alla superficie chiara della caldaia.
+- [ ] Lo spawn del cardo è ridotto rispetto alla prima implementazione e le
+      generazioni valide formano gruppi più consistenti.
 
 ## Regole di recupero
 
