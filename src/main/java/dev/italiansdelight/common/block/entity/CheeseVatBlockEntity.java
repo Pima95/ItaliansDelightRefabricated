@@ -372,7 +372,7 @@ public class CheeseVatBlockEntity
     public void awardExperience() {
         if (level instanceof ServerLevel serverLevel && storedExperience > 0.0F) {
             int amount = (int) storedExperience;
-            if (serverLevel.random.nextFloat() < storedExperience - amount) {
+            if (serverLevel.getRandom().nextFloat() < storedExperience - amount) {
                 amount++;
             }
             storedExperience = 0.0F;
