@@ -73,31 +73,32 @@ naturale riguarda soltanto nuovi chunk di `plains`, `sunflower_plains` e
 Le richieste seguenti sono ora presenti nel codice del branch, ma restano aperte
 finché non vengono provate con una nuova build e in gioco.
 
-- [ ] Il nome del caglio è **Bottle of Rennet** / **Bottiglia di Caglio**.
-- [ ] Il cardo può essere inserito in un vaso da fiori e viene recuperato
+- [X] Il nome del caglio è **Bottle of Rennet** / **Bottiglia di Caglio**.
+- [X] Il cardo può essere inserito in un vaso da fiori e viene recuperato
       correttamente insieme al vaso quando viene rotto.
-- [ ] Le ricette della caldaia accumulano esperienza e la rilasciano alla
+- [X] Le ricette della caldaia accumulano esperienza e la rilasciano alla
       raccolta del prodotto o alla rimozione della caldaia.
-- [ ] Con un prodotto già cotto in preview, usare direttamente il contenitore
+- [X] Con un prodotto già cotto in preview, usare direttamente il contenitore
       corretto sulla caldaia deve consumare il contenitore e consegnare una
       singola porzione senza aprire obbligatoriamente la GUI.
-- [ ] La Bottle of Rennet può essere prodotta sia con un secchio d'acqua sia
+- [X] La Bottle of Rennet può essere prodotta sia con un secchio d'acqua sia
       con una pozione d'acqua; l'ampolla vuota viene restituita.
-- [ ] La caldaia richiede più tempo per essere rotta rispetto alla versione
+- [X] La caldaia richiede più tempo per essere rotta rispetto alla versione
       precedente.
 - [ ] Le particelle di rottura della caldaia usano una texture dedicata simile
       alla superficie interna; la shape è cava per evitare una quantità
-      eccessiva di particelle.
-- [ ] La Bottle of Rennet ha stack massimo 16.
-- [ ] I prodotti che richiedono un contenitore continuano ad accumularsi nella
+      eccessiva di particelle. -> Non hai capito cosa intendevo, le particelle di rottura dovevano essere diminuite ma non cambiate di colore (non sono diminuite affatto), le particelle del colore interno le volevo come delle particelle che uscissero dal calderone mentre fosse riscaldato
+- [X] La Bottle of Rennet ha stack massimo 16.
+- [X] I prodotti che richiedono un contenitore continuano ad accumularsi nella
       preview fino al limite massimo dello stack; solo a quel punto la produzione
       si interrompe. L'output occupato non deve impedire questo accumulo.
-- [ ] Sopra le fonti incluse in `farmersdelight:tray_heat_sources`, incluso il
+- [X] Sopra le fonti incluse in `farmersdelight:tray_heat_sources`, incluso il
       campfire, la caldaia mostra il supporto/vassoio come il Cooking Pot.
-- [ ] Senza calore la superficie interna usa l'aspetto scuro del fondo del
+- [X] Senza calore la superficie interna usa l'aspetto scuro del fondo del
       calderone; con calore torna alla superficie chiara della caldaia.
-- [ ] Lo spawn del cardo è ridotto rispetto alla prima implementazione e le
+- [X] Lo spawn del cardo è ridotto rispetto alla prima implementazione e le
       generazioni valide formano gruppi più consistenti.
+- [ ] Gli scarti di produzione (bottiche, secchi, ciotole) rimangono dentro al calderone, sistema
 
 ## Regole di recupero
 
