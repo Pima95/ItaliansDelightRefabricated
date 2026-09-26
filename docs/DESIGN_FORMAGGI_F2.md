@@ -309,14 +309,55 @@ Restano da definire soltanto:
 - texture e colore del siero nel calderone;
 - comportamento preciso in caso di sostituzione/rottura del blocco.
 
-## 7. Decisioni ancora aperte
+## 7. Consumabilità degli item
+
+In questa fase si stabilisce soltanto **quali item possono essere consumati**.
+I valori di fame e saturazione verranno bilanciati successivamente.
+
+| Item | Consumabile | Regola |
+|---|---:|---|
+| Mozzarella | Sì | Formaggio fresco consumabile anche intero |
+| Mozzarella Slice | Sì | Porzione diretta |
+| Bocconcini | Sì | Piccole porzioni già pronte |
+| Ricotta | Sì | Servita in ciotola |
+| Burrata | Sì | Formaggio fresco consumabile direttamente |
+| Mascarpone | Sì | Servito in ciotola |
+| Cream Bowl | Sì | Panna in ciotola, anche se usata soprattutto come ingrediente |
+| Curd | Sì | La cagliata resta consumabile |
+| Parmigiano Reggiano — forma intera | No | Deve essere porzionata |
+| Parmigiano Reggiano — porzione/spicchio | Sì | Porzione mangiabile |
+| Parmigiano Reggiano grattugiato | No | Ingrediente culinario |
+| Pecorino Romano — forma intera | No | Deve essere porzionata |
+| Pecorino Romano — porzione/spicchio | Sì | Porzione mangiabile |
+| Pecorino Romano grattugiato | No | Ingrediente culinario |
+| Gorgonzola — forma intera | No | Forma da stagionatura |
+| Gorgonzola — porzione/spicchio | Sì | Porzione mangiabile |
+| Provolone — forma intera | No | Forma da stagionatura |
+| Provolone Slice | Sì | Porzione mangiabile |
+| Scamorza intera | Sì | La forma è considerata una porzione consumabile |
+| Scamorza affumicata intera | Sì | Come la Scamorza normale |
+| Fresh Scamorza | No | Prodotto intermedio prima dell'asciugatura |
+| Sheep Milk Bottle | Sì | Bevibile come equivalente della Milk Bottle |
+| Sheep Milk Bucket | Sì | Bevibile come il secchio di latte vanilla e rimuove gli effetti attivi |
+| Whey Bottle | No | Risorsa di lavorazione |
+| Whey Bucket | No | Risorsa di lavorazione |
+| Blue Mold Culture | No | Ingrediente tecnico |
+| Rennet | No | Ingrediente tecnico |
+| Salt | No | Ingrediente |
+| Apple Cider Vinegar | No | Ingrediente |
+
+Regola generale: le **forme grandi destinate a stagionatura o porzionatura non
+sono cibo diretto**; le porzioni, i formaggi freschi e i prodotti serviti in
+ciotola possono invece avere proprietà alimentari.
+
+## 8. Decisioni ancora aperte
 
 Non sono ancora stati fissati:
 
 - tempo/resa finale della lavorazione della panna;
 
 - produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
-- quantità, tempi e valori nutritivi dei nuovi formaggi;
+- quantità, tempi e valori di fame/saturazione degli item già definiti come consumabili;
 - tempi e regole della stagionatura/asciugatura;
 - texture e implementazione tecnica del siero nei calderoni;
 - nomi definitivi di registrazione per gli item non ancora implementati.
