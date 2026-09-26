@@ -85,9 +85,10 @@ finché non vengono provate con una nuova build e in gioco.
       con una pozione d'acqua; l'ampolla vuota viene restituita.
 - [X] La caldaia richiede più tempo per essere rotta rispetto alla versione
       precedente.
-- [ ] Le particelle di rottura della caldaia usano una texture dedicata simile
-      alla superficie interna; la shape è cava per evitare una quantità
-      eccessiva di particelle. -> Non hai capito cosa intendevo, le particelle di rottura dovevano essere diminuite ma non cambiate di colore (non sono diminuite affatto), le particelle del colore interno le volevo come delle particelle che uscissero dal calderone mentre fosse riscaldato
+- [ ] **Particelle:** da ritestare. Le particelle di rottura mantengono il
+      normale colore metallico del calderone ma vengono generate in quantità
+      ridotta. Quando la caldaia è riscaldata, dalla superficie interna salgono
+      invece leggere particelle color crema simili al contenuto caldo.
 - [X] La Bottle of Rennet ha stack massimo 16.
 - [X] I prodotti che richiedono un contenitore continuano ad accumularsi nella
       preview fino al limite massimo dello stack; solo a quel punto la produzione
@@ -98,7 +99,9 @@ finché non vengono provate con una nuova build e in gioco.
       calderone; con calore torna alla superficie chiara della caldaia.
 - [X] Lo spawn del cardo è ridotto rispetto alla prima implementazione e le
       generazioni valide formano gruppi più consistenti.
-- [ ] Gli scarti di produzione (bottiche, secchi, ciotole) rimangono dentro al calderone, sistema
+- [ ] **Scarti di produzione:** da ritestare. Bottiglie, secchi e ciotole
+      vengono ora generati oltre il bordo laterale della caldaia con una spinta
+      orizzontale maggiore, così non dovrebbero ricadere al suo interno.
 
 ## Regole di recupero
 

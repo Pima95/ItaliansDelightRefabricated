@@ -9,6 +9,7 @@ import dev.italiansdelight.common.registry.ModBlockEntities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
@@ -47,6 +48,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * heat visuals, Farmer's Delight tray support, and the linked BlockEntity.
  */
 public class CheeseVatBlock extends BaseEntityBlock {
+
+    // Warm, pale color sampled to visually match the vat's heated inner surface.
+    private static final int HEATED_PARTICLE_COLOR = 0xE6E1D2;
 
     public static final EnumProperty<Direction> FACING =
         BlockStateProperties.HORIZONTAL_FACING;
@@ -290,6 +294,33 @@ public class CheeseVatBlock extends BaseEntityBlock {
         }
 
         return drops;
+    }
+
+    @Override
+    public void animateTick(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        RandomSource random
+    ) {
+        if (!state.getValue(HEATED) || random.nextFloat() >= 0.18F) {
+            return;
+        }
+
+        double x = pos.getX() + 0.28D + random.nextDouble() * 0.44D;
+        double y = pos.getY() + 0.96D;
+        double z = pos.getZ() + 0.28D + random.nextDouble() * 0.44D;
+        double upwardSpeed = 0.015D + random.nextDouble() * 0.015D;
+
+        level.addParticle(
+            new DustParticleOptions(HEATED_PARTICLE_COLOR, 0.55F),
+            x,
+            y,
+            z,
+            0.0D,
+            upwardSpeed,
+            0.0D
+        );
     }
 
     @Override

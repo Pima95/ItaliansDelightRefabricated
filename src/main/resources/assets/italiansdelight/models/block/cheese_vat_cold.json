@@ -2,6 +2,6 @@
   "parent": "italiansdelight:block/cheese_vat",
   "textures": {
     "milk": "minecraft:block/cauldron_inner",
-    "particle": "italiansdelight:block/cheese_vat_particle"
+    "particle": "minecraft:block/cauldron_side"
   }
 }

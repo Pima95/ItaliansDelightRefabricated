@@ -13,6 +13,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -38,6 +40,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
 import vectorwing.farmersdelight.common.block.entity.HeatableBlockEntity;
@@ -385,6 +388,26 @@ public class CheeseVatBlockEntity
 
     @Override
     public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        if (level instanceof ServerLevel serverLevel) {
+            // Vanilla terrain particles are disabled for the vat itself so we
+            // can emit a smaller burst. Use vanilla cauldron particles to keep
+            // the normal dark metal color instead of the heated inner color.
+            serverLevel.sendParticles(
+                new BlockParticleOption(
+                    ParticleTypes.BLOCK,
+                    Blocks.CAULDRON.defaultBlockState()
+                ),
+                pos.getX() + 0.5D,
+                pos.getY() + 0.55D,
+                pos.getZ() + 0.5D,
+                10,
+                0.35D,
+                0.30D,
+                0.35D,
+                0.08D
+            );
+        }
+
         awardExperience();
         super.preRemoveSideEffects(pos, state);
     }
@@ -470,7 +493,7 @@ public class CheeseVatBlockEntity
         double x =
             worldPosition.getX()
                 + 0.5D
-                + direction.getStepX() * 0.25D;
+                + direction.getStepX() * 0.85D;
 
         double y =
             worldPosition.getY()
@@ -479,7 +502,7 @@ public class CheeseVatBlockEntity
         double z =
             worldPosition.getZ()
                 + 0.5D
-                + direction.getStepZ() * 0.25D;
+                + direction.getStepZ() * 0.85D;
 
         ItemUtils.spawnItemEntity(
             level,
@@ -487,9 +510,9 @@ public class CheeseVatBlockEntity
             x,
             y,
             z,
-            direction.getStepX() * 0.08D,
-            0.25D,
-            direction.getStepZ() * 0.08D
+            direction.getStepX() * 0.16D,
+            0.18D,
+            direction.getStepZ() * 0.16D
         );
     }
 

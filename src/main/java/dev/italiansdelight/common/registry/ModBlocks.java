@@ -56,6 +56,7 @@ public final class ModBlocks {
                 .ofFullCopy(Blocks.IRON_BLOCK)
                 .setId(CHEESE_VAT_KEY)
                 .noOcclusion()
+                .noParticlesOnBreak()
                 .strength(5.0F, 6.0F)
         )
     );
