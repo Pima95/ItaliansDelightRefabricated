@@ -2,7 +2,7 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
-    "particle": "minecraft:block/cauldron_side",
+    "particle": "italiansdelight:block/cheese_vat_particle",
     "top": "minecraft:block/cauldron_top",
     "bottom": "minecraft:block/cauldron_bottom",
     "side": "minecraft:block/cauldron_side",
