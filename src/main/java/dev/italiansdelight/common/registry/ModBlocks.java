@@ -11,6 +11,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 
 /**
  * Central registry for mod blocks and their BlockItems when they need to be placeable from the inventory.
@@ -31,6 +32,16 @@ public final class ModBlocks {
         new CardoonBlock(Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(CARDOON_KEY))
     );
 
+    public static final ResourceKey<Block> POTTED_CARDOON_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("potted_cardoon")
+    );
+
+    public static final Block POTTED_CARDOON = registerBlockOnly(
+        POTTED_CARDOON_KEY,
+        new FlowerPotBlock(CARDOON,
+            Block.Properties.ofFullCopy(Blocks.POTTED_ALLIUM).setId(POTTED_CARDOON_KEY))
+    );
+
     // Cheese Vat Block
     public static final ResourceKey<Block> CHEESE_VAT_KEY =
         ResourceKey.create(
@@ -45,7 +56,7 @@ public final class ModBlocks {
                 .ofFullCopy(Blocks.IRON_BLOCK)
                 .setId(CHEESE_VAT_KEY)
                 .noOcclusion()
-                .strength(2.0F, 6.0F)
+                .strength(5.0F, 6.0F)
         )
     );
 

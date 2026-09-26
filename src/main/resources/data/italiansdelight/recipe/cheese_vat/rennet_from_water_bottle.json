@@ -1,0 +1,14 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "italiansdelight:cardoon",
+    {
+      "fabric:type": "fabric:components",
+      "base": "minecraft:potion",
+      "components": { "minecraft:potion_contents": { "potion": "minecraft:water" } }
+    }
+  ],
+  "container": { "id": "minecraft:glass_bottle", "count": 1 },
+  "result": { "id": "italiansdelight:rennet" },
+  "cookingtime": 100
+}

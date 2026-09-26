@@ -124,6 +124,14 @@ public class CheeseVatMenu extends AbstractContainerMenu {
                 public boolean mayPlace(ItemStack stack) {
                     return false;
                 }
+
+                @Override
+                public void onTake(Player player, ItemStack stack) {
+                    super.onTake(player, stack);
+                    if (CheeseVatMenu.this.container instanceof CheeseVatBlockEntity vat) {
+                        vat.awardExperience();
+                    }
+                }
             }
         );
 
@@ -276,6 +284,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             slot.setChanged();
         }
 
+        slot.onTake(player, copy.copyWithCount(copy.getCount() - stack.getCount()));
         return copy;
     }
 

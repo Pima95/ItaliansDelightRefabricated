@@ -46,7 +46,11 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
                 Codec.INT
                     .optionalFieldOf("cookingtime", 200)
-                    .forGetter(CheeseVatRecipe::getCookingTime)
+                    .forGetter(CheeseVatRecipe::getCookingTime),
+
+                Codec.floatRange(0.0F, Float.MAX_VALUE)
+                    .optionalFieldOf("experience", 1.0F)
+                    .forGetter(CheeseVatRecipe::getExperience)
             ).apply(instance, CheeseVatRecipe::new)
         );
 
@@ -68,17 +72,20 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     private final ItemStackTemplate result;
     private final Optional<ItemStackTemplate> container;
     private final int cookingTime;
+    private final float experience;
 
     public CheeseVatRecipe(
         List<Ingredient> ingredients,
         ItemStackTemplate result,
         Optional<ItemStackTemplate> container,
-        int cookingTime
+        int cookingTime,
+        float experience
     ) {
         this.ingredients = List.copyOf(ingredients);
         this.result = result;
         this.container = container;
         this.cookingTime = cookingTime;
+        this.experience = experience;
     }
 
     public List<Ingredient> getIngredientsList() {
@@ -95,6 +102,10 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
     public int getCookingTime() {
         return cookingTime;
+    }
+
+    public float getExperience() {
+        return experience;
     }
 
     /**
@@ -258,12 +269,14 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
                 .decode(buffer);
 
         int cookingTime = buffer.readVarInt();
+        float experience = buffer.readFloat();
 
         return new CheeseVatRecipe(
             ingredients,
             result,
             container,
-            cookingTime
+            cookingTime,
+            experience
         );
     }
 
@@ -285,5 +298,6 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
             .encode(buffer, recipe.container);
 
         buffer.writeVarInt(recipe.cookingTime);
+        buffer.writeFloat(recipe.experience);
     }
 }

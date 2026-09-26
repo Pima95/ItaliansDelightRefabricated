@@ -22,11 +22,13 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -35,6 +37,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.Vec3;
 
 import vectorwing.farmersdelight.common.block.entity.HeatableBlockEntity;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
@@ -76,6 +80,8 @@ public class CheeseVatBlockEntity
     private int cookTime = 0;
     private int cookTimeTotal = 200;
     private ResourceKey<Recipe<?>> cookingRecipe;
+    private int pendingBatchSize = 1;
+    private float storedExperience;
 
     private final RecipeManager.CachedCheck<
         CheeseVatRecipeInput,
@@ -113,11 +119,14 @@ public class CheeseVatBlockEntity
         BlockState state,
         CheeseVatBlockEntity cheeseVat
     ) {
-        // Packaging a cooked serving does not need heat or recipe inputs.
-        if (cheeseVat.hasPendingResult()) {
-            cheeseVat.tryFillContainer();
-            return;
+        boolean heated = cheeseVat.isHeated(level, pos);
+        if (state.getValue(CheeseVatBlock.HEATED) != heated) {
+            level.setBlock(pos, state.setValue(CheeseVatBlock.HEATED, heated), Block.UPDATE_CLIENTS);
         }
+
+        // Package existing servings first, then keep cooking while the buffer
+        // has room. Output space is independent of unbottled/unbowled food.
+        cheeseVat.tryFillContainer();
 
         CheeseVatRecipeInput input =
             cheeseVat.createRecipeInput();
@@ -144,7 +153,7 @@ public class CheeseVatBlockEntity
         CheeseVatRecipe cheeseVatRecipe =
             recipe.get().value();
 
-        if (!cheeseVat.isHeated(level, pos) || !cheeseVat.canCook(cheeseVatRecipe)) {
+        if (!heated || !cheeseVat.canCook(cheeseVatRecipe)) {
             cheeseVat.decreaseCookingProgress();
             return;
         }
@@ -197,9 +206,27 @@ public class CheeseVatBlockEntity
     private boolean canCook(
         CheeseVatRecipe recipe
     ) {
-        return canOutput(
-            recipe.assemble(createRecipeInput())
-        );
+        ItemStack result = recipe.assemble(createRecipeInput());
+        if (result.isEmpty() || result.getCount() > result.getMaxStackSize()) {
+            return false;
+        }
+
+        ItemStack required = recipe.getContainerTemplate()
+            .map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
+        if (required.isEmpty()) {
+            return !hasPendingResult() && canOutput(result);
+        }
+        if (!hasPendingResult()) {
+            return true;
+        }
+
+        ItemStack pending = items.get(PREVIEW_SLOT);
+        ItemStack pendingContainer = items.get(PENDING_CONTAINER_SLOT);
+        return ItemStack.isSameItemSameComponents(pending, result)
+            && ItemStack.isSameItemSameComponents(pendingContainer, required)
+            && pendingContainer.getCount() == required.getCount()
+            && pendingBatchSize == result.getCount()
+            && pending.getCount() + result.getCount() <= pending.getMaxStackSize();
     }
 
     private boolean canOutput(ItemStack result) {
@@ -251,6 +278,7 @@ public class CheeseVatBlockEntity
 
         TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
         ContainerHelper.saveAllItems(output, pendingItems);
+        output.putInt("PendingBatchSize", pendingBatchSize);
         BlockItem.setBlockEntityData(vatStack, getType(), output);
     }
 
@@ -265,7 +293,7 @@ public class CheeseVatBlockEntity
         int[] matchingSlots =
             recipe.findMatchingIngredientSlots(input);
 
-        if (matchingSlots == null || !canOutput(result)) {
+        if (matchingSlots == null || !canCook(recipe)) {
             cookTime = 0;
             setChanged();
             return;
@@ -279,34 +307,86 @@ public class CheeseVatBlockEntity
             consumeIngredient(slot);
         }
 
-        if (!required.isEmpty() && !hasRequiredContainer(required)) {
-            items.set(PREVIEW_SLOT, result.copy());
-            items.set(PENDING_CONTAINER_SLOT, required.copy());
-        } else {
-            if (!required.isEmpty()) {
-                consumeContainer(required);
-            }
+        if (required.isEmpty()) {
             addOutput(result);
+        } else {
+            if (hasPendingResult()) {
+                items.get(PREVIEW_SLOT).grow(result.getCount());
+            } else {
+                items.set(PREVIEW_SLOT, result.copy());
+                items.set(PENDING_CONTAINER_SLOT, required.copy());
+                pendingBatchSize = result.getCount();
+            }
+            tryFillContainer();
         }
 
+        storedExperience += recipe.getExperience();
         cookTime = 0;
         setChanged();
     }
 
     // Completes a pending result as soon as the required container becomes available.
     private void tryFillContainer() {
-        ItemStack pending = items.get(PREVIEW_SLOT);
-        ItemStack required = items.get(PENDING_CONTAINER_SLOT);
-
-        if (!hasRequiredContainer(required) || !canOutput(pending)) {
-            return;
+        while (hasPendingResult()) {
+            ItemStack pending = items.get(PREVIEW_SLOT);
+            ItemStack required = items.get(PENDING_CONTAINER_SLOT);
+            ItemStack serving = pending.copyWithCount(pendingBatchSize);
+            if (pending.getCount() < pendingBatchSize || !hasRequiredContainer(required)
+                || !canOutput(serving)) {
+                return;
+            }
+            consumeContainer(required);
+            addOutput(removePendingServing());
+            setChanged();
         }
+    }
 
-        consumeContainer(required);
-        addOutput(pending);
-        items.set(PREVIEW_SLOT, ItemStack.EMPTY);
-        items.set(PENDING_CONTAINER_SLOT, ItemStack.EMPTY);
+    private ItemStack removePendingServing() {
+        ItemStack serving = items.get(PREVIEW_SLOT).split(pendingBatchSize);
+        if (!hasPendingResult()) {
+            items.set(PREVIEW_SLOT, ItemStack.EMPTY);
+            items.set(PENDING_CONTAINER_SLOT, ItemStack.EMPTY);
+            pendingBatchSize = 1;
+        }
+        return serving;
+    }
+
+    /** Collect a single recipe batch with the container held in either hand. */
+    public ItemStack takeServing(ItemStack held, Player player) {
+        if (!hasPendingResult() || items.get(PREVIEW_SLOT).getCount() < pendingBatchSize) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack required = items.get(PENDING_CONTAINER_SLOT);
+        if (required.isEmpty() || !ItemStack.isSameItemSameComponents(held, required)
+            || held.getCount() < required.getCount()) {
+            return ItemStack.EMPTY;
+        }
+        held.consume(required.getCount(), player);
+        ItemStack serving = removePendingServing();
+        awardExperience();
         setChanged();
+        return serving;
+    }
+
+    /** Like a furnace, accumulate recipe XP until collection or block removal. */
+    public void awardExperience() {
+        if (level instanceof ServerLevel serverLevel && storedExperience > 0.0F) {
+            int amount = (int) storedExperience;
+            if (serverLevel.random.nextFloat() < storedExperience - amount) {
+                amount++;
+            }
+            storedExperience = 0.0F;
+            if (amount > 0) {
+                ExperienceOrb.award(serverLevel, Vec3.atCenterOf(worldPosition), amount);
+            }
+            setChanged();
+        }
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        awardExperience();
+        super.preRemoveSideEffects(pos, state);
     }
 
     private void consumeContainer(ItemStack required) {
@@ -356,6 +436,9 @@ public class CheeseVatBlockEntity
                     remainderStack
                 );
             }
+        } else if (stack.is(Items.POTION)) {
+            // Vanilla potions have a drinking remainder, not a crafting one.
+            ejectIngredientRemainder(new ItemStack(Items.GLASS_BOTTLE));
         }
 
         stack.shrink(1);
@@ -575,6 +658,8 @@ public class CheeseVatBlockEntity
     @Override
     public void clearContent() {
         items.clear();
+        pendingBatchSize = 1;
+        storedExperience = 0.0F;
         resetCookingProgress();
         setChanged();
     }
@@ -614,6 +699,10 @@ public class CheeseVatBlockEntity
             );
 
         cookingRecipe = input.read("CookingRecipe", Recipe.KEY_CODEC).orElse(null);
+        // Legacy saves held one whole batch in the preview.
+        pendingBatchSize = Math.max(1, input.getIntOr("PendingBatchSize",
+            items.get(PREVIEW_SLOT).getCount()));
+        storedExperience = Math.max(0.0F, input.getFloatOr("StoredExperience", 0.0F));
     }
 
     @Override
@@ -636,6 +725,8 @@ public class CheeseVatBlockEntity
         );
 
         output.storeNullable("CookingRecipe", Recipe.KEY_CODEC, cookingRecipe);
+        output.putInt("PendingBatchSize", pendingBatchSize);
+        output.putFloat("StoredExperience", storedExperience);
 
         super.saveAdditional(output);
     }

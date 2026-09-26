@@ -107,7 +107,7 @@ public final class ModItems {
                 RENNET_KEY,
                 new Item.Properties()
                         .craftRemainder(net.minecraft.world.item.Items.GLASS_BOTTLE)
-                        .stacksTo(64));
+                        .stacksTo(16));
 
         // Curd
         public static final ResourceKey<Item> CURD_KEY = ResourceKey.create(
