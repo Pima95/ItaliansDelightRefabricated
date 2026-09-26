@@ -96,7 +96,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
                 new Slot(
                     container,
                     i,
-                    16 + i * 18,
+                    17 + i * 18,
                     26
                 )
             );
@@ -107,7 +107,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             new Slot(
                 container,
                 CheeseVatBlockEntity.CONTAINER_SLOT,
-                78,
+                79,
                 55
             )
         );
@@ -117,7 +117,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             new Slot(
                 container,
                 CheeseVatBlockEntity.OUTPUT_SLOT,
-                110,
+                111,
                 55
             ) {
                 @Override
@@ -141,7 +141,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             new Slot(
                 new SimpleContainer(1),
                 0,
-                110,
+                111,
                 26
             ) {
                 @Override
