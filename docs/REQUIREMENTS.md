@@ -119,7 +119,7 @@ external integrations in `integration`, and mixins in the `mixin` package.
 
 ```text
 src/main/
-├── java/com/piergiuseppe/italiansdelight/
+├── java/dev/italiansdelight/
 │   ├── ItaliansDelight.java
 │   ├── ItaliansDelightClient.java
 │   ├── client/
