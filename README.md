@@ -140,11 +140,13 @@ status are documented here:
 
 - [**Requirements and Roadmap — English**](docs/REQUIREMENTS.md)
 - [**Requirements and Roadmap — Italian version**](docs/REQUISITI.md)
+- [**Cheese Roadmap — Italian**](docs/ROADMAP_FORMAGGI.md) — scope, implementation
+  phases, and completion criteria for `feature/cheeses`.
 
 Planned features include:
 
 - a complete pasta production chain;
-- additional cheeses and possible aging mechanics;
+- a complete dairy production chain with ricotta, parmesan, pecorino, and aging;
 - new crops and ingredients;
 - a wood-fired oven;
 - pizza;

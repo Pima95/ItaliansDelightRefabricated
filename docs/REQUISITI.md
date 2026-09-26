@@ -171,6 +171,10 @@ Le ricette che usano sistemi Farmer's Delight sono organizzate nelle cartelle
 
 ## 5. Stato della roadmap
 
+Il lavoro del branch `feature/cheeses` è dettagliato nella
+[roadmap formaggi](ROADMAP_FORMAGGI.md), con fasi, decisioni aperte e criteri di
+completamento.
+
 - [x] **Step 0 — Fondamenta progetto:** repository, Gradle, Fabric, entrypoint,
       registri principali e struttura risorse.
 - [x] **Step 1 — Prima macchina funzionale:** Cheese Vat completa di GUI,
@@ -186,8 +190,9 @@ Le ricette che usano sistemi Farmer's Delight sono organizzate nelle cartelle
 - [ ] **Step 5 — Filiera pasta completa:** definire produzione di impasto,
       pasta fresca/secca e nuovi piatti come cacio e pepe, carbonara,
       amatriciana e pesto.
-- [ ] **Step 6 — Formaggi avanzati:** parmigiano, pecorino e altri prodotti,
-      con eventuale meccanica di stagionatura.
+- [ ] **Step 6 — Filiera casearia completa:** consolidare la mozzarella,
+      aggiungere ricotta, parmigiano e pecorino e implementare la stagionatura;
+      seguire le fasi della [roadmap formaggi](ROADMAP_FORMAGGI.md).
 - [ ] **Step 7 — Forno a legna e pizza:** blocco funzionale dedicato,
       condimenti e sistema di cottura.
 - [ ] **Step 8 — Colture e ingredienti aggiuntivi:** decidere quali texture già

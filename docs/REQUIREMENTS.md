@@ -170,6 +170,10 @@ Recipes that use Farmer's Delight systems are organized under
 
 ## 5. Roadmap status
 
+Work on `feature/cheeses` is detailed in the
+[cheese roadmap (Italian)](ROADMAP_FORMAGGI.md), including phases, open decisions,
+and completion criteria.
+
 - [x] **Step 0 — Project foundation:** repository, Gradle, Fabric, entrypoints,
       main registries, and resource structure.
 - [x] **Step 1 — First functional machine:** Cheese Vat with GUI, custom
@@ -185,8 +189,9 @@ Recipes that use Farmer's Delight systems are organized under
 - [ ] **Step 5 — Complete pasta production chain:** define dough production,
       fresh/dried pasta, and new dishes such as cacio e pepe, carbonara,
       amatriciana, and pesto.
-- [ ] **Step 6 — Advanced cheeses:** parmesan, pecorino, and other products,
-      with a possible aging mechanic.
+- [ ] **Step 6 — Complete dairy production chain:** refine mozzarella, add
+      ricotta, parmesan, and pecorino, and implement aging; follow the phases in
+      the [cheese roadmap (Italian)](ROADMAP_FORMAGGI.md).
 - [ ] **Step 7 — Wood-fired oven and pizza:** dedicated functional block,
       toppings, and cooking system.
 - [ ] **Step 8 — Additional crops and ingredients:** decide which prepared
