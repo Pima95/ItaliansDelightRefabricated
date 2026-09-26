@@ -238,9 +238,12 @@ prelevare dal serbatoio interno.
 
 ### Ricotta
 
-La ricotta userà **500 mB di siero** quando il siero viene prelevato dal tank.
+La ricotta può soddisfare il requisito del siero in due modi.
 
-Schema:
+**Uso del serbatoio interno**
+
+Quando non viene usato un item di siero, la lavorazione consuma **500 mB** dal
+tank:
 
 ```text
 500 mB siero dal tank
@@ -250,8 +253,33 @@ Schema:
 Ricotta
 ```
 
-Se invece la lavorazione utilizza una bottiglia o un secchio di siero previsto
-dalla ricetta, il tank non deve perdere quei 500 mB.
+**Uso di un contenitore di siero**
+
+Se è presente un item di siero compatibile, questo ha priorità sul tank:
+
+```text
+1x Whey Bottle
+oppure
+1x Whey Bucket
++ latte
++ ciotola
+↓ Cheese Vat
+Ricotta
+```
+
+Bottiglia e secchio vengono trattati entrambi come **una singola unità valida
+di siero per la ricetta**, indipendentemente dalla quantità nominale che
+rappresentano.
+
+Il contenuto del contenitore viene consumato interamente: non esiste consumo
+parziale e l'eventuale siero in eccesso viene perso. Quindi un secchio può
+essere usato anche se contiene più siero dei 500 mB che sarebbero richiesti dal
+tank.
+
+I **500 mB sono una regola esclusiva del prelievo dal serbatoio interno** e non
+vengono usati per calcolare quanto consumare da bottiglie o secchi.
+
+Il tank resta invariato quando viene usato un item di siero.
 
 Il formato esatto del latte e le quantità finali della ricetta restano da
 definire.
@@ -291,7 +319,6 @@ Non sono ancora stati fissati:
 - quantità, tempi e valori nutritivi dei nuovi formaggi;
 - tempi e regole della stagionatura/asciugatura;
 - texture e implementazione tecnica del siero nei calderoni;
-- dettagli finali della ricetta della ricotta;
 - nomi definitivi di registrazione per gli item non ancora implementati.
 
 Quando una di queste decisioni viene approvata, va aggiunta a questo documento

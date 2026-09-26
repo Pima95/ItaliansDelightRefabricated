@@ -116,7 +116,9 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
       `minecraft:lead` nello slot contenitore; per il Mascarpone si usa aceto
       di mele, la cui produzione resta nel branch dedicato al vino/barile.
 - [ ] Definire rese, tempi di lavorazione, tempi di stagionatura/asciugatura,
-      valori nutritivi e quantità ottenute dalle porzionature.
+      valori nutritivi e quantità ottenute dalle porzionature. Per la ricotta,
+      il siero è già definito: 500 mB dal tank oppure una bottiglia/secchio di
+      siero consumati come unità intera, con priorità dell'item sul tank.
 - [ ] Definire capacità, interazioni, condizioni e recupero delle forme del
       sistema di stagionatura/asciugatura.
 
