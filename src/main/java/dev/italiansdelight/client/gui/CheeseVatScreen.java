@@ -28,13 +28,13 @@ public class CheeseVatScreen
     private static final int TEXTURE_WIDTH = 256;
     private static final int TEXTURE_HEIGHT = 256;
 
-    private static final int HEAT_X = 47;
+    private static final int HEAT_X = 33;
     private static final int HEAT_Y = 55;
 
     private static final int HEAT_WIDTH = 17;
     private static final int HEAT_HEIGHT = 15;
 
-    private static final int PROGRESS_X = 89;
+    private static final int PROGRESS_X = 75;
     private static final int PROGRESS_Y = 25;
 
     private static final int PROGRESS_HEIGHT = 17;

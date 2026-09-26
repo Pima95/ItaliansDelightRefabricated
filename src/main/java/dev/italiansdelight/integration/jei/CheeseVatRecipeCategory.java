@@ -32,7 +32,7 @@ public class CheeseVatRecipeCategory
     public static final IRecipeType<RecipeHolder<CheeseVatRecipe>> RECIPE_TYPE =
         CheeseVatJeiRecipeTypes.CHEESE_VAT;
 
-    private static final int WIDTH = 116;
+    private static final int WIDTH = 145;
     private static final int HEIGHT = 58;
 
     private final IDrawable icon;
