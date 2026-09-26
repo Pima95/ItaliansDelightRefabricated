@@ -64,8 +64,26 @@ La **Cheese Vat** è un blocco funzionale completo con:
 Ricette Cheese Vat attualmente presenti:
 
 - latte + caglio → **cagliata**, richiede una ciotola;
-- allium → **caglio**, richiede una bottiglia di vetro;
+- cardo + secchio d'acqua → **caglio**, richiede una bottiglia di vetro;
 - cagliata + sale → **mozzarella**.
+
+Il cardo compare nei nuovi chunk di pianure, pianure con girasoli e prati di
+montagna. È raccoglibile, ripiantabile sul terreno e moltiplicabile con farina
+d'ossa. Secchi, bottiglie del caglio e ciotole della cagliata vengono restituiti
+quando il rispettivo ingrediente è consumato dalla caldaia.
+
+Cambiare ricetta o invalidare gli ingredienti azzera il progresso. Senza calore
+o con output bloccato il progresso diminuisce di 2 tick per tick, senza consumo
+di ingredienti. Un prodotto già cotto può essere raccolto senza calore.
+
+Rompendo la caldaia con un piccone si recuperano blocco e inventario reale.
+Il prodotto in attesa del contenitore rimane nel blocco caduto: dopo averlo
+ripiazzato occorre ancora fornire la ciotola o bottiglia richiesta.
+La mozzarella intera e le quattro fette restituiscono entrambe 4 punti fame
+e 1,6 punti saturazione complessivi.
+
+Build e verifiche automatiche lato server superate; prove manuali finali nella
+[checklist F1](TEST_FORMAGGI_F1.md).
 
 ### 3.2 Item alimentari e lavorazioni Farmer's Delight
 

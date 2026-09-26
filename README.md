@@ -35,8 +35,19 @@ It currently supports:
 The first available processes are:
 
 - milk + rennet → **curd**;
-- allium → **rennet**;
+- cardoon + water bucket → **rennet**, collected in a glass bottle;
 - curd + salt → **mozzarella**.
+
+Cardoon grows in newly generated plains, sunflower plains, and meadows. It can
+be harvested, replanted on soil, and multiplied with bone meal. Buckets, rennet
+bottles, and curd bowls are returned when used as recipe ingredients.
+
+Breaking the Cheese Vat with a pickaxe drops the vat and its real inventory.
+An unpackaged serving stays inside the dropped vat and still needs its container
+after the vat is placed again. Changing recipes resets processing progress.
+
+The F1 changes have passed a build and server GameTests; the remaining manual
+checks are listed in the [F1 test checklist (Italian)](docs/TEST_FORMAGGI_F1.md).
 
 ### Farmer's Delight integration
 

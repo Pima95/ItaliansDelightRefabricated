@@ -17,7 +17,7 @@ Funzionalità già presenti nel codice, da sottoporre alle verifiche della fase 
 - [x] Caldaia casearia con tre slot ingrediente, contenitore e output.
 - [x] Calore, avanzamento, salvataggio e sincronizzazione della lavorazione.
 - [x] GUI, shift-click e integrazione JEI della caldaia.
-- [x] Allium → caglio, raccolto in una bottiglia.
+- [x] Cardo + acqua → caglio, raccolto in una bottiglia.
 - [x] Latte + caglio → cagliata, raccolta in una ciotola.
 - [x] Cagliata + sale → mozzarella.
 - [x] Mozzarella → quattro fette tramite Cutting Board.
@@ -65,18 +65,26 @@ accompagnano ciascuna implementazione, così ogni fase produce contenuti provabi
 
 ### F1 — Consolidare la filiera esistente
 
-- [ ] Restituire la bottiglia quando il caglio viene consumato come ingrediente.
-- [ ] Verificare restituzione di secchio del latte e ciotola della cagliata.
-- [ ] Decidere il bilanciamento tra mozzarella intera e quattro fette: oggi
-      restituiscono rispettivamente 2 e 4 punti fame complessivi.
-- [ ] Verificare la caldaia con contenitore assente o errato, output pieno,
+**Stato:** implementazione pronta per la prova in gioco. Build riuscita e quattro
+verifiche automatiche della mod superate su server GameTest. La validazione
+manuale finale è descritta nella [checklist F1](TEST_FORMAGGI_F1.md).
+
+- [x] Restituire la bottiglia quando il caglio viene consumato come ingrediente.
+- [x] Verificare restituzione di secchi di latte/acqua e ciotola della cagliata.
+- [x] Bilanciare la mozzarella intera con le quattro fette: 4 punti fame e
+      1,6 punti saturazione complessivi in entrambi i casi.
+- [x] Verificare lato server contenitore errato, output bloccato,
       perdita del calore e cambio di ricetta durante la lavorazione.
 - [ ] Verificare shift-click, persistenza dopo riavvio e comportamento alla
-      rottura, inclusi drop del blocco, inventario e prodotto in attesa.
-- [ ] Correggere gli eventuali problemi emersi e documentare le regole di
-      recupero dei prodotti e dei contenitori.
+      rottura in gioco. Lo shift-click è stato corretto; il salvataggio e
+      ripristino del prodotto nel drop sono già verificati automaticamente.
+- [x] Sostituire la ricetta placeholder con allium: cardo selvatico
+      raccoglibile, ripiantabile e moltiplicabile con farina d'ossa;
+      cardo + secchio d'acqua → caglio nella caldaia.
+- [x] Correggere i problemi individuati e documentare le regole di
+      recupero dei prodotti e dei contenitori nella checklist F1.
 
-**Completamento:** la filiera allium/latte/sale → mozzarella → fette è provata in
+**Completamento:** la filiera cardo/acqua/latte/sale → mozzarella → fette è provata in
 survival, i contenitori sono recuperabili secondo le regole definite e le prove
 di interruzione e rottura non producono duplicazioni o perdite impreviste.
 

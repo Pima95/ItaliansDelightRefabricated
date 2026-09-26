@@ -64,8 +64,24 @@ The **Cheese Vat** is a complete functional block with:
 Cheese Vat recipes currently available:
 
 - milk + rennet → **curd**, requires a bowl;
-- allium → **rennet**, requires a glass bottle;
+- cardoon + water bucket → **rennet**, requires a glass bottle;
 - curd + salt → **mozzarella**.
+
+Cardoon grows in new plains, sunflower plains, and meadow chunks. It can be
+harvested, replanted on soil, and multiplied with bone meal. Buckets, rennet
+bottles, and curd bowls are returned when their ingredient is consumed.
+
+Changing recipes or invalidating the ingredients resets progress. Without heat
+or with blocked output, progress decreases by 2 ticks per tick without consuming
+ingredients. An already cooked serving can be packaged without heat.
+
+Breaking the vat with a pickaxe drops the block and its real inventory. An
+unpackaged serving remains inside the dropped vat and still requires its bowl
+or bottle after replacement. A whole mozzarella and four slices both provide
+4 hunger points and a total of 1.6 saturation points.
+
+The build and server checks passed; final manual checks are listed in the
+[F1 test checklist (Italian)](TEST_FORMAGGI_F1.md).
 
 ### 3.2 Food items and Farmer's Delight processing
 

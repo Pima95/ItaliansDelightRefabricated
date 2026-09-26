@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CheeseVatBlock;
+import dev.italiansdelight.common.block.CardoonBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 
 import net.minecraft.core.Registry;
@@ -21,6 +22,15 @@ public final class ModBlocks {
     }
 
     // -------------------- Registered blocks --------------------
+    public static final ResourceKey<Block> CARDOON_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("cardoon")
+    );
+
+    public static final Block CARDOON = register(
+        CARDOON_KEY,
+        new CardoonBlock(Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(CARDOON_KEY))
+    );
+
     // Cheese Vat Block
     public static final ResourceKey<Block> CHEESE_VAT_KEY =
         ResourceKey.create(

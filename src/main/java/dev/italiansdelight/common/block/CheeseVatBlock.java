@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import java.util.List;
+
 import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
@@ -14,6 +16,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -123,6 +128,19 @@ public class CheeseVatBlock extends BaseEntityBlock {
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        List<ItemStack> drops = super.getDrops(state, params);
+        if (params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof CheeseVatBlockEntity vat) {
+            for (ItemStack stack : drops) {
+                if (stack.is(asItem())) {
+                    vat.preservePendingResult(stack, params.getLevel().registryAccess());
+                }
+            }
+        }
+        return drops;
     }
 
     @Override

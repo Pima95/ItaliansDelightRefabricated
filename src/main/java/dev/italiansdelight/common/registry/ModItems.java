@@ -57,13 +57,13 @@ public final class ModItems {
                         BuiltInRegistries.ITEM.key(),
                         ModRegistries.id("mozzarella"));
 
-        // Mozzarella
+        // A whole mozzarella has the same nutrition and saturation as four slices.
         public static final Item MOZZARELLA = register(
                         MOZZARELLA_KEY,
                         new Item.Properties().food(
                                         new FoodProperties.Builder()
-                                                        .nutrition(2)
-                                                        .saturationModifier(0.3f)
+                                                        .nutrition(4)
+                                                        .saturationModifier(0.2f)
                                                         .build()));
 
         private static Item register(ResourceKey<Item> itemKey, Item.Properties properties) {
@@ -106,6 +106,7 @@ public final class ModItems {
         public static final Item RENNET = register(
                 RENNET_KEY,
                 new Item.Properties()
+                        .craftRemainder(net.minecraft.world.item.Items.GLASS_BOTTLE)
                         .stacksTo(64));
 
         // Curd

@@ -11,9 +11,12 @@ import dev.italiansdelight.common.registry.ModRecipes;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
@@ -23,12 +26,15 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.TagValueOutput;
 
 import vectorwing.farmersdelight.common.block.entity.HeatableBlockEntity;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
@@ -51,7 +57,8 @@ public class CheeseVatBlockEntity
     // Only slots 0-4 contain real inventory items.
     public static final int CONTAINER_SIZE = OUTPUT_SLOT + 1;
 
-    // These slots are persisted internally but must never be dropped as items.
+    // These slots are persisted internally. On break they travel inside the
+    // dropped vat, never as a free serving or an unconsumed container.
     public static final int PREVIEW_SLOT = 5;
     private static final int PENDING_CONTAINER_SLOT = 6;
     private static final int INTERNAL_SLOT_COUNT = 7;
@@ -68,6 +75,7 @@ public class CheeseVatBlockEntity
     // cookTime advances only when a valid recipe, heat, and output space are available.
     private int cookTime = 0;
     private int cookTimeTotal = 200;
+    private ResourceKey<Recipe<?>> cookingRecipe;
 
     private final RecipeManager.CachedCheck<
         CheeseVatRecipeInput,
@@ -111,11 +119,6 @@ public class CheeseVatBlockEntity
             return;
         }
 
-        if (!cheeseVat.isHeated(level, pos)) {
-            cheeseVat.decreaseCookingProgress();
-            return;
-        }
-
         CheeseVatRecipeInput input =
             cheeseVat.createRecipeInput();
 
@@ -126,14 +129,22 @@ public class CheeseVatBlockEntity
             );
 
         if (recipe.isEmpty()) {
-            cheeseVat.decreaseCookingProgress();
+            cheeseVat.resetCookingProgress();
             return;
+        }
+
+        // Progress belongs to a recipe, including across a world restart.
+        // Changing recipes must not reuse time spent on the previous product.
+        if (!recipe.get().id().equals(cheeseVat.cookingRecipe)) {
+            cheeseVat.cookingRecipe = recipe.get().id();
+            cheeseVat.cookTime = 0;
+            cheeseVat.setChanged();
         }
 
         CheeseVatRecipe cheeseVatRecipe =
             recipe.get().value();
 
-        if (!cheeseVat.canCook(cheeseVatRecipe)) {
+        if (!cheeseVat.isHeated(level, pos) || !cheeseVat.canCook(cheeseVatRecipe)) {
             cheeseVat.decreaseCookingProgress();
             return;
         }
@@ -153,6 +164,14 @@ public class CheeseVatBlockEntity
         }
 
         cheeseVat.setChanged();
+    }
+
+    private void resetCookingProgress() {
+        if (cookTime != 0 || cookingRecipe != null) {
+            cookTime = 0;
+            cookingRecipe = null;
+            setChanged();
+        }
     }
 
     private void decreaseCookingProgress() {
@@ -184,7 +203,7 @@ public class CheeseVatBlockEntity
     }
 
     private boolean canOutput(ItemStack result) {
-        if (result.isEmpty()) {
+        if (result.isEmpty() || result.getCount() > result.getMaxStackSize()) {
             return false;
         }
 
@@ -212,6 +231,27 @@ public class CheeseVatBlockEntity
 
     public ItemStack getPendingPreview() {
         return items.get(PREVIEW_SLOT).copy();
+    }
+
+    /**
+     * Keep only the unpackaged serving inside the dropped vat. Vanilla drops
+     * the five real Container slots separately in preRemoveSideEffects.
+     * Replacing the vat restores these hidden slots through BlockItem's NBT
+     * handling, so the player still has to supply the missing container.
+     */
+    public void preservePendingResult(ItemStack vatStack, HolderLookup.Provider registries) {
+        if (!hasPendingResult()) {
+            return;
+        }
+
+        NonNullList<ItemStack> pendingItems =
+            NonNullList.withSize(INTERNAL_SLOT_COUNT, ItemStack.EMPTY);
+        pendingItems.set(PREVIEW_SLOT, items.get(PREVIEW_SLOT).copy());
+        pendingItems.set(PENDING_CONTAINER_SLOT, items.get(PENDING_CONTAINER_SLOT).copy());
+
+        TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
+        ContainerHelper.saveAllItems(output, pendingItems);
+        BlockItem.setBlockEntityData(vatStack, getType(), output);
     }
 
     /**
@@ -535,6 +575,7 @@ public class CheeseVatBlockEntity
     @Override
     public void clearContent() {
         items.clear();
+        resetCookingProgress();
         setChanged();
     }
 
@@ -554,6 +595,7 @@ public class CheeseVatBlockEntity
     ) {
         super.loadAdditional(input);
 
+        items.clear();
         ContainerHelper.loadAllItems(
             input,
             items
@@ -570,6 +612,8 @@ public class CheeseVatBlockEntity
                 "CookTimeTotal",
                 200
             );
+
+        cookingRecipe = input.read("CookingRecipe", Recipe.KEY_CODEC).orElse(null);
     }
 
     @Override
@@ -590,6 +634,8 @@ public class CheeseVatBlockEntity
             "CookTimeTotal",
             cookTimeTotal
         );
+
+        output.storeNullable("CookingRecipe", Recipe.KEY_CODEC, cookingRecipe);
 
         super.saveAdditional(output);
     }

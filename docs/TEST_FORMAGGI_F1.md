@@ -1,0 +1,113 @@
+# Prova in gioco — F1 formaggi
+
+## Stato delle verifiche
+
+- Build Gradle completata con successo su Java 25 / Minecraft 26.2.
+- Quattro verifiche della mod superate su server Fabric GameTest: filiera e
+  contenitori; salvataggio/ripristino del prodotto nel drop; cambio ricetta,
+  output bloccato e perdita del calore; risorse e drop del cardo.
+- Il runner ha completato cinque test in totale, incluso il controllo di
+  avvio del runner. Rapporto locale: `build/f1-smoke/results.xml`.
+- I test temporanei e il loro mondo sono sotto `build/f1-smoke/`; nessun mondo
+  di gioco esistente è stato usato. Il client grafico non è stato avviato.
+
+Le verifiche qui sotto restano da eseguire manualmente prima di chiudere F1.
+
+## Preparazione
+
+Avviare il client di sviluppo con `./gradlew runClient`, oppure usare il JAR
+`build/libs/italiansdelight-0.1.0.jar` in un'istanza compatibile.
+
+Servono una caldaia sopra una fonte di calore accesa, cardo, acqua, latte,
+bottiglie, ciotole, sale, un piccone, farina d'ossa e un tagliere con coltello.
+Il cardo è disponibile anche nel gruppo creativo della mod. La generazione
+naturale riguarda soltanto nuovi chunk di `plains`, `sunflower_plains` e
+`meadow`, senza modificare le zone già esplorate.
+
+## Checklist
+
+- [X] **Cardo:** verificare aspetto e nome in inventario e nel mondo. Raccoglierlo
+      a mano, ripiantarlo su terra o erba e applicare farina d'ossa: deve produrre
+      un cardo aggiuntivo, lasciando intatta la pianta. Rimuovere il terreno
+      sottostante deve far cadere la pianta come item. FUNZIONA
+- [X] **Caglio:** mettere cardo e secchio d'acqua nei primi tre slot e una
+      bottiglia nello slot contenitore. Dopo 100 tick (circa 5 secondi a 20 TPS)
+      deve uscire un caglio; il secchio vuoto viene espulso lateralmente.
+      L'allium non deve più attivare questa ricetta. FUNZIONA
+- [X] **Cagliata:** latte + caglio e una ciotola producono una cagliata dopo
+      200 tick. Recuperare un secchio e una bottiglia vuoti espulsi dalla caldaia. FUNZIONA
+- [X] **Mozzarella:** cagliata + sale producono una mozzarella dopo 160 tick;
+      la ciotola viene restituita. Tagliare la mozzarella restituisce quattro
+      fette. L'intero vale 4 punti fame, ogni fetta 1; la saturazione complessiva
+      è 1,6 in entrambi i casi. FUNZIONA
+- [X] **Contenitore assente o errato:** cuocere cagliata senza ciotola o con
+      una bottiglia. Il prodotto resta nella preview non prelevabile. Inserire
+      la ciotola corretta deve trasferirlo una sola volta nell'output, anche
+      dopo aver spento il fuoco, consumando una sola ciotola. FUNZIONA
+- [X] **Output pieno:** riempire lo slot con il prodotto fino al limite dello
+      stack e avviare un altro ciclo. Gli ingredienti non devono essere
+      consumati finché non si libera spazio. Provare anche con un prodotto
+      diverso rimasto nell'output. DA SISTEMARE (dettagli sotto)
+- [X] **Cambio ricetta e calore:** avviare una mozzarella, poi sostituire gli
+      ingredienti con cardo e acqua. La nuova lavorazione deve partire da zero.
+      Ingredienti non validi azzerano il progresso; spegnere il calore o
+      bloccare l'output lo fa diminuire di 2 tick per tick.
+- [X] **Shift-click:** bottiglie e ciotole vanno nello slot contenitore;
+      gli ingredienti nei primi tre slot. Il prodotto confezionato torna
+      nell'inventario del giocatore e la preview non può essere prelevata.
+      Uno slot contenitore occupato da un oggetto incompatibile non deve
+      deviare bottiglie o ciotole negli ingredienti.
+- [X] **Salvataggio:** uscire e rientrare durante una lavorazione e con un
+      prodotto in attesa. Verificare inventario, progresso e preview; il
+      contenitore necessario deve essere consumato una sola volta.
+- [X] **Rottura in survival:** rompere con il piccone una caldaia con ingredienti,
+      contenitori e output. Questi cadono separatamente insieme al blocco.
+      Ripetere con una cagliata in attesa: il prodotto rimane nella caldaia
+      caduta; ripiazzandola e inserendo una ciotola si ottiene una sola cagliata.
+      La preview e il contenitore richiesto non devono cadere come item gratuiti.
+- [X] **JEI e mondo:** controllare la nuova ricetta del caglio, le altre due
+      ricette e le traduzioni; cercare cardo nei biomi previsti in chunk nuovi.
+
+## Da sistemare / aggiunte suggerite
+
+- [ ] Mofificare il nome "Rennet" in "Bottle of Rennet" con relative traduzioni;
+- [ ] Rendere la pianta cardoon piazzabile in un pot;
+- [ ] Le ricette della caldaia non danno XP;
+- [ ] Interagendo con il contenitore corretto, se un crafting è stato completato senza aver messo il contenitore, si ottiene il prodotto finito;
+- [ ] Permettere la creazione della "Bottle of Rennet" anche con le ampolle di acqua, non solo i secchi;
+- [ ] Aumentare tempo di rottura della caldaia;
+- [ ] Controllare particelle dottura calderone e caladia: sono troppe rispetto agli altri blocchi;
+- [ ] Limitare stack di "Bottle of Renent" a 16
+- [ ] Se si sta producendo un prodotto che richiede un contenitore e il contenitore non è presente viene bloccata la produzione dopo che un elemento è presente in preview... NO: gli item in preview devono esere stakabili fino al loro massimo, poi la produzione viene direttamente interrotta;
+- [ ] Calderone posizionato sopra un campfire non visualizza un supporto, vedi cooking pot sopra un calderone: viene messo un supporto;
+- [ ] Modificare spawn di Cardoon: ridurre del 40% lo spawn rate della pianta (adesso spawna quasi con la stessa frequenza dei fiori normali, non va bene), creare dei gruppi di piante più grandi del 7%.
+
+## Regole di recupero
+
+Il contenitore finale viene consumato soltanto al confezionamento. I contenitori
+degli ingredienti sono invece restituiti al termine della cottura. La rottura
+con piccone conserva il prodotto già cotto dentro l'item caldaia, senza copiarvi
+l'inventario reale. Una lavorazione ancora incompleta perde il progresso alla
+rottura, ma restituisce gli ingredienti ancora presenti. I vecchi salvataggi
+senza identificativo della ricetta ripartono da zero al primo caricamento;
+inventario e prodotti già cotti restano conservati.
+
+## Scelta del caglio vegetale
+
+La ricetta cardo + acqua è una semplificazione di gameplay ispirata agli estratti
+dei fiori di *Cynara cardunculus*, studiati come coagulanti caseari. La caldaia
+rappresenta l'estrazione senza simulare essiccazione, temperature o macerazione:
+[Tripaldi et al., Italian Journal of Food Science](https://doi.org/10.15586/ijfs.v33i4.2026).
+
+## Texture del cardo
+
+File: `src/main/resources/assets/italiansdelight/textures/block/cardoon.png`.
+Generata con il tool integrato `imagegen`, poi adattata a PNG RGBA 16×16 con
+ridimensionamento nearest-neighbor e alpha binario per il rendering cutout. Lo stesso asset
+è usato dal modello del blocco e dall'item.
+
+Prompt di generazione:
+
+```text
+Use case: stylized-concept. Asset type: Minecraft vanilla-style 16x16 pixel-art plant texture for a crossed-plane block and inventory item in a cooking mod. Primary request: a single wild cardoon (Cynara cardunculus), an upright pale green stem with jagged spiny gray-green leaves and one violet-purple tufted thistle flower in a green rounded prickly cup at the top. Composition: one isolated full plant centered, stem reaches the bottom edge, flower near the top; recognizable broad spiky leaves, entire silhouette fits inside the square. Style: strictly low resolution pixel art on an EXACT 16 by 16 logical pixel grid, every pixel square and uniform, at most 12 flat colors, no antialiasing, no fine detail. Transparent alpha background, no ground, no shadow, no border, no grid lines, no text, no checkerboard painted into the image. Output a square PNG, native 16x16 if possible; otherwise nearest-neighbor enlarged 16x16 artwork with perfect aligned pixel squares.
+```

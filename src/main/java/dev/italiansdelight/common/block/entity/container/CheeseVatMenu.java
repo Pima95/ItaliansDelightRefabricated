@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 /**
  * Synchronized Cheese Vat menu. Defines machine slots, player inventory, GUI data, and shift-click behavior.
@@ -211,7 +212,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
 
     /**
      * Handles shift-click: from the machine to the player's inventory,
-     * or from the inventory to ingredient slots only.
+     * or from the inventory to the container/ingredient slots.
      */
     @Override
     public ItemStack quickMoveStack(
@@ -249,13 +250,17 @@ public class CheeseVatMenu extends AbstractContainerMenu {
 
         } else {
 
-            // Shift-click from the player inventory:
-            // only try the 3 ingredient slots.
+            // Route the containers used by the built-in recipes to their slot.
+            // Other datapack containers can still be inserted manually.
+            boolean isContainer = stack.is(Items.BOWL) || stack.is(Items.GLASS_BOTTLE);
+            int start = isContainer ? CheeseVatBlockEntity.CONTAINER_SLOT : 0;
+            int end = isContainer ? CheeseVatBlockEntity.CONTAINER_SLOT + 1
+                : CheeseVatBlockEntity.INPUT_SLOT_COUNT;
             if (
                 !moveItemStackTo(
                     stack,
-                    0,
-                    CheeseVatBlockEntity.INPUT_SLOT_COUNT,
+                    start,
+                    end,
                     false
                 )
             ) {

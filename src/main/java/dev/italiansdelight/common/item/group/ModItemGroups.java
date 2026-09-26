@@ -31,6 +31,7 @@ public final class ModItemGroups {
             .title(Component.translatable("itemGroup.italiansdelight.main"))
             .displayItems((params, output) -> {
                 output.accept(ModBlocks.CHEESE_VAT);
+                output.accept(ModBlocks.CARDOON);
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.MOZZARELLA);
