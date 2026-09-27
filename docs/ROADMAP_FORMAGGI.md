@@ -128,6 +128,9 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 - [x] Integrare lo slot di estrazione sotto il tank: un solo contenitore vuoto
       alla volta, riempimento automatico di Whey Bottle (250 mB) o Whey Bucket
       (1000 mB), con persistenza e migrazione dei salvataggi precedenti.
+- [x] Collegare il campo `whey` alle ricette: priorità Whey Bottle/Whey Bucket
+      sul tank, consumo esatto dal tank solo a fine lavorazione e rispetto del
+      toggle del flow durante recipe matching.
 - [ ] Definire rese, tempi di lavorazione, tempi di stagionatura/asciugatura,
       valori nutritivi e quantità ottenute dalle porzionature. Per la ricotta,
       il siero è già definito: 500 mB dal tank oppure una bottiglia/secchio di

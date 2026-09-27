@@ -241,10 +241,25 @@ JEI mantiene **una sola categoria Cheese Vat**, ma dispone di due background:
   serbatoio interno.
 
 Il formato delle ricette Cheese Vat prevede il campo opzionale `whey`,
-espresso in mB e pari a `0` per default. In questa fase il campo descrive la
-dipendenza dal tank e permette a JEI di scegliere il layout corretto. Il
-controllo della quantità e il consumo effettivo del liquido verranno collegati
-insieme alla logica del serbatoio.
+espresso in mB e pari a `0` per default.
+
+Il campo è ora usato anche dalla logica server:
+
+- le ricette con `whey > 0` hanno priorità sulle ricette normali con gli stessi
+  ingredienti quando esiste una fonte di siero valida;
+- una Whey Bottle o un Whey Bucket negli slot ingrediente hanno priorità sul
+  tank e funzionano anche con flow disattivato;
+- in assenza di item di siero, il tank può essere usato solo con flow attivo e
+  quantità almeno pari al valore `whey`;
+- il tank viene scalato soltanto quando la lavorazione termina realmente;
+- l'item di siero viene consumato come singola unità e restituisce il proprio
+  contenitore tramite crafting remainder;
+- se Whey Bottle e Whey Bucket occupano contemporaneamente due slot ingrediente
+  distinti, la ricetta viene considerata ambigua e non parte: non è stata
+  introdotta una priorità arbitraria tra i due formati.
+
+JEI continua a usare il valore `whey` per scegliere il background dedicato al
+siero.
 
 ## 4. Serbatoio del siero della Cheese Vat
 
@@ -338,6 +353,8 @@ Il serbatoio base è implementato nella Cheese Vat:
 - la ricetta della cagliata dichiara `"whey_output": 250`;
 - lo slot sotto il tank è un inventario reale persistente con capacità di un
   solo contenitore e riempimento automatico da 250/1000 mB;
+- le ricette con `whey > 0` possono consumare il requisito da Whey Bottle /
+  Whey Bucket oppure dal tank, con priorità dell'item;
 - se una ricetta deve produrre più siero dello spazio libero disponibile,
   raggiunge il completamento ma resta in attesa senza consumare ingredienti
   finché non torna disponibile spazio sufficiente;
@@ -345,10 +362,8 @@ Il serbatoio base è implementato nella Cheese Vat:
 - il siero resta escluso dai dati salvati nell'item droppato della Cheese Vat,
   quindi viene perso alla rottura come concordato.
 
-Non sono ancora implementati in questa sottofase:
+Non è ancora implementato in questa sottofase:
 
-- consumo del tank da parte delle ricette con campo `whey`;
-- priorità item di siero -> tank;
 - calderone con siero.
 
 ## 5. Consumo del siero nelle ricette
