@@ -1,7 +1,10 @@
 package dev.italiansdelight.client.gui;
 
+import java.util.List;
+
 import dev.italiansdelight.common.block.entity.container.CheeseVatMenu;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -55,6 +58,12 @@ public class CheeseVatScreen
     private static final int WHEY_TANK_Y = 19;
     private static final int WHEY_TANK_WIDTH = 16;
     private static final int WHEY_TANK_HEIGHT = 32;
+
+    // Hover also includes the one-pixel frame around the tank.
+    private static final int WHEY_TANK_HOVER_X = WHEY_TANK_X - 1;
+    private static final int WHEY_TANK_HOVER_Y = WHEY_TANK_Y - 1;
+    private static final int WHEY_TANK_HOVER_WIDTH = WHEY_TANK_WIDTH + 2;
+    private static final int WHEY_TANK_HOVER_HEIGHT = WHEY_TANK_HEIGHT + 2;
 
     // Pale yellow whey, with a lighter one-pixel liquid surface.
     private static final int WHEY_COLOR = 0xFFE1D27A;
@@ -183,6 +192,42 @@ public class CheeseVatScreen
                 WHEY_FLOW_HEIGHT,
                 TEXTURE_WIDTH,
                 TEXTURE_HEIGHT
+            );
+        }
+    }
+
+    @Override
+    protected void extractTooltip(
+        GuiGraphicsExtractor graphics,
+        int mouseX,
+        int mouseY
+    ) {
+        super.extractTooltip(
+            graphics,
+            mouseX,
+            mouseY
+        );
+
+        if (
+            mouseX >= leftPos + WHEY_TANK_HOVER_X
+            && mouseX < leftPos + WHEY_TANK_HOVER_X + WHEY_TANK_HOVER_WIDTH
+            && mouseY >= topPos + WHEY_TANK_HOVER_Y
+            && mouseY < topPos + WHEY_TANK_HOVER_Y + WHEY_TANK_HOVER_HEIGHT
+        ) {
+            graphics.setComponentTooltipForNextFrame(
+                font,
+                List.of(
+                    Component.translatable(
+                        "gui.italiansdelight.cheese_vat.whey"
+                    ).withStyle(ChatFormatting.WHITE),
+                    Component.translatable(
+                        "gui.italiansdelight.cheese_vat.whey_amount",
+                        menu.getWheyAmount(),
+                        menu.getWheyCapacity()
+                    ).withStyle(ChatFormatting.GRAY)
+                ),
+                mouseX,
+                mouseY
             );
         }
     }

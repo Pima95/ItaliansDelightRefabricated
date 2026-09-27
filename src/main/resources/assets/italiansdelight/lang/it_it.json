@@ -1,6 +1,5 @@
 {
   "itemGroup.italiansdelight.main": "Italian's Delight",
-
   "item.italiansdelight.raw_pasta_dough": "Impasto per Pasta",
   "item.italiansdelight.cacio_e_pepe": "Cacio e Pepe",
   "item.italiansdelight.pasta_with_tomato_sauce": "Pasta al Sugo",
@@ -14,5 +13,7 @@
   "block.italiansdelight.cardoon": "Cardo",
   "block.italiansdelight.potted_cardoon": "Cardo in Vaso",
   "block.italiansdelight.cheese_vat": "Caldaia Casearia",
-  "block.italiansdelight.salt_cauldron": "Calderone con Sale"
+  "block.italiansdelight.salt_cauldron": "Calderone con Sale",
+  "gui.italiansdelight.cheese_vat.whey": "Siero di Latte",
+  "gui.italiansdelight.cheese_vat.whey_amount": "%s mB / %s mB"
 }

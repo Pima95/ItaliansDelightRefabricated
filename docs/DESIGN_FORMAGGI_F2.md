@@ -303,6 +303,9 @@ Il serbatoio base è implementato nella Cheese Vat:
 - capacità effettiva di **4000 mB** salvata nella BlockEntity;
 - quantità sincronizzata con il menu/client;
 - il cilindro della GUI mostra il livello dal basso verso l'alto;
+- passando il mouse sul cilindro viene mostrato un tooltip vanilla con il nome
+  **Siero di Latte / Whey** e la quantità corrente nel formato
+  `500 mB / 4000 mB`;
 - l'area interna del cilindro è 16x32 px: **250 mB = 2 px**;
 - le ricette Cheese Vat possono dichiarare `"whey_output"`;
 - la ricetta della cagliata dichiara `"whey_output": 250`;

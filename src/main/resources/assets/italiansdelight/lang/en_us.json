@@ -1,6 +1,5 @@
 {
   "itemGroup.italiansdelight.main": "Italian's Delight",
-
   "item.italiansdelight.raw_pasta_dough": "Pasta Dough",
   "item.italiansdelight.cacio_e_pepe": "Cacio e Pepe",
   "item.italiansdelight.pasta_with_tomato_sauce": "Pasta with Tomato Sauce",
@@ -14,5 +13,7 @@
   "block.italiansdelight.cardoon": "Cardoon",
   "block.italiansdelight.potted_cardoon": "Potted Cardoon",
   "block.italiansdelight.cheese_vat": "Cheese Vat",
-  "block.italiansdelight.salt_cauldron": "Salt Cauldron"
+  "block.italiansdelight.salt_cauldron": "Salt Cauldron",
+  "gui.italiansdelight.cheese_vat.whey": "Whey",
+  "gui.italiansdelight.cheese_vat.whey_amount": "%s mB / %s mB"
 }
