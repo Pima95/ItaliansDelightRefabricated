@@ -29,7 +29,7 @@ nelle fasi successive.
 | Prodotto | Processo generale |
 |---|---|
 | Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board |
-| Bocconcini | Cagliata + acqua normale → bocconcini nella Cheese Vat |
+| Bocconcini | Cagliata + acqua normale → **2 bocconcini** nella Cheese Vat; nessun contenitore finale |
 | Ricotta | Siero + latte → ricotta nella Cheese Vat, con ciotola come contenitore finale |
 | Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato |
 | Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato |
@@ -37,7 +37,7 @@ nelle fasi successive.
 | Provolone | Cagliata + sale + acqua → forma fresca → stagionatura → fette |
 | Scamorza | Cagliata + sale → scamorza fresca usando un laccio nello slot contenitore; breve asciugatura e possibile variante affumicata |
 | Burrata | Mozzarella + panna → burrata; nessuna stagionatura |
-| Mascarpone | Panna + aceto di mele → mascarpone nella Cheese Vat |
+| Mascarpone | Panna + aceto di mele → mascarpone nella Cheese Vat, confezionato con una ciotola separata nello slot contenitore |
 
 Per i bocconcini si usa acqua normale. Non viene introdotto alcun item
 "acqua calda".
@@ -160,6 +160,50 @@ progettati e implementati nel branch dedicato al sistema vino/barile, non in
 
 Nel repository sono già presenti asset per il sidro che potranno essere usati
 da quel lavoro separato.
+
+### Bocconcini — regola ricetta
+
+Ricetta concordata:
+
+```text
+Curd
++ Water
+↓ Cheese Vat
+2x Bocconcini
+```
+
+Regole:
+
+- ogni lavorazione produce **2 bocconcini**;
+- non è richiesto alcun contenitore finale;
+- l'acqua è un ingrediente e il relativo contenitore viene restituito secondo
+  le normali regole di remainder.
+
+### Mascarpone — gestione della ciotola
+
+La ciotola della panna **non viene riutilizzata direttamente come contenitore
+del Mascarpone**.
+
+La lavorazione deve seguire il modello già usato dalla Cheese Vat:
+
+```text
+Cream Bowl
++ Apple Cider Vinegar
++ Bowl nello slot contenitore
+↓ Cheese Vat
+Mascarpone
+```
+
+La `Cream Bowl` è un ingrediente e restituisce la propria ciotola vuota come
+remainder. La ciotola nello slot contenitore è invece quella consumata per
+confezionare il Mascarpone.
+
+### Ricotta e selezione ricetta
+
+La struttura generale della Ricotta resta concordata, ma è ancora **aperto il
+problema di selezione della ricetta** quando nella Cheese Vat sono presenti
+latte e siero: la soluzione verrà definita separatamente prima
+dell'implementazione, per evitare conflitti con la ricetta della panna.
 
 ## 4. Serbatoio del siero della Cheese Vat
 
@@ -358,6 +402,7 @@ Non sono ancora stati fissati:
 
 - produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
 - quantità, tempi e valori di fame/saturazione degli item già definiti come consumabili;
+- logica di selezione tra Ricotta e Panna quando sono presenti latte e siero;
 - tempi e regole della stagionatura/asciugatura;
 - texture e implementazione tecnica del siero nei calderoni;
 - nomi definitivi di registrazione per gli item non ancora implementati.

@@ -53,7 +53,7 @@ restano estensioni da valutare successivamente.
 | Formaggio | Processo produttivo concordato | Stato |
 |---|---|---|
 | Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board | Base presente, da rifinire |
-| Bocconcini | Cagliata + acqua normale → bocconcini nella Cheese Vat; nessun item "acqua calda" | Da implementare |
+| Bocconcini | Cagliata + acqua normale → 2 bocconcini nella Cheese Vat; nessun contenitore finale e nessun item "acqua calda" | Da implementare |
 | Ricotta | La produzione della cagliata recupera anche il siero; siero + una piccola quantità di latte → ricotta nella Cheese Vat | Da implementare |
 | Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
 | Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
@@ -61,7 +61,7 @@ restano estensioni da valutare successivamente.
 | Provolone | Cagliata + sale + acqua → forma fresca → stagionatura → fette | Da implementare |
 | Scamorza | Cagliata + sale → scamorza fresca usando `minecraft:lead` nello slot contenitore → breve asciugatura; possibile variante affumicata | Da implementare |
 | Burrata | Mozzarella + panna → burrata; prodotto fresco senza stagionatura | Da implementare |
-| Mascarpone | Panna + ingrediente acido → mascarpone nella Cheese Vat | Da implementare |
+| Mascarpone | Panna + aceto di mele → mascarpone nella Cheese Vat; ciotola separata nello slot contenitore | Da implementare |
 
 I nomi delle nuove registrazioni, le quantità, i tempi e i valori nutritivi
 saranno fissati nella fase F2. Gli identificatori dei contenuti esistenti vanno
