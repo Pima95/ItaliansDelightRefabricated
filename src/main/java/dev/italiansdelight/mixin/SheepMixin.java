@@ -17,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Adds sheep milking without replacing vanilla shearing or feeding behavior.
+ * Adds sheep milking while keeping the same interaction model used for cows:
+ * adult sheep are milked with a bucket only. Sheep milk bottles are obtained
+ * afterwards through crafting, matching Farmer's Delight's milk-bottle flow.
  */
 @Mixin(Sheep.class)
 public abstract class SheepMixin {
@@ -42,47 +44,27 @@ public abstract class SheepMixin {
         ItemStack heldItem =
             player.getItemInHand(hand);
 
-        if (heldItem.is(Items.BUCKET)) {
-            player.playSound(
-                SoundEvents.COW_MILK,
-                1.0F,
-                1.0F
-            );
-
-            player.setItemInHand(
-                hand,
-                ItemUtils.createFilledResult(
-                    heldItem,
-                    player,
-                    new ItemStack(ModItems.SHEEP_MILK_BUCKET)
-                )
-            );
-
-            cir.setReturnValue(
-                InteractionResult.SUCCESS
-            );
+        if (!heldItem.is(Items.BUCKET)) {
             return;
         }
 
-        if (heldItem.is(Items.GLASS_BOTTLE)) {
-            player.playSound(
-                SoundEvents.COW_MILK,
-                1.0F,
-                1.0F
-            );
+        player.playSound(
+            SoundEvents.COW_MILK,
+            1.0F,
+            1.0F
+        );
 
-            player.setItemInHand(
-                hand,
-                ItemUtils.createFilledResult(
-                    heldItem,
-                    player,
-                    new ItemStack(ModItems.SHEEP_MILK_BOTTLE)
-                )
-            );
+        player.setItemInHand(
+            hand,
+            ItemUtils.createFilledResult(
+                heldItem,
+                player,
+                new ItemStack(ModItems.SHEEP_MILK_BUCKET)
+            )
+        );
 
-            cir.setReturnValue(
-                InteractionResult.SUCCESS
-            );
-        }
+        cir.setReturnValue(
+            InteractionResult.SUCCESS
+        );
     }
 }
