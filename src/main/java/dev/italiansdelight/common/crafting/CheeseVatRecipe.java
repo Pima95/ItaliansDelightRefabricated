@@ -145,10 +145,28 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     public int[] findMatchingIngredientSlots(
         CheeseVatRecipeInput input
     ) {
+        return findMatchingIngredientSlots(
+            input,
+            -1
+        );
+    }
+
+    /**
+     * Variant used by whey recipes when one input slot contains the explicit
+     * Whey Bottle/Whey Bucket resource. The ignored slot is satisfied by the
+     * whey requirement itself and is not part of the normal ingredient list.
+     */
+    public int[] findMatchingIngredientSlots(
+        CheeseVatRecipeInput input,
+        int ignoredSlot
+    ) {
         int nonEmptySlots = 0;
 
         for (int slot = 0; slot < 3; slot++) {
-            if (!input.getItem(slot).isEmpty()) {
+            if (
+                slot != ignoredSlot
+                && !input.getItem(slot).isEmpty()
+            ) {
                 nonEmptySlots++;
             }
         }
@@ -162,6 +180,13 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
         boolean[] usedSlots =
             new boolean[3];
+
+        if (
+            ignoredSlot >= 0
+            && ignoredSlot < usedSlots.length
+        ) {
+            usedSlots[ignoredSlot] = true;
+        }
 
         if (findMatches(
             input,
@@ -231,8 +256,13 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
          * The container is deliberately NOT part of recipe matching.
          * The vat cooks the ingredients first and stores the completed
          * serving as a preview until the required container is supplied.
+         *
+         * Whey recipes are selected by CheeseVatBlockEntity because their
+         * validity depends on machine state (flow toggle + tank amount) and
+         * on the optional explicit Whey Bottle/Whey Bucket source.
          */
-        return findMatchingIngredientSlots(input) != null;
+        return wheyAmount <= 0
+            && findMatchingIngredientSlots(input) != null;
     }
 
     @Override

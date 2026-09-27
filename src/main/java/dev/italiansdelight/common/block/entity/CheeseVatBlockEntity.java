@@ -156,7 +156,7 @@ public class CheeseVatBlockEntity
             cheeseVat.createRecipeInput();
 
         Optional<RecipeHolder<CheeseVatRecipe>> recipe =
-            cheeseVat.quickCheck.getRecipeFor(
+            cheeseVat.findRecipe(
                 input,
                 level
             );
@@ -227,10 +227,188 @@ public class CheeseVatBlockEntity
         );
     }
 
+    private static final int NO_WHEY_ITEM = -1;
+    private static final int AMBIGUOUS_WHEY_ITEMS = -2;
+
+    /**
+     * Whey-aware recipes get priority over normal recipes. This is what makes
+     * Milk + Bowl select Ricotta while whey is available and fall back to
+     * Cream when tank flow is disabled or the resource is unavailable.
+     */
+    private Optional<RecipeHolder<CheeseVatRecipe>> findRecipe(
+        CheeseVatRecipeInput input,
+        ServerLevel level
+    ) {
+        Optional<RecipeHolder<CheeseVatRecipe>> wheyRecipe =
+            findWheyRecipe(
+                input,
+                level
+            );
+
+        if (wheyRecipe.isPresent()) {
+            return wheyRecipe;
+        }
+
+        return quickCheck.getRecipeFor(
+            input,
+            level
+        );
+    }
+
+    private Optional<RecipeHolder<CheeseVatRecipe>> findWheyRecipe(
+        CheeseVatRecipeInput input,
+        ServerLevel level
+    ) {
+        RecipeManager recipeManager =
+            level.getServer()
+                .getRecipeManager();
+
+        // Preserve the recipe already in progress when it is still valid.
+        if (cookingRecipe != null) {
+            Optional<RecipeHolder<?>> hinted =
+                recipeManager.byKey(
+                    cookingRecipe
+                );
+
+            if (
+                hinted.isPresent()
+                && hinted.get().value() instanceof CheeseVatRecipe recipe
+                && recipe.getType() == ModRecipes.CHEESE_VAT_TYPE
+                && recipe.getWheyAmount() > 0
+                && canSupplyWhey(
+                    recipe,
+                    input
+                )
+            ) {
+                return Optional.of(
+                    castCheeseVatRecipeHolder(
+                        hinted.get()
+                    )
+                );
+            }
+        }
+
+        for (
+            RecipeHolder<?> holder :
+            recipeManager.getRecipes()
+        ) {
+            if (
+                holder.value() instanceof CheeseVatRecipe recipe
+                && recipe.getType() == ModRecipes.CHEESE_VAT_TYPE
+                && recipe.getWheyAmount() > 0
+                && canSupplyWhey(
+                    recipe,
+                    input
+                )
+            ) {
+                return Optional.of(
+                    castCheeseVatRecipeHolder(
+                        holder
+                    )
+                );
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static RecipeHolder<CheeseVatRecipe>
+    castCheeseVatRecipeHolder(
+        RecipeHolder<?> holder
+    ) {
+        return (RecipeHolder<CheeseVatRecipe>)
+            (RecipeHolder<?>) holder;
+    }
+
+    /**
+     * Returns the single explicit whey source slot, NO_WHEY_ITEM when the
+     * machine should try the tank, or AMBIGUOUS_WHEY_ITEMS when bottle and
+     * bucket sources occupy different ingredient slots simultaneously.
+     */
+    private int findWheyItemSlot(
+        CheeseVatRecipeInput input
+    ) {
+        int foundSlot =
+            NO_WHEY_ITEM;
+
+        for (
+            int slot = 0;
+            slot < INPUT_SLOT_COUNT;
+            slot++
+        ) {
+            ItemStack stack =
+                input.getItem(
+                    slot
+                );
+
+            if (
+                !stack.is(ModItems.WHEY_BOTTLE)
+                && !stack.is(ModItems.WHEY_BUCKET)
+            ) {
+                continue;
+            }
+
+            if (foundSlot != NO_WHEY_ITEM) {
+                return AMBIGUOUS_WHEY_ITEMS;
+            }
+
+            foundSlot = slot;
+        }
+
+        return foundSlot;
+    }
+
+    private boolean canSupplyWhey(
+        CheeseVatRecipe recipe,
+        CheeseVatRecipeInput input
+    ) {
+        if (recipe.getWheyAmount() <= 0) {
+            return recipe.findMatchingIngredientSlots(
+                input
+            ) != null;
+        }
+
+        int wheyItemSlot =
+            findWheyItemSlot(
+                input
+            );
+
+        if (wheyItemSlot == AMBIGUOUS_WHEY_ITEMS) {
+            return false;
+        }
+
+        if (wheyItemSlot >= 0) {
+            return recipe.findMatchingIngredientSlots(
+                input,
+                wheyItemSlot
+            ) != null;
+        }
+
+        return wheyFlowEnabled
+            && wheyAmount >= recipe.getWheyAmount()
+            && recipe.findMatchingIngredientSlots(
+                input
+            ) != null;
+    }
+
     private boolean canCook(
         CheeseVatRecipe recipe
     ) {
-        ItemStack result = recipe.assemble(createRecipeInput());
+        CheeseVatRecipeInput input =
+            createRecipeInput();
+
+        if (
+            recipe.getWheyAmount() > 0
+            && !canSupplyWhey(
+                recipe,
+                input
+            )
+        ) {
+            return false;
+        }
+
+        ItemStack result = recipe.assemble(input);
         if (result.isEmpty() || result.getCount() > result.getMaxStackSize()) {
             return false;
         }
@@ -315,10 +493,32 @@ public class CheeseVatBlockEntity
     private void finishCooking(CheeseVatRecipe recipe) {
         CheeseVatRecipeInput input = createRecipeInput();
         ItemStack result = recipe.assemble(input);
-        int[] matchingSlots =
-            recipe.findMatchingIngredientSlots(input);
 
-        if (matchingSlots == null || !canCook(recipe)) {
+        int wheyItemSlot =
+            recipe.getWheyAmount() > 0
+                ? findWheyItemSlot(input)
+                : NO_WHEY_ITEM;
+
+        if (wheyItemSlot == AMBIGUOUS_WHEY_ITEMS) {
+            cookTime = 0;
+            setChanged();
+            return;
+        }
+
+        int[] matchingSlots =
+            wheyItemSlot >= 0
+                ? recipe.findMatchingIngredientSlots(
+                    input,
+                    wheyItemSlot
+                )
+                : recipe.findMatchingIngredientSlots(
+                    input
+                );
+
+        if (
+            matchingSlots == null
+            || !canCook(recipe)
+        ) {
             cookTime = 0;
             setChanged();
             return;
@@ -338,6 +538,21 @@ public class CheeseVatBlockEntity
 
         for (int slot : matchingSlots) {
             consumeIngredient(slot);
+        }
+
+        if (recipe.getWheyAmount() > 0) {
+            if (wheyItemSlot >= 0) {
+                // Explicit item source always wins and returns its normal
+                // crafting remainder through consumeIngredient().
+                consumeIngredient(
+                    wheyItemSlot
+                );
+            } else {
+                // Tank consumption is exact and happens only when the batch
+                // actually completes.
+                wheyAmount -=
+                    recipe.getWheyAmount();
+            }
         }
 
         if (required.isEmpty()) {
