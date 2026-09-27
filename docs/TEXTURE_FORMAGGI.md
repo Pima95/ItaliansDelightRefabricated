@@ -14,8 +14,10 @@ Percorso base:
 Il nome del PNG deve coincidere esattamente con l'ID indicato nella tabella.
 I file `assets/italiansdelight/items/*.json` e
 `assets/italiansdelight/models/item/*.json` sono già presenti e puntano alle
-texture indicate. Tutti i 27 PNG delle tabelle seguenti sono presenti, con
-sfondo trasparente e nomi corrispondenti ai modelli.
+texture indicate. Le 27 texture realizzate in precedenza restano presenti;
+i nuovi item `scamorza_slice`, `smoked_scamorza_slice` e
+`apple_cider_vinegar` non hanno ancora un PNG e mostrano quindi la normale
+missing texture di Minecraft.
 
 Convenzioni dei nomi:
 
@@ -68,14 +70,16 @@ mancanti, comprese nella stessa lavorazione grafica.
 | `whey_bottle` | Bottiglia di Siero di Latte | Bottiglia con liquido giallo paglierino | `whey_bottle.png` |
 | `whey_bucket` | Secchio di Siero di Latte | Secchio metallico con liquido giallo paglierino | `whey_bucket.png` |
 
-## Texture volutamente non ancora creata
+## Texture non ancora create
 
-| ID item | Nome visualizzato IT | Motivo |
-|---|---|---|
-| `apple_cider_vinegar` | Bottiglia di Aceto di Mele | L'item e il modello sono già registrati, ma la texture appartiene al futuro branch vino/barile. |
+| ID item | Nome visualizzato IT | File atteso | Motivo |
+|---|---|---|---|
+| `scamorza_slice` | Fetta di Scamorza | `scamorza_slice.png` | Nuovo item aggiunto dopo il primo lotto di texture. |
+| `smoked_scamorza_slice` | Fetta di Scamorza Affumicata | `smoked_scamorza_slice.png` | Nuovo item aggiunto dopo il primo lotto di texture. |
+| `apple_cider_vinegar` | Bottiglia di Aceto di Mele | `apple_cider_vinegar.png` | La texture appartiene al futuro branch vino/barile. |
 
-Anche `scamorza_slice.png` e `smoked_scamorza_slice.png` sono nuovi asset
-da creare dopo questa aggiunta.
+Non vengono creati PNG placeholder: finché questi file mancano Minecraft usa
+la propria missing texture.
 
 ## Distinzioni visive
 
@@ -102,13 +106,14 @@ fetta e non uno spicchio.
 
 Registrazione item, traduzioni, creative tab e file item/model: **completati**.
 
-Texture PNG elencate in questo documento: **27/27 create**.
+Texture PNG: **27 create, 3 ancora da creare**.
 
 Verifiche eseguite:
 
-- tutti i PNG hanno dimensioni 16×16, canale alpha e contenuto visibile;
-- i 27 sprite sono distinti e i modelli item non hanno riferimenti a texture
-  locali mancanti;
+- le 27 texture già realizzate hanno dimensioni 16×16, canale alpha e
+  contenuto visibile;
+- i 27 sprite già realizzati sono distinti; i tre nuovi modelli puntano
+  intenzionalmente a texture ancora mancanti;
 - controllo visivo della tavola a scala originale e ingrandita;
 - build Gradle offline completata con successo.
 
