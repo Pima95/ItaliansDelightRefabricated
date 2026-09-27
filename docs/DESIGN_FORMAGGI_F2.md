@@ -200,10 +200,47 @@ confezionare il Mascarpone.
 
 ### Ricotta e selezione ricetta
 
-La struttura generale della Ricotta resta concordata, ma è ancora **aperto il
-problema di selezione della ricetta** quando nella Cheese Vat sono presenti
-latte e siero: la soluzione verrà definita separatamente prima
-dell'implementazione, per evitare conflitti con la ricetta della panna.
+Il conflitto tra Ricotta e Panna viene risolto con un **toggle del flusso del
+siero** nella GUI della Cheese Vat.
+
+La freccia tra serbatoio e caldaia è cliccabile:
+
+- **flow attivo**: le ricette possono usare automaticamente il siero presente
+  nel serbatoio interno;
+- **flow bloccato**: il siero del serbatoio viene ignorato dal recipe matching.
+
+Il toggle riguarda soltanto il **prelievo automatico dal tank**. Una
+`Whey Bottle` o un `Whey Bucket` inseriti esplicitamente negli slot
+ingrediente restano validi anche quando il flow è bloccato.
+
+Questo permette al giocatore di scegliere la Panna anche quando la Cheese Vat
+contiene abbastanza siero per una Ricotta. Il pulsante non svuota né modifica
+la quantità di siero.
+
+Lo stato predefinito è **flow attivo**. Lo stato viene salvato nella BlockEntity
+e sincronizzato con il menu; rompendo e ripiazzando la Cheese Vat non viene
+conservato nel blocco droppato e torna quindi al valore predefinito.
+
+#### GUI e JEI del flow
+
+La GUI usa la freccia già disegnata nella texture principale:
+
+- area cliccabile: `x=133, y=29, 9x9`;
+- flow attivo: freccia normale della GUI;
+- flow bloccato: overlay con la X rossa dello spritesheet, UV
+  `176,55`, dimensione `9x9`.
+
+JEI mantiene **una sola categoria Cheese Vat**, ma dispone di due background:
+
+- `textures/gui/jei/cheese_vat.png`: ricette che non prelevano siero dal tank;
+- `textures/gui/jei/cheese_vat_whey.png`: ricette che richiedono siero dal
+  serbatoio interno.
+
+Il formato delle ricette Cheese Vat prevede il campo opzionale `whey`,
+espresso in mB e pari a `0` per default. In questa fase il campo descrive la
+dipendenza dal tank e permette a JEI di scegliere il layout corretto. Il
+controllo della quantità e il consumo effettivo del liquido verranno collegati
+insieme alla logica del serbatoio.
 
 ## 4. Serbatoio del siero della Cheese Vat
 
@@ -402,7 +439,6 @@ Non sono ancora stati fissati:
 
 - produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
 - quantità, tempi e valori di fame/saturazione degli item già definiti come consumabili;
-- logica di selezione tra Ricotta e Panna quando sono presenti latte e siero;
 - tempi e regole della stagionatura/asciugatura;
 - texture e implementazione tecnica del siero nei calderoni;
 - nomi definitivi di registrazione per gli item non ancora implementati.

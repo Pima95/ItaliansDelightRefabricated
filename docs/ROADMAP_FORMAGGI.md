@@ -115,6 +115,12 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
       `minecraft:bread` + `#c:mushrooms`. Per la Scamorza si usa
       `minecraft:lead` nello slot contenitore; per il Mascarpone si usa aceto
       di mele, la cui produzione resta nel branch dedicato al vino/barile.
+- [x] Definire il controllo del siero nella Cheese Vat: la freccia della GUI
+      abilita/disabilita soltanto il prelievo automatico dal tank, senza
+      bloccare Whey Bottle/Whey Bucket inseriti come ingredienti. Lo stato è
+      persistente finché la macchina resta piazzata; JEI mantiene una singola
+      categoria e usa due background per distinguere ricette normali e ricette
+      che richiedono siero dal serbatoio.
 - [ ] Definire rese, tempi di lavorazione, tempi di stagionatura/asciugatura,
       valori nutritivi e quantità ottenute dalle porzionature. Per la ricotta,
       il siero è già definito: 500 mB dal tank oppure una bottiglia/secchio di
