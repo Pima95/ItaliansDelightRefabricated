@@ -76,6 +76,21 @@ mancanti, comprese nella stessa lavorazione grafica.
 - `apple_cider_vinegar.png`: bottiglia vanilla di Minecraft con liquido
   ambrato di aceto di mele all'interno.
 
+
+### Rifinitura scala e bottiglie vanilla
+
+Le forme intere di Provolone e Scamorza sono state ridimensionate all'interno
+della stessa canvas 16×16 per occupare meglio lo slot, senza aumentare la
+risoluzione. Per coerenza sono state aggiornate anche le varianti fresche e la
+Scamorza affumicata.
+
+Le texture `sheep_milk_bottle.png`, `whey_bottle.png` e `rennet.png` usano
+ora la stessa sagoma della bottiglia vanilla già adottata per
+`apple_cider_vinegar.png`; cambia soltanto il colore del contenuto.
+
+Nota: nel catalogo attuale non esiste un item `smoked_provolone`. Sono quindi
+state rifinite le due varianti esistenti `fresh_provolone` e `provolone`.
+
 ## Distinzioni visive
 
 - Parmigiano: forma bassa e larga, più dorata dopo la stagionatura.

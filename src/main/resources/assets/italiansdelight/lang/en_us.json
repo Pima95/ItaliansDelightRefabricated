@@ -47,5 +47,6 @@
   "item.italiansdelight.mascarpone": "Mascarpone",
   "item.italiansdelight.apple_cider_vinegar": "Apple Cider Vinegar Bottle",
   "item.italiansdelight.scamorza_slice": "Scamorza Slice",
-  "item.italiansdelight.smoked_scamorza_slice": "Smoked Scamorza Slice"
+  "item.italiansdelight.smoked_scamorza_slice": "Smoked Scamorza Slice",
+  "tooltip.farmersdelight.sheep_milk_bottle": "Clears 1 Effect"
 }

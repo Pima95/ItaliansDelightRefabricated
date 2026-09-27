@@ -47,5 +47,6 @@
   "item.italiansdelight.mascarpone": "Mascarpone",
   "item.italiansdelight.apple_cider_vinegar": "Bottiglia di Aceto di Mele",
   "item.italiansdelight.scamorza_slice": "Fetta di Scamorza",
-  "item.italiansdelight.smoked_scamorza_slice": "Fetta di Scamorza Affumicata"
+  "item.italiansdelight.smoked_scamorza_slice": "Fetta di Scamorza Affumicata",
+  "tooltip.farmersdelight.sheep_milk_bottle": "Cancella 1 effetto di stato"
 }
