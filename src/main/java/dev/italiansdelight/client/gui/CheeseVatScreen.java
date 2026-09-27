@@ -65,10 +65,6 @@ public class CheeseVatScreen
     private static final int WHEY_TANK_HOVER_WIDTH = WHEY_TANK_WIDTH + 2;
     private static final int WHEY_TANK_HOVER_HEIGHT = WHEY_TANK_HEIGHT + 2;
 
-    // Pale yellow whey, with a lighter one-pixel liquid surface.
-    private static final int WHEY_COLOR = 0xFFE1D27A;
-    private static final int WHEY_SURFACE_COLOR = 0xFFF1E5A5;
-
     public CheeseVatScreen(
         CheeseVatMenu menu,
         Inventory inventory,
@@ -118,29 +114,14 @@ public class CheeseVatScreen
                 WHEY_TANK_HEIGHT
             );
 
-        if (wheyLevel > 0) {
-            int wheyTop =
-                topPos
-                    + WHEY_TANK_Y
-                    + WHEY_TANK_HEIGHT
-                    - wheyLevel;
-
-            graphics.fill(
-                leftPos + WHEY_TANK_X,
-                wheyTop,
-                leftPos + WHEY_TANK_X + WHEY_TANK_WIDTH,
-                topPos + WHEY_TANK_Y + WHEY_TANK_HEIGHT,
-                WHEY_COLOR
-            );
-
-            graphics.fill(
-                leftPos + WHEY_TANK_X,
-                wheyTop,
-                leftPos + WHEY_TANK_X + WHEY_TANK_WIDTH,
-                wheyTop + 1,
-                WHEY_SURFACE_COLOR
-            );
-        }
+        WheyTankRenderer.draw(
+            graphics,
+            leftPos + WHEY_TANK_X,
+            topPos + WHEY_TANK_Y,
+            WHEY_TANK_WIDTH,
+            WHEY_TANK_HEIGHT,
+            wheyLevel
+        );
 
         // Active flame indicator
         if (menu.isHeated()) {

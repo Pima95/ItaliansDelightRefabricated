@@ -383,6 +383,9 @@ Il serbatoio base è implementato nella Cheese Vat:
 - capacità effettiva di **4000 mB** salvata nella BlockEntity;
 - quantità sincronizzata con il menu/client;
 - il cilindro della GUI mostra il livello dal basso verso l'alto;
+- il siero usa una texture animata condivisa con JEI: 32 fotogrammi 16×16,
+  2 tick per fotogramma e interpolazione; specifiche e anteprima sono in
+  [`TEXTURE_SIERO.md`](TEXTURE_SIERO.md);
 - passando il mouse sul cilindro viene mostrato un tooltip vanilla con il nome
   **Siero di Latte / Whey** e la quantità corrente nel formato
   `500 mB / 4000 mB`;

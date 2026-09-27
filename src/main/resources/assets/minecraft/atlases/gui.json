@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/whey_still",
+      "sprite": "italiansdelight:fluids/whey_still"
+    }
+  ]
+}

@@ -121,3 +121,9 @@ quadrato; per le bottiglie è stato ridotto il margine vuoto dell'originale.
 
 La progettazione della stagionatura verrà affrontata nella fase successiva e
 non richiede di rinominare questi item.
+
+## Texture animata del siero
+
+Il liquido nel tank della caldaia e in JEI usa ora una texture dedicata con
+32 fotogrammi 16×16. Specifiche, riferimenti, prompt e anteprima animata sono
+in [`TEXTURE_SIERO.md`](TEXTURE_SIERO.md).

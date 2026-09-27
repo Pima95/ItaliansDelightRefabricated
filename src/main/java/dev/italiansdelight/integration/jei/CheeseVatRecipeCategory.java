@@ -3,6 +3,7 @@ package dev.italiansdelight.integration.jei;
 import java.util.HashMap;
 import java.util.Map;
 
+import dev.italiansdelight.client.gui.WheyTankRenderer;
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
 import dev.italiansdelight.common.crafting.CheeseVatRecipe;
 import dev.italiansdelight.common.registry.ModBlocks;
@@ -64,9 +65,6 @@ public class CheeseVatRecipeCategory
     private static final int WHEY_TANK_HOVER_Y = 0;
     private static final int WHEY_TANK_HOVER_WIDTH = 18;
     private static final int WHEY_TANK_HOVER_HEIGHT = 34;
-
-    private static final int WHEY_COLOR = 0xFFE1D27A;
-    private static final int WHEY_SURFACE_COLOR = 0xFFF1E5A5;
 
     private final IGuiHelper guiHelper;
     private final Identifier interfaceImage;
@@ -281,25 +279,13 @@ public class CheeseVatRecipeCategory
                 )
             );
 
-        int wheyTop =
-            WHEY_TANK_Y
-                + WHEY_TANK_HEIGHT
-                - wheyLevel;
-
-        guiGraphics.fill(
+        WheyTankRenderer.draw(
+            guiGraphics,
             WHEY_TANK_X,
-            wheyTop,
-            WHEY_TANK_X + WHEY_TANK_WIDTH,
-            WHEY_TANK_Y + WHEY_TANK_HEIGHT,
-            WHEY_COLOR
-        );
-
-        guiGraphics.fill(
-            WHEY_TANK_X,
-            wheyTop,
-            WHEY_TANK_X + WHEY_TANK_WIDTH,
-            wheyTop + 1,
-            WHEY_SURFACE_COLOR
+            WHEY_TANK_Y,
+            WHEY_TANK_WIDTH,
+            WHEY_TANK_HEIGHT,
+            wheyLevel
         );
     }
 
