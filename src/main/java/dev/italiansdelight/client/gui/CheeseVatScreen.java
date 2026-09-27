@@ -4,6 +4,7 @@ import dev.italiansdelight.common.block.entity.container.CheeseVatMenu;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -147,12 +148,14 @@ public class CheeseVatScreen
 
     @Override
     public boolean mouseClicked(
-        double mouseX,
-        double mouseY,
-        int button
+        MouseButtonEvent event,
+        boolean doubleClick
     ) {
+        double mouseX = event.x();
+        double mouseY = event.y();
+
         if (
-            button == 0
+            event.button() == 0
             && mouseX >= leftPos + WHEY_FLOW_X
             && mouseX < leftPos + WHEY_FLOW_X + WHEY_FLOW_WIDTH
             && mouseY >= topPos + WHEY_FLOW_Y
@@ -169,9 +172,8 @@ public class CheeseVatScreen
         }
 
         return super.mouseClicked(
-            mouseX,
-            mouseY,
-            button
+            event,
+            doubleClick
         );
     }
 }
