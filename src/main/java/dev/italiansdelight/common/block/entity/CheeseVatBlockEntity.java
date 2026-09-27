@@ -105,11 +105,6 @@ public class CheeseVatBlockEntity
     // Stored independently from inventory slots and lost when the vat is broken.
     private int wheyAmount = 0;
 
-    private final RecipeManager.CachedCheck<
-        CheeseVatRecipeInput,
-        CheeseVatRecipe
-    > quickCheck;
-
     private final ContainerData cheeseVatData;
 
     public CheeseVatBlockEntity(
@@ -121,11 +116,6 @@ public class CheeseVatBlockEntity
             pos,
             state
         );
-
-        this.quickCheck =
-            RecipeManager.createCheck(
-                ModRecipes.CHEESE_VAT_TYPE
-            );
 
         this.cheeseVatData = createContainerData();
     }
@@ -249,42 +239,41 @@ public class CheeseVatBlockEntity
             return wheyRecipe;
         }
 
-        // Some recipes intentionally reuse the same ingredient set and are
-        // distinguished by the item placed in the container slot. Scamorza,
-        // for example, shares Curd + Salt with Mozzarella but requires a Lead.
-        // Prefer an exact container match before falling back to the normal
-        // recipe-manager lookup.
-        Optional<RecipeHolder<CheeseVatRecipe>> containerSelectedRecipe =
-            findRecipeSelectedByContainer(
-                input,
-                level
-            );
-
-        if (containerSelectedRecipe.isPresent()) {
-            return containerSelectedRecipe;
-        }
-
-        return quickCheck.getRecipeFor(
+        return findNormalRecipe(
             input,
             level
         );
     }
 
+    /**
+     * Resolves normal (non-whey) recipes deterministically.
+     *
+     * Exact container matches have the highest priority, which allows recipes
+     * with identical ingredients to use the container slot as their selector.
+     * If no container selects a recipe, a container-less recipe wins. Finally,
+     * a recipe that merely needs a container can still start cooking without
+     * it and keep its finished serving pending, preserving the existing vat
+     * behavior for bowls and bottles.
+     */
     private Optional<RecipeHolder<CheeseVatRecipe>>
-    findRecipeSelectedByContainer(
+    findNormalRecipe(
         CheeseVatRecipeInput input,
         ServerLevel level
     ) {
-        ItemStack provided =
-            items.get(CONTAINER_SLOT);
-
-        if (provided.isEmpty()) {
-            return Optional.empty();
-        }
-
         RecipeManager recipeManager =
             level.getServer()
                 .getRecipeManager();
+
+        ItemStack provided =
+            items.get(CONTAINER_SLOT);
+
+        Optional<RecipeHolder<CheeseVatRecipe>>
+            withoutContainer =
+                Optional.empty();
+
+        Optional<RecipeHolder<CheeseVatRecipe>>
+            withContainer =
+                Optional.empty();
 
         for (
             RecipeHolder<?> holder :
@@ -295,8 +284,20 @@ public class CheeseVatBlockEntity
                 || recipe.getType() != ModRecipes.CHEESE_VAT_TYPE
                 || recipe.getWheyAmount() > 0
                 || recipe.findMatchingIngredientSlots(input) == null
-                || recipe.getContainerTemplate().isEmpty()
             ) {
+                continue;
+            }
+
+            if (recipe.getContainerTemplate().isEmpty()) {
+                if (withoutContainer.isEmpty()) {
+                    withoutContainer =
+                        Optional.of(
+                            castCheeseVatRecipeHolder(
+                                holder
+                            )
+                        );
+                }
+
                 continue;
             }
 
@@ -306,7 +307,8 @@ public class CheeseVatBlockEntity
                     .create();
 
             if (
-                ItemStack.isSameItemSameComponents(
+                !provided.isEmpty()
+                && ItemStack.isSameItemSameComponents(
                     provided,
                     required
                 )
@@ -318,9 +320,20 @@ public class CheeseVatBlockEntity
                     )
                 );
             }
+
+            if (withContainer.isEmpty()) {
+                withContainer =
+                    Optional.of(
+                        castCheeseVatRecipeHolder(
+                            holder
+                        )
+                    );
+            }
         }
 
-        return Optional.empty();
+        return withoutContainer.isPresent()
+            ? withoutContainer
+            : withContainer;
     }
 
     private Optional<RecipeHolder<CheeseVatRecipe>> findWheyRecipe(

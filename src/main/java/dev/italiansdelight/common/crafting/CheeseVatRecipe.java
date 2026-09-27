@@ -253,9 +253,11 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         Level level
     ) {
         /*
-         * The container is deliberately NOT part of recipe matching.
-         * The vat cooks the ingredients first and stores the completed
-         * serving as a preview until the required container is supplied.
+         * Ingredient matching itself stays independent from the container.
+         * CheeseVatBlockEntity may use the container slot only to disambiguate
+         * otherwise identical recipes (for example Mozzarella vs Scamorza).
+         * A recipe that simply needs packaging can still cook first and wait
+         * for its container afterwards.
          *
          * Whey recipes are selected by CheeseVatBlockEntity because their
          * validity depends on machine state (flow toggle + tank amount) and
