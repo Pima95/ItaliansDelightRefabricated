@@ -82,7 +82,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             CheeseVatScreen.class,
 
             // GUI progress arrow
-            89,
+            76,
             25,
             24,
             17,

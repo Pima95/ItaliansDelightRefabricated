@@ -37,6 +37,7 @@ public class CheeseVatRecipeCategory
 
     private final IDrawable icon;
     private final IDrawable background;
+    private final IDrawable wheyBackground;
 
     public CheeseVatRecipeCategory(IGuiHelper guiHelper) {
         this.icon = guiHelper.createDrawableItemLike(
@@ -47,6 +48,17 @@ public class CheeseVatRecipeCategory
             Identifier.fromNamespaceAndPath(
                 "italiansdelight",
                 "textures/gui/jei/cheese_vat.png"
+            ),
+            0,
+            0,
+            WIDTH,
+            HEIGHT
+        );
+
+        this.wheyBackground = guiHelper.createDrawable(
+            Identifier.fromNamespaceAndPath(
+                "italiansdelight",
+                "textures/gui/jei/cheese_vat_whey.png"
             ),
             0,
             0,
@@ -132,6 +144,10 @@ public class CheeseVatRecipeCategory
         double mouseX,
         double mouseY
     ) {
-        background.draw(guiGraphics);
+        if (recipe.value().usesWheyFromTank()) {
+            wheyBackground.draw(guiGraphics);
+        } else {
+            background.draw(guiGraphics);
+        }
     }
 }
