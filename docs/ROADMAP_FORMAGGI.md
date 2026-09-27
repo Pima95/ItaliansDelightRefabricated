@@ -138,6 +138,8 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
       200 tick, 4 fame e 0.3 saturation modifier come placeholder; il requisito
       siero resta definito: 500 mB dal tank oppure una bottiglia/secchio di
       siero consumati come unità intera, con priorità dell'item sul tank.
+      La Panna usa temporaneamente 1 output, 160 tick, 2 fame e 0.2 saturation
+      modifier come placeholder.
 - [ ] Definire capacità, interazioni, condizioni e recupero delle forme del
       sistema di stagionatura/asciugatura.
 
@@ -150,6 +152,9 @@ l'implementazione.
 - [ ] Applicare il bilanciamento e le rifiniture concordate per la mozzarella.
 - [x] Implementare la ricotta e collegarla al requisito siero della Cheese Vat,
       usando valori di bilanciamento placeholder.
+- [x] Implementare la Panna come `cream_bowl` con valori placeholder e
+      verificare la selezione Ricotta/Panna tramite il flow del tank.
+- [x] Implementare la Coltura Erborinata craftabile da pane + `#c:mushrooms`.
 - [ ] Aggiungere registrazioni, modelli, texture, traduzioni italiane e inglesi,
       ricette, tag e presenza nel gruppo creativo.
 - [ ] Integrare le nuove lavorazioni in JEI e verificare i contenitori.

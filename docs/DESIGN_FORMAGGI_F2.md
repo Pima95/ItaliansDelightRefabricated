@@ -86,6 +86,16 @@ La panna è un intermedio comune per almeno:
 - Burrata;
 - Mascarpone.
 
+La panna è implementata come `italiansdelight:cream_bowl`.
+
+Valori **PLACEHOLDER** in attesa del rebalancing finale:
+
+- resa: **1 Cream Bowl** per lavorazione;
+- tempo Cheese Vat: **160 tick**;
+- fame: **2**;
+- saturation modifier: **0.2**;
+- stack massimo: **16**.
+
 La panna viene rappresentata come **ciotola di panna**.
 
 La Cheese Vat usa una sola ricetta generica per il latte:
@@ -111,9 +121,16 @@ ciotola vuota deve essere restituita.
 La produzione della panna **non produce siero** e non viene bloccata da un
 serbatoio del siero pieno.
 
+La ricetta implementata usa `#c:drinks/milk` e una Bowl nello slot contenitore.
+Se esiste una fonte valida di siero e il flow è attivo, la Ricotta ha priorità;
+con flow disattivato lo stesso latte viene quindi lavorato in Panna.
+Whey Bottle/Whey Bucket inseriti esplicitamente continuano invece a dare
+priorità alla Ricotta anche con flow disattivato.
+
 ### Coltura erborinata
 
-È un nuovo ingrediente necessario per la produzione del Gorgonzola.
+È implementata come `italiansdelight:blue_mold_culture` ed è un nuovo
+ingrediente necessario per la produzione del Gorgonzola.
 
 La coltura erborinata è un **item normale e craftabile**:
 
@@ -121,7 +138,7 @@ La coltura erborinata è un **item normale e craftabile**:
 - non richiede uno slot contenitore;
 - viene consumata direttamente come ingrediente della Cheese Vat.
 
-Ricetta shapeless concordata:
+Ricetta shapeless implementata:
 
 ```text
 1x minecraft:bread
@@ -528,8 +545,6 @@ ciotola possono invece avere proprietà alimentari.
 ## 8. Decisioni ancora aperte
 
 Non sono ancora stati fissati:
-
-- tempo/resa finale della lavorazione della panna;
 
 - produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
 - rebalancing finale di quantità, tempi, fame e saturazione: i valori introdotti
