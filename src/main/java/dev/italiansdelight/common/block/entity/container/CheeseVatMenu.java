@@ -21,7 +21,9 @@ import net.minecraft.world.item.Items;
 public class CheeseVatMenu extends AbstractContainerMenu {
 
     // -------------------- Menu indices and sizes --------------------
-    private static final int DATA_COUNT = 3;
+    private static final int DATA_COUNT = 4;
+
+    public static final int TOGGLE_WHEY_FLOW_BUTTON = 0;
 
     // Five real slots plus the virtual preview slot.
     private static final int MACHINE_SLOT_COUNT =
@@ -216,6 +218,26 @@ public class CheeseVatMenu extends AbstractContainerMenu {
 
     public boolean isHeated() {
         return data.get(2) != 0;
+    }
+
+    public boolean isWheyFlowEnabled() {
+        return data.get(3) != 0;
+    }
+
+    @Override
+    public boolean clickMenuButton(
+        Player player,
+        int id
+    ) {
+        if (
+            id == TOGGLE_WHEY_FLOW_BUTTON
+            && container instanceof CheeseVatBlockEntity vat
+        ) {
+            vat.toggleWheyFlow();
+            return true;
+        }
+
+        return false;
     }
 
     /**

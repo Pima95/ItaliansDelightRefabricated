@@ -86,6 +86,9 @@ public class CheeseVatBlockEntity
     private int pendingBatchSize = 1;
     private float storedExperience;
 
+    // Controls only automatic whey consumption from the internal tank.
+    private boolean wheyFlowEnabled = true;
+
     private final RecipeManager.CachedCheck<
         CheeseVatRecipeInput,
         CheeseVatRecipe
@@ -524,8 +527,17 @@ public class CheeseVatBlockEntity
             );
     }
 
+    public boolean isWheyFlowEnabled() {
+        return wheyFlowEnabled;
+    }
+
+    public void toggleWheyFlow() {
+        wheyFlowEnabled = !wheyFlowEnabled;
+        setChanged();
+    }
+
     // -------------------- Menu/client synchronization --------------------
-    // The three synchronized integers are: progress, total duration, and heat state.
+    // Values: progress, total duration, heat state, and whey-flow toggle.
     private ContainerData createContainerData() {
 
         return new ContainerData() {
@@ -542,6 +554,11 @@ public class CheeseVatBlockEntity
 
                     case 2 ->
                         CheeseVatBlockEntity.this.isHeated()
+                            ? 1
+                            : 0;
+
+                    case 3 ->
+                        CheeseVatBlockEntity.this.wheyFlowEnabled
                             ? 1
                             : 0;
 
@@ -564,6 +581,10 @@ public class CheeseVatBlockEntity
                         CheeseVatBlockEntity.this.cookTimeTotal =
                             value;
 
+                    case 3 ->
+                        CheeseVatBlockEntity.this.wheyFlowEnabled =
+                            value != 0;
+
                     default -> {
                     }
                 }
@@ -571,7 +592,7 @@ public class CheeseVatBlockEntity
 
             @Override
             public int getCount() {
-                return 3;
+                return 4;
             }
         };
     }
@@ -726,6 +747,7 @@ public class CheeseVatBlockEntity
         pendingBatchSize = Math.max(1, input.getIntOr("PendingBatchSize",
             items.get(PREVIEW_SLOT).getCount()));
         storedExperience = Math.max(0.0F, input.getFloatOr("StoredExperience", 0.0F));
+        wheyFlowEnabled = input.getBooleanOr("WheyFlowEnabled", true);
     }
 
     @Override
@@ -750,6 +772,7 @@ public class CheeseVatBlockEntity
         output.storeNullable("CookingRecipe", Recipe.KEY_CODEC, cookingRecipe);
         output.putInt("PendingBatchSize", pendingBatchSize);
         output.putFloat("StoredExperience", storedExperience);
+        output.putBoolean("WheyFlowEnabled", wheyFlowEnabled);
 
         super.saveAdditional(output);
     }

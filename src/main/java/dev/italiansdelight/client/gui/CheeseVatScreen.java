@@ -39,6 +39,16 @@ public class CheeseVatScreen
 
     private static final int PROGRESS_HEIGHT = 17;
 
+    // Clickable whey-flow arrow between the vat and the tank.
+    private static final int WHEY_FLOW_X = 133;
+    private static final int WHEY_FLOW_Y = 29;
+    private static final int WHEY_FLOW_WIDTH = 9;
+    private static final int WHEY_FLOW_HEIGHT = 9;
+
+    // Red blocked-flow sprite already present in cheese_vat.png.
+    private static final int WHEY_FLOW_BLOCKED_U = 176;
+    private static final int WHEY_FLOW_BLOCKED_V = 55;
+
     public CheeseVatScreen(
         CheeseVatMenu menu,
         Inventory inventory,
@@ -117,5 +127,51 @@ public class CheeseVatScreen
                 TEXTURE_HEIGHT
             );
         }
+        // The base GUI already contains the normal flow arrow. Cover it with
+        // the red X only while automatic whey flow from the tank is disabled.
+        if (!menu.isWheyFlowEnabled()) {
+            graphics.blit(
+                RenderPipelines.GUI_TEXTURED,
+                TEXTURE,
+                leftPos + WHEY_FLOW_X,
+                topPos + WHEY_FLOW_Y,
+                WHEY_FLOW_BLOCKED_U,
+                WHEY_FLOW_BLOCKED_V,
+                WHEY_FLOW_WIDTH,
+                WHEY_FLOW_HEIGHT,
+                TEXTURE_WIDTH,
+                TEXTURE_HEIGHT
+            );
+        }
+    }
+
+    @Override
+    public boolean mouseClicked(
+        double mouseX,
+        double mouseY,
+        int button
+    ) {
+        if (
+            button == 0
+            && mouseX >= leftPos + WHEY_FLOW_X
+            && mouseX < leftPos + WHEY_FLOW_X + WHEY_FLOW_WIDTH
+            && mouseY >= topPos + WHEY_FLOW_Y
+            && mouseY < topPos + WHEY_FLOW_Y + WHEY_FLOW_HEIGHT
+        ) {
+            if (minecraft != null && minecraft.gameMode != null) {
+                minecraft.gameMode.handleInventoryButtonClick(
+                    menu.containerId,
+                    CheeseVatMenu.TOGGLE_WHEY_FLOW_BUTTON
+                );
+            }
+
+            return true;
+        }
+
+        return super.mouseClicked(
+            mouseX,
+            mouseY,
+            button
+        );
     }
 }
