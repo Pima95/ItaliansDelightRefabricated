@@ -127,6 +127,29 @@ public final class ModItems {
                         .usingConvertsTo(net.minecraft.world.item.Items.BOWL)
                         .stacksTo(16));
 
+        // Whey bottle: 250 mB of whey. It is a processing resource, not a drink.
+        public static final ResourceKey<Item> WHEY_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("whey_bottle"));
+
+        public static final Item WHEY_BOTTLE = register(
+                WHEY_BOTTLE_KEY,
+                new Item.Properties()
+                        .craftRemainder(net.minecraft.world.item.Items.GLASS_BOTTLE)
+                        .stacksTo(16));
+
+        // Whey bucket: 1000 mB of whey. It is not placeable as a world fluid;
+        // cauldron interaction will be handled explicitly when that system is added.
+        public static final ResourceKey<Item> WHEY_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("whey_bucket"));
+
+        public static final Item WHEY_BUCKET = register(
+                WHEY_BUCKET_KEY,
+                new Item.Properties()
+                        .craftRemainder(net.minecraft.world.item.Items.BUCKET)
+                        .stacksTo(1));
+
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),

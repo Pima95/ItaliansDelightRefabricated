@@ -7,23 +7,29 @@ import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModParticles;
+import dev.italiansdelight.common.registry.ModItems;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -252,6 +258,71 @@ public class CheeseVatBlock extends BaseEntityBlock {
                         false
                     );
                 }
+
+                return InteractionResult.SUCCESS;
+            }
+
+            // Empty containers extract whey from the internal tank.
+            // Filled whey containers are intentionally not handled here:
+            // the tank is output-only and cannot be manually refilled.
+            if (
+                itemStack.is(Items.GLASS_BOTTLE)
+                && cheeseVat.extractWhey(250)
+            ) {
+                player.setItemInHand(
+                    hand,
+                    ItemUtils.createFilledResult(
+                        itemStack,
+                        player,
+                        new ItemStack(ModItems.WHEY_BOTTLE)
+                    )
+                );
+
+                level.playSound(
+                    null,
+                    pos,
+                    SoundEvents.BOTTLE_FILL,
+                    SoundSource.BLOCKS,
+                    1.0F,
+                    1.0F
+                );
+
+                level.gameEvent(
+                    null,
+                    GameEvent.FLUID_PICKUP,
+                    pos
+                );
+
+                return InteractionResult.SUCCESS;
+            }
+
+            if (
+                itemStack.is(Items.BUCKET)
+                && cheeseVat.extractWhey(1000)
+            ) {
+                player.setItemInHand(
+                    hand,
+                    ItemUtils.createFilledResult(
+                        itemStack,
+                        player,
+                        new ItemStack(ModItems.WHEY_BUCKET)
+                    )
+                );
+
+                level.playSound(
+                    null,
+                    pos,
+                    SoundEvents.BUCKET_FILL,
+                    SoundSource.BLOCKS,
+                    1.0F,
+                    1.0F
+                );
+
+                level.gameEvent(
+                    null,
+                    GameEvent.FLUID_PICKUP,
+                    pos
+                );
 
                 return InteractionResult.SUCCESS;
             }

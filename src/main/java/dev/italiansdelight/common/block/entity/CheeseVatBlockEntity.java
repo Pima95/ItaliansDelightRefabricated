@@ -574,6 +574,20 @@ public class CheeseVatBlockEntity
         );
     }
 
+    /**
+     * Removes an exact amount from the tank. External containers may only
+     * extract whey; they can never insert it back into the machine.
+     */
+    public boolean extractWhey(int amount) {
+        if (amount <= 0 || wheyAmount < amount) {
+            return false;
+        }
+
+        wheyAmount -= amount;
+        setChanged();
+        return true;
+    }
+
     public void toggleWheyFlow() {
         wheyFlowEnabled = !wheyFlowEnabled;
         setChanged();
