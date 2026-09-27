@@ -25,7 +25,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
 
     public static final int TOGGLE_WHEY_FLOW_BUTTON = 0;
 
-    // Five real slots plus the virtual preview slot.
+    // Six real slots plus the virtual preview slot.
     private static final int MACHINE_SLOT_COUNT =
         CheeseVatBlockEntity.CONTAINER_SIZE + 1;
 
@@ -133,6 +133,28 @@ public class CheeseVatMenu extends AbstractContainerMenu {
                     if (CheeseVatMenu.this.container instanceof CheeseVatBlockEntity vat) {
                         vat.awardExperience();
                     }
+                }
+            }
+        );
+
+        // Single-container whey filling slot below the tank.
+        // Only one empty bottle/bucket may wait here at a time.
+        this.addSlot(
+            new Slot(
+                container,
+                CheeseVatBlockEntity.WHEY_CONTAINER_SLOT,
+                144,
+                55
+            ) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.is(Items.GLASS_BOTTLE)
+                        || stack.is(Items.BUCKET);
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return 1;
                 }
             }
         );
@@ -309,12 +331,32 @@ public class CheeseVatMenu extends AbstractContainerMenu {
 
         } else {
 
-            // Route the containers used by the built-in recipes to their slot.
-            // Other datapack containers can still be inserted manually.
-            boolean isContainer = stack.is(Items.BOWL) || stack.is(Items.GLASS_BOTTLE);
-            int start = isContainer ? CheeseVatBlockEntity.CONTAINER_SLOT : 0;
-            int end = isContainer ? CheeseVatBlockEntity.CONTAINER_SLOT + 1
-                : CheeseVatBlockEntity.INPUT_SLOT_COUNT;
+            // Buckets have no recipe-container use in the current vat and are
+            // routed directly to the dedicated whey slot. Glass bottles remain
+            // routed to the recipe-container slot because rennet uses them;
+            // they can still be dragged manually into the whey slot.
+            int start;
+            int end;
+
+            if (stack.is(Items.BUCKET)) {
+                start = CheeseVatBlockEntity.WHEY_CONTAINER_SLOT;
+                end = CheeseVatBlockEntity.WHEY_CONTAINER_SLOT + 1;
+            } else {
+                boolean isContainer =
+                    stack.is(Items.BOWL)
+                    || stack.is(Items.GLASS_BOTTLE);
+
+                start =
+                    isContainer
+                        ? CheeseVatBlockEntity.CONTAINER_SLOT
+                        : 0;
+
+                end =
+                    isContainer
+                        ? CheeseVatBlockEntity.CONTAINER_SLOT + 1
+                        : CheeseVatBlockEntity.INPUT_SLOT_COUNT;
+            }
+
             if (
                 !moveItemStackTo(
                     stack,

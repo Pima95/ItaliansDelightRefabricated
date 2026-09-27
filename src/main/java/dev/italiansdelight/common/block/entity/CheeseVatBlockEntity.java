@@ -7,6 +7,7 @@ import dev.italiansdelight.common.block.entity.container.CheeseVatMenu;
 import dev.italiansdelight.common.crafting.CheeseVatRecipe;
 import dev.italiansdelight.common.crafting.CheeseVatRecipeInput;
 import dev.italiansdelight.common.registry.ModBlockEntities;
+import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModRecipes;
 
 import net.minecraft.core.BlockPos;
@@ -18,6 +19,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -35,6 +38,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -55,23 +59,29 @@ public class CheeseVatBlockEntity
     implements Container, HeatableBlockEntity, MenuProvider {
 
     // -------------------- Inventory layout --------------------
-    // Slots 0-2 hold ingredients; 3 is the container slot; 4 is the output slot.
+    // Slots 0-2 hold ingredients; 3 is the recipe container; 4 is the
+    // finished food output; 5 is the dedicated whey-container slot.
     public static final int INPUT_SLOT_COUNT = 3;
 
     public static final int CONTAINER_SLOT = 3;
     public static final int OUTPUT_SLOT = 4;
+    public static final int WHEY_CONTAINER_SLOT = 5;
 
-    // Only slots 0-4 contain real inventory items.
-    public static final int CONTAINER_SIZE = OUTPUT_SLOT + 1;
+    // Slots 0-5 are real inventory slots exposed to the player.
+    public static final int CONTAINER_SIZE = WHEY_CONTAINER_SLOT + 1;
 
     // Internal whey tank. It can only be filled by recipes that produce whey.
     public static final int WHEY_TANK_CAPACITY = 4000;
 
     // These slots are persisted internally. On break they travel inside the
     // dropped vat, never as a free serving or an unconsumed container.
-    public static final int PREVIEW_SLOT = 5;
-    private static final int PENDING_CONTAINER_SLOT = 6;
-    private static final int INTERNAL_SLOT_COUNT = 7;
+    public static final int PREVIEW_SLOT = 6;
+    private static final int PENDING_CONTAINER_SLOT = 7;
+    private static final int INTERNAL_SLOT_COUNT = 8;
+
+    // Save-layout marker used to migrate worlds created before the dedicated
+    // whey-container slot was introduced.
+    private static final int WHEY_SLOT_LAYOUT_VERSION = 1;
 
     // Complete internal list. Technical slots beyond CONTAINER_SIZE are not
     // exposed to the player; they are used to keep pending results.
@@ -136,9 +146,11 @@ public class CheeseVatBlockEntity
             level.setBlock(pos, state.setValue(CheeseVatBlock.HEATED, heated), Block.UPDATE_CLIENTS);
         }
 
-        // Package existing servings first, then keep cooking while the buffer
-        // has room. Output space is independent of unbottled/unbowled food.
+        // Package existing servings and fill the dedicated whey-container
+        // slot before recipe lookup. These operations also work while the vat
+        // has no active cooking recipe.
         cheeseVat.tryFillContainer();
+        cheeseVat.tryFillWheyContainer(level);
 
         CheeseVatRecipeInput input =
             cheeseVat.createRecipeInput();
@@ -291,6 +303,7 @@ public class CheeseVatBlockEntity
         TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
         ContainerHelper.saveAllItems(output, pendingItems);
         output.putInt("PendingBatchSize", pendingBatchSize);
+        output.putInt("WheySlotLayout", WHEY_SLOT_LAYOUT_VERSION);
         BlockItem.setBlockEntityData(vatStack, getType(), output);
     }
 
@@ -588,6 +601,71 @@ public class CheeseVatBlockEntity
         return true;
     }
 
+    /**
+     * Automatically fills the single empty container placed in the slot below
+     * the tank. Filled containers remain there until the player removes them.
+     */
+    private void tryFillWheyContainer(ServerLevel level) {
+        ItemStack container = items.get(WHEY_CONTAINER_SLOT);
+
+        if (
+            container.is(Items.GLASS_BOTTLE)
+            && wheyAmount >= 250
+        ) {
+            wheyAmount -= 250;
+            items.set(
+                WHEY_CONTAINER_SLOT,
+                new ItemStack(ModItems.WHEY_BOTTLE)
+            );
+
+            level.playSound(
+                null,
+                worldPosition,
+                SoundEvents.BOTTLE_FILL,
+                SoundSource.BLOCKS,
+                1.0F,
+                1.0F
+            );
+
+            level.gameEvent(
+                null,
+                GameEvent.FLUID_PICKUP,
+                worldPosition
+            );
+
+            setChanged();
+            return;
+        }
+
+        if (
+            container.is(Items.BUCKET)
+            && wheyAmount >= 1000
+        ) {
+            wheyAmount -= 1000;
+            items.set(
+                WHEY_CONTAINER_SLOT,
+                new ItemStack(ModItems.WHEY_BUCKET)
+            );
+
+            level.playSound(
+                null,
+                worldPosition,
+                SoundEvents.BUCKET_FILL,
+                SoundSource.BLOCKS,
+                1.0F,
+                1.0F
+            );
+
+            level.gameEvent(
+                null,
+                GameEvent.FLUID_PICKUP,
+                worldPosition
+            );
+
+            setChanged();
+        }
+    }
+
     public void toggleWheyFlow() {
         wheyFlowEnabled = !wheyFlowEnabled;
         setChanged();
@@ -747,13 +825,13 @@ public class CheeseVatBlockEntity
             stack
         );
 
-        if (
-            stack.getCount()
-                > getMaxStackSize()
-        ) {
-            stack.setCount(
-                getMaxStackSize()
-            );
+        int maxStackSize =
+            slot == WHEY_CONTAINER_SLOT
+                ? 1
+                : getMaxStackSize();
+
+        if (stack.getCount() > maxStackSize) {
+            stack.setCount(maxStackSize);
         }
 
         setChanged();
@@ -783,8 +861,15 @@ public class CheeseVatBlockEntity
         int slot,
         ItemStack stack
     ) {
-        return slot >= 0
-            && slot <= CONTAINER_SLOT;
+        if (slot >= 0 && slot <= CONTAINER_SLOT) {
+            return true;
+        }
+
+        return slot == WHEY_CONTAINER_SLOT
+            && (
+                stack.is(Items.GLASS_BOTTLE)
+                || stack.is(Items.BUCKET)
+            );
     }
 
     // -------------------- World data persistence --------------------
@@ -799,6 +884,37 @@ public class CheeseVatBlockEntity
             input,
             items
         );
+
+        // Before the whey-container slot existed, the hidden preview and its
+        // pending container occupied slots 5 and 6. Move those legacy values
+        // to 6 and 7 exactly once so old vats keep their pending servings.
+        if (
+            input.getIntOr(
+                "WheySlotLayout",
+                0
+            ) < WHEY_SLOT_LAYOUT_VERSION
+        ) {
+            ItemStack legacyPreview =
+                items.get(5);
+
+            ItemStack legacyPendingContainer =
+                items.get(6);
+
+            items.set(
+                PENDING_CONTAINER_SLOT,
+                legacyPendingContainer
+            );
+
+            items.set(
+                PREVIEW_SLOT,
+                legacyPreview
+            );
+
+            items.set(
+                WHEY_CONTAINER_SLOT,
+                ItemStack.EMPTY
+            );
+        }
 
         cookTime =
             input.getIntOr(
@@ -851,6 +967,7 @@ public class CheeseVatBlockEntity
         output.putFloat("StoredExperience", storedExperience);
         output.putBoolean("WheyFlowEnabled", wheyFlowEnabled);
         output.putInt("WheyAmount", wheyAmount);
+        output.putInt("WheySlotLayout", WHEY_SLOT_LAYOUT_VERSION);
 
         super.saveAdditional(output);
     }
