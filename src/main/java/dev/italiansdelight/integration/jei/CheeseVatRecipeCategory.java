@@ -42,16 +42,16 @@ public class CheeseVatRecipeCategory
     private static final int HEIGHT = 58;
 
     private static final int ARROW_X = 60;
-    private static final int ARROW_Y = 9;
+    private static final int ARROW_Y = 11;
 
     private static final int HEAT_X = 18;
-    private static final int HEAT_Y = 39;
+    private static final int HEAT_Y = 41;
 
     private static final int TIME_X = 64;
-    private static final int TIME_Y = 2;
+    private static final int TIME_Y = 4;
 
     private static final int EXPERIENCE_X = 63;
-    private static final int EXPERIENCE_Y = 21;
+    private static final int EXPERIENCE_Y = 23;
 
     // The JEI texture keeps the same 16x32 tank interior used by the normal
     // Cheese Vat screen, moved to the right-hand side of the compact layout.
@@ -343,7 +343,7 @@ public class CheeseVatRecipeCategory
         if (
             isCursorInsideBounds(
                 61,
-                2,
+                4,
                 22,
                 28,
                 mouseX,
