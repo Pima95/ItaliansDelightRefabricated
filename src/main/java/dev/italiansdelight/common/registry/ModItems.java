@@ -251,6 +251,246 @@ public final class ModItems {
                         .craftRemainder(net.minecraft.world.item.Items.BUCKET)
                         .stacksTo(1));
 
+
+        // -----------------------------------------------------------------
+        // Planned cheese line
+        // -----------------------------------------------------------------
+        // PLACEHOLDER BALANCE: nutrition, saturation and stack sizes will be
+        // reviewed after the complete dairy progression is implemented.
+
+        // Bocconcini
+        public static final ResourceKey<Item> BOCCONCINI_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("bocconcini"));
+
+        public static final Item BOCCONCINI = register(
+                BOCCONCINI_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(2)
+                                        .saturationModifier(0.2f)
+                                        .build()
+                        )
+                        .stacksTo(64));
+
+        // Parmigiano Reggiano: fresh wheel -> aged wheel -> wedge / grated.
+        public static final ResourceKey<Item> FRESH_PARMIGIANO_REGGIANO_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("fresh_parmigiano_reggiano"));
+
+        public static final Item FRESH_PARMIGIANO_REGGIANO = register(
+                FRESH_PARMIGIANO_REGGIANO_KEY,
+                new Item.Properties().stacksTo(16));
+
+        public static final ResourceKey<Item> PARMIGIANO_REGGIANO_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("parmigiano_reggiano"));
+
+        public static final Item PARMIGIANO_REGGIANO = register(
+                PARMIGIANO_REGGIANO_KEY,
+                new Item.Properties().stacksTo(16));
+
+        public static final ResourceKey<Item> PARMIGIANO_REGGIANO_WEDGE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("parmigiano_reggiano_wedge"));
+
+        public static final Item PARMIGIANO_REGGIANO_WEDGE = register(
+                PARMIGIANO_REGGIANO_WEDGE_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(3)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .stacksTo(64));
+
+        public static final ResourceKey<Item> GRATED_PARMIGIANO_REGGIANO_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("grated_parmigiano_reggiano"));
+
+        public static final Item GRATED_PARMIGIANO_REGGIANO = register(
+                GRATED_PARMIGIANO_REGGIANO_KEY,
+                new Item.Properties().stacksTo(64));
+
+        // Pecorino Romano: fresh wheel -> aged wheel -> wedge / grated.
+        public static final ResourceKey<Item> FRESH_PECORINO_ROMANO_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("fresh_pecorino_romano"));
+
+        public static final Item FRESH_PECORINO_ROMANO = register(
+                FRESH_PECORINO_ROMANO_KEY,
+                new Item.Properties().stacksTo(16));
+
+        public static final ResourceKey<Item> PECORINO_ROMANO_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("pecorino_romano"));
+
+        public static final Item PECORINO_ROMANO = register(
+                PECORINO_ROMANO_KEY,
+                new Item.Properties().stacksTo(16));
+
+        public static final ResourceKey<Item> PECORINO_ROMANO_WEDGE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("pecorino_romano_wedge"));
+
+        public static final Item PECORINO_ROMANO_WEDGE = register(
+                PECORINO_ROMANO_WEDGE_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(3)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .stacksTo(64));
+
+        public static final ResourceKey<Item> GRATED_PECORINO_ROMANO_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("grated_pecorino_romano"));
+
+        public static final Item GRATED_PECORINO_ROMANO = register(
+                GRATED_PECORINO_ROMANO_KEY,
+                new Item.Properties().stacksTo(64));
+
+        // Gorgonzola: fresh wheel -> aged wheel -> wedge.
+        public static final ResourceKey<Item> FRESH_GORGONZOLA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("fresh_gorgonzola"));
+
+        public static final Item FRESH_GORGONZOLA = register(
+                FRESH_GORGONZOLA_KEY,
+                new Item.Properties().stacksTo(16));
+
+        public static final ResourceKey<Item> GORGONZOLA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("gorgonzola"));
+
+        public static final Item GORGONZOLA = register(
+                GORGONZOLA_KEY,
+                new Item.Properties().stacksTo(16));
+
+        public static final ResourceKey<Item> GORGONZOLA_WEDGE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("gorgonzola_wedge"));
+
+        public static final Item GORGONZOLA_WEDGE = register(
+                GORGONZOLA_WEDGE_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(3)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .stacksTo(64));
+
+        // Provolone: fresh whole cheese -> aged whole cheese -> slices.
+        public static final ResourceKey<Item> FRESH_PROVOLONE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("fresh_provolone"));
+
+        public static final Item FRESH_PROVOLONE = register(
+                FRESH_PROVOLONE_KEY,
+                new Item.Properties().stacksTo(16));
+
+        public static final ResourceKey<Item> PROVOLONE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("provolone"));
+
+        public static final Item PROVOLONE = register(
+                PROVOLONE_KEY,
+                new Item.Properties().stacksTo(16));
+
+        public static final ResourceKey<Item> PROVOLONE_SLICE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("provolone_slice"));
+
+        public static final Item PROVOLONE_SLICE = register(
+                PROVOLONE_SLICE_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(2)
+                                        .saturationModifier(0.2f)
+                                        .build()
+                        )
+                        .stacksTo(64));
+
+        // Scamorza: fresh intermediate -> dried cheese; smoked variant included.
+        public static final ResourceKey<Item> FRESH_SCAMORZA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("fresh_scamorza"));
+
+        public static final Item FRESH_SCAMORZA = register(
+                FRESH_SCAMORZA_KEY,
+                new Item.Properties().stacksTo(16));
+
+        public static final ResourceKey<Item> SCAMORZA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("scamorza"));
+
+        public static final Item SCAMORZA = register(
+                SCAMORZA_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(4)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .stacksTo(16));
+
+        public static final ResourceKey<Item> SMOKED_SCAMORZA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("smoked_scamorza"));
+
+        public static final Item SMOKED_SCAMORZA = register(
+                SMOKED_SCAMORZA_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(4)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .stacksTo(16));
+
+        // Burrata
+        public static final ResourceKey<Item> BURRATA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("burrata"));
+
+        public static final Item BURRATA = register(
+                BURRATA_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(4)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .stacksTo(16));
+
+        // Mascarpone is served in a bowl and returns it after consumption.
+        public static final ResourceKey<Item> MASCARPONE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("mascarpone"));
+
+        public static final Item MASCARPONE = register(
+                MASCARPONE_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(4)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .craftRemainder(Items.BOWL)
+                        .usingConvertsTo(Items.BOWL)
+                        .stacksTo(16));
+
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),

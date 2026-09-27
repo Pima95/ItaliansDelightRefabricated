@@ -46,6 +46,26 @@ public final class ModItemGroups {
                 output.accept(ModItems.SHEEP_MILK_BUCKET);
                 output.accept(ModItems.WHEY_BOTTLE);
                 output.accept(ModItems.WHEY_BUCKET);
+                output.accept(ModItems.BOCCONCINI);
+                output.accept(ModItems.BURRATA);
+                output.accept(ModItems.MASCARPONE);
+                output.accept(ModItems.FRESH_PARMIGIANO_REGGIANO);
+                output.accept(ModItems.PARMIGIANO_REGGIANO);
+                output.accept(ModItems.PARMIGIANO_REGGIANO_WEDGE);
+                output.accept(ModItems.GRATED_PARMIGIANO_REGGIANO);
+                output.accept(ModItems.FRESH_PECORINO_ROMANO);
+                output.accept(ModItems.PECORINO_ROMANO);
+                output.accept(ModItems.PECORINO_ROMANO_WEDGE);
+                output.accept(ModItems.GRATED_PECORINO_ROMANO);
+                output.accept(ModItems.FRESH_GORGONZOLA);
+                output.accept(ModItems.GORGONZOLA);
+                output.accept(ModItems.GORGONZOLA_WEDGE);
+                output.accept(ModItems.FRESH_PROVOLONE);
+                output.accept(ModItems.PROVOLONE);
+                output.accept(ModItems.PROVOLONE_SLICE);
+                output.accept(ModItems.FRESH_SCAMORZA);
+                output.accept(ModItems.SCAMORZA);
+                output.accept(ModItems.SMOKED_SCAMORZA);
                 output.accept(ModItems.SALT);
             })
             .build();
