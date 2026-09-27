@@ -127,6 +127,35 @@ public final class ModItems {
                         .usingConvertsTo(net.minecraft.world.item.Items.BOWL)
                         .stacksTo(16));
 
+        // Cream Bowl
+        // PLACEHOLDER BALANCE: values will be reviewed with the full dairy line.
+        public static final ResourceKey<Item> CREAM_BOWL_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("cream_bowl"));
+
+        public static final Item CREAM_BOWL = register(
+                CREAM_BOWL_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(2)
+                                        .saturationModifier(0.2f)
+                                        .build()
+                        )
+                        .craftRemainder(net.minecraft.world.item.Items.BOWL)
+                        .usingConvertsTo(net.minecraft.world.item.Items.BOWL)
+                        .stacksTo(16));
+
+        // Blue Mold Culture
+        public static final ResourceKey<Item> BLUE_MOLD_CULTURE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("blue_mold_culture"));
+
+        public static final Item BLUE_MOLD_CULTURE = register(
+                BLUE_MOLD_CULTURE_KEY,
+                new Item.Properties()
+                        .stacksTo(64));
+
         // Ricotta
         // PLACEHOLDER BALANCE: nutrition/saturation/stack size will be reviewed
         // together with the other dairy products at the end of development.

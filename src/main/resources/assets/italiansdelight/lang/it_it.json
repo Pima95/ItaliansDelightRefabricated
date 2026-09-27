@@ -18,5 +18,7 @@
   "gui.italiansdelight.cheese_vat.whey_amount": "%s mB / %s mB",
   "item.italiansdelight.whey_bottle": "Bottiglia di Siero di Latte",
   "item.italiansdelight.whey_bucket": "Secchio di Siero di Latte",
-  "item.italiansdelight.ricotta": "Ricotta"
+  "item.italiansdelight.ricotta": "Ricotta",
+  "item.italiansdelight.cream_bowl": "Ciotola di Panna",
+  "item.italiansdelight.blue_mold_culture": "Coltura Erborinata"
 }
