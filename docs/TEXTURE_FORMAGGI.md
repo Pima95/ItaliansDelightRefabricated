@@ -14,10 +14,9 @@ Percorso base:
 Il nome del PNG deve coincidere esattamente con l'ID indicato nella tabella.
 I file `assets/italiansdelight/items/*.json` e
 `assets/italiansdelight/models/item/*.json` sono già presenti e puntano alle
-texture indicate. Le 27 texture realizzate in precedenza restano presenti;
-i nuovi item `scamorza_slice`, `smoked_scamorza_slice` e
-`apple_cider_vinegar` non hanno ancora un PNG e mostrano quindi la normale
-missing texture di Minecraft.
+texture indicate. Tutte le texture item attualmente previste sono presenti.
+Le nuove sprite `scamorza_slice`, `smoked_scamorza_slice` e
+`apple_cider_vinegar` sono state aggiunte in formato 16×16.
 
 Convenzioni dei nomi:
 
@@ -70,16 +69,12 @@ mancanti, comprese nella stessa lavorazione grafica.
 | `whey_bottle` | Bottiglia di Siero di Latte | Bottiglia con liquido giallo paglierino | `whey_bottle.png` |
 | `whey_bucket` | Secchio di Siero di Latte | Secchio metallico con liquido giallo paglierino | `whey_bucket.png` |
 
-## Texture non ancora create
+## Nuove texture aggiunte
 
-| ID item | Nome visualizzato IT | File atteso | Motivo |
-|---|---|---|---|
-| `scamorza_slice` | Fetta di Scamorza | `scamorza_slice.png` | Nuovo item aggiunto dopo il primo lotto di texture. |
-| `smoked_scamorza_slice` | Fetta di Scamorza Affumicata | `smoked_scamorza_slice.png` | Nuovo item aggiunto dopo il primo lotto di texture. |
-| `apple_cider_vinegar` | Bottiglia di Aceto di Mele | `apple_cider_vinegar.png` | La texture appartiene al futuro branch vino/barile. |
-
-Non vengono creati PNG placeholder: finché questi file mancano Minecraft usa
-la propria missing texture.
+- `scamorza_slice.png`: fetta chiara, derivata dalla palette della Scamorza;
+- `smoked_scamorza_slice.png`: stessa impostazione con palette ambrata/bruna;
+- `apple_cider_vinegar.png`: bottiglia vanilla di Minecraft con liquido
+  ambrato di aceto di mele all'interno.
 
 ## Distinzioni visive
 
@@ -106,14 +101,14 @@ fetta e non uno spicchio.
 
 Registrazione item, traduzioni, creative tab e file item/model: **completati**.
 
-Texture PNG: **27 create, 3 ancora da creare**.
+Texture PNG: **30/30 create**.
 
 Verifiche eseguite:
 
-- le 27 texture già realizzate hanno dimensioni 16×16, canale alpha e
+- tutte le 30 texture item hanno dimensioni 16×16, canale alpha e
   contenuto visibile;
-- i 27 sprite già realizzati sono distinti; i tre nuovi modelli puntano
-  intenzionalmente a texture ancora mancanti;
+- le due nuove fette riprendono le palette delle rispettive Scamorze;
+- la bottiglia di Aceto di Mele mantiene la sagoma della bottiglia vanilla;
 - controllo visivo della tavola a scala originale e ingrandita;
 - build Gradle offline completata con successo.
 
