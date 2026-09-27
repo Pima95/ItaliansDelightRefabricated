@@ -21,7 +21,7 @@ import net.minecraft.world.item.Items;
 public class CheeseVatMenu extends AbstractContainerMenu {
 
     // -------------------- Menu indices and sizes --------------------
-    private static final int DATA_COUNT = 4;
+    private static final int DATA_COUNT = 5;
 
     public static final int TOGGLE_WHEY_FLOW_BUTTON = 0;
 
@@ -222,6 +222,35 @@ public class CheeseVatMenu extends AbstractContainerMenu {
 
     public boolean isWheyFlowEnabled() {
         return data.get(3) != 0;
+    }
+
+    public int getWheyAmount() {
+        return data.get(4);
+    }
+
+    public int getWheyCapacity() {
+        return CheeseVatBlockEntity.WHEY_TANK_CAPACITY;
+    }
+
+    public int getWheyLevelScaled(int height) {
+        int amount = getWheyAmount();
+
+        if (amount <= 0 || height <= 0) {
+            return 0;
+        }
+
+        int scaled =
+            amount
+                * height
+                / CheeseVatBlockEntity.WHEY_TANK_CAPACITY;
+
+        return Math.min(
+            height,
+            Math.max(
+                1,
+                scaled
+            )
+        );
     }
 
     @Override

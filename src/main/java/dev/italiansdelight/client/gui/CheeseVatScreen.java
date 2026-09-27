@@ -50,6 +50,16 @@ public class CheeseVatScreen
     private static final int WHEY_FLOW_BLOCKED_U = 176;
     private static final int WHEY_FLOW_BLOCKED_V = 55;
 
+    // 16x32 interior of the tank drawn in the GUI texture.
+    private static final int WHEY_TANK_X = 144;
+    private static final int WHEY_TANK_Y = 19;
+    private static final int WHEY_TANK_WIDTH = 16;
+    private static final int WHEY_TANK_HEIGHT = 32;
+
+    // Pale yellow whey, with a lighter one-pixel liquid surface.
+    private static final int WHEY_COLOR = 0xFFE1D27A;
+    private static final int WHEY_SURFACE_COLOR = 0xFFF1E5A5;
+
     public CheeseVatScreen(
         CheeseVatMenu menu,
         Inventory inventory,
@@ -91,6 +101,37 @@ public class CheeseVatScreen
             TEXTURE_WIDTH,
             TEXTURE_HEIGHT
         );
+
+        // Whey tank: 4000 mB fill 32 pixels, so each 250 mB batch
+        // produced by curd is represented by exactly two pixels.
+        int wheyLevel =
+            menu.getWheyLevelScaled(
+                WHEY_TANK_HEIGHT
+            );
+
+        if (wheyLevel > 0) {
+            int wheyTop =
+                topPos
+                    + WHEY_TANK_Y
+                    + WHEY_TANK_HEIGHT
+                    - wheyLevel;
+
+            graphics.fill(
+                leftPos + WHEY_TANK_X,
+                wheyTop,
+                leftPos + WHEY_TANK_X + WHEY_TANK_WIDTH,
+                topPos + WHEY_TANK_Y + WHEY_TANK_HEIGHT,
+                WHEY_COLOR
+            );
+
+            graphics.fill(
+                leftPos + WHEY_TANK_X,
+                wheyTop,
+                leftPos + WHEY_TANK_X + WHEY_TANK_WIDTH,
+                wheyTop + 1,
+                WHEY_SURFACE_COLOR
+            );
+        }
 
         // Active flame indicator
         if (menu.isHeated()) {

@@ -54,7 +54,11 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
                 Codec.INT
                     .optionalFieldOf("whey", 0)
-                    .forGetter(CheeseVatRecipe::getWheyAmount)
+                    .forGetter(CheeseVatRecipe::getWheyAmount),
+
+                Codec.INT
+                    .optionalFieldOf("whey_output", 0)
+                    .forGetter(CheeseVatRecipe::getWheyOutput)
             ).apply(instance, CheeseVatRecipe::new)
         );
 
@@ -78,6 +82,7 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     private final int cookingTime;
     private final float experience;
     private final int wheyAmount;
+    private final int wheyOutput;
 
     public CheeseVatRecipe(
         List<Ingredient> ingredients,
@@ -85,7 +90,8 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         Optional<ItemStackTemplate> container,
         int cookingTime,
         float experience,
-        int wheyAmount
+        int wheyAmount,
+        int wheyOutput
     ) {
         this.ingredients = List.copyOf(ingredients);
         this.result = result;
@@ -93,6 +99,7 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         this.cookingTime = cookingTime;
         this.experience = experience;
         this.wheyAmount = Math.max(0, wheyAmount);
+        this.wheyOutput = Math.max(0, wheyOutput);
     }
 
     public List<Ingredient> getIngredientsList() {
@@ -121,6 +128,14 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
     public boolean usesWheyFromTank() {
         return wheyAmount > 0;
+    }
+
+    public int getWheyOutput() {
+        return wheyOutput;
+    }
+
+    public boolean producesWhey() {
+        return wheyOutput > 0;
     }
 
     /**
@@ -286,6 +301,7 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         int cookingTime = buffer.readVarInt();
         float experience = buffer.readFloat();
         int wheyAmount = buffer.readVarInt();
+        int wheyOutput = buffer.readVarInt();
 
         return new CheeseVatRecipe(
             ingredients,
@@ -293,7 +309,8 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
             container,
             cookingTime,
             experience,
-            wheyAmount
+            wheyAmount,
+            wheyOutput
         );
     }
 
@@ -317,5 +334,6 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         buffer.writeVarInt(recipe.cookingTime);
         buffer.writeFloat(recipe.experience);
         buffer.writeVarInt(recipe.wheyAmount);
+        buffer.writeVarInt(recipe.wheyOutput);
     }
 }

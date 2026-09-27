@@ -64,6 +64,9 @@ public class CheeseVatBlockEntity
     // Only slots 0-4 contain real inventory items.
     public static final int CONTAINER_SIZE = OUTPUT_SLOT + 1;
 
+    // Internal whey tank. It can only be filled by recipes that produce whey.
+    public static final int WHEY_TANK_CAPACITY = 4000;
+
     // These slots are persisted internally. On break they travel inside the
     // dropped vat, never as a free serving or an unconsumed container.
     public static final int PREVIEW_SLOT = 5;
@@ -88,6 +91,9 @@ public class CheeseVatBlockEntity
 
     // Controls only automatic whey consumption from the internal tank.
     private boolean wheyFlowEnabled = true;
+
+    // Stored independently from inventory slots and lost when the vat is broken.
+    private int wheyAmount = 0;
 
     private final RecipeManager.CachedCheck<
         CheeseVatRecipeInput,
@@ -305,6 +311,14 @@ public class CheeseVatBlockEntity
             return;
         }
 
+        // A whey-producing recipe may finish only when the whole by-product
+        // fits. Keep the completed progress waiting instead of consuming inputs.
+        if (!canStoreProducedWhey(recipe.getWheyOutput())) {
+            cookTime = cookTimeTotal;
+            setChanged();
+            return;
+        }
+
         ItemStack required = recipe.getContainerTemplate()
             .map(ItemStackTemplate::create)
             .orElse(ItemStack.EMPTY);
@@ -325,6 +339,8 @@ public class CheeseVatBlockEntity
             }
             tryFillContainer();
         }
+
+        addProducedWhey(recipe.getWheyOutput());
 
         storedExperience += recipe.getExperience();
         cookTime = 0;
@@ -531,6 +547,33 @@ public class CheeseVatBlockEntity
         return wheyFlowEnabled;
     }
 
+    public int getWheyAmount() {
+        return wheyAmount;
+    }
+
+    public int getWheyCapacity() {
+        return WHEY_TANK_CAPACITY;
+    }
+
+    private boolean canStoreProducedWhey(int amount) {
+        if (amount <= 0) {
+            return true;
+        }
+
+        return amount <= WHEY_TANK_CAPACITY - wheyAmount;
+    }
+
+    private void addProducedWhey(int amount) {
+        if (amount <= 0) {
+            return;
+        }
+
+        wheyAmount = Math.min(
+            WHEY_TANK_CAPACITY,
+            wheyAmount + amount
+        );
+    }
+
     public void toggleWheyFlow() {
         wheyFlowEnabled = !wheyFlowEnabled;
         setChanged();
@@ -562,6 +605,9 @@ public class CheeseVatBlockEntity
                             ? 1
                             : 0;
 
+                    case 4 ->
+                        CheeseVatBlockEntity.this.wheyAmount;
+
                     default -> 0;
                 };
             }
@@ -585,6 +631,16 @@ public class CheeseVatBlockEntity
                         CheeseVatBlockEntity.this.wheyFlowEnabled =
                             value != 0;
 
+                    case 4 ->
+                        CheeseVatBlockEntity.this.wheyAmount =
+                            Math.max(
+                                0,
+                                Math.min(
+                                    WHEY_TANK_CAPACITY,
+                                    value
+                                )
+                            );
+
                     default -> {
                     }
                 }
@@ -592,7 +648,7 @@ public class CheeseVatBlockEntity
 
             @Override
             public int getCount() {
-                return 4;
+                return 5;
             }
         };
     }
@@ -748,6 +804,13 @@ public class CheeseVatBlockEntity
             items.get(PREVIEW_SLOT).getCount()));
         storedExperience = Math.max(0.0F, input.getFloatOr("StoredExperience", 0.0F));
         wheyFlowEnabled = input.getBooleanOr("WheyFlowEnabled", true);
+        wheyAmount = Math.max(
+            0,
+            Math.min(
+                WHEY_TANK_CAPACITY,
+                input.getIntOr("WheyAmount", 0)
+            )
+        );
     }
 
     @Override
@@ -773,6 +836,7 @@ public class CheeseVatBlockEntity
         output.putInt("PendingBatchSize", pendingBatchSize);
         output.putFloat("StoredExperience", storedExperience);
         output.putBoolean("WheyFlowEnabled", wheyFlowEnabled);
+        output.putInt("WheyAmount", wheyAmount);
 
         super.saveAdditional(output);
     }
