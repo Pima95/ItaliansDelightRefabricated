@@ -112,7 +112,7 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 - [x] Definire gli ingredienti intermedi principali: la panna usa una sola
       ricetta con `#c:drinks/milk` e ciotola, senza differenze tra secchio e
       bottiglia; la coltura erborinata è un item craftabile shapeless da
-      `minecraft:bread` + `#c:mushrooms`. Per la Scamorza si usa
+      `#c:foods/bread` + `#c:mushrooms`. Per la Scamorza si usa
       `minecraft:lead` nello slot contenitore; per il Mascarpone si usa aceto
       di mele, la cui produzione resta nel branch dedicato al vino/barile.
 - [x] Definire il controllo del siero nella Cheese Vat: la freccia della GUI
@@ -154,7 +154,7 @@ l'implementazione.
       usando valori di bilanciamento placeholder.
 - [x] Implementare la Panna come `cream_bowl` con valori placeholder e
       verificare la selezione Ricotta/Panna tramite il flow del tank.
-- [x] Implementare la Coltura Erborinata craftabile da pane + `#c:mushrooms`.
+- [x] Implementare la Coltura Erborinata craftabile da `#c:foods/bread` + `#c:mushrooms`.
 - [ ] Aggiungere registrazioni, modelli, texture, traduzioni italiane e inglesi,
       ricette, tag e presenza nel gruppo creativo.
 - [ ] Integrare le nuove lavorazioni in JEI e verificare i contenitori.

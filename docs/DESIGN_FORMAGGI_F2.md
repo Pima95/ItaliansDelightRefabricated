@@ -141,10 +141,15 @@ La coltura erborinata è un **item normale e craftabile**:
 Ricetta shapeless implementata:
 
 ```text
-1x minecraft:bread
+1x #c:foods/bread
 + 1x #c:mushrooms
 → 1x Coltura Erborinata
 ```
+
+Per il pane si usa il tag comune `#c:foods/bread`, così la ricetta accetta
+`minecraft:bread` e i pani aggiunti da altre mod che aderiscono alla
+convenzione comune. Il tag è preferito al riferimento diretto a
+`minecraft:bread` proprio per mantenere la compatibilità cross-mod.
 
 Si usa il tag comune `#c:mushrooms`, così sono validi i funghi vanilla
 (`minecraft:red_mushroom` e `minecraft:brown_mushroom`) e gli eventuali
