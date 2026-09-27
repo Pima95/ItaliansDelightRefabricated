@@ -41,6 +41,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.CURD);
                 output.accept(ModItems.CREAM_BOWL);
                 output.accept(ModItems.BLUE_MOLD_CULTURE);
+                output.accept(ModItems.APPLE_CIDER_VINEGAR);
                 output.accept(ModItems.RICOTTA);
                 output.accept(ModItems.SHEEP_MILK_BOTTLE);
                 output.accept(ModItems.SHEEP_MILK_BUCKET);
@@ -66,6 +67,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.FRESH_SCAMORZA);
                 output.accept(ModItems.SCAMORZA);
                 output.accept(ModItems.SMOKED_SCAMORZA);
+                output.accept(ModItems.SCAMORZA_SLICE);
+                output.accept(ModItems.SMOKED_SCAMORZA_SLICE);
                 output.accept(ModItems.SALT);
             })
             .build();

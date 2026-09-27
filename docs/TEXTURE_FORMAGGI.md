@@ -48,6 +48,8 @@ Convenzioni dei nomi:
 | `fresh_scamorza` | Scamorza Fresca | Scamorza appena formata, prima dell'asciugatura | `fresh_scamorza.png` |
 | `scamorza` | Scamorza | Scamorza asciugata/pronta | `scamorza.png` |
 | `smoked_scamorza` | Scamorza Affumicata | Variante affumicata della Scamorza | `smoked_scamorza.png` |
+| `scamorza_slice` | Fetta di Scamorza | Quarto di una Scamorza | `scamorza_slice.png` |
+| `smoked_scamorza_slice` | Fetta di Scamorza Affumicata | Quarto della variante affumicata | `smoked_scamorza_slice.png` |
 | `burrata` | Burrata | Burrata pronta al consumo | `burrata.png` |
 | `mascarpone` | Mascarpone | Mascarpone servito nel suo contenitore/ciotola | `mascarpone.png` |
 
@@ -65,6 +67,15 @@ mancanti, comprese nella stessa lavorazione grafica.
 | `sheep_milk_bucket` | Secchio di Latte di Pecora | Secchio metallico con latte bianco e piccolo richiamo alla lana | `sheep_milk_bucket.png` |
 | `whey_bottle` | Bottiglia di Siero di Latte | Bottiglia con liquido giallo paglierino | `whey_bottle.png` |
 | `whey_bucket` | Secchio di Siero di Latte | Secchio metallico con liquido giallo paglierino | `whey_bucket.png` |
+
+## Texture volutamente non ancora creata
+
+| ID item | Nome visualizzato IT | Motivo |
+|---|---|---|
+| `apple_cider_vinegar` | Bottiglia di Aceto di Mele | L'item e il modello sono già registrati, ma la texture appartiene al futuro branch vino/barile. |
+
+Anche `scamorza_slice.png` e `smoked_scamorza_slice.png` sono nuovi asset
+da creare dopo questa aggiunta.
 
 ## Distinzioni visive
 

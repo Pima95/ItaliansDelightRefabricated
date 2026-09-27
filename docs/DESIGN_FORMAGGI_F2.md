@@ -196,12 +196,14 @@ Panna + Aceto di mele
 → Mascarpone
 ```
 
-La produzione, il crafting e l'eventuale fermentazione dell'aceto vengono
-progettati e implementati nel branch dedicato al sistema vino/barile, non in
-`feature/cheeses`.
+L'item `italiansdelight:apple_cider_vinegar` è registrato già nel branch
+`feature/cheeses` perché serve alla ricetta del Mascarpone. Rappresenta una
+**bottiglia di aceto di mele**, ha stack massimo 16 e restituisce
+`minecraft:glass_bottle` quando viene consumato come ingrediente.
 
-Nel repository sono già presenti asset per il sidro che potranno essere usati
-da quel lavoro separato.
+La **produzione/crafting dell'aceto** e la relativa texture restano invece nel
+branch dedicato al sistema vino/barile. Nel repository sono già presenti asset
+per il sidro che potranno essere usati da quel lavoro separato.
 
 ### Bocconcini — regola ricetta
 
@@ -551,7 +553,9 @@ I valori di fame e saturazione verranno bilanciati successivamente.
 | Provolone — forma intera | No | Forma da stagionatura |
 | Provolone Slice | Sì | Porzione mangiabile |
 | Scamorza intera | Sì | La forma è considerata una porzione consumabile |
+| Scamorza Slice | Sì | 1/4 della Scamorza; ottenuta al Cutting Board |
 | Scamorza affumicata intera | Sì | Come la Scamorza normale |
+| Smoked Scamorza Slice | Sì | Ottenuta affettando la Scamorza affumicata o affumicando una fetta normale |
 | Fresh Scamorza | No | Prodotto intermedio prima dell'asciugatura |
 | Sheep Milk Bottle | Sì | Bevibile come equivalente della Milk Bottle |
 | Sheep Milk Bucket | Sì | Bevibile come il secchio di latte vanilla e rimuove gli effetti attivi |
@@ -633,17 +637,23 @@ Scamorza, senza lazzo rimane selezionabile la Mozzarella.
 Sono presenti ricette placeholder, da ribilanciare:
 
 - Forma di Parmigiano Reggiano → 4 spicchi;
-- 1 spicchio di Parmigiano Reggiano → 2 Parmigiano grattugiato;
+- 1 spicchio di Parmigiano Reggiano → 4 Parmigiano grattugiato;
 - Forma di Pecorino Romano → 4 spicchi;
-- 1 spicchio di Pecorino Romano → 2 Pecorino grattugiato;
+- 1 spicchio di Pecorino Romano → 4 Pecorino grattugiato;
 - Forma di Gorgonzola → 4 spicchi;
-- Provolone → 4 fette.
+- Provolone → 4 fette;
+- Scamorza → 4 fette + 1 lazzo;
+- Scamorza Affumicata → 4 fette affumicate + 1 lazzo.
 
 ### Affumicatura
 
 `Scamorza → Scamorza Affumicata` usa una ricetta vanilla
 `minecraft:smoking`, coerente con l'uso dello Smoker già adottato da
 Farmer's Delight per altri prodotti affumicati.
+
+È inoltre presente `Scamorza Slice → Smoked Scamorza Slice` nello Smoker.
+Le fette affumicate possono quindi essere ottenute sia affettando una Scamorza
+Affumicata sia affumicando direttamente una fetta di Scamorza.
 
 ### Ricette volutamente non ancora presenti
 
@@ -658,9 +668,11 @@ Le conversioni:
 non hanno una ricetta temporanea: saranno collegate al sistema di
 stagionatura/asciugatura nella fase successiva.
 
-Anche il **Mascarpone** resta senza ricetta finché non viene introdotto
-l'Aceto di Mele nel branch dedicato al vino/barile; non viene usato un
-ingrediente sostitutivo fittizio.
+Il **Mascarpone** è ora ottenibile nella Cheese Vat da
+`cream_bowl + apple_cider_vinegar`, con una ciotola separata nello slot
+contenitore. Cream Bowl e Aceto di Mele restituiscono rispettivamente ciotola
+e bottiglia di vetro come remainder. La produzione dell'Aceto di Mele resta
+demandata al branch vino/barile.
 
 ## 9. Decisioni ancora aperte
 

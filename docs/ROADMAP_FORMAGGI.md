@@ -172,8 +172,12 @@ l'implementazione.
       Smoker della Scamorza affumicata, mantenendo rese placeholder.
 - [ ] Collegare le forme fresche alle forme mature tramite il sistema di
       stagionatura/asciugatura della fase F4.
-- [ ] Aggiungere la ricetta del Mascarpone quando l'Aceto di Mele sarà
-      disponibile dal branch vino/barile.
+- [x] Registrare l'Aceto di Mele in bottiglia come ingrediente tecnico, senza
+      texture né ricetta di produzione, e aggiungere il Mascarpone alla Cheese
+      Vat con Cream Bowl + Apple Cider Vinegar + Bowl nello slot contenitore.
+- [x] Aggiungere fette di Scamorza normali/affumicate, rese 4 + lazzo al
+      Cutting Board e conversione della fetta normale nello Smoker.
+- [x] Portare da 2 a 4 l'output del grattugiato di Parmigiano e Pecorino.
 - [ ] Integrare le nuove lavorazioni in JEI e verificare i contenitori.
 
 **Completamento:** mozzarella e ricotta sono ottenibili e utilizzabili in

@@ -1,0 +1,15 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "italiansdelight:cream_bowl",
+    "italiansdelight:apple_cider_vinegar"
+  ],
+  "container": {
+    "id": "minecraft:bowl",
+    "count": 1
+  },
+  "result": {
+    "id": "italiansdelight:mascarpone"
+  },
+  "cookingtime": 200
+}

@@ -172,6 +172,20 @@ public final class ModItems {
                 new Item.Properties()
                         .stacksTo(64));
 
+
+        // Apple Cider Vinegar Bottle
+        // The production recipe belongs to the wine/barrel development branch.
+        // As a Cheese Vat ingredient it returns its glass bottle normally.
+        public static final ResourceKey<Item> APPLE_CIDER_VINEGAR_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("apple_cider_vinegar"));
+
+        public static final Item APPLE_CIDER_VINEGAR = register(
+                APPLE_CIDER_VINEGAR_KEY,
+                new Item.Properties()
+                        .craftRemainder(Items.GLASS_BOTTLE)
+                        .stacksTo(16));
+
         // Ricotta
         // PLACEHOLDER BALANCE: nutrition/saturation/stack size will be reviewed
         // together with the other dairy products at the end of development.
@@ -456,6 +470,39 @@ public final class ModItems {
                                         .build()
                         )
                         .stacksTo(16));
+
+
+        // Scamorza slices: four slices preserve the whole cheese's placeholder
+        // nutrition/saturation budget. The tied Lead is returned by the Cutting Board.
+        public static final ResourceKey<Item> SCAMORZA_SLICE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("scamorza_slice"));
+
+        public static final Item SCAMORZA_SLICE = register(
+                SCAMORZA_SLICE_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(1)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .stacksTo(64));
+
+        public static final ResourceKey<Item> SMOKED_SCAMORZA_SLICE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("smoked_scamorza_slice"));
+
+        public static final Item SMOKED_SCAMORZA_SLICE = register(
+                SMOKED_SCAMORZA_SLICE_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(1)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .stacksTo(64));
 
         // Burrata
         public static final ResourceKey<Item> BURRATA_KEY = ResourceKey.create(
