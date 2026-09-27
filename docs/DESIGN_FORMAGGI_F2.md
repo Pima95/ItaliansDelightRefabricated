@@ -72,10 +72,11 @@ Sono implementati entrambi:
 
 Acquisizione implementata:
 
-- una pecora adulta può essere munta con `minecraft:bucket` e produce
+- una pecora adulta può essere munta **solo** con `minecraft:bucket` e produce
   `sheep_milk_bucket`;
-- una pecora adulta può essere munta con `minecraft:glass_bottle` e produce
-  `sheep_milk_bottle`;
+- le bottiglie di latte di pecora non si ottengono mungendo direttamente:
+  `1x sheep_milk_bucket + 4x glass_bottle → 4x sheep_milk_bottle`, come per
+  la Milk Bottle di Farmer's Delight Refabricated;
 - le pecore cucciole non possono essere munte;
 - la mungitura non sostituisce la normale interazione con le cesoie.
 
@@ -562,6 +563,38 @@ Regola generale: le **forme grandi destinate a stagionatura o porzionatura non
 sono cibo diretto**; le porzioni, i formaggi freschi e i prodotti serviti in
 ciotola possono invece avere proprietà alimentari.
 
+
+### Identificatori grafici dei nuovi formaggi
+
+Gli identificatori degli item introdotti per la filiera casearia sono ora
+stabili e vanno usati anche come nomi delle texture. La checklist completa,
+con significato di ogni variante e percorso esatto dei PNG, è in
+[`TEXTURE_FORMAGGI.md`](TEXTURE_FORMAGGI.md).
+
+Convenzioni confermate:
+
+- prefisso `fresh_`: forma fresca/intermedia prima della stagionatura o
+  dell'asciugatura;
+- nome senza prefisso: prodotto finale/stagionato;
+- suffisso `_wedge`: **spicchio** ricavato da una forma intera;
+- suffisso `_slice`: **fetta**, usato quando la porzione è visivamente una
+  fetta sottile;
+- prefisso `grated_`: formaggio grattugiato;
+- `smoked_scamorza`: variante affumicata della Scamorza.
+
+Per Parmigiano Reggiano, Pecorino Romano e Gorgonzola si mantiene quindi
+`wedge`, non `slice`, perché la porzione prevista è uno spicchio/cuneo della
+forma. Il Provolone usa invece `provolone_slice`.
+
+Le texture item sono normali sprite Minecraft **16×16** e devono essere salvate
+in:
+
+`src/main/resources/assets/italiansdelight/textures/item/<id>.png`
+
+I file modello sono già presenti e puntano a questi percorsi. Non sono stati
+creati PNG placeholder: finché una texture manca Minecraft mostrerà la normale
+missing texture.
+
 ## 8. Decisioni ancora aperte
 
 Non sono ancora stati fissati:
@@ -571,7 +604,6 @@ Non sono ancora stati fissati:
   durante lo sviluppo sono placeholder salvo quelli esplicitamente fissati come definitivi;
 - tempi e regole della stagionatura/asciugatura;
 - texture e implementazione tecnica del siero nei calderoni;
-- nomi definitivi di registrazione per gli item non ancora implementati.
 
 Quando una di queste decisioni viene approvata, va aggiunta a questo documento
 prima o insieme alla relativa implementazione.
