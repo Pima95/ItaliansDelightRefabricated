@@ -63,9 +63,12 @@ restano estensioni da valutare successivamente.
 | Burrata | Mozzarella + panna → burrata; prodotto fresco senza stagionatura | Da implementare |
 | Mascarpone | Panna + aceto di mele → mascarpone nella Cheese Vat; ciotola separata nello slot contenitore | Da implementare |
 
-I nomi delle nuove registrazioni, le quantità, i tempi e i valori nutritivi
-saranno fissati nella fase F2. Gli identificatori dei contenuti esistenti vanno
-preservati, salvo una migrazione esplicitamente documentata.
+Gli identificatori degli item della filiera casearia sono stati fissati e
+registrati. La checklist grafica completa è documentata in
+[`TEXTURE_FORMAGGI.md`](TEXTURE_FORMAGGI.md). Quantità, tempi e valori
+nutritivi restano invece placeholder fino al rebalancing finale. Gli
+identificatori esistenti vanno preservati, salvo una migrazione esplicitamente
+documentata.
 
 ## 4. Fasi di lavoro
 
@@ -158,8 +161,12 @@ l'implementazione.
 - [x] Implementare la Panna come `cream_bowl` con valori placeholder e
       verificare la selezione Ricotta/Panna tramite il flow del tank.
 - [x] Implementare la Coltura Erborinata craftabile da `#c:foods/bread` + `#c:mushrooms`.
-- [ ] Aggiungere registrazioni, modelli, texture, traduzioni italiane e inglesi,
-      ricette, tag e presenza nel gruppo creativo.
+- [x] Registrare gli item concordati, creare i relativi file item/model,
+      aggiungere traduzioni italiane/inglesi e inserirli nel gruppo creativo.
+- [ ] Creare le texture mancanti seguendo la checklist
+      [`TEXTURE_FORMAGGI.md`](TEXTURE_FORMAGGI.md).
+- [ ] Aggiungere le ricette e i tag necessari per rendere ottenibili i nuovi
+      prodotti nelle rispettive fasi.
 - [ ] Integrare le nuove lavorazioni in JEI e verificare i contenitori.
 
 **Completamento:** mozzarella e ricotta sono ottenibili e utilizzabili in
