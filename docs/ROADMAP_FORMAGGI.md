@@ -54,7 +54,7 @@ restano estensioni da valutare successivamente.
 |---|---|---|
 | Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board | Base presente, da rifinire |
 | Bocconcini | Cagliata + acqua normale → 2 bocconcini nella Cheese Vat; nessun contenitore finale e nessun item "acqua calda" | Da implementare |
-| Ricotta | La produzione della cagliata recupera anche il siero; siero + una piccola quantità di latte → ricotta nella Cheese Vat | Da implementare |
+| Ricotta | La produzione della cagliata recupera anche il siero; latte + requisito siero → ricotta nella Cheese Vat | Implementata con valori placeholder da ribilanciare |
 | Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
 | Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
 | Gorgonzola | Cagliata + sale + coltura erborinata → forma fresca → stagionatura | Da implementare |
@@ -131,9 +131,12 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 - [x] Collegare il campo `whey` alle ricette: priorità Whey Bottle/Whey Bucket
       sul tank, consumo esatto dal tank solo a fine lavorazione e rispetto del
       toggle del flow durante recipe matching.
-- [ ] Definire rese, tempi di lavorazione, tempi di stagionatura/asciugatura,
-      valori nutritivi e quantità ottenute dalle porzionature. Per la ricotta,
-      il siero è già definito: 500 mB dal tank oppure una bottiglia/secchio di
+- [ ] Definire definitivamente rese, tempi di lavorazione, tempi di
+      stagionatura/asciugatura, valori nutritivi e quantità ottenute dalle
+      porzionature. Durante lo sviluppo possono essere usati valori placeholder
+      da rivedere nel rebalancing finale. La Ricotta usa attualmente 1 output,
+      200 tick, 4 fame e 0.3 saturation modifier come placeholder; il requisito
+      siero resta definito: 500 mB dal tank oppure una bottiglia/secchio di
       siero consumati come unità intera, con priorità dell'item sul tank.
 - [ ] Definire capacità, interazioni, condizioni e recupero delle forme del
       sistema di stagionatura/asciugatura.
@@ -145,7 +148,8 @@ l'implementazione.
 ### F3 — Completare i formaggi freschi
 
 - [ ] Applicare il bilanciamento e le rifiniture concordate per la mozzarella.
-- [ ] Implementare la ricotta e gli eventuali intermedi definiti in F2.
+- [x] Implementare la ricotta e collegarla al requisito siero della Cheese Vat,
+      usando valori di bilanciamento placeholder.
 - [ ] Aggiungere registrazioni, modelli, texture, traduzioni italiane e inglesi,
       ricette, tag e presenza nel gruppo creativo.
 - [ ] Integrare le nuove lavorazioni in JEI e verificare i contenitori.

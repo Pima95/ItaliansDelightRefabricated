@@ -127,6 +127,26 @@ public final class ModItems {
                         .usingConvertsTo(net.minecraft.world.item.Items.BOWL)
                         .stacksTo(16));
 
+        // Ricotta
+        // PLACEHOLDER BALANCE: nutrition/saturation/stack size will be reviewed
+        // together with the other dairy products at the end of development.
+        public static final ResourceKey<Item> RICOTTA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("ricotta"));
+
+        public static final Item RICOTTA = register(
+                RICOTTA_KEY,
+                new Item.Properties()
+                        .food(
+                                new FoodProperties.Builder()
+                                        .nutrition(4)
+                                        .saturationModifier(0.3f)
+                                        .build()
+                        )
+                        .craftRemainder(net.minecraft.world.item.Items.BOWL)
+                        .usingConvertsTo(net.minecraft.world.item.Items.BOWL)
+                        .stacksTo(16));
+
         // Whey bottle: 250 mB of whey. It is a processing resource, not a drink.
         public static final ResourceKey<Item> WHEY_BOTTLE_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),

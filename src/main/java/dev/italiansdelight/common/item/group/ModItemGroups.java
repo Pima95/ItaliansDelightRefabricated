@@ -39,6 +39,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.RENNET);
                 output.accept(ModItems.CURD);
+                output.accept(ModItems.RICOTTA);
                 output.accept(ModItems.WHEY_BOTTLE);
                 output.accept(ModItems.WHEY_BUCKET);
                 output.accept(ModItems.SALT);

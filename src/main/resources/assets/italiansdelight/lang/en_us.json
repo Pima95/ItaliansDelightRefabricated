@@ -17,5 +17,6 @@
   "gui.italiansdelight.cheese_vat.whey": "Whey",
   "gui.italiansdelight.cheese_vat.whey_amount": "%s mB / %s mB",
   "item.italiansdelight.whey_bottle": "Bottle of Whey",
-  "item.italiansdelight.whey_bucket": "Whey Bucket"
+  "item.italiansdelight.whey_bucket": "Whey Bucket",
+  "item.italiansdelight.ricotta": "Ricotta"
 }

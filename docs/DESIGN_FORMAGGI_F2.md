@@ -389,7 +389,31 @@ prelevare dal serbatoio interno.
 
 ### Ricotta
 
-La ricotta può soddisfare il requisito del siero in due modi.
+La Ricotta è ora implementata come `italiansdelight:ricotta`.
+
+Valori **PLACEHOLDER** in attesa del rebalancing finale:
+
+- resa: **1 Ricotta** per lavorazione;
+- tempo Cheese Vat: **200 tick**;
+- fame: **4**;
+- saturation modifier: **0.3**;
+- stack massimo: **16**.
+
+Questi valori non sono da considerare definitivi: verranno rivalutati insieme
+a tutti gli altri prodotti caseari a fine sviluppo.
+
+Ricetta implementata:
+
+```text
+#c:drinks/milk
++ Bowl nello slot contenitore
++ requisito siero
+↓ Cheese Vat
+1x Ricotta
+```
+
+La ricetta dichiara `"whey": 500`. La Ricotta può soddisfare il requisito del
+siero in due modi.
 
 **Uso del serbatoio interno**
 
@@ -432,8 +456,8 @@ vengono usati per calcolare quanto consumare da bottiglie o secchi.
 
 Il tank resta invariato quando viene usato un item di siero.
 
-Il formato esatto del latte e le quantità finali della ricetta restano da
-definire.
+Il latte usa il tag generico `#c:drinks/milk`. Resa, tempo e valori nutritivi
+attuali sono placeholder da rivedere durante il rebalancing finale.
 
 ## 6. Siero nei calderoni
 
@@ -508,7 +532,8 @@ Non sono ancora stati fissati:
 - tempo/resa finale della lavorazione della panna;
 
 - produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
-- quantità, tempi e valori di fame/saturazione degli item già definiti come consumabili;
+- rebalancing finale di quantità, tempi, fame e saturazione: i valori introdotti
+  durante lo sviluppo sono placeholder salvo quelli esplicitamente fissati come definitivi;
 - tempi e regole della stagionatura/asciugatura;
 - texture e implementazione tecnica del siero nei calderoni;
 - nomi definitivi di registrazione per gli item non ancora implementati.
