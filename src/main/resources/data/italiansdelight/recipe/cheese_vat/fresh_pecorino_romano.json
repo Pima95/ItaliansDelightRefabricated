@@ -1,0 +1,12 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "#italiansdelight:sheep_milk",
+    "#c:rennet",
+    "#c:dusts/salt"
+  ],
+  "result": {
+    "id": "italiansdelight:fresh_pecorino_romano"
+  },
+  "cookingtime": 300
+}

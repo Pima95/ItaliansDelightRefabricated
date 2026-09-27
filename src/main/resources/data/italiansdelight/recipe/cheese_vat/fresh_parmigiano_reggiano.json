@@ -1,0 +1,12 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "#italiansdelight:cow_milk",
+    "#c:rennet",
+    "#c:dusts/salt"
+  ],
+  "result": {
+    "id": "italiansdelight:fresh_parmigiano_reggiano"
+  },
+  "cookingtime": 300
+}

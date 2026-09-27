@@ -1,0 +1,15 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    "italiansdelight:parmigiano_reggiano_wedge"
+  ],
+  "tool": "#c:tools/knife",
+  "result": [
+    {
+      "item": {
+        "count": 2,
+        "id": "italiansdelight:grated_parmigiano_reggiano"
+      }
+    }
+  ]
+}

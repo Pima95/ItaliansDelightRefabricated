@@ -599,7 +599,70 @@ create tutte le 27 texture item mancanti della filiera casearia, inclusi
 ingredienti e contenitori, in formato 16×16 con sfondo trasparente. Anteprima,
 prompt e verifiche sono riportati in [`TEXTURE_FORMAGGI.md`](TEXTURE_FORMAGGI.md).
 
-## 8. Decisioni ancora aperte
+
+## 8. Ricette implementate prima della stagionatura
+
+Le ricette dei nuovi item sono state aggiunte alle categorie già previste.
+
+### Cheese Vat
+
+Sono presenti in `data/italiansdelight/recipe/cheese_vat/`:
+
+- Cagliata + acqua → **2 Bocconcini**; sono supportati sia secchio sia bottiglia
+  d'acqua;
+- latte vaccino + caglio + sale → **Forma Fresca di Parmigiano Reggiano**;
+- latte di pecora + caglio + sale → **Forma Fresca di Pecorino Romano**;
+- cagliata + sale + coltura erborinata → **Forma Fresca di Gorgonzola**;
+- cagliata + sale + acqua → **Provolone Fresco**; sono supportati sia secchio
+  sia bottiglia d'acqua;
+- cagliata + sale + lazzo nello slot contenitore → **Scamorza Fresca**;
+- mozzarella + panna → **Burrata**.
+
+Per distinguere Parmigiano e Pecorino sono stati introdotti i tag interni
+`#italiansdelight:cow_milk` e `#italiansdelight:sheep_milk`. Il primo
+accetta il secchio di latte vanilla e la Milk Bottle di Farmer's Delight; il
+secondo accetta secchio e bottiglia di latte di pecora.
+
+La Scamorza condivide cagliata + sale con la Mozzarella. Il recipe matching
+della Cheese Vat dà quindi priorità alla ricetta il cui contenitore coincide
+con quello presente nello slot: con un `minecraft:lead` viene selezionata la
+Scamorza, senza lazzo rimane selezionabile la Mozzarella.
+
+### Cutting Board
+
+Sono presenti ricette placeholder, da ribilanciare:
+
+- Forma di Parmigiano Reggiano → 4 spicchi;
+- 1 spicchio di Parmigiano Reggiano → 2 Parmigiano grattugiato;
+- Forma di Pecorino Romano → 4 spicchi;
+- 1 spicchio di Pecorino Romano → 2 Pecorino grattugiato;
+- Forma di Gorgonzola → 4 spicchi;
+- Provolone → 4 fette.
+
+### Affumicatura
+
+`Scamorza → Scamorza Affumicata` usa una ricetta vanilla
+`minecraft:smoking`, coerente con l'uso dello Smoker già adottato da
+Farmer's Delight per altri prodotti affumicati.
+
+### Ricette volutamente non ancora presenti
+
+Le conversioni:
+
+- `fresh_parmigiano_reggiano → parmigiano_reggiano`;
+- `fresh_pecorino_romano → pecorino_romano`;
+- `fresh_gorgonzola → gorgonzola`;
+- `fresh_provolone → provolone`;
+- `fresh_scamorza → scamorza`
+
+non hanno una ricetta temporanea: saranno collegate al sistema di
+stagionatura/asciugatura nella fase successiva.
+
+Anche il **Mascarpone** resta senza ricetta finché non viene introdotto
+l'Aceto di Mele nel branch dedicato al vino/barile; non viene usato un
+ingrediente sostitutivo fittizio.
+
+## 9. Decisioni ancora aperte
 
 Non sono ancora stati fissati:
 

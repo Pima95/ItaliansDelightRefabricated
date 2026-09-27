@@ -1,0 +1,15 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "#c:foods/curd",
+    "#c:dusts/salt"
+  ],
+  "container": {
+    "id": "minecraft:lead",
+    "count": 1
+  },
+  "result": {
+    "id": "italiansdelight:fresh_scamorza"
+  },
+  "cookingtime": 200
+}

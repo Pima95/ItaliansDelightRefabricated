@@ -1,0 +1,11 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "italiansdelight:mozzarella",
+    "italiansdelight:cream_bowl"
+  ],
+  "result": {
+    "id": "italiansdelight:burrata"
+  },
+  "cookingtime": 160
+}

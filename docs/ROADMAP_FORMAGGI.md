@@ -165,8 +165,15 @@ l'implementazione.
       aggiungere traduzioni italiane/inglesi e inserirli nel gruppo creativo.
 - [x] Creare le texture mancanti seguendo la checklist
       [`TEXTURE_FORMAGGI.md`](TEXTURE_FORMAGGI.md).
-- [ ] Aggiungere le ricette e i tag necessari per rendere ottenibili i nuovi
-      prodotti nelle rispettive fasi.
+- [x] Aggiungere le ricette Cheese Vat già definite per Bocconcini, forme
+      fresche di Parmigiano/Pecorino/Gorgonzola/Provolone/Scamorza e Burrata,
+      più i tag latte vaccino/pecora.
+- [x] Aggiungere le porzionature già definite al Cutting Board e la ricetta
+      Smoker della Scamorza affumicata, mantenendo rese placeholder.
+- [ ] Collegare le forme fresche alle forme mature tramite il sistema di
+      stagionatura/asciugatura della fase F4.
+- [ ] Aggiungere la ricetta del Mascarpone quando l'Aceto di Mele sarà
+      disponibile dal branch vino/barile.
 - [ ] Integrare le nuove lavorazioni in JEI e verificare i contenitori.
 
 **Completamento:** mozzarella e ricotta sono ottenibili e utilizzabili in

@@ -1,0 +1,12 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "#c:foods/curd",
+    "#c:dusts/salt",
+    "italiansdelight:blue_mold_culture"
+  ],
+  "result": {
+    "id": "italiansdelight:fresh_gorgonzola"
+  },
+  "cookingtime": 240
+}

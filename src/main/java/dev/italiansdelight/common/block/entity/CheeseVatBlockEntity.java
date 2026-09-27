@@ -249,10 +249,78 @@ public class CheeseVatBlockEntity
             return wheyRecipe;
         }
 
+        // Some recipes intentionally reuse the same ingredient set and are
+        // distinguished by the item placed in the container slot. Scamorza,
+        // for example, shares Curd + Salt with Mozzarella but requires a Lead.
+        // Prefer an exact container match before falling back to the normal
+        // recipe-manager lookup.
+        Optional<RecipeHolder<CheeseVatRecipe>> containerSelectedRecipe =
+            findRecipeSelectedByContainer(
+                input,
+                level
+            );
+
+        if (containerSelectedRecipe.isPresent()) {
+            return containerSelectedRecipe;
+        }
+
         return quickCheck.getRecipeFor(
             input,
             level
         );
+    }
+
+    private Optional<RecipeHolder<CheeseVatRecipe>>
+    findRecipeSelectedByContainer(
+        CheeseVatRecipeInput input,
+        ServerLevel level
+    ) {
+        ItemStack provided =
+            items.get(CONTAINER_SLOT);
+
+        if (provided.isEmpty()) {
+            return Optional.empty();
+        }
+
+        RecipeManager recipeManager =
+            level.getServer()
+                .getRecipeManager();
+
+        for (
+            RecipeHolder<?> holder :
+            recipeManager.getRecipes()
+        ) {
+            if (
+                !(holder.value() instanceof CheeseVatRecipe recipe)
+                || recipe.getType() != ModRecipes.CHEESE_VAT_TYPE
+                || recipe.getWheyAmount() > 0
+                || recipe.findMatchingIngredientSlots(input) == null
+                || recipe.getContainerTemplate().isEmpty()
+            ) {
+                continue;
+            }
+
+            ItemStack required =
+                recipe.getContainerTemplate()
+                    .orElseThrow()
+                    .create();
+
+            if (
+                ItemStack.isSameItemSameComponents(
+                    provided,
+                    required
+                )
+                && provided.getCount() >= required.getCount()
+            ) {
+                return Optional.of(
+                    castCheeseVatRecipeHolder(
+                        holder
+                    )
+                );
+            }
+        }
+
+        return Optional.empty();
     }
 
     private Optional<RecipeHolder<CheeseVatRecipe>> findWheyRecipe(
