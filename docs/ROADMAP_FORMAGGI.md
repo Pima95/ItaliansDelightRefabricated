@@ -109,6 +109,9 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 - [x] Prevedere panna come intermedio comune per Burrata e Mascarpone.
 - [x] Distinguere Parmigiano e Pecorino anche per origine del latte, prevedendo
       latte di pecora per il Pecorino.
+- [x] Implementare Sheep Milk Bottle/Bucket, mungitura delle pecore adulte,
+      comportamento di consumo coerente con FD/vanilla e compatibilità
+      `#c:drinks/milk`.
 - [x] Definire gli ingredienti intermedi principali: la panna usa una sola
       ricetta con `#c:drinks/milk` e ciotola, senza differenze tra secchio e
       bottiglia; la coltura erborinata è un item craftabile shapeless da

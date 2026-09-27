@@ -65,19 +65,34 @@ La bottiglia rappresenta **250 mB** e il secchio **1000 mB**.
 
 ### Latte di pecora
 
-Sono previsti entrambi:
+Sono implementati entrambi:
 
 - `italiansdelight:sheep_milk_bucket`
 - `italiansdelight:sheep_milk_bottle`
 
-La bottiglia di latte di pecora deve essere l'equivalente della Milk Bottle di
-Farmer's Delight Refabricated. Sia il secchio sia la bottiglia devono essere
-compatibili con il tag del latte usato dalla Cheese Vat
-(`#c:drinks/milk`), così possono essere impiegati nelle lavorazioni generiche
-come cagliata e panna.
+Acquisizione implementata:
+
+- una pecora adulta può essere munta con `minecraft:bucket` e produce
+  `sheep_milk_bucket`;
+- una pecora adulta può essere munta con `minecraft:glass_bottle` e produce
+  `sheep_milk_bottle`;
+- le pecore cucciole non possono essere munte;
+- la mungitura non sostituisce la normale interazione con le cesoie.
+
+Comportamento di consumo:
+
+- la **Sheep Milk Bottle** replica la Milk Bottle di Farmer's Delight
+  Refabricated: rimuove un singolo effetto di stato casuale compatibile e
+  restituisce la bottiglia di vetro;
+- il **Sheep Milk Bucket** usa lo stesso comportamento del secchio di latte
+  vanilla: rimuove tutti gli effetti di stato attivi e restituisce il secchio.
+
+Entrambi gli item sono inclusi in `#c:drinks/milk`, quindi possono essere
+impiegati nelle lavorazioni generiche della Cheese Vat come cagliata, panna e
+ricotta senza creare ricette duplicate per formato/origine del latte.
 
 Il latte di pecora resta comunque la materia prima caratterizzante del Pecorino
-Romano, la cui ricetta dovrà richiedere specificamente latte di pecora.
+Romano, la cui ricetta richiederà specificamente latte di pecora.
 
 ### Panna
 
