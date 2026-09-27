@@ -296,6 +296,21 @@ Comportamento implementato:
 - se la Cheese Vat ha già un prodotto pronto che richiede il contenitore in
   mano, la raccolta del prodotto ha priorità rispetto all'estrazione del siero.
 
+La GUI usa inoltre lo **slot dedicato sotto il tank**:
+
+- coordinate item nella GUI: `x=144, y=55`;
+- accetta soltanto una `minecraft:glass_bottle` o un `minecraft:bucket` vuoti;
+- lo stack massimo dello slot è **1**, indipendentemente dallo stack massimo
+  normale dell'item;
+- se è presente abbastanza siero, il contenitore viene riempito
+  automaticamente nello stesso slot;
+- se il siero non basta, il contenitore rimane nello slot in attesa;
+- il contenitore pieno resta nello slot finché il giocatore non lo ritira;
+- il secchio viene instradato nello slot anche tramite shift-click; la bottiglia
+  di vetro continua a usare lo slot contenitore delle ricette con shift-click,
+  perché serve anche al caglio, ma può essere trascinata manualmente nello slot
+  del tank.
+
 I due item restituiscono rispettivamente bottiglia di vetro e secchio vuoto
 come crafting remainder quando verranno usati nelle ricette.
 
@@ -321,6 +336,8 @@ Il serbatoio base è implementato nella Cheese Vat:
 - l'area interna del cilindro è 16x32 px: **250 mB = 2 px**;
 - le ricette Cheese Vat possono dichiarare `"whey_output"`;
 - la ricetta della cagliata dichiara `"whey_output": 250`;
+- lo slot sotto il tank è un inventario reale persistente con capacità di un
+  solo contenitore e riempimento automatico da 250/1000 mB;
 - se una ricetta deve produrre più siero dello spazio libero disponibile,
   raggiunge il completamento ma resta in attesa senza consumare ingredienti
   finché non torna disponibile spazio sufficiente;
