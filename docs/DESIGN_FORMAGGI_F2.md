@@ -56,8 +56,12 @@ Formati previsti:
 - secchio di siero;
 - siero contenuto in un calderone.
 
-Identificatori definitivi degli item ancora da fissare, ma come riferimento il
-design usa i concetti `whey_bottle` e `whey_bucket`.
+Gli identificatori implementati sono:
+
+- `italiansdelight:whey_bottle`;
+- `italiansdelight:whey_bucket`.
+
+La bottiglia rappresenta **250 mB** e il secchio **1000 mB**.
 
 ### Latte di pecora
 
@@ -280,12 +284,20 @@ Vat che producono siero.
 
 Il siero può essere prelevato dal serbatoio usando contenitori.
 
-Quantità già concordate:
+Comportamento implementato:
 
-- bottiglia di siero: **250 mB**;
-- secchio di siero: **1000 mB**.
+- `minecraft:glass_bottle` richiede almeno **250 mB**, consuma 250 mB dal tank
+  e produce `italiansdelight:whey_bottle`;
+- `minecraft:bucket` richiede almeno **1000 mB**, consuma 1000 mB dal tank
+  e produce `italiansdelight:whey_bucket`;
+- se il tank non contiene abbastanza siero, il contenitore non viene consumato;
+- l'estrazione usa suoni/eventi vanilla di raccolta del fluido;
+- una Whey Bottle o un Whey Bucket pieni non possono essere riversati nel tank;
+- se la Cheese Vat ha già un prodotto pronto che richiede il contenitore in
+  mano, la raccolta del prodotto ha priorità rispetto all'estrazione del siero.
 
-L'interazione precisa con la macchina verrà definita in fase di implementazione.
+I due item restituiscono rispettivamente bottiglia di vetro e secchio vuoto
+come crafting remainder quando verranno usati nelle ricette.
 
 ### Rottura della Cheese Vat
 
@@ -318,8 +330,6 @@ Il serbatoio base è implementato nella Cheese Vat:
 
 Non sono ancora implementati in questa sottofase:
 
-- estrazione con bottiglia/secchio;
-- Whey Bottle e Whey Bucket;
 - consumo del tank da parte delle ricette con campo `whey`;
 - priorità item di siero -> tank;
 - calderone con siero.
