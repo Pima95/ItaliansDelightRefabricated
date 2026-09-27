@@ -163,7 +163,7 @@ l'implementazione.
 - [x] Implementare la Coltura Erborinata craftabile da `#c:foods/bread` + `#c:mushrooms`.
 - [x] Registrare gli item concordati, creare i relativi file item/model,
       aggiungere traduzioni italiane/inglesi e inserirli nel gruppo creativo.
-- [ ] Creare le texture mancanti seguendo la checklist
+- [x] Creare le texture mancanti seguendo la checklist
       [`TEXTURE_FORMAGGI.md`](TEXTURE_FORMAGGI.md).
 - [ ] Aggiungere le ricette e i tag necessari per rendere ottenibili i nuovi
       prodotti nelle rispettive fasi.

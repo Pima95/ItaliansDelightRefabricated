@@ -1,0 +1,128 @@
+{
+  "tool": "image_gen (built-in)",
+  "date": "2026-09-27",
+  "assembly": "For each entry, concatenate common + '\\nSubject: ' + subject. Refinements below replace the initial result for their item. Center on a square transparent canvas without changing aspect ratio, then export to 16x16 RGBA using nearest-neighbor sampling and preserve the generated alpha.",
+  "common": "Use case: stylized-concept. Asset type: production Minecraft inventory item PNG for the Italian's Delight mod, matching vanilla Minecraft and Farmer's Delight. Create exactly ONE inventory sprite, no sheet. Strict pixel art on an EXACT logical 16 by 16 square pixel grid, designed to remain clear at 16x16. Return native 16x16 if possible, otherwise an exact nearest-neighbor enlargement of this 16x16 grid. Every visible pixel must align to this coarse grid: no subpixels, no fine details, no antialiasing, no smooth gradients. Fully transparent alpha background, including around the silhouette; no painted background or checkerboard. Subject centered with 1 to 2 logical pixels of transparent margin, fills about 12x12 pixels. Limited palette, about 5-8 flat colors; creamy ivory highlights, desaturated beige shadows for dairy, warm brown for wooden bowls, upper-left light. Soft material-colored stepped outlines, no thick black outline. Slight three-quarter inventory view showing top and front; simple readable silhouette. No text, labels, lettering, logos, watermark, decorative props, plate unless requested, cast shadow, scenery, or lighting effects. ",
+  "subjects": [
+    {
+      "id": "bocconcini",
+      "subject": "Two small separate ivory-white mozzarella balls side by side, each about 5 pixels wide, one slightly above the other. Round, smooth, fresh, off-white highlight and beige lower-right shadow. No bowl, garnish or rind."
+    },
+    {
+      "id": "burrata",
+      "subject": "One plump ivory-white burrata pouch with a clearly visible small pinched knot at the top; rounded wide body, subtly pleated top shoulders. A small cream highlight on its belly. No rope, bowl, greenery or cut surface. Must differ from a plain spherical mozzarella by its top knot."
+    },
+    {
+      "id": "mascarpone",
+      "subject": "A shallow warm brown wooden Minecraft bowl containing a dense smooth pale cream mascarpone mound with a broad small folded peak. Bowl uses just dark brown underside, medium brown front and ochre rim, matching a vanilla food bowl. The mascarpone has no granules or liquid pool."
+    },
+    {
+      "id": "cream_bowl",
+      "subject": "A shallow warm brown wooden Minecraft bowl filled with level, smooth white dairy cream, a flat ivory oval surface inside the visible ochre rim. Dark brown underside, medium brown front. Contents are liquid cream: no tall mound, no peak, no granules."
+    },
+    {
+      "id": "ricotta",
+      "subject": "A shallow warm brown wooden Minecraft bowl holding a heaped mound of white ricotta with a few distinct square curd granules and irregular lumpy crest. Dark brown underside, medium brown front, ochre rim. Ivory highlights with pale gray-beige tiny grain shadows; visibly grainier and taller than smooth cream."
+    },
+    {
+      "id": "blue_mold_culture",
+      "subject": "One small irregular clump of blue-green cheese starter culture on a tiny beige porous crumb base. A compact jagged silhouette with 3-4 distinct desaturated teal, blue-gray and pale sage patches; beige underside. This is a loose craftable ingredient, NOT a bottle, jar, bowl, mushroom or cheese wheel. Readable simple granular clump."
+    },
+    {
+      "id": "fresh_parmigiano_reggiano",
+      "subject": "One whole broad squat cylindrical wheel of fresh Parmigiano Reggiano, ivory and pale buttery yellow. Flat elliptical top, straight low side wall, ratio about 12 pixels wide to 8 high. Smooth pale fresh surface with no aged brown rind. Intact wheel, no missing wedge, holes, stamps or wrapping."
+    },
+    {
+      "id": "parmigiano_reggiano",
+      "subject": "One whole broad squat cylindrical wheel of aged Parmigiano Reggiano, rich straw-gold hard rind, light golden top and ochre lower side. Flat elliptical top, straight low side wall, about 12 pixels wide to 8 high. Tiny darker rind accents; intact wheel, no missing wedge, holes, stamps or text."
+    },
+    {
+      "id": "parmigiano_reggiano_wedge",
+      "subject": "One thick triangular wedge of Parmigiano Reggiano, pale straw-yellow crumbly cut face, deeper golden-brown rind along the thick outer back edge. Clear pointed triangular tip in three-quarter view, a couple of subtle square crystal-like highlights. No holes, bowl or whole wheel."
+    },
+    {
+      "id": "grated_parmigiano_reggiano",
+      "subject": "A small low heap of grated Parmigiano Reggiano with 3 loose square flakes near the base. Warm straw-yellow pale gold shavings, small squared steps and ivory highlights, ochre lower edges. Loose grated cheese, no bowl or plate; coarse silhouette readable in 16x16."
+    },
+    {
+      "id": "fresh_pecorino_romano",
+      "subject": "One whole taller cylindrical wheel of fresh Pecorino Romano, chalky ivory-white, pale cool gray-beige lower-right shadow. Flat elliptical top, relatively tall straight side wall, about 10 pixels wide and 10 high. Smooth pale fresh rind, intact wheel, no missing wedge, holes, stamping or labels."
+    },
+    {
+      "id": "pecorino_romano",
+      "subject": "One whole taller cylindrical wheel of aged Pecorino Romano. Chalky pale ivory top, slightly darker gray-taupe rind on its tall straight side, with a narrow pale rim. About 10 pixels wide and 10 high. Dry firm rind indicated by few broad gray-beige pixels. Intact wheel, no cut wedge or holes. Clearly cooler, paler and taller than golden Parmesan."
+    },
+    {
+      "id": "pecorino_romano_wedge",
+      "subject": "One thick triangular wedge of Pecorino Romano with a chalky ivory-white cut face and gray-taupe hard rind along the tall outer back edge. Clear pointed triangular tip, compact high profile, cool cream highlight. No blue mold, holes, bowl or golden orange rind."
+    },
+    {
+      "id": "grated_pecorino_romano",
+      "subject": "A small low heap of grated Pecorino Romano, chalky white and cool ivory square crumbs with gray-beige base shadows and 3 loose square flakes. Loose grated cheese, no bowl, plate or garnish. Clearly whiter and cooler than golden grated Parmesan; simple compact silhouette."
+    },
+    {
+      "id": "fresh_gorgonzola",
+      "subject": "One whole small squat cylindrical wheel of fresh Gorgonzola before blue mold maturation, pale ivory-white top, creamy light-gray side. Broad rounded elliptical top and soft rounded side edges. About 11 pixels wide and 8 high. A few tiny muted gray starter pinpricks only, no mature blue veins. Intact wheel, no cutaway, wrapping or holes."
+    },
+    {
+      "id": "gorgonzola",
+      "subject": "One whole squat cylindrical wheel of matured Gorgonzola, creamy ivory rind with a few distinct sparse blue-green mold spots on the top and side, muted gray-beige shaded bottom. Broad elliptical top, softly rounded edges, about 11 pixels wide and 8 high. Intact wheel, no missing wedge, foil, holes or text."
+    },
+    {
+      "id": "gorgonzola_wedge",
+      "subject": "One thick triangular wedge of Gorgonzola with an ivory-white cut face and clearly visible sparse branching teal-blue and sage mold veins made of single logical pixels. Pale gray-beige thin rind at broad back edge. Clear triangular tip. No yellow holes, plate or whole wheel."
+    },
+    {
+      "id": "fresh_provolone",
+      "subject": "One fresh provolone cheese with an elongated large pear/oval silhouette, small shoulder neck and a long rounded lower body, pale creamy ivory surface. About 8 pixels wide and 13 high, visibly longer and less double-lobed than scamorza. A minimal short tan string tie at the shoulder, no hanging loop, smooth fresh pale rind."
+    },
+    {
+      "id": "provolone",
+      "subject": "One aged provolone cheese with an elongated large pear/oval silhouette, small shoulder neck and long rounded lower body, warm pale golden-yellow rind with ochre lower-right shading. About 8 pixels wide and 13 high, longer and less double-lobed than scamorza. A minimal short tan string tie at the shoulder, no hanging loop."
+    },
+    {
+      "id": "provolone_slice",
+      "subject": "One thin oval slice of provolone viewed at a diagonal, broad pale buttery yellow oval face with a one-logical-pixel golden rind edge and thin shaded edge below to suggest thickness. No triangular wedge, holes, bowl, knife or whole cheese. About 10x8 pixels, clearly a flat oval slice."
+    },
+    {
+      "id": "fresh_scamorza",
+      "subject": "One fresh scamorza cheese with a distinctive double-lobed pear shape: small rounded head above a narrow tied neck and a wider round belly, about 9 pixels wide and 12 high. Bright milky ivory fresh surface, pale beige lower-right shading. A tiny tan rope band around the neck. No hanging loop or props."
+    },
+    {
+      "id": "scamorza",
+      "subject": "One dried ready-to-eat scamorza cheese with a distinctive double-lobed pear shape: small rounded head above a narrow tied neck and wider round belly, about 9 pixels wide and 12 high. Light cream straw-yellow surface with beige-gold shaded edge. Tiny tan rope band around neck, no hanging loop. Pale cheese, not smoked brown."
+    },
+    {
+      "id": "smoked_scamorza",
+      "subject": "One smoked scamorza cheese with a distinctive double-lobed pear shape: small rounded head, narrow tied neck and wider round belly, about 9 pixels wide and 12 high. Golden amber smoked skin, honey highlight and chestnut brown shaded lower edge. Tiny tan rope band at neck. No smoke cloud or hanging loop."
+    },
+    {
+      "id": "sheep_milk_bottle",
+      "subject": "One small Minecraft-style squat clear glass milk bottle with narrow neck, small brown cork, pale gray-blue glass rim and opaque ivory-white sheep milk inside. One tiny wool-like cream zigzag marking on the front, NO letters or label rectangle. About 7 pixels wide and 13 high. Transparent surrounding background; liquid visibly milky white."
+    },
+    {
+      "id": "sheep_milk_bucket",
+      "subject": "One Minecraft-style metal bucket filled with opaque ivory-white sheep milk, silver-gray angular rim and body, dark charcoal lower edge, tiny gray handle pixels at top corners. One very small wool-like cream zigzag on its front to distinguish sheep milk. About 11 pixels wide and 12 high. No lettering, separate objects or background."
+    },
+    {
+      "id": "whey_bottle",
+      "subject": "One small Minecraft-style squat clear glass bottle of whey, narrow neck and small brown cork, gray-blue glass rim and pale translucent straw-yellow liquid inside. Liquid is noticeably pale yellow-green compared with white milk. About 7 pixels wide and 13 high. No label, text, bubbles, extra objects or background."
+    },
+    {
+      "id": "whey_bucket",
+      "subject": "One Minecraft-style metal bucket filled with pale straw-yellow slightly greenish whey visible at the open top, silver-gray angular rim and body, dark charcoal lower edge, tiny gray handle pixels at top corners. About 11 pixels wide and 12 high. Distinguish from milk by yellow-green liquid; no text or labels."
+    }
+  ],
+  "refinements": [
+    {
+      "id": "parmigiano_reggiano",
+      "reference": "Generated fresh_parmigiano_reggiano before 16x16 export",
+      "prompt": "Use case: precise-object-edit. The attached PNG is the fresh Parmigiano cheese wheel sprite and the edit target. Create its aged Parmigiano variant. Preserve EXACTLY its square canvas, fully transparent background and alpha silhouette, simple cylindrical shape, camera angle, position and coarse pixel-art style. Change ONLY the cheese colors: hard rind in muted straw-gold, light warm golden top, ochre shaded lower side, with at most a few broad darker rind pixels. Keep the intact wheel and understated vanilla Minecraft inventory appearance. No added details outside the wheel, NO glow, NO halo, NO background, NO shadow, NO holes, NO realistic lighting, NO fine speckles, no text. This must remain an isolated Minecraft item sprite on transparent alpha, ready to reduce to 16x16 pixels."
+    },
+    {
+      "id": "fresh_gorgonzola",
+      "reference": "Generated gorgonzola before 16x16 export",
+      "prompt": "Use case: precise-object-edit. The attached PNG is the matured Gorgonzola wheel inventory sprite and is the edit target. Produce the FRESH pre-maturation variant. Preserve EXACTLY the square canvas, transparent alpha background, wheel silhouette, size, position, perspective and coarse Minecraft pixel style. Change only the maturation colors: remove all teal-blue-green mold spots and veins, replacing them with clean pale ivory, cream and light gray-beige wheel surface. It should be a smooth intact fresh cheese wheel, with no holes or mold pattern. Retain simple top-left light and subtle side shading. No glow, halo, background, cast shadow, labels, props, letters or extra texture. Fully transparent background. The result will be exported to a 16x16 inventory sprite."
+    }
+  ]
+}

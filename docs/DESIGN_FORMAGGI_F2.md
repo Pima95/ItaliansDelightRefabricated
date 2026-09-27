@@ -591,9 +591,10 @@ in:
 
 `src/main/resources/assets/italiansdelight/textures/item/<id>.png`
 
-I file modello sono già presenti e puntano a questi percorsi. Non sono stati
-creati PNG placeholder: finché una texture manca Minecraft mostrerà la normale
-missing texture.
+I file modello sono già presenti e puntano a questi percorsi. Sono state
+create tutte le 27 texture item mancanti della filiera casearia, inclusi
+ingredienti e contenitori, in formato 16×16 con sfondo trasparente. Anteprima,
+prompt e verifiche sono riportati in [`TEXTURE_FORMAGGI.md`](TEXTURE_FORMAGGI.md).
 
 ## 8. Decisioni ancora aperte
 
