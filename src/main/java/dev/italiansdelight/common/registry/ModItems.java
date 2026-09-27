@@ -1,12 +1,20 @@
 package dev.italiansdelight.common.registry;
 
+import java.util.function.Function;
+
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.component.Consumables;
 import net.minecraft.core.Registry;
 
 import dev.italiansdelight.ItaliansDelight;
+
+import vectorwing.farmersdelight.common.FoodValues;
+import vectorwing.farmersdelight.common.item.ConsumableItem;
 
 /**
  * Central registry for Italian's Delight items.
@@ -67,7 +75,15 @@ public final class ModItems {
                                                         .build()));
 
         private static Item register(ResourceKey<Item> itemKey, Item.Properties properties) {
-                Item item = new Item(properties.setId(itemKey));
+                return register(itemKey, Item::new, properties);
+        }
+
+        private static Item register(
+                ResourceKey<Item> itemKey,
+                Function<Item.Properties, Item> factory,
+                Item.Properties properties
+        ) {
+                Item item = factory.apply(properties.setId(itemKey));
                 Registry.register(BuiltInRegistries.ITEM, itemKey, item);
                 return item;
         }
@@ -175,6 +191,42 @@ public final class ModItems {
                         .craftRemainder(net.minecraft.world.item.Items.BOWL)
                         .usingConvertsTo(net.minecraft.world.item.Items.BOWL)
                         .stacksTo(16));
+
+        // Sheep Milk Bottle
+        // Mirrors Farmer's Delight Refabricated Milk Bottle behavior:
+        // drinking removes one compatible random status effect.
+        public static final ResourceKey<Item> SHEEP_MILK_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("sheep_milk_bottle"));
+
+        public static final Item SHEEP_MILK_BOTTLE = register(
+                SHEEP_MILK_BOTTLE_KEY,
+                properties -> new ConsumableItem(properties, false, true),
+                new Item.Properties()
+                        .craftRemainder(Items.GLASS_BOTTLE)
+                        .component(
+                                DataComponents.CONSUMABLE,
+                                FoodValues.ConsumableValues.MILK_BOTTLE
+                        )
+                        .stacksTo(16));
+
+        // Sheep Milk Bucket
+        // Uses the same consumable component as vanilla milk, clearing all
+        // active status effects and converting back to an empty bucket.
+        public static final ResourceKey<Item> SHEEP_MILK_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("sheep_milk_bucket"));
+
+        public static final Item SHEEP_MILK_BUCKET = register(
+                SHEEP_MILK_BUCKET_KEY,
+                new Item.Properties()
+                        .craftRemainder(Items.BUCKET)
+                        .component(
+                                DataComponents.CONSUMABLE,
+                                Consumables.MILK_BUCKET
+                        )
+                        .usingConvertsTo(Items.BUCKET)
+                        .stacksTo(1));
 
         // Whey bottle: 250 mB of whey. It is a processing resource, not a drink.
         public static final ResourceKey<Item> WHEY_BOTTLE_KEY = ResourceKey.create(

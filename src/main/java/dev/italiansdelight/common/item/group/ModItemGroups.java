@@ -42,6 +42,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.CREAM_BOWL);
                 output.accept(ModItems.BLUE_MOLD_CULTURE);
                 output.accept(ModItems.RICOTTA);
+                output.accept(ModItems.SHEEP_MILK_BOTTLE);
+                output.accept(ModItems.SHEEP_MILK_BUCKET);
                 output.accept(ModItems.WHEY_BOTTLE);
                 output.accept(ModItems.WHEY_BUCKET);
                 output.accept(ModItems.SALT);
