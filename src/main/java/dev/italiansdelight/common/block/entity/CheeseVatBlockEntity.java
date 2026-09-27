@@ -580,7 +580,7 @@ public class CheeseVatBlockEntity
     }
 
     // -------------------- Menu/client synchronization --------------------
-    // Values: progress, total duration, heat state, and whey-flow toggle.
+    // Values: progress, total duration, heat state, whey-flow toggle, and whey amount.
     private ContainerData createContainerData() {
 
         return new ContainerData() {

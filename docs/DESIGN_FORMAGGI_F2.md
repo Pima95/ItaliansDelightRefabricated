@@ -296,6 +296,31 @@ Rompendo la macchina:
 - inventario/prodotti continuano a seguire le regole già esistenti;
 - tutto il siero presente nel tank viene perso.
 
+### Stato implementazione del tank
+
+Il serbatoio base è implementato nella Cheese Vat:
+
+- capacità effettiva di **4000 mB** salvata nella BlockEntity;
+- quantità sincronizzata con il menu/client;
+- il cilindro della GUI mostra il livello dal basso verso l'alto;
+- l'area interna del cilindro è 16x32 px: **250 mB = 2 px**;
+- le ricette Cheese Vat possono dichiarare `"whey_output"`;
+- la ricetta della cagliata dichiara `"whey_output": 250`;
+- se una ricetta deve produrre più siero dello spazio libero disponibile,
+  raggiunge il completamento ma resta in attesa senza consumare ingredienti
+  finché non torna disponibile spazio sufficiente;
+- le ricette con `whey_output = 0` non vengono influenzate dal tank pieno;
+- il siero resta escluso dai dati salvati nell'item droppato della Cheese Vat,
+  quindi viene perso alla rottura come concordato.
+
+Non sono ancora implementati in questa sottofase:
+
+- estrazione con bottiglia/secchio;
+- Whey Bottle e Whey Bucket;
+- consumo del tank da parte delle ricette con campo `whey`;
+- priorità item di siero -> tank;
+- calderone con siero.
+
 ## 5. Consumo del siero nelle ricette
 
 Le ricette che richiedono siero possono soddisfare il requisito in due modi:

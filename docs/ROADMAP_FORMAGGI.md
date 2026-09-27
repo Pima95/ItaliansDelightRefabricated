@@ -121,6 +121,10 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
       persistente finché la macchina resta piazzata; JEI mantiene una singola
       categoria e usa due background per distinguere ricette normali e ricette
       che richiedono siero dal serbatoio.
+- [x] Integrare il serbatoio base della Cheese Vat: capacità 4000 mB,
+      sincronizzazione e salvataggio, livello visibile nella GUI e produzione
+      data-driven tramite `whey_output`. La cagliata produce 250 mB e resta in
+      attesa al 100% se il tank non ha spazio sufficiente.
 - [ ] Definire rese, tempi di lavorazione, tempi di stagionatura/asciugatura,
       valori nutritivi e quantità ottenute dalle porzionature. Per la ricotta,
       il siero è già definito: 500 mB dal tank oppure una bottiglia/secchio di
