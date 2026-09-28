@@ -5,8 +5,8 @@
   "common": "Use case: stylized-concept. Asset type: production Minecraft inventory item PNG for the Italian's Delight mod, matching vanilla Minecraft and Farmer's Delight. Create exactly ONE inventory sprite, no sheet. Strict pixel art on an EXACT logical 16 by 16 square pixel grid, designed to remain clear at 16x16. Return native 16x16 if possible, otherwise an exact nearest-neighbor enlargement of this 16x16 grid. Every visible pixel must align to this coarse grid: no subpixels, no fine details, no antialiasing, no smooth gradients. Fully transparent alpha background, including around the silhouette; no painted background or checkerboard. Subject centered with 1 to 2 logical pixels of transparent margin, fills about 12x12 pixels. Limited palette, about 5-8 flat colors; creamy ivory highlights, desaturated beige shadows for dairy, warm brown for wooden bowls, upper-left light. Soft material-colored stepped outlines, no thick black outline. Slight three-quarter inventory view showing top and front; simple readable silhouette. No text, labels, lettering, logos, watermark, decorative props, plate unless requested, cast shadow, scenery, or lighting effects. ",
   "subjects": [
     {
-      "id": "bocconcini",
-      "subject": "Two small separate ivory-white mozzarella balls side by side, each about 5 pixels wide, one slightly above the other. Round, smooth, fresh, off-white highlight and beige lower-right shadow. No bowl, garnish or rind."
+      "id": "bocconcino",
+      "subject": "One small ivory-white mozzarella bocconcino, a compact smooth round fresh cheese ball about 7 to 8 pixels wide. Off-white upper-left highlight and pale beige lower-right shadow. No second ball, bowl, garnish or rind."
     },
     {
       "id": "burrata",

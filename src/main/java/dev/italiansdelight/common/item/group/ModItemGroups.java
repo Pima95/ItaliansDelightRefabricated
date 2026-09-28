@@ -47,7 +47,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.SHEEP_MILK_BUCKET);
                 output.accept(ModItems.WHEY_BOTTLE);
                 output.accept(ModItems.WHEY_BUCKET);
-                output.accept(ModItems.BOCCONCINI);
+                output.accept(ModItems.BOCCONCINO);
                 output.accept(ModItems.BURRATA);
                 output.accept(ModItems.MASCARPONE);
                 output.accept(ModItems.FRESH_PARMIGIANO_REGGIANO);

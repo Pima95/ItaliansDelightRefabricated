@@ -25,7 +25,6 @@
   "item.italiansdelight.sheep_milk_bottle": "Bottiglia di Latte di Pecora",
   "tooltip.italiansdelight.sheep_milk_bottle": "Cancella 1 effetto di stato",
   "item.italiansdelight.sheep_milk_bucket": "Secchio di Latte di Pecora",
-  "item.italiansdelight.bocconcini": "Bocconcini",
   "item.italiansdelight.fresh_parmigiano_reggiano": "Forma Fresca di Parmigiano Reggiano",
   "item.italiansdelight.parmigiano_reggiano": "Forma di Parmigiano Reggiano",
   "item.italiansdelight.parmigiano_reggiano_wedge": "Spicchio di Parmigiano Reggiano",
@@ -48,5 +47,6 @@
   "item.italiansdelight.apple_cider_vinegar": "Bottiglia di Aceto di Mele",
   "item.italiansdelight.scamorza_slice": "Fetta di Scamorza",
   "item.italiansdelight.smoked_scamorza_slice": "Fetta di Scamorza Affumicata",
-  "tooltip.farmersdelight.sheep_milk_bottle": "Cancella 1 effetto di stato"
+  "tooltip.farmersdelight.sheep_milk_bottle": "Cancella 1 effetto di stato",
+  "item.italiansdelight.bocconcino": "Bocconcino"
 }

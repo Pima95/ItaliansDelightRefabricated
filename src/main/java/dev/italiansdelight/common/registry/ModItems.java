@@ -272,13 +272,13 @@ public final class ModItems {
         // PLACEHOLDER BALANCE: nutrition, saturation and stack sizes will be
         // reviewed after the complete dairy progression is implemented.
 
-        // Bocconcini
-        public static final ResourceKey<Item> BOCCONCINI_KEY = ResourceKey.create(
+        // Bocconcino
+        public static final ResourceKey<Item> BOCCONCINO_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
-                ModRegistries.id("bocconcini"));
+                ModRegistries.id("bocconcino"));
 
-        public static final Item BOCCONCINI = register(
-                BOCCONCINI_KEY,
+        public static final Item BOCCONCINO = register(
+                BOCCONCINO_KEY,
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()

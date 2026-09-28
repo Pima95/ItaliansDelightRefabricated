@@ -31,7 +31,7 @@ Convenzioni dei nomi:
 
 | ID item | Nome visualizzato IT | Significato grafico | File PNG |
 |---|---|---|---|
-| `bocconcini` | Bocconcini | Piccole mozzarelle/formaggi freschi singoli | `bocconcini.png` |
+| `bocconcino` | Bocconcino | Piccole mozzarelle/formaggi freschi singoli | `bocconcino.png` |
 | `fresh_parmigiano_reggiano` | Forma Fresca di Parmigiano Reggiano | Forma appena prodotta, prima della stagionatura | `fresh_parmigiano_reggiano.png` |
 | `parmigiano_reggiano` | Forma di Parmigiano Reggiano | Forma intera stagionata | `parmigiano_reggiano.png` |
 | `parmigiano_reggiano_wedge` | Spicchio di Parmigiano Reggiano | Spicchio/cuneo ricavato dalla forma | `parmigiano_reggiano_wedge.png` |
@@ -71,6 +71,8 @@ mancanti, comprese nella stessa lavorazione grafica.
 
 ## Nuove texture aggiunte
 
+- `blue_mold_culture.png` è stata rifatta con un grumo più grande e leggibile, base beige/avorio e chiazze blu-verdi ben distinte;
+
 - `scamorza_slice.png`: fetta chiara, derivata dalla palette della Scamorza;
 - `smoked_scamorza_slice.png`: stessa impostazione con palette ambrata/bruna;
 - `apple_cider_vinegar.png`: bottiglia vanilla di Minecraft con liquido
@@ -98,7 +100,7 @@ state rifinite le due varianti esistenti `fresh_provolone` e `provolone`.
 - Gorgonzola: forma chiara; macchie e venature blu-verdi nella variante matura.
 - Provolone: forma allungata; la porzione è una fetta ovale sottile.
 - Scamorza: testa e pancia separate dal collo legato; colore ambrato per l'affumicata.
-- Burrata: sacca tondeggiante con chiusura superiore; bocconcini più piccoli e separati.
+- Burrata: sacca tondeggiante con chiusura superiore; il Bocconcino è più piccolo e separato.
 - Panna, Ricotta e Mascarpone: ciotole distinguibili per contenuto liquido,
   granuloso o cremoso con una piega superiore.
 - Latte di pecora bianco e siero paglierino distinguono i due liquidi.

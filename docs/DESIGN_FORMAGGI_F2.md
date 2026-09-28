@@ -11,7 +11,7 @@ può evolvere senza trasformare proposte non approvate in requisiti.
 La selezione comprende:
 
 1. Mozzarella
-2. Bocconcini
+2. Bocconcino
 3. Ricotta
 4. Parmigiano Reggiano
 5. Pecorino Romano
@@ -29,7 +29,7 @@ nelle fasi successive.
 | Prodotto | Processo generale |
 |---|---|
 | Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board |
-| Bocconcini | Cagliata + acqua normale → **2 bocconcini** nella Cheese Vat; nessun contenitore finale |
+| Bocconcino | Cagliata + acqua normale → **2 unità di Bocconcino** nella Cheese Vat; nessun contenitore finale |
 | Ricotta | Siero + latte → ricotta nella Cheese Vat, con ciotola come contenitore finale |
 | Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato |
 | Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato |
@@ -39,7 +39,7 @@ nelle fasi successive.
 | Burrata | Mozzarella + panna → burrata; nessuna stagionatura |
 | Mascarpone | Panna + aceto di mele → mascarpone nella Cheese Vat, confezionato con una ciotola separata nello slot contenitore |
 
-Per i bocconcini si usa acqua normale. Non viene introdotto alcun item
+Per il Bocconcino si usa acqua normale. Non viene introdotto alcun item
 "acqua calda".
 
 ## 3. Nuovi ingredienti/intermedi concordati
@@ -205,7 +205,7 @@ La **produzione/crafting dell'aceto** e la relativa texture restano invece nel
 branch dedicato al sistema vino/barile. Nel repository sono già presenti asset
 per il sidro che potranno essere usati da quel lavoro separato.
 
-### Bocconcini — regola ricetta
+### Bocconcino — regola ricetta
 
 Ricetta concordata:
 
@@ -213,12 +213,12 @@ Ricetta concordata:
 Curd
 + Water
 ↓ Cheese Vat
-2x Bocconcini
+2x Bocconcino
 ```
 
 Regole:
 
-- ogni lavorazione produce **2 bocconcini**;
+- ogni lavorazione produce **2 unità di Bocconcino**;
 - non è richiesto alcun contenitore finale;
 - l'acqua è un ingrediente e il relativo contenitore viene restituito secondo
   le normali regole di remainder.
@@ -536,7 +536,7 @@ I valori di fame e saturazione verranno bilanciati successivamente.
 |---|---:|---|
 | Mozzarella | Sì | Formaggio fresco consumabile anche intero |
 | Mozzarella Slice | Sì | Porzione diretta |
-| Bocconcini | Sì | Piccole porzioni già pronte |
+| Bocconcino | Sì | Piccole porzioni già pronte |
 | Ricotta | Sì | Servita in ciotola |
 | Burrata | Sì | Formaggio fresco consumabile direttamente |
 | Mascarpone | Sì | Servito in ciotola |
@@ -612,7 +612,7 @@ Le ricette dei nuovi item sono state aggiunte alle categorie già previste.
 
 Sono presenti in `data/italiansdelight/recipe/cheese_vat/`:
 
-- Cagliata + acqua → **2 Bocconcini**; sono supportati sia secchio sia bottiglia
+- Cagliata + acqua → **2 Bocconcino**; sono supportati sia secchio sia bottiglia
   d'acqua;
 - latte vaccino + caglio + sale → **Forma Fresca di Parmigiano Reggiano**;
 - latte di pecora + caglio + sale → **Forma Fresca di Pecorino Romano**;

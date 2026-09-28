@@ -25,7 +25,6 @@
   "item.italiansdelight.sheep_milk_bottle": "Sheep Milk Bottle",
   "tooltip.italiansdelight.sheep_milk_bottle": "Clears 1 Effect",
   "item.italiansdelight.sheep_milk_bucket": "Sheep Milk Bucket",
-  "item.italiansdelight.bocconcini": "Bocconcini",
   "item.italiansdelight.fresh_parmigiano_reggiano": "Fresh Parmigiano Reggiano Wheel",
   "item.italiansdelight.parmigiano_reggiano": "Parmigiano Reggiano Wheel",
   "item.italiansdelight.parmigiano_reggiano_wedge": "Parmigiano Reggiano Wedge",
@@ -48,5 +47,6 @@
   "item.italiansdelight.apple_cider_vinegar": "Apple Cider Vinegar Bottle",
   "item.italiansdelight.scamorza_slice": "Scamorza Slice",
   "item.italiansdelight.smoked_scamorza_slice": "Smoked Scamorza Slice",
-  "tooltip.farmersdelight.sheep_milk_bottle": "Clears 1 Effect"
+  "tooltip.farmersdelight.sheep_milk_bottle": "Clears 1 Effect",
+  "item.italiansdelight.bocconcino": "Bocconcino"
 }

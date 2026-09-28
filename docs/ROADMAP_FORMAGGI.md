@@ -30,7 +30,7 @@ da implementare.
 
 Il branch comprende ingredienti caseari, formaggi, caldaia, stagionatura,
 porzionatura, risorse grafiche, traduzioni, tag, JEI e progressione casearia.
-La selezione concordata comprende mozzarella, bocconcini, ricotta, Parmigiano
+La selezione concordata comprende mozzarella, Bocconcino, ricotta, Parmigiano
 Reggiano, Pecorino Romano, Gorgonzola, Provolone, Scamorza, Burrata e
 Mascarpone.
 
@@ -53,7 +53,7 @@ restano estensioni da valutare successivamente.
 | Formaggio | Processo produttivo concordato | Stato |
 |---|---|---|
 | Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board | Base presente, da rifinire |
-| Bocconcini | Cagliata + acqua normale → 2 bocconcini nella Cheese Vat; nessun contenitore finale e nessun item "acqua calda" | Da implementare |
+| Bocconcino | Cagliata + acqua normale → 2 unità dil Bocconcino nella Cheese Vat; nessun contenitore finale e nessun item "acqua calda" | Da implementare |
 | Ricotta | La produzione della cagliata recupera anche il siero; latte + requisito siero → ricotta nella Cheese Vat | Implementata con valori placeholder da ribilanciare |
 | Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
 | Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
@@ -100,12 +100,12 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 
 ### F2 — Definire ricette e progressione
 
-- [x] Scegliere il catalogo di prodotti: mozzarella, bocconcini, ricotta,
+- [x] Scegliere il catalogo di prodotti: mozzarella, Bocconcino, ricotta,
       Parmigiano Reggiano, Pecorino Romano, Gorgonzola, Provolone, Scamorza,
       Burrata e Mascarpone.
 - [x] Definire la struttura generale dei processi produttivi riportata nella
       sezione 3.
-- [x] Stabilire che i bocconcini usano acqua normale: non viene introdotto un
+- [x] Stabilire che il Bocconcino usano acqua normale: non viene introdotto un
       item separato per l'acqua calda.
 - [x] Introdurre il siero come recupero della lavorazione della cagliata e
       riutilizzarlo nella filiera della ricotta.
@@ -165,7 +165,7 @@ l'implementazione.
       aggiungere traduzioni italiane/inglesi e inserirli nel gruppo creativo.
 - [x] Creare le texture mancanti seguendo la checklist
       [`TEXTURE_FORMAGGI.md`](TEXTURE_FORMAGGI.md).
-- [x] Aggiungere le ricette Cheese Vat già definite per Bocconcini, forme
+- [x] Aggiungere le ricette Cheese Vat già definite per Bocconcino, forme
       fresche di Parmigiano/Pecorino/Gorgonzola/Provolone/Scamorza e Burrata,
       più i tag latte vaccino/pecora.
 - [x] Aggiungere le porzionature già definite al Cutting Board e la ricetta
