@@ -241,6 +241,10 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       categoria **Cheese Aging** unica che aggrega temporaneamente sia
       `cheese_aging` sia `cheese_drying`: comprende quindi anche Provolone e
       Scamorza. I due tipi gameplay restano separati.
+- [x] Revisione prestazioni del codice della filiera: ridotti i controlli
+      ridondanti del Cheese Hook, aggiunto fast-path sicuro per la ricetta
+      corrente della Cheese Vat e corretta la mappatura UV continua dei modelli
+      appesi.
 - [ ] Eseguire i casi di test definiti nel documento di design, compresi
       riavvio, multiplayer, reset e assenza di duplicazioni.
 

@@ -34,6 +34,12 @@ public final class CheeseHookBlockEntity extends BlockEntity {
 
     private int elapsedTicks;
 
+    /**
+     * Runtime-only guard: the occupied-space helper only needs validation once
+     * after loading/insertion, not on every processing tick.
+     */
+    private boolean hangingSpaceSynchronized;
+
     private final RecipeManager.CachedCheck<
         SingleRecipeInput,
         CheeseAgingRecipe
@@ -115,6 +121,8 @@ public final class CheeseHookBlockEntity extends BlockEntity {
             return false;
         }
 
+        hangingSpaceSynchronized = true;
+
         setChanged();
         return true;
     }
@@ -140,6 +148,8 @@ public final class CheeseHookBlockEntity extends BlockEntity {
         clearReservedHangingSpace(
             level
         );
+
+        hangingSpaceSynchronized = true;
 
         level.setBlock(
             worldPosition,
@@ -175,18 +185,30 @@ public final class CheeseHookBlockEntity extends BlockEntity {
                 CheeseHookBlock.CHEESE
             );
 
-        if (cheeseType.isEmpty()) {
-            blockEntity.clearReservedHangingSpace(
-                level
-            );
-            return;
+        if (!blockEntity.hangingSpaceSynchronized) {
+            if (cheeseType.isEmpty()) {
+                blockEntity.clearReservedHangingSpace(
+                    level
+                );
+                blockEntity.hangingSpaceSynchronized =
+                    true;
+                return;
+            }
+
+            // One-time repair for hooks saved before the occupied-space helper
+            // existed. Once synchronized, the technical block is unbreakable
+            // and non-replaceable, so checking it every tick is unnecessary.
+            if (!blockEntity.reserveHangingSpace(level)) {
+                return;
+            }
+
+            blockEntity.hangingSpaceSynchronized =
+                true;
         }
 
-        // Also repairs old worlds created before the occupied-space helper
-        // existed, as long as the block below is still empty.
-        blockEntity.reserveHangingSpace(
-            level
-        );
+        if (cheeseType.isEmpty()) {
+            return;
+        }
 
         if (!cheeseType.isProcessing()) {
             return;
@@ -352,6 +374,10 @@ public final class CheeseHookBlockEntity extends BlockEntity {
                     0
                 )
             );
+
+        // Revalidate once on the first server tick after a world/chunk load.
+        hangingSpaceSynchronized =
+            false;
     }
 
     @Override

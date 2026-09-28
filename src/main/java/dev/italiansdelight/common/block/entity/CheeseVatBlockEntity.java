@@ -268,6 +268,18 @@ public class CheeseVatBlockEntity
             items.get(CONTAINER_SLOT);
 
         Optional<RecipeHolder<CheeseVatRecipe>>
+            currentRecipe =
+                findCurrentNormalRecipe(
+                    input,
+                    recipeManager,
+                    provided
+                );
+
+        if (currentRecipe.isPresent()) {
+            return currentRecipe;
+        }
+
+        Optional<RecipeHolder<CheeseVatRecipe>>
             withoutContainer =
                 Optional.empty();
 
@@ -334,6 +346,86 @@ public class CheeseVatBlockEntity
         return withoutContainer.isPresent()
             ? withoutContainer
             : withContainer;
+    }
+
+    /**
+     * Fast path for the recipe already being cooked.
+     *
+     * During steady-state cooking the input normally does not change, so there
+     * is no reason to scan every loaded recipe on every server tick. We only
+     * reuse the hint when doing so cannot bypass container-selection priority.
+     */
+    private Optional<RecipeHolder<CheeseVatRecipe>>
+    findCurrentNormalRecipe(
+        CheeseVatRecipeInput input,
+        RecipeManager recipeManager,
+        ItemStack provided
+    ) {
+        if (cookingRecipe == null) {
+            return Optional.empty();
+        }
+
+        Optional<RecipeHolder<?>> hinted =
+            recipeManager.byKey(
+                cookingRecipe
+            );
+
+        if (
+            hinted.isEmpty()
+            || !(hinted.get().value()
+                instanceof CheeseVatRecipe recipe)
+            || recipe.getType()
+                != ModRecipes.CHEESE_VAT_TYPE
+            || recipe.getWheyAmount() > 0
+            || recipe.findMatchingIngredientSlots(input)
+                == null
+        ) {
+            return Optional.empty();
+        }
+
+        if (recipe.getContainerTemplate().isEmpty()) {
+            // A newly inserted container may intentionally select another
+            // otherwise-identical recipe, so re-run the full selection then.
+            return provided.isEmpty()
+                ? Optional.of(
+                    castCheeseVatRecipeHolder(
+                        hinted.get()
+                    )
+                )
+                : Optional.empty();
+        }
+
+        // Recipes that require a container are allowed to keep cooking while
+        // the container slot is empty; the finished serving simply waits.
+        if (provided.isEmpty()) {
+            return Optional.of(
+                castCheeseVatRecipeHolder(
+                    hinted.get()
+                )
+            );
+        }
+
+        ItemStack required =
+            recipe.getContainerTemplate()
+                .orElseThrow()
+                .create();
+
+        if (
+            ItemStack.isSameItemSameComponents(
+                provided,
+                required
+            )
+            && provided.getCount()
+                >= required.getCount()
+        ) {
+            return Optional.of(
+                castCheeseVatRecipeHolder(
+                    hinted.get()
+                )
+            );
+        }
+
+        return Optional.empty();
     }
 
     private Optional<RecipeHolder<CheeseVatRecipe>> findWheyRecipe(

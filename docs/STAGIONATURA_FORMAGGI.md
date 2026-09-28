@@ -199,6 +199,9 @@ Design previsto:
   item: mantengono il pattern adatto alle superfici 3D ma sono state ricolorate
   verso la palette dei rispettivi item, così fresh, mature e affumicata sono
   chiaramente distinguibili senza deformare la grafica dell'inventario;
+- i diversi cuboidi che compongono Scamorza e Provolone usano una **mappatura
+  UV continua**: ogni strato campiona soltanto la propria porzione della stessa
+  texture, invece di ripetere l'intera PNG su ogni cuboide;
 - mentre un formaggio è appeso, il blocco immediatamente sotto l'uncino viene
   riservato da un **blocco tecnico invisibile, senza collisione e non
   sostituibile**; in questo modo non è possibile piazzare blocchi dentro il
@@ -421,3 +424,29 @@ base delle ricette `cheese_aging` e `cheese_drying`.
   rottura del rack e inventario pieno;
 - bilanciamento finale di tempi, rese, valori nutritivi e stack;
 - build completa e test su server dedicato.
+
+
+## 11. Ottimizzazioni tecniche
+
+Revisione eseguita sull'intero codice Java del branch `feature/cheeses`.
+
+Interventi applicati:
+
+- il Cheese Hook non ricontrolla più a ogni tick il blocco tecnico che riserva
+  lo spazio del formaggio: la verifica avviene all'inserimento e una sola volta
+  dopo il caricamento del chunk/mondo;
+- la Cheese Vat prova prima a riutilizzare in sicurezza la ricetta normale già
+  in lavorazione, evitando nella maggior parte dei tick una scansione completa
+  di tutte le ricette server;
+- la ricerca whey conservava già un hint della ricetta corrente e non è stata
+  duplicata;
+- rack e formaggi piazzati usano già `RecipeManager.CachedCheck` e loop di
+  dimensione fissa, quindi non sono stati complicati con cache aggiuntive che
+  avrebbero rischiato di diventare stale dopo un datapack reload;
+- il sistema del sale usa già il controllo della palette delle chunk section
+  prima della scansione 16×16×16 e non forza il caricamento dei chunk: non sono
+  state introdotte ulteriori cache globali inutili.
+
+Principio adottato: ottimizzare le operazioni eseguite ogni tick senza ridurre
+l'affidabilità del salvataggio del progresso o modificare il comportamento
+data-driven delle ricette.
