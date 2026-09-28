@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "italiansdelight:block/cheese_hook"
+    },
+    "facing=east": {
+      "model": "italiansdelight:block/cheese_hook",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "italiansdelight:block/cheese_hook",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "italiansdelight:block/cheese_hook",
+      "y": 270
     }
   }
 }

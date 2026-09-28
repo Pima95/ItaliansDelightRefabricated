@@ -170,6 +170,8 @@ Il gancio è destinato a **Scamorza e Provolone**:
 Design previsto:
 
 - il gancio viene piazzato esclusivamente sotto una superficie superiore valida;
+- la curva dell'uncino viene orientata verso il giocatore al momento del
+  piazzamento, con stato orizzontale `facing` N/E/S/W;
 - un gancio contiene al massimo un formaggio;
 - click destro con `fresh_scamorza` o `fresh_provolone`: appende il
   formaggio;
