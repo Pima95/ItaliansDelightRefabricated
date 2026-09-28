@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mojang.serialization.MapCodec;
 
+import dev.italiansdelight.common.aging.AgingCheeseType;
 import dev.italiansdelight.common.block.entity.CheeseAgingRackBlockEntity;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 import dev.italiansdelight.common.registry.ModBlockEntities;
@@ -54,7 +55,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
     private static final VoxelShape SHAPE = Shapes.or(
         // Lower and raised shelves.
         Block.box(1, 0, 1, 15, 2, 15),
-        Block.box(1, 8, 1, 15, 10, 15),
+        Block.box(1, 7, 1, 15, 9, 15),
 
         // Four vertical supports. Everything remains inside one 1x1x1 block.
         Block.box(0, 0, 0, 2, 16, 2),
@@ -124,7 +125,10 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         InteractionHand hand,
         BlockHitResult hit
     ) {
-        if (!(stack.getItem() instanceof AgingCheeseItem agingCheeseItem)) {
+        AgingCheeseType heldCheeseType =
+            AgingCheeseType.fromStack(stack);
+
+        if (heldCheeseType == null) {
             return InteractionResult.PASS;
         }
 
@@ -139,21 +143,45 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             level instanceof ServerLevel serverLevel
             && level.getBlockEntity(pos)
                 instanceof CheeseAgingRackBlockEntity rack
-            && rack.insert(
-                serverLevel,
-                shelf,
-                agingCheeseItem.cheeseType()
-            )
         ) {
-            if (!player.getAbilities().instabuild) {
+            // Holding the same cheese variety behaves like an empty-hand
+            // interaction: remove that shelf's cheese instead of inserting.
+            // Fresh/mature state does not matter; "same type" means the same
+            // variety (Parmigiano, Pecorino, Gorgonzola or Provolone).
+            if (
+                rack.matchesCheeseType(
+                    shelf,
+                    heldCheeseType
+                )
+            ) {
+                giveRemovedCheese(
+                    rack.remove(
+                        serverLevel,
+                        shelf
+                    ),
+                    player
+                );
+
+                return InteractionResult.SUCCESS;
+            }
+
+            // Only a fresh AgingCheeseItem can start a new aging process.
+            if (
+                stack.getItem()
+                    instanceof AgingCheeseItem agingCheeseItem
+                && rack.insert(
+                    serverLevel,
+                    shelf,
+                    agingCheeseItem.cheeseType()
+                )
+                && !player.getAbilities().instabuild
+            ) {
                 stack.shrink(1);
             }
         }
 
-        // Compatible fresh cheeses are always handled by the rack, even when
-        // the selected shelf is already occupied. This prevents the item's
-        // normal surface-placement behavior from placing a cheese on top of
-        // the rack by accident.
+        // Any supported aging cheese is handled by the rack. This prevents
+        // normal surface placement from triggering on top of the rack.
         return InteractionResult.SUCCESS;
     }
 
@@ -186,18 +214,31 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             && level.getBlockEntity(pos)
                 instanceof CheeseAgingRackBlockEntity rack
         ) {
-            ItemStack stack =
+            giveRemovedCheese(
                 rack.remove(
                     serverLevel,
                     shelf
-                );
-
-            if (!stack.isEmpty() && !player.addItem(stack)) {
-                player.drop(stack, false);
-            }
+                ),
+                player
+            );
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    private static void giveRemovedCheese(
+        ItemStack stack,
+        Player player
+    ) {
+        if (
+            !stack.isEmpty()
+            && !player.addItem(stack)
+        ) {
+            player.drop(
+                stack,
+                false
+            );
+        }
     }
 
     private static int shelfFromHit(
@@ -208,7 +249,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             hit.getLocation().y
                 - pos.getY();
 
-        return localY >= 0.5D
+        return localY >= (7.0D / 16.0D)
             ? CheeseAgingRackBlockEntity.UPPER_SLOT
             : CheeseAgingRackBlockEntity.LOWER_SLOT;
     }

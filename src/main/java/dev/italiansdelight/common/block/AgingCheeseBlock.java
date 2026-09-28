@@ -62,7 +62,7 @@ public final class AgingCheeseBlock
             0,
             2,
             14,
-            4,
+            5,
             14
         );
 

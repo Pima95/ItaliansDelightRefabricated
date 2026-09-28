@@ -55,7 +55,8 @@ la stagionatura.
 Comportamento previsto:
 
 1. il giocatore usa una forma fresca su una superficie valida;
-2. viene creata una forma visibile nel mondo;
+2. viene creata una forma visibile nel mondo; durante questa fase di sviluppo
+   usa un modello tipo Cake con texture vanilla come placeholder;
 3. il timer parte da zero;
 4. il timer avanza lato server solo mentre il chunk è caricato;
 5. al completamento la forma viene sostituita automaticamente dalla variante
@@ -85,8 +86,11 @@ Design concordato:
 - i due slot sono completamente indipendenti e possiedono timer separati;
 - le forme sono visibili fisicamente sul rispettivo ripiano;
 - nessuna GUI del blocco;
-- nella prima implementazione i formaggi visualizzati nel rack usano un
-  **modello tipo torta con texture vanilla della Cake come placeholder**;
+- nella prima implementazione i formaggi visualizzati nel rack e quelli
+  appoggiati direttamente su superfici normali usano un **modello tipo torta
+  con texture vanilla della Cake come placeholder**;
+- il ripiano superiore e il relativo formaggio sono posizionati leggermente
+  sotto la metà superiore del blocco per lasciare spazio visivo sopra la forma;
 - il rack deve avere una variante per **ogni famiglia di legno vanilla**:
   Oak, Spruce, Birch, Jungle, Acacia, Dark Oak, Mangrove, Cherry, Pale Oak,
   Bamboo, Crimson e Warped;
@@ -99,6 +103,9 @@ Interazione prevista:
   superiore: inserisce la forma nello slot di quel ripiano;
 - interazione a mano vuota con un ripiano occupato: rimuove la forma presente
   in quello specifico slot;
+- il formaggio può essere rimosso anche facendo click destro mentre si tiene in
+  mano **lo stesso tipo di formaggio** presente su quel ripiano; fresh e mature
+  della stessa varietà sono considerati lo stesso tipo;
 - rimuovere una forma incompleta restituisce l'item fresco e azzera il
   progresso;
 - una forma pronta viene recuperata come item finale.

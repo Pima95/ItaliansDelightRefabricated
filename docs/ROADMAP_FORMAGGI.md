@@ -206,7 +206,9 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       scaffali di Fromage: **due ripiani e due slot totali**, uno per ripiano.
       Prima versione: blocco/BlockEntity, timer indipendenti, reset del
       progresso, 12 varianti di legno vanilla e Cake vanilla come placeholder
-      visivo dei formaggi. Restano da rifinire i modelli finali e da definire
+      visivo dei formaggi sia nel rack sia sulle superfici normali. È supportata
+      la rimozione con mano vuota o tenendo lo stesso tipo di formaggio.
+      Restano da rifinire i modelli finali e da definire
       in seguito le ricette di crafting.
 - [ ] Implementare il Cheese Hook e il rendering della Scamorza appesa, separato
       dal sistema di stagionatura su rack/superficie.

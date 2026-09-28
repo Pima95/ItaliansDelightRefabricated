@@ -58,4 +58,19 @@ public enum AgingCheeseType implements StringRepresentable {
     public ItemStack matureStack() {
         return new ItemStack(matureItem());
     }
+
+    public boolean matches(ItemStack stack) {
+        return stack.is(freshItem())
+            || stack.is(matureItem());
+    }
+
+    public static AgingCheeseType fromStack(ItemStack stack) {
+        for (AgingCheeseType type : values()) {
+            if (type.matches(stack)) {
+                return type;
+            }
+        }
+
+        return null;
+    }
 }
