@@ -89,6 +89,8 @@ Design concordato:
 - nella prima implementazione i formaggi visualizzati nel rack e quelli
   appoggiati direttamente su superfici normali usano un **modello tipo torta
   con texture vanilla della Cake come placeholder**;
+- i placeholder Cake usano UV laterali esplicite coerenti con il modello
+  vanilla (`[1, 8, 15, 16]`) per evitare lati trasparenti o mancanti;
 - il ripiano superiore e il relativo formaggio sono posizionati leggermente
   sotto la metà superiore del blocco per lasciare spazio visivo sopra la forma;
 - il rack deve avere una variante per **ogni famiglia di legno vanilla**:
@@ -105,6 +107,7 @@ Interazione prevista:
   in quello specifico slot;
 - un ripiano occupato può essere svuotato con click destro **indipendentemente
   dall'oggetto tenuto in mano**;
+- con la mano vuota il formaggio viene restituito normalmente al giocatore;
 - con la mano occupata, il formaggio rimosso viene inserito nel **primo slot
   completamente libero dell'inventario**; se non esiste uno slot libero viene
   droppato a terra, senza consumare o sostituire l'oggetto tenuto in mano;
@@ -331,3 +334,43 @@ Non vengono introdotti ora:
 
 Questi elementi potranno essere valutati in futuro senza cambiare la struttura
 base delle ricette `cheese_aging` e `cheese_drying`.
+
+
+## 10. Stato attuale dell'implementazione
+
+### Completato
+
+- registrati `cheese_aging` e `cheese_drying` con serializer sincronizzati;
+- aggiunte le ricette data-driven e i tempi approvati per i cinque formaggi;
+- Parmigiano Reggiano, Pecorino Romano, Gorgonzola e Provolone sono
+  stagionabili direttamente su superfici solide;
+- il progresso delle forme piazzate è salvato solo nel mondo e non sugli item;
+- rimozione anticipata o rottura del supporto restituiscono il prodotto fresco
+  con progresso azzerato;
+- implementato il Cheese Aging Rack 1×1×1 con **2 ripiani / 2 slot totali**;
+- ogni slot del rack ha tipo, timer e stato mature indipendenti;
+- implementate 12 varianti di legno vanilla: Oak, Spruce, Birch, Jungle,
+  Acacia, Dark Oak, Mangrove, Cherry, Pale Oak, Bamboo, Crimson e Warped;
+- rimozione dal rack possibile con mano vuota o con qualsiasi oggetto in mano;
+- con mano occupata il formaggio viene spostato nel primo slot libero
+  dell'inventario;
+- i formaggi nel rack e sulle superfici normali usano temporaneamente il
+  modello/texture vanilla della Cake;
+- corretto il mapping UV dei placeholder Cake per renderizzare anche i lati;
+- categoria JEI Aging funzionante e unificata temporaneamente anche per la
+  Scamorza;
+- compatibilità opzionale con Fromage predisposta tramite common tag, senza
+  dipendenza obbligatoria.
+
+### Ancora da implementare o completare
+
+- Cheese Hook per appendere e asciugare fisicamente la Scamorza;
+- rendering/modello definitivo della Scamorza appesa;
+- ricette di crafting dei rack per tutte le varianti di legno;
+- modelli definitivi dei rack e dei formaggi stagionati al posto dei placeholder
+  Cake, se desiderati;
+- verifica in-game definitiva del fix UV del formaggio sul ripiano superiore;
+- test completi di persistenza dopo riavvio, chunk unload/reload, multiplayer,
+  rottura del rack e inventario pieno;
+- bilanciamento finale di tempi, rese, valori nutritivi e stack;
+- build completa e test su server dedicato.

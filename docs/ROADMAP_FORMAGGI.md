@@ -202,27 +202,30 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       `fresh_gorgonzola` e `fresh_provolone` sono piazzabili su una faccia
       superiore robusta, usano una forma visibile nel mondo e avanzano con
       timer lato server.
-- [~] Implementare il Cheese Aging Rack 1×1×1 ispirato concettualmente agli
+- [x] Implementare il Cheese Aging Rack 1×1×1 ispirato concettualmente agli
       scaffali di Fromage: **due ripiani e due slot totali**, uno per ripiano.
-      Prima versione: blocco/BlockEntity, timer indipendenti, reset del
-      progresso, 12 varianti di legno vanilla e Cake vanilla come placeholder
-      visivo dei formaggi sia nel rack sia sulle superfici normali. Un ripiano
-      occupato può essere svuotato con click destro anche tenendo qualsiasi
-      oggetto; con mano occupata il formaggio va nel primo slot libero.
-      Restano da rifinire i modelli finali e da definire
-      in seguito le ricette di crafting.
+      Sono presenti BlockEntity, timer indipendenti, reset del progresso,
+      12 varianti di legno vanilla e Cake vanilla come placeholder visivo dei
+      formaggi sia nel rack sia sulle superfici normali. Un ripiano occupato può
+      essere svuotato con click destro anche tenendo qualsiasi oggetto; con mano
+      occupata il formaggio va nel primo slot completamente libero. Corrette
+      anche le UV laterali della Cake placeholder.
+- [ ] Definire e aggiungere le ricette di crafting dei rack per tutte le
+      varianti di legno.
+- [ ] Sostituire, se necessario, i placeholder Cake con modelli definitivi dei
+      formaggi e rifinire il modello estetico finale del rack.
 - [ ] Implementare il Cheese Hook e il rendering della Scamorza appesa, separato
       dal sistema di stagionatura su rack/superficie.
-- [x] Implementare per la forma piazzata il salvataggio del progresso
-      **nel mondo**, senza component/NBT di progresso sugli ItemStack. Il rack
-      e il gancio riuseranno la stessa regola.
-- [~] Applicare la regola di reset: già implementata per il formaggio piazzato
-      e per la rottura della superficie di supporto; resta da applicare a rack
-      e gancio.
-- [x] Mettere in pausa il progresso delle forme piazzate nei chunk scaricati,
-      senza chunk loading forzato e senza recupero del tempo offline.
-- [x] Trasformare automaticamente la forma piazzata nel prodotto finale al
-      100%, usando risultato e durata della ricetta data-driven.
+- [x] Implementare per forme piazzate e rack il salvataggio del progresso
+      **nel mondo**, senza component/NBT di progresso sugli ItemStack. Il gancio
+      della Scamorza userà la stessa regola.
+- [~] Applicare la regola di reset: implementata per formaggio piazzato,
+      superficie di supporto e rack; resta da applicare al Cheese Hook.
+- [x] Mettere in pausa il progresso di forme piazzate e rack nei chunk
+      scaricati, senza chunk loading forzato e senza recupero del tempo offline.
+- [x] Trasformare automaticamente forme piazzate e contenuti del rack nel
+      prodotto finale al 100%, usando risultato e durata della ricetta
+      data-driven.
 - [x] Integrare la texture JEI `aging.png` fornita dal developer in una
       categoria **Cheese Aging** unica che aggrega temporaneamente sia
       `cheese_aging` sia `cheese_drying`: comprende quindi anche Provolone e
@@ -235,13 +238,15 @@ stagionare su rack o superficie; la Scamorza può asciugare appesa al gancio;
 chunk unload e riavvii rispettano le regole concordate e qualsiasi rimozione
 anticipata azzera il progresso senza salvarlo sull'item.
 
-### F5 — Aggiungere parmigiano e pecorino
+### F5 — Completare Parmigiano e Pecorino
 
-- [ ] Completare le preparazioni delle due forme e le rispettive ricette di
-      stagionatura, partendo dalla prima forma di F4 e dalle differenze di F2.
-- [ ] Implementare porzioni e relative ricette al Cutting Board; aggiungere
-      il grattugiato soltanto se previsto dal design.
-- [ ] Completare registrazioni, modelli, texture, traduzioni, tag e JEI.
+- [x] Implementare preparazioni e ricette di stagionatura di Parmigiano
+      Reggiano e Pecorino Romano.
+- [x] Implementare wedge, grattugiato e relative ricette al Cutting Board;
+      l'output del grattugiato è attualmente 4 ed è ancora soggetto al
+      rebalancing finale.
+- [x] Completare registrazioni item, modelli item, texture, traduzioni, common
+      tag e visualizzazione JEI necessaria alla filiera attuale.
 - [ ] Documentare gli ingredienti disponibili per `feature/dishes` e gli usi
       previsti, distinguendoli dalle ricette di piatti già implementate.
 - [ ] Verificare rese e valori nutritivi lungo l'intera catena e impedire
@@ -255,7 +260,9 @@ porzionabili in survival, con differenze riconoscibili per il giocatore.
 - [x] Preparare la compatibilità opzionale con Fromage tramite common tag
       `c:foods/cheese` / `c:cheese`, senza dipendenza runtime. Strategia e
       limiti sono documentati in [`COMPAT_FROMAGE.md`](COMPAT_FROMAGE.md).
-- [ ] Controllare coerenza di nomi, texture, traduzioni e visualizzazione JEI.
+- [~] Controllare coerenza di nomi, texture, traduzioni e visualizzazione JEI:
+      gran parte del lavoro è completata; restano verifica finale dei modelli
+      di stagionatura e controlli globali prima del merge.
 - [ ] Verificare tag condivisi, loot e compatibilità delle fonti di calore;
       definire e provare il comportamento delle tramogge dove supportato.
 - [ ] Aggiungere advancement essenziali per guidare la progressione casearia.
