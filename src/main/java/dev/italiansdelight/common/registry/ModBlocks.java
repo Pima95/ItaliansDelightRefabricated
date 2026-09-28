@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CheeseVatBlock;
+import dev.italiansdelight.common.block.CheeseHookBlock;
 import dev.italiansdelight.common.block.CheeseAgingRackBlock;
 import dev.italiansdelight.common.block.AgingCheeseBlock;
 import dev.italiansdelight.common.block.CardoonBlock;
@@ -63,6 +64,31 @@ public final class ModBlocks {
         )
     );
 
+
+
+    // -------------------- Cheese Hook --------------------
+    // Ceiling-mounted hook used by the hanging cheese system. Its first phase
+    // registers only the physical block/model; Scamorza and Provolone
+    // processing is connected in the next implementation step.
+    public static final ResourceKey<Block> CHEESE_HOOK_KEY =
+        ResourceKey.create(
+            BuiltInRegistries.BLOCK.key(),
+            ModRegistries.id("cheese_hook")
+        );
+
+    public static final Block CHEESE_HOOK =
+        register(
+            CHEESE_HOOK_KEY,
+            new CheeseHookBlock(
+                Block.Properties
+                    .ofFullCopy(Blocks.CHAIN)
+                    .setId(CHEESE_HOOK_KEY)
+                    .noOcclusion()
+                    .noCollision()
+                    .noTerrainParticles()
+                    .strength(3.0F, 6.0F)
+            )
+        );
 
     // -------------------- Cheese Aging Racks --------------------
     // One block tall, two shelves, one cheese slot per shelf.

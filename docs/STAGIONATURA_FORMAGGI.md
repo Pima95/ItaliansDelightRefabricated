@@ -155,22 +155,37 @@ del Cheese Aging Rack.
 
 ### 3.1 Cheese Hook / Gancio per Formaggi
 
-La Scamorza viene appesa fisicamente a un gancio, con presentazione ispirata
-alla meccanica di oggetti/carcasse appese della mod **Butchery**, senza
-riutilizzarne asset o codice.
+Il sistema di formaggi appesi usa un gancio metallico montato sotto una
+superficie solida. Il riferimento concettuale è la meccanica dei ganci della
+mod **Butchery**, ma modello, texture e implementazione sono originali di
+Italian's Delight.
+
+Il gancio è destinato a **Scamorza e Provolone**:
+
+- `fresh_scamorza → scamorza` continua a usare la ricetta
+  `cheese_drying`;
+- `fresh_provolone → provolone` resta una ricetta `cheese_aging`, ma il
+  Cheese Hook diventa un supporto fisico previsto per la sua maturazione.
 
 Design previsto:
 
-- il gancio viene piazzato sotto una superficie valida;
-- un gancio contiene al massimo una Scamorza;
-- click destro con `fresh_scamorza`: la appende;
-- la Scamorza viene renderizzata verticalmente sotto il gancio;
-- il timer di asciugatura appartiene al gancio/formaggio appeso;
-- al completamento `fresh_scamorza` viene sostituita con `scamorza`;
-- rimuoverla prima della fine restituisce `fresh_scamorza` e azzera il timer;
-- rompere il gancio o il suo supporto prima della fine restituisce
-  `fresh_scamorza` senza progresso;
-- rompere/rimuovere una Scamorza già pronta restituisce `scamorza`.
+- il gancio viene piazzato esclusivamente sotto una superficie superiore valida;
+- un gancio contiene al massimo un formaggio;
+- click destro con `fresh_scamorza` o `fresh_provolone`: appende il
+  formaggio;
+- il formaggio viene renderizzato verticalmente sotto il gancio;
+- il timer appartiene al gancio/formaggio appeso;
+- al completamento viene sostituito con la rispettiva variante finale;
+- la rimozione anticipata restituisce l'item fresco e azzera il timer;
+- rompere il gancio o il suo supporto prima della fine restituisce il prodotto
+  fresco senza progresso;
+- rompere/rimuovere un prodotto già pronto restituisce la variante finale.
+
+**Stato corrente:** il blocco `italiansdelight:cheese_hook`, il modello 3D e
+la texture metallica 16×16 sono implementati. L'aggancio vero e proprio di
+Scamorza/Provolone e il relativo timer verranno collegati nel passaggio
+successivo. Fino ad allora il Provolone mantiene temporaneamente anche il
+supporto già implementato su rack/superficie.
 
 Il `minecraft:lead` resta parte della forma durante l'asciugatura. Viene
 recuperato successivamente tramite le ricette già definite al Cutting Board.
@@ -364,8 +379,8 @@ base delle ricette `cheese_aging` e `cheese_drying`.
 
 ### Ancora da implementare o completare
 
-- Cheese Hook per appendere e asciugare fisicamente la Scamorza;
-- rendering/modello definitivo della Scamorza appesa;
+- collegare la logica del Cheese Hook già registrato a Scamorza e Provolone;
+- rendering/modelli definitivi di Scamorza e Provolone appesi;
 - ricette di crafting dei rack per tutte le varianti di legno;
 - modelli definitivi dei rack e dei formaggi stagionati al posto dei placeholder
   Cake, se desiderati;

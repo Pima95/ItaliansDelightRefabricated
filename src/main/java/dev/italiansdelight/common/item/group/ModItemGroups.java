@@ -31,6 +31,7 @@ public final class ModItemGroups {
             .title(Component.translatable("itemGroup.italiansdelight.main"))
             .displayItems((params, output) -> {
                 output.accept(ModBlocks.CHEESE_VAT);
+                output.accept(ModBlocks.CHEESE_HOOK);
                 output.accept(ModBlocks.OAK_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.SPRUCE_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.BIRCH_CHEESE_AGING_RACK);

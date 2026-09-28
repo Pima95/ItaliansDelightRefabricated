@@ -214,8 +214,11 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       varianti di legno.
 - [ ] Sostituire, se necessario, i placeholder Cake con modelli definitivi dei
       formaggi e rifinire il modello estetico finale del rack.
-- [ ] Implementare il Cheese Hook e il rendering della Scamorza appesa, separato
-      dal sistema di stagionatura su rack/superficie.
+- [~] Implementare il Cheese Hook: blocco, modello 3D originale, texture
+      metallica 16×16, posizionamento sotto superfici solide, loot e creative
+      tab sono completati. Restano interazione, timer e rendering dei formaggi
+      appesi. Il gancio supporterà **Scamorza e Provolone**: la prima usa
+      `cheese_drying`, il secondo mantiene `cheese_aging`.
 - [x] Implementare per forme piazzate e rack il salvataggio del progresso
       **nel mondo**, senza component/NBT di progresso sugli ItemStack. Il gancio
       della Scamorza userà la stessa regola.
@@ -289,7 +292,7 @@ Queste sono proposte iniziali di gameplay, ancora da fissare nei dettagli.
 | Chunk scaricati | Pausa senza caricamento forzato | **Definito**: nessun avanzamento offline |
 | Rimozione delle forme | L'item non conserva progresso | **Definito**: ritorno al prodotto fresco con timer 0 |
 | Rottura del ripiano/supporto | Restituisce le forme ma azzera quelle incomplete | **Definito**: nessun dato di progresso sull'ItemStack |
-| Scamorza | Asciugatura separata dalla stagionatura | **Definito**: Cheese Hook + `cheese_drying` |
+| Formaggi appesi | Supporto sospeso per Scamorza e Provolone | **Definito**: Cheese Hook; Scamorza usa `cheese_drying`, Provolone `cheese_aging` |
 | Porzioni | Tagliere come strumento principale | Numero di porzioni, grattugiato ed eventuali bonus nutritivi |
 
 Le scelte definitive vanno riportate qui e nelle tabelle delle ricette prima
