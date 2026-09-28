@@ -173,21 +173,32 @@ Design previsto:
 - la curva dell'uncino viene orientata verso il giocatore al momento del
   piazzamento, con stato orizzontale `facing` N/E/S/W;
 - un gancio contiene al massimo un formaggio;
-- click destro con `fresh_scamorza` o `fresh_provolone`: appende il
-  formaggio;
-- il formaggio viene renderizzato verticalmente sotto il gancio;
-- il timer appartiene al gancio/formaggio appeso;
-- al completamento viene sostituito con la rispettiva variante finale;
+- sono agganciabili `fresh_scamorza`, `scamorza`,
+  `fresh_provolone` e `provolone`;
+- le versioni mature possono quindi essere riappese come decorazione senza
+  avviare un nuovo timer;
+- click destro su un gancio occupato rimuove sempre il formaggio, anche con un
+  altro oggetto in mano; con mano occupata il formaggio va nel primo slot
+  completamente libero dell'inventario, oppure viene droppato se l'inventario
+  è pieno;
+- Scamorza e Provolone vengono renderizzati verticalmente sotto il gancio con
+  modelli dedicati;
+- il modello della Scamorza è ispirato alla forma a doppio bulbo legata al
+  collo; quello del Provolone alla forma a pera/goccia con legatura superiore;
+- le texture 16×16 sono originali e usano palette crema/giallo-oro ispirate
+  alle fotografie di riferimento; fresh e mature hanno palette differenti;
+- il timer appartiene esclusivamente alla BlockEntity del gancio;
+- al completamento la variante fresh viene sostituita visivamente e
+  logicamente dalla rispettiva variante finale;
 - la rimozione anticipata restituisce l'item fresco e azzera il timer;
 - rompere il gancio o il suo supporto prima della fine restituisce il prodotto
   fresco senza progresso;
 - rompere/rimuovere un prodotto già pronto restituisce la variante finale.
 
-**Stato corrente:** il blocco `italiansdelight:cheese_hook`, il modello 3D e
-la texture metallica 16×16 sono implementati. L'aggancio vero e proprio di
-Scamorza/Provolone e il relativo timer verranno collegati nel passaggio
-successivo. Fino ad allora il Provolone mantiene temporaneamente anche il
-supporto già implementato su rack/superficie.
+**Stato corrente:** blocco, orientamento, BlockEntity, interazioni,
+persistenza, timer, trasformazioni e rendering di Scamorza/Provolone sono
+implementati. Il Provolone continua a poter usare anche rack e superfici
+normali.
 
 Il `minecraft:lead` resta parte della forma durante l'asciugatura. Viene
 recuperato successivamente tramite le ricette già definite al Cutting Board.
@@ -381,8 +392,9 @@ base delle ricette `cheese_aging` e `cheese_drying`.
 
 ### Ancora da implementare o completare
 
-- collegare la logica del Cheese Hook già registrato a Scamorza e Provolone;
-- rendering/modelli definitivi di Scamorza e Provolone appesi;
+- verificare in-game proporzioni, hitbox e leggibilità dei modelli appesi di
+  Scamorza e Provolone;
+- definire più avanti la ricetta di crafting del Cheese Hook;
 - ricette di crafting dei rack per tutte le varianti di legno;
 - modelli definitivi dei rack e dei formaggi stagionati al posto dei placeholder
   Cake, se desiderati;

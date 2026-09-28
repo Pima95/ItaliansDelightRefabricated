@@ -2,6 +2,7 @@ package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
 import dev.italiansdelight.common.block.entity.CheeseAgingRackBlockEntity;
+import dev.italiansdelight.common.block.entity.CheeseHookBlockEntity;
 import dev.italiansdelight.common.block.entity.AgingCheeseBlockEntity;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -30,6 +31,13 @@ public final class ModBlockEntities {
             "aging_cheese",
             AgingCheeseBlockEntity::new,
             ModBlocks.AGING_CHEESE
+        );
+
+    public static final BlockEntityType<CheeseHookBlockEntity> CHEESE_HOOK =
+        register(
+            "cheese_hook",
+            CheeseHookBlockEntity::new,
+            ModBlocks.CHEESE_HOOK
         );
 
     public static final BlockEntityType<CheeseAgingRackBlockEntity> CHEESE_AGING_RACK =

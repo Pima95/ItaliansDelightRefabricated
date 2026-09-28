@@ -1,19 +1,71 @@
 {
-  "variants": {
-    "facing=north": {
-      "model": "italiansdelight:block/cheese_hook"
+  "multipart": [
+    {
+      "when": {
+        "facing": "north"
+      },
+      "apply": {
+        "model": "italiansdelight:block/cheese_hook"
+      }
     },
-    "facing=east": {
-      "model": "italiansdelight:block/cheese_hook",
-      "y": 90
+    {
+      "when": {
+        "facing": "east"
+      },
+      "apply": {
+        "model": "italiansdelight:block/cheese_hook",
+        "y": 90
+      }
     },
-    "facing=south": {
-      "model": "italiansdelight:block/cheese_hook",
-      "y": 180
+    {
+      "when": {
+        "facing": "south"
+      },
+      "apply": {
+        "model": "italiansdelight:block/cheese_hook",
+        "y": 180
+      }
     },
-    "facing=west": {
-      "model": "italiansdelight:block/cheese_hook",
-      "y": 270
+    {
+      "when": {
+        "facing": "west"
+      },
+      "apply": {
+        "model": "italiansdelight:block/cheese_hook",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "cheese": "fresh_scamorza"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_fresh_scamorza"
+      }
+    },
+    {
+      "when": {
+        "cheese": "scamorza"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_scamorza"
+      }
+    },
+    {
+      "when": {
+        "cheese": "fresh_provolone"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_fresh_provolone"
+      }
+    },
+    {
+      "when": {
+        "cheese": "provolone"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_provolone"
+      }
     }
-  }
+  ]
 }

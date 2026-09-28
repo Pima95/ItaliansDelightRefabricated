@@ -1,0 +1,235 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "italiansdelight:block/hanging_scamorza",
+    "cheese": "italiansdelight:block/hanging_scamorza",
+    "twine": "italiansdelight:block/cheese_twine"
+  },
+  "elements": [
+    {
+      "from": [
+        5,
+        0,
+        5
+      ],
+      "to": [
+        11,
+        1,
+        11
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cheese"
+        },
+        "east": {
+          "texture": "#cheese"
+        },
+        "south": {
+          "texture": "#cheese"
+        },
+        "west": {
+          "texture": "#cheese"
+        },
+        "up": {
+          "texture": "#cheese"
+        },
+        "down": {
+          "texture": "#cheese"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        1,
+        4
+      ],
+      "to": [
+        12,
+        4,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cheese"
+        },
+        "east": {
+          "texture": "#cheese"
+        },
+        "south": {
+          "texture": "#cheese"
+        },
+        "west": {
+          "texture": "#cheese"
+        },
+        "up": {
+          "texture": "#cheese"
+        },
+        "down": {
+          "texture": "#cheese"
+        }
+      }
+    },
+    {
+      "from": [
+        5,
+        4,
+        5
+      ],
+      "to": [
+        11,
+        5,
+        11
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cheese"
+        },
+        "east": {
+          "texture": "#cheese"
+        },
+        "south": {
+          "texture": "#cheese"
+        },
+        "west": {
+          "texture": "#cheese"
+        },
+        "up": {
+          "texture": "#cheese"
+        },
+        "down": {
+          "texture": "#cheese"
+        }
+      }
+    },
+    {
+      "from": [
+        5,
+        5,
+        5
+      ],
+      "to": [
+        11,
+        6,
+        11
+      ],
+      "faces": {
+        "north": {
+          "texture": "#twine"
+        },
+        "east": {
+          "texture": "#twine"
+        },
+        "south": {
+          "texture": "#twine"
+        },
+        "west": {
+          "texture": "#twine"
+        },
+        "up": {
+          "texture": "#twine"
+        },
+        "down": {
+          "texture": "#twine"
+        }
+      }
+    },
+    {
+      "from": [
+        6,
+        6,
+        6
+      ],
+      "to": [
+        10,
+        9,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cheese"
+        },
+        "east": {
+          "texture": "#cheese"
+        },
+        "south": {
+          "texture": "#cheese"
+        },
+        "west": {
+          "texture": "#cheese"
+        },
+        "up": {
+          "texture": "#cheese"
+        },
+        "down": {
+          "texture": "#cheese"
+        }
+      }
+    },
+    {
+      "from": [
+        7,
+        9,
+        7
+      ],
+      "to": [
+        9,
+        10,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cheese"
+        },
+        "east": {
+          "texture": "#cheese"
+        },
+        "south": {
+          "texture": "#cheese"
+        },
+        "west": {
+          "texture": "#cheese"
+        },
+        "up": {
+          "texture": "#cheese"
+        },
+        "down": {
+          "texture": "#cheese"
+        }
+      }
+    },
+    {
+      "from": [
+        7,
+        10,
+        7
+      ],
+      "to": [
+        9,
+        13,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#twine"
+        },
+        "east": {
+          "texture": "#twine"
+        },
+        "south": {
+          "texture": "#twine"
+        },
+        "west": {
+          "texture": "#twine"
+        },
+        "up": {
+          "texture": "#twine"
+        },
+        "down": {
+          "texture": "#twine"
+        }
+      }
+    }
+  ]
+}

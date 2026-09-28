@@ -214,18 +214,20 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       varianti di legno.
 - [ ] Sostituire, se necessario, i placeholder Cake con modelli definitivi dei
       formaggi e rifinire il modello estetico finale del rack.
-- [~] Implementare il Cheese Hook: blocco, modello 3D originale, texture
-      metallica 16×16, posizionamento sotto superfici solide, loot e creative
-      tab sono completati. Restano interazione, timer e rendering dei formaggi
-      appesi. Il gancio supporterà **Scamorza e Provolone**: la prima usa
-      `cheese_drying`, il secondo mantiene `cheese_aging`.
+- [x] Implementare il Cheese Hook per **Scamorza e Provolone**: blocco,
+      orientamento verso il giocatore, BlockEntity, inserimento/rimozione,
+      reset del progresso, timer lato server, trasformazione automatica,
+      drop alla rottura e modelli appesi originali. Sono appendibili anche
+      `scamorza` e `provolone` già maturi come decorazione. La Scamorza usa
+      `cheese_drying`, il Provolone mantiene `cheese_aging`.
 - [x] Implementare per forme piazzate e rack il salvataggio del progresso
       **nel mondo**, senza component/NBT di progresso sugli ItemStack. Il gancio
       della Scamorza userà la stessa regola.
-- [~] Applicare la regola di reset: implementata per formaggio piazzato,
-      superficie di supporto e rack; resta da applicare al Cheese Hook.
-- [x] Mettere in pausa il progresso di forme piazzate e rack nei chunk
-      scaricati, senza chunk loading forzato e senza recupero del tempo offline.
+- [x] Applicare la regola di reset a formaggi piazzati, superfici di
+      supporto, rack e Cheese Hook: nessun progresso viene salvato sull'item.
+- [x] Mettere in pausa il progresso di forme piazzate, rack e Cheese Hook nei
+      chunk scaricati, senza chunk loading forzato e senza recupero del tempo
+      offline.
 - [x] Trasformare automaticamente forme piazzate e contenuti del rack nel
       prodotto finale al 100%, usando risultato e durata della ricetta
       data-driven.
