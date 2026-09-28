@@ -15,6 +15,7 @@ public enum HangingCheeseType implements StringRepresentable {
     EMPTY("empty"),
     FRESH_SCAMORZA("fresh_scamorza"),
     SCAMORZA("scamorza"),
+    SMOKED_SCAMORZA("smoked_scamorza"),
     FRESH_PROVOLONE("fresh_provolone"),
     PROVOLONE("provolone");
 
@@ -60,6 +61,8 @@ public enum HangingCheeseType implements StringRepresentable {
                 new ItemStack(ModItems.FRESH_SCAMORZA);
             case SCAMORZA ->
                 new ItemStack(ModItems.SCAMORZA);
+            case SMOKED_SCAMORZA ->
+                new ItemStack(ModItems.SMOKED_SCAMORZA);
             case FRESH_PROVOLONE ->
                 new ItemStack(ModItems.FRESH_PROVOLONE);
             case PROVOLONE ->
@@ -78,6 +81,10 @@ public enum HangingCheeseType implements StringRepresentable {
 
         if (stack.getItem() == ModItems.SCAMORZA) {
             return SCAMORZA;
+        }
+
+        if (stack.getItem() == ModItems.SMOKED_SCAMORZA) {
+            return SMOKED_SCAMORZA;
         }
 
         if (stack.getItem() == ModItems.FRESH_PROVOLONE) {

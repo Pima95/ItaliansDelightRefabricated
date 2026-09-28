@@ -174,15 +174,16 @@ Design previsto:
   piazzamento, con stato orizzontale `facing` N/E/S/W;
 - un gancio contiene al massimo un formaggio;
 - sono agganciabili `fresh_scamorza`, `scamorza`,
-  `fresh_provolone` e `provolone`;
-- le versioni mature possono quindi essere riappese come decorazione senza
-  avviare un nuovo timer;
+  `smoked_scamorza`, `fresh_provolone` e `provolone`;
+- le versioni mature e la **Scamorza Affumicata** possono quindi essere
+  riappese come decorazione senza avviare un nuovo timer;
 - click destro su un gancio occupato rimuove sempre il formaggio, anche con un
   altro oggetto in mano; con mano occupata il formaggio va nel primo slot
   completamente libero dell'inventario, oppure viene droppato se l'inventario
   è pieno;
-- Scamorza e Provolone vengono renderizzati verticalmente sotto il gancio con
-  modelli dedicati;
+- Scamorza, Scamorza Affumicata e Provolone vengono renderizzati verticalmente
+  sotto il gancio; la Scamorza Affumicata riusa la geometria della Scamorza ma
+  mantiene la propria texture scura;
 - il modello della Scamorza è ispirato alla forma a doppio bulbo legata al
   collo; quello del Provolone alla forma a pera/goccia con legatura superiore;
 - le texture 16×16 sono originali e usano palette crema/giallo-oro ispirate

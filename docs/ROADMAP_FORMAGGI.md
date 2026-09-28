@@ -218,7 +218,8 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       orientamento verso il giocatore, BlockEntity, inserimento/rimozione,
       reset del progresso, timer lato server, trasformazione automatica,
       drop alla rottura e modelli appesi originali. Sono appendibili anche
-      `scamorza` e `provolone` già maturi come decorazione. La Scamorza usa
+      `scamorza`, `smoked_scamorza` e `provolone` già pronti come
+      decorazione. La Scamorza usa
       `cheese_drying`, il Provolone mantiene `cheese_aging`.
 - [x] Implementare per forme piazzate e rack il salvataggio del progresso
       **nel mondo**, senza component/NBT di progresso sugli ItemStack. Il gancio

@@ -66,6 +66,14 @@
       "apply": {
         "model": "italiansdelight:block/hanging_provolone"
       }
+    },
+    {
+      "when": {
+        "cheese": "smoked_scamorza"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_smoked_scamorza"
+      }
     }
   ]
 }
