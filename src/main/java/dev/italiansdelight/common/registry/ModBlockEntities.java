@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
+import dev.italiansdelight.common.block.entity.AgingCheeseBlockEntity;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
@@ -21,6 +22,13 @@ public final class ModBlockEntities {
             "cheese_vat",
             CheeseVatBlockEntity::new,
             ModBlocks.CHEESE_VAT
+        );
+
+    public static final BlockEntityType<AgingCheeseBlockEntity> AGING_CHEESE =
+        register(
+            "aging_cheese",
+            AgingCheeseBlockEntity::new,
+            ModBlocks.AGING_CHEESE
         );
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(

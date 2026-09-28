@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_drying",
+  "ingredient": "italiansdelight:fresh_scamorza",
+  "result": {
+    "id": "italiansdelight:scamorza"
+  },
+  "dryingtime": 12000
+}

@@ -191,25 +191,31 @@ survival, con ricette consultabili e valori coerenti con la tabella di F2.
 
 Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
 
-- [x] Definire i due processi data-driven:
-      `italiansdelight:cheese_aging` e `italiansdelight:cheese_drying`.
+- [x] Definire e registrare i due processi data-driven:
+      `italiansdelight:cheese_aging` e `italiansdelight:cheese_drying`,
+      con serializer sincronizzati e ricette JSON per i cinque formaggi.
 - [x] Fissare i tempi iniziali: Scamorza 12.000 tick, Gorgonzola 48.000,
       Provolone 72.000, Pecorino Romano 96.000 e Parmigiano Reggiano 120.000.
-- [ ] Implementare il piazzamento delle forme fresche stagionabili su superfici
-      piane, con forma visibile e timer lato server.
+- [x] Implementare il primo ciclo di stagionatura su superfici piane:
+      `fresh_parmigiano_reggiano`, `fresh_pecorino_romano`,
+      `fresh_gorgonzola` e `fresh_provolone` sono piazzabili su una faccia
+      superiore robusta, usano una forma visibile nel mondo e avanzano con
+      timer lato server.
 - [ ] Creare il Cheese Aging Rack ispirato concettualmente agli scaffali di
       Fromage: due ripiani, quattro posizioni indipendenti, forme visibili e
       nessuna GUI del blocco.
 - [ ] Implementare il Cheese Hook e il rendering della Scamorza appesa, separato
       dal sistema di stagionatura su rack/superficie.
-- [ ] Implementare salvataggio e sincronizzazione del progresso **nel mondo**,
-      senza component/NBT di progresso sugli ItemStack.
-- [ ] Applicare la regola di reset: rimozione anticipata, rottura del rack,
-      rottura del formaggio piazzato, del gancio o del supporto restituiscono il
-      prodotto fresco con progresso zero.
-- [ ] Mettere in pausa il progresso nei chunk scaricati, senza chunk loading
-      forzato e senza recupero del tempo offline.
-- [ ] Trasformare automaticamente la forma nel prodotto finale al 100%.
+- [x] Implementare per la forma piazzata il salvataggio del progresso
+      **nel mondo**, senza component/NBT di progresso sugli ItemStack. Il rack
+      e il gancio riuseranno la stessa regola.
+- [~] Applicare la regola di reset: già implementata per il formaggio piazzato
+      e per la rottura della superficie di supporto; resta da applicare a rack
+      e gancio.
+- [x] Mettere in pausa il progresso delle forme piazzate nei chunk scaricati,
+      senza chunk loading forzato e senza recupero del tempo offline.
+- [x] Trasformare automaticamente la forma piazzata nel prodotto finale al
+      100%, usando risultato e durata della ricetta data-driven.
 - [ ] Integrare le ricette in due categorie JEI separate: **Cheese Aging** e
       **Cheese Drying**. Le texture/layout JEI sono gestite manualmente dal
       developer e non vanno sovrascritte.

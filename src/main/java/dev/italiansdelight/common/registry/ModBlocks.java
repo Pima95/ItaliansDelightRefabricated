@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CheeseVatBlock;
+import dev.italiansdelight.common.block.AgingCheeseBlock;
 import dev.italiansdelight.common.block.CardoonBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 
@@ -60,6 +61,28 @@ public final class ModBlocks {
                 .strength(5.0F, 6.0F)
         )
     );
+
+    // Internal block used when a fresh cheese wheel is placed on a flat
+    // surface. It intentionally has no BlockItem; placement happens through
+    // AgingCheeseItem and any incomplete progress is world-only.
+    public static final ResourceKey<Block> AGING_CHEESE_KEY =
+        ResourceKey.create(
+            BuiltInRegistries.BLOCK.key(),
+            ModRegistries.id("aging_cheese")
+        );
+
+    public static final Block AGING_CHEESE =
+        registerBlockOnly(
+            AGING_CHEESE_KEY,
+            new AgingCheeseBlock(
+                Block.Properties
+                    .ofFullCopy(Blocks.CAKE)
+                    .setId(AGING_CHEESE_KEY)
+                    .noOcclusion()
+                    .noTerrainParticles()
+                    .strength(0.2F)
+            )
+        );
 
     // Internal state used when a full water cauldron has finished evaporating.
     // A BlockItem is registered so Creative Pick Block can copy and re-place

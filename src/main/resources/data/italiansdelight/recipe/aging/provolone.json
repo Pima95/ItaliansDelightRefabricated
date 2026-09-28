@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_aging",
+  "ingredient": "italiansdelight:fresh_provolone",
+  "result": {
+    "id": "italiansdelight:provolone"
+  },
+  "agingtime": 72000
+}

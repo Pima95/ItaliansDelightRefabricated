@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_aging",
+  "ingredient": "italiansdelight:fresh_gorgonzola",
+  "result": {
+    "id": "italiansdelight:gorgonzola"
+  },
+  "agingtime": 48000
+}

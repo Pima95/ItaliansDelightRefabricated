@@ -12,6 +12,8 @@ import net.minecraft.world.item.component.Consumables;
 import net.minecraft.core.Registry;
 
 import dev.italiansdelight.ItaliansDelight;
+import dev.italiansdelight.common.aging.AgingCheeseType;
+import dev.italiansdelight.common.item.AgingCheeseItem;
 
 import vectorwing.farmersdelight.common.FoodValues;
 import vectorwing.farmersdelight.common.item.ConsumableItem;
@@ -295,6 +297,10 @@ public final class ModItems {
 
         public static final Item FRESH_PARMIGIANO_REGGIANO = register(
                 FRESH_PARMIGIANO_REGGIANO_KEY,
+                properties -> new AgingCheeseItem(
+                        AgingCheeseType.PARMIGIANO_REGGIANO,
+                        properties
+                ),
                 new Item.Properties().stacksTo(16));
 
         public static final ResourceKey<Item> PARMIGIANO_REGGIANO_KEY = ResourceKey.create(
@@ -335,6 +341,10 @@ public final class ModItems {
 
         public static final Item FRESH_PECORINO_ROMANO = register(
                 FRESH_PECORINO_ROMANO_KEY,
+                properties -> new AgingCheeseItem(
+                        AgingCheeseType.PECORINO_ROMANO,
+                        properties
+                ),
                 new Item.Properties().stacksTo(16));
 
         public static final ResourceKey<Item> PECORINO_ROMANO_KEY = ResourceKey.create(
@@ -375,6 +385,10 @@ public final class ModItems {
 
         public static final Item FRESH_GORGONZOLA = register(
                 FRESH_GORGONZOLA_KEY,
+                properties -> new AgingCheeseItem(
+                        AgingCheeseType.GORGONZOLA,
+                        properties
+                ),
                 new Item.Properties().stacksTo(16));
 
         public static final ResourceKey<Item> GORGONZOLA_KEY = ResourceKey.create(
@@ -407,6 +421,10 @@ public final class ModItems {
 
         public static final Item FRESH_PROVOLONE = register(
                 FRESH_PROVOLONE_KEY,
+                properties -> new AgingCheeseItem(
+                        AgingCheeseType.PROVOLONE,
+                        properties
+                ),
                 new Item.Properties().stacksTo(16));
 
         public static final ResourceKey<Item> PROVOLONE_KEY = ResourceKey.create(

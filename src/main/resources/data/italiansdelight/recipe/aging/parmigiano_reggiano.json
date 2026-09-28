@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_aging",
+  "ingredient": "italiansdelight:fresh_parmigiano_reggiano",
+  "result": {
+    "id": "italiansdelight:parmigiano_reggiano"
+  },
+  "agingtime": 120000
+}
