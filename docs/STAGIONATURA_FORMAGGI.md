@@ -452,6 +452,9 @@ base delle ricette `cheese_aging` e `cheese_drying`.
 
 ### Ancora da implementare o completare
 
+- sistemare le **particelle emesse dal Cheese Hook al momento della rottura**;
+  il problema è noto ma va corretto in una fase successiva, senza modifiche
+  nell'implementazione corrente;
 - verificare in-game proporzioni, hitbox e leggibilità dei modelli appesi di
   Scamorza e Provolone;
 - il Cheese Hook è craftabile verticalmente con **1 Iron Chain + 1 Iron Nugget**:
