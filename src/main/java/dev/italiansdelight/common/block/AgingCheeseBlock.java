@@ -243,10 +243,11 @@ public final class AgingCheeseBlock
         BlockState state,
         LootParams.Builder params
     ) {
+        ServerLevel serverLevel =
+            params.getLevel();
+
         if (
-            params.getLevel()
-                instanceof ServerLevel serverLevel
-            && params.getOptionalParameter(
+            params.getOptionalParameter(
                 LootContextParams.BLOCK_ENTITY
             ) instanceof AgingCheeseBlockEntity blockEntity
         ) {
