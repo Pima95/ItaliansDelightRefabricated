@@ -248,6 +248,8 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       ridondanti del Cheese Hook, aggiunto fast-path sicuro per la ricetta
       corrente della Cheese Vat e corretta la mappatura UV continua dei modelli
       appesi.
+- [ ] Sistemare le **particelle di rottura del Cheese Hook**: il problema è
+      noto ma non va corretto in questa fase.
 - [ ] Eseguire i casi di test definiti nel documento di design, compresi
       riavvio, multiplayer, reset e assenza di duplicazioni.
 
