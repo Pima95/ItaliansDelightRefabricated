@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "italiansdelight_cheese_aging_racks",
+  "key": {
+    "S": "minecraft:crimson_fence",
+    "B": "minecraft:crimson_hyphae"
+  },
+  "pattern": [
+    "S S",
+    " B ",
+    "S S"
+  ],
+  "result": {
+    "id": "italiansdelight:crimson_cheese_aging_rack",
+    "count": 1
+  }
+}

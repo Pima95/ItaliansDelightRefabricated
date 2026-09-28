@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "italiansdelight_cheese_aging_racks",
+  "key": {
+    "S": "minecraft:bamboo_fence",
+    "B": "minecraft:bamboo_block"
+  },
+  "pattern": [
+    "S S",
+    " B ",
+    "S S"
+  ],
+  "result": {
+    "id": "italiansdelight:bamboo_cheese_aging_rack",
+    "count": 1
+  }
+}

@@ -210,10 +210,13 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       essere svuotato con click destro anche tenendo qualsiasi oggetto; con mano
       occupata il formaggio va nel primo slot completamente libero. Corrette
       anche le UV laterali della Cake placeholder.
-- [ ] Definire e aggiungere le ricette di crafting dei rack per tutte le
-      varianti di legno.
+- [x] Aggiungere le ricette di crafting dei rack per tutte le 12 varianti:
+      quattro staccionate + un blocco di legno della stessa famiglia. Bamboo
+      usa Bamboo Block; Crimson/warped usano le rispettive Hyphae.
 - [ ] Sostituire, se necessario, i placeholder Cake con modelli definitivi dei
       formaggi e rifinire il modello estetico finale del rack.
+- [x] Aggiungere la ricetta del Cheese Hook con Chain sopra e Iron Nugget
+      sotto.
 - [x] Implementare il Cheese Hook per **Scamorza e Provolone**: blocco,
       orientamento verso il giocatore, BlockEntity, inserimento/rimozione,
       reset del progresso, timer lato server, trasformazione automatica,

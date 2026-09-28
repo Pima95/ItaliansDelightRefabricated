@@ -96,8 +96,19 @@ Design concordato:
 - il rack deve avere una variante per **ogni famiglia di legno vanilla**:
   Oak, Spruce, Birch, Jungle, Acacia, Dark Oak, Mangrove, Cherry, Pale Oak,
   Bamboo, Crimson e Warped;
-- le ricette di crafting in legno saranno definite in una fase successiva e
-  non fanno parte della prima implementazione del blocco.
+- ogni variante del rack è craftabile con **4 staccionate della stessa
+  famiglia + 1 blocco di legno della stessa famiglia**, con schema:
+
+  ```text
+  S S
+   B
+  S S
+  ```
+
+  dove `S` è la staccionata relativa e `B` è il blocco di legno relativo;
+  per Bamboo si usa `minecraft:bamboo_block`, mentre Crimson e Warped usano
+  rispettivamente `minecraft:crimson_hyphae` e
+  `minecraft:warped_hyphae`.
 
 Interazione prevista:
 
@@ -223,6 +234,36 @@ normali.
 
 Il `minecraft:lead` resta parte della forma durante l'asciugatura. Viene
 recuperato successivamente tramite le ricette già definite al Cutting Board.
+
+## 3.2 Ricette dei supporti
+
+### Cheese Aging Rack
+
+Schema per tutte le 12 varianti:
+
+```text
+S S
+ B
+S S
+```
+
+- `S`: staccionata della stessa famiglia del rack;
+- `B`: blocco di legno della stessa famiglia;
+- output: 1 Cheese Aging Rack della famiglia corrispondente.
+
+### Cheese Hook
+
+```text
+C
+P
+```
+
+- `C`: Chain;
+- `P`: Iron Nugget;
+- output: 1 Cheese Hook.
+
+Le ricette sono normali `minecraft:crafting_shaped` e vengono quindi
+mostrate automaticamente da JEI insieme alle altre ricette del crafting table.
 
 ## 4. Tempi approvati
 
@@ -415,8 +456,15 @@ base delle ricette `cheese_aging` e `cheese_drying`.
 
 - verificare in-game proporzioni, hitbox e leggibilità dei modelli appesi di
   Scamorza e Provolone;
-- definire più avanti la ricetta di crafting del Cheese Hook;
-- ricette di crafting dei rack per tutte le varianti di legno;
+- il Cheese Hook è craftabile verticalmente con **1 Chain + 1 Iron Nugget**:
+
+  ```text
+  C
+  P
+  ```
+
+  dove `C` = `minecraft:chain` e `P` = `minecraft:iron_nugget`;
+- ricette di crafting dei rack per tutte le varianti di legno: **completate**;
 - modelli definitivi dei rack e dei formaggi stagionati al posto dei placeholder
   Cake, se desiderati;
 - verifica in-game definitiva del fix UV del formaggio sul ripiano superiore;
