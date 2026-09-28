@@ -31,6 +31,18 @@ public final class ModItemGroups {
             .title(Component.translatable("itemGroup.italiansdelight.main"))
             .displayItems((params, output) -> {
                 output.accept(ModBlocks.CHEESE_VAT);
+                output.accept(ModBlocks.OAK_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.SPRUCE_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.BIRCH_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.JUNGLE_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.ACACIA_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.DARK_OAK_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.MANGROVE_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.CHERRY_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.PALE_OAK_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.BAMBOO_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.CRIMSON_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.CARDOON);
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);

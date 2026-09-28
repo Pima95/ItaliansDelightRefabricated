@@ -1,0 +1,25 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "italiansdelight:block/birch_cheese_aging_rack"
+      }
+    },
+    {
+      "when": {
+        "lower_occupied": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/cheese_aging_rack_lower_cheese_placeholder"
+      }
+    },
+    {
+      "when": {
+        "upper_occupied": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/cheese_aging_rack_upper_cheese_placeholder"
+      }
+    }
+  ]
+}

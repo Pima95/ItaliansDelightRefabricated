@@ -148,8 +148,9 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
       modifier come placeholder.
 - [x] Definire capacità, interazioni, condizioni e recupero delle forme del
       sistema di stagionatura/asciugatura. Specifiche complete in
-      [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md): rack a 4 posti,
-      stagionatura anche su superfici piane, Scamorza appesa al gancio, pausa
+      [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md): rack 1×1×1 con
+      2 ripiani e 2 slot totali, stagionatura anche su superfici piane,
+      Scamorza appesa al gancio, pausa
       nei chunk scaricati e reset del progresso quando il prodotto viene
       rimosso o il supporto viene rotto.
 
@@ -201,9 +202,12 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       `fresh_gorgonzola` e `fresh_provolone` sono piazzabili su una faccia
       superiore robusta, usano una forma visibile nel mondo e avanzano con
       timer lato server.
-- [ ] Creare il Cheese Aging Rack ispirato concettualmente agli scaffali di
-      Fromage: due ripiani, quattro posizioni indipendenti, forme visibili e
-      nessuna GUI del blocco.
+- [~] Implementare il Cheese Aging Rack 1×1×1 ispirato concettualmente agli
+      scaffali di Fromage: **due ripiani e due slot totali**, uno per ripiano.
+      Prima versione: blocco/BlockEntity, timer indipendenti, reset del
+      progresso, 12 varianti di legno vanilla e Cake vanilla come placeholder
+      visivo dei formaggi. Restano da rifinire i modelli finali e da definire
+      in seguito le ricette di crafting.
 - [ ] Implementare il Cheese Hook e il rendering della Scamorza appesa, separato
       dal sistema di stagionatura su rack/superficie.
 - [x] Implementare per la forma piazzata il salvataggio del progresso
@@ -270,7 +274,7 @@ Queste sono proposte iniziali di gameplay, ancora da fissare nei dettagli.
 |---|---|---|
 | Ricotta e siero | Introdurre il siero se sostiene una filiera utile | Ricetta, raccolta del siero ed eventuale estensione della caldaia |
 | Parmigiano e pecorino | Differenziare produzione e impieghi | Ingredienti, provenienza del latte e porzioni |
-| Ripiano | 4 posizioni indipendenti, forme visibili, nessuna GUI | **Definito**: due ripiani, due forme per ripiano |
+| Ripiano | 2 posizioni indipendenti, forme visibili, nessuna GUI | **Definito**: blocco 1×1×1, due ripiani, una forma per ripiano |
 | Maturazione | Tempo come requisito, nessuna condizione ambientale nella prima versione | **Definito**: tempi in `STAGIONATURA_FORMAGGI.md` |
 | Chunk scaricati | Pausa senza caricamento forzato | **Definito**: nessun avanzamento offline |
 | Rimozione delle forme | L'item non conserva progresso | **Definito**: ritorno al prodotto fresco con timer 0 |

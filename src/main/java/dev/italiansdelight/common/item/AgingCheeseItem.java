@@ -38,6 +38,10 @@ public final class AgingCheeseItem extends Item {
         this.cheeseType = cheeseType;
     }
 
+    public AgingCheeseType cheeseType() {
+        return cheeseType;
+    }
+
     @Override
     public InteractionResult useOn(
         UseOnContext context

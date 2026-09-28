@@ -76,18 +76,29 @@ Design concordato:
 
 - aspetto generale ispirato al concetto di scaffale caseario della mod
   **Fromage**, ma con modello e asset originali di Italian's Delight;
-- due ripiani visibili;
-- **4 posizioni indipendenti**, due per ripiano;
-- ogni posizione contiene al massimo una forma;
-- le forme sono renderizzate fisicamente sul rack;
+- il rack occupa **esattamente un blocco 1×1×1**;
+- sono presenti **due ripiani**, non quattro:
+  - un ripiano inferiore a livello del pavimento;
+  - un ripiano superiore circa a metà altezza del blocco;
+- ogni ripiano possiede **un solo slot**, quindi il rack contiene al massimo
+  **2 forme**;
+- i due slot sono completamente indipendenti e possiedono timer separati;
+- le forme sono visibili fisicamente sul rispettivo ripiano;
 - nessuna GUI del blocco;
-- ogni posizione conserva il proprio timer indipendente.
+- nella prima implementazione i formaggi visualizzati nel rack usano un
+  **modello tipo torta con texture vanilla della Cake come placeholder**;
+- il rack deve avere una variante per **ogni famiglia di legno vanilla**:
+  Oak, Spruce, Birch, Jungle, Acacia, Dark Oak, Mangrove, Cherry, Pale Oak,
+  Bamboo, Crimson e Warped;
+- le ricette di crafting in legno saranno definite in una fase successiva e
+  non fanno parte della prima implementazione del blocco.
 
 Interazione prevista:
 
-- click destro con una forma fresca compatibile: inserisce la forma nel primo
-  posto libero;
-- interazione diretta con una forma presente: la rimuove;
+- click destro con una forma fresca compatibile sul ripiano inferiore o
+  superiore: inserisce la forma nello slot di quel ripiano;
+- interazione a mano vuota con un ripiano occupato: rimuove la forma presente
+  in quello specifico slot;
 - rimuovere una forma incompleta restituisce l'item fresco e azzera il
   progresso;
 - una forma pronta viene recuperata come item finale.
@@ -277,8 +288,10 @@ Non si effettua alcun calcolo del tempo trascorso mentre il chunk era scaricato.
 
 Prima di considerare completa la fase di stagionatura devono essere verificati:
 
-- quattro forme diverse nello stesso rack con timer indipendenti;
-- inserimento/rimozione da ogni posizione del rack;
+- due forme diverse nello stesso rack con timer indipendenti;
+- inserimento/rimozione indipendente dal ripiano inferiore e superiore;
+- verifica delle dimensioni 1×1×1 e della posizione dei due ripiani;
+- verifica di tutte le varianti di legno registrate;
 - stagionatura di una forma su una normale superficie piana;
 - pausa e ripresa dopo unload/reload del chunk;
 - persistenza del timer dopo riavvio del mondo senza rimuovere la forma;

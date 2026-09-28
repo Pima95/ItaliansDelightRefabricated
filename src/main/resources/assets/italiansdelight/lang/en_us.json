@@ -52,5 +52,17 @@
   "gui.italiansdelight.jei.cheese_aging": "Cheese Aging",
   "gui.italiansdelight.jei.cheese_aging.process.aging": "Aging",
   "gui.italiansdelight.jei.cheese_aging.process.drying": "Drying",
-  "gui.italiansdelight.jei.cheese_aging.time": "Time: %s min"
+  "gui.italiansdelight.jei.cheese_aging.time": "Time: %s min",
+  "block.italiansdelight.oak_cheese_aging_rack": "Oak Cheese Aging Rack",
+  "block.italiansdelight.spruce_cheese_aging_rack": "Spruce Cheese Aging Rack",
+  "block.italiansdelight.birch_cheese_aging_rack": "Birch Cheese Aging Rack",
+  "block.italiansdelight.jungle_cheese_aging_rack": "Jungle Cheese Aging Rack",
+  "block.italiansdelight.acacia_cheese_aging_rack": "Acacia Cheese Aging Rack",
+  "block.italiansdelight.dark_oak_cheese_aging_rack": "Dark Oak Cheese Aging Rack",
+  "block.italiansdelight.mangrove_cheese_aging_rack": "Mangrove Cheese Aging Rack",
+  "block.italiansdelight.cherry_cheese_aging_rack": "Cherry Cheese Aging Rack",
+  "block.italiansdelight.pale_oak_cheese_aging_rack": "Pale Oak Cheese Aging Rack",
+  "block.italiansdelight.bamboo_cheese_aging_rack": "Bamboo Cheese Aging Rack",
+  "block.italiansdelight.crimson_cheese_aging_rack": "Crimson Cheese Aging Rack",
+  "block.italiansdelight.warped_cheese_aging_rack": "Warped Cheese Aging Rack"
 }

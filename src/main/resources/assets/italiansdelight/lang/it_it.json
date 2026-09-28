@@ -52,5 +52,17 @@
   "gui.italiansdelight.jei.cheese_aging": "Stagionatura Formaggi",
   "gui.italiansdelight.jei.cheese_aging.process.aging": "Stagionatura",
   "gui.italiansdelight.jei.cheese_aging.process.drying": "Asciugatura",
-  "gui.italiansdelight.jei.cheese_aging.time": "Tempo: %s min"
+  "gui.italiansdelight.jei.cheese_aging.time": "Tempo: %s min",
+  "block.italiansdelight.oak_cheese_aging_rack": "Ripiano di Stagionatura in Quercia",
+  "block.italiansdelight.spruce_cheese_aging_rack": "Ripiano di Stagionatura in Abete",
+  "block.italiansdelight.birch_cheese_aging_rack": "Ripiano di Stagionatura in Betulla",
+  "block.italiansdelight.jungle_cheese_aging_rack": "Ripiano di Stagionatura in Giungla",
+  "block.italiansdelight.acacia_cheese_aging_rack": "Ripiano di Stagionatura in Acacia",
+  "block.italiansdelight.dark_oak_cheese_aging_rack": "Ripiano di Stagionatura in Quercia Scura",
+  "block.italiansdelight.mangrove_cheese_aging_rack": "Ripiano di Stagionatura in Mangrovia",
+  "block.italiansdelight.cherry_cheese_aging_rack": "Ripiano di Stagionatura in Ciliegio",
+  "block.italiansdelight.pale_oak_cheese_aging_rack": "Ripiano di Stagionatura in Quercia Pallida",
+  "block.italiansdelight.bamboo_cheese_aging_rack": "Ripiano di Stagionatura in Bambù",
+  "block.italiansdelight.crimson_cheese_aging_rack": "Ripiano di Stagionatura in Cremisi",
+  "block.italiansdelight.warped_cheese_aging_rack": "Ripiano di Stagionatura in Distorto"
 }

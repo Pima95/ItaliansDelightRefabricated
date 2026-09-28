@@ -1,0 +1,6 @@
+{
+  "parent": "italiansdelight:block/cheese_aging_rack_base",
+  "textures": {
+    "wood": "minecraft:block/bamboo_planks"
+  }
+}

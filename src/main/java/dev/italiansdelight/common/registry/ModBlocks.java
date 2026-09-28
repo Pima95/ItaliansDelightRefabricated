@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CheeseVatBlock;
+import dev.italiansdelight.common.block.CheeseAgingRackBlock;
 import dev.italiansdelight.common.block.AgingCheeseBlock;
 import dev.italiansdelight.common.block.CardoonBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
@@ -62,6 +63,47 @@ public final class ModBlocks {
         )
     );
 
+
+    // -------------------- Cheese Aging Racks --------------------
+    // One block tall, two shelves, one cheese slot per shelf.
+    // Crafting recipes are intentionally deferred; all wood variants are
+    // registered now so models, interactions and persistence can be tested.
+    public static final Block OAK_CHEESE_AGING_RACK =
+        registerRack("oak", Blocks.OAK_PLANKS);
+
+    public static final Block SPRUCE_CHEESE_AGING_RACK =
+        registerRack("spruce", Blocks.SPRUCE_PLANKS);
+
+    public static final Block BIRCH_CHEESE_AGING_RACK =
+        registerRack("birch", Blocks.BIRCH_PLANKS);
+
+    public static final Block JUNGLE_CHEESE_AGING_RACK =
+        registerRack("jungle", Blocks.JUNGLE_PLANKS);
+
+    public static final Block ACACIA_CHEESE_AGING_RACK =
+        registerRack("acacia", Blocks.ACACIA_PLANKS);
+
+    public static final Block DARK_OAK_CHEESE_AGING_RACK =
+        registerRack("dark_oak", Blocks.DARK_OAK_PLANKS);
+
+    public static final Block MANGROVE_CHEESE_AGING_RACK =
+        registerRack("mangrove", Blocks.MANGROVE_PLANKS);
+
+    public static final Block CHERRY_CHEESE_AGING_RACK =
+        registerRack("cherry", Blocks.CHERRY_PLANKS);
+
+    public static final Block PALE_OAK_CHEESE_AGING_RACK =
+        registerRack("pale_oak", Blocks.PALE_OAK_PLANKS);
+
+    public static final Block BAMBOO_CHEESE_AGING_RACK =
+        registerRack("bamboo", Blocks.BAMBOO_PLANKS);
+
+    public static final Block CRIMSON_CHEESE_AGING_RACK =
+        registerRack("crimson", Blocks.CRIMSON_PLANKS);
+
+    public static final Block WARPED_CHEESE_AGING_RACK =
+        registerRack("warped", Blocks.WARPED_PLANKS);
+
     // Internal block used when a fresh cheese wheel is placed on a flat
     // surface. It intentionally has no BlockItem; placement happens through
     // AgingCheeseItem and any incomplete progress is world-only.
@@ -103,6 +145,31 @@ public final class ModBlocks {
                     .noOcclusion()
             )
         );
+
+
+    private static Block registerRack(
+        String woodName,
+        Block plankTemplate
+    ) {
+        ResourceKey<Block> blockKey =
+            ResourceKey.create(
+                BuiltInRegistries.BLOCK.key(),
+                ModRegistries.id(
+                    woodName + "_cheese_aging_rack"
+                )
+            );
+
+        return register(
+            blockKey,
+            new CheeseAgingRackBlock(
+                Block.Properties
+                    .ofFullCopy(plankTemplate)
+                    .setId(blockKey)
+                    .noOcclusion()
+                    .strength(2.0F, 3.0F)
+            )
+        );
+    }
 
     /**
      * Registers both the block and its BlockItem with the same identifier.
