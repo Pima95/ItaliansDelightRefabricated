@@ -138,14 +138,6 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
             && cheeseTypes[slot] != null;
     }
 
-    public boolean matchesCheeseType(
-        int slot,
-        AgingCheeseType cheeseType
-    ) {
-        return isValidSlot(slot)
-            && cheeseTypes[slot] == cheeseType;
-    }
-
     public static void serverTick(
         ServerLevel level,
         BlockPos pos,

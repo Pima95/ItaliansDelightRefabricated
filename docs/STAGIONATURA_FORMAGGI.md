@@ -103,9 +103,11 @@ Interazione prevista:
   superiore: inserisce la forma nello slot di quel ripiano;
 - interazione a mano vuota con un ripiano occupato: rimuove la forma presente
   in quello specifico slot;
-- il formaggio può essere rimosso anche facendo click destro mentre si tiene in
-  mano **lo stesso tipo di formaggio** presente su quel ripiano; fresh e mature
-  della stessa varietà sono considerati lo stesso tipo;
+- un ripiano occupato può essere svuotato con click destro **indipendentemente
+  dall'oggetto tenuto in mano**;
+- con la mano occupata, il formaggio rimosso viene inserito nel **primo slot
+  completamente libero dell'inventario**; se non esiste uno slot libero viene
+  droppato a terra, senza consumare o sostituire l'oggetto tenuto in mano;
 - rimuovere una forma incompleta restituisce l'item fresco e azzera il
   progresso;
 - una forma pronta viene recuperata come item finale.

@@ -125,15 +125,43 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         InteractionHand hand,
         BlockHitResult hit
     ) {
-        AgingCheeseType heldCheeseType =
-            AgingCheeseType.fromStack(stack);
-
-        if (heldCheeseType == null) {
-            return InteractionResult.PASS;
-        }
-
         int shelf =
             shelfFromHit(pos, hit);
+
+        boolean occupied =
+            shelf == CheeseAgingRackBlockEntity.LOWER_SLOT
+                ? state.getValue(LOWER_OCCUPIED)
+                : state.getValue(UPPER_OCCUPIED);
+
+        // An occupied shelf always has interaction priority. Any held item can
+        // be used to take the cheese out without consuming or replacing it.
+        if (occupied) {
+            if (level.isClientSide()) {
+                return InteractionResult.SUCCESS;
+            }
+
+            if (
+                level instanceof ServerLevel serverLevel
+                && level.getBlockEntity(pos)
+                    instanceof CheeseAgingRackBlockEntity rack
+            ) {
+                giveRemovedCheeseToFreeSlot(
+                    rack.remove(
+                        serverLevel,
+                        shelf
+                    ),
+                    player
+                );
+            }
+
+            return InteractionResult.SUCCESS;
+        }
+
+        // Empty shelf: only a fresh aging cheese can be inserted. Any other
+        // held item keeps its normal block interaction behavior.
+        if (!(stack.getItem() instanceof AgingCheeseItem agingCheeseItem)) {
+            return InteractionResult.PASS;
+        }
 
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
@@ -143,45 +171,16 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             level instanceof ServerLevel serverLevel
             && level.getBlockEntity(pos)
                 instanceof CheeseAgingRackBlockEntity rack
+            && rack.insert(
+                serverLevel,
+                shelf,
+                agingCheeseItem.cheeseType()
+            )
+            && !player.getAbilities().instabuild
         ) {
-            // Holding the same cheese variety behaves like an empty-hand
-            // interaction: remove that shelf's cheese instead of inserting.
-            // Fresh/mature state does not matter; "same type" means the same
-            // variety (Parmigiano, Pecorino, Gorgonzola or Provolone).
-            if (
-                rack.matchesCheeseType(
-                    shelf,
-                    heldCheeseType
-                )
-            ) {
-                giveRemovedCheese(
-                    rack.remove(
-                        serverLevel,
-                        shelf
-                    ),
-                    player
-                );
-
-                return InteractionResult.SUCCESS;
-            }
-
-            // Only a fresh AgingCheeseItem can start a new aging process.
-            if (
-                stack.getItem()
-                    instanceof AgingCheeseItem agingCheeseItem
-                && rack.insert(
-                    serverLevel,
-                    shelf,
-                    agingCheeseItem.cheeseType()
-                )
-                && !player.getAbilities().instabuild
-            ) {
-                stack.shrink(1);
-            }
+            stack.shrink(1);
         }
 
-        // Any supported aging cheese is handled by the rack. This prevents
-        // normal surface placement from triggering on top of the rack.
         return InteractionResult.SUCCESS;
     }
 
@@ -239,6 +238,33 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
                 false
             );
         }
+    }
+
+    private static void giveRemovedCheeseToFreeSlot(
+        ItemStack stack,
+        Player player
+    ) {
+        if (stack.isEmpty()) {
+            return;
+        }
+
+        int freeSlot =
+            player.getInventory()
+                .getFreeSlot();
+
+        if (freeSlot >= 0) {
+            player.getInventory()
+                .setItem(
+                    freeSlot,
+                    stack
+                );
+            return;
+        }
+
+        player.drop(
+            stack,
+            false
+        );
     }
 
     private static int shelfFromHit(
