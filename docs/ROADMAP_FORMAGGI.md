@@ -53,7 +53,7 @@ restano estensioni da valutare successivamente.
 | Formaggio | Processo produttivo concordato | Stato |
 |---|---|---|
 | Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board | Base presente, da rifinire |
-| Bocconcino | Cagliata + acqua normale → 2 unità dil Bocconcino nella Cheese Vat; nessun contenitore finale e nessun item "acqua calda" | Da implementare |
+| Bocconcino | Cagliata + acqua normale → 2 unità di Bocconcino nella Cheese Vat; nessun contenitore finale e nessun item "acqua calda" | Da implementare |
 | Ricotta | La produzione della cagliata recupera anche il siero; latte + requisito siero → ricotta nella Cheese Vat | Implementata con valori placeholder da ribilanciare |
 | Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
 | Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
@@ -105,7 +105,7 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
       Burrata e Mascarpone.
 - [x] Definire la struttura generale dei processi produttivi riportata nella
       sezione 3.
-- [x] Stabilire che il Bocconcino usano acqua normale: non viene introdotto un
+- [x] Stabilire che il Bocconcino usa acqua normale: non viene introdotto un
       item separato per l'acqua calda.
 - [x] Introdurre il siero come recupero della lavorazione della cagliata e
       riutilizzarlo nella filiera della ricotta.
@@ -146,8 +146,12 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
       siero consumati come unità intera, con priorità dell'item sul tank.
       La Panna usa temporaneamente 1 output, 160 tick, 2 fame e 0.2 saturation
       modifier come placeholder.
-- [ ] Definire capacità, interazioni, condizioni e recupero delle forme del
-      sistema di stagionatura/asciugatura.
+- [x] Definire capacità, interazioni, condizioni e recupero delle forme del
+      sistema di stagionatura/asciugatura. Specifiche complete in
+      [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md): rack a 4 posti,
+      stagionatura anche su superfici piane, Scamorza appesa al gancio, pausa
+      nei chunk scaricati e reset del progresso quando il prodotto viene
+      rimosso o il supporto viene rotto.
 
 **Completamento:** ogni prodotto ha una catena definita, senza ambiguità, con
 ingredienti, rese, tempi, porzioni e regole di stagionatura sufficienti per
@@ -183,23 +187,39 @@ l'implementazione.
 **Completamento:** mozzarella e ricotta sono ottenibili e utilizzabili in
 survival, con ricette consultabili e valori coerenti con la tabella di F2.
 
-### F4 — Implementare la stagionatura
+### F4 — Implementare stagionatura e asciugatura
 
-- [ ] Creare il ripiano con forme visibili, ricetta di costruzione, interazioni
-      per inserire e prelevare i prodotti, modello, texture e drop.
-- [ ] Rappresentare in modo leggibile lo stato di maturazione, distinguendo
-      almeno prodotto in lavorazione e prodotto pronto.
-- [ ] Implementare avanzamento lato server, salvataggio e sincronizzazione
-      visiva, secondo le regole definite in F2.
-- [ ] Gestire riavvii, caricamento e scaricamento dei chunk, rimozione delle
-      forme e rottura del ripiano senza duplicazioni o perdite impreviste.
-- [ ] Rendere ingredienti, risultati, tempi e condizioni consultabili in JEI.
-- [ ] Implementare una prima forma tra quelle progettate in F2 e usarla per
-      provare il ciclo completo, anticipando il minimo necessario di F5.
+Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
 
-**Completamento:** una forma passa dalla preparazione al prodotto maturo;
-progresso, interazioni e recupero rispettano le regole documentate anche dopo
-un riavvio e in multiplayer.
+- [x] Definire i due processi data-driven:
+      `italiansdelight:cheese_aging` e `italiansdelight:cheese_drying`.
+- [x] Fissare i tempi iniziali: Scamorza 12.000 tick, Gorgonzola 48.000,
+      Provolone 72.000, Pecorino Romano 96.000 e Parmigiano Reggiano 120.000.
+- [ ] Implementare il piazzamento delle forme fresche stagionabili su superfici
+      piane, con forma visibile e timer lato server.
+- [ ] Creare il Cheese Aging Rack ispirato concettualmente agli scaffali di
+      Fromage: due ripiani, quattro posizioni indipendenti, forme visibili e
+      nessuna GUI del blocco.
+- [ ] Implementare il Cheese Hook e il rendering della Scamorza appesa, separato
+      dal sistema di stagionatura su rack/superficie.
+- [ ] Implementare salvataggio e sincronizzazione del progresso **nel mondo**,
+      senza component/NBT di progresso sugli ItemStack.
+- [ ] Applicare la regola di reset: rimozione anticipata, rottura del rack,
+      rottura del formaggio piazzato, del gancio o del supporto restituiscono il
+      prodotto fresco con progresso zero.
+- [ ] Mettere in pausa il progresso nei chunk scaricati, senza chunk loading
+      forzato e senza recupero del tempo offline.
+- [ ] Trasformare automaticamente la forma nel prodotto finale al 100%.
+- [ ] Integrare le ricette in due categorie JEI separate: **Cheese Aging** e
+      **Cheese Drying**. Le texture/layout JEI sono gestite manualmente dal
+      developer e non vanno sovrascritte.
+- [ ] Eseguire i casi di test definiti nel documento di design, compresi
+      riavvio, multiplayer, reset e assenza di duplicazioni.
+
+**Completamento:** Parmigiano, Pecorino, Gorgonzola e Provolone possono
+stagionare su rack o superficie; la Scamorza può asciugare appesa al gancio;
+chunk unload e riavvii rispettano le regole concordate e qualsiasi rimozione
+anticipata azzera il progresso senza salvarlo sull'item.
 
 ### F5 — Aggiungere parmigiano e pecorino
 
@@ -240,11 +260,12 @@ Queste sono proposte iniziali di gameplay, ancora da fissare nei dettagli.
 |---|---|---|
 | Ricotta e siero | Introdurre il siero se sostiene una filiera utile | Ricetta, raccolta del siero ed eventuale estensione della caldaia |
 | Parmigiano e pecorino | Differenziare produzione e impieghi | Ingredienti, provenienza del latte e porzioni |
-| Ripiano | Forme visibili e interazione diretta | Capacità, disposizione, inserimento e prelievo |
-| Maturazione | Tempo come requisito iniziale, stato visibile | Durate ed eventuali condizioni ambientali utili al gameplay |
-| Chunk scaricati | Mettere in pausa senza caricare forzatamente i chunk | Confermare la regola e il comportamento alla ripresa |
-| Rimozione delle forme | Conservare il progresso già acquisito | Come rappresentarlo nell'item e ripristinarlo sul ripiano |
-| Rottura del ripiano | Restituire blocco e forme con il loro stato | Regole dei drop e verifica del recupero |
+| Ripiano | 4 posizioni indipendenti, forme visibili, nessuna GUI | **Definito**: due ripiani, due forme per ripiano |
+| Maturazione | Tempo come requisito, nessuna condizione ambientale nella prima versione | **Definito**: tempi in `STAGIONATURA_FORMAGGI.md` |
+| Chunk scaricati | Pausa senza caricamento forzato | **Definito**: nessun avanzamento offline |
+| Rimozione delle forme | L'item non conserva progresso | **Definito**: ritorno al prodotto fresco con timer 0 |
+| Rottura del ripiano/supporto | Restituisce le forme ma azzera quelle incomplete | **Definito**: nessun dato di progresso sull'ItemStack |
+| Scamorza | Asciugatura separata dalla stagionatura | **Definito**: Cheese Hook + `cheese_drying` |
 | Porzioni | Tagliere come strumento principale | Numero di porzioni, grattugiato ed eventuali bonus nutritivi |
 
 Le scelte definitive vanno riportate qui e nelle tabelle delle ricette prima

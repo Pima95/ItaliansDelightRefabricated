@@ -674,14 +674,38 @@ contenitore. Cream Bowl e Aceto di Mele restituiscono rispettivamente ciotola
 e bottiglia di vetro come remainder. La produzione dell'Aceto di Mele resta
 demandata al branch vino/barile.
 
-## 9. Decisioni ancora aperte
+## 9. Stagionatura e asciugatura approvate
+
+Il design completo è fissato in
+[`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
+
+Decisioni principali:
+
+- Parmigiano Reggiano, Pecorino Romano, Gorgonzola e Provolone usano
+  `cheese_aging`;
+- le forme possono maturare sia su un Cheese Aging Rack a 4 posizioni sia
+  direttamente su una superficie piana valida;
+- la Scamorza usa invece `cheese_drying` e viene appesa a un Cheese Hook;
+- il progresso esiste soltanto nel blocco/block entity del mondo;
+- nessun progresso viene scritto sull'ItemStack;
+- rimuovere una forma incompleta o rompere il relativo supporto azzera
+  completamente il progresso;
+- il progresso avanza soltanto mentre il chunk è caricato;
+- nessuna temperatura, umidità, luce o altra condizione ambientale nella prima
+  versione;
+- JEI usa due categorie separate, **Cheese Aging** e **Cheese Drying**;
+- texture e layout grafico JEI sono gestiti manualmente dal developer.
+
+Tempi approvati: Scamorza 12.000 tick, Gorgonzola 48.000, Provolone 72.000,
+Pecorino Romano 96.000 e Parmigiano Reggiano 120.000.
+
+## 10. Decisioni ancora aperte
 
 Non sono ancora stati fissati:
 
 - produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
 - rebalancing finale di quantità, tempi, fame e saturazione: i valori introdotti
   durante lo sviluppo sono placeholder salvo quelli esplicitamente fissati come definitivi;
-- tempi e regole della stagionatura/asciugatura;
 - texture e implementazione tecnica del siero nei calderoni;
 
 Quando una di queste decisioni viene approvata, va aggiunta a questo documento
