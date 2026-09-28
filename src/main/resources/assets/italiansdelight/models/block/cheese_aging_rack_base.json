@@ -2,8 +2,7 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
-    "particle": "#wood",
-    "wood": "#wood"
+    "particle": "#wood"
   },
   "elements": [
     {
