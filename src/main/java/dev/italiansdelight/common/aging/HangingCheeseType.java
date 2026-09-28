@@ -72,19 +72,19 @@ public enum HangingCheeseType implements StringRepresentable {
     public static HangingCheeseType fromStack(
         ItemStack stack
     ) {
-        if (stack.is(ModItems.FRESH_SCAMORZA)) {
+        if (stack.getItem() == ModItems.FRESH_SCAMORZA) {
             return FRESH_SCAMORZA;
         }
 
-        if (stack.is(ModItems.SCAMORZA)) {
+        if (stack.getItem() == ModItems.SCAMORZA) {
             return SCAMORZA;
         }
 
-        if (stack.is(ModItems.FRESH_PROVOLONE)) {
+        if (stack.getItem() == ModItems.FRESH_PROVOLONE) {
             return FRESH_PROVOLONE;
         }
 
-        if (stack.is(ModItems.PROVOLONE)) {
+        if (stack.getItem() == ModItems.PROVOLONE) {
             return PROVOLONE;
         }
 
