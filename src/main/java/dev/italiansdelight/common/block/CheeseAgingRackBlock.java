@@ -145,7 +145,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
                 && level.getBlockEntity(pos)
                     instanceof CheeseAgingRackBlockEntity rack
             ) {
-                giveRemovedCheeseToFreeSlot(
+                giveRemovedCheeseToInventory(
                     rack.remove(
                         serverLevel,
                         shelf
@@ -240,7 +240,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         }
     }
 
-    private static void giveRemovedCheeseToFreeSlot(
+    private static void giveRemovedCheeseToInventory(
         ItemStack stack,
         Player player
     ) {
@@ -248,23 +248,12 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             return;
         }
 
-        int freeSlot =
-            player.getInventory()
-                .getFreeSlot();
-
-        if (freeSlot >= 0) {
-            player.getInventory()
-                .setItem(
-                    freeSlot,
-                    stack
-                );
-            return;
-        }
-
-        player.drop(
-            stack,
-            false
-        );
+        // Prefer an existing compatible stack, then the first empty slot;
+        // Vanilla drops the item automatically if no inventory space remains.
+        player.getInventory()
+            .placeItemBackInInventory(
+                stack
+            );
     }
 
     private static int shelfFromHit(

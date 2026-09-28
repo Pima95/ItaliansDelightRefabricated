@@ -62,45 +62,25 @@ public final class CheeseHookBlock extends BaseEntityBlock {
     public static final MapCodec<CheeseHookBlock> CODEC =
         simpleCodec(CheeseHookBlock::new);
 
-    private static final VoxelShape NORTH_SHAPE =
+    private static final VoxelShape HOOK_SHAPE =
         Shapes.or(
+            // Ceiling plate.
             Block.box(5, 14, 5, 11, 16, 11),
-            Block.box(7, 8, 7, 9, 14, 9),
-            Block.box(7, 6, 4, 9, 8, 9),
-            Block.box(7, 7, 4, 9, 11, 6)
-        );
 
-    private static final VoxelShape EAST_SHAPE =
-        Shapes.or(
-            Block.box(5, 14, 5, 11, 16, 11),
-            Block.box(7, 8, 7, 9, 14, 9),
-            Block.box(7, 6, 7, 12, 8, 9),
-            Block.box(10, 7, 7, 12, 11, 9)
-        );
-
-    private static final VoxelShape SOUTH_SHAPE =
-        Shapes.or(
-            Block.box(5, 14, 5, 11, 16, 11),
-            Block.box(7, 8, 7, 9, 14, 9),
-            Block.box(7, 6, 7, 9, 8, 12),
-            Block.box(7, 7, 10, 9, 11, 12)
-        );
-
-    private static final VoxelShape WEST_SHAPE =
-        Shapes.or(
-            Block.box(5, 14, 5, 11, 16, 11),
-            Block.box(7, 8, 7, 9, 14, 9),
-            Block.box(4, 6, 7, 9, 8, 9),
-            Block.box(4, 7, 7, 6, 11, 9)
+            // Compact selection volume around the stepped hook. The visual
+            // model is more detailed, but its lowest point remains centered
+            // at X/Z 8.
+            Block.box(5, 5, 4, 11, 14, 12)
         );
 
     private static final VoxelShape HANGING_CHEESE_SHAPE =
+        // Hanging models extend below the hook block into the space under it.
         Block.box(
             4,
-            0,
+            -8,
             4,
             12,
-            11,
+            5,
             12
         );
 
@@ -193,19 +173,11 @@ public final class CheeseHookBlock extends BaseEntityBlock {
         BlockPos pos,
         CollisionContext context
     ) {
-        VoxelShape hookShape =
-            switch (state.getValue(FACING)) {
-                case EAST -> EAST_SHAPE;
-                case SOUTH -> SOUTH_SHAPE;
-                case WEST -> WEST_SHAPE;
-                default -> NORTH_SHAPE;
-            };
-
         return state.getValue(CHEESE)
                 .isEmpty()
-            ? hookShape
+            ? HOOK_SHAPE
             : Shapes.or(
-                hookShape,
+                HOOK_SHAPE,
                 HANGING_CHEESE_SHAPE
             );
     }
@@ -233,7 +205,7 @@ public final class CheeseHookBlock extends BaseEntityBlock {
                 && level.getBlockEntity(pos)
                     instanceof CheeseHookBlockEntity hook
             ) {
-                giveRemovedCheeseToFreeSlot(
+                giveRemovedCheeseToInventory(
                     hook.remove(serverLevel),
                     player
                 );
@@ -319,7 +291,7 @@ public final class CheeseHookBlock extends BaseEntityBlock {
         }
     }
 
-    private static void giveRemovedCheeseToFreeSlot(
+    private static void giveRemovedCheeseToInventory(
         ItemStack stack,
         Player player
     ) {
@@ -327,23 +299,13 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             return;
         }
 
-        int freeSlot =
-            player.getInventory()
-                .getFreeSlot();
-
-        if (freeSlot >= 0) {
-            player.getInventory()
-                .setItem(
-                    freeSlot,
-                    stack
-                );
-            return;
-        }
-
-        player.drop(
-            stack,
-            false
-        );
+        // Vanilla Inventory first looks for a compatible non-full stack, then
+        // the first empty slot and finally drops the item if the inventory is
+        // full. This is exactly the desired removal priority.
+        player.getInventory()
+            .placeItemBackInInventory(
+                stack
+            );
     }
 
     @Override

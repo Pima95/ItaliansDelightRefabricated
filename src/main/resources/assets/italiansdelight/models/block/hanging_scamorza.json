@@ -10,108 +10,216 @@
     {
       "from": [
         5,
-        0,
+        -8,
         5
       ],
       "to": [
         11,
-        1,
+        -7,
         11
       ],
       "faces": {
         "north": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "east": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "south": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "west": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "up": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "down": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         }
       }
     },
     {
       "from": [
         4,
-        1,
+        -7,
         4
       ],
       "to": [
         12,
-        4,
+        -4,
         12
       ],
       "faces": {
         "north": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "east": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "south": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "west": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "up": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "down": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         }
       }
     },
     {
       "from": [
         5,
-        4,
+        -4,
         5
       ],
       "to": [
         11,
-        5,
+        -3,
         11
       ],
       "faces": {
         "north": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "east": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "south": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "west": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "up": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "down": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         }
       }
     },
     {
       "from": [
         5,
-        5,
+        -3,
         5
       ],
       "to": [
         11,
-        6,
+        -2,
         11
       ],
       "faces": {
@@ -138,76 +246,148 @@
     {
       "from": [
         6,
-        6,
+        -2,
         6
       ],
       "to": [
         10,
-        9,
+        1,
         10
       ],
       "faces": {
         "north": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "east": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "south": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "west": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "up": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "down": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         }
       }
     },
     {
       "from": [
         7,
-        9,
+        1,
         7
       ],
       "to": [
         9,
-        10,
+        2,
         9
       ],
       "faces": {
         "north": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "east": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "south": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "west": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "up": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         },
         "down": {
-          "texture": "#cheese"
+          "texture": "#cheese",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
         }
       }
     },
     {
       "from": [
         7,
-        10,
+        2,
         7
       ],
       "to": [
         9,
-        13,
+        5,
         9
       ],
       "faces": {

@@ -108,9 +108,10 @@ Interazione prevista:
 - un ripiano occupato può essere svuotato con click destro **indipendentemente
   dall'oggetto tenuto in mano**;
 - con la mano vuota il formaggio viene restituito normalmente al giocatore;
-- con la mano occupata, il formaggio rimosso viene inserito nel **primo slot
-  completamente libero dell'inventario**; se non esiste uno slot libero viene
-  droppato a terra, senza consumare o sostituire l'oggetto tenuto in mano;
+- con la mano occupata, il formaggio rimosso cerca prima uno **stack dello
+  stesso item con spazio disponibile**, poi il primo slot completamente libero;
+  se non esiste spazio viene droppato a terra, senza consumare o sostituire
+  l'oggetto tenuto in mano;
 - rimuovere una forma incompleta restituisce l'item fresco e azzera il
   progresso;
 - una forma pronta viene recuperata come item finale.
@@ -172,6 +173,12 @@ Design previsto:
 - il gancio viene piazzato esclusivamente sotto una superficie superiore valida;
 - la curva dell'uncino viene orientata verso il giocatore al momento del
   piazzamento, con stato orizzontale `facing` N/E/S/W;
+- il modello dell'uncino non usa più una semplice piega a 90°: il profilo è
+  spezzato/curvo e il **punto più basso è centrato sull'asse del blocco**, in
+  modo che il formaggio penda sotto il centro del supporto;
+- il punto superiore dei modelli appesi è stato abbassato fino a coincidere con
+  il punto più basso dell'uncino; i formaggi possono quindi estendersi
+  visivamente nel blocco sottostante;
 - un gancio contiene al massimo un formaggio;
 - sono agganciabili `fresh_scamorza`, `scamorza`,
   `smoked_scamorza`, `fresh_provolone` e `provolone`;
@@ -186,8 +193,9 @@ Design previsto:
   mantiene la propria texture scura;
 - il modello della Scamorza è ispirato alla forma a doppio bulbo legata al
   collo; quello del Provolone alla forma a pera/goccia con legatura superiore;
-- le texture 16×16 sono originali e usano palette crema/giallo-oro ispirate
-  alle fotografie di riferimento; fresh e mature hanno palette differenti;
+- le texture dei modelli appesi riusano ora direttamente la grafica 16×16
+  degli item corrispondenti: fresh, mature e affumicata risultano quindi
+  distinguibili con la stessa palette che il giocatore vede nell'inventario;
 - il timer appartiene esclusivamente alla BlockEntity del gancio;
 - al completamento la variante fresh viene sostituita visivamente e
   logicamente dalla rispettiva variante finale;

@@ -220,7 +220,10 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       drop alla rottura e modelli appesi originali. Sono appendibili anche
       `scamorza`, `smoked_scamorza` e `provolone` già pronti come
       decorazione. La Scamorza usa
-      `cheese_drying`, il Provolone mantiene `cheese_aging`.
+      `cheese_drying`, il Provolone mantiene `cheese_aging`. Il modello
+      dell'uncino ha ora il punto inferiore centrato e i formaggi appesi sono
+      abbassati fino al punto di presa; le texture appese riusano la grafica
+      degli item per distinguere chiaramente fresh/mature/affumicata.
 - [x] Implementare per forme piazzate e rack il salvataggio del progresso
       **nel mondo**, senza component/NBT di progresso sugli ItemStack. Il gancio
       della Scamorza userà la stessa regola.
