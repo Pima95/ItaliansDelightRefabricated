@@ -27,8 +27,8 @@ public final class CheeseAgingRecipeCategory
     private static final int WIDTH = 111;
     private static final int HEIGHT = 45;
 
-    private static final int INPUT_X = 8;
-    private static final int INPUT_Y = 27;
+    private static final int INPUT_X = 9;
+    private static final int INPUT_Y = 26;
 
     private static final int OUTPUT_X = 93;
     private static final int OUTPUT_Y = 27;
