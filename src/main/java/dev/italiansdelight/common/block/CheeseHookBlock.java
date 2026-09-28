@@ -8,6 +8,7 @@ import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.aging.HangingCheeseType;
 import dev.italiansdelight.common.block.entity.CheeseHookBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
+import dev.italiansdelight.common.registry.ModBlocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -113,7 +114,6 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             .setValue(
                 FACING,
                 context.getHorizontalDirection()
-                    .getOpposite()
             );
     }
 
@@ -358,6 +358,35 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             neighbourState,
             random
         );
+    }
+
+    @Override
+    protected void affectNeighborsAfterRemoval(
+        BlockState state,
+        ServerLevel level,
+        BlockPos pos,
+        boolean movedByPiston
+    ) {
+        super.affectNeighborsAfterRemoval(
+            state,
+            level,
+            pos,
+            movedByPiston
+        );
+
+        BlockPos reservedPos =
+            pos.below();
+
+        if (
+            level.getBlockState(reservedPos)
+                .getBlock()
+                == ModBlocks.CHEESE_HOOK_OCCUPIED_SPACE
+        ) {
+            level.removeBlock(
+                reservedPos,
+                false
+            );
+        }
     }
 
     @Override

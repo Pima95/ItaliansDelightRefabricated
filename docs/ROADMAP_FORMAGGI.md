@@ -221,9 +221,11 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       `scamorza`, `smoked_scamorza` e `provolone` già pronti come
       decorazione. La Scamorza usa
       `cheese_drying`, il Provolone mantiene `cheese_aging`. Il modello
-      dell'uncino ha ora il punto inferiore centrato e i formaggi appesi sono
-      abbassati fino al punto di presa; le texture appese riusano la grafica
-      degli item per distinguere chiaramente fresh/mature/affumicata.
+      dell'uncino ha il punto inferiore centrato e i formaggi appesi sono
+      abbassati fino al punto di presa. Il facing è stato corretto rispetto al
+      modello, le texture appese sono dedicate ma ricolorate sulla palette degli
+      item e uno spazio tecnico invisibile impedisce di piazzare blocchi nel
+      volume occupato dal formaggio sotto l'uncino.
 - [x] Implementare per forme piazzate e rack il salvataggio del progresso
       **nel mondo**, senza component/NBT di progresso sugli ItemStack. Il gancio
       della Scamorza userà la stessa regola.

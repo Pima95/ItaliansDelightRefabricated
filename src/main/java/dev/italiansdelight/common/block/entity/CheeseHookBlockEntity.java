@@ -8,6 +8,7 @@ import dev.italiansdelight.common.block.CheeseHookBlock;
 import dev.italiansdelight.common.crafting.CheeseAgingRecipe;
 import dev.italiansdelight.common.crafting.CheeseDryingRecipe;
 import dev.italiansdelight.common.registry.ModBlockEntities;
+import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModRecipes;
 
 import net.minecraft.core.BlockPos;
@@ -87,17 +88,32 @@ public final class CheeseHookBlockEntity extends BlockEntity {
             return false;
         }
 
+        if (!canReserveHangingSpace(level)) {
+            return false;
+        }
+
         elapsedTicks = 0;
+
+        BlockState previousState =
+            getBlockState();
 
         level.setBlock(
             worldPosition,
-            getBlockState()
-                .setValue(
-                    CheeseHookBlock.CHEESE,
-                    cheeseType
-                ),
+            previousState.setValue(
+                CheeseHookBlock.CHEESE,
+                cheeseType
+            ),
             Block.UPDATE_CLIENTS
         );
+
+        if (!reserveHangingSpace(level)) {
+            level.setBlock(
+                worldPosition,
+                previousState,
+                Block.UPDATE_CLIENTS
+            );
+            return false;
+        }
 
         setChanged();
         return true;
@@ -120,6 +136,10 @@ public final class CheeseHookBlockEntity extends BlockEntity {
             cheeseType.stack();
 
         elapsedTicks = 0;
+
+        clearReservedHangingSpace(
+            level
+        );
 
         level.setBlock(
             worldPosition,
@@ -155,6 +175,19 @@ public final class CheeseHookBlockEntity extends BlockEntity {
                 CheeseHookBlock.CHEESE
             );
 
+        if (cheeseType.isEmpty()) {
+            blockEntity.clearReservedHangingSpace(
+                level
+            );
+            return;
+        }
+
+        // Also repairs old worlds created before the occupied-space helper
+        // existed, as long as the block below is still empty.
+        blockEntity.reserveHangingSpace(
+            level
+        );
+
         if (!cheeseType.isProcessing()) {
             return;
         }
@@ -188,6 +221,69 @@ public final class CheeseHookBlockEntity extends BlockEntity {
         }
 
         blockEntity.setChanged();
+    }
+
+    private boolean canReserveHangingSpace(
+        ServerLevel level
+    ) {
+        BlockState below =
+            level.getBlockState(
+                worldPosition.below()
+            );
+
+        return below.isAir()
+            || below.getBlock()
+                == ModBlocks.CHEESE_HOOK_OCCUPIED_SPACE;
+    }
+
+    private boolean reserveHangingSpace(
+        ServerLevel level
+    ) {
+        BlockPos reservedPos =
+            worldPosition.below();
+
+        BlockState below =
+            level.getBlockState(
+                reservedPos
+            );
+
+        if (
+            below.getBlock()
+                == ModBlocks.CHEESE_HOOK_OCCUPIED_SPACE
+        ) {
+            return true;
+        }
+
+        if (!below.isAir()) {
+            return false;
+        }
+
+        return level.setBlock(
+            reservedPos,
+            ModBlocks.CHEESE_HOOK_OCCUPIED_SPACE
+                .defaultBlockState(),
+            Block.UPDATE_ALL
+        );
+    }
+
+    private void clearReservedHangingSpace(
+        ServerLevel level
+    ) {
+        BlockPos reservedPos =
+            worldPosition.below();
+
+        if (
+            level.getBlockState(
+                    reservedPos
+                )
+                .getBlock()
+                == ModBlocks.CHEESE_HOOK_OCCUPIED_SPACE
+        ) {
+            level.removeBlock(
+                reservedPos,
+                false
+            );
+        }
     }
 
     private OptionalInt requiredTicks(

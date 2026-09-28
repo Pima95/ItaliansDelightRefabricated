@@ -172,7 +172,9 @@ Design previsto:
 
 - il gancio viene piazzato esclusivamente sotto una superficie superiore valida;
 - la curva dell'uncino viene orientata verso il giocatore al momento del
-  piazzamento, con stato orizzontale `facing` N/E/S/W;
+  piazzamento, con stato orizzontale `facing` N/E/S/W; il mapping del modello
+  richiede direttamente `context.getHorizontalDirection()`, senza rotazione
+  aggiuntiva di 180°;
 - il modello dell'uncino non usa più una semplice piega a 90°: il profilo è
   spezzato/curvo e il **punto più basso è centrato sull'asse del blocco**, in
   modo che il formaggio penda sotto il centro del supporto;
@@ -193,9 +195,16 @@ Design previsto:
   mantiene la propria texture scura;
 - il modello della Scamorza è ispirato alla forma a doppio bulbo legata al
   collo; quello del Provolone alla forma a pera/goccia con legatura superiore;
-- le texture dei modelli appesi riusano ora direttamente la grafica 16×16
-  degli item corrispondenti: fresh, mature e affumicata risultano quindi
-  distinguibili con la stessa palette che il giocatore vede nell'inventario;
+- i modelli appesi usano texture 16×16 **dedicate**, non copie dirette degli
+  item: mantengono il pattern adatto alle superfici 3D ma sono state ricolorate
+  verso la palette dei rispettivi item, così fresh, mature e affumicata sono
+  chiaramente distinguibili senza deformare la grafica dell'inventario;
+- mentre un formaggio è appeso, il blocco immediatamente sotto l'uncino viene
+  riservato da un **blocco tecnico invisibile, senza collisione e non
+  sostituibile**; in questo modo non è possibile piazzare blocchi dentro il
+  volume visivo del formaggio, che supera l'altezza del blocco dell'uncino;
+- il blocco tecnico viene rimosso automaticamente quando il formaggio viene
+  staccato o l'uncino viene distrutto;
 - il timer appartiene esclusivamente alla BlockEntity del gancio;
 - al completamento la variante fresh viene sostituita visivamente e
   logicamente dalla rispettiva variante finale;

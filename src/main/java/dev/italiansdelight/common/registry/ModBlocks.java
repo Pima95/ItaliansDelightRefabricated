@@ -2,6 +2,7 @@ package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CheeseVatBlock;
 import dev.italiansdelight.common.block.CheeseHookBlock;
+import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
 import dev.italiansdelight.common.block.CheeseAgingRackBlock;
 import dev.italiansdelight.common.block.AgingCheeseBlock;
 import dev.italiansdelight.common.block.CardoonBlock;
@@ -87,6 +88,29 @@ public final class ModBlocks {
                     .noCollision()
                     .noTerrainParticles()
                     .strength(3.0F, 6.0F)
+            )
+        );
+
+    // Invisible helper occupying the block volume used by a hanging cheese.
+    // It has no item and exists only while a Cheese Hook above is occupied.
+    public static final ResourceKey<Block> CHEESE_HOOK_OCCUPIED_SPACE_KEY =
+        ResourceKey.create(
+            BuiltInRegistries.BLOCK.key(),
+            ModRegistries.id("cheese_hook_occupied_space")
+        );
+
+    public static final Block CHEESE_HOOK_OCCUPIED_SPACE =
+        registerBlockOnly(
+            CHEESE_HOOK_OCCUPIED_SPACE_KEY,
+            new CheeseHookOccupiedSpaceBlock(
+                Block.Properties
+                    .ofFullCopy(Blocks.IRON_BLOCK)
+                    .setId(CHEESE_HOOK_OCCUPIED_SPACE_KEY)
+                    .noCollision()
+                    .noOcclusion()
+                    .noTerrainParticles()
+                    .noLootTable()
+                    .strength(-1.0F, 3600000.0F)
             )
         );
 
