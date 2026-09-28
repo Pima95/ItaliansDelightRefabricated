@@ -81,7 +81,7 @@ public final class ModBlocks {
             CHEESE_HOOK_KEY,
             new CheeseHookBlock(
                 Block.Properties
-                    .ofFullCopy(Blocks.CHAIN)
+                    .ofFullCopy(Blocks.IRON_BLOCK)
                     .setId(CHEESE_HOOK_KEY)
                     .noOcclusion()
                     .noCollision()
