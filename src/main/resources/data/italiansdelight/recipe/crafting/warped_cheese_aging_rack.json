@@ -4,7 +4,7 @@
   "group": "italiansdelight_cheese_aging_racks",
   "key": {
     "S": "minecraft:warped_fence",
-    "B": "minecraft:warped_hyphae"
+    "B": "minecraft:warped_planks"
   },
   "pattern": [
     "S S",

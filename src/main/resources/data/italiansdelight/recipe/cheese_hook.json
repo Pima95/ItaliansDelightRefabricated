@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "minecraft:chain",
+    "P": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    "C",
+    "P"
+  ],
+  "result": {
+    "id": "italiansdelight:cheese_hook",
+    "count": 1
+  }
+}

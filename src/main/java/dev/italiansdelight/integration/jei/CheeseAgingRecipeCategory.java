@@ -31,7 +31,7 @@ public final class CheeseAgingRecipeCategory
     private static final int INPUT_Y = 26;
 
     private static final int OUTPUT_X = 93;
-    private static final int OUTPUT_Y = 27;
+    private static final int OUTPUT_Y = 26;
 
     private static final int CLOCK_X = 49;
     private static final int CLOCK_Y = 0;

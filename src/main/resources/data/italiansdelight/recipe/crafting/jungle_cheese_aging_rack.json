@@ -4,7 +4,7 @@
   "group": "italiansdelight_cheese_aging_racks",
   "key": {
     "S": "minecraft:jungle_fence",
-    "B": "minecraft:jungle_wood"
+    "B": "minecraft:jungle_planks"
   },
   "pattern": [
     "S S",

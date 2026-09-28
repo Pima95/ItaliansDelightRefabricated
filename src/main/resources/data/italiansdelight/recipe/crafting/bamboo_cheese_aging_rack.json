@@ -4,7 +4,7 @@
   "group": "italiansdelight_cheese_aging_racks",
   "key": {
     "S": "minecraft:bamboo_fence",
-    "B": "minecraft:bamboo_block"
+    "B": "minecraft:bamboo_planks"
   },
   "pattern": [
     "S S",

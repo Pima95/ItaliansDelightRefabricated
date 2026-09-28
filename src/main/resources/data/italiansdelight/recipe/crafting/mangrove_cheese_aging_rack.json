@@ -4,7 +4,7 @@
   "group": "italiansdelight_cheese_aging_racks",
   "key": {
     "S": "minecraft:mangrove_fence",
-    "B": "minecraft:mangrove_wood"
+    "B": "minecraft:mangrove_planks"
   },
   "pattern": [
     "S S",

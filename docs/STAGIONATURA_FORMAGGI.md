@@ -97,7 +97,7 @@ Design concordato:
   Oak, Spruce, Birch, Jungle, Acacia, Dark Oak, Mangrove, Cherry, Pale Oak,
   Bamboo, Crimson e Warped;
 - ogni variante del rack è craftabile con **4 staccionate della stessa
-  famiglia + 1 blocco di legno della stessa famiglia**, con schema:
+  famiglia + 1 blocco di assi della stessa famiglia**, con schema:
 
   ```text
   S S
@@ -105,10 +105,8 @@ Design concordato:
   S S
   ```
 
-  dove `S` è la staccionata relativa e `B` è il blocco di legno relativo;
-  per Bamboo si usa `minecraft:bamboo_block`, mentre Crimson e Warped usano
-  rispettivamente `minecraft:crimson_hyphae` e
-  `minecraft:warped_hyphae`.
+  dove `S` è la staccionata relativa e `B` è il blocco di assi
+  (`*_planks`) della stessa famiglia, compresi Bamboo, Crimson e Warped.
 
 Interazione prevista:
 
@@ -248,7 +246,7 @@ S S
 ```
 
 - `S`: staccionata della stessa famiglia del rack;
-- `B`: blocco di legno della stessa famiglia;
+- `B`: blocco di assi (`*_planks`) della stessa famiglia;
 - output: 1 Cheese Aging Rack della famiglia corrispondente.
 
 ### Cheese Hook

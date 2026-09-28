@@ -4,7 +4,7 @@
   "group": "italiansdelight_cheese_aging_racks",
   "key": {
     "S": "minecraft:acacia_fence",
-    "B": "minecraft:acacia_wood"
+    "B": "minecraft:acacia_planks"
   },
   "pattern": [
     "S S",

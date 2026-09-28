@@ -4,7 +4,7 @@
   "group": "italiansdelight_cheese_aging_racks",
   "key": {
     "S": "minecraft:cherry_fence",
-    "B": "minecraft:cherry_wood"
+    "B": "minecraft:cherry_planks"
   },
   "pattern": [
     "S S",

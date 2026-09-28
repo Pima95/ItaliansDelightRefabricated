@@ -211,8 +211,8 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       occupata il formaggio va nel primo slot completamente libero. Corrette
       anche le UV laterali della Cake placeholder.
 - [x] Aggiungere le ricette di crafting dei rack per tutte le 12 varianti:
-      quattro staccionate + un blocco di legno della stessa famiglia. Bamboo
-      usa Bamboo Block; Crimson/warped usano le rispettive Hyphae.
+      quattro staccionate + un blocco di assi (`*_planks`) della stessa
+      famiglia, compresi Bamboo, Crimson e Warped.
 - [ ] Sostituire, se necessario, i placeholder Cake con modelli definitivi dei
       formaggi e rifinire il modello estetico finale del rack.
 - [x] Aggiungere la ricetta del Cheese Hook con Chain sopra e Iron Nugget

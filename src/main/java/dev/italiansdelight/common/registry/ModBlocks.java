@@ -116,8 +116,7 @@ public final class ModBlocks {
 
     // -------------------- Cheese Aging Racks --------------------
     // One block tall, two shelves, one cheese slot per shelf.
-    // Crafting recipes are intentionally deferred; all wood variants are
-    // registered now so models, interactions and persistence can be tested.
+    // Each wood variant has its own matching fence + planks crafting recipe.
     public static final Block OAK_CHEESE_AGING_RACK =
         registerRack("oak", Blocks.OAK_PLANKS);
 
