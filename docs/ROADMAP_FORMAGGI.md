@@ -215,7 +215,7 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       famiglia, compresi Bamboo, Crimson e Warped.
 - [ ] Sostituire, se necessario, i placeholder Cake con modelli definitivi dei
       formaggi e rifinire il modello estetico finale del rack.
-- [x] Aggiungere la ricetta del Cheese Hook con Chain sopra e Iron Nugget
+- [x] Aggiungere la ricetta del Cheese Hook con Iron Chain sopra e Iron Nugget
       sotto.
 - [x] Implementare il Cheese Hook per **Scamorza e Provolone**: blocco,
       orientamento verso il giocatore, BlockEntity, inserimento/rimozione,
