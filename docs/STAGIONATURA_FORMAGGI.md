@@ -256,7 +256,7 @@ C
 P
 ```
 
-- `C`: Chain;
+- `C`: Iron Chain (`minecraft:iron_chain`);
 - `P`: Iron Nugget;
 - output: 1 Cheese Hook.
 
@@ -454,14 +454,14 @@ base delle ricette `cheese_aging` e `cheese_drying`.
 
 - verificare in-game proporzioni, hitbox e leggibilità dei modelli appesi di
   Scamorza e Provolone;
-- il Cheese Hook è craftabile verticalmente con **1 Chain + 1 Iron Nugget**:
+- il Cheese Hook è craftabile verticalmente con **1 Iron Chain + 1 Iron Nugget**:
 
   ```text
   C
   P
   ```
 
-  dove `C` = `minecraft:chain` e `P` = `minecraft:iron_nugget`;
+  dove `C` = `minecraft:iron_chain` e `P` = `minecraft:iron_nugget`;
 - ricette di crafting dei rack per tutte le varianti di legno: **completate**;
 - modelli definitivi dei rack e dei formaggi stagionati al posto dei placeholder
   Cake, se desiderati;
