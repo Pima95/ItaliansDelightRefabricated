@@ -48,5 +48,9 @@
   "item.italiansdelight.scamorza_slice": "Scamorza Slice",
   "item.italiansdelight.smoked_scamorza_slice": "Smoked Scamorza Slice",
   "tooltip.farmersdelight.sheep_milk_bottle": "Clears 1 Effect",
-  "item.italiansdelight.bocconcino": "Bocconcino"
+  "item.italiansdelight.bocconcino": "Bocconcino",
+  "gui.italiansdelight.jei.cheese_aging": "Cheese Aging",
+  "gui.italiansdelight.jei.cheese_aging.process.aging": "Aging",
+  "gui.italiansdelight.jei.cheese_aging.process.drying": "Drying",
+  "gui.italiansdelight.jei.cheese_aging.time": "Time: %s min"
 }

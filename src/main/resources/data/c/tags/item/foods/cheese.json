@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "italiansdelight:mozzarella",
+    "italiansdelight:mozzarella_slice",
+    "italiansdelight:bocconcino",
+    "italiansdelight:ricotta",
+    "italiansdelight:parmigiano_reggiano_wedge",
+    "italiansdelight:grated_parmigiano_reggiano",
+    "italiansdelight:pecorino_romano_wedge",
+    "italiansdelight:grated_pecorino_romano",
+    "italiansdelight:gorgonzola_wedge",
+    "italiansdelight:provolone_slice",
+    "italiansdelight:scamorza",
+    "italiansdelight:smoked_scamorza",
+    "italiansdelight:scamorza_slice",
+    "italiansdelight:smoked_scamorza_slice",
+    "italiansdelight:burrata",
+    "italiansdelight:mascarpone"
+  ]
+}

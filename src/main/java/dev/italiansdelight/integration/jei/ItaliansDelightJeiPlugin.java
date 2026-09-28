@@ -39,6 +39,9 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(
             new CheeseVatRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
+            ),
+            new CheeseAgingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
             )
         );
     }
@@ -61,6 +64,22 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addRecipes(
             CheeseVatJeiRecipeTypes.CHEESE_VAT,
             cheeseVatRecipes
+        );
+
+        CheeseAgingJeiRecipes agingRecipes =
+            new CheeseAgingJeiRecipes();
+
+        var combinedAgingRecipes =
+            agingRecipes.getRecipes();
+
+        ItaliansDelight.LOGGER.info(
+            "[Italian's Delight / JEI] Ricette Aging/Drying sincronizzate: {}",
+            combinedAgingRecipes.size()
+        );
+
+        registration.addRecipes(
+            CheeseAgingJeiRecipeTypes.CHEESE_AGING,
+            combinedAgingRecipes
         );
     }
 

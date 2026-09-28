@@ -216,9 +216,10 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       senza chunk loading forzato e senza recupero del tempo offline.
 - [x] Trasformare automaticamente la forma piazzata nel prodotto finale al
       100%, usando risultato e durata della ricetta data-driven.
-- [ ] Integrare le ricette in due categorie JEI separate: **Cheese Aging** e
-      **Cheese Drying**. Le texture/layout JEI sono gestite manualmente dal
-      developer e non vanno sovrascritte.
+- [x] Integrare la texture JEI `aging.png` fornita dal developer in una
+      categoria **Cheese Aging** unica che aggrega temporaneamente sia
+      `cheese_aging` sia `cheese_drying`: comprende quindi anche Provolone e
+      Scamorza. I due tipi gameplay restano separati.
 - [ ] Eseguire i casi di test definiti nel documento di design, compresi
       riavvio, multiplayer, reset e assenza di duplicazioni.
 
@@ -244,6 +245,9 @@ porzionabili in survival, con differenze riconoscibili per il giocatore.
 
 ### F6 — Completare integrazione e verifiche
 
+- [x] Preparare la compatibilità opzionale con Fromage tramite common tag
+      `c:foods/cheese` / `c:cheese`, senza dipendenza runtime. Strategia e
+      limiti sono documentati in [`COMPAT_FROMAGE.md`](COMPAT_FROMAGE.md).
 - [ ] Controllare coerenza di nomi, texture, traduzioni e visualizzazione JEI.
 - [ ] Verificare tag condivisi, loot e compatibilità delle fonti di calore;
       definire e provare il comportamento delle tramogge dove supportato.

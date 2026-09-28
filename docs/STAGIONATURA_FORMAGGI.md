@@ -221,23 +221,32 @@ ingrediente consumato.
 
 ## 6. Integrazione JEI
 
-Le due lavorazioni devono essere esposte in **categorie separate**:
+Per la fase corrente JEI usa **una sola categoria, Cheese Aging**, basata sulla
+texture `assets/italiansdelight/textures/gui/jei/aging.png` fornita dal
+developer.
 
-- **Cheese Aging** → ricette `cheese_aging`;
-- **Cheese Drying** → ricette `cheese_drying`.
+La categoria aggrega entrambe le sorgenti dati:
 
-Dati minimi da mostrare in entrambe le categorie:
+- ricette `cheese_aging`: Parmigiano Reggiano, Pecorino Romano, Gorgonzola
+  e **Provolone**;
+- ricette `cheese_drying`: per ora anche la **Scamorza** viene mostrata nella
+  stessa GUI.
+
+I due tipi gameplay restano separati: questa unificazione riguarda soltanto la
+presentazione JEI. Una categoria Cheese Drying separata potrà essere introdotta
+più avanti quando il Cheese Hook avrà la propria presentazione definitiva.
+
+Dati minimi da mostrare nella categoria:
 
 - input;
 - output;
 - durata reale derivata dai tick della ricetta.
 
-Per Cheese Aging l'interfaccia deve comunicare che la forma può maturare sia
-sul rack sia su una superficie valida; il rack non deve apparire come
-ingrediente consumabile.
+Per le ricette di aging l'interfaccia rappresenta la trasformazione
+fresco → stagionato; il rack non è un ingrediente consumabile.
 
-Per Cheese Drying deve essere evidente la trasformazione della Scamorza appesa
-al gancio.
+La Scamorza continua tecnicamente a essere una ricetta di drying anche se,
+temporaneamente, viene visualizzata nello stesso pannello.
 
 **Le texture, il background, le coordinate degli slot, le icone e le animazioni
 JEI sono gestite manualmente dal developer e non devono essere generate o
