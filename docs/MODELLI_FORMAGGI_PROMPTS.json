@@ -1,6 +1,6 @@
 {
   "tool": "imagegen built-in",
-  "mode": "generate",
+  "mode": "generate/edit",
   "textures": [
     {
       "id": "aging_parmigiano_reggiano_fresh",
@@ -100,6 +100,15 @@
       ],
       "mode": "generate",
       "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: smoked Scamorza double-bulb rind. Palette: copper amber #ac6326, caramel #c88237, toasted brown #804419, golden tan #d59849. Material: strong warm smoked rind, irregular sparse toasted patches, recognizable copper amber rather than yellow."
+    },
+    {
+      "id": "cheese_hook",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "edit",
+      "prompt": "Use case: precise-object-edit. Asset type: Minecraft 16x16 pixel-art block material texture, NOT an item icon or a rendered hook. Input image 1 is the existing cheese_hook.png material texture to improve. Preserve its dark forged-iron / charcoal-gray identity, full-square opaque coverage, and compatibility with the unchanged hook block model and its existing automatic UVs. Redesign the excessively noisy checker-like surface into restrained hand-painted vanilla Minecraft pixel art: broad coherent dark graphite clusters, a few medium cool-gray forged-metal highlights, subtle worn edges and sparse tiny hammer marks. Medium-dark iron, readable against stone and wood. No orange rust, no bolts, no diagonal striping, no border, no repeating checkerboard, no text, no object silhouette, no 3D lighting or glossy gradients. Deliver one seamless square surface tile with exactly a logical 16 by 16 pixel grid, crisp solid-color square pixels, displayed enlarged to fill the entire canvas edge to edge, no margins. Keep detail sparse enough for the tiny 2-pixel-wide hook bars."
     }
   ]
 }

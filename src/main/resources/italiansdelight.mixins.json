@@ -5,6 +5,9 @@
     "LevelMixin",
     "SheepMixin"
   ],
+  "client": [
+    "client.CheeseHookParticlesMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

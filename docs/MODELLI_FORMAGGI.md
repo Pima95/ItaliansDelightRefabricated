@@ -54,6 +54,19 @@ La mappatura UV segue le coordinate del corpo, con un texel per unità modello,
 senza ricominciare l'intera texture su ogni gradino. Lo spago usa la texture
 dedicata già presente.
 
+La texture `cheese_hook.png` è stata ritoccata con **imagegen integrato**, modalità
+`edit`, e ridotta a 16×16 con campionamento nearest-neighbor: ferro scuro con
+riflessi grigi più leggibili e meno rumore. Modello e UV dell'uncino restano invariati.
+Il relativo prompt è incluso nello stesso file dei prompt delle texture.
+
+Le particelle dell'uncino usano movimento e gravità vanilla, come la lanterna.
+Il mixin client `CheeseHookParticlesMixin` limita la sagoma usata per schegge
+durante lo scavo e frammenti alla rottura al solo gancio, escludendo il formaggio
+appeso. Le particelle del blocco tecnico invisibile restano disattivate.
+Verificati compilazione e caricamento del mixin tramite avvio client isolato,
+terminato prima dell'apertura della finestra: applicati entrambi gli interventi
+richiesti. Il confronto visivo delle particelle va eseguito in gioco.
+
 `CheeseShapes.java` contiene i volumi corrispondenti ai corpi dei modelli:
 selezione e collisione delle forme appoggiate dipendono dal formaggio, mentre
 il gancio distingue Provolone e Scamorza. I volumi sono precalcolati e condivisi
@@ -108,6 +121,9 @@ Da provare in Minecraft:
    con il legno. Provolone e ogni Scamorza devono essere rifiutati a slot vuoto.
 3. Appendere Provolone fresco/finale e Scamorza fresca/asciugata/affumicata a
    cinque ganci; controllare anche i quattro orientamenti dell'uncino.
+   Rompere un uncino vuoto e uno con formaggio accanto a una lanterna appesa:
+   verificare dispersione e caduta dei frammenti, stessa quantità con/senza
+   formaggio e nessuna emissione dal blocco tecnico sottostante.
 4. Verificare le asole a contatto con il gancio e lo spazio sotto ogni forma;
    provare a piazzare un blocco nel volume riservato.
 5. Confrontare fresco e finale di giorno e in una stanza illuminata da torce.

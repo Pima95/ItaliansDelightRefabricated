@@ -86,7 +86,6 @@ public final class ModBlocks {
                     .setId(CHEESE_HOOK_KEY)
                     .noOcclusion()
                     .noCollision()
-                    .noTerrainParticles()
                     .strength(3.0F, 6.0F)
             )
         );
