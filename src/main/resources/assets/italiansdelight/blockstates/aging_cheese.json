@@ -23,6 +23,18 @@
     },
     "cheese=provolone,mature=true": {
       "model": "italiansdelight:block/aging_cheese_provolone_mature"
+    },
+    "cheese=scamorza,mature=false": {
+      "model": "italiansdelight:block/aging_cheese_scamorza_fresh"
+    },
+    "cheese=scamorza,mature=true": {
+      "model": "italiansdelight:block/aging_cheese_scamorza_mature"
+    },
+    "cheese=smoked_scamorza,mature=false": {
+      "model": "italiansdelight:block/aging_cheese_smoked_scamorza_fresh"
+    },
+    "cheese=smoked_scamorza,mature=true": {
+      "model": "italiansdelight:block/aging_cheese_smoked_scamorza_mature"
     }
   }
 }

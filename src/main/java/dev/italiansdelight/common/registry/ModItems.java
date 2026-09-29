@@ -309,6 +309,7 @@ public final class ModItems {
 
         public static final Item PARMIGIANO_REGGIANO = register(
                 PARMIGIANO_REGGIANO_KEY,
+                properties -> new AgingCheeseItem(AgingCheeseType.PARMIGIANO_REGGIANO, true, properties),
                 new Item.Properties().stacksTo(16));
 
         public static final ResourceKey<Item> PARMIGIANO_REGGIANO_WEDGE_KEY = ResourceKey.create(
@@ -353,6 +354,7 @@ public final class ModItems {
 
         public static final Item PECORINO_ROMANO = register(
                 PECORINO_ROMANO_KEY,
+                properties -> new AgingCheeseItem(AgingCheeseType.PECORINO_ROMANO, true, properties),
                 new Item.Properties().stacksTo(16));
 
         public static final ResourceKey<Item> PECORINO_ROMANO_WEDGE_KEY = ResourceKey.create(
@@ -397,6 +399,7 @@ public final class ModItems {
 
         public static final Item GORGONZOLA = register(
                 GORGONZOLA_KEY,
+                properties -> new AgingCheeseItem(AgingCheeseType.GORGONZOLA, true, properties),
                 new Item.Properties().stacksTo(16));
 
         public static final ResourceKey<Item> GORGONZOLA_WEDGE_KEY = ResourceKey.create(
@@ -433,6 +436,7 @@ public final class ModItems {
 
         public static final Item PROVOLONE = register(
                 PROVOLONE_KEY,
+                properties -> new AgingCheeseItem(AgingCheeseType.PROVOLONE, true, properties),
                 new Item.Properties().stacksTo(16));
 
         public static final ResourceKey<Item> PROVOLONE_SLICE_KEY = ResourceKey.create(
@@ -457,6 +461,7 @@ public final class ModItems {
 
         public static final Item FRESH_SCAMORZA = register(
                 FRESH_SCAMORZA_KEY,
+                properties -> new AgingCheeseItem(AgingCheeseType.SCAMORZA, false, properties),
                 new Item.Properties().stacksTo(16));
 
         public static final ResourceKey<Item> SCAMORZA_KEY = ResourceKey.create(
@@ -465,6 +470,7 @@ public final class ModItems {
 
         public static final Item SCAMORZA = register(
                 SCAMORZA_KEY,
+                properties -> new AgingCheeseItem(AgingCheeseType.SCAMORZA, true, properties),
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
@@ -480,6 +486,7 @@ public final class ModItems {
 
         public static final Item SMOKED_SCAMORZA = register(
                 SMOKED_SCAMORZA_KEY,
+                properties -> new AgingCheeseItem(AgingCheeseType.SMOKED_SCAMORZA, true, properties),
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()

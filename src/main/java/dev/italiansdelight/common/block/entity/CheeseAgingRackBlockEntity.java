@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import dev.italiansdelight.common.aging.AgingCheeseType;
+import dev.italiansdelight.common.aging.RackCheeseState;
 import dev.italiansdelight.common.block.CheeseAgingRackBlock;
 import dev.italiansdelight.common.crafting.CheeseAgingRecipe;
 import dev.italiansdelight.common.registry.ModBlockEntities;
@@ -43,6 +44,8 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
     private final boolean[] mature =
         new boolean[SLOT_COUNT];
 
+    private boolean needsVisualSync = true;
+
     private final RecipeManager.CachedCheck<
         SingleRecipeInput,
         CheeseAgingRecipe
@@ -67,12 +70,13 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
     public boolean insert(
         ServerLevel level,
         int slot,
-        AgingCheeseType cheeseType
+        AgingCheeseType cheeseType,
+        boolean isMature
     ) {
         if (
             !isValidSlot(slot)
             || isOccupied(slot)
-            || findRecipe(level, cheeseType).isEmpty()
+            || !cheeseType.fitsInRack()
         ) {
             return false;
         }
@@ -81,7 +85,7 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
             cheeseType;
 
         elapsedTicks[slot] = 0;
-        mature[slot] = false;
+        mature[slot] = isMature;
 
         updateOccupiedState(level);
         setChanged();
@@ -144,8 +148,16 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
         BlockState state,
         CheeseAgingRackBlockEntity rack
     ) {
+        // Rebuild appearance once after loading old worlds (where only the
+        // occupied flags existed) and after loading persisted BE contents.
+        if (rack.needsVisualSync) {
+            rack.updateOccupiedState(level);
+            rack.needsVisualSync = false;
+        }
+
         boolean changed =
             false;
+        boolean appearanceChanged = false;
 
         for (int slot = 0; slot < SLOT_COUNT; slot++) {
             if (
@@ -157,6 +169,10 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
 
             AgingCheeseType cheeseType =
                 rack.cheeseTypes[slot];
+
+            if (!cheeseType.fitsInRack()) {
+                continue;
+            }
 
             Optional<RecipeHolder<CheeseAgingRecipe>>
                 recipeHolder =
@@ -184,10 +200,15 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
 
                 rack.mature[slot] =
                     true;
+                appearanceChanged = true;
             }
 
             changed =
                 true;
+        }
+
+        if (appearanceChanged) {
+            rack.updateOccupiedState(level);
         }
 
         if (changed) {
@@ -224,6 +245,10 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
                 : cheeseType.freshStack();
         }
 
+        if (elapsedTicks[slot] == 0) {
+            return cheeseType.matureStack();
+        }
+
         return findRecipe(
             level,
             cheeseType
@@ -257,6 +282,14 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
                 .setValue(
                     CheeseAgingRackBlock.UPPER_OCCUPIED,
                     isOccupied(UPPER_SLOT)
+                )
+                .setValue(
+                    CheeseAgingRackBlock.LOWER_CHEESE,
+                    RackCheeseState.of(cheeseTypes[LOWER_SLOT], mature[LOWER_SLOT])
+                )
+                .setValue(
+                    CheeseAgingRackBlock.UPPER_CHEESE,
+                    RackCheeseState.of(cheeseTypes[UPPER_SLOT], mature[UPPER_SLOT])
                 );
 
         if (!updated.equals(state)) {
@@ -294,6 +327,7 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
         ValueInput input
     ) {
         super.loadAdditional(input);
+        needsVisualSync = true;
 
         cheeseTypes[LOWER_SLOT] =
             typeFromOrdinal(

@@ -1,0 +1,6 @@
+{
+  "parent": "italiansdelight:block/aging_cheese_smoked_scamorza_base",
+  "textures": {
+    "cheese": "italiansdelight:block/hanging_smoked_scamorza"
+  }
+}

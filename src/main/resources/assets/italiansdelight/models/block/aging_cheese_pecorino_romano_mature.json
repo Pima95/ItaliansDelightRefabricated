@@ -1,3 +1,6 @@
 {
-  "parent": "italiansdelight:block/aging_cheese_cake_placeholder"
+  "parent": "italiansdelight:block/aging_cheese_pecorino_romano_base",
+  "textures": {
+    "cheese": "italiansdelight:block/aging_pecorino_romano_mature"
+  }
 }

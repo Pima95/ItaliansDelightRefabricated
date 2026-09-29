@@ -205,16 +205,26 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
 - [x] Implementare il Cheese Aging Rack 1×1×1 ispirato concettualmente agli
       scaffali di Fromage: **due ripiani e due slot totali**, uno per ripiano.
       Sono presenti BlockEntity, timer indipendenti, reset del progresso,
-      12 varianti di legno vanilla e Cake vanilla come placeholder visivo dei
-      formaggi sia nel rack sia sulle superfici normali. Un ripiano occupato può
+      12 varianti di legno vanilla e modelli specifici per tipo e maturazione
+      dei formaggi nel rack. Un ripiano occupato può
       essere svuotato con click destro anche tenendo qualsiasi oggetto; con mano
-      occupata il formaggio va nel primo slot completamente libero. Corrette
-      anche le UV laterali della Cake placeholder.
+      occupata il formaggio viene trasferito nell'inventario.
 - [x] Aggiungere le ricette di crafting dei rack per tutte le 12 varianti:
       quattro staccionate + un blocco di assi (`*_planks`) della stessa
       famiglia, compresi Bamboo, Crimson e Warped.
-- [ ] Sostituire, se necessario, i placeholder Cake con modelli definitivi dei
-      formaggi e rifinire il modello estetico finale del rack.
+- [x] Sostituire i placeholder Cake sulle superfici normali con modelli e
+      texture dedicati a Parmigiano Reggiano, Pecorino Romano, Gorgonzola e
+      Provolone, distinguendo fresco/stagionato e adeguando i volumi di selezione.
+- [x] Rifinire i modelli appesi di Provolone e Scamorza con proporzioni diverse,
+      legature sottili e texture distinguibili per fresco, finale e affumicato.
+      Riferimenti e anteprima in [`MODELLI_FORMAGGI.md`](MODELLI_FORMAGGI.md).
+- [x] Sostituire i placeholder Cake nei due slot del rack con forme cubiche
+      specifiche per tipo/stato, delle stesse dimensioni usate a terra e con
+      aggiornamento visivo al completamento e al caricamento del mondo.
+- [x] Rendere ripiazzabili tutte le 11 forme intere, fresche e finite, comprese
+      le tre Scamorze. Nel rack ammettere solo Parmigiano, Pecorino e Gorgonzola
+      freschi/stagionati; escludere ogni Provolone e Scamorza.
+- [ ] Rifinire, se necessario dopo la prova in gioco, l'estetica del rack.
 - [x] Aggiungere la ricetta del Cheese Hook con Iron Chain sopra e Iron Nugget
       sotto.
 - [x] Implementare il Cheese Hook per **Scamorza e Provolone**: blocco,
@@ -226,7 +236,7 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       `cheese_drying`, il Provolone mantiene `cheese_aging`. Il modello
       dell'uncino ha il punto inferiore centrato e i formaggi appesi sono
       abbassati fino al punto di presa. Il facing è stato corretto rispetto al
-      modello, le texture appese sono dedicate ma ricolorate sulla palette degli
+      modello, le texture appese sono dedicate e coerenti con la palette degli
       item e uno spazio tecnico invisibile impedisce di piazzare blocchi nel
       volume occupato dal formaggio sotto l'uncino.
 - [x] Implementare per forme piazzate e rack il salvataggio del progresso

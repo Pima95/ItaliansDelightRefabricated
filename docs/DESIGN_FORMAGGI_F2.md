@@ -683,8 +683,12 @@ Decisioni principali:
 
 - Parmigiano Reggiano, Pecorino Romano, Gorgonzola e Provolone usano
   `cheese_aging`;
-- le forme possono maturare sia su un Cheese Aging Rack a 4 posizioni sia
-  direttamente su una superficie piana valida;
+- Parmigiano, Pecorino e Gorgonzola possono maturare nel Cheese Aging Rack
+  a **2 ripiani / 2 slot**, oppure su una superficie piana valida;
+- Provolone e ogni variante di Scamorza **non entrano nel rack**. Il Provolone
+  matura su superfici normali oppure al gancio;
+- tutte le 11 forme intere, fresche e finite, sono ripiazzabili sulle superfici;
+  Scamorza fresca, asciugata e affumicata vi restano come esposizione;
 - la Scamorza usa invece `cheese_drying` e viene appesa a un Cheese Hook;
 - il progresso esiste soltanto nel blocco/block entity del mondo;
 - nessun progresso viene scritto sull'ItemStack;

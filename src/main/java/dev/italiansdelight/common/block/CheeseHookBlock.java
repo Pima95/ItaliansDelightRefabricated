@@ -6,6 +6,7 @@ import java.util.List;
 import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.aging.HangingCheeseType;
+import dev.italiansdelight.common.aging.CheeseShapes;
 import dev.italiansdelight.common.block.entity.CheeseHookBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModBlocks;
@@ -74,16 +75,11 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             Block.box(5, 5, 4, 11, 14, 12)
         );
 
-    private static final VoxelShape HANGING_CHEESE_SHAPE =
-        // Hanging models extend below the hook block into the space under it.
-        Block.box(
-            4,
-            -8,
-            4,
-            12,
-            5,
-            12
-        );
+    private static final VoxelShape PROVOLONE_SHAPE =
+        Shapes.or(HOOK_SHAPE, CheeseShapes.HANGING_PROVOLONE).optimize();
+
+    private static final VoxelShape SCAMORZA_SHAPE =
+        Shapes.or(HOOK_SHAPE, CheeseShapes.HANGING_SCAMORZA).optimize();
 
     public CheeseHookBlock(Properties properties) {
         super(properties);
@@ -173,13 +169,11 @@ public final class CheeseHookBlock extends BaseEntityBlock {
         BlockPos pos,
         CollisionContext context
     ) {
-        return state.getValue(CHEESE)
-                .isEmpty()
-            ? HOOK_SHAPE
-            : Shapes.or(
-                HOOK_SHAPE,
-                HANGING_CHEESE_SHAPE
-            );
+        return switch (state.getValue(CHEESE)) {
+            case EMPTY -> HOOK_SHAPE;
+            case FRESH_PROVOLONE, PROVOLONE -> PROVOLONE_SHAPE;
+            case FRESH_SCAMORZA, SCAMORZA, SMOKED_SCAMORZA -> SCAMORZA_SHAPE;
+        };
     }
 
     @Override

@@ -52,25 +52,6 @@ public final class AgingCheeseBlockEntity
             );
     }
 
-    public static boolean hasRecipeFor(
-        ServerLevel level,
-        AgingCheeseType type
-    ) {
-        SingleRecipeInput input =
-            new SingleRecipeInput(
-                type.freshStack()
-            );
-
-        return level.getServer()
-            .getRecipeManager()
-            .getRecipeFor(
-                ModRecipes.CHEESE_AGING_TYPE,
-                input,
-                level
-            )
-            .isPresent();
-    }
-
     public static void serverTick(
         ServerLevel level,
         BlockPos pos,
@@ -89,6 +70,10 @@ public final class AgingCheeseBlockEntity
             state.getValue(
                 AgingCheeseBlock.CHEESE
             );
+
+        if (!cheeseType.agesOnSurface()) {
+            return;
+        }
 
         Optional<RecipeHolder<CheeseAgingRecipe>>
             recipeHolder =
@@ -149,6 +134,12 @@ public final class AgingCheeseBlockEntity
             )
         ) {
             return cheeseType.freshStack();
+        }
+
+        // A finished cheese placed by the player must remain that exact item,
+        // even if a datapack changes the aging recipe output afterwards.
+        if (elapsedTicks == 0 || !cheeseType.agesOnSurface()) {
+            return cheeseType.matureStack();
         }
 
         Optional<RecipeHolder<CheeseAgingRecipe>>

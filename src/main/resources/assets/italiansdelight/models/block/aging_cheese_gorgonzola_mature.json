@@ -1,3 +1,6 @@
 {
-  "parent": "italiansdelight:block/aging_cheese_cake_placeholder"
+  "parent": "italiansdelight:block/aging_cheese_gorgonzola_base",
+  "textures": {
+    "cheese": "italiansdelight:block/aging_gorgonzola_mature"
+  }
 }

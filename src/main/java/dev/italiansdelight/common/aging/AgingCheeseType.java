@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * Visual/state variants supported by the first surface-aging implementation.
+ * Whole cheeses supported on surfaces and shelves.
  *
  * The actual transformation and duration remain data-driven through
  * italiansdelight:cheese_aging recipes.
@@ -16,7 +16,10 @@ public enum AgingCheeseType implements StringRepresentable {
     PARMIGIANO_REGGIANO("parmigiano_reggiano"),
     PECORINO_ROMANO("pecorino_romano"),
     GORGONZOLA("gorgonzola"),
-    PROVOLONE("provolone");
+    PROVOLONE("provolone"),
+    // Append new types: the existing rack saves the first four as ordinals.
+    SCAMORZA("scamorza"),
+    SMOKED_SCAMORZA("smoked_scamorza");
 
     private final String serializedName;
 
@@ -35,6 +38,8 @@ public enum AgingCheeseType implements StringRepresentable {
             case PECORINO_ROMANO -> ModItems.FRESH_PECORINO_ROMANO;
             case GORGONZOLA -> ModItems.FRESH_GORGONZOLA;
             case PROVOLONE -> ModItems.FRESH_PROVOLONE;
+            case SCAMORZA -> ModItems.FRESH_SCAMORZA;
+            case SMOKED_SCAMORZA -> ModItems.SMOKED_SCAMORZA;
         };
     }
 
@@ -48,11 +53,24 @@ public enum AgingCheeseType implements StringRepresentable {
             case PECORINO_ROMANO -> ModItems.PECORINO_ROMANO;
             case GORGONZOLA -> ModItems.GORGONZOLA;
             case PROVOLONE -> ModItems.PROVOLONE;
+            case SCAMORZA -> ModItems.SCAMORZA;
+            case SMOKED_SCAMORZA -> ModItems.SMOKED_SCAMORZA;
         };
     }
 
     public ItemStack freshStack() {
         return new ItemStack(freshItem());
+    }
+
+    /** Scamorza dries on the hook; these supports only display it. */
+    public boolean agesOnSurface() {
+        return this != SCAMORZA && this != SMOKED_SCAMORZA;
+    }
+
+    public boolean fitsInRack() {
+        return this == PARMIGIANO_REGGIANO
+            || this == PECORINO_ROMANO
+            || this == GORGONZOLA;
     }
 
     public ItemStack matureStack() {

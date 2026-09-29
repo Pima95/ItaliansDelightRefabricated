@@ -5,6 +5,7 @@ import java.util.List;
 import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.aging.AgingCheeseType;
+import dev.italiansdelight.common.aging.CheeseShapes;
 import dev.italiansdelight.common.block.entity.AgingCheeseBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 
@@ -38,7 +39,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /**
  * Internal world representation of one cheese wheel aging on a flat surface.
  *
- * It has no BlockItem: players place it by using a compatible fresh cheese
+ * It has no BlockItem: players place it by using a compatible whole cheese
  * item on a sturdy top face.
  */
 public final class AgingCheeseBlock
@@ -54,16 +55,6 @@ public final class AgingCheeseBlock
     public static final BooleanProperty MATURE =
         BooleanProperty.create(
             "mature"
-        );
-
-    private static final VoxelShape SHAPE =
-        Block.box(
-            2,
-            0,
-            2,
-            14,
-            5,
-            14
         );
 
     public AgingCheeseBlock(
@@ -126,7 +117,7 @@ public final class AgingCheeseBlock
         BlockPos pos,
         CollisionContext context
     ) {
-        return SHAPE;
+        return CheeseShapes.placed(state.getValue(CHEESE));
     }
 
     @Override
@@ -136,7 +127,7 @@ public final class AgingCheeseBlock
         BlockPos pos,
         CollisionContext context
     ) {
-        return SHAPE;
+        return CheeseShapes.placed(state.getValue(CHEESE));
     }
 
     @Override

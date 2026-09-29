@@ -46,8 +46,11 @@ La Scamorza **non** usa questo processo.
 
 ### 2.1 Piazzamento su superfici
 
-Le forme fresche stagionabili possono essere appoggiate direttamente nel mondo
-su una superficie superiore piana e adatta a sostenerle.
+Tutte le 11 forme intere (fresche e finite di Parmigiano, Pecorino, Gorgonzola,
+Provolone; Scamorza fresca, asciugata e affumicata) possono essere appoggiate e
+ripiazzate su una superficie superiore piana e adatta a sostenerle. Le forme
+già finite conservano il proprio stato senza avviare un timer. La Scamorza
+appoggiata è decorativa: quella fresca si asciuga solo al gancio.
 
 Il rack è quindi utile per organizzare più forme, ma **non è obbligatorio** per
 la stagionatura.
@@ -55,8 +58,8 @@ la stagionatura.
 Comportamento previsto:
 
 1. il giocatore usa una forma fresca su una superficie valida;
-2. viene creata una forma visibile nel mondo; durante questa fase di sviluppo
-   usa un modello tipo Cake con texture vanilla come placeholder;
+2. viene creata una forma con modello e texture specifici del formaggio,
+   distinguibili fra fresco e stagionato; vedere [MODELLI_FORMAGGI.md](MODELLI_FORMAGGI.md);
 3. il timer parte da zero;
 4. il timer avanza lato server solo mentre il chunk è caricato;
 5. al completamento la forma viene sostituita automaticamente dalla variante
@@ -84,13 +87,15 @@ Design concordato:
 - ogni ripiano possiede **un solo slot**, quindi il rack contiene al massimo
   **2 forme**;
 - i due slot sono completamente indipendenti e possiedono timer separati;
+- entrano solo Parmigiano, Pecorino e Gorgonzola, freschi o stagionati;
+- Provolone e tutte le Scamorze sono esclusi dal rack;
 - le forme sono visibili fisicamente sul rispettivo ripiano;
 - nessuna GUI del blocco;
-- nella prima implementazione i formaggi visualizzati nel rack e quelli
-  appoggiati direttamente su superfici normali usano un **modello tipo torta
-  con texture vanilla della Cake come placeholder**;
-- i placeholder Cake usano UV laterali esplicite coerenti con il modello
-  vanilla (`[1, 8, 15, 16]`) per evitare lati trasparenti o mancanti;
+- i formaggi nel rack e sulle superfici normali usano le stesse forme cubiche
+  compatte e le stesse texture, con varianti fresche e stagionate. I placeholder
+  Cake sono stati rimossi;
+- ogni ripiano sincronizza tipo e maturazione nel blockstate per aggiornare
+  il modello; i timer rimangono esclusivamente nella BlockEntity;
 - il ripiano superiore e il relativo formaggio sono posizionati leggermente
   sotto la metà superiore del blocco per lasciare spazio visivo sopra la forma;
 - il rack deve avere una variante per **ogni famiglia di legno vanilla**:
@@ -110,7 +115,7 @@ Design concordato:
 
 Interazione prevista:
 
-- click destro con una forma fresca compatibile sul ripiano inferiore o
+- click destro con una forma fresca o stagionata compatibile sul ripiano inferiore o
   superiore: inserisce la forma nello slot di quel ripiano;
 - interazione a mano vuota con un ripiano occupato: rimuove la forma presente
   in quello specifico slot;
@@ -161,7 +166,8 @@ scamorza
 ```
 
 Non può essere stagionata appoggiandola su una superficie e non occupa uno slot
-del Cheese Aging Rack.
+del Cheese Aging Rack. Tutte le Scamorze sono però piazzabili sulle superfici
+come decorazione.
 
 ### 3.1 Cheese Hook / Gancio per Formaggi
 
@@ -187,8 +193,8 @@ Design previsto:
 - il modello dell'uncino non usa più una semplice piega a 90°: il profilo è
   spezzato/curvo e il **punto più basso è centrato sull'asse del blocco**, in
   modo che il formaggio penda sotto il centro del supporto;
-- il punto superiore dei modelli appesi è stato abbassato fino a coincidere con
-  il punto più basso dell'uncino; i formaggi possono quindi estendersi
+- il punto superiore delle asole entra di un pixel nell'uncino (`y=6` rispetto
+  al fondo del gancio a `y=5`); i formaggi possono quindi estendersi
   visivamente nel blocco sottostante;
 - un gancio contiene al massimo un formaggio;
 - sono agganciabili `fresh_scamorza`, `scamorza`,
@@ -204,10 +210,10 @@ Design previsto:
   mantiene la propria texture scura;
 - il modello della Scamorza è ispirato alla forma a doppio bulbo legata al
   collo; quello del Provolone alla forma a pera/goccia con legatura superiore;
-- i modelli appesi usano texture 16×16 **dedicate**, non copie dirette degli
-  item: mantengono il pattern adatto alle superfici 3D ma sono state ricolorate
-  verso la palette dei rispettivi item, così fresh, mature e affumicata sono
-  chiaramente distinguibili senza deformare la grafica dell'inventario;
+- i modelli appesi usano texture 16×16 **dedicate**, con palette coerente con
+  gli item e senza ombre direzionali dipinte. Fresco, finale e affumicato sono
+  distinguibili per colore e superficie; Provolone e Scamorza hanno dimensioni
+  differenti, legature sottili e contorni di selezione corrispondenti;
 - i diversi cuboidi che compongono Scamorza e Provolone usano una **mappatura
   UV continua**: ogni strato campiona soltanto la propria porzione della stessa
   texture, invece di ripetere l'intera PNG su ogni cuboide;
@@ -227,8 +233,7 @@ Design previsto:
 
 **Stato corrente:** blocco, orientamento, BlockEntity, interazioni,
 persistenza, timer, trasformazioni e rendering di Scamorza/Provolone sono
-implementati. Il Provolone continua a poter usare anche rack e superfici
-normali.
+implementati. Il Provolone può usare anche superfici normali, ma non il rack.
 
 Il `minecraft:lead` resta parte della forma durante l'asciugatura. Viene
 recuperato successivamente tramite le ricette già definite al Cutting Board.
@@ -442,9 +447,13 @@ base delle ricette `cheese_aging` e `cheese_drying`.
 - rimozione dal rack possibile con mano vuota o con qualsiasi oggetto in mano;
 - con mano occupata il formaggio viene spostato nel primo slot libero
   dell'inventario;
-- i formaggi nel rack e sulle superfici normali usano temporaneamente il
-  modello/texture vanilla della Cake;
-- corretto il mapping UV dei placeholder Cake per renderizzare anche i lati;
+- tutte le 11 forme intere sono ripiazzabili su superfici normali; gli appesi
+  hanno due geometrie e cinque varianti;
+- rack e forme appoggiate condividono dimensioni e texture; ogni ripiano
+  visualizza il proprio formaggio fresco/stagionato, senza placeholder Cake;
+- sincronizzazione visiva al caricamento, inserimento, rimozione e maturazione;
+- eventuali Provoloni nei rack dei vecchi salvataggi restano visibili e
+  recuperabili, senza avanzare né poter essere reinseriti;
 - categoria JEI Aging funzionante e unificata temporaneamente anche per la
   Scamorza;
 - compatibilità opzionale con Fromage predisposta tramite common tag, senza
@@ -466,13 +475,13 @@ base delle ricette `cheese_aging` e `cheese_drying`.
 
   dove `C` = `minecraft:iron_chain` e `P` = `minecraft:iron_nugget`;
 - ricette di crafting dei rack per tutte le varianti di legno: **completate**;
-- modelli definitivi dei rack e dei formaggi stagionati al posto dei placeholder
-  Cake, se desiderati;
-- verifica in-game definitiva del fix UV del formaggio sul ripiano superiore;
+- verifica visiva in-game delle forme cubiche su entrambi i ripiani;
 - test completi di persistenza dopo riavvio, chunk unload/reload, multiplayer,
   rottura del rack e inventario pieno;
 - bilanciamento finale di tempi, rese, valori nutritivi e stack;
-- build completa e test su server dedicato.
+- le verifiche funzionali automatiche su server GameTest sono superate:
+  piazzamento/ripiazzamento, 12 legni e due slot, restrizioni, maturazione,
+  reset e ripristino dei dati salvati. Resta la prova manuale multiplayer.
 
 
 ## 11. Ottimizzazioni tecniche

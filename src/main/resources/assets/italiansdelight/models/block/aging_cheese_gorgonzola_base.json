@@ -1,0 +1,77 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "#cheese",
+    "twine": "italiansdelight:block/cheese_twine"
+  },
+  "elements": [
+    {
+      "from": [
+        3,
+        0,
+        3
+      ],
+      "to": [
+        13,
+        3.5,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cheese",
+          "uv": [
+            3,
+            12.5,
+            13,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#cheese",
+          "uv": [
+            3,
+            12.5,
+            13,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#cheese",
+          "uv": [
+            3,
+            12.5,
+            13,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#cheese",
+          "uv": [
+            3,
+            12.5,
+            13,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#cheese",
+          "uv": [
+            3,
+            3,
+            13,
+            13
+          ]
+        },
+        "down": {
+          "texture": "#cheese",
+          "uv": [
+            3,
+            3,
+            13,
+            13
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.mojang.serialization.MapCodec;
 
-import dev.italiansdelight.common.aging.AgingCheeseType;
+import dev.italiansdelight.common.aging.CheeseShapes;
+import dev.italiansdelight.common.aging.RackCheeseState;
 import dev.italiansdelight.common.block.entity.CheeseAgingRackBlockEntity;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 import dev.italiansdelight.common.registry.ModBlockEntities;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
@@ -40,9 +42,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * - lower shelf at the bottom of the block;
  * - upper shelf around half-block height.
  *
- * The BlockState only stores whether each shelf is occupied so the placeholder
- * cake models can be rendered without syncing the full aging data to clients.
- * Cheese type, progress and mature state live in the BlockEntity only.
+ * The BlockState exposes each shelf's cheese appearance. The BlockEntity is
+ * authoritative for contents and progress; legacy occupancy flags are retained
+ * for saved-world compatibility and synchronized alongside the appearance.
  */
 public final class CheeseAgingRackBlock extends BaseEntityBlock {
 
@@ -51,6 +53,12 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
 
     public static final BooleanProperty UPPER_OCCUPIED =
         BooleanProperty.create("upper_occupied");
+
+    public static final EnumProperty<RackCheeseState> LOWER_CHEESE =
+        EnumProperty.create("lower_cheese", RackCheeseState.class);
+
+    public static final EnumProperty<RackCheeseState> UPPER_CHEESE =
+        EnumProperty.create("upper_cheese", RackCheeseState.class);
 
     private static final VoxelShape SHAPE = Shapes.or(
         // Lower and raised shelves.
@@ -64,6 +72,26 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         Block.box(14, 0, 14, 16, 16, 16)
     );
 
+    private static final VoxelShape[][] OUTLINES = createOutlines();
+
+    private static VoxelShape[][] createOutlines() {
+        RackCheeseState[] states = RackCheeseState.values();
+        VoxelShape[][] shapes = new VoxelShape[states.length][states.length];
+        for (RackCheeseState lower : states) {
+            for (RackCheeseState upper : states) {
+                VoxelShape shape = SHAPE;
+                if (lower != RackCheeseState.EMPTY) {
+                    shape = Shapes.or(shape, CheeseShapes.placed(lower.cheeseType()).move(0, 2.0 / 16, 0));
+                }
+                if (upper != RackCheeseState.EMPTY) {
+                    shape = Shapes.or(shape, CheeseShapes.placed(upper.cheeseType()).move(0, 9.0 / 16, 0));
+                }
+                shapes[lower.ordinal()][upper.ordinal()] = shape.optimize();
+            }
+        }
+        return shapes;
+    }
+
     public CheeseAgingRackBlock(Properties properties) {
         super(properties);
 
@@ -71,6 +99,8 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             stateDefinition.any()
                 .setValue(LOWER_OCCUPIED, false)
                 .setValue(UPPER_OCCUPIED, false)
+                .setValue(LOWER_CHEESE, RackCheeseState.EMPTY)
+                .setValue(UPPER_CHEESE, RackCheeseState.EMPTY)
         );
     }
 
@@ -92,7 +122,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         StateDefinition.Builder<Block, BlockState> builder
     ) {
         super.createBlockStateDefinition(builder);
-        builder.add(LOWER_OCCUPIED, UPPER_OCCUPIED);
+        builder.add(LOWER_OCCUPIED, UPPER_OCCUPIED, LOWER_CHEESE, UPPER_CHEESE);
     }
 
     @Override
@@ -102,7 +132,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         BlockPos pos,
         CollisionContext context
     ) {
-        return SHAPE;
+        return OUTLINES[state.getValue(LOWER_CHEESE).ordinal()][state.getValue(UPPER_CHEESE).ordinal()];
     }
 
     @Override
@@ -157,10 +187,13 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        // Empty shelf: only a fresh aging cheese can be inserted. Any other
-        // held item keeps its normal block interaction behavior.
+        // Empty shelf: only the three wheel families, fresh or mature, fit.
         if (!(stack.getItem() instanceof AgingCheeseItem agingCheeseItem)) {
             return InteractionResult.PASS;
+        }
+
+        if (!agingCheeseItem.cheeseType().fitsInRack()) {
+            return InteractionResult.FAIL;
         }
 
         if (level.isClientSide()) {
@@ -174,7 +207,8 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             && rack.insert(
                 serverLevel,
                 shelf,
-                agingCheeseItem.cheeseType()
+                agingCheeseItem.cheeseType(),
+                agingCheeseItem.isMature()
             )
             && !player.getAbilities().instabuild
         ) {

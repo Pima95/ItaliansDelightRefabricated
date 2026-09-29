@@ -2,7 +2,6 @@ package dev.italiansdelight.common.item;
 
 import dev.italiansdelight.common.aging.AgingCheeseType;
 import dev.italiansdelight.common.block.AgingCheeseBlock;
-import dev.italiansdelight.common.block.entity.AgingCheeseBlockEntity;
 import dev.italiansdelight.common.registry.ModBlocks;
 
 import net.minecraft.core.BlockPos;
@@ -21,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 /**
- * Fresh cheese wheel that can be placed directly on a flat, sturdy surface.
+ * Whole cheese, fresh or finished, placeable on a flat, sturdy surface.
  *
  * No aging progress is ever stored on this ItemStack. Placement always starts
  * a new world-side timer from zero.
@@ -29,17 +28,31 @@ import net.minecraft.world.level.gameevent.GameEvent;
 public final class AgingCheeseItem extends Item {
 
     private final AgingCheeseType cheeseType;
+    private final boolean mature;
 
     public AgingCheeseItem(
         AgingCheeseType cheeseType,
         Properties properties
     ) {
+        this(cheeseType, false, properties);
+    }
+
+    public AgingCheeseItem(
+        AgingCheeseType cheeseType,
+        boolean mature,
+        Properties properties
+    ) {
         super(properties);
         this.cheeseType = cheeseType;
+        this.mature = mature;
     }
 
     public AgingCheeseType cheeseType() {
         return cheeseType;
+    }
+
+    public boolean isMature() {
+        return mature;
     }
 
     @Override
@@ -74,8 +87,22 @@ public final class AgingCheeseItem extends Item {
             return InteractionResult.PASS;
         }
 
-        // Client predicts the successful interaction; the authoritative recipe
-        // validation and placement happen on the server.
+        Player player = context.getPlayer();
+        if (player != null && !player.mayUseItemAt(
+            cheesePos, context.getClickedFace(), context.getItemInHand()
+        )) {
+            return InteractionResult.FAIL;
+        }
+
+        BlockState placedState = ModBlocks.AGING_CHEESE.defaultBlockState()
+            .setValue(AgingCheeseBlock.CHEESE, cheeseType)
+            .setValue(AgingCheeseBlock.MATURE, mature);
+        if (!level.isUnobstructed(placedState, cheesePos, net.minecraft.world.phys.shapes.CollisionContext.empty())) {
+            return InteractionResult.FAIL;
+        }
+
+        // Placement also works for finished cheeses and decorative forms;
+        // available recipes determine processing, not the ability to place.
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
@@ -83,27 +110,6 @@ public final class AgingCheeseItem extends Item {
         if (!(level instanceof ServerLevel serverLevel)) {
             return InteractionResult.PASS;
         }
-
-        if (
-            !AgingCheeseBlockEntity.hasRecipeFor(
-                serverLevel,
-                cheeseType
-            )
-        ) {
-            return InteractionResult.FAIL;
-        }
-
-        BlockState placedState =
-            ModBlocks.AGING_CHEESE
-                .defaultBlockState()
-                .setValue(
-                    AgingCheeseBlock.CHEESE,
-                    cheeseType
-                )
-                .setValue(
-                    AgingCheeseBlock.MATURE,
-                    false
-                );
 
         if (
             !serverLevel.setBlock(
@@ -114,9 +120,6 @@ public final class AgingCheeseItem extends Item {
         ) {
             return InteractionResult.FAIL;
         }
-
-        Player player =
-            context.getPlayer();
 
         ItemStack held =
             context.getItemInHand();
