@@ -89,7 +89,8 @@ place it again while preserving that state.
 | Java | 25 |
 | Fabric Loader | 0.19.5 |
 | Fabric API | 0.161.0+26.2 |
-| Fabric Loom | 1.17-SNAPSHOT |
+| Fabric Loom | 1.18-SNAPSHOT |
+| Gradle | 9.7.1 |
 | Farmer's Delight Refabricated | 26.2-3.6.26+refabricated |
 | JEI | Curse Maven file 8937443 |
 
