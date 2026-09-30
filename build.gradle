@@ -2,7 +2,7 @@
 // Loom prepares the Fabric/Minecraft development environment; maven-publish
 // is available for possible future artifact publishing.
 plugins {
-    id 'net.fabricmc.fabric-loom' version '1.17-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom' version '1.18'
     id 'maven-publish'
 }
 
