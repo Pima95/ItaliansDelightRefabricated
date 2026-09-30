@@ -13,7 +13,8 @@ the actual status of implemented features and the future roadmap.
 | Fabric API | 0.161.0+26.2 | configured in `gradle.properties` |
 | Farmer's Delight Refabricated | 26.2-3.6.26+refabricated | required dependency via Cassian's Maven |
 | Java | 25 | Gradle release target |
-| Fabric Loom | 1.17-SNAPSHOT | plugin configured in `build.gradle` |
+| Fabric Loom | 1.18-SNAPSHOT | plugin configured in `build.gradle` |
+| Gradle | 9.7.1 | wrapper version |
 | JEI | Curse Maven file 8937443 | Cheese Vat integration is implemented |
 
 Before updating any dependency, verify that the new release is compatible with
