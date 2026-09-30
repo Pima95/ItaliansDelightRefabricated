@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "italiansdelight",
   "version": "${version}",
-  "name": "Italian's Delight",
-  "description": "Un add-on per Farmer's Delight Refabricated che aggiunge cucina, ingredienti e piatti della tradizione italiana.",
+  "name": "Italian's Delight Refabricated",
+  "description": "A Farmer's Delight Refabricated add-on that expands Fabric with Italian cuisine, ingredients, farming, cheese making, and food production systems.",
   "authors": [
     "Piergiuseppe"
   ],
   "contact": {
-    "homepage": "",
-    "sources": ""
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/italians-delight-refabricated",
+    "sources": "https://github.com/Pima95/ItaliansDelightRefabricated"
   },
   "license": "MIT",
   "icon": "assets/italiansdelight/icon.png",
