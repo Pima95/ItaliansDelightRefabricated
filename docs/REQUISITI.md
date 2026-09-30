@@ -57,6 +57,8 @@ La **Cheese Vat** è un blocco funzionale completo con:
 - avanzamento della lavorazione sincronizzato client/server;
 - GUI dedicata;
 - supporto allo shift-click;
+- automazione con hopper direzionali: ingredienti dall'alto, recipienti
+  (`bowl`, `glass_bottle`, `lead`) dai lati e output dal basso;
 - gestione dei crafting remainder;
 - serializzazione delle ricette tramite codec;
 - integrazione JEI.

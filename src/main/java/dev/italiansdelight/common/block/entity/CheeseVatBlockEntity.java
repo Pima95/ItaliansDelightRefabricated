@@ -25,6 +25,7 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -56,7 +57,7 @@ import vectorwing.farmersdelight.common.utility.ItemUtils;
 
 public class CheeseVatBlockEntity
     extends BlockEntity
-    implements Container, HeatableBlockEntity, MenuProvider {
+    implements WorldlyContainer, HeatableBlockEntity, MenuProvider {
 
     // -------------------- Inventory layout --------------------
     // Slots 0-2 hold ingredients; 3 is the recipe container; 4 is the
@@ -66,6 +67,23 @@ public class CheeseVatBlockEntity
     public static final int CONTAINER_SLOT = 3;
     public static final int OUTPUT_SLOT = 4;
     public static final int WHEY_CONTAINER_SLOT = 5;
+
+    // Vanilla sided-inventory contract used by hoppers.
+    // Top: ingredients. Horizontal faces: recipe container. Bottom: outputs.
+    private static final int[] TOP_HOPPER_SLOTS = {
+        0,
+        1,
+        2
+    };
+
+    private static final int[] SIDE_HOPPER_SLOTS = {
+        CONTAINER_SLOT
+    };
+
+    private static final int[] BOTTOM_HOPPER_SLOTS = {
+        OUTPUT_SLOT,
+        WHEY_CONTAINER_SLOT
+    };
 
     // Slots 0-5 are real inventory slots exposed to the player.
     public static final int CONTAINER_SIZE = WHEY_CONTAINER_SLOT + 1;
@@ -1258,6 +1276,85 @@ public class CheeseVatBlockEntity
                 stack.is(Items.GLASS_BOTTLE)
                 || stack.is(Items.BUCKET)
             );
+    }
+
+    @Override
+    public int[] getSlotsForFace(
+        Direction side
+    ) {
+        if (side == Direction.UP) {
+            return TOP_HOPPER_SLOTS;
+        }
+
+        if (side == Direction.DOWN) {
+            return BOTTOM_HOPPER_SLOTS;
+        }
+
+        return SIDE_HOPPER_SLOTS;
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(
+        int slot,
+        ItemStack stack,
+        Direction side
+    ) {
+        if (side == null) {
+            return canPlaceItem(
+                slot,
+                stack
+            );
+        }
+
+        if (side == Direction.UP) {
+            return slot >= 0
+                && slot < INPUT_SLOT_COUNT
+                && canPlaceItem(
+                    slot,
+                    stack
+                );
+        }
+
+        if (side.getAxis().isHorizontal()) {
+            return slot == CONTAINER_SLOT
+                && isRecipeContainerForAutomation(
+                    stack
+                );
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(
+        int slot,
+        ItemStack stack,
+        Direction side
+    ) {
+        if (side != Direction.DOWN) {
+            return false;
+        }
+
+        if (slot == OUTPUT_SLOT) {
+            return true;
+        }
+
+        return slot == WHEY_CONTAINER_SLOT
+            && (
+                stack.is(ModItems.WHEY_BOTTLE)
+                || stack.is(ModItems.WHEY_BUCKET)
+            );
+    }
+
+    private static boolean isRecipeContainerForAutomation(
+        ItemStack stack
+    ) {
+        // These are the container-slot items currently used by Cheese Vat
+        // recipes. Keep the side hopper restricted so unrelated items cannot
+        // jam the recipe-container slot.
+        return stack.is(Items.BOWL)
+            || stack.is(Items.GLASS_BOTTLE)
+            || stack.is(Items.LEAD);
     }
 
     // -------------------- World data persistence --------------------

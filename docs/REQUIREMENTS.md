@@ -57,6 +57,8 @@ The **Cheese Vat** is a complete functional block with:
 - client/server synchronized processing progress;
 - a dedicated GUI;
 - shift-click support;
+- sided hopper automation: ingredients from the top, recipe containers
+  (`bowl`, `glass_bottle`, `lead`) from horizontal sides, and outputs from below;
 - crafting remainder handling;
 - recipe serialization through codecs;
 - JEI integration.

@@ -293,8 +293,11 @@ porzionabili in survival, con differenze riconoscibili per il giocatore.
 - [~] Controllare coerenza di nomi, texture, traduzioni e visualizzazione JEI:
       gran parte del lavoro è completata; restano verifica finale dei modelli
       di stagionatura e controlli globali prima del merge.
-- [ ] Verificare tag condivisi, loot e compatibilità delle fonti di calore;
-      definire e provare il comportamento delle tramogge dove supportato.
+- [~] Verificare tag condivisi, loot e compatibilità delle fonti di calore.
+      Automazione hopper implementata per la Cheese Vat: dall'alto si
+      inseriscono gli ingredienti, dai lati bowl/glass bottle/lead vanno nello
+      slot recipiente, dal basso si estraggono output confezionato e contenitori
+      di siero già riempiti. Resta la prova manuale in-game.
 - [ ] Aggiungere advancement essenziali per guidare la progressione casearia.
 - [ ] Provare la filiera completa in survival, bilanciando anche disponibilità
       del sale, contenitori, quantità prodotte e tempi di attesa.
