@@ -88,7 +88,8 @@ Build e verifiche automatiche lato server superate; prove manuali finali nella
 [checklist F1](TEST_FORMAGGI_F1.md).
 
 Il **bilanciamento v1 della filiera casearia** è stato applicato: valori
-alimentari, rese e tempi Cheese Vat sono finalizzati per il primo ciclo di test;
+alimentari e rese sono finalizzati; tutti i tempi Cheese Vat sono stati
+aumentati di **10 secondi (+200 tick)** rispetto alla configurazione iniziale;
 la stagionatura varia da 10 minuti per la Scamorza a 60 minuti per il
 Parmigiano Reggiano.
 

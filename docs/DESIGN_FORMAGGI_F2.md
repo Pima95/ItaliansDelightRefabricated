@@ -107,7 +107,7 @@ La panna è implementata come `italiansdelight:cream_bowl`.
 Valori **bilanciamento v1**:
 
 - resa: **1 Cream Bowl** per lavorazione;
-- tempo Cheese Vat: **160 tick**;
+- tempo Cheese Vat: **360 tick / 18 s**;
 - fame: **3**;
 - saturation modifier: **0.3**;
 - stack massimo: **16**.
@@ -437,7 +437,7 @@ La Ricotta è ora implementata come `italiansdelight:ricotta`.
 Valori **bilanciamento v1**:
 
 - resa: **1 Ricotta** per lavorazione;
-- tempo Cheese Vat: **200 tick**;
+- tempo Cheese Vat: **400 tick / 20 s**;
 - fame: **5**;
 - saturation modifier: **0.4**;
 - stack massimo: **16**.
@@ -746,13 +746,14 @@ di Parmigiano, Pecorino, Gorgonzola e Provolone restano non commestibili.
 
 ### Tempi Cheese Vat
 
-I tempi esistenti vengono confermati:
+Tutti i tempi sono stati aumentati di **10 secondi (+200 tick)** mantenendo
+le differenze relative già presenti:
 
-- caglio: 100 tick / 5 s;
-- Panna, Mozzarella, Bocconcino e Burrata: 160 tick / 8 s;
-- Cagliata, Ricotta, Scamorza e Mascarpone: 200 tick / 10 s;
-- Gorgonzola e Provolone: 240 tick / 12 s;
-- Parmigiano Reggiano e Pecorino Romano: 300 tick / 15 s.
+- caglio: 300 tick / 15 s;
+- Panna, Mozzarella, Bocconcino e Burrata: 360 tick / 18 s;
+- Cagliata, Ricotta, Scamorza e Mascarpone: 400 tick / 20 s;
+- Gorgonzola e Provolone: 440 tick / 22 s;
+- Parmigiano Reggiano e Pecorino Romano: 500 tick / 25 s.
 
 ### Tempi di stagionatura/asciugatura
 

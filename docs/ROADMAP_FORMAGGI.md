@@ -137,9 +137,10 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 - [x] Collegare il campo `whey` alle ricette: priorità Whey Bottle/Whey Bucket
       sul tank, consumo esatto dal tank solo a fine lavorazione e rispetto del
       toggle del flow durante recipe matching.
-- [x] Bilanciamento v1 completato: rese e tempi Cheese Vat confermati; valori
-      nutritivi finalizzati; stagionatura ridotta a 10/20/30/45/60 minuti per
-      Scamorza/Gorgonzola/Provolone/Pecorino/Parmigiano. La Ricotta mantiene
+- [x] Bilanciamento v1 completato: rese e valori nutritivi finalizzati;
+      tutti i tempi Cheese Vat sono stati aumentati di 200 tick / 10 secondi
+      mantenendo la progressione relativa; stagionatura fissata a
+      10/20/30/45/60 minuti per Scamorza/Gorgonzola/Provolone/Pecorino/Parmigiano. La Ricotta mantiene
       500 mB di requisito siero dal tank oppure una singola unità esplicita di
       Whey Bottle/Whey Bucket, secondo la logica già implementata.
 - [x] Definire capacità, interazioni, condizioni e recupero delle forme del
