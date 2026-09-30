@@ -18,6 +18,13 @@ texture indicate. Tutte le texture item attualmente previste sono presenti.
 Le nuove sprite `scamorza_slice`, `smoked_scamorza_slice` e
 `apple_cider_vinegar` sono state aggiunte in formato 16×16.
 
+La sprite `cheese_grater.png` aggiunge la Grattugia per Formaggi: una grattugia
+piatta in metallo, con impugnatura aperta e superficie forata, ispirata alla foto
+fornita. Creata con **imagegen integrato** e ridotta a 16×16 con campionamento
+nearest-neighbor, mantenendo la trasparenza. Usa il modello item `handheld`.
+Il prompt completo è nella voce `cheese_grater` di
+[TEXTURE_FORMAGGI_PROMPTS.json](TEXTURE_FORMAGGI_PROMPTS.json).
+
 Convenzioni dei nomi:
 
 - `fresh_` = forma fresca/intermedia, prima di stagionatura o asciugatura;

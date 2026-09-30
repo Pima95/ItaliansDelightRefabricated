@@ -3,7 +3,8 @@
   "ingredients": [
     "italiansdelight:parmigiano_reggiano_wedge"
   ],
-  "tool": "#c:tools/knife",
+  "tool": "italiansdelight:cheese_grater",
+  "sound": "minecraft:item.axe.scrape",
   "result": [
     {
       "item": {

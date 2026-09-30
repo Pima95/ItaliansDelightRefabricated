@@ -635,6 +635,15 @@ Scamorza, senza lazzo rimane selezionabile la Mozzarella.
 
 Le rese del Cutting Board sono confermate per il bilanciamento v1:
 
+Gli spicchi di Parmigiano e Pecorino si grattugiano con la **Grattugia per
+Formaggi** (`italiansdelight:cheese_grater`), non più con il coltello. Si mantiene
+il normale uso del tagliere: uno spicchio lavorato produce 4 unità grattugiate e
+consuma 1 punto di durabilità. La grattugia ha 250 utilizzi, come il coltello
+in ferro di Farmer's Delight, ed è riparabile con ferro. Il crafting produce
+una grattugia disponendo in una sola colonna un lingotto di ferro e, sotto,
+due pepite di ferro, una per riga (`L` / `P` / `P`). Le altre porzionature
+continuano a richiedere il coltello.
+
 - Forma di Parmigiano Reggiano → 4 spicchi;
 - 1 spicchio di Parmigiano Reggiano → 4 Parmigiano grattugiato;
 - Forma di Pecorino Romano → 4 spicchi;

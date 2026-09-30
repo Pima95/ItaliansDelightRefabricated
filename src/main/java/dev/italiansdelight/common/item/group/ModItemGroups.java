@@ -32,6 +32,7 @@ public final class ModItemGroups {
             .displayItems((params, output) -> {
                 output.accept(ModBlocks.CHEESE_VAT);
                 output.accept(ModBlocks.CHEESE_HOOK);
+                output.accept(ModItems.CHEESE_GRATER);
                 output.accept(ModBlocks.OAK_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.SPRUCE_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.BIRCH_CHEESE_AGING_RACK);

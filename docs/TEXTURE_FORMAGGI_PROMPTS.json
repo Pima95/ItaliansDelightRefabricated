@@ -124,5 +124,20 @@
       "reference": "Generated gorgonzola before 16x16 export",
       "prompt": "Use case: precise-object-edit. The attached PNG is the matured Gorgonzola wheel inventory sprite and is the edit target. Produce the FRESH pre-maturation variant. Preserve EXACTLY the square canvas, transparent alpha background, wheel silhouette, size, position, perspective and coarse Minecraft pixel style. Change only the maturation colors: remove all teal-blue-green mold spots and veins, replacing them with clean pale ivory, cream and light gray-beige wheel surface. It should be a smooth intact fresh cheese wheel, with no holes or mold pattern. Retain simple top-left light and subtle side shading. No glow, halo, background, cast shadow, labels, props, letters or extra texture. Fully transparent background. The result will be exported to a 16x16 inventory sprite."
     }
+  ],
+  "additions": [
+    {
+      "id": "cheese_grater",
+      "date": "2026-09-30",
+      "mode": "generate",
+      "reference": "User-provided photograph of a flat handheld metal cheese grater",
+      "prompt": "Use case: stylized-concept. Asset type: Minecraft / Farmer's Delight inventory tool sprite. The attached user photo is the shape reference: a FLAT handheld stainless-steel cheese grater, one elongated rectangular perforated silver plate, slightly rounded corners, integrated oblong hand opening at the top. Create a single crisp pixel-art item icon on a truly transparent background, including transparency through the hand opening. NOT a box grater, NOT a knife, no long separate wooden or plastic handle. No cheese or other objects from the photo. Logical 16 by 16 pixel sprite, deliberately very coarse Minecraft pixels enlarged without smoothing. Strong recognizable flat metal outline with dark gray edging, silver-gray face, a few bright rim highlights and 6-10 sparse dark grating holes in rows. Show the wide perforated face clearly in near frontal view, on the Minecraft tool diagonal with the perforated blade toward upper right and the integrated open grip toward lower left, ready to be held by its grip in the right hand. Fit the whole grater within the square canvas with 1 logical pixel transparent margin. Flat vanilla pixel-art shading using 5-7 opaque colors, no gradients, no antialiasing, no photorealism, no scene, no ground shadow, no text, no grid. Output only the isolated tool sprite on actual alpha transparency.",
+      "output": "src/main/resources/assets/italiansdelight/textures/item/cheese_grater.png",
+      "size": [
+        16,
+        16
+      ],
+      "assembly": "Nearest-neighbor downsampling to 16x16 RGBA; generated alpha preserved."
+    }
   ]
 }

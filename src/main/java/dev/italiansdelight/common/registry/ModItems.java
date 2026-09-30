@@ -7,6 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.core.Registry;
@@ -31,6 +32,17 @@ public final class ModItems {
 
         private ModItems() {
         }
+
+        public static final ResourceKey<Item> CHEESE_GRATER_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("cheese_grater"));
+
+        public static final Item CHEESE_GRATER = register(
+                CHEESE_GRATER_KEY,
+                new Item.Properties()
+                        // Farmer's Delight's iron knife uses this same material durability.
+                        .durability(ToolMaterial.IRON.durability())
+                        .repairable(ToolMaterial.IRON.repairItems()));
 
         // Pasta with tomato sauce
         public static final ResourceKey<Item> PASTA_WITH_TOMATO_SAUCE_KEY = ResourceKey.create(

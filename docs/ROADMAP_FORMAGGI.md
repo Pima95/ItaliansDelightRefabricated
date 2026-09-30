@@ -275,6 +275,9 @@ anticipata azzera il progresso senza salvarlo sull'item.
       Reggiano e Pecorino Romano.
 - [x] Implementare wedge, grattugiato e relative ricette al Cutting Board;
       l'output del grattugiato è 4 ed è confermato nel bilanciamento v1.
+- [x] Aggiungere la Grattugia per Formaggi al posto del coltello per ottenere
+      il grattugiato sul tagliere: crafting verticale lingotto/pepita/pepita,
+      durabilità del coltello in ferro e texture ispirata alla grattugia piatta.
 - [x] Completare registrazioni item, modelli item, texture, traduzioni, common
       tag e visualizzazione JEI necessaria alla filiera attuale.
 - [ ] Documentare gli ingredienti disponibili per `feature/dishes` e gli usi
