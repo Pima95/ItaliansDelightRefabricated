@@ -96,7 +96,7 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         this.ingredients = List.copyOf(ingredients);
         this.result = result;
         this.container = container;
-        this.cookingTime = cookingTime;
+        this.cookingTime = Math.max(1, cookingTime);
         this.experience = experience;
         this.wheyAmount = Math.max(0, wheyAmount);
         this.wheyOutput = Math.max(0, wheyOutput);

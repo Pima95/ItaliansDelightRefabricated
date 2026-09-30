@@ -185,7 +185,7 @@ public class CheeseVatBlockEntity
         CheeseVatRecipe cheeseVatRecipe =
             recipe.get().value();
 
-        if (!heated || !cheeseVat.canCook(cheeseVatRecipe)) {
+        if (!heated || !cheeseVat.canCook(cheeseVatRecipe, input)) {
             cheeseVat.decreaseCookingProgress();
             return;
         }
@@ -247,10 +247,24 @@ public class CheeseVatBlockEntity
         CheeseVatRecipeInput input,
         ServerLevel level
     ) {
+        // Cheese Vat recipes always contain at least one ingredient. Avoid
+        // scanning the global recipe collection while an idle vat is empty.
+        if (
+            input.first().isEmpty()
+            && input.second().isEmpty()
+            && input.third().isEmpty()
+        ) {
+            return Optional.empty();
+        }
+
+        RecipeManager recipeManager =
+            level.getServer()
+                .getRecipeManager();
+
         Optional<RecipeHolder<CheeseVatRecipe>> wheyRecipe =
             findWheyRecipe(
                 input,
-                level
+                recipeManager
             );
 
         if (wheyRecipe.isPresent()) {
@@ -259,7 +273,7 @@ public class CheeseVatBlockEntity
 
         return findNormalRecipe(
             input,
-            level
+            recipeManager
         );
     }
 
@@ -276,12 +290,8 @@ public class CheeseVatBlockEntity
     private Optional<RecipeHolder<CheeseVatRecipe>>
     findNormalRecipe(
         CheeseVatRecipeInput input,
-        ServerLevel level
+        RecipeManager recipeManager
     ) {
-        RecipeManager recipeManager =
-            level.getServer()
-                .getRecipeManager();
-
         ItemStack provided =
             items.get(CONTAINER_SLOT);
 
@@ -448,11 +458,28 @@ public class CheeseVatBlockEntity
 
     private Optional<RecipeHolder<CheeseVatRecipe>> findWheyRecipe(
         CheeseVatRecipeInput input,
-        ServerLevel level
+        RecipeManager recipeManager
     ) {
-        RecipeManager recipeManager =
-            level.getServer()
-                .getRecipeManager();
+        int wheyItemSlot =
+            findWheyItemSlot(
+                input
+            );
+
+        if (wheyItemSlot == AMBIGUOUS_WHEY_ITEMS) {
+            return Optional.empty();
+        }
+
+        // Without an explicit whey item, a disabled/empty tank cannot satisfy
+        // any whey-aware recipe, so avoid a global recipe scan entirely.
+        if (
+            wheyItemSlot == NO_WHEY_ITEM
+            && (
+                !wheyFlowEnabled
+                || wheyAmount <= 0
+            )
+        ) {
+            return Optional.empty();
+        }
 
         // Preserve the recipe already in progress when it is still valid.
         if (cookingRecipe != null) {
@@ -468,7 +495,8 @@ public class CheeseVatBlockEntity
                 && recipe.getWheyAmount() > 0
                 && canSupplyWhey(
                     recipe,
-                    input
+                    input,
+                    wheyItemSlot
                 )
             ) {
                 return Optional.of(
@@ -489,7 +517,8 @@ public class CheeseVatBlockEntity
                 && recipe.getWheyAmount() > 0
                 && canSupplyWhey(
                     recipe,
-                    input
+                    input,
+                    wheyItemSlot
                 )
             ) {
                 return Optional.of(
@@ -554,16 +583,23 @@ public class CheeseVatBlockEntity
         CheeseVatRecipe recipe,
         CheeseVatRecipeInput input
     ) {
+        return canSupplyWhey(
+            recipe,
+            input,
+            findWheyItemSlot(input)
+        );
+    }
+
+    private boolean canSupplyWhey(
+        CheeseVatRecipe recipe,
+        CheeseVatRecipeInput input,
+        int wheyItemSlot
+    ) {
         if (recipe.getWheyAmount() <= 0) {
             return recipe.findMatchingIngredientSlots(
                 input
             ) != null;
         }
-
-        int wheyItemSlot =
-            findWheyItemSlot(
-                input
-            );
 
         if (wheyItemSlot == AMBIGUOUS_WHEY_ITEMS) {
             return false;
@@ -584,10 +620,9 @@ public class CheeseVatBlockEntity
     }
 
     private boolean canCook(
-        CheeseVatRecipe recipe
+        CheeseVatRecipe recipe,
+        CheeseVatRecipeInput input
     ) {
-        CheeseVatRecipeInput input =
-            createRecipeInput();
 
         if (
             recipe.getWheyAmount() > 0
@@ -708,7 +743,7 @@ public class CheeseVatBlockEntity
 
         if (
             matchingSlots == null
-            || !canCook(recipe)
+            || !canCook(recipe, input)
         ) {
             cookTime = 0;
             setChanged();
@@ -1094,7 +1129,8 @@ public class CheeseVatBlockEntity
                         CheeseVatBlockEntity.this.cookTimeTotal;
 
                     case 2 ->
-                        CheeseVatBlockEntity.this.isHeated()
+                        CheeseVatBlockEntity.this.getBlockState()
+                            .getValue(CheeseVatBlock.HEATED)
                             ? 1
                             : 0;
 

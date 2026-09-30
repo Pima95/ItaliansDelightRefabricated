@@ -332,9 +332,9 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         } else {
 
             // Buckets have no recipe-container use in the current vat and are
-            // routed directly to the dedicated whey slot. Glass bottles remain
-            // routed to the recipe-container slot because rennet uses them;
-            // they can still be dragged manually into the whey slot.
+            // routed directly to the dedicated whey slot. Bowls, glass bottles
+            // and leads are recipe containers; glass bottles can still be
+            // dragged manually into the dedicated whey slot.
             int start;
             int end;
 
@@ -344,7 +344,8 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             } else {
                 boolean isContainer =
                     stack.is(Items.BOWL)
-                    || stack.is(Items.GLASS_BOTTLE);
+                    || stack.is(Items.GLASS_BOTTLE)
+                    || stack.is(Items.LEAD);
 
                 start =
                     isContainer

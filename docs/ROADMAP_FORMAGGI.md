@@ -54,7 +54,7 @@ restano estensioni da valutare successivamente.
 |---|---|---|
 | Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board | Implementata e bilanciata |
 | Bocconcino | Cagliata + acqua normale → 2 unità di Bocconcino nella Cheese Vat; nessun contenitore finale e nessun item "acqua calda" | Implementato e bilanciato |
-| Ricotta | La produzione della cagliata recupera anche il siero; latte + requisito siero → ricotta nella Cheese Vat | Implementata con valori placeholder da ribilanciare |
+| Ricotta | La produzione della cagliata recupera anche il siero; latte + requisito siero → ricotta nella Cheese Vat | Implementata e bilanciata |
 | Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Implementato e bilanciato |
 | Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Implementato e bilanciato |
 | Gorgonzola | Cagliata + sale + coltura erborinata → forma fresca → stagionatura | Implementato e bilanciato |
@@ -66,7 +66,7 @@ restano estensioni da valutare successivamente.
 Gli identificatori degli item della filiera casearia sono stati fissati e
 registrati. La checklist grafica completa è documentata in
 [`TEXTURE_FORMAGGI.md`](TEXTURE_FORMAGGI.md). Quantità, tempi e valori
-nutritivi restano invece placeholder fino al rebalancing finale. Gli
+nutritivi usano ora il bilanciamento v1 approvato. Gli
 identificatori esistenti vanno preservati, salvo una migrazione esplicitamente
 documentata.
 
@@ -158,10 +158,10 @@ l'implementazione.
 ### F3 — Completare i formaggi freschi
 
 - [x] Applicare il bilanciamento v1 alla mozzarella e alle quattro fette.
-- [x] Implementare la ricotta e collegarla al requisito siero della Cheese Vat,
-      usando valori di bilanciamento placeholder.
-- [x] Implementare la Panna come `cream_bowl` con valori placeholder e
-      verificare la selezione Ricotta/Panna tramite il flow del tank.
+- [x] Implementare e bilanciare la Ricotta collegandola al requisito siero
+      della Cheese Vat.
+- [x] Implementare e bilanciare la Panna come `cream_bowl`, verificando la
+      selezione Ricotta/Panna tramite il flow del tank.
 - [x] Implementare la Coltura Erborinata craftabile da `#c:foods/bread` + `#c:mushrooms`.
 - [x] Registrare gli item concordati, creare i relativi file item/model,
       aggiungere traduzioni italiane/inglesi e inserirli nel gruppo creativo.
@@ -171,7 +171,7 @@ l'implementazione.
       fresche di Parmigiano/Pecorino/Gorgonzola/Provolone/Scamorza e Burrata,
       più i tag latte vaccino/pecora.
 - [x] Aggiungere le porzionature già definite al Cutting Board e la ricetta
-      Smoker della Scamorza affumicata, mantenendo rese placeholder.
+      Smoker della Scamorza affumicata, con rese confermate nel bilanciamento v1.
 - [x] Collegare le forme fresche alle forme mature tramite il sistema di
       stagionatura/asciugatura della fase F4.
 - [x] Registrare l'Aceto di Mele in bottiglia come ingrediente tecnico, senza
@@ -255,6 +255,11 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       ridondanti del Cheese Hook, aggiunto fast-path sicuro per la ricetta
       corrente della Cheese Vat e corretta la mappatura UV continua dei modelli
       appesi.
+- [x] Revisione completa del codice: controllati i 48 file Java e le principali
+      risorse dati. Corretto lo shift-click del Lead nello slot recipiente,
+      irrobustita la transizione finale del sale e aggiunti fast-path alla
+      Cheese Vat per evitare scansioni/allocazioni inutili quando inattiva o
+      quando il siero non può essere usato.
 - [x] Sistemare texture e particelle di rottura del Cheese Hook.
 - [ ] Eseguire i casi di test definiti nel documento di design, compresi
       riavvio, multiplayer, reset e assenza di duplicazioni.
@@ -269,8 +274,7 @@ anticipata azzera il progresso senza salvarlo sull'item.
 - [x] Implementare preparazioni e ricette di stagionatura di Parmigiano
       Reggiano e Pecorino Romano.
 - [x] Implementare wedge, grattugiato e relative ricette al Cutting Board;
-      l'output del grattugiato è attualmente 4 ed è ancora soggetto al
-      rebalancing finale.
+      l'output del grattugiato è 4 ed è confermato nel bilanciamento v1.
 - [x] Completare registrazioni item, modelli item, texture, traduzioni, common
       tag e visualizzazione JEI necessaria alla filiera attuale.
 - [ ] Documentare gli ingredienti disponibili per `feature/dishes` e gli usi
@@ -287,13 +291,15 @@ porzionabili in survival, con differenze riconoscibili per il giocatore.
 - [x] Preparare la compatibilità opzionale con Fromage tramite common tag
       `c:foods/cheese` / `c:cheese`, senza dipendenza runtime. Strategia e
       limiti sono documentati in [`COMPAT_FROMAGE.md`](COMPAT_FROMAGE.md).
-- [~] Controllare coerenza di nomi, texture, traduzioni e visualizzazione JEI:
-      gran parte del lavoro è completata; restano verifica finale dei modelli
-      di stagionatura e controlli globali prima del merge.
+- [x] Controllare coerenza di nomi, texture, traduzioni e visualizzazione JEI:
+      revisione statica delle risorse completata e verifica visiva in-game
+      eseguita.
 - [x] Verificare automazione hopper della Cheese Vat: ingredienti dall'alto,
       bowl/glass bottle/lead dai lati nello slot recipiente, output confezionato
       e contenitori di siero pieni dal basso. Test manuale in-game superato.
-- [ ] Completare il controllo finale di tag condivisi, loot e fonti di calore.
+- [x] Controllare tag condivisi e loot dei blocchi pubblici: risorse presenti e
+      riferimenti coerenti.
+- [ ] Eseguire la prova finale delle fonti di calore supportate in survival.
 - [ ] Aggiungere advancement essenziali per guidare la progressione casearia.
 - [ ] Provare la filiera completa in survival, bilanciando anche disponibilità
       del sale, contenitori, quantità prodotte e tempi di attesa.
