@@ -104,12 +104,12 @@ La panna è un intermedio comune per almeno:
 
 La panna è implementata come `italiansdelight:cream_bowl`.
 
-Valori **PLACEHOLDER** in attesa del rebalancing finale:
+Valori **bilanciamento v1**:
 
 - resa: **1 Cream Bowl** per lavorazione;
 - tempo Cheese Vat: **160 tick**;
-- fame: **2**;
-- saturation modifier: **0.2**;
+- fame: **3**;
+- saturation modifier: **0.3**;
 - stack massimo: **16**.
 
 La panna viene rappresentata come **ciotola di panna**.
@@ -434,16 +434,15 @@ prelevare dal serbatoio interno.
 
 La Ricotta è ora implementata come `italiansdelight:ricotta`.
 
-Valori **PLACEHOLDER** in attesa del rebalancing finale:
+Valori **bilanciamento v1**:
 
 - resa: **1 Ricotta** per lavorazione;
 - tempo Cheese Vat: **200 tick**;
-- fame: **4**;
-- saturation modifier: **0.3**;
+- fame: **5**;
+- saturation modifier: **0.4**;
 - stack massimo: **16**.
 
-Questi valori non sono da considerare definitivi: verranno rivalutati insieme
-a tutti gli altri prodotti caseari a fine sviluppo.
+Questi valori fanno parte del bilanciamento v1 della filiera casearia.
 
 Ricetta implementata:
 
@@ -500,7 +499,7 @@ vengono usati per calcolare quanto consumare da bottiglie o secchi.
 Il tank resta invariato quando viene usato un item di siero.
 
 Il latte usa il tag generico `#c:drinks/milk`. Resa, tempo e valori nutritivi
-attuali sono placeholder da rivedere durante il rebalancing finale.
+sono stati confermati nel bilanciamento v1.
 
 ## 6. Siero nei calderoni
 
@@ -634,7 +633,7 @@ Scamorza, senza lazzo rimane selezionabile la Mozzarella.
 
 ### Cutting Board
 
-Sono presenti ricette placeholder, da ribilanciare:
+Le rese del Cutting Board sono confermate per il bilanciamento v1:
 
 - Forma di Parmigiano Reggiano → 4 spicchi;
 - 1 spicchio di Parmigiano Reggiano → 4 Parmigiano grattugiato;
@@ -708,9 +707,67 @@ Pecorino Romano 96.000 e Parmigiano Reggiano 120.000.
 Non sono ancora stati fissati:
 
 - produzione/crafting dell'aceto nel branch dedicato al sistema vino/barile;
-- rebalancing finale di quantità, tempi, fame e saturazione: i valori introdotti
-  durante lo sviluppo sono placeholder salvo quelli esplicitamente fissati come definitivi;
 - texture e implementazione tecnica del siero nei calderoni;
 
 Quando una di queste decisioni viene approvata, va aggiunta a questo documento
 prima o insieme alla relativa implementazione.
+
+
+## 10. Bilanciamento v1
+
+Il primo bilanciamento completo della filiera casearia usa Farmer's Delight
+come riferimento: gli ingredienti semplici rimangono moderati, mentre prodotti
+con più trasformazioni o stagionatura offrono un vantaggio alimentare maggiore.
+
+### Valori alimentari
+
+| Item | Fame | Saturation modifier | Stack |
+|---|---:|---:|---:|
+| Curd | 2 | 0.2 | 16 |
+| Cream Bowl | 3 | 0.3 | 16 |
+| Ricotta | 5 | 0.4 | 16 |
+| Mozzarella | 4 | 0.3 | 64 |
+| Mozzarella Slice | 1 | 0.3 | 64 |
+| Bocconcino | 2 | 0.3 | 64 |
+| Parmigiano Reggiano Wedge | 4 | 0.5 | 64 |
+| Pecorino Romano Wedge | 4 | 0.5 | 64 |
+| Gorgonzola Wedge | 4 | 0.4 | 64 |
+| Provolone Slice | 3 | 0.4 | 64 |
+| Scamorza | 8 | 0.3 | 16 |
+| Scamorza Slice | 2 | 0.3 | 64 |
+| Smoked Scamorza | 8 | 0.5 | 16 |
+| Smoked Scamorza Slice | 2 | 0.5 | 64 |
+| Burrata | 7 | 0.5 | 16 |
+| Mascarpone | 5 | 0.5 | 16 |
+
+Le quattro fette di Mozzarella e le quattro fette di ciascuna Scamorza
+mantengono esattamente il budget alimentare della forma intera. Le forme intere
+di Parmigiano, Pecorino, Gorgonzola e Provolone restano non commestibili.
+
+### Tempi Cheese Vat
+
+I tempi esistenti vengono confermati:
+
+- caglio: 100 tick / 5 s;
+- Panna, Mozzarella, Bocconcino e Burrata: 160 tick / 8 s;
+- Cagliata, Ricotta, Scamorza e Mascarpone: 200 tick / 10 s;
+- Gorgonzola e Provolone: 240 tick / 12 s;
+- Parmigiano Reggiano e Pecorino Romano: 300 tick / 15 s.
+
+### Tempi di stagionatura/asciugatura
+
+- Scamorza: 12.000 tick / 10 min;
+- Gorgonzola: 24.000 tick / 20 min;
+- Provolone: 36.000 tick / 30 min;
+- Pecorino Romano: 54.000 tick / 45 min;
+- Parmigiano Reggiano: 72.000 tick / 60 min.
+
+### Rese confermate
+
+- Bocconcino: 2 per lavorazione;
+- forma Parmigiano/Pecorino/Gorgonzola: 4 spicchi;
+- Parmigiano/Pecorino: 1 spicchio → 4 unità grattugiate;
+- Provolone: 4 fette;
+- Scamorza/Scamorza affumicata: 4 fette + restituzione del Lead;
+- Cagliata: 250 mB di siero;
+- Ricotta: requisito tank 500 mB di siero.

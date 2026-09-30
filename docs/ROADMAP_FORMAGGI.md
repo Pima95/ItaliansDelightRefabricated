@@ -52,16 +52,16 @@ restano estensioni da valutare successivamente.
 
 | Formaggio | Processo produttivo concordato | Stato |
 |---|---|---|
-| Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board | Base presente, da rifinire |
-| Bocconcino | Cagliata + acqua normale → 2 unità di Bocconcino nella Cheese Vat; nessun contenitore finale e nessun item "acqua calda" | Da implementare |
+| Mozzarella | Latte + caglio → cagliata; cagliata + sale → mozzarella; porzionatura al Cutting Board | Implementata e bilanciata |
+| Bocconcino | Cagliata + acqua normale → 2 unità di Bocconcino nella Cheese Vat; nessun contenitore finale e nessun item "acqua calda" | Implementato e bilanciato |
 | Ricotta | La produzione della cagliata recupera anche il siero; latte + requisito siero → ricotta nella Cheese Vat | Implementata con valori placeholder da ribilanciare |
-| Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
-| Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Da implementare |
-| Gorgonzola | Cagliata + sale + coltura erborinata → forma fresca → stagionatura | Da implementare |
-| Provolone | Cagliata + sale + acqua → forma fresca → stagionatura → fette | Da implementare |
-| Scamorza | Cagliata + sale → scamorza fresca usando `minecraft:lead` nello slot contenitore → breve asciugatura; possibile variante affumicata | Da implementare |
-| Burrata | Mozzarella + panna → burrata; prodotto fresco senza stagionatura | Da implementare |
-| Mascarpone | Panna + aceto di mele → mascarpone nella Cheese Vat; ciotola separata nello slot contenitore | Da implementare |
+| Parmigiano Reggiano | Latte vaccino + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Implementato e bilanciato |
+| Pecorino Romano | Latte di pecora + caglio + sale → forma fresca → stagionatura → porzionatura/grattugiato | Implementato e bilanciato |
+| Gorgonzola | Cagliata + sale + coltura erborinata → forma fresca → stagionatura | Implementato e bilanciato |
+| Provolone | Cagliata + sale + acqua → forma fresca → stagionatura → fette | Implementato e bilanciato |
+| Scamorza | Cagliata + sale → scamorza fresca usando `minecraft:lead` nello slot contenitore → breve asciugatura; possibile variante affumicata | Implementata e bilanciata |
+| Burrata | Mozzarella + panna → burrata; prodotto fresco senza stagionatura | Implementata e bilanciata |
+| Mascarpone | Panna + aceto di mele → mascarpone nella Cheese Vat; ciotola separata nello slot contenitore | Implementato e bilanciato |
 
 Gli identificatori degli item della filiera casearia sono stati fissati e
 registrati. La checklist grafica completa è documentata in
@@ -137,15 +137,11 @@ di interruzione e rottura non producono duplicazioni o perdite impreviste.
 - [x] Collegare il campo `whey` alle ricette: priorità Whey Bottle/Whey Bucket
       sul tank, consumo esatto dal tank solo a fine lavorazione e rispetto del
       toggle del flow durante recipe matching.
-- [ ] Definire definitivamente rese, tempi di lavorazione, tempi di
-      stagionatura/asciugatura, valori nutritivi e quantità ottenute dalle
-      porzionature. Durante lo sviluppo possono essere usati valori placeholder
-      da rivedere nel rebalancing finale. La Ricotta usa attualmente 1 output,
-      200 tick, 4 fame e 0.3 saturation modifier come placeholder; il requisito
-      siero resta definito: 500 mB dal tank oppure una bottiglia/secchio di
-      siero consumati come unità intera, con priorità dell'item sul tank.
-      La Panna usa temporaneamente 1 output, 160 tick, 2 fame e 0.2 saturation
-      modifier come placeholder.
+- [x] Bilanciamento v1 completato: rese e tempi Cheese Vat confermati; valori
+      nutritivi finalizzati; stagionatura ridotta a 10/20/30/45/60 minuti per
+      Scamorza/Gorgonzola/Provolone/Pecorino/Parmigiano. La Ricotta mantiene
+      500 mB di requisito siero dal tank oppure una singola unità esplicita di
+      Whey Bottle/Whey Bucket, secondo la logica già implementata.
 - [x] Definire capacità, interazioni, condizioni e recupero delle forme del
       sistema di stagionatura/asciugatura. Specifiche complete in
       [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md): rack 1×1×1 con
@@ -160,7 +156,7 @@ l'implementazione.
 
 ### F3 — Completare i formaggi freschi
 
-- [ ] Applicare il bilanciamento e le rifiniture concordate per la mozzarella.
+- [x] Applicare il bilanciamento v1 alla mozzarella e alle quattro fette.
 - [x] Implementare la ricotta e collegarla al requisito siero della Cheese Vat,
       usando valori di bilanciamento placeholder.
 - [x] Implementare la Panna come `cream_bowl` con valori placeholder e
@@ -175,7 +171,7 @@ l'implementazione.
       più i tag latte vaccino/pecora.
 - [x] Aggiungere le porzionature già definite al Cutting Board e la ricetta
       Smoker della Scamorza affumicata, mantenendo rese placeholder.
-- [ ] Collegare le forme fresche alle forme mature tramite il sistema di
+- [x] Collegare le forme fresche alle forme mature tramite il sistema di
       stagionatura/asciugatura della fase F4.
 - [x] Registrare l'Aceto di Mele in bottiglia come ingrediente tecnico, senza
       texture né ricetta di produzione, e aggiungere il Mascarpone alla Cheese
@@ -183,7 +179,7 @@ l'implementazione.
 - [x] Aggiungere fette di Scamorza normali/affumicate, rese 4 + lazzo al
       Cutting Board e conversione della fetta normale nello Smoker.
 - [x] Portare da 2 a 4 l'output del grattugiato di Parmigiano e Pecorino.
-- [ ] Integrare le nuove lavorazioni in JEI e verificare i contenitori.
+- [x] Integrare le nuove lavorazioni in JEI e verificare i contenitori.
 
 **Completamento:** mozzarella e ricotta sono ottenibili e utilizzabili in
 survival, con ricette consultabili e valori coerenti con la tabella di F2.
@@ -195,8 +191,8 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
 - [x] Definire e registrare i due processi data-driven:
       `italiansdelight:cheese_aging` e `italiansdelight:cheese_drying`,
       con serializer sincronizzati e ricette JSON per i cinque formaggi.
-- [x] Fissare i tempi iniziali: Scamorza 12.000 tick, Gorgonzola 48.000,
-      Provolone 72.000, Pecorino Romano 96.000 e Parmigiano Reggiano 120.000.
+- [x] Finalizzare i tempi v1: Scamorza 12.000 tick, Gorgonzola 24.000,
+      Provolone 36.000, Pecorino Romano 54.000 e Parmigiano Reggiano 72.000.
 - [x] Implementare il primo ciclo di stagionatura su superfici piane:
       `fresh_parmigiano_reggiano`, `fresh_pecorino_romano`,
       `fresh_gorgonzola` e `fresh_provolone` sono piazzabili su una faccia
@@ -224,7 +220,7 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
 - [x] Rendere ripiazzabili tutte le 11 forme intere, fresche e finite, comprese
       le tre Scamorze. Nel rack ammettere solo Parmigiano, Pecorino e Gorgonzola
       freschi/stagionati; escludere ogni Provolone e Scamorza.
-- [ ] Rifinire, se necessario dopo la prova in gioco, l'estetica del rack.
+- [x] Verificare in gioco modelli, proporzioni e resa estetica di rack e formaggi.
 - [x] Aggiungere la ricetta del Cheese Hook con Iron Chain sopra e Iron Nugget
       sotto.
 - [x] Implementare il Cheese Hook per **Scamorza e Provolone**: blocco,
@@ -258,8 +254,7 @@ Design approvato: [`STAGIONATURA_FORMAGGI.md`](STAGIONATURA_FORMAGGI.md).
       ridondanti del Cheese Hook, aggiunto fast-path sicuro per la ricetta
       corrente della Cheese Vat e corretta la mappatura UV continua dei modelli
       appesi.
-- [ ] Sistemare le **particelle di rottura del Cheese Hook**: il problema è
-      noto ma non va corretto in questa fase.
+- [x] Sistemare texture e particelle di rottura del Cheese Hook.
 - [ ] Eseguire i casi di test definiti nel documento di design, compresi
       riavvio, multiplayer, reset e assenza di duplicazioni.
 
@@ -279,8 +274,9 @@ anticipata azzera il progresso senza salvarlo sull'item.
       tag e visualizzazione JEI necessaria alla filiera attuale.
 - [ ] Documentare gli ingredienti disponibili per `feature/dishes` e gli usi
       previsti, distinguendoli dalle ricette di piatti già implementate.
-- [ ] Verificare rese e valori nutritivi lungo l'intera catena e impedire
-      eventuali cicli di conversione che moltiplichino i prodotti.
+- [x] Verificare rese e valori nutritivi lungo l'intera catena. Mozzarella e
+      Scamorza conservano il budget alimentare nella conversione in 4 porzioni;
+      le forme stagionate non commestibili acquistano valore solo dopo il taglio.
 
 **Completamento:** entrambi i formaggi sono producibili, stagionabili e
 porzionabili in survival, con differenze riconoscibili per il giocatore.
@@ -293,11 +289,10 @@ porzionabili in survival, con differenze riconoscibili per il giocatore.
 - [~] Controllare coerenza di nomi, texture, traduzioni e visualizzazione JEI:
       gran parte del lavoro è completata; restano verifica finale dei modelli
       di stagionatura e controlli globali prima del merge.
-- [~] Verificare tag condivisi, loot e compatibilità delle fonti di calore.
-      Automazione hopper implementata per la Cheese Vat: dall'alto si
-      inseriscono gli ingredienti, dai lati bowl/glass bottle/lead vanno nello
-      slot recipiente, dal basso si estraggono output confezionato e contenitori
-      di siero già riempiti. Resta la prova manuale in-game.
+- [x] Verificare automazione hopper della Cheese Vat: ingredienti dall'alto,
+      bowl/glass bottle/lead dai lati nello slot recipiente, output confezionato
+      e contenitori di siero pieni dal basso. Test manuale in-game superato.
+- [ ] Completare il controllo finale di tag condivisi, loot e fonti di calore.
 - [ ] Aggiungere advancement essenziali per guidare la progressione casearia.
 - [ ] Provare la filiera completa in survival, bilanciando anche disponibilità
       del sale, contenitori, quantità prodotte e tempi di attesa.

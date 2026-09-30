@@ -275,13 +275,14 @@ I tempi seguenti sono quelli approvati per la prima implementazione.
 | Processo | Input | Output | Tick | Tempo reale |
 |---|---|---|---:|---:|
 | Drying | `fresh_scamorza` | `scamorza` | 12.000 | 10 min |
-| Aging | `fresh_gorgonzola` | `gorgonzola` | 48.000 | 40 min |
-| Aging | `fresh_provolone` | `provolone` | 72.000 | 60 min |
-| Aging | `fresh_pecorino_romano` | `pecorino_romano` | 96.000 | 80 min |
-| Aging | `fresh_parmigiano_reggiano` | `parmigiano_reggiano` | 120.000 | 100 min |
+| Aging | `fresh_gorgonzola` | `gorgonzola` | 24.000 | 20 min |
+| Aging | `fresh_provolone` | `provolone` | 36.000 | 30 min |
+| Aging | `fresh_pecorino_romano` | `pecorino_romano` | 54.000 | 45 min |
+| Aging | `fresh_parmigiano_reggiano` | `parmigiano_reggiano` | 72.000 | 60 min |
 
-Questi valori costituiscono la configurazione iniziale approvata. Possono
-essere rivisti soltanto in seguito a prove di bilanciamento in-game.
+Questi valori costituiscono il **bilanciamento v1** della filiera casearia. La
+progressione relativa resta intenzionale, ma il tempo massimo è limitato a
+60 minuti di chunk caricato per rendere la stagionatura praticabile in survival.
 
 ## 5. Ricette data-driven
 
@@ -461,11 +462,6 @@ base delle ricette `cheese_aging` e `cheese_drying`.
 
 ### Ancora da implementare o completare
 
-- sistemare le **particelle emesse dal Cheese Hook al momento della rottura**;
-  il problema è noto ma va corretto in una fase successiva, senza modifiche
-  nell'implementazione corrente;
-- verificare in-game proporzioni, hitbox e leggibilità dei modelli appesi di
-  Scamorza e Provolone;
 - il Cheese Hook è craftabile verticalmente con **1 Iron Chain + 1 Iron Nugget**:
 
   ```text
@@ -478,7 +474,7 @@ base delle ricette `cheese_aging` e `cheese_drying`.
 - verifica visiva in-game delle forme cubiche su entrambi i ripiani;
 - test completi di persistenza dopo riavvio, chunk unload/reload, multiplayer,
   rottura del rack e inventario pieno;
-- bilanciamento finale di tempi, rese, valori nutritivi e stack;
+- bilanciamento v1 di tempi, rese, valori nutritivi e stack: **completato**;
 - le verifiche funzionali automatiche su server GameTest sono superate:
   piazzamento/ripiazzamento, 12 legni e due slot, restrizioni, maturazione,
   reset e ripristino dei dati salvati. Resta la prova manuale multiplayer.

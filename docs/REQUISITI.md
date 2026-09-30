@@ -87,6 +87,11 @@ e 1,6 punti saturazione complessivi.
 Build e verifiche automatiche lato server superate; prove manuali finali nella
 [checklist F1](TEST_FORMAGGI_F1.md).
 
+Il **bilanciamento v1 della filiera casearia** è stato applicato: valori
+alimentari, rese e tempi Cheese Vat sono finalizzati per il primo ciclo di test;
+la stagionatura varia da 10 minuti per la Scamorza a 60 minuti per il
+Parmigiano Reggiano.
+
 ### 3.2 Item alimentari e lavorazioni Farmer's Delight
 
 Item registrati attualmente:

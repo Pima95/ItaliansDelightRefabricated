@@ -73,7 +73,7 @@ public final class ModItems {
                         new Item.Properties().food(
                                         new FoodProperties.Builder()
                                                         .nutrition(4)
-                                                        .saturationModifier(0.2f)
+                                                        .saturationModifier(0.3f)
                                                         .build()));
 
         private static Item register(ResourceKey<Item> itemKey, Item.Properties properties) {
@@ -100,7 +100,7 @@ public final class ModItems {
                         new Item.Properties().food(
                                         new FoodProperties.Builder()
                                                         .nutrition(1)
-                                                        .saturationModifier(0.2f)
+                                                        .saturationModifier(0.3f)
                                                         .build()));
 
         // Tomato slices
@@ -137,8 +137,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(1)
-                                        .saturationModifier(0.1f)
+                                        .nutrition(2)
+                                        .saturationModifier(0.2f)
                                         .build()
                         )
                         .craftRemainder(net.minecraft.world.item.Items.BOWL)
@@ -146,7 +146,6 @@ public final class ModItems {
                         .stacksTo(16));
 
         // Cream Bowl
-        // PLACEHOLDER BALANCE: values will be reviewed with the full dairy line.
         public static final ResourceKey<Item> CREAM_BOWL_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("cream_bowl"));
@@ -156,8 +155,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(2)
-                                        .saturationModifier(0.2f)
+                                        .nutrition(3)
+                                        .saturationModifier(0.3f)
                                         .build()
                         )
                         .craftRemainder(net.minecraft.world.item.Items.BOWL)
@@ -189,8 +188,6 @@ public final class ModItems {
                         .stacksTo(16));
 
         // Ricotta
-        // PLACEHOLDER BALANCE: nutrition/saturation/stack size will be reviewed
-        // together with the other dairy products at the end of development.
         public static final ResourceKey<Item> RICOTTA_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("ricotta"));
@@ -200,8 +197,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(4)
-                                        .saturationModifier(0.3f)
+                                        .nutrition(5)
+                                        .saturationModifier(0.4f)
                                         .build()
                         )
                         .craftRemainder(net.minecraft.world.item.Items.BOWL)
@@ -269,10 +266,10 @@ public final class ModItems {
 
 
         // -----------------------------------------------------------------
-        // Planned cheese line
+        // Cheese line — balanced values
         // -----------------------------------------------------------------
-        // PLACEHOLDER BALANCE: nutrition, saturation and stack sizes will be
-        // reviewed after the complete dairy progression is implemented.
+        // Whole aging forms remain stackable processing items; edible portions
+        // carry the nutrition values defined by the final v1 dairy balance.
 
         // Bocconcino
         public static final ResourceKey<Item> BOCCONCINO_KEY = ResourceKey.create(
@@ -285,7 +282,7 @@ public final class ModItems {
                         .food(
                                 new FoodProperties.Builder()
                                         .nutrition(2)
-                                        .saturationModifier(0.2f)
+                                        .saturationModifier(0.3f)
                                         .build()
                         )
                         .stacksTo(64));
@@ -321,8 +318,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(3)
-                                        .saturationModifier(0.3f)
+                                        .nutrition(4)
+                                        .saturationModifier(0.5f)
                                         .build()
                         )
                         .stacksTo(64));
@@ -366,8 +363,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(3)
-                                        .saturationModifier(0.3f)
+                                        .nutrition(4)
+                                        .saturationModifier(0.5f)
                                         .build()
                         )
                         .stacksTo(64));
@@ -411,8 +408,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(3)
-                                        .saturationModifier(0.3f)
+                                        .nutrition(4)
+                                        .saturationModifier(0.4f)
                                         .build()
                         )
                         .stacksTo(64));
@@ -448,8 +445,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(2)
-                                        .saturationModifier(0.2f)
+                                        .nutrition(3)
+                                        .saturationModifier(0.4f)
                                         .build()
                         )
                         .stacksTo(64));
@@ -474,7 +471,7 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(4)
+                                        .nutrition(8)
                                         .saturationModifier(0.3f)
                                         .build()
                         )
@@ -490,14 +487,14 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(4)
-                                        .saturationModifier(0.3f)
+                                        .nutrition(8)
+                                        .saturationModifier(0.5f)
                                         .build()
                         )
                         .stacksTo(16));
 
 
-        // Scamorza slices: four slices preserve the whole cheese's placeholder
+        // Scamorza slices: four slices preserve the whole cheese's exact
         // nutrition/saturation budget. The tied Lead is returned by the Cutting Board.
         public static final ResourceKey<Item> SCAMORZA_SLICE_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
@@ -508,7 +505,7 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(1)
+                                        .nutrition(2)
                                         .saturationModifier(0.3f)
                                         .build()
                         )
@@ -523,8 +520,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(1)
-                                        .saturationModifier(0.3f)
+                                        .nutrition(2)
+                                        .saturationModifier(0.5f)
                                         .build()
                         )
                         .stacksTo(64));
@@ -539,8 +536,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(4)
-                                        .saturationModifier(0.3f)
+                                        .nutrition(7)
+                                        .saturationModifier(0.5f)
                                         .build()
                         )
                         .stacksTo(16));
@@ -555,8 +552,8 @@ public final class ModItems {
                 new Item.Properties()
                         .food(
                                 new FoodProperties.Builder()
-                                        .nutrition(4)
-                                        .saturationModifier(0.3f)
+                                        .nutrition(5)
+                                        .saturationModifier(0.5f)
                                         .build()
                         )
                         .craftRemainder(Items.BOWL)

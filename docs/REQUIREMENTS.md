@@ -85,6 +85,10 @@ or bottle after replacement. A whole mozzarella and four slices both provide
 The build and server checks passed; final manual checks are listed in the
 [F1 test checklist (Italian)](TEST_FORMAGGI_F1.md).
 
+The **v1 dairy balance** is now applied: food values, Cheese Vat yields and
+processing times are finalized for the first survival pass, while aging ranges
+from 10 minutes for Scamorza to 60 minutes for Parmigiano Reggiano.
+
 ### 3.2 Food items and Farmer's Delight processing
 
 Currently registered items:
