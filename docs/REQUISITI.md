@@ -13,7 +13,8 @@ stato reale delle funzionalità già implementate e della roadmap futura.
 | Fabric API | 0.161.0+26.2 | configurato in `gradle.properties` |
 | Farmer's Delight Refabricated | 26.2-3.6.26+refabricated | dipendenza hard via Cassian's Maven |
 | Java | 25 | release target usato da Gradle |
-| Fabric Loom | 1.17-SNAPSHOT | plugin configurato in `build.gradle` |
+| Fabric Loom | 1.18-SNAPSHOT | plugin configurato in `build.gradle` |
+| Gradle | 9.7.1 | versione del wrapper |
 | JEI | Curse Maven file 8937443 | integrazione presente per la Cheese Vat |
 
 Prima di aggiornare una dipendenza è necessario verificare che la nuova release
