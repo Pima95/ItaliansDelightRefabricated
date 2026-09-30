@@ -97,6 +97,12 @@ finché non vengono provate con una nuova build e in gioco.
       campfire, la caldaia mostra il supporto/vassoio come il Cooking Pot.
 - [X] Senza calore la superficie interna usa l'aspetto scuro del fondo del
       calderone; con calore torna alla superficie chiara della caldaia.
+- [ ] **Mestolo della caldaia:** verificare il mestolo in legno inclinato come
+      quello del Cooking Pot, sia a freddo sia con calore, con/senza supporto
+      e nei quattro orientamenti. Deve emergere dal contenuto senza attraversare
+      il bordo e comparire anche nell'item in inventario. Usa la texture del
+      Cooking Pot e la sua geometria traslata di 6 pixel verso l'alto; rimane
+      decorativo, come nel blocco di Farmer's Delight.
 - [X] Lo spawn del cardo è ridotto rispetto alla prima implementazione e le
       generazioni valide formano gruppi più consistenti.
 - [X] **Scarti di produzione:** da ritestare. Bottiglie, secchi e ciotole
