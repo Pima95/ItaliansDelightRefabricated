@@ -83,6 +83,34 @@ public final class ModItemGroups {
                 output.accept(ModItems.SMOKED_SCAMORZA);
                 output.accept(ModItems.SCAMORZA_SLICE);
                 output.accept(ModItems.SMOKED_SCAMORZA_SLICE);
+
+                // Cured-meat production chain.
+                output.accept(ModItems.SALTED_HAM);
+                output.accept(ModItems.RAW_SALAME);
+                output.accept(ModItems.RAW_MORTADELLA);
+                output.accept(ModItems.PREPARED_PANCETTA);
+                output.accept(ModItems.PREPARED_GUANCIALE);
+                output.accept(ModItems.PREPARED_BRESAOLA);
+                output.accept(ModItems.PREPARED_COPPA);
+                output.accept(ModItems.PREPARED_SPECK);
+                output.accept(ModItems.SMOKED_PREPARED_SPECK);
+                output.accept(ModItems.PROSCIUTTO_CRUDO);
+                output.accept(ModItems.SALAME);
+                output.accept(ModItems.MORTADELLA);
+                output.accept(ModItems.PANCETTA);
+                output.accept(ModItems.GUANCIALE);
+                output.accept(ModItems.BRESAOLA);
+                output.accept(ModItems.COPPA);
+                output.accept(ModItems.SPECK);
+                output.accept(ModItems.PROSCIUTTO_CRUDO_SLICE);
+                output.accept(ModItems.SALAME_SLICE);
+                output.accept(ModItems.MORTADELLA_SLICE);
+                output.accept(ModItems.PANCETTA_SLICE);
+                output.accept(ModItems.GUANCIALE_SLICE);
+                output.accept(ModItems.BRESAOLA_SLICE);
+                output.accept(ModItems.COPPA_SLICE);
+                output.accept(ModItems.SPECK_SLICE);
+
                 output.accept(ModItems.SALT);
             })
             .build();

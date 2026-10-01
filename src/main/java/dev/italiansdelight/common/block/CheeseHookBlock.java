@@ -44,11 +44,11 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Ceiling-mounted cheese hook.
+ * Ceiling-mounted hanging hook.
  *
- * The curved side faces the player when placed. One Scamorza or Provolone can
- * hang from it at a time. Fresh cheeses process while attached; mature cheeses
- * can be re-attached for decoration.
+ * The block keeps its historical cheese_hook registry id for world compatibility,
+ * but it now supports both hanging cheeses and cured meats. Processing products
+ * advance while attached; finished products can be re-attached for decoration.
  */
 public final class CheeseHookBlock extends BaseEntityBlock {
 
@@ -80,6 +80,14 @@ public final class CheeseHookBlock extends BaseEntityBlock {
 
     private static final VoxelShape SCAMORZA_SHAPE =
         Shapes.or(HOOK_SHAPE, CheeseShapes.HANGING_SCAMORZA).optimize();
+
+    // Generic selection volume used by hanging cured meats. Individual visual
+    // models can differ without forcing gameplay collision changes.
+    private static final VoxelShape CURED_MEAT_SHAPE =
+        Shapes.or(
+            HOOK_SHAPE,
+            Block.box(4, 0, 5, 12, 10, 11)
+        ).optimize();
 
     public CheeseHookBlock(Properties properties) {
         super(properties);
@@ -173,6 +181,13 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             case EMPTY -> HOOK_SHAPE;
             case FRESH_PROVOLONE, PROVOLONE -> PROVOLONE_SHAPE;
             case FRESH_SCAMORZA, SCAMORZA, SMOKED_SCAMORZA -> SCAMORZA_SHAPE;
+            case SALTED_HAM, PROSCIUTTO_CRUDO,
+                 RAW_SALAME, SALAME,
+                 PREPARED_PANCETTA, PANCETTA,
+                 PREPARED_GUANCIALE, GUANCIALE,
+                 PREPARED_BRESAOLA, BRESAOLA,
+                 PREPARED_COPPA, COPPA,
+                 SMOKED_PREPARED_SPECK, SPECK -> CURED_MEAT_SHAPE;
         };
     }
 

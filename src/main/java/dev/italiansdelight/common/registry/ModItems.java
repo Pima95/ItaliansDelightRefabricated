@@ -102,6 +102,45 @@ public final class ModItems {
                 return item;
         }
 
+        /**
+         * Compact registration helpers used by content families with many simple items.
+         * A stable ResourceKey is still created for every identifier.
+         */
+        private static Item registerSimpleItem(String id, int maxStackSize) {
+                ResourceKey<Item> key = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id(id)
+                );
+
+                return register(
+                        key,
+                        new Item.Properties().stacksTo(maxStackSize)
+                );
+        }
+
+        private static Item registerFoodItem(
+                String id,
+                int nutrition,
+                float saturation
+        ) {
+                ResourceKey<Item> key = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id(id)
+                );
+
+                return register(
+                        key,
+                        new Item.Properties()
+                                .food(
+                                        new FoodProperties.Builder()
+                                                .nutrition(nutrition)
+                                                .saturationModifier(saturation)
+                                                .build()
+                                )
+                                .stacksTo(64)
+                );
+        }
+
         // Mozzarella slices
         public static final ResourceKey<Item> MOZZARELLA_SLICE_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
@@ -571,6 +610,88 @@ public final class ModItems {
                         .craftRemainder(Items.BOWL)
                         .usingConvertsTo(Items.BOWL)
                         .stacksTo(16));
+
+
+        // -----------------------------------------------------------------
+        // Cured meats — first implementation
+        // -----------------------------------------------------------------
+        // Intermediate and whole products use placeholder balance values.
+        // Finished slices are edible; final balance will be tuned after survival tests.
+
+        public static final Item SALTED_HAM =
+                registerSimpleItem("salted_ham", 16);
+
+        public static final Item RAW_SALAME =
+                registerSimpleItem("raw_salame", 16);
+
+        public static final Item RAW_MORTADELLA =
+                registerSimpleItem("raw_mortadella", 16);
+
+        public static final Item PREPARED_PANCETTA =
+                registerSimpleItem("prepared_pancetta", 16);
+
+        public static final Item PREPARED_GUANCIALE =
+                registerSimpleItem("prepared_guanciale", 16);
+
+        public static final Item PREPARED_BRESAOLA =
+                registerSimpleItem("prepared_bresaola", 16);
+
+        public static final Item PREPARED_COPPA =
+                registerSimpleItem("prepared_coppa", 16);
+
+        public static final Item PREPARED_SPECK =
+                registerSimpleItem("prepared_speck", 16);
+
+        public static final Item SMOKED_PREPARED_SPECK =
+                registerSimpleItem("smoked_prepared_speck", 16);
+
+        public static final Item PROSCIUTTO_CRUDO =
+                registerSimpleItem("prosciutto_crudo", 16);
+
+        public static final Item SALAME =
+                registerSimpleItem("salame", 16);
+
+        public static final Item MORTADELLA =
+                registerSimpleItem("mortadella", 16);
+
+        public static final Item PANCETTA =
+                registerSimpleItem("pancetta", 16);
+
+        public static final Item GUANCIALE =
+                registerSimpleItem("guanciale", 16);
+
+        public static final Item BRESAOLA =
+                registerSimpleItem("bresaola", 16);
+
+        public static final Item COPPA =
+                registerSimpleItem("coppa", 16);
+
+        public static final Item SPECK =
+                registerSimpleItem("speck", 16);
+
+        public static final Item PROSCIUTTO_CRUDO_SLICE =
+                registerFoodItem("prosciutto_crudo_slice", 3, 0.5f);
+
+        public static final Item SALAME_SLICE =
+                registerFoodItem("salame_slice", 3, 0.5f);
+
+        public static final Item MORTADELLA_SLICE =
+                registerFoodItem("mortadella_slice", 3, 0.4f);
+
+        public static final Item PANCETTA_SLICE =
+                registerFoodItem("pancetta_slice", 2, 0.5f);
+
+        public static final Item GUANCIALE_SLICE =
+                registerFoodItem("guanciale_slice", 2, 0.5f);
+
+        public static final Item BRESAOLA_SLICE =
+                registerFoodItem("bresaola_slice", 3, 0.4f);
+
+        public static final Item COPPA_SLICE =
+                registerFoodItem("coppa_slice", 3, 0.5f);
+
+        public static final Item SPECK_SLICE =
+                registerFoodItem("speck_slice", 3, 0.5f);
 
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(
