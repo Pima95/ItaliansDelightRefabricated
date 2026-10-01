@@ -383,52 +383,52 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] decidere di non aggiungere nuovi blocchi funzionali;
 - [x] decidere di riutilizzare l'uncino esistente;
 - [x] definire le catene produttive preliminari;
-- [ ] definire gli ingredienti esatti di ogni prodotto;
-- [ ] definire nomi finali e ID degli item intermedi.
+- [x] definire una prima versione degli ingredienti di ogni prodotto;
+- [x] definire nomi e ID della prima versione degli item intermedi.
 
 ### Fase S1 — Generalizzazione dell'uncino
 
-- [ ] rinominare il blocco mostrato al giocatore;
-- [ ] mantenere la compatibilità con i formaggi esistenti;
-- [ ] rendere generica la logica dei prodotti appesi;
-- [ ] aggiungere supporto ai modelli dei salumi;
+- [x] rinominare il blocco mostrato al giocatore;
+- [x] mantenere la compatibilità con i formaggi esistenti;
+- [x] estendere la logica dei prodotti appesi a formaggi e salumi;
+- [x] aggiungere supporto ai modelli dei salumi (senza texture);
 - [ ] verificare salvataggio, rottura e riposizionamento;
 - [ ] verificare comportamento client/server.
 
 ### Fase S2 — Item e intermedi
 
-- [ ] registrare gli otto salumi;
-- [ ] registrare le relative fette;
-- [ ] aggiungere solo gli intermedi realmente necessari;
-- [ ] aggiungere traduzioni EN/IT;
-- [ ] aggiungere modelli e texture placeholder solo quando richiesto.
+- [x] registrare gli otto salumi;
+- [x] registrare le relative fette;
+- [x] aggiungere gli intermedi necessari alla prima filiera;
+- [x] aggiungere traduzioni EN/IT;
+- [x] aggiungere i modelli JSON senza creare texture PNG.
 
 ### Fase S3 — Preparazione
 
-- [ ] implementare ricette di salatura/preparazione;
+- [x] implementare ricette di salatura/preparazione;
 - [ ] usare Cutting Board dove appropriato;
 - [ ] usare Cooking Pot dove appropriato;
-- [ ] implementare la preparazione della Mortadella;
-- [ ] definire il percorso dello Speck.
+- [x] implementare preparazione e cottura della Mortadella;
+- [x] implementare il percorso preparazione → affumicatura → stagionatura dello Speck.
 
 ### Fase S4 — Stagionatura e affumicatura
 
-- [ ] implementare le ricette sull'Hanging Hook;
-- [ ] impostare tempi iniziali placeholder;
-- [ ] implementare affumicatura dello Speck;
+- [x] implementare le ricette sull'Hanging Hook;
+- [x] impostare tempi iniziali placeholder;
+- [x] implementare affumicatura dello Speck;
 - [ ] verificare persistenza del progresso;
 - [ ] verificare particelle/rendering se necessari.
 
 ### Fase S5 — Cutting Board e utilizzo finale
 
-- [ ] aggiungere tutte le ricette di affettatura;
-- [ ] definire rese;
-- [ ] aggiungere tag alimentari;
+- [x] aggiungere tutte le ricette di affettatura;
+- [x] definire una resa placeholder di 4 fette per prodotto;
+- [x] aggiungere tag interni per salumi e fette;
 - [ ] preparare integrazione futura con i piatti.
 
 ### Fase S6 — JEI e documentazione
 
-- [ ] mostrare correttamente le nuove lavorazioni in JEI;
+- [x] collegare le nuove ricette di stagionatura/asciugatura alla categoria JEI esistente;
 - [ ] aggiornare documentazione tecnica;
 - [ ] aggiungere una checklist di test;
 - [ ] documentare le ricette definitive.
@@ -486,3 +486,42 @@ Prima di iniziare l'implementazione bisogna definire:
 
 Una volta confermate queste decisioni, lo sviluppo può iniziare dalla
 generalizzazione dell'uncino e dalla registrazione degli item.
+
+
+---
+
+## 13. Stato prima implementazione
+
+La prima implementazione del branch usa i seguenti intermedi:
+
+- `salted_ham` → Prosciutto Crudo;
+- `raw_salame` → Salame;
+- `raw_mortadella` → Mortadella tramite furnace;
+- `prepared_pancetta` → Pancetta;
+- `prepared_guanciale` → Guanciale;
+- `prepared_bresaola` → Bresaola;
+- `prepared_coppa` → Coppa;
+- `prepared_speck` → affumicatura → `smoked_prepared_speck` → Speck.
+
+Tempi placeholder sull'uncino:
+
+| Prodotto | Tick |
+|---|---:|
+| Prosciutto Crudo | 72000 |
+| Salame | 36000 |
+| Pancetta | 24000 |
+| Guanciale | 36000 |
+| Bresaola | 36000 |
+| Coppa | 48000 |
+| Speck | 48000 |
+
+Ogni salume finito produce inizialmente **4 fette** sul Cutting Board.
+
+I valori nutrizionali, gli ingredienti aromatici, le rese e i tempi restano
+soggetti a rebalancing dopo i test in gioco.
+
+### Texture
+
+In questa fase non viene aggiunto nessun file PNG. I modelli item e i modelli
+dei prodotti appesi sono già predisposti e mostreranno la missing texture di
+Minecraft finché non verranno aggiunte le texture definitive.
