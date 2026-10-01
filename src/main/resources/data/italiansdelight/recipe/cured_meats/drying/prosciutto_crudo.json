@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_drying",
+  "ingredient": "italiansdelight:salted_ham",
+  "result": {
+    "id": "italiansdelight:prosciutto_crudo"
+  },
+  "dryingtime": 72000
+}

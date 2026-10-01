@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "minecraft:porkchop",
+    "minecraft:porkchop",
+    "italiansdelight:salt",
+    "minecraft:string"
+  ],
+  "result": {
+    "id": "italiansdelight:raw_salame",
+    "count": 1
+  }
+}

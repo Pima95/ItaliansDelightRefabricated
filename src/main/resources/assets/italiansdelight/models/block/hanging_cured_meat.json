@@ -1,0 +1,67 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "#meat",
+    "twine": "italiansdelight:block/cheese_twine"
+  },
+  "elements": [
+    {
+      "from": [
+        7.5,
+        9,
+        7.5
+      ],
+      "to": [
+        8.5,
+        14,
+        8.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#twine"
+        },
+        "south": {
+          "texture": "#twine"
+        },
+        "west": {
+          "texture": "#twine"
+        },
+        "east": {
+          "texture": "#twine"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        1,
+        6
+      ],
+      "to": [
+        12,
+        9,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#meat"
+        },
+        "south": {
+          "texture": "#meat"
+        },
+        "west": {
+          "texture": "#meat"
+        },
+        "east": {
+          "texture": "#meat"
+        },
+        "up": {
+          "texture": "#meat"
+        },
+        "down": {
+          "texture": "#meat"
+        }
+      }
+    }
+  ]
+}

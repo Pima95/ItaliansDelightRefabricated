@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "farmersdelight:bacon",
+    "italiansdelight:salt"
+  ],
+  "result": {
+    "id": "italiansdelight:prepared_pancetta",
+    "count": 1
+  }
+}

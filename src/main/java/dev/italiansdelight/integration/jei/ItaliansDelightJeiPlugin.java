@@ -91,6 +91,11 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             CheeseVatJeiRecipeTypes.CHEESE_VAT,
             new ItemStack(ModBlocks.CHEESE_VAT)
         );
+
+        registration.addCraftingStation(
+            CheeseAgingJeiRecipeTypes.CHEESE_AGING,
+            new ItemStack(ModBlocks.CHEESE_HOOK)
+        );
     }
 
     @Override

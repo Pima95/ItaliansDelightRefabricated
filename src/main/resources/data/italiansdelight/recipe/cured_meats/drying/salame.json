@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_drying",
+  "ingredient": "italiansdelight:raw_salame",
+  "result": {
+    "id": "italiansdelight:salame"
+  },
+  "dryingtime": 36000
+}

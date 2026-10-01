@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_drying",
+  "ingredient": "italiansdelight:prepared_bresaola",
+  "result": {
+    "id": "italiansdelight:bresaola"
+  },
+  "dryingtime": 36000
+}

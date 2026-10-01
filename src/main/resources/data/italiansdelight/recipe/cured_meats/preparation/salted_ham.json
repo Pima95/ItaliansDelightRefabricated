@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "farmersdelight:ham",
+    "italiansdelight:salt"
+  ],
+  "result": {
+    "id": "italiansdelight:salted_ham",
+    "count": 1
+  }
+}

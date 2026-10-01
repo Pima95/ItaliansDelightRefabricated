@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_drying",
+  "ingredient": "italiansdelight:smoked_prepared_speck",
+  "result": {
+    "id": "italiansdelight:speck"
+  },
+  "dryingtime": 48000
+}

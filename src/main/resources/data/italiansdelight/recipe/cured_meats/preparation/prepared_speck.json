@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "farmersdelight:ham",
+    "italiansdelight:salt",
+    "minecraft:sweet_berries"
+  ],
+  "result": {
+    "id": "italiansdelight:prepared_speck",
+    "count": 1
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_drying",
+  "ingredient": "italiansdelight:prepared_coppa",
+  "result": {
+    "id": "italiansdelight:coppa"
+  },
+  "dryingtime": 48000
+}

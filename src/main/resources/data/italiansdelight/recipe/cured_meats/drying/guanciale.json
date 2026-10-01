@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_drying",
+  "ingredient": "italiansdelight:prepared_guanciale",
+  "result": {
+    "id": "italiansdelight:guanciale"
+  },
+  "dryingtime": 36000
+}

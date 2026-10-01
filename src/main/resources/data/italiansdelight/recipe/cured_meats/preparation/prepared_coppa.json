@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "farmersdelight:ham",
+    "italiansdelight:salt",
+    "minecraft:sugar"
+  ],
+  "result": {
+    "id": "italiansdelight:prepared_coppa",
+    "count": 1
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "italiansdelight:prosciutto_crudo",
+    "italiansdelight:salame",
+    "italiansdelight:mortadella",
+    "italiansdelight:pancetta",
+    "italiansdelight:guanciale",
+    "italiansdelight:bresaola",
+    "italiansdelight:coppa",
+    "italiansdelight:speck"
+  ]
+}

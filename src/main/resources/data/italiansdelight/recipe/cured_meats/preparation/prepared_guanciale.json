@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "minecraft:porkchop",
+    "italiansdelight:salt",
+    "minecraft:sugar"
+  ],
+  "result": {
+    "id": "italiansdelight:prepared_guanciale",
+    "count": 1
+  }
+}

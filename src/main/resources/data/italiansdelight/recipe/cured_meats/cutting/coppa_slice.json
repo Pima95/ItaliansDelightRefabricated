@@ -1,0 +1,15 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    "italiansdelight:coppa"
+  ],
+  "tool": "#c:tools/knife",
+  "result": [
+    {
+      "item": {
+        "count": 4,
+        "id": "italiansdelight:coppa_slice"
+      }
+    }
+  ]
+}
