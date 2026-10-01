@@ -37,3 +37,6 @@ Desktop.ini
 *.log
 *.hprof
 hs_err_pid*
+
+# Update docs
+/docs/cheese_update/
