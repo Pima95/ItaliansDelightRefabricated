@@ -1,0 +1,16 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    "italiansdelight:pecorino_romano_wedge"
+  ],
+  "tool": "italiansdelight:cheese_grater",
+  "sound": "minecraft:item.axe.scrape",
+  "result": [
+    {
+      "item": {
+        "count": 4,
+        "id": "italiansdelight:grated_pecorino_romano"
+      }
+    }
+  ]
+}

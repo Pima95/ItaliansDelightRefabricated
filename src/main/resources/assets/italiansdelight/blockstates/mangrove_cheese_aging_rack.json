@@ -1,0 +1,137 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "italiansdelight:block/mangrove_cheese_aging_rack"
+      }
+    },
+    {
+      "when": {
+        "lower_cheese": "fresh_parmigiano_reggiano"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_lower_fresh_parmigiano_reggiano"
+      }
+    },
+    {
+      "when": {
+        "lower_cheese": "parmigiano_reggiano"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_lower_parmigiano_reggiano"
+      }
+    },
+    {
+      "when": {
+        "lower_cheese": "fresh_pecorino_romano"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_lower_fresh_pecorino_romano"
+      }
+    },
+    {
+      "when": {
+        "lower_cheese": "pecorino_romano"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_lower_pecorino_romano"
+      }
+    },
+    {
+      "when": {
+        "lower_cheese": "fresh_gorgonzola"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_lower_fresh_gorgonzola"
+      }
+    },
+    {
+      "when": {
+        "lower_cheese": "gorgonzola"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_lower_gorgonzola"
+      }
+    },
+    {
+      "when": {
+        "lower_cheese": "fresh_provolone"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_lower_fresh_provolone"
+      }
+    },
+    {
+      "when": {
+        "lower_cheese": "provolone"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_lower_provolone"
+      }
+    },
+    {
+      "when": {
+        "upper_cheese": "fresh_parmigiano_reggiano"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_upper_fresh_parmigiano_reggiano"
+      }
+    },
+    {
+      "when": {
+        "upper_cheese": "parmigiano_reggiano"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_upper_parmigiano_reggiano"
+      }
+    },
+    {
+      "when": {
+        "upper_cheese": "fresh_pecorino_romano"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_upper_fresh_pecorino_romano"
+      }
+    },
+    {
+      "when": {
+        "upper_cheese": "pecorino_romano"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_upper_pecorino_romano"
+      }
+    },
+    {
+      "when": {
+        "upper_cheese": "fresh_gorgonzola"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_upper_fresh_gorgonzola"
+      }
+    },
+    {
+      "when": {
+        "upper_cheese": "gorgonzola"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_upper_gorgonzola"
+      }
+    },
+    {
+      "when": {
+        "upper_cheese": "fresh_provolone"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_upper_fresh_provolone"
+      }
+    },
+    {
+      "when": {
+        "upper_cheese": "provolone"
+      },
+      "apply": {
+        "model": "italiansdelight:block/rack_upper_provolone"
+      }
+    }
+  ]
+}

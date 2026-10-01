@@ -46,7 +46,19 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
                 Codec.INT
                     .optionalFieldOf("cookingtime", 200)
-                    .forGetter(CheeseVatRecipe::getCookingTime)
+                    .forGetter(CheeseVatRecipe::getCookingTime),
+
+                Codec.floatRange(0.0F, Float.MAX_VALUE)
+                    .optionalFieldOf("experience", 1.0F)
+                    .forGetter(CheeseVatRecipe::getExperience),
+
+                Codec.INT
+                    .optionalFieldOf("whey", 0)
+                    .forGetter(CheeseVatRecipe::getWheyAmount),
+
+                Codec.INT
+                    .optionalFieldOf("whey_output", 0)
+                    .forGetter(CheeseVatRecipe::getWheyOutput)
             ).apply(instance, CheeseVatRecipe::new)
         );
 
@@ -68,17 +80,26 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     private final ItemStackTemplate result;
     private final Optional<ItemStackTemplate> container;
     private final int cookingTime;
+    private final float experience;
+    private final int wheyAmount;
+    private final int wheyOutput;
 
     public CheeseVatRecipe(
         List<Ingredient> ingredients,
         ItemStackTemplate result,
         Optional<ItemStackTemplate> container,
-        int cookingTime
+        int cookingTime,
+        float experience,
+        int wheyAmount,
+        int wheyOutput
     ) {
         this.ingredients = List.copyOf(ingredients);
         this.result = result;
         this.container = container;
-        this.cookingTime = cookingTime;
+        this.cookingTime = Math.max(1, cookingTime);
+        this.experience = experience;
+        this.wheyAmount = Math.max(0, wheyAmount);
+        this.wheyOutput = Math.max(0, wheyOutput);
     }
 
     public List<Ingredient> getIngredientsList() {
@@ -97,6 +118,26 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         return cookingTime;
     }
 
+    public float getExperience() {
+        return experience;
+    }
+
+    public int getWheyAmount() {
+        return wheyAmount;
+    }
+
+    public boolean usesWheyFromTank() {
+        return wheyAmount > 0;
+    }
+
+    public int getWheyOutput() {
+        return wheyOutput;
+    }
+
+    public boolean producesWhey() {
+        return wheyOutput > 0;
+    }
+
     /**
      * Finds the machine input slots that match this recipe.
      * Ingredient order is intentionally shapeless, like Farmer's Delight's Cooking Pot.
@@ -104,10 +145,28 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     public int[] findMatchingIngredientSlots(
         CheeseVatRecipeInput input
     ) {
+        return findMatchingIngredientSlots(
+            input,
+            -1
+        );
+    }
+
+    /**
+     * Variant used by whey recipes when one input slot contains the explicit
+     * Whey Bottle/Whey Bucket resource. The ignored slot is satisfied by the
+     * whey requirement itself and is not part of the normal ingredient list.
+     */
+    public int[] findMatchingIngredientSlots(
+        CheeseVatRecipeInput input,
+        int ignoredSlot
+    ) {
         int nonEmptySlots = 0;
 
         for (int slot = 0; slot < 3; slot++) {
-            if (!input.getItem(slot).isEmpty()) {
+            if (
+                slot != ignoredSlot
+                && !input.getItem(slot).isEmpty()
+            ) {
                 nonEmptySlots++;
             }
         }
@@ -121,6 +180,13 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
         boolean[] usedSlots =
             new boolean[3];
+
+        if (
+            ignoredSlot >= 0
+            && ignoredSlot < usedSlots.length
+        ) {
+            usedSlots[ignoredSlot] = true;
+        }
 
         if (findMatches(
             input,
@@ -187,11 +253,18 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         Level level
     ) {
         /*
-         * The container is deliberately NOT part of recipe matching.
-         * The vat cooks the ingredients first and stores the completed
-         * serving as a preview until the required container is supplied.
+         * Ingredient matching itself stays independent from the container.
+         * CheeseVatBlockEntity may use the container slot only to disambiguate
+         * otherwise identical recipes (for example Mozzarella vs Scamorza).
+         * A recipe that simply needs packaging can still cook first and wait
+         * for its container afterwards.
+         *
+         * Whey recipes are selected by CheeseVatBlockEntity because their
+         * validity depends on machine state (flow toggle + tank amount) and
+         * on the optional explicit Whey Bottle/Whey Bucket source.
          */
-        return findMatchingIngredientSlots(input) != null;
+        return wheyAmount <= 0
+            && findMatchingIngredientSlots(input) != null;
     }
 
     @Override
@@ -258,12 +331,18 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
                 .decode(buffer);
 
         int cookingTime = buffer.readVarInt();
+        float experience = buffer.readFloat();
+        int wheyAmount = buffer.readVarInt();
+        int wheyOutput = buffer.readVarInt();
 
         return new CheeseVatRecipe(
             ingredients,
             result,
             container,
-            cookingTime
+            cookingTime,
+            experience,
+            wheyAmount,
+            wheyOutput
         );
     }
 
@@ -285,5 +364,8 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
             .encode(buffer, recipe.container);
 
         buffer.writeVarInt(recipe.cookingTime);
+        buffer.writeFloat(recipe.experience);
+        buffer.writeVarInt(recipe.wheyAmount);
+        buffer.writeVarInt(recipe.wheyOutput);
     }
 }

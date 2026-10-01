@@ -8,9 +8,23 @@
     "side": "minecraft:block/cauldron_side",
     "inside": "minecraft:block/cauldron_inner",
     "wood": "italiansdelight:block/cheese_vat_wood",
+    "ladle": "farmersdelight:block/cooking_pot_parts",
     "milk": "italiansdelight:block/cheese_vat_milk"
   },
   "elements": [
+    {
+      "name": "ladle",
+      "from": [7,9,7],
+      "to": [9,21,9],
+      "rotation": {"angle":-22.5,"axis":"z","origin":[8,9,8]},
+      "faces": {
+        "north": {"uv":[2,2,0,14],"texture":"#ladle"},
+        "east": {"uv":[0,2,2,14],"texture":"#ladle"},
+        "south": {"uv":[2,2,0,14],"texture":"#ladle"},
+        "west": {"uv":[0,2,2,14],"texture":"#ladle"},
+        "up": {"uv":[0,0,2,2],"texture":"#ladle"}
+      }
+    },
     {
       "from": [0,3,0],
       "to": [2,16,16],

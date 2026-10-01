@@ -1,0 +1,114 @@
+{
+  "tool": "imagegen built-in",
+  "mode": "generate/edit",
+  "textures": [
+    {
+      "id": "aging_parmigiano_reggiano_fresh",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: fresh Parmigiano Reggiano wheel rind. Palette: warm milk ivory #f2e7bd with pale cream #fff2d3 and very sparse wheat #dfd09e. Material: very smooth young pressed cheese, extremely subtle tiny curd flecks, no mature rind markings."
+    },
+    {
+      "id": "aging_parmigiano_reggiano_mature",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: aged Parmigiano Reggiano wheel rind. Palette: rich golden ochre #c79545, honey #dcae57, small toasted gold #a77832 impressions. Material: firm dry rind, sparse tiny darker dimple clusters and a few short dotted impressions, noticeably more texture than fresh cheese; no readable lettering."
+    },
+    {
+      "id": "aging_pecorino_romano_fresh",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: fresh Pecorino Romano wheel rind. Palette: cool sheep-milk white #f0ede0, chalk ivory #e0dacc, pale grey #cec8b8. Material: smooth chalky young cheese, very sparse soft small mottling, extremely light."
+    },
+    {
+      "id": "aging_pecorino_romano_mature",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: aged Pecorino Romano natural rind. Palette: stone grey taupe #9f9a87, warm ash #bab29b, muted beige #d0c7aa, shadow #817e70. Material: dry brushed natural rind, broad subtle grey patches with a few small pitted marks; medium grey rind clearly darker than fresh white and different from golden Parmigiano; no black wax."
+    },
+    {
+      "id": "aging_gorgonzola_fresh",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: fresh unaged Gorgonzola whole wheel rind. Palette: pale ivory #f0ebd8, chalk #ddd7c5, cream #faf5e5. Material: mostly uniform tender pale cheese skin with tiny curd dimples, no blue mold yet."
+    },
+    {
+      "id": "aging_gorgonzola_mature",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: mature Gorgonzola whole wheel rind. Palette: ivory grey #d5cfb6, pale #e7e1c9, dusty sage #8eaa98, blue green #597f74, muted pink grey #b8a99b. Material: irregular sparse grouped sage and blue-green mottled bloom on grey ivory rind, visible clusters separated by pale areas, 18 percent mold coverage; stylized Minecraft counterpart of an aged blue cheese exterior, NOT swiss holes."
+    },
+    {
+      "id": "hanging_fresh_provolone",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: fresh Provolone pear-shaped cheese rind. Palette: milk cream #f3e8c7, ivory #fff4dd, pale butter #e2d2a9. Material: smooth pale stretched curd, low contrast soft elongated specks, mostly unmarked milk white surface."
+    },
+    {
+      "id": "hanging_provolone",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: mature Provolone pear-shaped cheese rind. Palette: warm golden yellow #d7ae57, butter gold #e9c574, toasted straw #bc9245. Material: smooth firm waxy golden rind with sparse subtle elongated warm markings, even color."
+    },
+    {
+      "id": "hanging_fresh_scamorza",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: fresh Scamorza double-bulb cheese skin. Palette: porcelain white #faf4e7, cool milk #eee7d8, pale grey cream #dbd5c5. Material: very smooth milky wet skin, nearly uniform white with a handful of soft small pale flecks."
+    },
+    {
+      "id": "hanging_scamorza",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: dried Scamorza double-bulb cheese rind. Palette: straw beige #d5bd88, pale straw #e8d5a5, warm beige #bba06b. Material: thin dry straw rind, a few subtly wrinkled short flecks, noticeably straw beige compared with fresh porcelain white, lighter than mature Provolone."
+    },
+    {
+      "id": "hanging_smoked_scamorza",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "generate",
+      "prompt": "Use case: stylized-concept. Production Minecraft block material texture. Generate ONE square opaque seamless albedo tile, coarse EXACTLY 16 by 16 logical pixel grid, scaled up cleanly with nearest-neighbor if needed. Image is filled edge-to-edge with the material, no cheese silhouette, no perspective, no rendered object, no margins, no labels, no frame, no transparency, no grid lines. Flat neutral lighting; NO directional highlights, NO diagonal shadow or global gradient, NO shading of a sphere, NO photorealism, NO thin subpixel details. Use just 4-6 flat colors, coherent small clusters, restrained detail suitable for vanilla Minecraft and Farmer's Delight. It is a texture to wrap around a 3D model, NOT an inventory icon. Subject: smoked Scamorza double-bulb rind. Palette: copper amber #ac6326, caramel #c88237, toasted brown #804419, golden tan #d59849. Material: strong warm smoked rind, irregular sparse toasted patches, recognizable copper amber rather than yellow."
+    },
+    {
+      "id": "cheese_hook",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "edit",
+      "prompt": "Use case: precise-object-edit. Asset type: Minecraft 16x16 pixel-art block material texture, NOT an item icon or a rendered hook. Input image 1 is the existing cheese_hook.png material texture to improve. Preserve its dark forged-iron / charcoal-gray identity, full-square opaque coverage, and compatibility with the unchanged hook block model and its existing automatic UVs. Redesign the excessively noisy checker-like surface into restrained hand-painted vanilla Minecraft pixel art: broad coherent dark graphite clusters, a few medium cool-gray forged-metal highlights, subtle worn edges and sparse tiny hammer marks. Medium-dark iron, readable against stone and wood. No orange rust, no bolts, no diagonal striping, no border, no repeating checkerboard, no text, no object silhouette, no 3D lighting or glossy gradients. Deliver one seamless square surface tile with exactly a logical 16 by 16 pixel grid, crisp solid-color square pixels, displayed enlarged to fill the entire canvas edge to edge, no margins. Keep detail sparse enough for the tiny 2-pixel-wide hook bars."
+    }
+  ]
+}

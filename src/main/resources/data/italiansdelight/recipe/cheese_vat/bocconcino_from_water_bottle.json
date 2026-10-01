@@ -1,0 +1,20 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "#c:foods/curd",
+    {
+      "fabric:type": "fabric:components",
+      "base": "minecraft:potion",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:water"
+        }
+      }
+    }
+  ],
+  "result": {
+    "id": "italiansdelight:bocconcino",
+    "count": 2
+  },
+  "cookingtime": 360
+}

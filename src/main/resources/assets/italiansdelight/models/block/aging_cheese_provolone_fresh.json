@@ -1,0 +1,6 @@
+{
+  "parent": "italiansdelight:block/aging_cheese_provolone_base",
+  "textures": {
+    "cheese": "italiansdelight:block/hanging_fresh_provolone"
+  }
+}

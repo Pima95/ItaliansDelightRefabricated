@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_aging",
+  "ingredient": "italiansdelight:fresh_pecorino_romano",
+  "result": {
+    "id": "italiansdelight:pecorino_romano"
+  },
+  "agingtime": 54000
+}

@@ -1,0 +1,12 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "#c:foods/curd",
+    "minecraft:water_bucket"
+  ],
+  "result": {
+    "id": "italiansdelight:bocconcino",
+    "count": 2
+  },
+  "cookingtime": 360
+}

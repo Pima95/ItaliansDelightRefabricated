@@ -1,0 +1,12 @@
+{
+  "type": "italiansdelight:cheese_vat",
+  "ingredients": [
+    "#c:foods/curd",
+    "#c:dusts/salt",
+    "minecraft:water_bucket"
+  ],
+  "result": {
+    "id": "italiansdelight:fresh_provolone"
+  },
+  "cookingtime": 440
+}

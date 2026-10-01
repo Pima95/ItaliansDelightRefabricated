@@ -13,7 +13,8 @@ stato reale delle funzionalità già implementate e della roadmap futura.
 | Fabric API | 0.161.0+26.2 | configurato in `gradle.properties` |
 | Farmer's Delight Refabricated | 26.2-3.6.26+refabricated | dipendenza hard via Cassian's Maven |
 | Java | 25 | release target usato da Gradle |
-| Fabric Loom | 1.17-SNAPSHOT | plugin configurato in `build.gradle` |
+| Fabric Loom | 1.18-SNAPSHOT | plugin configurato in `build.gradle` |
+| Gradle | 9.7.1 | versione del wrapper |
 | JEI | Curse Maven file 8937443 | integrazione presente per la Cheese Vat |
 
 Prima di aggiornare una dipendenza è necessario verificare che la nuova release
@@ -57,6 +58,8 @@ La **Cheese Vat** è un blocco funzionale completo con:
 - avanzamento della lavorazione sincronizzato client/server;
 - GUI dedicata;
 - supporto allo shift-click;
+- automazione con hopper direzionali: ingredienti dall'alto, recipienti
+  (`bowl`, `glass_bottle`, `lead`) dai lati e output dal basso;
 - gestione dei crafting remainder;
 - serializzazione delle ricette tramite codec;
 - integrazione JEI.
@@ -64,8 +67,32 @@ La **Cheese Vat** è un blocco funzionale completo con:
 Ricette Cheese Vat attualmente presenti:
 
 - latte + caglio → **cagliata**, richiede una ciotola;
-- allium → **caglio**, richiede una bottiglia di vetro;
+- cardo + secchio d'acqua → **caglio**, richiede una bottiglia di vetro;
 - cagliata + sale → **mozzarella**.
+
+Il cardo compare nei nuovi chunk di pianure, pianure con girasoli e prati di
+montagna. È raccoglibile, ripiantabile sul terreno e moltiplicabile con farina
+d'ossa. Secchi, bottiglie del caglio e ciotole della cagliata vengono restituiti
+quando il rispettivo ingrediente è consumato dalla caldaia.
+
+Cambiare ricetta o invalidare gli ingredienti azzera il progresso. Senza calore
+o con output bloccato il progresso diminuisce di 2 tick per tick, senza consumo
+di ingredienti. Un prodotto già cotto può essere raccolto senza calore.
+
+Rompendo la caldaia con un piccone si recuperano blocco e inventario reale.
+Il prodotto in attesa del contenitore rimane nel blocco caduto: dopo averlo
+ripiazzato occorre ancora fornire la ciotola o bottiglia richiesta.
+La mozzarella intera e le quattro fette restituiscono entrambe 4 punti fame
+e 1,6 punti saturazione complessivi.
+
+Build e verifiche automatiche lato server superate; prove manuali finali nella
+[checklist F1](TEST_FORMAGGI_F1.md).
+
+Il **bilanciamento v1 della filiera casearia** è stato applicato: valori
+alimentari e rese sono finalizzati; tutti i tempi Cheese Vat sono stati
+aumentati di **10 secondi (+200 tick)** rispetto alla configurazione iniziale;
+la stagionatura varia da 10 minuti per la Scamorza a 60 minuti per il
+Parmigiano Reggiano.
 
 ### 3.2 Item alimentari e lavorazioni Farmer's Delight
 
@@ -171,6 +198,10 @@ Le ricette che usano sistemi Farmer's Delight sono organizzate nelle cartelle
 
 ## 5. Stato della roadmap
 
+Il lavoro del branch `feature/cheeses` è dettagliato nella
+[roadmap formaggi](ROADMAP_FORMAGGI.md), con fasi, decisioni aperte e criteri di
+completamento.
+
 - [x] **Step 0 — Fondamenta progetto:** repository, Gradle, Fabric, entrypoint,
       registri principali e struttura risorse.
 - [x] **Step 1 — Prima macchina funzionale:** Cheese Vat completa di GUI,
@@ -186,8 +217,9 @@ Le ricette che usano sistemi Farmer's Delight sono organizzate nelle cartelle
 - [ ] **Step 5 — Filiera pasta completa:** definire produzione di impasto,
       pasta fresca/secca e nuovi piatti come cacio e pepe, carbonara,
       amatriciana e pesto.
-- [ ] **Step 6 — Formaggi avanzati:** parmigiano, pecorino e altri prodotti,
-      con eventuale meccanica di stagionatura.
+- [ ] **Step 6 — Filiera casearia completa:** consolidare la mozzarella,
+      aggiungere ricotta, parmigiano e pecorino e implementare la stagionatura;
+      seguire le fasi della [roadmap formaggi](ROADMAP_FORMAGGI.md).
 - [ ] **Step 7 — Forno a legna e pizza:** blocco funzionale dedicato,
       condimenti e sistema di cottura.
 - [ ] **Step 8 — Colture e ingredienti aggiuntivi:** decidere quali texture già

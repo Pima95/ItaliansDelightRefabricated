@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "cheese=parmigiano_reggiano,mature=false": {
+      "model": "italiansdelight:block/aging_cheese_parmigiano_reggiano_fresh"
+    },
+    "cheese=parmigiano_reggiano,mature=true": {
+      "model": "italiansdelight:block/aging_cheese_parmigiano_reggiano_mature"
+    },
+    "cheese=pecorino_romano,mature=false": {
+      "model": "italiansdelight:block/aging_cheese_pecorino_romano_fresh"
+    },
+    "cheese=pecorino_romano,mature=true": {
+      "model": "italiansdelight:block/aging_cheese_pecorino_romano_mature"
+    },
+    "cheese=gorgonzola,mature=false": {
+      "model": "italiansdelight:block/aging_cheese_gorgonzola_fresh"
+    },
+    "cheese=gorgonzola,mature=true": {
+      "model": "italiansdelight:block/aging_cheese_gorgonzola_mature"
+    },
+    "cheese=provolone,mature=false": {
+      "model": "italiansdelight:block/aging_cheese_provolone_fresh"
+    },
+    "cheese=provolone,mature=true": {
+      "model": "italiansdelight:block/aging_cheese_provolone_mature"
+    },
+    "cheese=scamorza,mature=false": {
+      "model": "italiansdelight:block/aging_cheese_scamorza_fresh"
+    },
+    "cheese=scamorza,mature=true": {
+      "model": "italiansdelight:block/aging_cheese_scamorza_mature"
+    },
+    "cheese=smoked_scamorza,mature=false": {
+      "model": "italiansdelight:block/aging_cheese_smoked_scamorza_fresh"
+    },
+    "cheese=smoked_scamorza,mature=true": {
+      "model": "italiansdelight:block/aging_cheese_smoked_scamorza_mature"
+    }
+  }
+}

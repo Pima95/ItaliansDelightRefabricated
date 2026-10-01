@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "italiansdelight_cheese_aging_racks",
+  "key": {
+    "S": "minecraft:warped_fence",
+    "B": "minecraft:warped_planks"
+  },
+  "pattern": [
+    "S S",
+    " B ",
+    "S S"
+  ],
+  "result": {
+    "id": "italiansdelight:warped_cheese_aging_rack",
+    "count": 1
+  }
+}

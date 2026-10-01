@@ -2,7 +2,11 @@
   "required": true,
   "package": "dev.italiansdelight.mixin",
   "mixins": [
-    "LevelMixin"
+    "LevelMixin",
+    "SheepMixin"
+  ],
+  "client": [
+    "client.CheeseHookParticlesMixin"
   ],
   "injectors": {
     "defaultRequire": 1

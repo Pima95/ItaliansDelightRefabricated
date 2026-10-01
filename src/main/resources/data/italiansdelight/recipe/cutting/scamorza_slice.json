@@ -1,0 +1,20 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    "italiansdelight:scamorza"
+  ],
+  "tool": "#c:tools/knife",
+  "result": [
+    {
+      "item": {
+        "count": 4,
+        "id": "italiansdelight:scamorza_slice"
+      }
+    },
+    {
+      "item": {
+        "id": "minecraft:lead"
+      }
+    }
+  ]
+}

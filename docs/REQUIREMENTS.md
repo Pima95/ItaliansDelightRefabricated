@@ -13,7 +13,8 @@ the actual status of implemented features and the future roadmap.
 | Fabric API | 0.161.0+26.2 | configured in `gradle.properties` |
 | Farmer's Delight Refabricated | 26.2-3.6.26+refabricated | required dependency via Cassian's Maven |
 | Java | 25 | Gradle release target |
-| Fabric Loom | 1.17-SNAPSHOT | plugin configured in `build.gradle` |
+| Fabric Loom | 1.18-SNAPSHOT | plugin configured in `build.gradle` |
+| Gradle | 9.7.1 | wrapper version |
 | JEI | Curse Maven file 8937443 | Cheese Vat integration is implemented |
 
 Before updating any dependency, verify that the new release is compatible with
@@ -57,6 +58,8 @@ The **Cheese Vat** is a complete functional block with:
 - client/server synchronized processing progress;
 - a dedicated GUI;
 - shift-click support;
+- sided hopper automation: ingredients from the top, recipe containers
+  (`bowl`, `glass_bottle`, `lead`) from horizontal sides, and outputs from below;
 - crafting remainder handling;
 - recipe serialization through codecs;
 - JEI integration.
@@ -64,8 +67,29 @@ The **Cheese Vat** is a complete functional block with:
 Cheese Vat recipes currently available:
 
 - milk + rennet → **curd**, requires a bowl;
-- allium → **rennet**, requires a glass bottle;
+- cardoon + water bucket → **rennet**, requires a glass bottle;
 - curd + salt → **mozzarella**.
+
+Cardoon grows in new plains, sunflower plains, and meadow chunks. It can be
+harvested, replanted on soil, and multiplied with bone meal. Buckets, rennet
+bottles, and curd bowls are returned when their ingredient is consumed.
+
+Changing recipes or invalidating the ingredients resets progress. Without heat
+or with blocked output, progress decreases by 2 ticks per tick without consuming
+ingredients. An already cooked serving can be packaged without heat.
+
+Breaking the vat with a pickaxe drops the block and its real inventory. An
+unpackaged serving remains inside the dropped vat and still requires its bowl
+or bottle after replacement. A whole mozzarella and four slices both provide
+4 hunger points and a total of 1.6 saturation points.
+
+The build and server checks passed; final manual checks are listed in the
+[F1 test checklist (Italian)](TEST_FORMAGGI_F1.md).
+
+The **v1 dairy balance** is now applied: food values and Cheese Vat yields are
+finalized, and every Cheese Vat processing time has been increased by
+**10 seconds (+200 ticks)** from the initial configuration, while aging ranges
+from 10 minutes for Scamorza to 60 minutes for Parmigiano Reggiano.
 
 ### 3.2 Food items and Farmer's Delight processing
 
@@ -170,6 +194,10 @@ Recipes that use Farmer's Delight systems are organized under
 
 ## 5. Roadmap status
 
+Work on `feature/cheeses` is detailed in the
+[cheese roadmap (Italian)](ROADMAP_FORMAGGI.md), including phases, open decisions,
+and completion criteria.
+
 - [x] **Step 0 — Project foundation:** repository, Gradle, Fabric, entrypoints,
       main registries, and resource structure.
 - [x] **Step 1 — First functional machine:** Cheese Vat with GUI, custom
@@ -185,8 +213,9 @@ Recipes that use Farmer's Delight systems are organized under
 - [ ] **Step 5 — Complete pasta production chain:** define dough production,
       fresh/dried pasta, and new dishes such as cacio e pepe, carbonara,
       amatriciana, and pesto.
-- [ ] **Step 6 — Advanced cheeses:** parmesan, pecorino, and other products,
-      with a possible aging mechanic.
+- [ ] **Step 6 — Complete dairy production chain:** refine mozzarella, add
+      ricotta, parmesan, and pecorino, and implement aging; follow the phases in
+      the [cheese roadmap (Italian)](ROADMAP_FORMAGGI.md).
 - [ ] **Step 7 — Wood-fired oven and pizza:** dedicated functional block,
       toppings, and cooking system.
 - [ ] **Step 8 — Additional crops and ingredients:** decide which prepared

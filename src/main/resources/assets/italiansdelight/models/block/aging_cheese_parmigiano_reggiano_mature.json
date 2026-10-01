@@ -1,0 +1,6 @@
+{
+  "parent": "italiansdelight:block/aging_cheese_parmigiano_reggiano_base",
+  "textures": {
+    "cheese": "italiansdelight:block/aging_parmigiano_reggiano_mature"
+  }
+}

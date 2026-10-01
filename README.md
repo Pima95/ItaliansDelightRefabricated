@@ -12,24 +12,30 @@ Rather than adding isolated food items, the mod is designed around Farmer's Deli
 
 Current features include:
 
-- the **Cheese Vat**, a custom machine for producing dairy ingredients and cheeses;
-- a complete first dairy chain with **rennet, curd, and mozzarella**;
+- the **Cheese Vat**, with heat-based processing, container handling, whey storage, automation, and JEI support;
+- an expanded dairy chain with **rennet, curd, mozzarella, ricotta, mascarpone, burrata, bocconcini, Parmigiano Reggiano, Pecorino Romano, Gorgonzola, Provolone, and Scamorza**;
+- **cheese aging and drying** through dedicated racks, hanging hooks, and placeable aging cheese;
+- **sheep milk**, cream, whey, blue mold culture, apple cider vinegar, and other dairy ingredients;
+- a **cheese grater** and Farmer's Delight Cutting Board integration for sliced and grated cheeses;
+- **cardoon** generation and cultivation as a source used in the dairy chain;
 - **salt production** by naturally evaporating water in vanilla cauldrons;
 - Italian dishes such as **pasta with tomato sauce** and **risotto with tomato sauce**;
-- integration with **JEI** and Farmer's Delight recipes.
+- integration with **JEI** and Farmer's Delight systems.
 
-More content is planned, including pasta varieties, cheeses, olive trees, grapes and wine, cured meats, pizza, and seasonal content.
+More content is planned, including pasta varieties, olive trees, grapes and wine, cured meats, pizza, and seasonal content.
 
 ## Requirements
 
-Italian's Delight Refabricated currently targets **Minecraft 26.2** and requires:
+Italian's Delight Refabricated **0.2.0** targets **Minecraft 26.2** and requires:
 
-- **Fabric Loader**
-- **Fabric API**
-- **Farmer's Delight Refabricated**
 - **Java 25**
+- **Fabric Loader 0.19.5 or newer**
+- **Fabric API 0.161.0+26.2**
+- **Farmer's Delight Refabricated 26.2-3.6.26+refabricated**
 
-JEI is supported for recipe viewing and Cheese Vat integration.
+The development toolchain uses **Fabric Loom 1.18-SNAPSHOT** and **Gradle 9.7.1**.
+
+JEI is supported for recipe viewing, including Cheese Vat and cheese-aging recipes.
 
 ## Development
 

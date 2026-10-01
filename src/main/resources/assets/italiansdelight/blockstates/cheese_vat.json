@@ -1,19 +1,40 @@
 {
-  "variants": {
-    "facing=north": {
-      "model": "italiansdelight:block/cheese_vat"
+  "multipart": [
+    {
+      "when": { "facing": "north", "heated": "true" },
+      "apply": { "model": "italiansdelight:block/cheese_vat" }
     },
-    "facing=east": {
-      "model": "italiansdelight:block/cheese_vat",
-      "y": 90
+    {
+      "when": { "facing": "east", "heated": "true" },
+      "apply": { "model": "italiansdelight:block/cheese_vat", "y": 90 }
     },
-    "facing=south": {
-      "model": "italiansdelight:block/cheese_vat",
-      "y": 180
+    {
+      "when": { "facing": "south", "heated": "true" },
+      "apply": { "model": "italiansdelight:block/cheese_vat", "y": 180 }
     },
-    "facing=west": {
-      "model": "italiansdelight:block/cheese_vat",
-      "y": 270
+    {
+      "when": { "facing": "west", "heated": "true" },
+      "apply": { "model": "italiansdelight:block/cheese_vat", "y": 270 }
+    },
+    {
+      "when": { "facing": "north", "heated": "false" },
+      "apply": { "model": "italiansdelight:block/cheese_vat_cold" }
+    },
+    {
+      "when": { "facing": "east", "heated": "false" },
+      "apply": { "model": "italiansdelight:block/cheese_vat_cold", "y": 90 }
+    },
+    {
+      "when": { "facing": "south", "heated": "false" },
+      "apply": { "model": "italiansdelight:block/cheese_vat_cold", "y": 180 }
+    },
+    {
+      "when": { "facing": "west", "heated": "false" },
+      "apply": { "model": "italiansdelight:block/cheese_vat_cold", "y": 270 }
+    },
+    {
+      "when": { "support": "true" },
+      "apply": { "model": "italiansdelight:block/cheese_vat_tray" }
     }
-  }
+  ]
 }

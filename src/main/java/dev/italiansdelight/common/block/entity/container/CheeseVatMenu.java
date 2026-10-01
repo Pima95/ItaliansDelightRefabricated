@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 /**
  * Synchronized Cheese Vat menu. Defines machine slots, player inventory, GUI data, and shift-click behavior.
@@ -20,9 +21,11 @@ import net.minecraft.world.item.ItemStack;
 public class CheeseVatMenu extends AbstractContainerMenu {
 
     // -------------------- Menu indices and sizes --------------------
-    private static final int DATA_COUNT = 3;
+    private static final int DATA_COUNT = 5;
 
-    // Five real slots plus the virtual preview slot.
+    public static final int TOGGLE_WHEY_FLOW_BUTTON = 0;
+
+    // Six real slots plus the virtual preview slot.
     private static final int MACHINE_SLOT_COUNT =
         CheeseVatBlockEntity.CONTAINER_SIZE + 1;
 
@@ -95,7 +98,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
                 new Slot(
                     container,
                     i,
-                    30 + i * 18,
+                    17 + i * 18,
                     26
                 )
             );
@@ -106,7 +109,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             new Slot(
                 container,
                 CheeseVatBlockEntity.CONTAINER_SLOT,
-                92,
+                79,
                 55
             )
         );
@@ -116,12 +119,42 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             new Slot(
                 container,
                 CheeseVatBlockEntity.OUTPUT_SLOT,
-                124,
+                111,
                 55
             ) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
                     return false;
+                }
+
+                @Override
+                public void onTake(Player player, ItemStack stack) {
+                    super.onTake(player, stack);
+                    if (CheeseVatMenu.this.container instanceof CheeseVatBlockEntity vat) {
+                        vat.awardExperience();
+                    }
+                }
+            }
+        );
+
+        // Single-container whey filling slot below the tank.
+        // Only one empty bottle/bucket may wait here at a time.
+        this.addSlot(
+            new Slot(
+                container,
+                CheeseVatBlockEntity.WHEY_CONTAINER_SLOT,
+                144,
+                55
+            ) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.is(Items.GLASS_BOTTLE)
+                        || stack.is(Items.BUCKET);
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return 1;
                 }
             }
         );
@@ -132,7 +165,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             new Slot(
                 new SimpleContainer(1),
                 0,
-                124,
+                111,
                 26
             ) {
                 @Override
@@ -209,9 +242,58 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         return data.get(2) != 0;
     }
 
+    public boolean isWheyFlowEnabled() {
+        return data.get(3) != 0;
+    }
+
+    public int getWheyAmount() {
+        return data.get(4);
+    }
+
+    public int getWheyCapacity() {
+        return CheeseVatBlockEntity.WHEY_TANK_CAPACITY;
+    }
+
+    public int getWheyLevelScaled(int height) {
+        int amount = getWheyAmount();
+
+        if (amount <= 0 || height <= 0) {
+            return 0;
+        }
+
+        int scaled =
+            amount
+                * height
+                / CheeseVatBlockEntity.WHEY_TANK_CAPACITY;
+
+        return Math.min(
+            height,
+            Math.max(
+                1,
+                scaled
+            )
+        );
+    }
+
+    @Override
+    public boolean clickMenuButton(
+        Player player,
+        int id
+    ) {
+        if (
+            id == TOGGLE_WHEY_FLOW_BUTTON
+            && container instanceof CheeseVatBlockEntity vat
+        ) {
+            vat.toggleWheyFlow();
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Handles shift-click: from the machine to the player's inventory,
-     * or from the inventory to ingredient slots only.
+     * or from the inventory to the container/ingredient slots.
      */
     @Override
     public ItemStack quickMoveStack(
@@ -249,13 +331,38 @@ public class CheeseVatMenu extends AbstractContainerMenu {
 
         } else {
 
-            // Shift-click from the player inventory:
-            // only try the 3 ingredient slots.
+            // Buckets have no recipe-container use in the current vat and are
+            // routed directly to the dedicated whey slot. Bowls, glass bottles
+            // and leads are recipe containers; glass bottles can still be
+            // dragged manually into the dedicated whey slot.
+            int start;
+            int end;
+
+            if (stack.is(Items.BUCKET)) {
+                start = CheeseVatBlockEntity.WHEY_CONTAINER_SLOT;
+                end = CheeseVatBlockEntity.WHEY_CONTAINER_SLOT + 1;
+            } else {
+                boolean isContainer =
+                    stack.is(Items.BOWL)
+                    || stack.is(Items.GLASS_BOTTLE)
+                    || stack.is(Items.LEAD);
+
+                start =
+                    isContainer
+                        ? CheeseVatBlockEntity.CONTAINER_SLOT
+                        : 0;
+
+                end =
+                    isContainer
+                        ? CheeseVatBlockEntity.CONTAINER_SLOT + 1
+                        : CheeseVatBlockEntity.INPUT_SLOT_COUNT;
+            }
+
             if (
                 !moveItemStackTo(
                     stack,
-                    0,
-                    CheeseVatBlockEntity.INPUT_SLOT_COUNT,
+                    start,
+                    end,
                     false
                 )
             ) {
@@ -271,6 +378,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
             slot.setChanged();
         }
 
+        slot.onTake(player, copy.copyWithCount(copy.getCount() - stack.getCount()));
         return copy;
     }
 

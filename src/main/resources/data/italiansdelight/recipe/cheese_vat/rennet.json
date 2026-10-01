@@ -1,7 +1,8 @@
 {
   "type": "italiansdelight:cheese_vat",
   "ingredients": [
-    "minecraft:allium"
+    "italiansdelight:cardoon",
+    "minecraft:water_bucket"
   ],
   "container": {
     "id": "minecraft:glass_bottle",
@@ -10,5 +11,5 @@
   "result": {
     "id": "italiansdelight:rennet"
   },
-  "cookingtime": 100
+  "cookingtime": 300
 }

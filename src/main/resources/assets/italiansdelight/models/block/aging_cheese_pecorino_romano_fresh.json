@@ -1,0 +1,6 @@
+{
+  "parent": "italiansdelight:block/aging_cheese_pecorino_romano_base",
+  "textures": {
+    "cheese": "italiansdelight:block/aging_pecorino_romano_fresh"
+  }
+}

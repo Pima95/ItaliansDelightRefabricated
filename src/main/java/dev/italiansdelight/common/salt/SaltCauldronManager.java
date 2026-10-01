@@ -192,6 +192,13 @@ public final class SaltCauldronManager {
 
         boolean changed = false;
 
+        // These conditions are level-wide, so evaluate them once per tick
+        // instead of once for every tracked cauldron.
+        boolean environmentAllowsProgress =
+            level.isBrightOutside()
+            && !level.isRaining()
+            && !level.isThundering();
+
         while (iterator.hasNext()) {
             Map.Entry<Long, Integer> entry =
                 iterator.next();
@@ -216,8 +223,14 @@ public final class SaltCauldronManager {
             }
 
             // Invalid environmental conditions pause, rather than reset,
-            // the process.
-            if (!canEvaporate(level, pos)) {
+            // the process. The column check remains position-specific.
+            if (
+                !environmentAllowsProgress
+                || !isCompletelyOpenAbove(
+                    level,
+                    pos
+                )
+            ) {
                 continue;
             }
 
@@ -228,15 +241,28 @@ public final class SaltCauldronManager {
                 nextProgress
                     >= REQUIRED_USEFUL_TICKS
             ) {
-                iterator.remove();
+                // Remove tracking only after the block transition succeeds.
+                // If another mod prevents replacement, keep the cauldron at
+                // completion and retry later instead of silently losing it.
+                if (
+                    level.setBlockAndUpdate(
+                        pos,
+                        ModBlocks.SALT_CAULDRON
+                            .defaultBlockState()
+                    )
+                ) {
+                    iterator.remove();
+                    changed = true;
+                } else if (
+                    entry.getValue()
+                        != REQUIRED_USEFUL_TICKS
+                ) {
+                    entry.setValue(
+                        REQUIRED_USEFUL_TICKS
+                    );
+                    changed = true;
+                }
 
-                level.setBlockAndUpdate(
-                    pos,
-                    ModBlocks.SALT_CAULDRON
-                        .defaultBlockState()
-                );
-
-                changed = true;
                 continue;
             }
 
@@ -247,28 +273,6 @@ public final class SaltCauldronManager {
         if (changed) {
             data.setDirty();
         }
-    }
-
-    // All environmental conditions must be true during the same tick.
-    private static boolean canEvaporate(
-        ServerLevel level,
-        BlockPos pos
-    ) {
-        if (!level.isBrightOutside()) {
-            return false;
-        }
-
-        if (
-            level.isRaining()
-            || level.isThundering()
-        ) {
-            return false;
-        }
-
-        return isCompletelyOpenAbove(
-            level,
-            pos
-        );
     }
 
     /**

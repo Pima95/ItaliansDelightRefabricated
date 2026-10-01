@@ -11,5 +11,6 @@
   "result": {
     "id": "italiansdelight:curd"
   },
-  "cookingtime": 200
+  "cookingtime": 400,
+  "whey_output": 250
 }
