@@ -1,0 +1,488 @@
+# Italian's Delight Refabricated — Roadmap Salumi
+
+Documento di progettazione per lo sviluppo della filiera dei salumi nel branch
+`feature/cured-meats`.
+
+L'obiettivo è aggiungere salumi italiani con una progressione coerente con
+Farmer's Delight Refabricated, evitando di introdurre nuove macchine o blocchi
+funzionali quando esistono già sistemi adatti in Minecraft, Farmer's Delight o
+Italian's Delight.
+
+---
+
+## 1. Decisioni confermate
+
+### Salumi previsti
+
+La prima versione della filiera comprenderà:
+
+- **Prosciutto Crudo**
+- **Salame**
+- **Mortadella**
+- **Pancetta**
+- **Guanciale**
+- **Bresaola**
+- **Coppa**
+- **Speck**
+
+La lista potrà essere estesa in futuro, ma questi otto prodotti costituiscono
+lo scope iniziale.
+
+### Nessun nuovo blocco funzionale
+
+La filiera non introdurrà nuovi macchinari dedicati.
+
+Si riutilizzeranno:
+
+- blocchi vanilla;
+- sistemi di Farmer's Delight Refabricated;
+- blocchi e meccaniche già presenti in Italian's Delight.
+
+Questo mantiene la mod più compatta e rende la filiera coerente con il principio
+generale del progetto: aggiungere nuovi blocchi solo quando manca davvero una
+meccanica equivalente.
+
+### Riutilizzo dell'uncino
+
+L'attuale **Cheese Hook** verrà reso un blocco generico per prodotti appesi.
+
+Nome di lavoro:
+
+- **Hanging Hook** in inglese;
+- **Uncino da stagionatura** in italiano.
+
+L'uncino dovrà poter continuare a gestire i formaggi già supportati e, in
+aggiunta, i salumi che richiedono asciugatura o stagionatura.
+
+Per evitare incompatibilità con mondi già esistenti, la prima scelta tecnica è
+**mantenere l'ID registrato attuale `italiansdelight:cheese_hook`** e cambiare
+il nome mostrato al giocatore. Un eventuale cambio dell'ID interno verrà
+considerato solo con una migrazione esplicita.
+
+Anche le classi oggi specifiche per i formaggi potranno essere generalizzate
+gradualmente quando necessario, senza riscrivere da zero il sistema già
+funzionante.
+
+---
+
+## 2. Filosofia della filiera
+
+I salumi non devono essere semplici ricette da crafting table.
+
+La produzione deve combinare, quando appropriato:
+
+1. preparazione o taglio della carne;
+2. salatura / preparazione;
+3. eventuale cottura o affumicatura;
+4. eventuale stagionatura sull'uncino;
+5. taglio del prodotto finito tramite Cutting Board.
+
+Non tutti i salumi devono attraversare tutte le fasi.
+
+Ad esempio:
+
+- **Prosciutto Crudo, Salame, Guanciale, Bresaola e Coppa** sono candidati
+  naturali alla stagionatura;
+- **Speck** richiede anche una fase di affumicatura;
+- **Mortadella** deve avere una lavorazione principalmente cotta e non deve
+  essere trattata come un normale prodotto stagionato.
+
+---
+
+## 3. Sistemi da riutilizzare
+
+| Sistema | Utilizzo previsto |
+|---|---|
+| Hanging Hook | stagionatura/asciugatura dei prodotti appesi |
+| Farmer's Delight Cutting Board | preparazione delle carni e taglio dei salumi finiti |
+| Farmer's Delight Cooking Pot | preparazioni composte quando adatto |
+| Vanilla Smoker | affumicatura, in particolare per lo Speck |
+| Crafting Table | assemblaggi semplici che non richiedono una lavorazione speciale |
+| Salt di Italian's Delight | ingrediente principale per la salatura |
+| Farmer's Delight / vanilla meats | materie prime della filiera |
+
+Non verrà creato un blocco separato per la stagionatura dei salumi.
+
+---
+
+## 4. Materie prime
+
+La priorità è riutilizzare carni già esistenti in Minecraft e Farmer's Delight
+Refabricated.
+
+Materie prime candidate:
+
+- Porkchop;
+- Farmer's Delight Ham;
+- Farmer's Delight Bacon;
+- Beef;
+- Farmer's Delight Minced Beef, quando coerente con la preparazione;
+- Salt di Italian's Delight.
+
+Se per distinguere correttamente alcune lavorazioni sarà necessario introdurre
+tagli intermedi, questi saranno **item** e non nuovi blocchi.
+
+Possibili intermedi, da confermare solo se realmente necessari:
+
+- carne salata;
+- impasto crudo per salame;
+- impasto crudo per mortadella;
+- taglio di maiale preparato per pancetta/guanciale/coppa.
+
+L'obiettivo è comunque mantenere il numero di intermedi il più basso possibile.
+
+---
+
+## 5. Filiere preliminari
+
+Le seguenti catene definiscono il comportamento generale. Ingredienti esatti,
+quantità, tempi e rese verranno bilanciati durante lo sviluppo.
+
+### 5.1 Prosciutto Crudo
+
+Proposta:
+
+```text
+Ham
+ + Salt
+   ↓
+Prepared / Salted Ham
+   ↓ Hanging Hook
+Prosciutto Crudo
+   ↓ Cutting Board
+Prosciutto Crudo slices
+```
+
+Il Prosciutto Crudo deve essere uno dei prodotti con stagionatura più lunga
+della filiera.
+
+### 5.2 Salame
+
+Proposta:
+
+```text
+Pork-based ingredients
+ + Salt
+ + eventuali ingredienti aromatici
+   ↓
+Raw Salame
+   ↓ Hanging Hook
+Salame
+   ↓ Cutting Board
+Salame slices
+```
+
+La ricetta dell'impasto verrà definita dopo aver verificato quali ingredienti
+Farmer's Delight possono essere riutilizzati senza introdurre componenti
+superflui.
+
+### 5.3 Mortadella
+
+La Mortadella non seguirà la normale stagionatura sull'uncino.
+
+Proposta generale:
+
+```text
+Pork-based ingredients
+ + Salt
+ + eventuali ingredienti aggiuntivi
+   ↓
+Raw Mortadella
+   ↓ cooking process
+Mortadella
+   ↓ Cutting Board
+Mortadella slices
+```
+
+La fase di cottura dovrà riutilizzare un sistema già presente, preferibilmente
+Farmer's Delight o vanilla.
+
+### 5.4 Pancetta
+
+Proposta:
+
+```text
+Pork / Bacon
+ + Salt
+   ↓
+Prepared Pancetta
+   ↓ curing / drying
+Pancetta
+   ↓ Cutting Board
+Pancetta slices
+```
+
+Va deciso durante l'implementazione se la fase di asciugatura debba avvenire
+sull'uncino o possa essere rappresentata da una lavorazione più semplice.
+
+### 5.5 Guanciale
+
+Proposta:
+
+```text
+Pork
+ + Salt
+   ↓
+Prepared Guanciale
+   ↓ Hanging Hook
+Guanciale
+   ↓ Cutting Board
+Guanciale slices
+```
+
+Guanciale e Pancetta devono restare prodotti distinti anche se condividono parte
+delle materie prime.
+
+### 5.6 Bresaola
+
+Proposta:
+
+```text
+Beef
+ + Salt
+   ↓
+Prepared Bresaola
+   ↓ Hanging Hook
+Bresaola
+   ↓ Cutting Board
+Bresaola slices
+```
+
+È il principale salume della prima fase basato su carne bovina.
+
+### 5.7 Coppa
+
+Proposta:
+
+```text
+Pork
+ + Salt
+   ↓
+Prepared Coppa
+   ↓ Hanging Hook
+Coppa
+   ↓ Cutting Board
+Coppa slices
+```
+
+La durata dovrà essere intermedia tra i prodotti più rapidi e il Prosciutto
+Crudo.
+
+### 5.8 Speck
+
+Proposta:
+
+```text
+Ham / prepared pork
+ + Salt
+   ↓
+Prepared Speck
+   ↓ smoking + curing
+Speck
+   ↓ Cutting Board
+Speck slices
+```
+
+Lo Speck deve distinguersi dal Prosciutto Crudo attraverso l'affumicatura.
+
+La sequenza esatta tra affumicatura e stagionatura verrà definita durante la
+fase di implementazione, scegliendo quella più chiara da comunicare al
+giocatore.
+
+---
+
+## 6. Sistema di stagionatura
+
+La stagionatura dei salumi deve riutilizzare il sistema già realizzato per i
+formaggi appesi.
+
+Il sistema deve poter distinguere almeno:
+
+- item iniziale;
+- item finale;
+- durata;
+- modello/texture del prodotto appeso;
+- eventuali condizioni speciali future.
+
+### Obiettivo tecnico
+
+Generalizzare il codice oggi legato ai soli formaggi appesi senza rompere la
+funzionalità esistente.
+
+Possibili refactor:
+
+- `HangingCheeseType` → struttura generica per prodotti appesi;
+- logica del Cheese Hook → logica condivisa per formaggi e salumi;
+- rendering/model mapping esteso ai nuovi prodotti.
+
+Il refactor deve essere **incrementale**: prima si preserva il comportamento
+esistente dei formaggi, poi si aggiunge il supporto ai salumi.
+
+---
+
+## 7. Cutting Board
+
+Ogni salume finito che ha senso tagliare dovrà avere una ricetta Cutting Board.
+
+Prodotti previsti in forma affettata:
+
+- Prosciutto Crudo slices;
+- Salame slices;
+- Mortadella slices;
+- Pancetta slices;
+- Guanciale slices;
+- Bresaola slices;
+- Coppa slices;
+- Speck slices.
+
+Le rese verranno bilanciate in una fase successiva, mantenendo proporzioni
+coerenti tra prodotto intero e fette.
+
+Le fette saranno poi utilizzabili nelle future ricette del branch
+`feature/dishes`, ad esempio panini, antipasti, pasta e altre preparazioni.
+
+---
+
+## 8. Compatibilità e tag
+
+Quando possibile verranno utilizzati tag comuni invece di item hard-coded.
+
+Obiettivi:
+
+- supportare ingredienti equivalenti aggiunti da altre mod;
+- permettere alle future ricette di riconoscere i salumi tramite tag;
+- mantenere compatibilità con l'ecosistema Farmer's Delight.
+
+Tag interni/comuni da valutare durante l'implementazione:
+
+```text
+#c:foods/meat
+#c:foods/raw_meat
+#c:foods/cooked_meat
+#c:foods
+```
+
+Verrà verificata la struttura effettiva dei tag disponibili in Minecraft 26.2
+e Farmer's Delight Refabricated prima di definire i JSON definitivi.
+
+Potrà inoltre essere aggiunto un tag dedicato, ad esempio:
+
+```text
+#italiansdelight:cured_meats
+```
+
+oppure un tag comune equivalente se già standardizzato.
+
+---
+
+## 9. Fasi di sviluppo
+
+### Fase S0 — Progettazione
+
+- [x] definire la lista iniziale dei salumi;
+- [x] decidere di non aggiungere nuovi blocchi funzionali;
+- [x] decidere di riutilizzare l'uncino esistente;
+- [x] definire le catene produttive preliminari;
+- [ ] definire gli ingredienti esatti di ogni prodotto;
+- [ ] definire nomi finali e ID degli item intermedi.
+
+### Fase S1 — Generalizzazione dell'uncino
+
+- [ ] rinominare il blocco mostrato al giocatore;
+- [ ] mantenere la compatibilità con i formaggi esistenti;
+- [ ] rendere generica la logica dei prodotti appesi;
+- [ ] aggiungere supporto ai modelli dei salumi;
+- [ ] verificare salvataggio, rottura e riposizionamento;
+- [ ] verificare comportamento client/server.
+
+### Fase S2 — Item e intermedi
+
+- [ ] registrare gli otto salumi;
+- [ ] registrare le relative fette;
+- [ ] aggiungere solo gli intermedi realmente necessari;
+- [ ] aggiungere traduzioni EN/IT;
+- [ ] aggiungere modelli e texture placeholder solo quando richiesto.
+
+### Fase S3 — Preparazione
+
+- [ ] implementare ricette di salatura/preparazione;
+- [ ] usare Cutting Board dove appropriato;
+- [ ] usare Cooking Pot dove appropriato;
+- [ ] implementare la preparazione della Mortadella;
+- [ ] definire il percorso dello Speck.
+
+### Fase S4 — Stagionatura e affumicatura
+
+- [ ] implementare le ricette sull'Hanging Hook;
+- [ ] impostare tempi iniziali placeholder;
+- [ ] implementare affumicatura dello Speck;
+- [ ] verificare persistenza del progresso;
+- [ ] verificare particelle/rendering se necessari.
+
+### Fase S5 — Cutting Board e utilizzo finale
+
+- [ ] aggiungere tutte le ricette di affettatura;
+- [ ] definire rese;
+- [ ] aggiungere tag alimentari;
+- [ ] preparare integrazione futura con i piatti.
+
+### Fase S6 — JEI e documentazione
+
+- [ ] mostrare correttamente le nuove lavorazioni in JEI;
+- [ ] aggiornare documentazione tecnica;
+- [ ] aggiungere una checklist di test;
+- [ ] documentare le ricette definitive.
+
+### Fase S7 — Bilanciamento
+
+- [ ] definire valori nutrizionali;
+- [ ] definire rese;
+- [ ] definire tempi di stagionatura;
+- [ ] confrontare costi e valori con Farmer's Delight;
+- [ ] eseguire test in survival.
+
+---
+
+## 10. Tempi di stagionatura
+
+I tempi non vengono fissati in questa prima fase.
+
+Durante lo sviluppo si useranno valori placeholder, poi verranno ribilanciati
+insieme al resto della filiera.
+
+Principio generale previsto:
+
+- prodotti piccoli o sottili → tempi più brevi;
+- Salame / Guanciale / Bresaola / Coppa → tempi medi;
+- Prosciutto Crudo → tempo più lungo;
+- Speck → tempo medio-lungo più passaggio di affumicatura.
+
+---
+
+## 11. Cose da evitare
+
+- nessun nuovo blocco funzionale dedicato esclusivamente ai salumi;
+- nessun duplicato di sistemi già offerti da Farmer's Delight;
+- nessuna ricetta complessa solo per aumentare artificialmente il numero di
+  passaggi;
+- evitare troppi ingredienti intermedi usa-e-getta;
+- non modificare radicalmente il sistema dei formaggi già funzionante;
+- non fissare valori di bilanciamento definitivi prima dei test.
+
+---
+
+## 12. Prossime decisioni
+
+Prima di iniziare l'implementazione bisogna definire:
+
+1. ingredienti esatti per ogni salume;
+2. quali prodotti richiedono un item "prepared/raw" separato;
+3. il processo definitivo della Mortadella;
+4. l'ordine affumicatura/stagionatura dello Speck;
+5. il nome definitivo dell'attuale Cheese Hook;
+6. rese del Cutting Board;
+7. tempi placeholder iniziali;
+8. valori nutrizionali placeholder.
+
+Una volta confermate queste decisioni, lo sviluppo può iniziare dalla
+generalizzazione dell'uncino e dalla registrazione degli item.
