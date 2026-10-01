@@ -391,7 +391,7 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] rinominare il blocco mostrato al giocatore;
 - [x] mantenere la compatibilità con i formaggi esistenti;
 - [x] estendere la logica dei prodotti appesi a formaggi e salumi;
-- [x] aggiungere supporto ai modelli dei salumi (senza texture);
+- [x] aggiungere supporto ai modelli dei salumi;
 - [ ] verificare salvataggio, rottura e riposizionamento;
 - [ ] verificare comportamento client/server.
 
@@ -401,7 +401,9 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] registrare le relative fette;
 - [x] aggiungere gli intermedi necessari alla prima filiera;
 - [x] aggiungere traduzioni EN/IT;
-- [x] aggiungere i modelli JSON senza creare texture PNG.
+- [x] aggiungere i modelli JSON;
+- [x] creare le 25 texture degli item: 8 interi, 8 fette e 9 intermedi;
+- [x] collegare ai modelli appesi 14 texture opache dedicate, distinte per stadio.
 
 ### Fase S3 — Preparazione
 
@@ -522,6 +524,15 @@ soggetti a rebalancing dopo i test in gioco.
 
 ### Texture
 
-In questa fase non viene aggiunto nessun file PNG. I modelli item e i modelli
-dei prodotti appesi sono già predisposti e mostreranno la missing texture di
-Minecraft finché non verranno aggiunte le texture definitive.
+Le texture della prima filiera sono disponibili in formato PNG 16×16:
+25 icone con sfondo trasparente e 14 materiali opachi per i prodotti appesi.
+Preparati, prodotti finiti e fette mantengono colori e caratteristiche della
+stessa famiglia; lo Speck distingue anche lo stadio affumicato intermedio.
+
+I modelli appesi usano materiali dedicati, mentre conservano la geometria
+condivisa della prima implementazione. La verifica della resa in Minecraft
+rimane da eseguire.
+
+Criteri, catalogo e checklist visiva sono in [TEXTURE_SALUMI.md](TEXTURE_SALUMI.md).
+L'[anteprima interattiva](TEXTURE_SALUMI.html) mostra le icone alla dimensione
+originale e ingrandite e permette di ruotare i modelli appesi.

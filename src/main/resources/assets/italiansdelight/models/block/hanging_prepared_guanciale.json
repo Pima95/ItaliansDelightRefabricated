@@ -1,6 +1,6 @@
 {
   "parent": "italiansdelight:block/hanging_cured_meat",
   "textures": {
-    "meat": "italiansdelight:item/prepared_guanciale"
+    "meat": "italiansdelight:block/hanging_prepared_guanciale"
   }
 }

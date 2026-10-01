@@ -1,6 +1,6 @@
 {
   "parent": "italiansdelight:block/hanging_cured_meat",
   "textures": {
-    "meat": "italiansdelight:item/salted_ham"
+    "meat": "italiansdelight:block/hanging_salted_ham"
   }
 }

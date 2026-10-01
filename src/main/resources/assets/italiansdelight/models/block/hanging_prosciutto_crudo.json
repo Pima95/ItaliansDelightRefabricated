@@ -1,6 +1,6 @@
 {
   "parent": "italiansdelight:block/hanging_cured_meat",
   "textures": {
-    "meat": "italiansdelight:item/prosciutto_crudo"
+    "meat": "italiansdelight:block/hanging_prosciutto_crudo"
   }
 }
