@@ -21,4 +21,11 @@ public final class CheeseAgingJeiRecipeTypes {
             "cheese_aging",
             CheeseAgingJeiRecipe.class
         );
+
+    public static final IRecipeType<CheeseAgingJeiRecipe> HANGING_AGING_DRYING =
+        IRecipeType.create(
+            ItaliansDelight.MOD_ID,
+            "hanging_aging_drying",
+            CheeseAgingJeiRecipe.class
+        );
 }

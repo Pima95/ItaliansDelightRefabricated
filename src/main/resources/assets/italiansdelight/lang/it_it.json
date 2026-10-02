@@ -50,7 +50,7 @@
   "item.italiansdelight.smoked_scamorza_slice": "Fetta di Scamorza Affumicata",
   "tooltip.farmersdelight.sheep_milk_bottle": "Cancella 1 effetto di stato",
   "item.italiansdelight.bocconcino": "Bocconcino",
-  "gui.italiansdelight.jei.cheese_aging": "Stagionatura e Asciugatura",
+  "gui.italiansdelight.jei.cheese_aging": "Stagionatura Formaggi",
   "gui.italiansdelight.jei.cheese_aging.process.aging": "Stagionatura",
   "gui.italiansdelight.jei.cheese_aging.process.drying": "Asciugatura",
   "gui.italiansdelight.jei.cheese_aging.time": "Tempo: %s min",
@@ -91,5 +91,6 @@
   "item.italiansdelight.guanciale_slice": "Fetta di Guanciale",
   "item.italiansdelight.bresaola_slice": "Fetta di Bresaola",
   "item.italiansdelight.coppa_slice": "Fetta di Coppa",
-  "item.italiansdelight.speck_slice": "Fetta di Speck"
+  "item.italiansdelight.speck_slice": "Fetta di Speck",
+  "gui.italiansdelight.jei.hanging_aging_drying": "Stagionatura e Asciugatura Appesa"
 }

@@ -1,6 +1,6 @@
 package dev.italiansdelight.integration.jei;
 
-import dev.italiansdelight.common.registry.ModItems;
+import dev.italiansdelight.common.registry.ModBlocks;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
@@ -16,12 +16,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 /**
- * JEI presentation for cheese aging on racks / flat surfaces.
- *
- * The background texture is authored manually by the project developer and is
- * intentionally never generated or modified by this class.
+ * JEI category for products that process while hanging from the Hanging Hook:
+ * Provolone, Scamorza and cured meats.
  */
-public final class CheeseAgingRecipeCategory
+public final class HangingAgingDryingRecipeCategory
     implements IRecipeCategory<CheeseAgingJeiRecipe> {
 
     private static final int WIDTH = 111;
@@ -41,7 +39,7 @@ public final class CheeseAgingRecipeCategory
     private final IDrawable background;
     private final IDrawable icon;
 
-    public CheeseAgingRecipeCategory(
+    public HangingAgingDryingRecipeCategory(
         IGuiHelper guiHelper
     ) {
         this.background =
@@ -58,20 +56,20 @@ public final class CheeseAgingRecipeCategory
 
         this.icon =
             guiHelper.createDrawableItemLike(
-                ModItems.PARMIGIANO_REGGIANO_WEDGE
+                ModBlocks.CHEESE_HOOK
             );
     }
 
     @Override
     public IRecipeType<CheeseAgingJeiRecipe>
     getRecipeType() {
-        return CheeseAgingJeiRecipeTypes.CHEESE_AGING;
+        return CheeseAgingJeiRecipeTypes.HANGING_AGING_DRYING;
     }
 
     @Override
     public Component getTitle() {
         return Component.translatable(
-            "gui.italiansdelight.jei.cheese_aging"
+            "gui.italiansdelight.jei.hanging_aging_drying"
         );
     }
 
