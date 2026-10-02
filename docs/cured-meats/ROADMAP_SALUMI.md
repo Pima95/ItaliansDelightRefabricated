@@ -536,3 +536,27 @@ rimane da eseguire.
 Criteri, catalogo e checklist visiva sono in [TEXTURE_SALUMI.md](TEXTURE_SALUMI.md).
 L'[anteprima interattiva](TEXTURE_SALUMI.html) mostra le icone alla dimensione
 originale e ingrandite e permette di ruotare i modelli appesi.
+
+
+### Compatibilità Vanilla per la cottura
+
+Tutti gli alimenti della mod che usano una normale lavorazione tramite
+`minecraft:smelting` o `minecraft:smoking` devono essere compatibili con
+**sia la fornace sia lo smoker**, seguendo il comportamento vanilla.
+
+Regola iniziale:
+
+- Furnace: **400 tick**
+- Smoker: **200 tick**
+- stessa esperienza;
+- stesso output.
+
+Questa regola si applica attualmente a:
+
+- Mortadella;
+- Speck preparato;
+- Scamorza affumicata;
+- Fetta di Scamorza affumicata.
+
+Lo smoker rimane quindi l'opzione più rapida dedicata agli alimenti, mentre la
+fornace standard resta sempre una alternativa valida.
