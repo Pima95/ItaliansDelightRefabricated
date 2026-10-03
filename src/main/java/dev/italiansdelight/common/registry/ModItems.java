@@ -670,28 +670,28 @@ public final class ModItems {
                 registerSimpleItem("speck", 16);
 
         public static final Item PROSCIUTTO_CRUDO_SLICE =
-                registerFoodItem("prosciutto_crudo_slice", 3, 0.5f);
+                registerFoodItem("prosciutto_crudo_slice", 2, 0.5f);
 
         public static final Item SALAME_SLICE =
-                registerFoodItem("salame_slice", 3, 0.5f);
+                registerFoodItem("salame_slice", 2, 0.6f);
 
         public static final Item MORTADELLA_SLICE =
-                registerFoodItem("mortadella_slice", 3, 0.4f);
+                registerFoodItem("mortadella_slice", 2, 0.5f);
 
         public static final Item PANCETTA_SLICE =
-                registerFoodItem("pancetta_slice", 2, 0.5f);
+                registerFoodItem("pancetta_slice", 2, 0.7f);
 
         public static final Item GUANCIALE_SLICE =
-                registerFoodItem("guanciale_slice", 2, 0.5f);
+                registerFoodItem("guanciale_slice", 2, 0.8f);
 
         public static final Item BRESAOLA_SLICE =
-                registerFoodItem("bresaola_slice", 3, 0.4f);
+                registerFoodItem("bresaola_slice", 2, 0.4f);
 
         public static final Item COPPA_SLICE =
-                registerFoodItem("coppa_slice", 3, 0.5f);
+                registerFoodItem("coppa_slice", 2, 0.6f);
 
         public static final Item SPECK_SLICE =
-                registerFoodItem("speck_slice", 3, 0.5f);
+                registerFoodItem("speck_slice", 2, 0.6f);
 
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(

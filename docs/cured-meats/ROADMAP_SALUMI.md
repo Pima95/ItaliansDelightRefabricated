@@ -439,11 +439,14 @@ oppure un tag comune equivalente se già standardizzato.
 
 ### Fase S7 — Bilanciamento
 
-- [ ] definire valori nutrizionali;
-- [ ] definire rese;
-- [ ] definire tempi di stagionatura;
-- [ ] confrontare costi e valori con Farmer's Delight;
-- [ ] eseguire test in survival.
+- [x] definire una prima passata dei valori nutrizionali;
+- [x] confermare la resa iniziale di 4 fette per salume;
+- [x] riesaminare i costi delle ricette della prima filiera;
+- [ ] definire i tempi di stagionatura definitivi;
+- [ ] confrontare in survival costi e valori con Vanilla / Farmer's Delight;
+- [ ] eseguire test survival della passata 1.
+
+Dettagli e valori correnti: [BALANCE_SALUMI.md](BALANCE_SALUMI.md).
 
 ---
 
