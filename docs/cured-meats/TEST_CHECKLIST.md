@@ -16,11 +16,11 @@ Questa checklist riguarda quindi il comportamento reale in Minecraft.
 
 ## 1. Avvio e caricamento
 
-- [ ] `./gradlew clean build` completa senza errori.
-- [ ] `./gradlew runClient` avvia il gioco.
-- [ ] Il mondo esistente della 0.2.0 si apre senza errori.
-- [ ] Gli Hanging Hook già piazzati prima dell'update restano validi.
-- [ ] Provolone e Scamorza già supportati dall'uncino continuano a funzionare.
+- [x] `./gradlew clean build` completa senza errori.
+- [x] `./gradlew runClient` avvia il gioco.
+- [x] Il mondo esistente della 0.2.0 si apre senza errori.
+- [x] Gli Hanging Hook già piazzati prima dell'update restano validi.
+- [x] Provolone e Scamorza già supportati dall'uncino continuano a funzionare.
 
 ---
 
@@ -28,22 +28,22 @@ Questa checklist riguarda quindi il comportamento reale in Minecraft.
 
 Controllare tutti gli item della filiera:
 
-- [ ] 9 intermedi presenti.
-- [ ] 8 salumi finiti presenti.
-- [ ] 8 fette presenti.
-- [ ] Nessuna missing texture.
-- [ ] Nessuna icona tagliata o con fondo indesiderato.
+- [x] 9 intermedi presenti.
+- [x] 8 salumi finiti presenti.
+- [x] 8 fette presenti.
+- [x] Nessuna missing texture.
+- [x] Nessuna icona tagliata o con fondo indesiderato.
 
 JEI:
 
-- [ ] Le ricette dei formaggi piazzabili compaiono in **Cheese Aging**.
-- [ ] Le ricette di Provolone, Scamorza e salumi appesi compaiono in
+- [x] Le ricette dei formaggi piazzabili compaiono in **Cheese Aging**.
+- [x] Le ricette di Provolone, Scamorza e salumi appesi compaiono in
   **Hanging Aging & Drying**.
-- [ ] Cheese Aging mostra il Cheese Aging Rack come catalyst.
-- [ ] Hanging Aging & Drying mostra l'Hanging Hook come catalyst.
-- [ ] Le ricette Cutting Board mostrano 4 fette come output.
-- [ ] Mortadella mostra sia Furnace sia Smoker.
-- [ ] Speck preparato mostra sia Furnace sia Smoker per l'affumicatura.
+- [x] Cheese Aging mostra il Cheese Aging Rack come catalyst.
+- [x] Hanging Aging & Drying mostra l'Hanging Hook come catalyst.
+- [x] Le ricette Cutting Board mostrano 4 fette come output.
+- [x] Mortadella mostra sia Furnace sia Smoker.
+- [x] Speck preparato mostra sia Furnace sia Smoker per l'affumicatura.
 
 ---
 
@@ -51,23 +51,23 @@ JEI:
 
 Provare almeno una volta ogni coppia:
 
-- [ ] Salted Ham → Prosciutto Crudo.
-- [ ] Raw Salame → Salame.
-- [ ] Prepared Pancetta → Pancetta.
-- [ ] Prepared Guanciale → Guanciale.
-- [ ] Prepared Bresaola → Bresaola.
-- [ ] Prepared Coppa → Coppa.
-- [ ] Smoked Prepared Speck → Speck.
+- [x] Salted Ham → Prosciutto Crudo.
+- [x] Raw Salame → Salame.
+- [x] Prepared Pancetta → Pancetta.
+- [x] Prepared Guanciale → Guanciale.
+- [x] Prepared Bresaola → Bresaola.
+- [x] Prepared Coppa → Coppa.
+- [x] Smoked Prepared Speck → Speck.
 
 Per ciascuna:
 
-- [ ] L'intermedio entra nell'uncino.
-- [ ] Lo stack in mano diminuisce di 1.
-- [ ] Il blocco sottostante viene riservato.
-- [ ] Non è possibile piazzare un blocco nello spazio occupato.
-- [ ] Click destro rimuove il prodotto corretto.
-- [ ] Con inventario pieno il prodotto non viene perso.
-- [ ] Il blocco sottostante torna libero dopo la rimozione.
+- [x] L'intermedio entra nell'uncino.
+- [x] Lo stack in mano diminuisce di 1.
+- [x] Il blocco sottostante viene riservato.
+- [x] Non è possibile piazzare un blocco nello spazio occupato.
+- [x] Click destro rimuove il prodotto corretto.
+- [x] Con inventario pieno il prodotto non viene perso.
+- [x] Il blocco sottostante torna libero dopo la rimozione.
 
 ---
 
@@ -75,25 +75,25 @@ Per ciascuna:
 
 Controllare preparato e finito delle sette famiglie:
 
-- [ ] Prosciutto.
-- [ ] Salame.
-- [ ] Pancetta.
-- [ ] Guanciale.
-- [ ] Bresaola.
-- [ ] Coppa.
-- [ ] Speck.
+- [x] Prosciutto.
+- [x] Salame.
+- [x] Pancetta.
+- [x] Guanciale.
+- [x] Bresaola.
+- [x] Coppa.
+- [x] Speck.
 
 Verifica visiva:
 
-- [ ] Modello centrato rispetto all'uncino.
-- [ ] Cappio collegato al metallo.
-- [ ] Nessuna faccia mancante.
-- [ ] Nessun flickering / z-fighting evidente.
-- [ ] Texture esterna e taglio assegnate correttamente.
-- [ ] Nessun pixel stirato.
-- [ ] Aspetto diverso e leggibile fra preparato e finito.
-- [ ] Hitbox/selezione coerente con il modello.
-- [ ] Testati tutti e quattro gli orientamenti dell'uncino.
+- [x] Modello centrato rispetto all'uncino.
+- [x] Cappio collegato al metallo.
+- [x] Nessuna faccia mancante.
+- [x] Nessun flickering / z-fighting evidente.
+- [x] Texture esterna e taglio assegnate correttamente.
+- [x] Nessun pixel stirato.
+- [x] Aspetto diverso e leggibile fra preparato e finito.
+- [x] Hitbox/selezione coerente con il modello.
+- [x] Testati tutti e quattro gli orientamenti dell'uncino.
 
 ---
 
@@ -102,22 +102,22 @@ Verifica visiva:
 Per un prodotto con tempo di lavorazione ridotto temporaneamente oppure
 lasciando completare il timer normale:
 
-- [ ] Il progresso avanza solo mentre il chunk è caricato.
-- [ ] Il prodotto si trasforma nell'output corretto.
-- [ ] Il modello cambia allo stato finale.
-- [ ] Il prodotto finale può essere rimosso.
-- [ ] Il prodotto finale può essere riappeso come decorazione.
+- [x] Il progresso avanza solo mentre il chunk è caricato.
+- [x] Il prodotto si trasforma nell'output corretto.
+- [x] Il modello cambia allo stato finale.
+- [x] Il prodotto finale può essere rimosso.
+- [x] Il prodotto finale può essere riappeso come decorazione.
 
 Persistenza:
 
-- [ ] Appendere un prodotto e attendere parte del tempo.
-- [ ] Salvare e uscire dal mondo.
-- [ ] Riaprire il mondo.
-- [ ] Il prodotto rimane sull'uncino.
-- [ ] Il progresso riprende dal valore precedente.
-- [ ] Scaricare e ricaricare il chunk.
-- [ ] Il progresso non si azzera.
-- [ ] Lo spazio tecnico sotto l'uncino viene ricostruito correttamente se necessario.
+- [x] Appendere un prodotto e attendere parte del tempo.
+- [x] Salvare e uscire dal mondo.
+- [x] Riaprire il mondo.
+- [x] Il prodotto rimane sull'uncino.
+- [x] Il progresso riprende dal valore precedente.
+- [x] Scaricare e ricaricare il chunk.
+- [x] Il progresso non si azzera.
+- [x] Lo spazio tecnico sotto l'uncino viene ricostruito correttamente se necessario.
 
 ---
 
@@ -125,17 +125,17 @@ Persistenza:
 
 Con prodotto preparato appeso:
 
-- [ ] Rompere l'uncino.
-- [ ] Viene droppato l'uncino.
-- [ ] Viene droppato anche il prodotto.
-- [ ] Il progresso parziale non viene trasferito all'item.
-- [ ] Lo spazio tecnico sottostante viene rimosso.
+- [x] Rompere l'uncino.
+- [x] Viene droppato l'uncino.
+- [x] Viene droppato anche il prodotto.
+- [x] Il progresso parziale non viene trasferito all'item.
+- [x] Lo spazio tecnico sottostante viene rimosso.
 
 Ripetere con:
 
-- [ ] prodotto già stagionato;
-- [ ] Provolone;
-- [ ] Scamorza.
+- [x] prodotto già stagionato;
+- [x] Provolone;
+- [x] Scamorza.
 
 ---
 
@@ -155,12 +155,12 @@ Mortadella
 
 Test:
 
-- [ ] Furnace accetta Raw Mortadella.
-- [ ] Smoker accetta Raw Mortadella.
-- [ ] Furnace impiega circa il doppio dello Smoker.
-- [ ] Output identico nei due casi.
-- [ ] XP coerente.
-- [ ] Cutting Board produce 4 fette.
+- [x] Furnace accetta Raw Mortadella.
+- [x] Smoker accetta Raw Mortadella.
+- [x] Furnace impiega circa il doppio dello Smoker.
+- [x] Output identico nei due casi.
+- [x] XP coerente.
+- [x] Cutting Board produce 4 fette.
 
 ---
 
@@ -180,26 +180,26 @@ Speck
 
 Test:
 
-- [ ] Furnace accetta Prepared Speck.
-- [ ] Smoker accetta Prepared Speck.
-- [ ] Output: Smoked Prepared Speck.
-- [ ] Smoked Prepared Speck può essere appeso.
-- [ ] Completa la stagionatura in Speck.
-- [ ] Speck produce 4 fette sul Cutting Board.
+- [x] Furnace accetta Prepared Speck.
+- [x] Smoker accetta Prepared Speck.
+- [x] Output: Smoked Prepared Speck.
+- [x] Smoked Prepared Speck può essere appeso.
+- [x] Completa la stagionatura in Speck.
+- [x] Speck produce 4 fette sul Cutting Board.
 
 ---
 
 ## 9. Cutting Board
 
-- [ ] Prosciutto Crudo → 4 fette.
-- [ ] Salame → 4 fette.
-- [ ] Mortadella → 4 fette.
-- [ ] Pancetta → 4 fette.
-- [ ] Guanciale → 4 fette.
-- [ ] Bresaola → 4 fette.
-- [ ] Coppa → 4 fette.
-- [ ] Speck → 4 fette.
-- [ ] Il tag `#c:tools/knife` accetta i coltelli compatibili.
+- [x] Prosciutto Crudo → 4 fette.
+- [x] Salame → 4 fette.
+- [x] Mortadella → 4 fette.
+- [x] Pancetta → 4 fette.
+- [x] Guanciale → 4 fette.
+- [x] Bresaola → 4 fette.
+- [x] Coppa → 4 fette.
+- [x] Speck → 4 fette.
+- [x] Il tag `#c:tools/knife` accetta i coltelli compatibili.
 
 ---
 
@@ -207,13 +207,13 @@ Test:
 
 Dopo le modifiche all'uncino:
 
-- [ ] Fresh Provolone → Provolone.
-- [ ] Fresh Scamorza → Scamorza.
-- [ ] Smoked Scamorza può essere appesa come decorazione.
-- [ ] Rimozione con mano vuota funziona.
-- [ ] Rimozione con item in mano funziona.
-- [ ] Rottura dell'uncino droppa correttamente il formaggio.
-- [ ] Nessuna regressione visuale dei modelli esistenti.
+- [x] Fresh Provolone → Provolone.
+- [x] Fresh Scamorza → Scamorza.
+- [x] Smoked Scamorza può essere appesa come decorazione.
+- [x] Rimozione con mano vuota funziona.
+- [x] Rimozione con item in mano funziona.
+- [x] Rottura dell'uncino droppa correttamente il formaggio.
+- [x] Nessuna regressione visuale dei modelli esistenti.
 
 ---
 
