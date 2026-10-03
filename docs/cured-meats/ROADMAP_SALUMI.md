@@ -430,10 +430,12 @@ oppure un tag comune equivalente se già standardizzato.
 
 ### Fase S6 — JEI e documentazione
 
-- [x] collegare le nuove ricette di stagionatura/asciugatura alla categoria JEI esistente;
-- [ ] aggiornare documentazione tecnica;
-- [ ] aggiungere una checklist di test;
-- [ ] documentare le ricette definitive.
+- [x] separare in JEI Cheese Aging e Hanging Aging & Drying;
+- [x] mostrare il Cheese Aging Rack per i formaggi da ripiano;
+- [x] mostrare l'Hanging Hook per Provolone, Scamorza e salumi;
+- [x] aggiornare la documentazione tecnica;
+- [x] aggiungere una checklist di test;
+- [ ] documentare i valori definitivi dopo il rebalancing.
 
 ### Fase S7 — Bilanciamento
 
@@ -473,26 +475,25 @@ Principio generale previsto:
 
 ---
 
-## 12. Prossime decisioni
+## 12. Decisioni implementative attuali
 
-Prima di iniziare l'implementazione bisogna definire:
+La prima implementazione ha ormai fissato le decisioni principali:
 
-1. ingredienti esatti per ogni salume;
-2. quali prodotti richiedono un item "prepared/raw" separato;
-3. il processo definitivo della Mortadella;
-4. l'ordine affumicatura/stagionatura dello Speck;
-5. il nome definitivo dell'attuale Cheese Hook;
-6. rese del Cutting Board;
-7. tempi placeholder iniziali;
-8. valori nutrizionali placeholder.
+1. gli otto salumi e i relativi intermedi sono registrati;
+2. Mortadella usa cottura vanilla tramite Furnace o Smoker;
+3. Speck segue preparazione → affumicatura → stagionatura;
+4. l'uncino mantiene l'ID storico `italiansdelight:cheese_hook`, ma viene
+   mostrato come Hanging Hook / Uncino da Stagionatura;
+5. ogni salume produce temporaneamente 4 fette sul Cutting Board;
+6. tempi e valori alimentari sono ancora placeholder.
 
-Una volta confermate queste decisioni, lo sviluppo può iniziare dalla
-generalizzazione dell'uncino e dalla registrazione degli item.
+Il passo successivo è completare i test manuali descritti in
+[TEST_CHECKLIST.md](TEST_CHECKLIST.md), quindi eseguire il rebalancing.
 
 
 ---
 
-## 13. Stato prima implementazione
+## 13. Stato implementazione attuale
 
 La prima implementazione del branch usa i seguenti intermedi:
 
@@ -565,3 +566,16 @@ Questa regola si applica attualmente a:
 
 Lo smoker rimane quindi l'opzione più rapida dedicata agli alimenti, mentre la
 fornace standard resta sempre una alternativa valida.
+
+
+### Verifica statica repository
+
+Controllo eseguito sul branch `feature/cured-meats`:
+
+- **25/25** item della filiera con definizione, modello e texture;
+- **14/14** stati appesi con modello;
+- **27/27** ricette previste presenti;
+- nessun riferimento obbligatorio mancante rilevato.
+
+La verifica statica non sostituisce i test runtime. La procedura completa è in
+[TEST_CHECKLIST.md](TEST_CHECKLIST.md).
