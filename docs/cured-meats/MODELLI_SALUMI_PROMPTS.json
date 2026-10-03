@@ -1,0 +1,454 @@
+{
+  "tool": "imagegen built-in",
+  "date": "2026-10-02",
+  "output_size": [
+    16,
+    16
+  ],
+  "layout": "Two separate 16x16 PNGs per state: hanging_<state> is rind/casing; hanging_<state>_cut is flesh. Bone is a separate shared 16x16 PNG.",
+  "resampling": "Each panel is exported independently from the original generated full-resolution source with nearest-neighbor sampling to 16x16. No recoloring or new image generation.",
+  "entries": [
+    {
+      "id": "hanging_salted_ham",
+      "family": "prosciutto",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_salted_ham.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: fresh light rosy pink pork skin with ivory salt flecks. BOTTOM HALF material: rosy pink lean pork and a thick ivory fat band along the left edge. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_salted_ham_cut",
+      "family": "prosciutto",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_salted_ham_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: fresh light rosy pink pork skin with ivory salt flecks. BOTTOM HALF material: rosy pink lean pork and a thick ivory fat band along the left edge. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_salted_ham"
+    },
+    {
+      "id": "hanging_prosciutto_crudo",
+      "family": "prosciutto",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prosciutto_crudo.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: dry tawny ochre-brown ham rind. BOTTOM HALF material: dark rose-red lean pork with a creamy ivory fat band along the left edge. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_prosciutto_crudo_cut",
+      "family": "prosciutto",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prosciutto_crudo_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: dry tawny ochre-brown ham rind. BOTTOM HALF material: dark rose-red lean pork with a creamy ivory fat band along the left edge. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_prosciutto_crudo"
+    },
+    {
+      "id": "hanging_raw_salame",
+      "family": "salame",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_raw_salame.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: muted pink-red fresh sausage casing, very subtle pale specks. BOTTOM HALF material: rose-red sausage meat with a few small ivory fat squares. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_raw_salame_cut",
+      "family": "salame",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_raw_salame_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: muted pink-red fresh sausage casing, very subtle pale specks. BOTTOM HALF material: rose-red sausage meat with a few small ivory fat squares. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_raw_salame"
+    },
+    {
+      "id": "hanging_salame",
+      "family": "salame",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_salame.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: mostly pale ivory / light gray dry salami casing, sparse muted taupe patches, NOT red or brown. BOTTOM HALF material: dark muted red sausage meat with many distinct small ivory fat squares. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_salame_cut",
+      "family": "salame",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_salame_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: mostly pale ivory / light gray dry salami casing, sparse muted taupe patches, NOT red or brown. BOTTOM HALF material: dark muted red sausage meat with many distinct small ivory fat squares. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_salame"
+    },
+    {
+      "id": "hanging_prepared_pancetta",
+      "family": "pancetta",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_pancetta.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: pale beige-pink pork belly rind, no stripes. BOTTOM HALF material: three broad alternating horizontal bands of pale pink meat and creamy ivory fat. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_prepared_pancetta_cut",
+      "family": "pancetta",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_pancetta_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: pale beige-pink pork belly rind, no stripes. BOTTOM HALF material: three broad alternating horizontal bands of pale pink meat and creamy ivory fat. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_prepared_pancetta"
+    },
+    {
+      "id": "hanging_pancetta",
+      "family": "pancetta",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_pancetta.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: warm ochre tan dry pork belly rind, no stripes. BOTTOM HALF material: three broad alternating horizontal bands of muted brick-red meat and creamy ivory fat. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_pancetta_cut",
+      "family": "pancetta",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_pancetta_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: warm ochre tan dry pork belly rind, no stripes. BOTTOM HALF material: three broad alternating horizontal bands of muted brick-red meat and creamy ivory fat. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_pancetta"
+    },
+    {
+      "id": "hanging_prepared_guanciale",
+      "family": "guanciale",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_guanciale.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: pale pinkish ivory jowl rind, small white salt flecks. BOTTOM HALF material: mostly ivory-white pork fat with ONE narrow light pink diagonal lean vein. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_prepared_guanciale_cut",
+      "family": "guanciale",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_guanciale_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: pale pinkish ivory jowl rind, small white salt flecks. BOTTOM HALF material: mostly ivory-white pork fat with ONE narrow light pink diagonal lean vein. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_prepared_guanciale"
+    },
+    {
+      "id": "hanging_guanciale",
+      "family": "guanciale",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_guanciale.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: dark gray-brown peppered jowl rind with sparse nearly black pepper specks. BOTTOM HALF material: mostly creamy ivory pork fat with ONE narrow rose-red diagonal lean vein. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_guanciale_cut",
+      "family": "guanciale",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_guanciale_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: dark gray-brown peppered jowl rind with sparse nearly black pepper specks. BOTTOM HALF material: mostly creamy ivory pork fat with ONE narrow rose-red diagonal lean vein. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_guanciale"
+    },
+    {
+      "id": "hanging_prepared_bresaola",
+      "family": "bresaola",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_bresaola.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: fresh lean red beef, no fat and no white flecks. BOTTOM HALF material: solid deep rosy red lean beef, subtle muscle clusters, NO white fat. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_prepared_bresaola_cut",
+      "family": "bresaola",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_bresaola_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: fresh lean red beef, no fat and no white flecks. BOTTOM HALF material: solid deep rosy red lean beef, subtle muscle clusters, NO white fat. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_prepared_bresaola"
+    },
+    {
+      "id": "hanging_bresaola",
+      "family": "bresaola",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_bresaola.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: dry dark wine-burgundy beef rind, restrained mottled plum-red. BOTTOM HALF material: solid ruby-burgundy lean beef, subtle muscle clusters, NO white fat. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_bresaola_cut",
+      "family": "bresaola",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_bresaola_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: dry dark wine-burgundy beef rind, restrained mottled plum-red. BOTTOM HALF material: solid ruby-burgundy lean beef, subtle muscle clusters, NO white fat. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_bresaola"
+    },
+    {
+      "id": "hanging_prepared_coppa",
+      "family": "coppa",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_coppa.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: fresh muted pink neck pork outer surface. BOTTOM HALF material: rose-pink meat crossed by TWO branching ivory fat veins, not isolated dots. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_prepared_coppa_cut",
+      "family": "coppa",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_coppa_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: fresh muted pink neck pork outer surface. BOTTOM HALF material: rose-pink meat crossed by TWO branching ivory fat veins, not isolated dots. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_prepared_coppa"
+    },
+    {
+      "id": "hanging_coppa",
+      "family": "coppa",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_coppa.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: muted dark reddish-brown dry casing. BOTTOM HALF material: dark rose-red meat crossed by TWO branching ivory fat veins, not isolated dots. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_coppa_cut",
+      "family": "coppa",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_coppa_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: muted dark reddish-brown dry casing. BOTTOM HALF material: dark rose-red meat crossed by TWO branching ivory fat veins, not isolated dots. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_coppa"
+    },
+    {
+      "id": "hanging_smoked_prepared_speck",
+      "family": "speck",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_smoked_prepared_speck.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: amber orange-brown freshly smoked rind. BOTTOM HALF material: muted rose-pink lean meat, single thick ivory fat cap along the TOP edge. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_smoked_prepared_speck_cut",
+      "family": "speck",
+      "stage": "prepared",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_smoked_prepared_speck_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: amber orange-brown freshly smoked rind. BOTTOM HALF material: muted rose-pink lean meat, single thick ivory fat cap along the TOP edge. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_smoked_prepared_speck"
+    },
+    {
+      "id": "hanging_speck",
+      "family": "speck",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_speck.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: dark chestnut-brown smoked cured rind. BOTTOM HALF material: dark burgundy-red lean meat, single thick ivory fat cap along the TOP edge. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "rind",
+      "source_panel": [
+        0,
+        0,
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": "hanging_speck_cut",
+      "family": "speck",
+      "stage": "final",
+      "kind": "block",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_speck_cut.png",
+      "prompt": "Create ONE production opaque Minecraft pixel-art TEXTURE ATLAS, square canvas, exactly a logical 16x16 grid (large flat square pixel clusters if enlarged). Two rectangular panels stacked vertically with a precise horizontal seam at the midpoint: TOP HALF rows 0-7 is outer rind/casing; BOTTOM HALF rows 8-15 is exposed meat cross-section. Both panels fill their entire rectangular area edge to edge. This is a UV material map, NOT an object illustration or icon. Do not draw silhouettes, circles, rounded borders, perspective, lighting gradients, shadows, text, labels, margins, separators, checkers or rope. Each panel has uniformly lit sparse Minecraft-style color clusters, restrained 6-9 muted colors, matching vanilla food and Farmer's Delight and Italian's Delight cheeses. Completely opaque alpha everywhere, including all corners. The two panels meet directly with no gap or border. TOP HALF material: dark chestnut-brown smoked cured rind. BOTTOM HALF material: dark burgundy-red lean meat, single thick ivory fat cap along the TOP edge. Keep meat and fat features coarse and readable in an actual 16x8 panel. No twine: twine is separate geometry.",
+      "material": "cut",
+      "source_panel": [
+        0,
+        0.5,
+        1,
+        1
+      ],
+      "source_generation": "hanging_speck"
+    },
+    {
+      "id": "hanging_meat_bone",
+      "kind": "block",
+      "family": "shared",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_meat_bone.png",
+      "prompt": "One production Minecraft opaque bone material tile. Square edge-to-edge 16x16 logical pixels, coarse flat pixel art. Mostly warm pale ivory with sparse broad desaturated beige and off-white clusters. Flat diffuse albedo, restrained 4 colors. This is the uniform surface of a ham bone, not an image of a bone. No silhouette, no border, no margins, no lighting gradient, no holes, no rope, no shadows, no text, no transparency. Match the quiet pixel texture style of vanilla Minecraft / Farmer's Delight foods."
+    }
+  ],
+  "revision": "Continuous frontal cut surface; materials separated after in-game screenshot review."
+}

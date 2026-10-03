@@ -2,7 +2,9 @@
 
 Catalogo dei 25 item registrati nella prima filiera e dei 14 stati appesi.
 [Anteprima interattiva](TEXTURE_SALUMI.html) ·
-[Prompt completi](TEXTURE_SALUMI_PROMPTS.json)
+[Prompt originali delle icone](TEXTURE_SALUMI_PROMPTS.json) ·
+[Modelli aggiornati](MODELLI_SALUMI.md) ·
+[Prompt dei materiali appesi](MODELLI_SALUMI_PROMPTS.json)
 
 ## Criteri grafici
 
@@ -19,7 +21,8 @@ Catalogo dei 25 item registrati nella prima filiera e dei 14 stati appesi.
   trasparente, con colori corrispondenti allo stadio del prodotto. Lo spago
   continua a usare la texture già esistente `cheese_twine.png`.
 - Le risorse esistenti di formaggi, utensili e altri ingredienti sono conservate.
-  Ricette, tempi, valori alimentari e geometrie dei modelli non sono modificati.
+  Ricette, tempi e valori alimentari restano invariati. I modelli appesi hanno
+  sette geometrie dedicate, descritte in [MODELLI_SALUMI.md](MODELLI_SALUMI.md).
 
 ## Item e distinzioni
 
@@ -50,12 +53,18 @@ Le 14 texture sono in
 `guanciale`, `prepared_bresaola`, `bresaola`, `prepared_coppa`, `coppa`,
 `smoked_prepared_speck`, `speck`.
 
-I 14 modelli figli di `hanging_cured_meat` usano questi materiali al posto
-delle icone degli item: la trasparenza delle icone causerebbe parti mancanti
-sulle facce dei cuboidi. Geometrie, coordinate UV automatiche, uncino e spago
-restano quelli della prima implementazione. Il modello appeso attuale ha un
-corpo generico condiviso: le forme specifiche delle varie carni sono distinte
-nelle icone, mentre sul modello appeso cambiano i materiali.
+Dal 2 ottobre 2026 i 14 modelli usano sette basi specifiche, ereditate da
+`hanging_cured_meat`. Ogni materiale è un atlante opaco: metà superiore per
+cotenna/budello, metà inferiore per il taglio. Le UV esplicite assegnano alle
+facce la superficie corretta, senza applicare l'icona trasparente dell'item
+ai cuboidi. Il campionamento usa ritagli proporzionati e ruota il pannello
+del budello sui lati, evitando pixel stirati lungo il corpo; sul fondo la
+proiezione è invertita lungo Z per mantenere il disegno continuo.
+Un quindicesimo materiale, `hanging_meat_bone.png`, serve per
+l'osso del Prosciutto. Lo spago mantiene la texture già esistente.
+
+Totale attuale: **25 icone e 15 materiali blocco**. I nuovi materiali e le
+sagome sono visibili nell'[anteprima dei modelli](MODELLI_SALUMI.html).
 
 La Mortadella e lo Speck non ancora affumicato non hanno una variante appesa
 nella filiera corrente e quindi non richiedono texture blocco dedicate.
@@ -68,13 +77,18 @@ sprite tramite codice; trasparenza generata conservata negli item.
 Le icone hanno almeno un pixel di margine trasparente. Nelle fette sottili di
 Pancetta e Speck i margini vuoti della sorgente sono ritagliati prima della
 riduzione, per mantenere leggibili gli strati di carne e grasso.
-Il file dei prompt contiene destinazione, famiglia e stadio per ogni asset.
+I file dei prompt contengono destinazione, famiglia e stadio per ogni asset.
+`TEXTURE_SALUMI_PROMPTS.json` documenta la prima generazione delle icone e dei
+materiali generici; per i materiali appesi attuali fa fede
+`MODELLI_SALUMI_PROMPTS.json`.
 
 L'anteprima incorpora i PNG finali e i modelli JSON effettivi, consente di
 confrontare gli stadi, cambiare sfondo e ruotare i prodotti appesi. Il rendering
 è semplificato e non sostituisce la verifica in Minecraft.
 
-Verifiche completate il **1 ottobre 2026**:
+Verifiche della prima generazione, completate il **1 ottobre 2026**
+(per le successive modifiche ai modelli e ai materiali, vedere
+[la verifica del 2 ottobre](MODELLI_SALUMI.md#verifica)):
 
 - [x] 39 PNG validi a 16×16: 25 icone con margini trasparenti, 14 materiali
   appesi completamente opachi, nessuna immagine vuota.

@@ -525,13 +525,18 @@ soggetti a rebalancing dopo i test in gioco.
 ### Texture
 
 Le texture della prima filiera sono disponibili in formato PNG 16×16:
-25 icone con sfondo trasparente e 14 materiali opachi per i prodotti appesi.
+25 icone con sfondo trasparente, 14 atlanti opachi per i prodotti appesi e
+un materiale per l'osso del Prosciutto.
 Preparati, prodotti finiti e fette mantengono colori e caratteristiche della
 stessa famiglia; lo Speck distingue anche lo stadio affumicato intermedio.
 
-I modelli appesi usano materiali dedicati, mentre conservano la geometria
-condivisa della prima implementazione. La verifica della resa in Minecraft
-rimane da eseguire.
+I modelli appesi usano sette geometrie dedicate, ispirate alle sagome degli
+item: coscia con osso, insaccato sottile, lastra di Pancetta, Guanciale
+rastremato, Bresaola allungata, Coppa panciuta e trancio di Speck. Le legature
+seguono il corpo e le UV distinguono superficie esterna e taglio. Le sagome
+di selezione seguono i nuovi modelli. La verifica della resa in Minecraft
+rimane da eseguire; dettagli e checklist sono in
+[MODELLI_SALUMI.md](MODELLI_SALUMI.md).
 
 Criteri, catalogo e checklist visiva sono in [TEXTURE_SALUMI.md](TEXTURE_SALUMI.md).
 L'[anteprima interattiva](TEXTURE_SALUMI.html) mostra le icone alla dimensione

@@ -1,6 +1,7 @@
 {
-  "parent": "italiansdelight:block/hanging_cured_meat",
+  "parent": "italiansdelight:block/hanging_pancetta_base",
   "textures": {
-    "meat": "italiansdelight:block/hanging_pancetta"
+    "meat": "italiansdelight:block/hanging_pancetta",
+    "cut": "italiansdelight:block/hanging_pancetta_cut"
   }
 }

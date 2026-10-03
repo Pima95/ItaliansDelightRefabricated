@@ -1,6 +1,7 @@
 {
-  "parent": "italiansdelight:block/hanging_cured_meat",
+  "parent": "italiansdelight:block/hanging_speck_base",
   "textures": {
-    "meat": "italiansdelight:block/hanging_speck"
+    "meat": "italiansdelight:block/hanging_speck",
+    "cut": "italiansdelight:block/hanging_speck_cut"
   }
 }

@@ -1,6 +1,7 @@
 {
-  "parent": "italiansdelight:block/hanging_cured_meat",
+  "parent": "italiansdelight:block/hanging_bresaola_base",
   "textures": {
-    "meat": "italiansdelight:block/hanging_prepared_bresaola"
+    "meat": "italiansdelight:block/hanging_prepared_bresaola",
+    "cut": "italiansdelight:block/hanging_prepared_bresaola_cut"
   }
 }

@@ -7,6 +7,7 @@ import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.aging.HangingCheeseType;
 import dev.italiansdelight.common.aging.CheeseShapes;
+import dev.italiansdelight.common.aging.CuredMeatShapes;
 import dev.italiansdelight.common.block.entity.CheeseHookBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModBlocks;
@@ -81,13 +82,20 @@ public final class CheeseHookBlock extends BaseEntityBlock {
     private static final VoxelShape SCAMORZA_SHAPE =
         Shapes.or(HOOK_SHAPE, CheeseShapes.HANGING_SCAMORZA).optimize();
 
-    // Generic selection volume used by hanging cured meats. Individual visual
-    // models can differ without forcing gameplay collision changes.
-    private static final VoxelShape CURED_MEAT_SHAPE =
-        Shapes.or(
-            HOOK_SHAPE,
-            Block.box(4, 0, 5, 12, 10, 11)
-        ).optimize();
+    private static final VoxelShape PROSCIUTTO_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.PROSCIUTTO).optimize();
+    private static final VoxelShape SALAME_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.SALAME).optimize();
+    private static final VoxelShape PANCETTA_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.PANCETTA).optimize();
+    private static final VoxelShape GUANCIALE_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.GUANCIALE).optimize();
+    private static final VoxelShape BRESAOLA_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.BRESAOLA).optimize();
+    private static final VoxelShape COPPA_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.COPPA).optimize();
+    private static final VoxelShape SPECK_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.SPECK).optimize();
 
     public CheeseHookBlock(Properties properties) {
         super(properties);
@@ -181,13 +189,13 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             case EMPTY -> HOOK_SHAPE;
             case FRESH_PROVOLONE, PROVOLONE -> PROVOLONE_SHAPE;
             case FRESH_SCAMORZA, SCAMORZA, SMOKED_SCAMORZA -> SCAMORZA_SHAPE;
-            case SALTED_HAM, PROSCIUTTO_CRUDO,
-                 RAW_SALAME, SALAME,
-                 PREPARED_PANCETTA, PANCETTA,
-                 PREPARED_GUANCIALE, GUANCIALE,
-                 PREPARED_BRESAOLA, BRESAOLA,
-                 PREPARED_COPPA, COPPA,
-                 SMOKED_PREPARED_SPECK, SPECK -> CURED_MEAT_SHAPE;
+            case SALTED_HAM, PROSCIUTTO_CRUDO -> PROSCIUTTO_SHAPE;
+            case RAW_SALAME, SALAME -> SALAME_SHAPE;
+            case PREPARED_PANCETTA, PANCETTA -> PANCETTA_SHAPE;
+            case PREPARED_GUANCIALE, GUANCIALE -> GUANCIALE_SHAPE;
+            case PREPARED_BRESAOLA, BRESAOLA -> BRESAOLA_SHAPE;
+            case PREPARED_COPPA, COPPA -> COPPA_SHAPE;
+            case SMOKED_PREPARED_SPECK, SPECK -> SPECK_SHAPE;
         };
     }
 
