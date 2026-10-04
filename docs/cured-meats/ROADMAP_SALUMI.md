@@ -392,8 +392,8 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] mantenere la compatibilità con i formaggi esistenti;
 - [x] estendere la logica dei prodotti appesi a formaggi e salumi;
 - [x] aggiungere supporto ai modelli dei salumi;
-- [ ] verificare salvataggio, rottura e riposizionamento;
-- [ ] verificare comportamento client/server.
+- [x] verificare salvataggio, rottura e riposizionamento;
+- [x] verificare comportamento client/server.
 
 ### Fase S2 — Item e intermedi
 
@@ -418,8 +418,8 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] implementare le ricette sull'Hanging Hook;
 - [x] impostare tempi iniziali placeholder;
 - [x] implementare affumicatura dello Speck;
-- [ ] verificare persistenza del progresso;
-- [ ] verificare particelle/rendering se necessari.
+- [x] verificare persistenza del progresso;
+- [x] verificare rendering, hitbox e orientamenti;
 
 ### Fase S5 — Cutting Board e utilizzo finale
 
@@ -442,7 +442,7 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] definire una prima passata dei valori nutrizionali;
 - [x] confermare la resa iniziale di 4 fette per salume;
 - [x] riesaminare i costi delle ricette della prima filiera;
-- [ ] definire i tempi di stagionatura definitivi;
+- [x] definire la seconda passata dei tempi di stagionatura;
 - [ ] confrontare in survival costi e valori con Vanilla / Farmer's Delight;
 - [ ] eseguire test survival della passata 1.
 

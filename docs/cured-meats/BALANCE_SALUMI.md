@@ -73,19 +73,36 @@ La Sweet Berries dello Speck rappresenta per ora la componente aromatica della
 preparazione. Potrà essere sostituita in futuro quando la filiera delle erbe
 sarà implementata.
 
-## Tempi attuali da testare
+## Tempi di stagionatura — passata 2
+
+Dopo il confronto con la scala già usata dai formaggi, i salumi vengono
+mantenuti più rapidi dei formaggi a lunga stagionatura. Il motivo è che le
+fette sono soprattutto ingredienti per piatti futuri e non devono richiedere
+tempi paragonabili a Pecorino o Parmigiano.
 
 | Prodotto | Tick | Tempo reale a 20 TPS |
 |---|---:|---:|
-| Pancetta | 24000 | 20 min |
-| Salame | 36000 | 30 min |
-| Guanciale | 36000 | 30 min |
-| Bresaola | 36000 | 30 min |
-| Coppa | 48000 | 40 min |
-| Speck | 48000 | 40 min + affumicatura |
-| Prosciutto Crudo | 72000 | 60 min |
+| Pancetta | 18000 | 15 min |
+| Salame | 24000 | 20 min |
+| Guanciale | 24000 | 20 min |
+| Bresaola | 24000 | 20 min |
+| Coppa | 30000 | 25 min |
+| Speck | 30000 | 25 min + affumicatura |
+| Prosciutto Crudo | 42000 | 35 min |
 
-Questi tempi restano invariati nella passata 1.
+Riferimento della filiera casearia:
+
+| Formaggio | Tempo |
+|---|---:|
+| Scamorza | 10 min |
+| Gorgonzola | 20 min |
+| Provolone | 30 min |
+| Pecorino Romano | 45 min |
+| Parmigiano Reggiano | 60 min |
+
+Il Prosciutto Crudo resta il salume più lento, ma non raggiunge il tempo del
+Pecorino o del Parmigiano. Lo Speck mantiene un costo temporale aggiuntivo
+attraverso la fase di affumicatura.
 
 ## Test survival richiesto
 
@@ -99,5 +116,6 @@ Prima della passata 2 verificare:
 - [ ] valutare se 60 minuti caricati per il Prosciutto Crudo sono eccessivi;
 - [ ] valutare Speck considerando sia affumicatura sia stagionatura.
 
-La passata 2 riguarderà soprattutto i **tempi di stagionatura** ed eventuali
-correzioni mirate a rese o valori alimentari.
+La passata 2 ha ridotto e differenziato i **tempi di stagionatura**. Dopo il
+test survival si valuteranno eventuali correzioni mirate a ricette, rese o
+valori alimentari.
