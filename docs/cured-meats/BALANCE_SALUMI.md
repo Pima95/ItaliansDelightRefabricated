@@ -1,10 +1,10 @@
-# Cured Meats — Balance
+# Cured Meats — Balance v1
 
-Prima passata di bilanciamento della filiera dei salumi.
+Bilanciamento v1 della filiera dei salumi.
 
-I valori di questa pagina sono intenzionalmente separati dai test funzionali:
-la meccanica è già stata verificata, mentre questi numeri devono essere provati
-in survival prima di considerarli definitivi.
+I test funzionali della filiera sono già stati completati. I valori qui
+raccolti costituiscono il **balance v1 candidate** e restano modificabili dopo
+un test survival complessivo.
 
 ## Principi
 
@@ -171,3 +171,49 @@ La Mortadella mantiene l'Egg come costo aggiuntivo della preparazione e il
 Salame mantiene String come rappresentazione della legatura/budello. Questi
 ingredienti potranno essere raffinati in futuro senza cambiare la struttura
 della filiera.
+
+
+## Stack size e XP — passata 4
+
+La quarta passata non modifica il gameplay: formalizza i valori già in uso
+perché risultano coerenti con il ruolo degli item.
+
+### Stack size
+
+| Categoria | Stack massimo |
+|---|---:|
+| Intermedi crudi/preparati | 16 |
+| Salumi interi finiti | 16 |
+| Fette commestibili | 64 |
+
+Motivazione:
+
+- gli intermedi e i prodotti interi rappresentano pezzi voluminosi e vengono
+  mantenuti a 16;
+- le fette sono normali ingredienti alimentari e restano a 64;
+- non vengono introdotte eccezioni fra famiglie diverse, così il comportamento
+  dell'inventario rimane prevedibile.
+
+### Esperienza di cottura
+
+| Processo | Furnace | Smoker |
+|---|---:|---:|
+| Raw Mortadella → Mortadella | 0.35 XP | 0.35 XP |
+| Prepared Speck → Smoked Prepared Speck | 0.35 XP | 0.35 XP |
+
+Lo smoker rimane più rapido ma non produce più esperienza della fornace.
+L'output e l'XP sono quindi identici; cambia soltanto il tempo di lavorazione.
+
+### Stato balance v1
+
+Valori confermati per la candidate v1:
+
+- nutrition: **2** per tutte le fette;
+- saturation modifier differenziato per prodotto;
+- resa: **4 fette** per tagli standard, **8 fette** per prodotti basati su Ham;
+- stack: **16** per intermedi/interi, **64** per fette;
+- cottura: **400 tick Furnace / 200 tick Smoker**, **0.35 XP**;
+- stagionatura: da **15 a 35 minuti** in base al prodotto.
+
+L'unico passaggio ancora necessario prima di considerare il bilanciamento
+definitivo è un test survival complessivo con i costi e le rese della passata 3.

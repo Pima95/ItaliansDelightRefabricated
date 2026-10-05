@@ -408,8 +408,8 @@ oppure un tag comune equivalente se già standardizzato.
 ### Fase S3 — Preparazione
 
 - [x] implementare ricette di salatura/preparazione;
-- [ ] usare Cutting Board dove appropriato;
-- [ ] usare Cooking Pot dove appropriato;
+- [x] usare il Cutting Board per l'affettatura dei prodotti finiti;
+- [x] valutare il Cooking Pot: non necessario nella prima filiera;
 - [x] implementare preparazione e cottura della Mortadella;
 - [x] implementare il percorso preparazione → affumicatura → stagionatura dello Speck.
 
@@ -435,7 +435,7 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] mostrare l'Hanging Hook per Provolone, Scamorza e salumi;
 - [x] aggiornare la documentazione tecnica;
 - [x] aggiungere una checklist di test;
-- [ ] documentare i valori definitivi dopo il rebalancing.
+- [x] documentare il balance v1 candidate.
 
 ### Fase S7 — Bilanciamento
 
@@ -443,26 +443,29 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] ribilanciare le rese: 4 fette standard, 8 per i prodotti basati su Ham;
 - [x] ribilanciare i costi delle ricette in base alla materia prima;
 - [x] definire la seconda passata dei tempi di stagionatura;
+- [x] formalizzare stack size e XP di cottura;
 - [ ] confrontare in survival costi e valori con Vanilla / Farmer's Delight;
-- [ ] eseguire test survival della passata 1.
+- [ ] eseguire test survival finale del balance v1 candidate.
 
 Dettagli e valori correnti: [BALANCE_SALUMI.md](BALANCE_SALUMI.md).
 
 ---
 
-## 10. Tempi di stagionatura
+## 10. Tempi di stagionatura — balance v1 candidate
 
-I tempi non vengono fissati in questa prima fase.
+| Prodotto | Tick | Tempo |
+|---|---:|---:|
+| Pancetta | 18000 | 15 min |
+| Salame | 24000 | 20 min |
+| Guanciale | 24000 | 20 min |
+| Bresaola | 24000 | 20 min |
+| Coppa | 30000 | 25 min |
+| Speck | 30000 | 25 min + affumicatura |
+| Prosciutto Crudo | 42000 | 35 min |
 
-Durante lo sviluppo si useranno valori placeholder, poi verranno ribilanciati
-insieme al resto della filiera.
-
-Principio generale previsto:
-
-- prodotti piccoli o sottili → tempi più brevi;
-- Salame / Guanciale / Bresaola / Coppa → tempi medi;
-- Prosciutto Crudo → tempo più lungo;
-- Speck → tempo medio-lungo più passaggio di affumicatura.
+La progressione mantiene il Prosciutto Crudo come prodotto più lento e lo
+Speck come filiera a più passaggi, senza raggiungere i tempi dei formaggi
+italiani a lunga stagionatura.
 
 ---
 

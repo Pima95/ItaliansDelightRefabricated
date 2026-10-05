@@ -613,10 +613,10 @@ public final class ModItems {
 
 
         // -----------------------------------------------------------------
-        // Cured meats — first implementation
+        // Cured meats — balance v1
         // -----------------------------------------------------------------
-        // Intermediate and whole products use placeholder balance values.
-        // Finished slices are edible; final balance will be tuned after survival tests.
+        // Intermediate and whole products stack to 16; finished edible slices
+        // stack to 64 through registerFoodItem().
 
         public static final Item SALTED_HAM =
                 registerSimpleItem("salted_ham", 16);
