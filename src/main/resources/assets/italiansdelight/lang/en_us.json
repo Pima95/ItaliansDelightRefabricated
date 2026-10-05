@@ -104,5 +104,5 @@
   "gui.italiansdelight.jei.salt_evaporation": "Salt Evaporation",
   "gui.italiansdelight.jei.salt_evaporation.process": "Evaporation",
   "gui.italiansdelight.jei.salt_evaporation.yield": "Yield: %s–%s Salt",
-  "gui.italiansdelight.jei.salt_evaporation.conditions": "Daylight, clear weather, and open sky required"
+  "gui.italiansdelight.jei.salt_evaporation.conditions": "Requires a full cauldron, daylight, clear weather, and open sky"
 }
