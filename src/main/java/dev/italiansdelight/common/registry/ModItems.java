@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.core.Registry;
 
@@ -51,14 +52,19 @@ public final class ModItems {
 
         public static final Item PASTA_WITH_TOMATO_SAUCE = register(
                         PASTA_WITH_TOMATO_SAUCE_KEY,
-                        new Item.Properties().food(
-                                        new FoodProperties.Builder()
+                        properties -> new ConsumableItem(properties, true),
+                        new Item.Properties()
+                                        .food(
+                                                new FoodProperties.Builder()
                                                         .nutrition(8)
                                                         .saturationModifier(0.8f)
-                                                        .effect(FoodValues.nourishment(FoodValues.SHORT_DURATION), 1.0F)
-                                                        .build())
-                                        .craftRemainder(net.minecraft.world.item.Items.BOWL) // Returns the bowl after
-                                                                                             // consumption
+                                                        .build()
+                                        )
+                                        .component(
+                                                DataComponents.CONSUMABLE,
+                                                FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION
+                                        )
+                                        .craftRemainder(Items.BOWL)
                                         .stacksTo(16));
 
         // Risotto with tomato sauce
@@ -68,13 +74,19 @@ public final class ModItems {
 
         public static final Item RISOTTO_WITH_TOMATO_SAUCE = register(
                         RISOTTO_WITH_TOMATO_SAUCE_KEY,
-                        new Item.Properties().food(
-                                        new FoodProperties.Builder()
+                        properties -> new ConsumableItem(properties, true),
+                        new Item.Properties()
+                                        .food(
+                                                new FoodProperties.Builder()
                                                         .nutrition(8)
                                                         .saturationModifier(0.8f)
-                                                        .effect(FoodValues.nourishment(FoodValues.SHORT_DURATION), 1.0F)
-                                                        .build())
-                                        .craftRemainder(net.minecraft.world.item.Items.BOWL)
+                                                        .build()
+                                        )
+                                        .component(
+                                                DataComponents.CONSUMABLE,
+                                                FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION
+                                        )
+                                        .craftRemainder(Items.BOWL)
                                         .stacksTo(16));
 
         // -----------------------------------------------------------------
@@ -82,28 +94,28 @@ public final class ModItems {
         // -----------------------------------------------------------------
 
         public static final Item PASTA_ALLA_CARBONARA =
-                registerBowlFoodItem("pasta_alla_carbonara", 10, 0.9f, FoodValues.MEDIUM_DURATION);
+                registerBowlFoodItem("pasta_alla_carbonara", 10, 0.9f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
 
         public static final Item PASTA_ALLA_GRICIA =
-                registerBowlFoodItem("pasta_alla_gricia", 9, 0.8f, FoodValues.SHORT_DURATION);
+                registerBowlFoodItem("pasta_alla_gricia", 9, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
         public static final Item PASTA_ALL_AMATRICIANA =
-                registerBowlFoodItem("pasta_all_amatriciana", 10, 0.8f, FoodValues.MEDIUM_DURATION);
+                registerBowlFoodItem("pasta_all_amatriciana", 10, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
 
         public static final Item PASTA_WITH_SPECK_AND_GORGONZOLA =
-                registerBowlFoodItem("pasta_with_speck_and_gorgonzola", 10, 0.9f, FoodValues.MEDIUM_DURATION);
+                registerBowlFoodItem("pasta_with_speck_and_gorgonzola", 10, 0.9f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
 
         public static final Item RISOTTO_WITH_SPECK_AND_GORGONZOLA =
-                registerBowlFoodItem("risotto_with_speck_and_gorgonzola", 10, 0.9f, FoodValues.MEDIUM_DURATION);
+                registerBowlFoodItem("risotto_with_speck_and_gorgonzola", 10, 0.9f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
 
         public static final Item RISOTTO_WITH_PARMIGIANO =
-                registerBowlFoodItem("risotto_with_parmigiano", 9, 0.8f, FoodValues.SHORT_DURATION);
+                registerBowlFoodItem("risotto_with_parmigiano", 9, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
         public static final Item MOZZARELLA_SALAD =
-                registerBowlFoodItem("mozzarella_salad", 7, 0.6f, FoodValues.SHORT_DURATION);
+                registerBowlFoodItem("mozzarella_salad", 7, 0.6f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
         public static final Item RISOTTO_WITH_MUSHROOM =
-                registerBowlFoodItem("risotto_with_mushroom", 8, 0.7f, FoodValues.SHORT_DURATION);
+                registerBowlFoodItem("risotto_with_mushroom", 8, 0.7f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
         public static final ResourceKey<Item> MOZZARELLA_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
@@ -175,7 +187,7 @@ public final class ModItems {
                 String id,
                 int nutrition,
                 float saturation,
-                int nourishmentDuration
+                Consumable consumable
         ) {
                 ResourceKey<Item> key = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
@@ -184,16 +196,16 @@ public final class ModItems {
 
                 return register(
                         key,
+                        properties -> new ConsumableItem(properties, true),
                         new Item.Properties()
                                 .food(
                                         new FoodProperties.Builder()
                                                 .nutrition(nutrition)
                                                 .saturationModifier(saturation)
-                                                .effect(FoodValues.nourishment(nourishmentDuration), 1.0F)
                                                 .build()
                                 )
+                                .component(DataComponents.CONSUMABLE, consumable)
                                 .craftRemainder(Items.BOWL)
-                                .usingConvertsTo(Items.BOWL)
                                 .stacksTo(16)
                 );
         }
