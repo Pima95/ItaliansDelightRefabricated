@@ -109,7 +109,7 @@ attraverso la fase di affumicatura.
 Prima della passata 2 verificare:
 
 - [ ] produrre almeno un salume partendo dalle materie prime;
-- [ ] valutare se 4 fette sembrano una resa adeguata;
+- [ ] valutare se 4 fette per i tagli standard e 8 per i prodotti da Ham risultano adeguate;
 - [ ] confrontare la convenienza con carne cotta vanilla/Farmer's Delight;
 - [ ] verificare se Pancetta e Guanciale risultano troppo efficienti come snack;
 - [ ] verificare se Bresaola risulta abbastanza utile nonostante la saturazione minore;
@@ -119,3 +119,55 @@ Prima della passata 2 verificare:
 La passata 2 ha ridotto e differenziato i **tempi di stagionatura**. Dopo il
 test survival si valuteranno eventuali correzioni mirate a ricette, rese o
 valori alimentari.
+
+
+## Costi e rese — passata 3
+
+La terza passata corregge il rapporto fra quantità di carne iniziale e resa al
+Cutting Board.
+
+Farmer's Delight considera il **Bacon** una mezza porzione di Porkchop, mentre
+un **Ham** può essere tagliato in 2 Porkchop più 1 Bone. Per evitare che alcune
+filiere siano nettamente migliori o peggiori della semplice cottura vanilla,
+la resa viene differenziata in base alla materia prima.
+
+### Preparazioni aggiornate
+
+| Prodotto | Preparazione |
+|---|---|
+| Prosciutto Crudo | 1× Ham + Salt |
+| Salame | 1× Porkchop + Salt + String |
+| Mortadella | 1× Porkchop + Salt + Egg |
+| Pancetta | 2× Bacon + Salt |
+| Guanciale | 1× Porkchop + Salt + Sugar |
+| Bresaola | 1× Beef + Salt |
+| Coppa | 1× Ham + Salt + Sugar |
+| Speck | 1× Ham + Salt + Sweet Berries |
+
+### Rese aggiornate
+
+| Salume | Output Cutting Board | Nutrition totale |
+|---|---:|---:|
+| Prosciutto Crudo | 8 fette | 16 |
+| Salame | 4 fette | 8 |
+| Mortadella | 4 fette | 8 |
+| Pancetta | 4 fette | 8 |
+| Guanciale | 4 fette | 8 |
+| Bresaola | 4 fette | 8 |
+| Coppa | 8 fette | 16 |
+| Speck | 8 fette | 16 |
+
+I prodotti basati su Ham producono quindi il doppio delle fette perché la
+materia prima rappresenta un taglio più grande. Gli altri prodotti restano a
+quattro fette.
+
+Questa scelta mantiene la lettura semplice:
+
+- 1 porzione standard di carne → 4 fette;
+- 1 Ham → 8 fette;
+- 2 Bacon equivalgono circa a 1 Porkchop → 4 fette.
+
+La Mortadella mantiene l'Egg come costo aggiuntivo della preparazione e il
+Salame mantiene String come rappresentazione della legatura/budello. Questi
+ingredienti potranno essere raffinati in futuro senza cambiare la struttura
+della filiera.

@@ -440,8 +440,8 @@ oppure un tag comune equivalente se già standardizzato.
 ### Fase S7 — Bilanciamento
 
 - [x] definire una prima passata dei valori nutrizionali;
-- [x] confermare la resa iniziale di 4 fette per salume;
-- [x] riesaminare i costi delle ricette della prima filiera;
+- [x] ribilanciare le rese: 4 fette standard, 8 per i prodotti basati su Ham;
+- [x] ribilanciare i costi delle ricette in base alla materia prima;
 - [x] definire la seconda passata dei tempi di stagionatura;
 - [ ] confrontare in survival costi e valori con Vanilla / Farmer's Delight;
 - [ ] eseguire test survival della passata 1.
@@ -582,3 +582,16 @@ Controllo eseguito sul branch `feature/cured-meats`:
 
 La verifica statica non sostituisce i test runtime. La procedura completa è in
 [TEST_CHECKLIST.md](TEST_CHECKLIST.md).
+
+
+### Bilanciamento — Passata 3
+
+Aggiornato il rapporto fra materia prima e resa:
+
+- Salame e Mortadella richiedono 1 Porkchop;
+- Pancetta richiede 2 Bacon;
+- Prosciutto Crudo, Coppa e Speck producono 8 fette;
+- gli altri salumi continuano a produrre 4 fette.
+
+La distinzione segue la scala delle carni di Farmer's Delight: Bacon è una
+porzione più piccola, mentre Ham rappresenta un taglio più grande.
