@@ -13,5 +13,5 @@ di formaggi e salumi.
 ## Stato
 
 Gli 8 nuovi piatti sono registrati e dispongono di ricetta, traduzioni, modello
-item e texture. Il prossimo controllo riguarda **nutrition** e **saturation**
-prima della validazione survival finale.
+item e texture. Il prossimo controllo riguarda **nutrition**, **saturation** e la durata di
+**Nourishment** prima della validazione survival finale.

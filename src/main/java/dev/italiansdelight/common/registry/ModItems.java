@@ -55,6 +55,7 @@ public final class ModItems {
                                         new FoodProperties.Builder()
                                                         .nutrition(8)
                                                         .saturationModifier(0.8f)
+                                                        .effect(FoodValues.nourishment(FoodValues.SHORT_DURATION), 1.0F)
                                                         .build())
                                         .craftRemainder(net.minecraft.world.item.Items.BOWL) // Returns the bowl after
                                                                                              // consumption
@@ -71,6 +72,7 @@ public final class ModItems {
                                         new FoodProperties.Builder()
                                                         .nutrition(8)
                                                         .saturationModifier(0.8f)
+                                                        .effect(FoodValues.nourishment(FoodValues.SHORT_DURATION), 1.0F)
                                                         .build())
                                         .craftRemainder(net.minecraft.world.item.Items.BOWL)
                                         .stacksTo(16));
@@ -80,28 +82,28 @@ public final class ModItems {
         // -----------------------------------------------------------------
 
         public static final Item PASTA_ALLA_CARBONARA =
-                registerBowlFoodItem("pasta_alla_carbonara", 10, 0.9f);
+                registerBowlFoodItem("pasta_alla_carbonara", 10, 0.9f, FoodValues.MEDIUM_DURATION);
 
         public static final Item PASTA_ALLA_GRICIA =
-                registerBowlFoodItem("pasta_alla_gricia", 9, 0.8f);
+                registerBowlFoodItem("pasta_alla_gricia", 9, 0.8f, FoodValues.SHORT_DURATION);
 
         public static final Item PASTA_ALL_AMATRICIANA =
-                registerBowlFoodItem("pasta_all_amatriciana", 10, 0.8f);
+                registerBowlFoodItem("pasta_all_amatriciana", 10, 0.8f, FoodValues.MEDIUM_DURATION);
 
         public static final Item PASTA_WITH_SPECK_AND_GORGONZOLA =
-                registerBowlFoodItem("pasta_with_speck_and_gorgonzola", 10, 0.9f);
+                registerBowlFoodItem("pasta_with_speck_and_gorgonzola", 10, 0.9f, FoodValues.MEDIUM_DURATION);
 
         public static final Item RISOTTO_WITH_SPECK_AND_GORGONZOLA =
-                registerBowlFoodItem("risotto_with_speck_and_gorgonzola", 10, 0.9f);
+                registerBowlFoodItem("risotto_with_speck_and_gorgonzola", 10, 0.9f, FoodValues.MEDIUM_DURATION);
 
         public static final Item RISOTTO_WITH_PARMIGIANO =
-                registerBowlFoodItem("risotto_with_parmigiano", 9, 0.8f);
+                registerBowlFoodItem("risotto_with_parmigiano", 9, 0.8f, FoodValues.SHORT_DURATION);
 
         public static final Item MOZZARELLA_SALAD =
-                registerBowlFoodItem("mozzarella_salad", 7, 0.6f);
+                registerBowlFoodItem("mozzarella_salad", 7, 0.6f, FoodValues.SHORT_DURATION);
 
         public static final Item RISOTTO_WITH_MUSHROOM =
-                registerBowlFoodItem("risotto_with_mushroom", 8, 0.7f);
+                registerBowlFoodItem("risotto_with_mushroom", 8, 0.7f, FoodValues.SHORT_DURATION);
 
         public static final ResourceKey<Item> MOZZARELLA_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
@@ -172,7 +174,8 @@ public final class ModItems {
         private static Item registerBowlFoodItem(
                 String id,
                 int nutrition,
-                float saturation
+                float saturation,
+                int nourishmentDuration
         ) {
                 ResourceKey<Item> key = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
@@ -186,6 +189,7 @@ public final class ModItems {
                                         new FoodProperties.Builder()
                                                 .nutrition(nutrition)
                                                 .saturationModifier(saturation)
+                                                .effect(FoodValues.nourishment(nourishmentDuration), 1.0F)
                                                 .build()
                                 )
                                 .craftRemainder(Items.BOWL)

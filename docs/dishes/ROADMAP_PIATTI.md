@@ -33,19 +33,29 @@ formaggi e dei salumi senza introdurre nuovi blocchi funzionali.
 
 ## Valori alimentari iniziali
 
-| Piatto | Nutrition | Saturation modifier |
-|---|---:|---:|
-| Pasta alla Carbonara | 10 | 0.9 |
-| Pasta alla Gricia | 9 | 0.8 |
-| Pasta all'Amatriciana | 10 | 0.8 |
-| Pasta Speck e Gorgonzola | 10 | 0.9 |
-| Risotto Speck e Gorgonzola | 10 | 0.9 |
-| Risotto al Parmigiano | 9 | 0.8 |
-| Insalata di Mozzarella | 7 | 0.6 |
-| Risotto ai Funghi | 8 | 0.7 |
+| Piatto | Nutrition | Saturation modifier | Nourishment |
+|---|---:|---:|---:|
+| Pasta alla Carbonara | 10 | 0.9 | 3 min |
+| Pasta alla Gricia | 9 | 0.8 | 1 min |
+| Pasta all'Amatriciana | 10 | 0.8 | 3 min |
+| Pasta Speck e Gorgonzola | 10 | 0.9 | 3 min |
+| Risotto Speck e Gorgonzola | 10 | 0.9 | 3 min |
+| Risotto al Parmigiano | 9 | 0.8 | 1 min |
+| Insalata di Mozzarella | 7 | 0.6 | 1 min |
+| Risotto ai Funghi | 8 | 0.7 | 1 min |
+| Pasta al Sugo | 8 | 0.8 | 1 min |
+| Risotto al Sugo | 8 | 0.8 | 1 min |
 
-Tutti i piatti completi sono bowl foods con stack massimo **16** e restituiscono
-una bowl dopo il consumo.
+Tutti i piatti completi sono bowl foods con stack massimo **16**, restituiscono
+una bowl dopo il consumo e applicano **Nourishment** con probabilità 100%.
+
+Le durate seguono la scala di Farmer's Delight Refabricated:
+
+- **Short** = 1 minuto per piatti semplici;
+- **Medium** = 3 minuti per piatti completi e più ricchi.
+
+La scala Farmer's Delight prevede anche Brief (30 secondi) e Long (5 minuti),
+ma non vengono usate in questa prima passata.
 
 ## Texture
 
@@ -98,5 +108,5 @@ Piatti candidati per una fase successiva:
 - [ ] controllare gli 8 nuovi item nel creative tab;
 - [ ] controllare tutte le ricette in JEI;
 - [ ] verificare il ritorno della bowl dopo il consumo;
-- [ ] verificare nutrition e saturation in survival;
+- [ ] verificare nutrition, saturation e durata di Nourishment in survival;
 - [ ] eseguire un controllo finale delle ricette prima della PR.
