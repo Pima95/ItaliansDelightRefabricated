@@ -57,7 +57,7 @@ public final class ModItems {
                                         .food(
                                                 new FoodProperties.Builder()
                                                         .nutrition(8)
-                                                        .saturationModifier(0.8f)
+                                                        .saturationModifier(0.7f)
                                                         .build()
                                         )
                                         .component(
@@ -79,7 +79,7 @@ public final class ModItems {
                                         .food(
                                                 new FoodProperties.Builder()
                                                         .nutrition(8)
-                                                        .saturationModifier(0.8f)
+                                                        .saturationModifier(0.7f)
                                                         .build()
                                         )
                                         .component(
@@ -92,30 +92,32 @@ public final class ModItems {
         // -----------------------------------------------------------------
         // Prepared dishes — cheese + cured-meat integration
         // -----------------------------------------------------------------
+        // Balance follows Farmer's Delight Refabricated 26.2 tiers:
+        // simple meals -> Short, complete meals -> Medium, rich meals -> Long.
 
         public static final Item PASTA_ALLA_CARBONARA =
-                registerBowlFoodItem("pasta_alla_carbonara", 10, 0.9f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+                registerBowlFoodItem("pasta_alla_carbonara", 14, 0.75f, FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
 
         public static final Item PASTA_ALLA_GRICIA =
-                registerBowlFoodItem("pasta_alla_gricia", 9, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+                registerBowlFoodItem("pasta_alla_gricia", 12, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
 
         public static final Item PASTA_ALL_AMATRICIANA =
-                registerBowlFoodItem("pasta_all_amatriciana", 10, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+                registerBowlFoodItem("pasta_all_amatriciana", 14, 0.75f, FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
 
         public static final Item PASTA_WITH_SPECK_AND_GORGONZOLA =
-                registerBowlFoodItem("pasta_with_speck_and_gorgonzola", 10, 0.9f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+                registerBowlFoodItem("pasta_with_speck_and_gorgonzola", 14, 0.75f, FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
 
         public static final Item RISOTTO_WITH_SPECK_AND_GORGONZOLA =
-                registerBowlFoodItem("risotto_with_speck_and_gorgonzola", 10, 0.9f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+                registerBowlFoodItem("risotto_with_speck_and_gorgonzola", 14, 0.75f, FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
 
         public static final Item RISOTTO_WITH_PARMIGIANO =
-                registerBowlFoodItem("risotto_with_parmigiano", 9, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+                registerBowlFoodItem("risotto_with_parmigiano", 10, 0.7f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
         public static final Item MOZZARELLA_SALAD =
-                registerBowlFoodItem("mozzarella_salad", 7, 0.6f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+                registerBowlFoodItem("mozzarella_salad", 8, 0.6f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
         public static final Item RISOTTO_WITH_MUSHROOM =
-                registerBowlFoodItem("risotto_with_mushroom", 8, 0.7f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+                registerBowlFoodItem("risotto_with_mushroom", 12, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
 
         public static final ResourceKey<Item> MOZZARELLA_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),

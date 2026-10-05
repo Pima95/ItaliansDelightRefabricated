@@ -13,5 +13,6 @@ di formaggi e salumi.
 ## Stato
 
 Gli 8 nuovi piatti sono registrati e dispongono di ricetta, traduzioni, modello
-item e texture. Il prossimo controllo riguarda **nutrition**, **saturation** e la durata di
-**Nourishment** prima della validazione survival finale.
+item e texture. Il **balance v1** di nutrition, saturation e Nourishment è stato definito
+confrontandolo con Farmer's Delight Refabricated 26.2. Resta da validarlo in
+survival prima della pull request.

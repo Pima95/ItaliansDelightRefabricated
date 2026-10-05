@@ -31,31 +31,46 @@ formaggi e dei salumi senza introdurre nuovi blocchi funzionali.
 - L'Insalata di Mozzarella usa `#c:crops/tomato` per compatibilità con
   Farmer's Delight e altre mod.
 
-## Valori alimentari iniziali
+## Balance v1 dei piatti
 
 | Piatto | Nutrition | Saturation modifier | Nourishment |
 |---|---:|---:|---:|
-| Pasta alla Carbonara | 10 | 0.9 | 3 min |
-| Pasta alla Gricia | 9 | 0.8 | 1 min |
-| Pasta all'Amatriciana | 10 | 0.8 | 3 min |
-| Pasta Speck e Gorgonzola | 10 | 0.9 | 3 min |
-| Risotto Speck e Gorgonzola | 10 | 0.9 | 3 min |
-| Risotto al Parmigiano | 9 | 0.8 | 1 min |
-| Insalata di Mozzarella | 7 | 0.6 | 1 min |
-| Risotto ai Funghi | 8 | 0.7 | 1 min |
-| Pasta al Sugo | 8 | 0.8 | 1 min |
-| Risotto al Sugo | 8 | 0.8 | 1 min |
+| Pasta al Sugo | 8 | 0.7 | 1 min |
+| Risotto al Sugo | 8 | 0.7 | 1 min |
+| Insalata di Mozzarella | 8 | 0.6 | 1 min |
+| Risotto al Parmigiano | 10 | 0.7 | 1 min |
+| Pasta alla Gricia | 12 | 0.8 | 3 min |
+| Risotto ai Funghi | 12 | 0.8 | 3 min |
+| Pasta alla Carbonara | 14 | 0.75 | 5 min |
+| Pasta all'Amatriciana | 14 | 0.75 | 5 min |
+| Pasta Speck e Gorgonzola | 14 | 0.75 | 5 min |
+| Risotto Speck e Gorgonzola | 14 | 0.75 | 5 min |
 
 Tutti i piatti completi sono bowl foods con stack massimo **16**, restituiscono
 una bowl dopo il consumo e applicano **Nourishment** con probabilità 100%.
 
-Le durate seguono la scala di Farmer's Delight Refabricated:
+### Criterio di bilanciamento
 
-- **Short** = 1 minuto per piatti semplici;
-- **Medium** = 3 minuti per piatti completi e più ricchi.
+La scala segue direttamente Farmer's Delight Refabricated 26.2:
 
-La scala Farmer's Delight prevede anche Brief (30 secondi) e Long (5 minuti),
-ma non vengono usate in questa prima passata.
+- **Short (1 min)** per piatti semplici da 8–10 nutrition;
+- **Medium (3 min)** per piatti completi da 12 nutrition;
+- **Long (5 min)** per piatti ricchi da 14 nutrition.
+
+Riferimenti principali della mod madre:
+
+| Farmer's Delight | Nutrition | Saturation | Nourishment |
+|---|---:|---:|---:|
+| Bone Broth | 8 | 0.7 | 1 min |
+| Ratatouille | 10 | 0.6 | 1 min |
+| Pasta with Meatballs | 12 | 0.8 | 3 min |
+| Mushroom Rice | 12 | 0.8 | 3 min |
+| Fried Rice | 14 | 0.75 | 5 min |
+
+Carbonara, Amatriciana e i piatti Speck/Gorgonzola entrano nel tier più alto
+perché richiedono più ingredienti e, soprattutto, prodotti provenienti da
+filiere di stagionatura. Gricia resta nel tier Medium, mentre Risotto ai Funghi
+riprende intenzionalmente il profilo del Mushroom Rice di Farmer's Delight.
 
 ## Texture
 
