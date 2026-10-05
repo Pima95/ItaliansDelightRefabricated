@@ -49,14 +49,15 @@ una bowl dopo il consumo.
 
 ## Texture
 
-Le texture di questi due piatti erano già presenti e vengono ora collegate alla
-logica applicativa:
+Tutte le texture degli **8 nuovi piatti** sono ora presenti e collegate ai
+rispettivi item/model JSON.
 
-- `textures/item/mozzarella_salad.png`
-- `textures/item/risotto_with_mushroom.png`
+Texture già esistenti prima di questa fase:
 
-Le texture dei sei nuovi piatti **non vengono create automaticamente**. Devono
-essere aggiunte manualmente con questi nomi esatti:
+- `mozzarella_salad.png`
+- `risotto_with_mushroom.png`
+
+Texture aggiunte il 5 ottobre 2026:
 
 - `pasta_alla_carbonara.png`
 - `pasta_alla_gricia.png`
@@ -65,12 +66,15 @@ essere aggiunte manualmente con questi nomi esatti:
 - `risotto_with_speck_and_gorgonzola.png`
 - `risotto_with_parmigiano.png`
 
-Cartella:
+Percorso comune:
 
 `src/main/resources/assets/italiansdelight/textures/item/`
 
-Fino all'aggiunta delle sei PNG, Minecraft mostrerà la missing texture per
-quegli item. Modelli, registrazione, traduzioni e ricette sono già predisposti.
+Documentazione grafica:
+
+- [Texture piatti](TEXTURE_PIATTI.md)
+- [Anteprima texture](TEXTURE_PIATTI.html)
+- [Prompt e riferimenti](TEXTURE_PIATTI_PROMPTS.json)
 
 ## Da implementare in futuro
 
@@ -89,8 +93,8 @@ Piatti candidati per una fase successiva:
 
 ## Checklist
 
-- [ ] aggiungere le 6 texture mancanti;
-- [ ] eseguire `./gradlew.bat clean build`;
+- [x] aggiungere le 6 texture mancanti;
+- [x] eseguire `./gradlew.bat clean build`;
 - [ ] controllare gli 8 nuovi item nel creative tab;
 - [ ] controllare tutte le ricette in JEI;
 - [ ] verificare il ritorno della bowl dopo il consumo;

@@ -30,9 +30,12 @@ public final class ModItemGroups {
             .icon(() -> new ItemStack(ModItems.PASTA_WITH_TOMATO_SAUCE)) // Changes the creative tab icon
             .title(Component.translatable("itemGroup.italiansdelight.main"))
             .displayItems((params, output) -> {
+                // Production blocks and tools.
                 output.accept(ModBlocks.CHEESE_VAT);
                 output.accept(ModBlocks.CHEESE_HOOK);
                 output.accept(ModItems.CHEESE_GRATER);
+
+                // Cheese aging racks.
                 output.accept(ModBlocks.OAK_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.SPRUCE_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.BIRCH_CHEESE_AGING_RACK);
@@ -45,81 +48,105 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.BAMBOO_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.CRIMSON_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);
+
+                // Crops, basic ingredients and dairy processing resources.
                 output.accept(ModBlocks.CARDOON);
-                output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
-                output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
-                output.accept(ModItems.PASTA_ALLA_CARBONARA);
-                output.accept(ModItems.PASTA_ALLA_GRICIA);
-                output.accept(ModItems.PASTA_ALL_AMATRICIANA);
-                output.accept(ModItems.PASTA_WITH_SPECK_AND_GORGONZOLA);
-                output.accept(ModItems.RISOTTO_WITH_SPECK_AND_GORGONZOLA);
-                output.accept(ModItems.RISOTTO_WITH_PARMIGIANO);
-                output.accept(ModItems.MOZZARELLA_SALAD);
-                output.accept(ModItems.RISOTTO_WITH_MUSHROOM);
-                output.accept(ModItems.MOZZARELLA);
-                output.accept(ModItems.MOZZARELLA_SLICE);
+                output.accept(ModItems.SALT);
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.RENNET);
                 output.accept(ModItems.CURD);
                 output.accept(ModItems.CREAM_BOWL);
                 output.accept(ModItems.BLUE_MOLD_CULTURE);
                 output.accept(ModItems.APPLE_CIDER_VINEGAR);
-                output.accept(ModItems.RICOTTA);
                 output.accept(ModItems.SHEEP_MILK_BOTTLE);
                 output.accept(ModItems.SHEEP_MILK_BUCKET);
                 output.accept(ModItems.WHEY_BOTTLE);
                 output.accept(ModItems.WHEY_BUCKET);
+
+                // Fresh dairy products.
+                output.accept(ModItems.MOZZARELLA);
+                output.accept(ModItems.MOZZARELLA_SLICE);
                 output.accept(ModItems.BOCCONCINO);
                 output.accept(ModItems.BURRATA);
+                output.accept(ModItems.RICOTTA);
                 output.accept(ModItems.MASCARPONE);
+
+                // Parmigiano Reggiano.
                 output.accept(ModItems.FRESH_PARMIGIANO_REGGIANO);
                 output.accept(ModItems.PARMIGIANO_REGGIANO);
                 output.accept(ModItems.PARMIGIANO_REGGIANO_WEDGE);
                 output.accept(ModItems.GRATED_PARMIGIANO_REGGIANO);
+
+                // Pecorino Romano.
                 output.accept(ModItems.FRESH_PECORINO_ROMANO);
                 output.accept(ModItems.PECORINO_ROMANO);
                 output.accept(ModItems.PECORINO_ROMANO_WEDGE);
                 output.accept(ModItems.GRATED_PECORINO_ROMANO);
+
+                // Gorgonzola.
                 output.accept(ModItems.FRESH_GORGONZOLA);
                 output.accept(ModItems.GORGONZOLA);
                 output.accept(ModItems.GORGONZOLA_WEDGE);
+
+                // Provolone.
                 output.accept(ModItems.FRESH_PROVOLONE);
                 output.accept(ModItems.PROVOLONE);
                 output.accept(ModItems.PROVOLONE_SLICE);
+
+                // Scamorza.
                 output.accept(ModItems.FRESH_SCAMORZA);
                 output.accept(ModItems.SCAMORZA);
                 output.accept(ModItems.SMOKED_SCAMORZA);
                 output.accept(ModItems.SCAMORZA_SLICE);
                 output.accept(ModItems.SMOKED_SCAMORZA_SLICE);
 
-                // Cured-meat production chain.
+                // Cured meats, grouped by production chain.
                 output.accept(ModItems.SALTED_HAM);
+                output.accept(ModItems.PROSCIUTTO_CRUDO);
+                output.accept(ModItems.PROSCIUTTO_CRUDO_SLICE);
+
                 output.accept(ModItems.RAW_SALAME);
+                output.accept(ModItems.SALAME);
+                output.accept(ModItems.SALAME_SLICE);
+
                 output.accept(ModItems.RAW_MORTADELLA);
+                output.accept(ModItems.MORTADELLA);
+                output.accept(ModItems.MORTADELLA_SLICE);
+
                 output.accept(ModItems.PREPARED_PANCETTA);
+                output.accept(ModItems.PANCETTA);
+                output.accept(ModItems.PANCETTA_SLICE);
+
                 output.accept(ModItems.PREPARED_GUANCIALE);
+                output.accept(ModItems.GUANCIALE);
+                output.accept(ModItems.GUANCIALE_SLICE);
+
                 output.accept(ModItems.PREPARED_BRESAOLA);
+                output.accept(ModItems.BRESAOLA);
+                output.accept(ModItems.BRESAOLA_SLICE);
+
                 output.accept(ModItems.PREPARED_COPPA);
+                output.accept(ModItems.COPPA);
+                output.accept(ModItems.COPPA_SLICE);
+
                 output.accept(ModItems.PREPARED_SPECK);
                 output.accept(ModItems.SMOKED_PREPARED_SPECK);
-                output.accept(ModItems.PROSCIUTTO_CRUDO);
-                output.accept(ModItems.SALAME);
-                output.accept(ModItems.MORTADELLA);
-                output.accept(ModItems.PANCETTA);
-                output.accept(ModItems.GUANCIALE);
-                output.accept(ModItems.BRESAOLA);
-                output.accept(ModItems.COPPA);
                 output.accept(ModItems.SPECK);
-                output.accept(ModItems.PROSCIUTTO_CRUDO_SLICE);
-                output.accept(ModItems.SALAME_SLICE);
-                output.accept(ModItems.MORTADELLA_SLICE);
-                output.accept(ModItems.PANCETTA_SLICE);
-                output.accept(ModItems.GUANCIALE_SLICE);
-                output.accept(ModItems.BRESAOLA_SLICE);
-                output.accept(ModItems.COPPA_SLICE);
                 output.accept(ModItems.SPECK_SLICE);
 
-                output.accept(ModItems.SALT);
+                // Complete dishes: pasta, risotti and cold dishes.
+                output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
+                output.accept(ModItems.PASTA_ALLA_CARBONARA);
+                output.accept(ModItems.PASTA_ALLA_GRICIA);
+                output.accept(ModItems.PASTA_ALL_AMATRICIANA);
+                output.accept(ModItems.PASTA_WITH_SPECK_AND_GORGONZOLA);
+
+                output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
+                output.accept(ModItems.RISOTTO_WITH_MUSHROOM);
+                output.accept(ModItems.RISOTTO_WITH_PARMIGIANO);
+                output.accept(ModItems.RISOTTO_WITH_SPECK_AND_GORGONZOLA);
+
+                output.accept(ModItems.MOZZARELLA_SALAD);
             })
             .build();
 
