@@ -100,5 +100,9 @@
   "item.italiansdelight.bresaola_slice": "Bresaola Slice",
   "item.italiansdelight.coppa_slice": "Coppa Slice",
   "item.italiansdelight.speck_slice": "Speck Slice",
-  "gui.italiansdelight.jei.hanging_aging_drying": "Hanging Aging & Drying"
+  "gui.italiansdelight.jei.hanging_aging_drying": "Hanging Aging & Drying",
+  "gui.italiansdelight.jei.salt_evaporation": "Salt Evaporation",
+  "gui.italiansdelight.jei.salt_evaporation.process": "Evaporation",
+  "gui.italiansdelight.jei.salt_evaporation.yield": "Yield: %s–%s Salt",
+  "gui.italiansdelight.jei.salt_evaporation.conditions": "Daylight, clear weather, and open sky required"
 }

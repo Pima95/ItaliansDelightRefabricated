@@ -18,7 +18,7 @@ Current features include:
 - **sheep milk**, cream, whey, blue mold culture, apple cider vinegar, and other dairy ingredients;
 - a **cheese grater** and Farmer's Delight Cutting Board integration for sliced and grated cheeses;
 - **cardoon** generation and cultivation as a source used in the dairy chain;
-- **salt production** by naturally evaporating water in vanilla cauldrons;
+- **salt production** by naturally evaporating water in vanilla cauldrons, with a dedicated JEI evaporation recipe;
 - Italian dishes such as **pasta with tomato sauce** and **risotto with tomato sauce**;
 - integration with **JEI** and Farmer's Delight systems.
 

@@ -45,6 +45,9 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             ),
             new HangingAgingDryingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
+            ),
+            new SaltEvaporationRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
             )
         );
     }
@@ -97,6 +100,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             CheeseAgingJeiRecipeTypes.HANGING_AGING_DRYING,
             hangingRecipes
         );
+
+        registration.addRecipes(
+            SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
+            java.util.List.of(
+                SaltEvaporationJeiRecipe.createDefault()
+            )
+        );
     }
 
     @Override
@@ -118,6 +128,11 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addCraftingStation(
             CheeseAgingJeiRecipeTypes.HANGING_AGING_DRYING,
             new ItemStack(ModBlocks.CHEESE_HOOK)
+        );
+
+        registration.addCraftingStation(
+            SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
+            new ItemStack(net.minecraft.world.level.block.Blocks.CAULDRON)
         );
     }
 

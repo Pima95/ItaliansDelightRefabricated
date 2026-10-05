@@ -100,5 +100,9 @@
   "item.italiansdelight.bresaola_slice": "Fetta di Bresaola",
   "item.italiansdelight.coppa_slice": "Fetta di Coppa",
   "item.italiansdelight.speck_slice": "Fetta di Speck",
-  "gui.italiansdelight.jei.hanging_aging_drying": "Stagionatura e Asciugatura Appesa"
+  "gui.italiansdelight.jei.hanging_aging_drying": "Stagionatura e Asciugatura Appesa",
+  "gui.italiansdelight.jei.salt_evaporation": "Evaporazione del Sale",
+  "gui.italiansdelight.jei.salt_evaporation.process": "Evaporazione",
+  "gui.italiansdelight.jei.salt_evaporation.yield": "Resa: %s–%s Sale",
+  "gui.italiansdelight.jei.salt_evaporation.conditions": "Richiede luce diurna, meteo sereno e cielo libero"
 }
