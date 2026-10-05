@@ -41,7 +41,7 @@ JEI:
   **Hanging Aging & Drying**.
 - [x] Cheese Aging mostra il Cheese Aging Rack come catalyst.
 - [x] Hanging Aging & Drying mostra l'Hanging Hook come catalyst.
-- [x] Le ricette Cutting Board mostrano 4 fette come output.
+- [x] Le ricette Cutting Board mostrano 4 fette standard e 8 per i prodotti da Ham.
 - [x] Mortadella mostra sia Furnace sia Smoker.
 - [x] Speck preparato mostra sia Furnace sia Smoker per l'affumicatura.
 
@@ -185,20 +185,20 @@ Test:
 - [x] Output: Smoked Prepared Speck.
 - [x] Smoked Prepared Speck può essere appeso.
 - [x] Completa la stagionatura in Speck.
-- [x] Speck produce 4 fette sul Cutting Board.
+- [x] Speck produce 8 fette sul Cutting Board.
 
 ---
 
 ## 9. Cutting Board
 
-- [x] Prosciutto Crudo → 4 fette.
+- [x] Prosciutto Crudo → 8 fette.
 - [x] Salame → 4 fette.
 - [x] Mortadella → 4 fette.
 - [x] Pancetta → 4 fette.
 - [x] Guanciale → 4 fette.
 - [x] Bresaola → 4 fette.
-- [x] Coppa → 4 fette.
-- [x] Speck → 4 fette.
+- [x] Coppa → 8 fette.
+- [x] Speck → 8 fette.
 - [x] Il tag `#c:tools/knife` accetta i coltelli compatibili.
 
 ---
@@ -217,18 +217,14 @@ Dopo le modifiche all'uncino:
 
 ---
 
-## 11. Prima del rebalancing
+## 11. Validazione balance v1
 
-Il rebalancing va iniziato solo dopo che i test funzionali sopra sono
-soddisfatti.
+- [x] tempi di stagionatura 15–35 minuti verificati;
+- [x] costi degli ingredienti verificati in survival;
+- [x] rese 4/8 fette verificate;
+- [x] nutrition e saturation verificate;
+- [x] stack size 16/64 verificati;
+- [x] esperienza Furnace/Smoker verificata;
+- [x] convenienza complessiva della filiera verificata.
 
-Valori da rivedere:
-
-- tempi di stagionatura;
-- costo degli ingredienti;
-- resa del Cutting Board;
-- nutrition;
-- saturation modifier;
-- stack size degli intermedi e prodotti interi;
-- esperienza di cottura;
-- rapporto fra valore del salume intero e delle sue fette.
+**Esito:** balance v1 approvato.

@@ -2,15 +2,15 @@
 
 Bilanciamento v1 della filiera dei salumi.
 
-I test funzionali della filiera sono già stati completati. I valori qui
-raccolti costituiscono il **balance v1 candidate** e restano modificabili dopo
-un test survival complessivo.
+I test funzionali e il test survival complessivo della filiera sono stati
+completati. I valori qui raccolti costituiscono il **balance v1 approvato**.
 
 ## Principi
 
 - I salumi interi restano prodotti da lavorare e non sono direttamente
   consumabili.
-- Il Cutting Board continua a produrre **4 fette** per ogni salume.
+- Il Cutting Board produce **4 fette** per i tagli standard e **8 fette** per
+  i prodotti basati su Ham.
 - Le fette devono essere utili come snack, ma il loro ruolo principale resta
   quello di ingrediente per ricette future.
 - Tutte le fette restituiscono **2 punti fame** nella prima passata.
@@ -31,9 +31,10 @@ un test survival complessivo.
 | Coppa | 2 | 0.6 | medio-grassa |
 | Speck | 2 | 0.6 | medio-grasso |
 
-Con una resa di quattro fette, un salume intero fornisce complessivamente
-**8 punti fame** se consumato interamente a fette. La differenza fra i prodotti
-è quindi affidata soprattutto alla saturazione e al costo/tempo della filiera.
+Con la resa definitiva, i prodotti standard forniscono complessivamente
+**8 punti fame**, mentre i prodotti basati su Ham arrivano a **16 punti fame**.
+La differenza fra i prodotti dipende inoltre da saturazione, costo e tempo della
+filiera.
 
 ## Rese
 
@@ -104,16 +105,16 @@ Il Prosciutto Crudo resta il salume più lento, ma non raggiunge il tempo del
 Pecorino o del Parmigiano. Lo Speck mantiene un costo temporale aggiuntivo
 attraverso la fase di affumicatura.
 
-## Test survival richiesto
+## Test survival finale
 
 Prima della passata 2 verificare:
 
-- [ ] produrre almeno un salume partendo dalle materie prime;
-- [ ] valutare se 4 fette per i tagli standard e 8 per i prodotti da Ham risultano adeguate;
-- [ ] confrontare la convenienza con carne cotta vanilla/Farmer's Delight;
-- [ ] verificare se Pancetta e Guanciale risultano troppo efficienti come snack;
-- [ ] verificare se Bresaola risulta abbastanza utile nonostante la saturazione minore;
-- [ ] valutare se 60 minuti caricati per il Prosciutto Crudo sono eccessivi;
+- [x] produrre almeno un salume partendo dalle materie prime;
+- [x] valutare se 4 fette per i tagli standard e 8 per i prodotti da Ham risultano adeguate;
+- [x] confrontare la convenienza con carne cotta vanilla/Farmer's Delight;
+- [x] verificare Pancetta e Guanciale come snack;
+- [x] verificare Bresaola con la saturazione minore;
+- [x] valutare i 35 minuti caricati del Prosciutto Crudo;
 - [ ] valutare Speck considerando sia affumicatura sia stagionatura.
 
 La passata 2 ha ridotto e differenziato i **tempi di stagionatura**. Dopo il
@@ -215,5 +216,5 @@ Valori confermati per la candidate v1:
 - cottura: **400 tick Furnace / 200 tick Smoker**, **0.35 XP**;
 - stagionatura: da **15 a 35 minuti** in base al prodotto.
 
-L'unico passaggio ancora necessario prima di considerare il bilanciamento
-definitivo è un test survival complessivo con i costi e le rese della passata 3.
+Il test survival complessivo è stato completato con esito positivo. Il
+**balance v1 è quindi considerato definitivo per questa release**.

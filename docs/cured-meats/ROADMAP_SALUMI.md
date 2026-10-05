@@ -444,14 +444,14 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] ribilanciare i costi delle ricette in base alla materia prima;
 - [x] definire la seconda passata dei tempi di stagionatura;
 - [x] formalizzare stack size e XP di cottura;
-- [ ] confrontare in survival costi e valori con Vanilla / Farmer's Delight;
-- [ ] eseguire test survival finale del balance v1 candidate.
+- [x] confrontare in survival costi e valori con Vanilla / Farmer's Delight;
+- [x] eseguire test survival finale del balance v1.
 
 Dettagli e valori correnti: [BALANCE_SALUMI.md](BALANCE_SALUMI.md).
 
 ---
 
-## 10. Tempi di stagionatura — balance v1 candidate
+## 10. Tempi di stagionatura — balance v1
 
 | Prodotto | Tick | Tempo |
 |---|---:|---:|
@@ -490,11 +490,12 @@ La prima implementazione ha ormai fissato le decisioni principali:
 3. Speck segue preparazione → affumicatura → stagionatura;
 4. l'uncino mantiene l'ID storico `italiansdelight:cheese_hook`, ma viene
    mostrato come Hanging Hook / Uncino da Stagionatura;
-5. ogni salume produce temporaneamente 4 fette sul Cutting Board;
-6. tempi e valori alimentari sono ancora placeholder.
+5. i tagli standard producono 4 fette, mentre Prosciutto Crudo, Coppa e Speck
+   producono 8 fette perché basati su Ham;
+6. tempi, rese e valori alimentari hanno completato il rebalancing v1.
 
-Il passo successivo è completare i test manuali descritti in
-[TEST_CHECKLIST.md](TEST_CHECKLIST.md), quindi eseguire il rebalancing.
+I test manuali e survival sono completati; il branch è pronto per la pulizia
+finale e la preparazione della pull request.
 
 
 ---
@@ -512,22 +513,23 @@ La prima implementazione del branch usa i seguenti intermedi:
 - `prepared_coppa` → Coppa;
 - `prepared_speck` → affumicatura → `smoked_prepared_speck` → Speck.
 
-Tempi placeholder sull'uncino:
+Tempi balance v1 sull'uncino:
 
 | Prodotto | Tick |
 |---|---:|
-| Prosciutto Crudo | 72000 |
-| Salame | 36000 |
-| Pancetta | 24000 |
-| Guanciale | 36000 |
-| Bresaola | 36000 |
-| Coppa | 48000 |
-| Speck | 48000 |
+| Prosciutto Crudo | 42000 |
+| Salame | 24000 |
+| Pancetta | 18000 |
+| Guanciale | 24000 |
+| Bresaola | 24000 |
+| Coppa | 30000 |
+| Speck | 30000 |
 
-Ogni salume finito produce inizialmente **4 fette** sul Cutting Board.
+Prosciutto Crudo, Coppa e Speck producono **8 fette** sul Cutting Board; gli
+altri salumi ne producono **4**.
 
-I valori nutrizionali, gli ingredienti aromatici, le rese e i tempi restano
-soggetti a rebalancing dopo i test in gioco.
+Valori nutrizionali, rese e tempi hanno superato il test survival finale e
+costituiscono il balance v1 della feature.
 
 ### Texture
 
@@ -541,9 +543,8 @@ I modelli appesi usano sette geometrie dedicate, ispirate alle sagome degli
 item: coscia con osso, insaccato sottile, lastra di Pancetta, Guanciale
 rastremato, Bresaola allungata, Coppa panciuta e trancio di Speck. Le legature
 seguono il corpo e le UV distinguono superficie esterna e taglio. Le sagome
-di selezione seguono i nuovi modelli. La verifica della resa in Minecraft
-rimane da eseguire; dettagli e checklist sono in
-[MODELLI_SALUMI.md](MODELLI_SALUMI.md).
+di selezione seguono i nuovi modelli. La resa in Minecraft è stata verificata durante i test runtime; dettagli e
+checklist sono in [MODELLI_SALUMI.md](MODELLI_SALUMI.md).
 
 Criteri, catalogo e checklist visiva sono in [TEXTURE_SALUMI.md](TEXTURE_SALUMI.md).
 L'[anteprima interattiva](TEXTURE_SALUMI.html) mostra le icone alla dimensione
