@@ -75,6 +75,34 @@ public final class ModItems {
                                         .craftRemainder(net.minecraft.world.item.Items.BOWL)
                                         .stacksTo(16));
 
+        // -----------------------------------------------------------------
+        // Prepared dishes — cheese + cured-meat integration
+        // -----------------------------------------------------------------
+
+        public static final Item PASTA_ALLA_CARBONARA =
+                registerBowlFoodItem("pasta_alla_carbonara", 10, 0.9f);
+
+        public static final Item PASTA_ALLA_GRICIA =
+                registerBowlFoodItem("pasta_alla_gricia", 9, 0.8f);
+
+        public static final Item PASTA_ALL_AMATRICIANA =
+                registerBowlFoodItem("pasta_all_amatriciana", 10, 0.8f);
+
+        public static final Item PASTA_WITH_SPECK_AND_GORGONZOLA =
+                registerBowlFoodItem("pasta_with_speck_and_gorgonzola", 10, 0.9f);
+
+        public static final Item RISOTTO_WITH_SPECK_AND_GORGONZOLA =
+                registerBowlFoodItem("risotto_with_speck_and_gorgonzola", 10, 0.9f);
+
+        public static final Item RISOTTO_WITH_PARMIGIANO =
+                registerBowlFoodItem("risotto_with_parmigiano", 9, 0.8f);
+
+        public static final Item MOZZARELLA_SALAD =
+                registerBowlFoodItem("mozzarella_salad", 7, 0.6f);
+
+        public static final Item RISOTTO_WITH_MUSHROOM =
+                registerBowlFoodItem("risotto_with_mushroom", 8, 0.7f);
+
         public static final ResourceKey<Item> MOZZARELLA_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
                         ModRegistries.id("mozzarella"));
@@ -138,6 +166,31 @@ public final class ModItems {
                                                 .build()
                                 )
                                 .stacksTo(64)
+                );
+        }
+
+        private static Item registerBowlFoodItem(
+                String id,
+                int nutrition,
+                float saturation
+        ) {
+                ResourceKey<Item> key = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id(id)
+                );
+
+                return register(
+                        key,
+                        new Item.Properties()
+                                .food(
+                                        new FoodProperties.Builder()
+                                                .nutrition(nutrition)
+                                                .saturationModifier(saturation)
+                                                .build()
+                                )
+                                .craftRemainder(Items.BOWL)
+                                .usingConvertsTo(Items.BOWL)
+                                .stacksTo(16)
                 );
         }
 

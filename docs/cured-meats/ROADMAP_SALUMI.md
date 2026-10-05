@@ -426,7 +426,7 @@ oppure un tag comune equivalente se già standardizzato.
 - [x] aggiungere tutte le ricette di affettatura;
 - [x] definire una resa placeholder di 4 fette per prodotto;
 - [x] aggiungere tag interni per salumi e fette;
-- [ ] preparare integrazione futura con i piatti.
+- [x] integrare i salumi nei primi piatti completi; vedere `docs/dishes/ROADMAP_PIATTI.md`.
 
 ### Fase S6 — JEI e documentazione
 

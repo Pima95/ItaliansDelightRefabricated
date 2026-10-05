@@ -48,6 +48,14 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CARDOON);
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
+                output.accept(ModItems.PASTA_ALLA_CARBONARA);
+                output.accept(ModItems.PASTA_ALLA_GRICIA);
+                output.accept(ModItems.PASTA_ALL_AMATRICIANA);
+                output.accept(ModItems.PASTA_WITH_SPECK_AND_GORGONZOLA);
+                output.accept(ModItems.RISOTTO_WITH_SPECK_AND_GORGONZOLA);
+                output.accept(ModItems.RISOTTO_WITH_PARMIGIANO);
+                output.accept(ModItems.MOZZARELLA_SALAD);
+                output.accept(ModItems.RISOTTO_WITH_MUSHROOM);
                 output.accept(ModItems.MOZZARELLA);
                 output.accept(ModItems.MOZZARELLA_SLICE);
                 output.accept(ModItems.TOMATO_SLICE);
