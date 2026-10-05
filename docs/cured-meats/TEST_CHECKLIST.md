@@ -228,3 +228,26 @@ Dopo le modifiche all'uncino:
 - [x] convenienza complessiva della filiera verificata.
 
 **Esito:** balance v1 approvato.
+
+---
+
+## 12. Texture dei nuovi piatti
+
+Risorse aggiunte il **5 ottobre 2026**. Riferimenti e confronto con le icone
+originali di Farmer's Delight Refabricated in
+[TEXTURE_PIATTI.md](TEXTURE_PIATTI.md) e nell'[anteprima](TEXTURE_PIATTI.html).
+
+- [x] Sei PNG 16×16 presenti e collegati ai modelli degli item.
+- [x] Alpha esclusivamente 0/255: nessun pixel semitrasparente.
+- [x] Risorse verificate nel JAR dopo la build offline.
+
+Controllare in gioco, nel gruppo creativo, in JEI e tenendo l'item in mano:
+
+- [ ] Pasta alla Carbonara.
+- [ ] Pasta alla Gricia.
+- [ ] Pasta all'Amatriciana.
+- [ ] Pasta con Speck e Gorgonzola.
+- [ ] Risotto con Speck e Gorgonzola.
+- [ ] Risotto al Parmigiano.
+- [ ] Nessuna missing texture, alone o fondo indesiderato.
+- [ ] Scala, ciotola e stile coerenti con i piatti della mod madre.
