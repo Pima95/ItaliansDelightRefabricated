@@ -28,12 +28,12 @@ Rimuovere l'acqua o rompere il calderone azzera il progresso.
 
 ## Checklist
 
-- [ ] JEI mostra la categoria cercando `Salt`;
-- [ ] l'icona della categoria è un calderone;
-- [ ] il catalyst è il calderone vanilla;
-- [ ] lo slot sinistro mostra acqua fluida e non un contenitore;
-- [ ] lo slot destro mostra il sale;
-- [ ] il tooltip indica 10 minuti;
-- [ ] il tooltip indica resa 3–7;
-- [ ] il tooltip riporta le condizioni ambientali;
-- [ ] la categoria usa correttamente il background della stagionatura.
+- [x] JEI mostra la categoria cercando `Salt`;
+- [x] l'icona della categoria è un calderone;
+- [x] il catalyst è il calderone vanilla;
+- [x] lo slot sinistro mostra acqua fluida e non un contenitore;
+- [x] lo slot destro mostra il sale;
+- [x] il tooltip indica 10 minuti;
+- [x] il tooltip indica resa 3–7;
+- [x] il tooltip riporta le condizioni ambientali;
+- [x] la categoria usa correttamente il background della stagionatura.
