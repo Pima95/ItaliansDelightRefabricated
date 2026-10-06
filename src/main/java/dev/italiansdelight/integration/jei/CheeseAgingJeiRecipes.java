@@ -6,16 +6,23 @@ import java.util.List;
 
 import dev.italiansdelight.common.crafting.CheeseAgingRecipe;
 import dev.italiansdelight.common.crafting.CheeseDryingRecipe;
+import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModRecipes;
 
 import net.fabricmc.fabric.api.recipe.v1.sync.SynchronizedRecipes;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
 /**
- * Collects both aging and drying recipes for the single JEI Aging category.
+ * Collects aging and drying recipes for JEI and assigns them to the station
+ * that can actually perform the process.
+ *
+ * Wheel cheeses that fit the aging racks are shown in the Cheese Aging
+ * category. Provolone and all drying recipes are shown in the Hanging Aging &
+ * Drying category because they use the Hanging Hook.
  */
 public final class CheeseAgingJeiRecipes {
 
@@ -39,7 +46,7 @@ public final class CheeseAgingJeiRecipes {
                 .getSynchronizedRecipes();
     }
 
-    public List<CheeseAgingJeiRecipe> getRecipes() {
+    public List<CheeseAgingJeiRecipe> getRackAgingRecipes() {
         List<CheeseAgingJeiRecipe> recipes =
             new ArrayList<>();
 
@@ -49,16 +56,60 @@ public final class CheeseAgingJeiRecipes {
                 ModRecipes.CHEESE_AGING_TYPE
             )
         ) {
+            CheeseAgingRecipe recipe =
+                holder.value();
+
+            // Provolone is the aging recipe that processes on the Hanging Hook.
+            // Other current cheese-aging recipes use a rack or a flat surface.
+            if (
+                recipe.getIngredient().test(
+                    new ItemStack(
+                        ModItems.FRESH_PROVOLONE
+                    )
+                )
+            ) {
+                continue;
+            }
+
             recipes.add(
                 CheeseAgingJeiRecipe.fromAging(
-                    holder.value()
+                    recipe
                 )
             );
         }
 
-        // For now Scamorza is deliberately shown in the same GUI as the aged
-        // cheeses. Its gameplay recipe remains cheese_drying, ready for the
-        // future hanging-hook implementation.
+        sortByProcessingTime(recipes);
+        return List.copyOf(recipes);
+    }
+
+    public List<CheeseAgingJeiRecipe> getHangingRecipes() {
+        List<CheeseAgingJeiRecipe> recipes =
+            new ArrayList<>();
+
+        for (
+            RecipeHolder<CheeseAgingRecipe> holder :
+            synchronizedRecipes.getAllOfType(
+                ModRecipes.CHEESE_AGING_TYPE
+            )
+        ) {
+            CheeseAgingRecipe recipe =
+                holder.value();
+
+            if (
+                recipe.getIngredient().test(
+                    new ItemStack(
+                        ModItems.FRESH_PROVOLONE
+                    )
+                )
+            ) {
+                recipes.add(
+                    CheeseAgingJeiRecipe.fromAging(
+                        recipe
+                    )
+                );
+            }
+        }
+
         for (
             RecipeHolder<CheeseDryingRecipe> holder :
             synchronizedRecipes.getAllOfType(
@@ -72,14 +123,17 @@ public final class CheeseAgingJeiRecipes {
             );
         }
 
+        sortByProcessingTime(recipes);
+        return List.copyOf(recipes);
+    }
+
+    private static void sortByProcessingTime(
+        List<CheeseAgingJeiRecipe> recipes
+    ) {
         recipes.sort(
             Comparator.comparingInt(
                 CheeseAgingJeiRecipe::processingTime
             )
-        );
-
-        return List.copyOf(
-            recipes
         );
     }
 }

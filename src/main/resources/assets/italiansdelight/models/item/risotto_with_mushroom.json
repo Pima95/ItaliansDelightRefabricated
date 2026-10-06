@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "italiansdelight:item/risotto_with_mushroom"
+  }
+}

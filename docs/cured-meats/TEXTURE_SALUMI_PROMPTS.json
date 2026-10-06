@@ -1,0 +1,412 @@
+{
+  "tool": "imagegen built-in",
+  "date": "2026-10-01",
+  "output_size": [
+    16,
+    16
+  ],
+  "resampling": "Nearest-neighbor to 16x16. Item image centered in a 14x14 area to guarantee at least one transparent border pixel; generated alpha preserved. Block materials fill all 16x16 pixels and must be opaque. Pancetta and speck slices have empty source margins cropped before scaling so their thin meat/fat bands remain legible; source alpha is preserved within the crop.",
+  "entries": [
+    {
+      "id": "prosciutto_crudo",
+      "kind": "item",
+      "stage": "final",
+      "family": "prosciutto_crudo",
+      "label": "Prosciutto Crudo",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: A whole pear-shaped cured pork ham leg, large rounded haunch tapering to a short pale exposed bone on upper right, diagonally oriented lower-left to upper-right; approximately 12 by 13 pixels. Warm ochre-tan dry outer rind, muted dark rose-red lean cut area and thin ivory fat border; unmistakable aged ham, not roast meat.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/prosciutto_crudo.png"
+    },
+    {
+      "id": "salted_ham",
+      "kind": "item",
+      "stage": "prepared",
+      "family": "prosciutto_crudo",
+      "label": "Prosciutto Salato",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: A whole pear-shaped cured pork ham leg, large rounded haunch tapering to a short pale exposed bone on upper right, diagonally oriented lower-left to upper-right; approximately 12 by 13 pixels. Same ham leg but fresh moist rosy pork, pale blush pink outer surface and ivory fat; 3 sparse off-white salt pixels, no tan dry rind.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/salted_ham.png"
+    },
+    {
+      "id": "prosciutto_crudo_slice",
+      "kind": "item",
+      "stage": "slice",
+      "family": "prosciutto_crudo",
+      "label": "Fetta di Prosciutto Crudo",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One thin broad irregular teardrop-shaped slice of prosciutto, dusty rose-red lean center with broad ivory-white fat rim along one curved edge; gentle fold, no bone.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/prosciutto_crudo_slice.png"
+    },
+    {
+      "id": "hanging_prosciutto_crudo",
+      "kind": "block",
+      "stage": "final",
+      "family": "prosciutto_crudo",
+      "label": "Prosciutto Crudo appeso",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Cured prosciutto rind: warm dry tawny tan #b7825d, muted rose-brown patches #935446, pale beige fat traces #ddc29c. Dry leathery surface with very subtle darker broad clusters; no exposed red steak.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prosciutto_crudo.png"
+    },
+    {
+      "id": "hanging_salted_ham",
+      "kind": "block",
+      "stage": "prepared",
+      "family": "prosciutto_crudo",
+      "label": "Prosciutto Salato appeso",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Salted fresh pork ham surface: soft raw rosy pink #d88c85, pale fat #f1d9bc, muted rose #b96e70 and sparse salt-white pixels. Clearly lighter and pinker than cured brown ham.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_salted_ham.png"
+    },
+    {
+      "id": "salame",
+      "kind": "item",
+      "stage": "final",
+      "family": "salame",
+      "label": "Salame",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One narrow elongated cylindrical salami sausage, about 6 pixels thick and 13 pixels long, angled lower-left to upper-right, tiny tan string knot at far upper end and small visible cut end at lower left. Dry pale ivory gray-beige casing, dark wine-red cut end with 3-4 discrete white fat squares. Slim long shape, dry and firm.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/salame.png"
+    },
+    {
+      "id": "raw_salame",
+      "kind": "item",
+      "stage": "prepared",
+      "family": "salame",
+      "label": "Salame Crudo",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One narrow elongated cylindrical salami sausage, about 6 pixels thick and 13 pixels long, angled lower-left to upper-right, tiny tan string knot at far upper end and small visible cut end at lower left. Identical thin sausage silhouette and knot, smooth moist pink-red uncured casing, darker pink cut end with white fat bits. No dry white bloom.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/raw_salame.png"
+    },
+    {
+      "id": "salame_slice",
+      "kind": "item",
+      "stage": "slice",
+      "family": "salame",
+      "label": "Fetta di Salame",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One small round thin salami coin about 9 pixels across, dark wine red with 4-5 isolated ivory square fat specks and very thin pale gray-beige casing rim; not a stack.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/salame_slice.png"
+    },
+    {
+      "id": "hanging_salame",
+      "kind": "block",
+      "stage": "final",
+      "family": "salame",
+      "label": "Salame appeso",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Dry salami casing: chalky light gray-beige #c7b99d and pale ivory #e5d8b9 over muted dusty reddish brown #926458. Restrained irregular pale dry bloom patches, clearly pale and drier than raw pink sausage.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_salame.png"
+    },
+    {
+      "id": "hanging_raw_salame",
+      "kind": "block",
+      "stage": "prepared",
+      "family": "salame",
+      "label": "Salame Crudo appeso",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Fresh raw salami casing: moist muted pork-rose #c9787a, dusty crimson #a75259, sparse cream fat flecks #e1b49c. Predominantly pink-red with no white mold/bloom.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_raw_salame.png"
+    },
+    {
+      "id": "mortadella",
+      "kind": "item",
+      "stage": "final",
+      "family": "mortadella",
+      "label": "Mortadella",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One large broad squat oval-cylinder mortadella sausage, 11 pixels wide by 10 high, muted tan casing with small tied end on the right, big exposed oval cross section on lower-left facing the viewer. Very light warm cooked pink smooth filling #e7a09b, 3 large unmistakable creamy-white fat cubes, warm tan-orange outer casing. No pistachios or herbs.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/mortadella.png"
+    },
+    {
+      "id": "raw_mortadella",
+      "kind": "item",
+      "stage": "prepared",
+      "family": "mortadella",
+      "label": "Mortadella Cruda",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One large broad squat oval-cylinder mortadella sausage, 11 pixels wide by 10 high, muted tan casing with small tied end on the right, big exposed oval cross section on lower-left facing the viewer. Same broad oval shape, tie and fat cubes, deeper cool raw pork-rose filling #be727d and cool pink casing instead of warm cooked tan. Raw but not bloody.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/raw_mortadella.png"
+    },
+    {
+      "id": "mortadella_slice",
+      "kind": "item",
+      "stage": "slice",
+      "family": "mortadella",
+      "label": "Fetta di Mortadella",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One broad round very thin mortadella slice about 12 pixels across: smooth light salmon pink with exactly 3 large ivory fat cubes, slim warm tan outer rim. No pistachios, no green, no salami-like tiny speckles.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/mortadella_slice.png"
+    },
+    {
+      "id": "pancetta",
+      "kind": "item",
+      "stage": "final",
+      "family": "pancetta",
+      "label": "Pancetta",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One compact rectangular slab of flat pork belly about 12 pixels wide and 8 tall, three-quarter view showing side layers and a small top face. NOT rolled pancetta. Alternating broad horizontal creamy ivory fat and dark dusty brick-red lean bands, warm golden tan thin rind along lower edge. Rectangular layered belly, not a sausage or ham.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/pancetta.png"
+    },
+    {
+      "id": "prepared_pancetta",
+      "kind": "item",
+      "stage": "prepared",
+      "family": "pancetta",
+      "label": "Pancetta Preparata",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One compact rectangular slab of flat pork belly about 12 pixels wide and 8 tall, three-quarter view showing side layers and a small top face. NOT rolled pancetta. Same rectangular slab shape and layering, pale fresh pink lean bands and bright creamy white fat, pale beige soft rind with two small salt specks; no cured gold rind.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/prepared_pancetta.png"
+    },
+    {
+      "id": "pancetta_slice",
+      "kind": "item",
+      "stage": "slice",
+      "family": "pancetta",
+      "label": "Fetta di Pancetta",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One long flat short ribbon of pancetta about 12 pixels wide by 5 tall, 2 parallel alternating dark rose meat and ivory fat bands, thin golden rind edge. Straight belly strip, no bone, no coil.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/pancetta_slice.png"
+    },
+    {
+      "id": "hanging_pancetta",
+      "kind": "block",
+      "stage": "final",
+      "family": "pancetta",
+      "label": "Pancetta appesa",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Flat cured pork belly: two or three broad irregular HORIZONTAL ivory fat bands #eee0bd alternating with muted brick-red lean #b56461 and #8f484a; occasional narrow golden tan rind tones. Broad bands, never noisy speckles.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_pancetta.png"
+    },
+    {
+      "id": "hanging_prepared_pancetta",
+      "kind": "block",
+      "stage": "prepared",
+      "family": "pancetta",
+      "label": "Pancetta Preparata appesa",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Prepared raw pork belly: two or three broad HORIZONTAL creamy-white fat bands #f5e4cc alternating with light rosy pink meat #dc9a96 and muted pink #be7c80; 2 sparse salt flecks. Noticeably lighter than cured pancetta.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_pancetta.png"
+    },
+    {
+      "id": "guanciale",
+      "kind": "item",
+      "stage": "final",
+      "family": "guanciale",
+      "label": "Guanciale",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One thick tapered triangular pork jowl wedge, broad rounded top-left end narrowing toward lower-right, about 12 by 9 pixels, visible thick cross section. Predominantly buttery ivory fat, ONE narrow dark rose lean seam, earthy gray-brown peppered rind on top edge. Fat-rich triangular shape clearly different from striped rectangular pancetta.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/guanciale.png"
+    },
+    {
+      "id": "prepared_guanciale",
+      "kind": "item",
+      "stage": "prepared",
+      "family": "guanciale",
+      "label": "Guanciale Preparato",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One thick tapered triangular pork jowl wedge, broad rounded top-left end narrowing toward lower-right, about 12 by 9 pixels, visible thick cross section. Same tapered triangular jowl shape, luminous pale cream fat and thin fresh pink meat seam, pale pink rind and 2 salt flecks, no gray-brown cured rind.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/prepared_guanciale.png"
+    },
+    {
+      "id": "guanciale_slice",
+      "kind": "item",
+      "stage": "slice",
+      "family": "guanciale",
+      "label": "Fetta di Guanciale",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One small tapered triangular guanciale strip, predominantly creamy ivory fat, ONE narrow dusty red lean seam near an edge, dark pepper-gray rind edge. Not bacon-style equal alternating stripes.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/guanciale_slice.png"
+    },
+    {
+      "id": "hanging_guanciale",
+      "kind": "block",
+      "stage": "final",
+      "family": "guanciale",
+      "label": "Guanciale appeso",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Fat-rich cured pork jowl: majority buttery ivory fat #e5d3aa, one irregular thin muted wine-red lean vein #a65f59, restrained gray-brown peppered rind patches #857062. Keep most surface pale fat, clearly different from evenly striped pancetta.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_guanciale.png"
+    },
+    {
+      "id": "hanging_prepared_guanciale",
+      "kind": "block",
+      "stage": "prepared",
+      "family": "guanciale",
+      "label": "Guanciale Preparato appeso",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Fresh prepared pork jowl: majority pale creamy white fat #f4e3c7, one fine pale pink lean vein #d99791, very sparse off-white salt flecks, almost no brown. Smooth pale raw fat.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_guanciale.png"
+    },
+    {
+      "id": "bresaola",
+      "kind": "item",
+      "stage": "final",
+      "family": "bresaola",
+      "label": "Bresaola",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One smooth lean beef bresaola log, elongated tapered oval about 7 pixels wide by 12 high, angled slightly diagonally with a tiny tan tie at the top and visible small dark oval cut end at bottom. Deep burgundy dark red lean meat #793740 and plum-brown exterior #5e343d, very sparse pale gray casing traces. Uniform lean red cross section with NO ivory fat marbling.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/bresaola.png"
+    },
+    {
+      "id": "prepared_bresaola",
+      "kind": "item",
+      "stage": "prepared",
+      "family": "bresaola",
+      "label": "Bresaola Preparata",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One smooth lean beef bresaola log, elongated tapered oval about 7 pixels wide by 12 high, angled slightly diagonally with a tiny tan tie at the top and visible small dark oval cut end at bottom. Same slender lean log and tie, fresh brighter cherry-red beef #c55f68, rose highlights, tiny pale salt flecks, no dark dry outer crust. No fat marbling.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/prepared_bresaola.png"
+    },
+    {
+      "id": "bresaola_slice",
+      "kind": "item",
+      "stage": "slice",
+      "family": "bresaola",
+      "label": "Fetta di Bresaola",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One very thin round bresaola slice about 10 pixels across, deep ruby-burgundy red, slightly translucent-looking red edge rendered with opaque pixels, subtle red center shading, NO ivory fat cubes or marbling.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/bresaola_slice.png"
+    },
+    {
+      "id": "hanging_bresaola",
+      "kind": "block",
+      "stage": "final",
+      "family": "bresaola",
+      "label": "Bresaola appesa",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Lean cured bresaola exterior: deep burgundy #713440, plum brown #57303a, restrained dusty wine-red #974c57 clusters, only 2 tiny pale gray casing traces. Dark dry surface, no white fat veins.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_bresaola.png"
+    },
+    {
+      "id": "hanging_prepared_bresaola",
+      "kind": "block",
+      "stage": "prepared",
+      "family": "bresaola",
+      "label": "Bresaola Preparata appesa",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Prepared raw lean beef: fresh cherry red #c35f69 and rose highlight #de8587, muted crimson #9b424e, 2-3 small salt-white flecks; NO fat marbling. Noticeably fresher and brighter than dark cured bresaola.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_bresaola.png"
+    },
+    {
+      "id": "coppa",
+      "kind": "item",
+      "stage": "final",
+      "family": "coppa",
+      "label": "Coppa",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One stocky oval coppa neck-cut log about 9 pixels wide by 12 high, thin tan twine around the body, oval cut end facing lower left. Broader than the lean bresaola log. Dusty brown-red casing, rich muted red cross section crossed by 2-3 irregular cream fat veins forming broad marbling, not diced salami fat. Sparse tan twine.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/coppa.png"
+    },
+    {
+      "id": "prepared_coppa",
+      "kind": "item",
+      "stage": "prepared",
+      "family": "coppa",
+      "label": "Coppa Preparata",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One stocky oval coppa neck-cut log about 9 pixels wide by 12 high, thin tan twine around the body, oval cut end facing lower left. Broader than the lean bresaola log. Same stocky oval neck cut and twine, fresh pale pink pork and cream marbling, smooth pink-beige outer casing, no dry brown crust.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/prepared_coppa.png"
+    },
+    {
+      "id": "coppa_slice",
+      "kind": "item",
+      "stage": "slice",
+      "family": "coppa",
+      "label": "Fetta di Coppa",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One round slightly oval coppa slice about 11 pixels across, muted red-pink meat with 2-3 connected winding cream-white fat veins, narrow brown rind edge. Marbled whole muscle, not separate diced white dots.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/coppa_slice.png"
+    },
+    {
+      "id": "hanging_coppa",
+      "kind": "block",
+      "stage": "final",
+      "family": "coppa",
+      "label": "Coppa appesa",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Cured coppa surface: muted garnet and reddish brown #984e51 #713d42 with 2-3 broad irregular branching cream-beige fat veins #d7bd96 and sparse dusty beige dry casing patches. Marbled texture different from lean bresaola.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_coppa.png"
+    },
+    {
+      "id": "hanging_prepared_coppa",
+      "kind": "block",
+      "stage": "prepared",
+      "family": "coppa",
+      "label": "Coppa Preparata appesa",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Fresh prepared pork neck: light muted pork pink #ce8587, blush #e4a39b and creamy ivory fat veins #eed6b8, gentle smooth surface, no brown cured crust. Branching veins rather than white diced fat.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_prepared_coppa.png"
+    },
+    {
+      "id": "speck",
+      "kind": "item",
+      "stage": "final",
+      "family": "speck",
+      "label": "Speck",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One oblong squared slab of boneless speck, about 12 pixels wide by 8 high, three-quarter view with broad burgundy lean face, thick cream fat cap and outer rind. No bone or round sausage. Dark chestnut smoky crust #694335, deep wine-red lean #963e48, thick ivory fat cap, slight amber edge. Dark rectangular smoked ham distinct from tan pear-shaped prosciutto.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/speck.png"
+    },
+    {
+      "id": "prepared_speck",
+      "kind": "item",
+      "stage": "prepared",
+      "family": "speck",
+      "label": "Speck Preparato",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One oblong squared slab of boneless speck, about 12 pixels wide by 8 high, three-quarter view with broad burgundy lean face, thick cream fat cap and outer rind. No bone or round sausage. Same oblong boneless slab, fresh blush pork-pink lean #d78989, thick pale ivory fat cap and light beige soft rind, a few salt flecks; no smoked dark crust.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/prepared_speck.png"
+    },
+    {
+      "id": "speck_slice",
+      "kind": "item",
+      "stage": "slice",
+      "family": "speck",
+      "label": "Fetta di Speck",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One thin long rectangular speck slice about 12 pixels wide and 6 high, mostly deep burgundy lean with a straight thick ivory fat band on ONE long edge and thin dark chestnut smoked rind outside. Not alternating bacon stripes.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/speck_slice.png"
+    },
+    {
+      "id": "hanging_speck",
+      "kind": "block",
+      "stage": "final",
+      "family": "speck",
+      "label": "Speck appeso",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: Fully cured smoked speck surface: deep chestnut dry smoked rind #6c4234, darker brown #52352e, warm muted reddish brown #8d5141, sparse cream fat edge traces #d4b48c. Darkest brown cured pork texture, no black char.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_speck.png"
+    },
+    {
+      "id": "smoked_prepared_speck",
+      "kind": "item",
+      "stage": "smoked_prepared",
+      "family": "speck",
+      "label": "Speck Preparato Affumicato",
+      "prompt": "Use case: stylized-concept. Asset: one production Minecraft inventory sprite for Italian's Delight, matching vanilla and Farmer's Delight foods. EXACT logical 16x16 pixel canvas, coarse square pixels, no finer detail; if output is enlarged, enlarge this grid only. One centered food with 1-2 logical pixels transparent margin; fills the slot like vanilla ham. Fully transparent alpha background. Limited 6-9 flat colors, gentle upper-left light, subtle colored outline, recognizable stepped silhouette; no black outline, no gradients, no blur, no photorealism, no ground shadow, no glow, no lettering, no plate, no props, no extra detached slices. Slight three-quarter view where appropriate. Subject: One oblong squared slab of boneless speck, about 12 pixels wide by 8 high, three-quarter view with broad burgundy lean face, thick cream fat cap and outer rind. No bone or round sausage.Partly processed smoked but uncured pork: medium amber-copper smoked rind #b57548, still fresh rosy-pink lean #c87879 and ivory fat cap. Clearly darker outside than raw prepared speck but lighter than final deep chestnut cured speck. No smoke cloud.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/smoked_prepared_speck.png"
+    },
+    {
+      "id": "hanging_smoked_prepared_speck",
+      "kind": "block",
+      "stage": "smoked_prepared",
+      "family": "speck",
+      "label": "Speck Preparato Affumicato appeso",
+      "prompt": "Use case: stylized-concept. Asset: one seamless opaque Minecraft block material tile, EXACT logical 16x16 pixels enlarged without smoothing. Square canvas filled edge to edge with the material. Not an inventory icon: no object silhouette, border, margins, outline, perspective, directional light, gradients, cast shadow, text, plate or transparency. Flat albedo, restrained 5-7 color palette, sparse broad pixel clusters matching vanilla Minecraft / Farmer's Delight and the existing Italian's Delight cheese skins. Must look good on a small 8x8x4 cuboid; central areas must also show the diagnostic material. No painted rope; the model has separate actual twine. Material: smoked but not cured pork rind: medium amber and copper #b8784e #cd956a, hints of muted pink #b77970, sparse pale fat #e1c49d. Warm smoky surface distinctly lighter than final dark chestnut speck; no smoke cloud or black char.",
+      "path": "src/main/resources/assets/italiansdelight/textures/block/hanging_smoked_prepared_speck.png"
+    }
+  ],
+  "refinements": [
+    {
+      "id": "pancetta",
+      "reason": "Remove colored external glow from the initial generated image.",
+      "mode": "edit",
+      "prompt": "Use case: background-extraction. Input is an inventory pancetta sprite to fix. KEEP the same rectangular pork-belly slab, meat/fat bands, colors, perspective and pixel-art body. REMOVE COMPLETELY every glow, haze, colored halo, shadow and background outside the actual crisp stepped slab silhouette. Output ONLY the sharply cut-out food object on fully TRANSPARENT alpha, with NO semitransparent red or golden glow or shadow anywhere. Center the isolated object on a SQUARE canvas with transparent margins. Simplify the art to exactly a logical 16x16 Minecraft pixel grid, coarse flat-color pixels only, limited 6-8 colors, no smooth gradients. No new objects, no labels. This is a production vanilla Minecraft item PNG, not a presentation illustration. Actual alpha zero outside the food."
+    },
+    {
+      "id": "speck",
+      "reason": "Remove external glow and isolate the food silhouette on transparent alpha.",
+      "mode": "edit",
+      "selected": false,
+      "prompt": "Edit this single Minecraft item sprite of SPECK. Preserve the recognizable boneless rectangular cured pork slab, dark chestnut-brown smoked rind on top and side, one ivory fat cap, lean burgundy red cut face, and its compact three-quarter view. The ONLY correction is to remove the large brown external glow and all soft shadow around the object. The outside of the exact stepped silhouette must be entirely transparent alpha=0; every pixel of the food itself fully opaque. No glow, no vignette, no cast shadow, no haze, no background color, no floating particles. Return one isolated low-resolution pixel-art inventory sprite with crisp blocky edges and large clear color clusters, enough simplification to remain recognizable at 16x16 pixels. Keep a transparent margin around the whole silhouette. No text, no grid, no border. Do not turn the single fat cap into bacon stripes."
+    },
+    {
+      "id": "speck",
+      "reason": "Remove external glow and isolate the food silhouette on transparent alpha.",
+      "mode": "edit",
+      "selected": true,
+      "prompt": "Use case: background-extraction. Input is an inventory speck sprite to fix. KEEP the rectangular boneless cured pork slab, dark chestnut smoked rind, single ivory fat cap, burgundy lean meat, perspective and pixel-art body. REMOVE COMPLETELY every glow, haze, colored halo, shadow and background outside the actual crisp stepped slab silhouette. Output ONLY the sharply cut-out food object on fully TRANSPARENT alpha, with NO semitransparent brown or red glow or shadow anywhere. Center the isolated object on a SQUARE canvas with wide transparent margins on all four sides. Simplify the art to exactly a logical 16x16 Minecraft pixel grid, coarse flat-color pixels only, limited 6-8 colors, no smooth gradients. No new objects, no labels. This is a production vanilla Minecraft item PNG, not a presentation illustration. Actual alpha zero outside the food. The canvas MUST BE SQUARE, with a completely clean hard contour."
+    },
+    {
+      "id": "prepared_speck",
+      "reason": "Remove external glow and isolate the food silhouette on transparent alpha.",
+      "mode": "edit",
+      "selected": false,
+      "prompt": "Edit this single Minecraft item sprite of PREPARED RAW SPECK. Keep its exact food design and three-quarter view: boneless rectangular pork slab, fresh light pink meat, one thick creamy-white fat cap, pale beige rind, small white salt grains. It is raw, neither smoked nor cured. Remove ALL the colored glow/halo surrounding the slab. Replace every part of the background, shadow, haze and glow outside the hard stepped food silhouette with fully transparent alpha 0. Every food pixel fully opaque. The single compact food object must have crisp pixel-art edges with no antialiasing or blur. Keep an empty transparent margin around the full silhouette, isolated sprite, no background surface, no shadow, no colored aura, no text. Simplified large color clusters legible at native 16x16 Minecraft inventory size. Preserve the food's pale pink and ivory colors and recognizable fat cap."
+    },
+    {
+      "id": "prepared_speck",
+      "reason": "Remove external glow and isolate the food silhouette on transparent alpha.",
+      "mode": "edit",
+      "selected": true,
+      "prompt": "Use case: background-extraction. Input is an inventory prepared raw speck sprite to fix. KEEP the rectangular boneless pork slab, pink raw meat, single ivory fat cap, pale beige rind, salt grains, colors, perspective and pixel-art body. REMOVE COMPLETELY every glow, haze, colored halo, shadow and background outside the actual crisp stepped slab silhouette. Output ONLY the sharply cut-out food object on fully TRANSPARENT alpha, with NO semitransparent red or golden glow or shadow anywhere. Center the isolated object on a SQUARE canvas with wide transparent margins on all four sides. Simplify the art to exactly a logical 16x16 Minecraft pixel grid, coarse flat-color pixels only, limited 6-8 colors, no smooth gradients. No new objects, no labels. This is a production vanilla Minecraft item PNG, not a presentation illustration. Actual alpha zero outside the food. The canvas MUST BE SQUARE, with a completely clean hard contour."
+    },
+    {
+      "id": "smoked_prepared_speck",
+      "reason": "Remove external glow and isolate the food silhouette on transparent alpha.",
+      "mode": "edit",
+      "selected": false,
+      "prompt": "Edit this one Minecraft item sprite of SMOKED PREPARED SPECK. Preserve the same compact boneless rectangular pork slab in three-quarter view: amber-orange smoked rind, a single ivory fat cap, pale rose-pink meat that is not yet dark cured burgundy. REMOVE THE EXTERNAL GLOW COMPLETELY. The soft brown/pink aura and shadows around the food must disappear; every pixel outside the exact hard-edged stepped food silhouette must be fully transparent alpha=0. The food itself fully opaque. No soft edges, no halo, no vignette, no gradients beyond the silhouette, no cast shadow, no surface, no background color. Return only the isolated clean pixel-art food sprite, no other objects or text, with clear transparent margins. Large simple square color clusters legible at 16x16 Minecraft inventory size. Do not make it darker like fully matured speck, and do not change the single fat cap into alternating bacon stripes."
+    },
+    {
+      "id": "smoked_prepared_speck",
+      "reason": "Remove external glow and isolate the food silhouette on transparent alpha.",
+      "mode": "edit",
+      "selected": true,
+      "prompt": "Use case: background-extraction. Input is an inventory smoked prepared speck sprite to fix. KEEP the rectangular boneless pork slab, light rose-pink meat, single ivory fat cap, amber orange smoked rind, colors, perspective and pixel-art body. REMOVE COMPLETELY every glow, haze, colored halo, shadow and background outside the actual crisp stepped slab silhouette. Output ONLY the sharply cut-out food object on fully TRANSPARENT alpha, with NO semitransparent red or golden glow or shadow anywhere. Center the isolated object on a SQUARE canvas with wide transparent margins on all four sides. Simplify the art to exactly a logical 16x16 Minecraft pixel grid, coarse flat-color pixels only, limited 6-8 colors, no smooth gradients. No new objects, no labels. This is a production vanilla Minecraft item PNG, not a presentation illustration. Actual alpha zero outside the food. The canvas MUST BE SQUARE, with a completely clean hard contour."
+    }
+  ]
+}

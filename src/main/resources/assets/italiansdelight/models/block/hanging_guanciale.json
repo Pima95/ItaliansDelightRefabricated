@@ -1,0 +1,7 @@
+{
+  "parent": "italiansdelight:block/hanging_guanciale_base",
+  "textures": {
+    "meat": "italiansdelight:block/hanging_guanciale",
+    "cut": "italiansdelight:block/hanging_guanciale_cut"
+  }
+}

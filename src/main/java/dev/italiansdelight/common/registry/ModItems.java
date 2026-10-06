@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.core.Registry;
 
@@ -51,13 +52,19 @@ public final class ModItems {
 
         public static final Item PASTA_WITH_TOMATO_SAUCE = register(
                         PASTA_WITH_TOMATO_SAUCE_KEY,
-                        new Item.Properties().food(
-                                        new FoodProperties.Builder()
+                        properties -> new ConsumableItem(properties, true),
+                        new Item.Properties()
+                                        .food(
+                                                new FoodProperties.Builder()
                                                         .nutrition(8)
-                                                        .saturationModifier(0.8f)
-                                                        .build())
-                                        .craftRemainder(net.minecraft.world.item.Items.BOWL) // Returns the bowl after
-                                                                                             // consumption
+                                                        .saturationModifier(0.7f)
+                                                        .build()
+                                        )
+                                        .component(
+                                                DataComponents.CONSUMABLE,
+                                                FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION
+                                        )
+                                        .craftRemainder(Items.BOWL)
                                         .stacksTo(16));
 
         // Risotto with tomato sauce
@@ -67,13 +74,50 @@ public final class ModItems {
 
         public static final Item RISOTTO_WITH_TOMATO_SAUCE = register(
                         RISOTTO_WITH_TOMATO_SAUCE_KEY,
-                        new Item.Properties().food(
-                                        new FoodProperties.Builder()
+                        properties -> new ConsumableItem(properties, true),
+                        new Item.Properties()
+                                        .food(
+                                                new FoodProperties.Builder()
                                                         .nutrition(8)
-                                                        .saturationModifier(0.8f)
-                                                        .build())
-                                        .craftRemainder(net.minecraft.world.item.Items.BOWL)
+                                                        .saturationModifier(0.7f)
+                                                        .build()
+                                        )
+                                        .component(
+                                                DataComponents.CONSUMABLE,
+                                                FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION
+                                        )
+                                        .craftRemainder(Items.BOWL)
                                         .stacksTo(16));
+
+        // -----------------------------------------------------------------
+        // Prepared dishes — cheese + cured-meat integration
+        // -----------------------------------------------------------------
+        // Balance follows Farmer's Delight Refabricated 26.2 tiers:
+        // simple meals -> Short, complete meals -> Medium, rich meals -> Long.
+
+        public static final Item PASTA_ALLA_CARBONARA =
+                registerBowlFoodItem("pasta_alla_carbonara", 14, 0.75f, FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+
+        public static final Item PASTA_ALLA_GRICIA =
+                registerBowlFoodItem("pasta_alla_gricia", 12, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+
+        public static final Item PASTA_ALL_AMATRICIANA =
+                registerBowlFoodItem("pasta_all_amatriciana", 14, 0.75f, FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+
+        public static final Item PASTA_WITH_SPECK_AND_GORGONZOLA =
+                registerBowlFoodItem("pasta_with_speck_and_gorgonzola", 14, 0.75f, FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+
+        public static final Item RISOTTO_WITH_SPECK_AND_GORGONZOLA =
+                registerBowlFoodItem("risotto_with_speck_and_gorgonzola", 14, 0.75f, FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+
+        public static final Item RISOTTO_WITH_PARMIGIANO =
+                registerBowlFoodItem("risotto_with_parmigiano", 10, 0.7f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+
+        public static final Item MOZZARELLA_SALAD =
+                registerBowlFoodItem("mozzarella_salad", 8, 0.6f, FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+
+        public static final Item RISOTTO_WITH_MUSHROOM =
+                registerBowlFoodItem("risotto_with_mushroom", 12, 0.8f, FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
 
         public static final ResourceKey<Item> MOZZARELLA_KEY = ResourceKey.create(
                         BuiltInRegistries.ITEM.key(),
@@ -100,6 +144,72 @@ public final class ModItems {
                 Item item = factory.apply(properties.setId(itemKey));
                 Registry.register(BuiltInRegistries.ITEM, itemKey, item);
                 return item;
+        }
+
+        /**
+         * Compact registration helpers used by content families with many simple items.
+         * A stable ResourceKey is still created for every identifier.
+         */
+        private static Item registerSimpleItem(String id, int maxStackSize) {
+                ResourceKey<Item> key = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id(id)
+                );
+
+                return register(
+                        key,
+                        new Item.Properties().stacksTo(maxStackSize)
+                );
+        }
+
+        private static Item registerFoodItem(
+                String id,
+                int nutrition,
+                float saturation
+        ) {
+                ResourceKey<Item> key = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id(id)
+                );
+
+                return register(
+                        key,
+                        new Item.Properties()
+                                .food(
+                                        new FoodProperties.Builder()
+                                                .nutrition(nutrition)
+                                                .saturationModifier(saturation)
+                                                .build()
+                                )
+                                .stacksTo(64)
+                );
+        }
+
+        private static Item registerBowlFoodItem(
+                String id,
+                int nutrition,
+                float saturation,
+                Consumable consumable
+        ) {
+                ResourceKey<Item> key = ResourceKey.create(
+                        BuiltInRegistries.ITEM.key(),
+                        ModRegistries.id(id)
+                );
+
+                return register(
+                        key,
+                        properties -> new ConsumableItem(properties, true),
+                        new Item.Properties()
+                                .food(
+                                        new FoodProperties.Builder()
+                                                .nutrition(nutrition)
+                                                .saturationModifier(saturation)
+                                                .build()
+                                )
+                                .component(DataComponents.CONSUMABLE, consumable)
+                                .craftRemainder(Items.BOWL)
+                                .stacksTo(16)
+                );
         }
 
         // Mozzarella slices
@@ -571,6 +681,88 @@ public final class ModItems {
                         .craftRemainder(Items.BOWL)
                         .usingConvertsTo(Items.BOWL)
                         .stacksTo(16));
+
+
+        // -----------------------------------------------------------------
+        // Cured meats — balance v1
+        // -----------------------------------------------------------------
+        // Intermediate and whole products stack to 16; finished edible slices
+        // stack to 64 through registerFoodItem().
+
+        public static final Item SALTED_HAM =
+                registerSimpleItem("salted_ham", 16);
+
+        public static final Item RAW_SALAME =
+                registerSimpleItem("raw_salame", 16);
+
+        public static final Item RAW_MORTADELLA =
+                registerSimpleItem("raw_mortadella", 16);
+
+        public static final Item PREPARED_PANCETTA =
+                registerSimpleItem("prepared_pancetta", 16);
+
+        public static final Item PREPARED_GUANCIALE =
+                registerSimpleItem("prepared_guanciale", 16);
+
+        public static final Item PREPARED_BRESAOLA =
+                registerSimpleItem("prepared_bresaola", 16);
+
+        public static final Item PREPARED_COPPA =
+                registerSimpleItem("prepared_coppa", 16);
+
+        public static final Item PREPARED_SPECK =
+                registerSimpleItem("prepared_speck", 16);
+
+        public static final Item SMOKED_PREPARED_SPECK =
+                registerSimpleItem("smoked_prepared_speck", 16);
+
+        public static final Item PROSCIUTTO_CRUDO =
+                registerSimpleItem("prosciutto_crudo", 16);
+
+        public static final Item SALAME =
+                registerSimpleItem("salame", 16);
+
+        public static final Item MORTADELLA =
+                registerSimpleItem("mortadella", 16);
+
+        public static final Item PANCETTA =
+                registerSimpleItem("pancetta", 16);
+
+        public static final Item GUANCIALE =
+                registerSimpleItem("guanciale", 16);
+
+        public static final Item BRESAOLA =
+                registerSimpleItem("bresaola", 16);
+
+        public static final Item COPPA =
+                registerSimpleItem("coppa", 16);
+
+        public static final Item SPECK =
+                registerSimpleItem("speck", 16);
+
+        public static final Item PROSCIUTTO_CRUDO_SLICE =
+                registerFoodItem("prosciutto_crudo_slice", 2, 0.5f);
+
+        public static final Item SALAME_SLICE =
+                registerFoodItem("salame_slice", 2, 0.6f);
+
+        public static final Item MORTADELLA_SLICE =
+                registerFoodItem("mortadella_slice", 2, 0.5f);
+
+        public static final Item PANCETTA_SLICE =
+                registerFoodItem("pancetta_slice", 2, 0.7f);
+
+        public static final Item GUANCIALE_SLICE =
+                registerFoodItem("guanciale_slice", 2, 0.8f);
+
+        public static final Item BRESAOLA_SLICE =
+                registerFoodItem("bresaola_slice", 2, 0.4f);
+
+        public static final Item COPPA_SLICE =
+                registerFoodItem("coppa_slice", 2, 0.6f);
+
+        public static final Item SPECK_SLICE =
+                registerFoodItem("speck_slice", 2, 0.6f);
 
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(

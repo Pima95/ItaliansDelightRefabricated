@@ -7,6 +7,7 @@ import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.aging.HangingCheeseType;
 import dev.italiansdelight.common.aging.CheeseShapes;
+import dev.italiansdelight.common.aging.CuredMeatShapes;
 import dev.italiansdelight.common.block.entity.CheeseHookBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModBlocks;
@@ -44,11 +45,11 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Ceiling-mounted cheese hook.
+ * Ceiling-mounted hanging hook.
  *
- * The curved side faces the player when placed. One Scamorza or Provolone can
- * hang from it at a time. Fresh cheeses process while attached; mature cheeses
- * can be re-attached for decoration.
+ * The block keeps its historical cheese_hook registry id for world compatibility,
+ * but it now supports both hanging cheeses and cured meats. Processing products
+ * advance while attached; finished products can be re-attached for decoration.
  */
 public final class CheeseHookBlock extends BaseEntityBlock {
 
@@ -80,6 +81,21 @@ public final class CheeseHookBlock extends BaseEntityBlock {
 
     private static final VoxelShape SCAMORZA_SHAPE =
         Shapes.or(HOOK_SHAPE, CheeseShapes.HANGING_SCAMORZA).optimize();
+
+    private static final VoxelShape PROSCIUTTO_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.PROSCIUTTO).optimize();
+    private static final VoxelShape SALAME_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.SALAME).optimize();
+    private static final VoxelShape PANCETTA_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.PANCETTA).optimize();
+    private static final VoxelShape GUANCIALE_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.GUANCIALE).optimize();
+    private static final VoxelShape BRESAOLA_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.BRESAOLA).optimize();
+    private static final VoxelShape COPPA_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.COPPA).optimize();
+    private static final VoxelShape SPECK_SHAPE =
+        Shapes.or(HOOK_SHAPE, CuredMeatShapes.SPECK).optimize();
 
     public CheeseHookBlock(Properties properties) {
         super(properties);
@@ -173,6 +189,13 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             case EMPTY -> HOOK_SHAPE;
             case FRESH_PROVOLONE, PROVOLONE -> PROVOLONE_SHAPE;
             case FRESH_SCAMORZA, SCAMORZA, SMOKED_SCAMORZA -> SCAMORZA_SHAPE;
+            case SALTED_HAM, PROSCIUTTO_CRUDO -> PROSCIUTTO_SHAPE;
+            case RAW_SALAME, SALAME -> SALAME_SHAPE;
+            case PREPARED_PANCETTA, PANCETTA -> PANCETTA_SHAPE;
+            case PREPARED_GUANCIALE, GUANCIALE -> GUANCIALE_SHAPE;
+            case PREPARED_BRESAOLA, BRESAOLA -> BRESAOLA_SHAPE;
+            case PREPARED_COPPA, COPPA -> COPPA_SHAPE;
+            case SMOKED_PREPARED_SPECK, SPECK -> SPECK_SHAPE;
         };
     }
 

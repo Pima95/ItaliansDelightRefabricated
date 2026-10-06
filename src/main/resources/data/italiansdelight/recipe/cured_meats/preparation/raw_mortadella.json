@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:porkchop",
+    "italiansdelight:salt",
+    "minecraft:egg"
+  ],
+  "result": {
+    "id": "italiansdelight:raw_mortadella",
+    "count": 1
+  }
+}

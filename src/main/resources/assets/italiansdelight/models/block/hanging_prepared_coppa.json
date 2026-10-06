@@ -1,0 +1,7 @@
+{
+  "parent": "italiansdelight:block/hanging_coppa_base",
+  "textures": {
+    "meat": "italiansdelight:block/hanging_prepared_coppa",
+    "cut": "italiansdelight:block/hanging_prepared_coppa_cut"
+  }
+}

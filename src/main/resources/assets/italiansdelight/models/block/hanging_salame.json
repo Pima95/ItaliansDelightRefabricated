@@ -1,0 +1,7 @@
+{
+  "parent": "italiansdelight:block/hanging_salame_base",
+  "textures": {
+    "meat": "italiansdelight:block/hanging_salame",
+    "cut": "italiansdelight:block/hanging_salame_cut"
+  }
+}

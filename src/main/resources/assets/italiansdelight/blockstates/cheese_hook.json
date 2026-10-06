@@ -74,6 +74,118 @@
       "apply": {
         "model": "italiansdelight:block/hanging_smoked_scamorza"
       }
+    },
+    {
+      "when": {
+        "cheese": "salted_ham"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_salted_ham"
+      }
+    },
+    {
+      "when": {
+        "cheese": "prosciutto_crudo"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_prosciutto_crudo"
+      }
+    },
+    {
+      "when": {
+        "cheese": "raw_salame"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_raw_salame"
+      }
+    },
+    {
+      "when": {
+        "cheese": "salame"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_salame"
+      }
+    },
+    {
+      "when": {
+        "cheese": "prepared_pancetta"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_prepared_pancetta"
+      }
+    },
+    {
+      "when": {
+        "cheese": "pancetta"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_pancetta"
+      }
+    },
+    {
+      "when": {
+        "cheese": "prepared_guanciale"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_prepared_guanciale"
+      }
+    },
+    {
+      "when": {
+        "cheese": "guanciale"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_guanciale"
+      }
+    },
+    {
+      "when": {
+        "cheese": "prepared_bresaola"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_prepared_bresaola"
+      }
+    },
+    {
+      "when": {
+        "cheese": "bresaola"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_bresaola"
+      }
+    },
+    {
+      "when": {
+        "cheese": "prepared_coppa"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_prepared_coppa"
+      }
+    },
+    {
+      "when": {
+        "cheese": "coppa"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_coppa"
+      }
+    },
+    {
+      "when": {
+        "cheese": "smoked_prepared_speck"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_smoked_prepared_speck"
+      }
+    },
+    {
+      "when": {
+        "cheese": "speck"
+      },
+      "apply": {
+        "model": "italiansdelight:block/hanging_speck"
+      }
     }
   ]
 }

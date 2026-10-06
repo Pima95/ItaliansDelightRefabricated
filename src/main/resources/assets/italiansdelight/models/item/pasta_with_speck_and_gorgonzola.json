@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "italiansdelight:item/pasta_with_speck_and_gorgonzola"
+  }
+}

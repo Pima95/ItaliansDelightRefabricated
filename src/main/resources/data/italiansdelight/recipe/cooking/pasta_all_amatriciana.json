@@ -1,0 +1,18 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#c:foods/pasta",
+    "italiansdelight:guanciale_slice",
+    "farmersdelight:tomato_sauce",
+    "italiansdelight:grated_pecorino_romano"
+  ],
+  "recipe_book_tab": "meals",
+  "container": {
+    "id": "minecraft:bowl",
+    "count": 1
+  },
+  "result": {
+    "id": "italiansdelight:pasta_all_amatriciana"
+  }
+}

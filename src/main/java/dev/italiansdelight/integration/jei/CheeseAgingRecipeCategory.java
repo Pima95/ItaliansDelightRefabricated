@@ -16,7 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 /**
- * Combined JEI presentation for aging and, temporarily, Scamorza drying.
+ * JEI presentation for cheese aging on racks / flat surfaces.
  *
  * The background texture is authored manually by the project developer and is
  * intentionally never generated or modified by this class.

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 400,
+  "experience": 0.35,
+  "ingredient": "italiansdelight:scamorza_slice",
+  "result": {
+    "id": "italiansdelight:smoked_scamorza_slice"
+  }
+}

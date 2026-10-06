@@ -1,0 +1,8 @@
+{
+  "type": "italiansdelight:cheese_drying",
+  "ingredient": "italiansdelight:prepared_pancetta",
+  "result": {
+    "id": "italiansdelight:pancetta"
+  },
+  "dryingtime": 18000
+}

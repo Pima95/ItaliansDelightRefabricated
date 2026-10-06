@@ -1,0 +1,7 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "#meat",
+    "twine": "italiansdelight:block/cheese_twine"
+  }
+}

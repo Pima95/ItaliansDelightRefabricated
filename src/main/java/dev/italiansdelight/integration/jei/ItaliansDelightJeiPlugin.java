@@ -42,6 +42,12 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             ),
             new CheeseAgingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
+            ),
+            new HangingAgingDryingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
+            new SaltEvaporationRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
             )
         );
     }
@@ -69,17 +75,37 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         CheeseAgingJeiRecipes agingRecipes =
             new CheeseAgingJeiRecipes();
 
-        var combinedAgingRecipes =
-            agingRecipes.getRecipes();
+        var rackAgingRecipes =
+            agingRecipes.getRackAgingRecipes();
+
+        var hangingRecipes =
+            agingRecipes.getHangingRecipes();
 
         ItaliansDelight.LOGGER.info(
-            "[Italian's Delight / JEI] Ricette Aging/Drying sincronizzate: {}",
-            combinedAgingRecipes.size()
+            "[Italian's Delight / JEI] Ricette Cheese Aging sincronizzate: {}",
+            rackAgingRecipes.size()
+        );
+
+        ItaliansDelight.LOGGER.info(
+            "[Italian's Delight / JEI] Ricette Hanging Aging/Drying sincronizzate: {}",
+            hangingRecipes.size()
         );
 
         registration.addRecipes(
             CheeseAgingJeiRecipeTypes.CHEESE_AGING,
-            combinedAgingRecipes
+            rackAgingRecipes
+        );
+
+        registration.addRecipes(
+            CheeseAgingJeiRecipeTypes.HANGING_AGING_DRYING,
+            hangingRecipes
+        );
+
+        registration.addRecipes(
+            SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
+            java.util.List.of(
+                SaltEvaporationJeiRecipe.createDefault()
+            )
         );
     }
 
@@ -90,6 +116,23 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addCraftingStation(
             CheeseVatJeiRecipeTypes.CHEESE_VAT,
             new ItemStack(ModBlocks.CHEESE_VAT)
+        );
+
+        registration.addCraftingStation(
+            CheeseAgingJeiRecipeTypes.CHEESE_AGING,
+            new ItemStack(
+                ModBlocks.OAK_CHEESE_AGING_RACK
+            )
+        );
+
+        registration.addCraftingStation(
+            CheeseAgingJeiRecipeTypes.HANGING_AGING_DRYING,
+            new ItemStack(ModBlocks.CHEESE_HOOK)
+        );
+
+        registration.addCraftingStation(
+            SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
+            new ItemStack(net.minecraft.world.level.block.Blocks.CAULDRON)
         );
     }
 

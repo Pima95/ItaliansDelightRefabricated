@@ -1,0 +1,7 @@
+{
+  "parent": "italiansdelight:block/hanging_prosciutto_base",
+  "textures": {
+    "meat": "italiansdelight:block/hanging_prosciutto_crudo",
+    "cut": "italiansdelight:block/hanging_prosciutto_crudo_cut"
+  }
+}
