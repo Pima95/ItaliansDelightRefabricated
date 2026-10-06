@@ -19,14 +19,17 @@ Current features include:
 - a **cheese grater** and Farmer's Delight Cutting Board integration for sliced and grated cheeses;
 - **cardoon** generation and cultivation as a source used in the dairy chain;
 - **salt production** by naturally evaporating water in vanilla cauldrons, with a dedicated JEI evaporation recipe;
-- Italian dishes such as **pasta with tomato sauce** and **risotto with tomato sauce**;
-- integration with **JEI** and Farmer's Delight systems.
+- a complete **cured-meat chain** with Prosciutto Crudo, Salame, Mortadella, Pancetta, Guanciale, Bresaola, Coppa, and Speck;
+- hanging aging/drying for cheeses and cured meats through the shared **Hanging Hook**;
+- Italian dishes including **Carbonara, Gricia, Amatriciana, Speck and Gorgonzola pasta/risotto, Parmigiano risotto, Mushroom risotto, Mozzarella Salad**, and the existing tomato-sauce dishes;
+- **Nourishment** support for complete meals, balanced against Farmer's Delight Refabricated;
+- integration with **JEI** and Farmer's Delight systems, including Cheese Vat, aging/drying, and salt evaporation.
 
-More content is planned, including pasta varieties, olive trees, grapes and wine, cured meats, pizza, and seasonal content.
+More content is planned, including additional pasta dishes, olive trees, herbs, grapes and wine, pizza, and seasonal content.
 
 ## Requirements
 
-Italian's Delight Refabricated **0.2.0** targets **Minecraft 26.2** and requires:
+Italian's Delight Refabricated **0.3.0** targets **Minecraft 26.2** and requires:
 
 - **Java 25**
 - **Fabric Loader 0.19.5 or newer**
