@@ -243,11 +243,11 @@ originali di Farmer's Delight Refabricated in
 
 Controllare in gioco, nel gruppo creativo, in JEI e tenendo l'item in mano:
 
-- [ ] Pasta alla Carbonara.
-- [ ] Pasta alla Gricia.
-- [ ] Pasta all'Amatriciana.
-- [ ] Pasta con Speck e Gorgonzola.
-- [ ] Risotto con Speck e Gorgonzola.
-- [ ] Risotto al Parmigiano.
-- [ ] Nessuna missing texture, alone o fondo indesiderato.
-- [ ] Scala, ciotola e stile coerenti con i piatti della mod madre.
+- [x] Pasta alla Carbonara.
+- [x] Pasta alla Gricia.
+- [x] Pasta all'Amatriciana.
+- [x] Pasta con Speck e Gorgonzola.
+- [x] Risotto con Speck e Gorgonzola.
+- [x] Risotto al Parmigiano.
+- [x] Nessuna missing texture, alone o fondo indesiderato.
+- [x] Scala, ciotola e stile coerenti con i piatti della mod madre.
