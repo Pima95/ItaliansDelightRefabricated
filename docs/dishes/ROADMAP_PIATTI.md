@@ -123,5 +123,6 @@ Piatti candidati per una fase successiva:
 - [ ] controllare gli 8 nuovi item nel creative tab;
 - [ ] controllare tutte le ricette in JEI;
 - [ ] verificare il ritorno della bowl dopo il consumo;
-- [ ] verificare nutrition, saturation e durata di Nourishment in survival;
+- [x] verificare la durata di Nourishment in survival;
+- [ ] verificare nutrition e saturation in survival;
 - [ ] eseguire un controllo finale delle ricette prima della PR.
