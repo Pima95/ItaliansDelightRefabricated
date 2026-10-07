@@ -6,6 +6,8 @@ import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
 import dev.italiansdelight.common.block.CheeseAgingRackBlock;
 import dev.italiansdelight.common.block.AgingCheeseBlock;
 import dev.italiansdelight.common.block.CardoonBlock;
+import dev.italiansdelight.common.block.BasilCropBlock;
+import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 
 import net.minecraft.core.Registry;
@@ -44,6 +46,33 @@ public final class ModBlocks {
         POTTED_CARDOON_KEY,
         new FlowerPotBlock(CARDOON,
             Block.Properties.ofFullCopy(Blocks.POTTED_ALLIUM).setId(POTTED_CARDOON_KEY))
+    );
+
+    // -------------------- Basil --------------------
+    // The cultivated crop uses the same registry id for its BlockItem, so the
+    // harvested basil itself can be replanted directly on farmland.
+    public static final ResourceKey<Block> BASIL_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("basil")
+    );
+
+    public static final Block BASIL = register(
+        BASIL_KEY,
+        new BasilCropBlock(
+            Block.Properties.ofFullCopy(Blocks.WHEAT).setId(BASIL_KEY)
+        )
+    );
+
+    // Wild basil is a separate decorative/worldgen form. Breaking it yields
+    // cultivated basil through its loot table.
+    public static final ResourceKey<Block> WILD_BASIL_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("wild_basil")
+    );
+
+    public static final Block WILD_BASIL = register(
+        WILD_BASIL_KEY,
+        new WildBasilBlock(
+            Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(WILD_BASIL_KEY)
+        )
     );
 
     // Cheese Vat Block

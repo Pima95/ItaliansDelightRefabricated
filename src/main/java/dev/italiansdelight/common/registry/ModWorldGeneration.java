@@ -14,6 +14,10 @@ public final class ModWorldGeneration {
         Registries.PLACED_FEATURE, ModRegistries.id("cardoon_patch")
     );
 
+    private static final ResourceKey<PlacedFeature> WILD_BASIL_PATCH = ResourceKey.create(
+        Registries.PLACED_FEATURE, ModRegistries.id("wild_basil_patch")
+    );
+
     private ModWorldGeneration() {
     }
 
@@ -22,6 +26,12 @@ public final class ModWorldGeneration {
             BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS, Biomes.MEADOW),
             GenerationStep.Decoration.VEGETAL_DECORATION,
             CARDOON_PATCH
+        );
+
+        BiomeModifications.addFeature(
+            BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS, Biomes.MEADOW),
+            GenerationStep.Decoration.VEGETAL_DECORATION,
+            WILD_BASIL_PATCH
         );
     }
 }

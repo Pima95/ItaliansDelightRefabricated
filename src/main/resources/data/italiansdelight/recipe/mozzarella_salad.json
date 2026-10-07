@@ -4,7 +4,8 @@
   "ingredients": [
     "minecraft:bowl",
     "italiansdelight:mozzarella",
-    "#c:crops/tomato"
+    "#c:crops/tomato",
+    "#c:crops/basil"
   ],
   "result": {
     "id": "italiansdelight:mozzarella_salad",

@@ -51,6 +51,8 @@ public final class ModItemGroups {
 
                 // Crops, basic ingredients and dairy processing resources.
                 output.accept(ModBlocks.CARDOON);
+                output.accept(ModBlocks.BASIL);
+                output.accept(ModBlocks.WILD_BASIL);
                 output.accept(ModItems.SALT);
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.RENNET);
