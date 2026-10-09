@@ -40,7 +40,8 @@ Il Basilico Selvatico:
 
 Prima integrazione:
 
-- **Mozzarella Salad / Insalata di Mozzarella** richiede ora `#c:crops/basil`.
+- **Mozzarella Salad / Insalata di Mozzarella** richiede ora `#c:crops/basil`;
+- la parte "foglia verde" usa `#c:foods/leafy_green` invece di un item fisso, mantenendo compatibilità con Farmer's Delight e altre mod che usano i common tags.
 
 Il tag comune `#c:crops/basil` permette compatibilità futura con altri addon.
 
@@ -70,9 +71,9 @@ coerente dell'olio d'oliva, evitando ricette temporanee.
 - [x] aggiornamento Insalata di Mozzarella;
 - [x] traduzioni EN/IT;
 - [x] creative tab;
-- [ ] clean build;
-- [ ] test crescita naturale;
-- [ ] test bone meal;
-- [ ] test raccolta e resa;
-- [ ] test worldgen in nuovi chunk;
-- [ ] test ricetta Insalata di Mozzarella in JEI.
+- [x] clean build;
+- [x] test crescita naturale;
+- [x] test bone meal;
+- [x] test raccolta e resa;
+- [x] test worldgen in nuovi chunk;
+- [x] test ricetta Insalata di Mozzarella in JEI.
