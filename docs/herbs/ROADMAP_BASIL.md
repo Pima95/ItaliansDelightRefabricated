@@ -87,10 +87,9 @@ Updated on `feature/basil`:
 - Fabric Loom: `1.18-SNAPSHOT` -> `1.18.3` (pinned stable version);
 - Gradle wrapper distribution: `9.7.1` -> `9.8.1`.
 
-These changes still need a new verification run because the previous gameplay
-tests were completed with the older dependency set.
+After the dependency updates, the project maintainer confirmed that the updated build and gameplay checks work correctly.
 
-- [ ] `gradlew.bat clean build` succeeds with the updated dependency versions;
-- [ ] `gradlew.bat runClient` starts successfully;
-- [ ] JEI categories and recipes still work;
-- [ ] Cheese Vat, Hanging Hook and Basil continue to work.
+- [x] `gradlew.bat clean build` succeeds with the updated dependency versions;
+- [x] `gradlew.bat runClient` starts successfully;
+- [x] JEI categories and recipes still work;
+- [x] Cheese Vat, Hanging Hook and Basil continue to work.
