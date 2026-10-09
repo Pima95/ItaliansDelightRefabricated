@@ -9,6 +9,7 @@ import dev.italiansdelight.common.block.CardoonBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
+import dev.italiansdelight.common.block.PizzaDoughBlock;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -73,6 +74,16 @@ public final class ModBlocks {
         new WildBasilBlock(
             Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(WILD_BASIL_KEY)
         )
+    );
+
+    // World representation of Farmer's Delight wheat dough; no additional dough item.
+    public static final ResourceKey<Block> PIZZA_DOUGH_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("pizza_dough")
+    );
+    public static final Block PIZZA_DOUGH = registerBlockOnly(
+        PIZZA_DOUGH_KEY,
+        new PizzaDoughBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
+            .setId(PIZZA_DOUGH_KEY).noCollision().noOcclusion().strength(0.2F))
     );
 
     // Cheese Vat Block

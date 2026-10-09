@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Fase di progettazione documentata. Nessun codice di gameplay è stato ancora scritto in questo branch.**
+**Primo prototipo implementato sul branch, in attesa di build e test in gioco:** collocazione del Wheat Dough di Farmer's Delight direttamente sopra altri blocchi. Stesura, condimenti e cottura non implementati.
 
 ## Checklist decisioni già CONFERMATE
 
@@ -45,7 +45,7 @@
 ### Fase 1: fondamenta interattive
 
 - [ ] Registrare palla d'impasto, blocco di preparazione e dati serializzabili.
-- [ ] Implementare appoggio della palla direttamente sui blocchi.
+- [ ] Implementare appoggio della palla direttamente sui blocchi (**prototipo disponibile, test necessario**).
 - [ ] Implementare stesura a mano e con mattarello.
 - [ ] Salvare e recuperare correttamente stati e oggetti.
 - [ ] Test chunk unload, multiplayer, rottura del supporto e superfici particolari.
