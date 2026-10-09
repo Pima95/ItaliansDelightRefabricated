@@ -4,7 +4,7 @@
 
 La **palla d'impasto** va appoggiata con clic destro direttamente sopra un blocco. **Non** serve un Cutting Board, un piano dedicato o una GUI. Il giocatore deve essere libero di lavorare su pietra, legno, tavoli e altre superfici.
 
-**Problema tecnico da affrontare:** su blocchi non pieni, elementi interattivi o superfici con collisioni particolari bisogna verificare spazio, supporto e priorità dell'uso del blocco. L'obiettivo è supportare qualsiasi superficie **fisicamente utilizzabile**, evitando restrizioni arbitrarie per materiale.
+**Regola del posizionamento aggiornata dopo il test:** l'impasto si appoggia soltanto a una faccia superiore solida e stabile. **Scale e mezzi blocchi (slab) sono esclusi**, anche se hanno una faccia superiore apparentemente piatta, come slab superiori o doppi. La stessa verifica è usata sia quando si piazza l'impasto sia quando cambia il blocco di supporto. Restano da verificare altri supporti particolari e le priorità delle interazioni.
 
 ## 2. Stesura — CONFERMATO
 

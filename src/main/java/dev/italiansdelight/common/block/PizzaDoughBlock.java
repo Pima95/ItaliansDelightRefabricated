@@ -10,6 +10,8 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -37,7 +39,14 @@ public final class PizzaDoughBlock extends Block {
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockPos support = pos.below();
-        return !level.getBlockState(support).getCollisionShape(level, support).isEmpty();
+        BlockState supportState = level.getBlockState(support);
+
+        // Pizza dough needs a sturdy, level surface. Even top-half and
+        // double slabs, as well as all stair variants, are excluded.
+        // This rule is shared by placement and survival checks.
+        return !(supportState.getBlock() instanceof SlabBlock)
+                && !(supportState.getBlock() instanceof StairBlock)
+                && supportState.isFaceSturdy(level, support, Direction.UP);
     }
 
     @Override
