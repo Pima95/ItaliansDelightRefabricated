@@ -104,5 +104,7 @@
   "gui.italiansdelight.jei.salt_evaporation": "Evaporazione del Sale",
   "gui.italiansdelight.jei.salt_evaporation.process": "Evaporazione",
   "gui.italiansdelight.jei.salt_evaporation.yield": "Resa: %s–%s Sale",
-  "gui.italiansdelight.jei.salt_evaporation.conditions": "Richiede un calderone pieno, luce diurna, meteo sereno e cielo libero"
+  "gui.italiansdelight.jei.salt_evaporation.conditions": "Richiede un calderone pieno, luce diurna, meteo sereno e cielo libero",
+  "block.italiansdelight.basil": "Basilico",
+  "block.italiansdelight.wild_basil": "Basilico Selvatico"
 }
