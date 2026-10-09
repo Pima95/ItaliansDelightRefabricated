@@ -5,7 +5,7 @@
     "minecraft:bowl",
     "italiansdelight:mozzarella",
     "#c:crops/tomato",
-    "farmersdelight:cabbage_leaf",
+    "#c:foods/leafy_green",
     "#c:crops/basil"
   ],
   "result": {
