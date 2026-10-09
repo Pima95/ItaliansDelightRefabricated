@@ -35,9 +35,9 @@ Italian's Delight Refabricated **0.4.0** targets **Minecraft 26.2** and requires
 - **Java 25**
 - **Fabric Loader 0.19.5 or newer**
 - **Fabric API 0.161.0+26.2**
-- **Farmer's Delight Refabricated 26.2-3.6.26+refabricated**
+- **Farmer's Delight Refabricated 26.2-3.6.28+refabricated**
 
-The development toolchain uses **Fabric Loom 1.18-SNAPSHOT** and **Gradle 9.7.1**.
+The development toolchain uses **Fabric Loom 1.18.3** and **Gradle 9.8.1**.
 
 JEI is supported for recipe viewing, including Cheese Vat and cheese-aging recipes.
 

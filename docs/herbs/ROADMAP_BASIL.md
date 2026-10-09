@@ -77,3 +77,20 @@ coerente dell'olio d'oliva, evitando ricette temporanee.
 - [x] test raccolta e resa;
 - [x] test worldgen in nuovi chunk;
 - [x] test ricetta Insalata di Mozzarella in JEI.
+
+## Dependency refresh before 0.4.0 merge
+
+Updated on `feature/basil`:
+
+- Farmer's Delight Refabricated: `26.2-3.6.26+refabricated` -> `26.2-3.6.28+refabricated`;
+- JEI Fabric: CurseForge file `8937443` -> `9068092` (30.39.0.233);
+- Fabric Loom: `1.18-SNAPSHOT` -> `1.18.3` (pinned stable version);
+- Gradle wrapper distribution: `9.7.1` -> `9.8.1`.
+
+These changes still need a new verification run because the previous gameplay
+tests were completed with the older dependency set.
+
+- [ ] `gradlew.bat clean build` succeeds with the updated dependency versions;
+- [ ] `gradlew.bat runClient` starts successfully;
+- [ ] JEI categories and recipes still work;
+- [ ] Cheese Vat, Hanging Hook and Basil continue to work.

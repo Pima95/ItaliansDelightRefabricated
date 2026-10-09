@@ -2,7 +2,7 @@
 // Loom prepares the Fabric/Minecraft development environment; maven-publish
 // is available for possible future artifact publishing.
 plugins {
-    id 'net.fabricmc.fabric-loom' version '1.18-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom' version '1.18.3'
     id 'maven-publish'
 }
 
@@ -45,7 +45,7 @@ dependencies {
     }
 
     // JEI
-    implementation "curse.maven:jei-238222:8937443"
+    implementation "curse.maven:jei-238222:9068092"
 }
 
 // Replaces the version placeholder inside fabric.mod.json during the build.

@@ -20,6 +20,13 @@ All notable changes to Italian's Delight Refabricated are documented here.
 - Added Basil and Wild Basil to the Italian's Delight creative tab.
 - Added English and Italian translations.
 
+### Dependencies and tooling
+
+- Updated **Farmer's Delight Refabricated** from 3.6.26 to 3.6.28 for Minecraft 26.2.
+- Updated **JEI Fabric** to 30.39.0.233 (CurseForge file ID 9068092).
+- Pinned **Fabric Loom** to the stable 1.18.3 release instead of a floating snapshot.
+- Updated the **Gradle wrapper distribution** to 9.8.1.
+
 ## 0.3.0
 
 ### Cured meats
