@@ -32,14 +32,29 @@ public final class PizzaDoughBlock extends Block {
     public static final int MAX_STAGE = 4;
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, MAX_STAGE);
 
-    // Shapes match the simple test models and remain selectable after each click.
+    // Selection shapes mirror the exact recessed models, including the
+    // raised edges. Unlike a single box, they expose the recessed center.
     private static final VoxelShape[] SHAPES = {
-        box(4, 0, 4, 12, 6, 12),
-        box(3, 0, 3, 13, 5, 13),
-        box(2, 0, 2, 14, 4, 14),
-        box(1, 0, 1, 15, 3, 15),
-        box(1, 0, 1, 15, 2, 15)
+        box(4, 0, 4, 12, 4, 12),
+        recessedShape(3, 13, 3, 4, 1),
+        recessedShape(2, 14, 2, 4, 1),
+        recessedShape(1, 15, 2, 3, 1),
+        recessedShape(1, 15, 1, 3, 2)
     };
+
+    private static VoxelShape recessedShape(
+            int min, int max, int centerHeight, int edgeHeight, int edgeWidth
+    ) {
+        return net.minecraft.world.phys.shapes.Shapes.or(
+                box(min, 0, min, max, centerHeight, max),
+                box(min, centerHeight, min, max, edgeHeight, min + edgeWidth),
+                box(min, centerHeight, max - edgeWidth, max, edgeHeight, max),
+                box(min, centerHeight, min + edgeWidth,
+                        min + edgeWidth, edgeHeight, max - edgeWidth),
+                box(max - edgeWidth, centerHeight, min + edgeWidth,
+                        max, edgeHeight, max - edgeWidth)
+        ).optimize();
+    }
 
     public PizzaDoughBlock(Properties properties) {
         super(properties);
