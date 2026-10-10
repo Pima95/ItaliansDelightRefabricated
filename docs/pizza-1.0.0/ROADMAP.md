@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Posizionamento e superfici approvate testati dal giocatore.** Secondo prototipo disponibile: stesura manuale in 4 clic con stato persistente e modelli provvisori, **in attesa di test in gioco**. Mattarello, condimenti e cottura non implementati.
+**Posizionamento e stesura manuale in 4 clic confermati funzionanti dal giocatore.** Terzo prototipo: mattarello riutilizzabile che completa la stesura in un clic, **in attesa di build e test in gioco**. Condimenti e cottura non implementati.
 
 ## Checklist decisioni già CONFERMATE
 
@@ -21,8 +21,8 @@
 
 ## Questioni da risolvere prima del codice (NON CONFERMATE)
 
-- [ ] Numero clic di stesura (proposta: 4 a mano, 1 col mattarello).
-- [ ] Durabilità/ricetta del mattarello.
+- [ ] Bilanciamento definitivo della stesura (attualmente 4 clic a mano, 1 col mattarello).
+- [ ] Ricetta e texture dedicata del mattarello; il prototipo è riutilizzabile senza durabilità.
 - [ ] Limite delle porzioni di topping (proposta: 8 incluse le salse).
 - [ ] Consumi esatti per ingrediente, ripetizioni, più salse, remainder.
 - [ ] Meccanica Shift + clic destro per annullamento e recupero.
@@ -47,7 +47,7 @@
 
 - [ ] Registrare palla d'impasto, blocco di preparazione e dati serializzabili.
 - [x] Implementare e testare l'appoggio della palla su superfici approvate.
-- [ ] Implementare stesura a mano e con mattarello (**stesura a mano in 4 clic disponibile, test necessario; mattarello ancora da aggiungere**).
+- [ ] Implementare e testare la stesura a mano e con mattarello (**stesura manuale testata; mattarello implementato, da verificare**).
 - [ ] Salvare e recuperare correttamente stati e oggetti.
 - [ ] Test chunk unload, multiplayer, rottura del supporto e superfici particolari.
 
