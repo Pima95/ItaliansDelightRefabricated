@@ -42,7 +42,7 @@ public final class PizzaDoughBlock extends Block {
         box(4, 0, 4, 12, 4, 12),
         recessedShape(3, 13, 3, 4, 1),
         recessedShape(2, 14, 2, 4, 1),
-        recessedShape(1, 15, 2, 3, 1),
+        recessedShape(2, 14, 2, 3, 1),
         recessedShape(1, 15, 1, 3, 2)
     };
 

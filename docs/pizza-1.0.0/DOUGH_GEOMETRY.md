@@ -11,8 +11,11 @@ La schermata di test mostrava una forma simile a un **cappello**: un elemento pi
 | 0 | 4–12 | 4 | 4 | — | Cubo basso singolo, **senza strati sovrapposti** |
 | 1 | 3–13 | 3 | 4 | 1 | Prima scanalatura |
 | 2 | 2–14 | 2 | 4 | 1 | Scanalatura più profonda |
-| 3 | 1–15 | 2 | 3 | 1 | Disco più largo e piatto |
+| 3 | 2–14 | 2 | 3 | 1 | Penultimo stadio: disco leggermente più piccolo, centro spesso 2 pixel |
 | 4 | 1–15 | 1 | 3 | 2 | **Base stesa, con bordo alto e spesso** |
+
+
+**Distinzione visiva dopo il test del 10 ottobre 2026:** lo stadio 3 rimane largo 12 pixel, con centro spesso 2 pixel e bordo alto 3; lo stadio 4 è largo 14 pixel, con **centro spesso soltanto 1 pixel** e bordo alto 3, largo 2. Si evita che penultimo e ultimo sembrino identici. Il bordino finale rimane rialzato come da richiesta.
 
 Gli stadi 1–4 sono composti da **una base** e da **quattro listelli del bordo**: non c'è più un blocco centrale rialzato. Il bordo è continuo e non invade la zona del condimento. La hitbox di selezione usa gli stessi cinque volumi tramite una union di voxel shape, lasciando raggiungibile il centro incavato.
 
