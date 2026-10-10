@@ -45,7 +45,7 @@ public final class ModItems {
                         .durability(ToolMaterial.IRON.durability())
                         .repairable(ToolMaterial.IRON.repairItems()));
 
-        // Pizza 1.0.0: reusable rolling pin, used on a placed wheat dough.
+        // Pizza 1.0.0: rolling pin, 64 uses like the vanilla brush.
         // Crafting recipe and a dedicated texture are intentionally deferred.
         public static final ResourceKey<Item> ROLLING_PIN_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
@@ -53,7 +53,7 @@ public final class ModItems {
 
         public static final Item ROLLING_PIN = register(
                 ROLLING_PIN_KEY,
-                new Item.Properties().stacksTo(1));
+                new Item.Properties().durability(64));
 
         // Pasta with tomato sauce
         public static final ResourceKey<Item> PASTA_WITH_TOMATO_SAUCE_KEY = ResourceKey.create(
