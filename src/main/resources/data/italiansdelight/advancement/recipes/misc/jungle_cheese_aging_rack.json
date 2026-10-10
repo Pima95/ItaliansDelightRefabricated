@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_matching_fence": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:jungle_fence"
+          }
+        ]
+      }
+    },
+    "has_matching_planks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:jungle_planks"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "italiansdelight:jungle_cheese_aging_rack"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_matching_fence",
+      "has_the_recipe"
+    ],
+    [
+      "has_matching_planks",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "italiansdelight:jungle_cheese_aging_rack"
+    ]
+  }
+}
