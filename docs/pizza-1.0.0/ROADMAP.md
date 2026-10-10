@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Primo prototipo implementato sul branch, in attesa di build e test in gioco:** collocazione del Wheat Dough di Farmer's Delight direttamente sopra altri blocchi. Stesura, condimenti e cottura non implementati.
+**Posizionamento e superfici approvate testati dal giocatore.** Secondo prototipo disponibile: stesura manuale in 4 clic con stato persistente e modelli provvisori, **in attesa di test in gioco**. Mattarello, condimenti e cottura non implementati.
 
 ## Checklist decisioni già CONFERMATE
 
@@ -46,8 +46,8 @@
 ### Fase 1: fondamenta interattive
 
 - [ ] Registrare palla d'impasto, blocco di preparazione e dati serializzabili.
-- [ ] Implementare appoggio della palla su superfici approvate (**controllo per stati slab/scale/botole e soul sand disponibile, nuovo test necessario**).
-- [ ] Implementare stesura a mano e con mattarello.
+- [x] Implementare e testare l'appoggio della palla su superfici approvate.
+- [ ] Implementare stesura a mano e con mattarello (**stesura a mano in 4 clic disponibile, test necessario; mattarello ancora da aggiungere**).
 - [ ] Salvare e recuperare correttamente stati e oggetti.
 - [ ] Test chunk unload, multiplayer, rottura del supporto e superfici particolari.
 

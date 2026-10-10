@@ -1,0 +1,74 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "dough": "minecraft:block/smooth_sandstone",
+    "particle": "minecraft:block/smooth_sandstone"
+  },
+  "elements": [
+    {
+      "from": [
+        3,
+        -2,
+        3
+      ],
+      "to": [
+        13,
+        1,
+        13
+      ],
+      "faces": {
+        "down": {
+          "texture": "#dough"
+        },
+        "up": {
+          "texture": "#dough"
+        },
+        "north": {
+          "texture": "#dough"
+        },
+        "south": {
+          "texture": "#dough"
+        },
+        "east": {
+          "texture": "#dough"
+        },
+        "west": {
+          "texture": "#dough"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        1,
+        4
+      ],
+      "to": [
+        12,
+        3,
+        12
+      ],
+      "faces": {
+        "down": {
+          "texture": "#dough"
+        },
+        "up": {
+          "texture": "#dough"
+        },
+        "north": {
+          "texture": "#dough"
+        },
+        "south": {
+          "texture": "#dough"
+        },
+        "east": {
+          "texture": "#dough"
+        },
+        "west": {
+          "texture": "#dough"
+        }
+      }
+    }
+  ]
+}

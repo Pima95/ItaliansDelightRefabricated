@@ -58,7 +58,7 @@ Le altre superfici particolari, incluse superfici parziali di mod esterne, non s
 - [ ] Soul Sand consentita con modello non sospeso.
 - [ ] Incudini normali, scheggiate e danneggiate consentite.
 - [ ] DIRT_PATH, FARMLAND, SNOW, CARPET, CHEST, ENDER_CHEST, ENCHANTING_TABLE, BED, CAULDRON, COMPOSTER vietati.
-- [ ] Blocchi cubici normali ancora consentiti.
+- [x] Blocchi cubici normali ancora consentiti (test confermato dall'autore).
 - [ ] Cambio di stato del supporto: la palla non rimane su supporto vietato.
 - [ ] La rottura del supporto non duplica né perde il Wheat Dough.
 
