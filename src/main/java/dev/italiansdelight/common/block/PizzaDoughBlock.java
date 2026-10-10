@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import vectorwing.farmersdelight.common.registry.ModItems;
+
 
 /**
  * Farmer's Delight wheat dough placed in the world.
@@ -148,6 +148,6 @@ public final class PizzaDoughBlock extends Block {
 
     @Override
     protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
-        return new ItemStack(ModItems.WHEAT_DOUGH.get());
+        return new ItemStack(vectorwing.farmersdelight.common.registry.ModItems.WHEAT_DOUGH.get());
     }
 }
