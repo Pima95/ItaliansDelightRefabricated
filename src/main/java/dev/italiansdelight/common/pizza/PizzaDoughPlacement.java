@@ -39,12 +39,41 @@ public final class PizzaDoughPlacement {
                     return InteractionResult.PASS;
                 }
 
+                int stage = clickedState.getValue(PizzaDoughBlock.STAGE);
+
+                // First topping milestone: one mozzarella on a fully stretched
+                // base. Further toppings will use a general ingredient system.
+                if (stage == PizzaDoughBlock.MAX_STAGE
+                        && held.is(dev.italiansdelight.common.registry.ModItems.MOZZARELLA)) {
+                    if (clickedState.getValue(PizzaDoughBlock.MOZZARELLA)) {
+                        return InteractionResult.SUCCESS;
+                    }
+                    if (!player.mayUseItemAt(clickedPos, hit.getDirection(), held)) {
+                        return InteractionResult.FAIL;
+                    }
+                    if (level.isClientSide()) {
+                        return InteractionResult.SUCCESS;
+                    }
+                    if (!(level instanceof ServerLevel server)) {
+                        return InteractionResult.PASS;
+                    }
+                    if (!server.setBlock(clickedPos,
+                            clickedState.setValue(PizzaDoughBlock.MOZZARELLA, true),
+                            Block.UPDATE_ALL)) {
+                        return InteractionResult.FAIL;
+                    }
+                    if (!player.getAbilities().instabuild) {
+                        held.shrink(1);
+                    }
+                    server.playSound(null, clickedPos, SoundEvents.WOOL_PLACE,
+                            SoundSource.BLOCKS, 0.65F, 1.1F);
+                    return InteractionResult.SUCCESS;
+                }
+
                 boolean rollingPin = held.is(dev.italiansdelight.common.registry.ModItems.ROLLING_PIN);
                 if (!rollingPin && !held.isEmpty()) {
                     return InteractionResult.PASS;
                 }
-
-                int stage = clickedState.getValue(PizzaDoughBlock.STAGE);
                 if (stage >= PizzaDoughBlock.MAX_STAGE) {
                     return InteractionResult.SUCCESS;
                 }

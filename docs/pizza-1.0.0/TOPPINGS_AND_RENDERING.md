@@ -17,7 +17,9 @@ I cinque modelli ora realizzano una **base piatta, con scanalatura centrale e bo
 
 Per geometrie e hitbox dettagliate vedere [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md).
 
-**Non sono state introdotte ricette, ingredienti, applicazione di topping o nuove texture** in questo passaggio: per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Delight direttamente o una salsa dedicata. La mozzarella sarà il primo formaggio da rappresentare a piccoli elementi 2.5D, non come un blocco pieno.
+**Prototipo successivo alla modifica dei modelli:** primo topping rappresentato da `italiansdelight:mozzarella`. Clic destro sulla base stesa: si consuma una mozzarella intera, il BlockState salva `mozzarella=true` e il modello multipart disegna cinque pezzi poco rialzati usando la texture mozzarella già esistente. Il loot table restituisce l'ingrediente alla rottura. **Questo non è ancora il sistema definitivo**: quantità, liste di topping e compatibilità con altre mod richiederanno dati persistenti generalizzati.
+
+Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Delight direttamente o una salsa dedicata.
 
 ## Categorie ingredienti e preset (PROPOSTE)
 

@@ -23,7 +23,7 @@ Gli stadi 1–4 sono composti da **una base** e da **quattro listelli del bordo*
 - Si riutilizzano senza modificarle le texture **`pizza_dough_top.png` e `pizza_dough_side.png`**, inclusi i riferimenti texture già presenti nei modelli originali dell'autore.
 - Restano invariati gli ID dei cinque modelli, gli stati `stage=0..4`, la stesura manuale in 4 clic, la stesura col mattarello e la durabilità.
 - Tutte le regole di supporto rimangono quelle definite in [SURFACE_RULES.md](SURFACE_RULES.md).
-- Non è stata aggiunta alcuna gestione di salse o mozzarella; la prima interazione di condimento sarà implementata dopo la conferma delle nuove forme.
+- Un successivo prototipo **in attesa di test** aggiunge cinque pezzi di mozzarella via modello multipart solo sulla base stesa; le salse e il sistema generale di topping rimangono da implementare.
 
 ## Checklist da testare in Minecraft
 

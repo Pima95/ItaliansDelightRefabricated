@@ -23,6 +23,8 @@ La **palla d'impasto** va appoggiata con clic destro direttamente sopra un blocc
 
 Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se l'ingrediente è valido, viene consumata una porzione e aggiunta alla composizione. Non è necessario inserire prima pomodoro, formaggio o erbe in un ordine particolare. Sono ammesse pizze inventate dal giocatore, anche senza salsa rossa.
 
+**Primo prototipo funzionale, da testare:** su `stage=4`, un clic destro con **una mozzarella intera** della mod (`italiansdelight:mozzarella`) consuma 1 item in Sopravvivenza, imposta `mozzarella=true` sul BlockState e disegna cinque piccoli pezzi nella conca senza coprire il bordo. Non accetta una seconda mozzarella: è solo un test di interazione/rendering, non il futuro sistema di dosi e topping multipli. In Creativa non consuma l'item. Alla rottura del blocco il loot table restituisce anche la mozzarella, evitando di perderla. I modelli riutilizzano la texture mozzarella già presente, senza modificare PNG.
+
 **Proposte:** massimo 8 porzioni complessive, includendo salse; più porzioni dello stesso topping; categorie ingredienti registrate e non tutti i cibi ammessi indiscriminatamente; controllo dei contenitori restituiti.
 
 ### Tabella interazioni ipotizzata

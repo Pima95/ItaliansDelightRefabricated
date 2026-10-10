@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Posizionamento, stesura manuale e con mattarello confermati funzionanti dal giocatore.** Il mattarello ha **64 utilizzi** con usura di 1 per stesura riuscita. Aggiunta ricetta per **2 bastoni + qualsiasi asse di legno**, tramite tag `#minecraft:planks`; **crafting da testare**. Ridisegnati i cinque modelli dell'impasto con base schiacciata e bordo progressivamente rialzato, **in attesa di test visivo**. Condimenti e cottura non implementati.
+**Posizionamento, stesura manuale e con mattarello confermati funzionanti dal giocatore.** Il mattarello ha **64 utilizzi** con usura di 1 per stesura riuscita. Aggiunta ricetta per **2 bastoni + qualsiasi asse di legno**, tramite tag `#minecraft:planks`; **crafting da testare**. Ridisegnati i cinque modelli dell'impasto con base schiacciata e bordo progressivamente rialzato, **in attesa di test visivo**. **Primo prototipo di condimento mozzarella in BlockState implementato, da testare in gioco.** Pomodoro, condimenti multipli, cottura e persistenza di combinazioni arbitrarie non ancora implementati.
 
 ## Checklist decisioni già CONFERMATE
 
@@ -54,6 +54,8 @@
 - [ ] Test chunk unload, multiplayer, rottura del supporto e superfici particolari.
 
 ### Fase 2: sistema condimenti
+
+- [ ] Test mozzarella sulla base completamente stesa: aggiunta via clic destro, un solo item consumato, blocco doppia aggiunta, modello 2.5D e recupero tramite loot.
 
 - [x] Zona interna per condimenti definita nella nuova base finale (`x/z = 3..13`, centro alto 1 pixel), con bordo alto 3 pixel; implementazione dopo il test della geometria.
 - [ ] Decidere se il pomodoro di Farmer's Delight va applicato direttamente oppure trasformato prima in salsa.

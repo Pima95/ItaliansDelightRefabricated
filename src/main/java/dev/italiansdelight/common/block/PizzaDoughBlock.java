@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -31,6 +32,9 @@ public final class PizzaDoughBlock extends Block {
     // This is an initial test value; final hand-stretching balance is open.
     public static final int MAX_STAGE = 4;
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, MAX_STAGE);
+    // First topping proof of concept; arbitrary toppings will use a dedicated
+    // data representation later, rather than adding one property per ingredient.
+    public static final BooleanProperty MOZZARELLA = BooleanProperty.create("mozzarella");
 
     // Selection shapes mirror the exact recessed models, including the
     // raised edges. Unlike a single box, they expose the recessed center.
@@ -58,7 +62,7 @@ public final class PizzaDoughBlock extends Block {
 
     public PizzaDoughBlock(Properties properties) {
         super(properties);
-        registerDefaultState(stateDefinition.any().setValue(STAGE, 0));
+        registerDefaultState(stateDefinition.any().setValue(STAGE, 0).setValue(MOZZARELLA, false));
     }
 
     @Override
@@ -69,7 +73,7 @@ public final class PizzaDoughBlock extends Block {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(STAGE);
+        builder.add(STAGE, MOZZARELLA);
     }
 
     @Override
