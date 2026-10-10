@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Posizionamento, stesura manuale e con mattarello confermati funzionanti dal giocatore.** Il mattarello ha **64 utilizzi** con usura di 1 per stesura riuscita. Aggiunta ricetta per **2 bastoni + qualsiasi asse di legno**, tramite tag `#minecraft:planks`; **crafting da testare**. Condimenti e cottura non implementati.
+**Posizionamento, stesura manuale e con mattarello confermati funzionanti dal giocatore.** Il mattarello ha **64 utilizzi** con usura di 1 per stesura riuscita. Aggiunta ricetta per **2 bastoni + qualsiasi asse di legno**, tramite tag `#minecraft:planks`; **crafting da testare**. Ridisegnati i cinque modelli dell'impasto con base schiacciata e bordo progressivamente rialzato, **in attesa di test visivo**. Condimenti e cottura non implementati.
 
 ## Checklist decisioni già CONFERMATE
 
@@ -39,6 +39,7 @@
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
 - [ ] Elenco ufficiale delle pizze riconosciute e dei condimenti iniziali.
 - [ ] Valori fame, saturazione, eventuali effetti alimentari.
+- [ ] Test visivo delle nuove forme e hitbox dell'impasto nei cinque stadi (vedi [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md)).
 - [ ] Gestione delle collisioni, del posizionamento e rendering di dettaglio.
 - [ ] API effettive per mantenere data component nelle fornaci vanilla.
 
@@ -53,6 +54,9 @@
 - [ ] Test chunk unload, multiplayer, rottura del supporto e superfici particolari.
 
 ### Fase 2: sistema condimenti
+
+- [x] Zona interna per condimenti definita nella nuova base finale (`x/z = 3..13`, centro alto 1 pixel), con bordo alto 3 pixel; implementazione dopo il test della geometria.
+- [ ] Decidere se il pomodoro di Farmer's Delight va applicato direttamente oppure trasformato prima in salsa.
 
 - [ ] Definizioni ingredienti via codice/datapack.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
