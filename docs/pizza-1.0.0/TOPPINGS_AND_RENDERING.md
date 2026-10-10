@@ -13,7 +13,7 @@ Non è prevista una texture completa separata per ogni combinazione possibile.
 
 ## Geometria già predisposta (modelli dell'impasto)
 
-I cinque modelli ora realizzano una **base piatta, con scanalatura centrale e bordo rialzato**, senza un secondo strato appoggiato sopra come nel primo prototipo. Alla fine della stesura la superficie interna arriva a Y=1/16 e il bordo a Y=3/16, con fascia esterna larga 2/16. Il condimento va collocato nella zona centrale (da X/Z=3 a 13) e deve **lasciare visibile il bordo**.
+I cinque modelli ora realizzano una **base piatta, con scanalatura centrale e bordo rialzato**, senza un secondo strato appoggiato sopra come nel primo prototipo. Alla fine della stesura la superficie interna arriva a Y=1/16 e il bordo a Y=2/16, con **scanalatura profonda esattamente 1/16 di blocco (1 pixel)** e fascia esterna larga 2/16. Il condimento va collocato nella zona centrale (da X/Z=3 a 13) e deve **lasciare visibile il bordo**.
 
 Per geometrie e hitbox dettagliate vedere [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md).
 

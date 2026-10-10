@@ -43,7 +43,7 @@ public final class PizzaDoughBlock extends Block {
         recessedShape(3, 13, 3, 4, 1),
         recessedShape(2, 14, 2, 4, 1),
         recessedShape(2, 14, 2, 3, 1),
-        recessedShape(1, 15, 1, 3, 2)
+        recessedShape(1, 15, 1, 2, 2)
     };
 
     private static VoxelShape recessedShape(
