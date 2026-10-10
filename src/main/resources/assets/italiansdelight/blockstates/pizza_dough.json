@@ -1,3 +1,10 @@
 {
-  "variants": { "": { "model": "italiansdelight:block/pizza_dough" } }
+  "variants": {
+    "lowered=false": {
+      "model": "italiansdelight:block/pizza_dough"
+    },
+    "lowered=true": {
+      "model": "italiansdelight:block/pizza_dough_lowered"
+    }
+  }
 }

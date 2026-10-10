@@ -27,7 +27,8 @@
 - [ ] Consumi esatti per ingrediente, ripetizioni, più salse, remainder.
 - [ ] Meccanica Shift + clic destro per annullamento e recupero.
 - [ ] Pala per pizza facoltativa: ricetta e funzione precisa.
-- [ ] Supporti parziali e comportamento se il blocco sottostante viene rotto.
+- [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md).
+- [ ] Verificare in gioco supporti particolari, update quando cambiano stato e recupero se il supporto viene rotto.
 - [ ] Tempi cottura (proposti: 20/30/60 secondi).
 - [ ] Consumo fuel del Pizza Oven, preriscaldamento e burn time residuo.
 - [ ] Hopper sopra/lati/sotto e fallback manuale.
@@ -45,7 +46,7 @@
 ### Fase 1: fondamenta interattive
 
 - [ ] Registrare palla d'impasto, blocco di preparazione e dati serializzabili.
-- [ ] Implementare appoggio della palla direttamente sui blocchi (**prototipo disponibile, test necessario**).
+- [ ] Implementare appoggio della palla su superfici approvate (**controllo per stati slab/scale/botole e soul sand disponibile, nuovo test necessario**).
 - [ ] Implementare stesura a mano e con mattarello.
 - [ ] Salvare e recuperare correttamente stati e oggetti.
 - [ ] Test chunk unload, multiplayer, rottura del supporto e superfici particolari.

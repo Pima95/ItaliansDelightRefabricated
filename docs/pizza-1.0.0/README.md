@@ -10,7 +10,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 
 ## Decisioni CONFERMATE
 
-1. La **palla d'impasto si piazza sopra i blocchi del mondo**. La stesura **non usa il Cutting Board** né una GUI.
+1. La **palla d'impasto si piazza sopra superfici approvate dei blocchi del mondo** (vedi [SURFACE_RULES.md](SURFACE_RULES.md)). La stesura **non usa il Cutting Board** né una GUI.
 2. Il giocatore può stendere l'impasto **sia a mano, con clic destro ripetuto, sia con un mattarello**.
 3. Il giocatore aggiunge i condimenti **direttamente alla pizza posizionata nel mondo**, con clic destro.
 4. L'ordine di inserimento degli ingredienti non deve imporre una ricetta fissa: la pizza può essere inventata liberamente.
@@ -39,6 +39,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 ## Indice documentazione
 
 - [GAMEPLAY.md](GAMEPLAY.md) — fasi, comandi nel mondo, stesura, condimento, crafting, raccolta.
+- [SURFACE_RULES.md](SURFACE_RULES.md) — superfici approvate/escluse, stati dei blocchi e test.
 - [PIZZA_OVEN.md](PIZZA_OVEN.md) — forno 1×1, combustibili, tempi, automazione e forni vanilla.
 - [TOPPINGS_AND_RENDERING.md](TOPPINGS_AND_RENDERING.md) — categorie, regole di composizione e resa 2.5D.
 - [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md) — dati persistenti, nomi dinamici, tag e datapack.
