@@ -48,7 +48,7 @@ Le altre superfici particolari, incluse superfici parziali di mod esterne, non s
 - Il blocco impasto usa **lo stesso controllo** in `canSurvive`, quindi non può continuare a rimanere su un supporto che non è più consentito.
 - Non esistono più le varianti `lowered`: tutte le superfici permesse usano i modelli normali, senza spostamenti verticali.
 - Il recupero con la rottura del supporto deve rilasciare l'impasto una volta soltanto; verificare in gioco.
-- Il modello 3D è sempre **provvisorio**; nessuna texture dell'autore viene sostituita.
+- I cinque modelli 3D mantengono la geometria del prototipo e usano texture dedicate all'impasto crudo, documentate in [TEXTURES.md](TEXTURES.md).
 
 ## Checklist test manuale
 

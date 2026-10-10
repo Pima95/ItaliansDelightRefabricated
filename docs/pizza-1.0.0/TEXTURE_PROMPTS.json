@@ -1,0 +1,43 @@
+{
+  "generation_mode": "built-in image_gen",
+  "export": {
+    "dimensions": [
+      16,
+      16
+    ],
+    "sampling": "nearest neighbour, sample at texel centers",
+    "item_alpha": "0 or 255 only; threshold 128",
+    "block_alpha": "255 on every texel"
+  },
+  "assets": [
+    {
+      "output": "src/main/resources/assets/italiansdelight/textures/item/rolling_pin.png",
+      "kind": "handheld item icon",
+      "source_file": "exec-14a8d7b2-b059-48d7-864a-0c28f544cc0c.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: a single native 16x16 Minecraft Farmer's Delight Refabricated HANDHELD ITEM sprite: wooden rolling pin.\nInput image 1: Farmer's Delight iron knife, reference for diagonal handheld composition, small pixel dimensions and transparency ONLY, no metal blade. Input image 2: Italians Delight cheese grater, reference for coherent Minecraft tool pixel art outline/readability.\nCreate one wooden rolling pin item icon, like a Minecraft sword sprite: diagonal from bottom-left to top-right, isolated on a genuinely transparent background. The rolling pin has a broad smooth wooden cylindrical central barrel with two short narrow wooden handles at opposite ends along the same diagonal. Lower-left handle is the held grip; upper-right handle is visible and shorter due to perspective. It is a rolling pin, not a bat, not a shovel, not a rolling pastry scene.\nStyle: exactly 16 by 16 logical square pixel cells, enlarged without smoothing. Dark warm brown single-pixel outline, muted medium oak body, pale honey light along upper-left edge, deep brown lower-right edge, one or two restrained grain marks only. Body is roughly 8 cells long and 4 cells wide; handles are about 2-3 cells long and 1-2 cells wide. The silhouette occupies about 14x14 of the square with one logical pixel padding to avoid clipping.\nConstraints: all object pixels fully opaque with solid flat colors; all outside pixels truly transparent. No translucent halo, no semi-transparent pixels, no antialiasing, no blur, no gradient within any logical cell. No extra object, background color, labels, text or watermark. Coherent with Farmer's Delight handmade wooden utensils and Minecraft vanilla swords. Simple legible silhouette at the actual final 16x16 size.",
+      "references": [
+        "FarmersDelight 26.2-3.6.28+refabricated: assets/farmersdelight/textures/item/iron_knife.png",
+        "src/main/resources/assets/italiansdelight/textures/item/cheese_grater.png"
+      ]
+    },
+    {
+      "output": "src/main/resources/assets/italiansdelight/textures/block/pizza_dough_top.png",
+      "kind": "opaque top and bottom surface",
+      "source_file": "exec-36dce1a8-87ab-42dd-acb6-1da29774d358.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: Minecraft Farmer's Delight Refabricated raw pizza dough block TOP texture, exported to native 16x16 pixels.\nInput image 1: wheat_dough.png, palette and restrained pixel art style reference ONLY. Do not copy its silhouette or transparency.\nCreate ONE completely opaque square tile of uncooked wheat pizza dough material, filling the entire image edge to edge. It is a texture for existing cuboid models, not an item icon, not a pizza illustration, not a 3D object.\nStyle: authentic low-resolution Minecraft/Farmer's Delight pixel art. Exactly 16 columns by 16 rows of large uniform hard-edged square pixel cells, presented enlarged; every cell is a single completely solid color. Small limited palette, warm pale ivory and flour cream, subtle sandy-beige low contrast kneading speckles in small irregular clusters. Slight central flour highlight but no round border. Sparse texture, soft appetizing raw dough surface, easily readable under future toppings. Even, diffuse lighting integrated in the pixel colors only.\nConstraints: all pixels opaque, including all four corners. Entire square is dough material. Seamless or nearly seamless edges. No background, no margins, no transparency, no outlines, no circular silhouette, no crust, no browning, no bread holes, no topping, no text, no watermark, no gradients within pixel cells, no antialiasing. The texture must be coherent with the reference wheat dough cream palette, distinctly uncooked, and not resemble stone.",
+      "references": [
+        "FarmersDelight 26.2-3.6.28+refabricated: assets/farmersdelight/textures/item/wheat_dough.png"
+      ]
+    },
+    {
+      "output": "src/main/resources/assets/italiansdelight/textures/block/pizza_dough_side.png",
+      "kind": "opaque side surface and particle",
+      "source_file": "exec-382a60e3-22ff-4857-81b3-5ff0e6518e79.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: Minecraft Farmer's Delight Refabricated RAW pizza dough block SIDE material texture, final export native 16x16.\nInput image 1: generated top surface, supporting palette/material reference. Input image 2: Farmer's Delight wheat dough item, supporting raw dough palette/style reference. These are references only, create one new side material square.\nCreate ONE completely opaque square tile of UNCOOKED kneaded wheat pizza dough, filling every corner edge to edge. Matches the warm ivory cream of the top reference, slightly deeper muted beige, never golden brown. Subtle irregular soft horizontal kneading folds two pixels long, sparse flour speckles, gentle restrained pixel clusters, low contrast. The bottom six rows are especially important: they will appear on side faces of a low cuboid. All rows remain the same raw dough material, no rim or crust.\nStyle: true Minecraft low-resolution pixel art, 16 by 16 distinct square color cells enlarged, every cell filled with a SINGLE flat solid color. Very limited warm cream and beige palette. Not high-resolution detail or smooth painterly texture.\nConstraints: image is entirely opaque square texture material with no background or silhouette, no transparency, no margins, no border, no drawing of a pizza, no toppings, no stone, no bread cracks or holes, no baked crust, no text or watermark. No antialiasing, no blur, no gradients within any logical pixel. Keep the corners and edges like the interior so this texture crops cleanly for all five dough stages.",
+      "references": [
+        "generated pizza_dough_top source",
+        "FarmersDelight 26.2-3.6.28+refabricated: assets/farmersdelight/textures/item/wheat_dough.png"
+      ]
+    }
+  ]
+}

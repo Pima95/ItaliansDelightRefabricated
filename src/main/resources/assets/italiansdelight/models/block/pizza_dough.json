@@ -2,32 +2,33 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
-    "dough": "minecraft:block/smooth_sandstone",
-    "particle": "minecraft:block/smooth_sandstone"
+    "top": "italiansdelight:block/pizza_dough_top",
+    "side": "italiansdelight:block/pizza_dough_side",
+    "particle": "italiansdelight:block/pizza_dough_side"
   },
   "elements": [
     {
-      "from": [4, 0, 4],
-      "to": [12, 3, 12],
+      "from": [4,0,4],
+      "to": [12,3,12],
       "faces": {
-        "down": { "texture": "#dough" },
-        "up": { "texture": "#dough" },
-        "north": { "texture": "#dough" },
-        "south": { "texture": "#dough" },
-        "west": { "texture": "#dough" },
-        "east": { "texture": "#dough" }
+        "down": { "uv": [4,4,12,12], "texture": "#top" },
+        "up": { "uv": [4,4,12,12], "texture": "#top" },
+        "north": { "uv": [4,13,12,16], "texture": "#side" },
+        "south": { "uv": [4,13,12,16], "texture": "#side" },
+        "east": { "uv": [4,13,12,16], "texture": "#side" },
+        "west": { "uv": [4,13,12,16], "texture": "#side" }
       }
     },
     {
-      "from": [5, 3, 5],
-      "to": [11, 6, 11],
+      "from": [5,3,5],
+      "to": [11,6,11],
       "faces": {
-        "down": { "texture": "#dough" },
-        "up": { "texture": "#dough" },
-        "north": { "texture": "#dough" },
-        "south": { "texture": "#dough" },
-        "west": { "texture": "#dough" },
-        "east": { "texture": "#dough" }
+        "down": { "uv": [5,5,11,11], "texture": "#top" },
+        "up": { "uv": [5,5,11,11], "texture": "#top" },
+        "north": { "uv": [5,10,11,13], "texture": "#side" },
+        "south": { "uv": [5,10,11,13], "texture": "#side" },
+        "east": { "uv": [5,10,11,13], "texture": "#side" },
+        "west": { "uv": [5,10,11,13], "texture": "#side" }
       }
     }
   ]

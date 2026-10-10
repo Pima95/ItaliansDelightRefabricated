@@ -2,72 +2,33 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
-    "dough": "minecraft:block/smooth_sandstone",
-    "particle": "minecraft:block/smooth_sandstone"
+    "top": "italiansdelight:block/pizza_dough_top",
+    "side": "italiansdelight:block/pizza_dough_side",
+    "particle": "italiansdelight:block/pizza_dough_side"
   },
   "elements": [
     {
-      "from": [
-        3,
-        0,
-        3
-      ],
-      "to": [
-        13,
-        3,
-        13
-      ],
+      "from": [3,0,3],
+      "to": [13,3,13],
       "faces": {
-        "down": {
-          "texture": "#dough"
-        },
-        "up": {
-          "texture": "#dough"
-        },
-        "north": {
-          "texture": "#dough"
-        },
-        "south": {
-          "texture": "#dough"
-        },
-        "east": {
-          "texture": "#dough"
-        },
-        "west": {
-          "texture": "#dough"
-        }
+        "down": { "uv": [3,3,13,13], "texture": "#top" },
+        "up": { "uv": [3,3,13,13], "texture": "#top" },
+        "north": { "uv": [3,13,13,16], "texture": "#side" },
+        "south": { "uv": [3,13,13,16], "texture": "#side" },
+        "east": { "uv": [3,13,13,16], "texture": "#side" },
+        "west": { "uv": [3,13,13,16], "texture": "#side" }
       }
     },
     {
-      "from": [
-        4,
-        3,
-        4
-      ],
-      "to": [
-        12,
-        5,
-        12
-      ],
+      "from": [4,3,4],
+      "to": [12,5,12],
       "faces": {
-        "down": {
-          "texture": "#dough"
-        },
-        "up": {
-          "texture": "#dough"
-        },
-        "north": {
-          "texture": "#dough"
-        },
-        "south": {
-          "texture": "#dough"
-        },
-        "east": {
-          "texture": "#dough"
-        },
-        "west": {
-          "texture": "#dough"
-        }
+        "down": { "uv": [4,4,12,12], "texture": "#top" },
+        "up": { "uv": [4,4,12,12], "texture": "#top" },
+        "north": { "uv": [4,11,12,13], "texture": "#side" },
+        "south": { "uv": [4,11,12,13], "texture": "#side" },
+        "east": { "uv": [4,11,12,13], "texture": "#side" },
+        "west": { "uv": [4,11,12,13], "texture": "#side" }
       }
     }
   ]

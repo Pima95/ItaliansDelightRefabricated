@@ -23,7 +23,7 @@
 
 - [ ] Bilanciamento definitivo della stesura (attualmente 4 clic a mano, 1 col mattarello).
 - [x] Ricetta del mattarello: 2 bastoni + 1 asse di qualsiasi legno (`#minecraft:planks`), con sblocco nel libro delle ricette (**test in gioco necessario**).
-- [ ] Texture dedicata del mattarello; durabilità confermata: **64 usi**, 1 per pizza stesa.
+- [x] Texture dedicata del mattarello: item handheld 16×16, sfondo trasparente e pixel opachi; durabilità confermata: **64 usi**, 1 per pizza stesa. **Aspetto da verificare in gioco.**
 - [ ] Limite delle porzioni di topping (proposta: 8 incluse le salse).
 - [ ] Consumi esatti per ingrediente, ripetizioni, più salse, remainder.
 - [ ] Meccanica Shift + clic destro per annullamento e recupero.
@@ -62,7 +62,8 @@
 
 ### Fase 3: rendering 2.5D
 
-- [ ] Impasto nei diversi stadi; pizza cruda/cotta.
+- [x] Texture dell'impasto crudo nei cinque stadi di stesura: superficie, lati e particelle dedicate 16×16, completamente opache. **Aspetto da verificare in gioco**; [anteprima e test](TEXTURES.md).
+- [ ] Pizza condita cruda/cotta.
 - [ ] Salse piatte, formaggi/condimenti 2.5D, preset riutilizzabili.
 - [ ] Seed deterministico e conservazione della distribuzione.
 - [ ] Aspetto item inventario, eventuali fette e pizza nel forno.
