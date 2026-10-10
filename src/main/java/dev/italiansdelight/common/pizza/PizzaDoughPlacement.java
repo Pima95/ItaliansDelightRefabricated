@@ -24,8 +24,7 @@ public final class PizzaDoughPlacement {
 
     public static void register() {
         UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
-            if (hand != InteractionHand.MAIN_HAND || player.isSpectator()
-                    || hit.getDirection() != Direction.UP) {
+            if (hand != InteractionHand.MAIN_HAND || player.isSpectator()) {
                 return InteractionResult.PASS;
             }
             ItemStack held = player.getItemInHand(hand);
@@ -83,8 +82,9 @@ public final class PizzaDoughPlacement {
                 return InteractionResult.SUCCESS;
             }
 
-            // Placing raw wheat dough is a separate action from stretching.
-            if (!held.is(ModItems.WHEAT_DOUGH.get())) {
+            // Dough placement requires the upper face, but stretching should
+            // work on any face of the dough block (including its thin sides).
+            if (hit.getDirection() != Direction.UP || !held.is(ModItems.WHEAT_DOUGH.get())) {
                 return InteractionResult.PASS;
             }
             BlockPos pos = clickedPos.above();
