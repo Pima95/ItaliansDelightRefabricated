@@ -1,6 +1,6 @@
 # Superfici di appoggio dell'impasto — decisioni 1.0.0
 
-> **Confermato dall'autore** il 10 ottobre 2026. Non ampliare i casi particolari senza una nuova decisione.
+> **Confermato dall'autore e aggiornato** il 10 ottobre 2026. La Soul Sand è stata esclusa su richiesta successiva. Non ampliare i casi particolari senza una nuova decisione.
 
 ## Criterio di base
 
@@ -17,13 +17,13 @@ Regola prudente per i blocchi non elencati: **consentire soltanto blocchi con co
 | Slab doppia | `SlabBlock.TYPE=DOUBLE` |
 | Scala capovolta | `StairBlock.HALF=TOP`; tutti gli orientamenti |
 | Botola superiore chiusa | `TrapDoorBlock.HALF=TOP` e `OPEN=false` |
-| Sabbia delle anime | `Blocks.SOUL_SAND`: consentita; la collisione è ribassata di 2 pixel, quindi la palla usa un modello ribassato |
 | Incudini | Tutte le condizioni di usura (`AnvilBlock`) |
 
 ## Confermati VIETATI
 
 | Superficie | Dettagli implementativi |
 | --- | --- |
+| Sabbia delle anime | `Blocks.SOUL_SAND`: **vietata** (decisione aggiornata) |
 | Slab inferiore | `SlabBlock.TYPE=BOTTOM` |
 | Scale normali | `StairBlock.HALF=BOTTOM` |
 | Botola inferiore chiusa | `TrapDoorBlock.HALF=BOTTOM`, `OPEN=false` |
@@ -46,7 +46,7 @@ Le altre superfici particolari, incluse superfici parziali di mod esterne, non s
 
 - Il clic destro su una superficie approvata inserisce il `pizza_dough` nel blocco d'aria soprastante.
 - Il blocco impasto usa **lo stesso controllo** in `canSurvive`, quindi non può continuare a rimanere su un supporto che non è più consentito.
-- Quando la sabbia delle anime viene sostituita con un supporto normale o viceversa, il modello aggiorna l'altezza senza dover ricollocare la palla.
+- Non esistono più le varianti `lowered`: tutte le superfici permesse usano i modelli normali, senza spostamenti verticali.
 - Il recupero con la rottura del supporto deve rilasciare l'impasto una volta soltanto; verificare in gioco.
 - Il modello 3D è sempre **provvisorio**; nessuna texture dell'autore viene sostituita.
 
@@ -55,7 +55,7 @@ Le altre superfici particolari, incluse superfici parziali di mod esterne, non s
 - [ ] Slab BOTTOM vietata / TOP consentita / DOUBLE consentita.
 - [ ] Stair BOTTOM vietata / TOP consentita (tutti gli orientamenti).
 - [ ] Trapdoor TOP chiusa consentita; TOP aperta, BOTTOM chiusa o aperta vietate.
-- [ ] Soul Sand consentita con modello non sospeso.
+- [ ] Soul Sand vietata (anche dopo cambio del blocco di supporto).
 - [ ] Incudini normali, scheggiate e danneggiate consentite.
 - [ ] DIRT_PATH, FARMLAND, SNOW, CARPET, CHEST, ENDER_CHEST, ENCHANTING_TABLE, BED, CAULDRON, COMPOSTER vietati.
 - [x] Blocchi cubici normali ancora consentiti (test confermato dall'autore).

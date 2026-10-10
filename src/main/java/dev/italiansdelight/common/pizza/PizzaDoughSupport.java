@@ -43,13 +43,14 @@ public final class PizzaDoughSupport {
                     && support.getValue(TrapDoorBlock.HALF) == Half.TOP;
         }
 
-        // Explicit approvals that are not full collision cubes.
-        if (support.is(Blocks.SOUL_SAND) || support.getBlock() instanceof AnvilBlock) {
+        // Anvils are the only explicitly approved special non-cubic support.
+        if (support.getBlock() instanceof AnvilBlock) {
             return true;
         }
 
         // Explicit rejections; subclasses cover all vanilla color/level variants.
-        if (support.is(Blocks.DIRT_PATH)
+        if (support.is(Blocks.SOUL_SAND)
+                || support.is(Blocks.DIRT_PATH)
                 || support.is(Blocks.FARMLAND)
                 || support.is(Blocks.SNOW)
                 || support.is(Blocks.ENCHANTING_TABLE)
@@ -68,11 +69,4 @@ public final class PizzaDoughSupport {
         return support.isCollisionShapeFullBlock(level, pos);
     }
 
-    /**
-     * Soul sand's collision top is 14/16 instead of 16/16, so the dough
-     * model is lowered two pixels to sit on the actual surface.
-     */
-    public static boolean needsLowerModel(BlockState support) {
-        return support.is(Blocks.SOUL_SAND);
-    }
 }

@@ -1,7 +1,6 @@
 package dev.italiansdelight.common.pizza;
 
 import dev.italiansdelight.common.registry.ModBlocks;
-import dev.italiansdelight.common.block.PizzaDoughBlock;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,9 +32,7 @@ public final class PizzaDoughPlacement {
                 return InteractionResult.PASS;
             }
             BlockPos pos = hit.getBlockPos().above();
-            BlockState state = ModBlocks.PIZZA_DOUGH.defaultBlockState()
-                    .setValue(PizzaDoughBlock.LOWERED,
-                            PizzaDoughSupport.needsLowerModel(level.getBlockState(hit.getBlockPos())));
+            BlockState state = ModBlocks.PIZZA_DOUGH.defaultBlockState();
             if (!level.getBlockState(pos).isAir() || !state.canSurvive(level, pos)) {
                 return InteractionResult.PASS;
             }

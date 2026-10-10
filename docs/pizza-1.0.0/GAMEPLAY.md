@@ -4,7 +4,7 @@
 
 La **palla d'impasto** va appoggiata con clic destro direttamente sopra un blocco. **Non** serve un Cutting Board, un piano dedicato o una GUI. Il giocatore deve essere libero di lavorare su pietra, legno, tavoli e altre superfici.
 
-**Regola aggiornata e confermata:** l'impasto richiede una superficie superiore approvata. Sono consentiti i blocchi con collisione cubica piena, le slab superiori e doppie, le scale capovolte, le botole superiori chiuse, la sabbia delle anime e le incudini. Sono vietati gli altri stati delle slab/scale/botole e i casi esplicitamente esclusi dall'autore. Per il dettaglio e i casi non ancora decisi vedere [SURFACE_RULES.md](SURFACE_RULES.md). La stessa verifica governa posizionamento e sopravvivenza; sopra la sabbia delle anime il modello è abbassato di 2 pixel.
+**Regola aggiornata e confermata:** l'impasto richiede una superficie superiore approvata. Sono consentiti i blocchi con collisione cubica piena, le slab superiori e doppie, le scale capovolte, le botole superiori chiuse e le incudini. Sono vietati gli altri stati delle slab/scale/botole e i casi esplicitamente esclusi dall'autore. Per il dettaglio e i casi non ancora decisi vedere [SURFACE_RULES.md](SURFACE_RULES.md). La sabbia delle anime non è consentita; non è più necessaria alcuna variante ribassata del modello. La stessa verifica governa posizionamento e sopravvivenza.
 
 ## 2. Stesura — CONFERMATO
 

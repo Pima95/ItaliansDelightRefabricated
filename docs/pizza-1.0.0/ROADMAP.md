@@ -27,8 +27,8 @@
 - [ ] Consumi esatti per ingrediente, ripetizioni, più salse, remainder.
 - [ ] Meccanica Shift + clic destro per annullamento e recupero.
 - [ ] Pala per pizza facoltativa: ricetta e funzione precisa.
-- [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md).
-- [ ] Verificare in gioco supporti particolari, update quando cambiano stato e recupero se il supporto viene rotto.
+- [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
+- [ ] Verificare in gioco che la Soul Sand sia vietata e che slab superiori/doppie, scale capovolte, botole superiori chiuse e incudini funzionino ancora; verificare anche recupero se il supporto viene rotto.
 - [ ] Tempi cottura (proposti: 20/30/60 secondi).
 - [ ] Consumo fuel del Pizza Oven, preriscaldamento e burn time residuo.
 - [ ] Hopper sopra/lati/sotto e fallback manuale.
