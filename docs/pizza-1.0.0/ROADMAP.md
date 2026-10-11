@@ -32,6 +32,7 @@
 - [x] Recupero ingredienti direttamente nell'inventario, drop solo se pieno; rottura della pizza cruda recupera impasto e ingredienti residui senza duplicazioni, pizza cotta non restituisce ingredienti.
 - [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
 - [x] **Pala senza durabilita'**, riutilizzabile indefinitamente per raccogliere, spostare e trasferire pizze.
+- [x] **Pala non impilabile**, sia vuota sia occupata: **stack massimo 1**, una pala per slot di inventario.
 - [x] **Pala come futura arma solo quando VUOTA**, ispirata alla padella di Farmer's Delight Refabricated. **Se OCCUPATA non attiva alcun bonus o effetto speciale da arma** e mantiene intatti i dati della pizza. Statistiche e dettagli non concordati; codice non implementato.
 
 ## Questioni da risolvere prima del codice (NON CONFERMATE)
@@ -47,7 +48,7 @@
 - [x] **Confermati linea parallela alla direzione cardinale piu' vicina allo sguardo e orientamento a scatti** N/S/E/O, per due meta' sinistra/destra. Non viene usata una rotazione libera per le diagonali.
 - [x] **Selezione delle zone tramite posizione effettiva del clic**; sui confini e sulle intersezioni una sola zona in modo deterministico, senza selezioni doppie.
 - [ ] Definire **quale zona prevale esattamente sul confine** (criterio di spareggio fisso), lo spareggio deterministico negli angoli a meta' tra due cardinali e i dettagli di hitbox/tolleranze (**snap cardinale, gesti e assenza di usura gia' confermati**).
-- [ ] Pala: definire ricetta, tooltip, item occupato/distrutto, gestione inventari e dettagli di interazione col forno (**ruolo di trasporto e assenza di durabilita' gia' confermati**).
+- [ ] Pala: definire ricetta, tooltip, item occupato/distrutto, gestione inventari e dettagli di interazione col forno (**trasporto, assenza di durabilita' e stack massimo 1 gia' confermati**).
 - [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
 - [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
 - [ ] Verificare in gioco che la Soul Sand sia vietata e che slab superiori/doppie, scale capovolte, botole superiori chiuse e incudini funzionino ancora; verificare anche recupero se il supporto viene rotto.
@@ -86,7 +87,8 @@
 - [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), **senza consumare durabilita'**, salvandone la configurazione e preservando posizioni e storici dei topping; selezionare la zona dal punto reale di clic con **un solo risultato deterministico ai confini**; evidenziare le linee solo con mattarello o ingrediente valido.
 - [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali dei topping alle sole zone ancora libere, **il blocco totale delle salse differenti se una qualsiasi parte della zona mirata contiene gia' un'altra salsa**, la **validazione atomica del massimo di 6 tipi per quarto fisico (salsa inclusa)** e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
 - [ ] Recupero diretto nell'inventario (drop solo con spazio insufficiente); rottura pizza cruda/cotta secondo specifica.
-- [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**.
+- [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
+- [ ] Test: due pale vuote non si impilano; ogni pala occupata resta singola; spostamenti tra slot e contenitori conservano i dati senza duplicazioni.
 - [ ] Gestire gli eventuali remainder dei contenitori senza duplicazioni.
 - [ ] Nomi dinamici localizzati e ricette riconosciute.
 - [ ] Rendering provvisorio per convalidare i dati.
