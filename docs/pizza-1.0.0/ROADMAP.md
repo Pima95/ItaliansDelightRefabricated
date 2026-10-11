@@ -18,7 +18,7 @@
 - [x] **Nessuna bruciatura** con qualsiasi metodo.
 - [x] Rendering 2.5D: **salse piatte, altri topping poco rialzati**.
 - [x] Ingredienti di altre mod supportabili tramite definizioni e tag.
-- [x] Pizza divisa logicamente in quattro quarti condibili separatamente.
+- [x] Suddivisione **facoltativa con mattarello dopo la stesura**: intera -> due meta' -> divisione di una o entrambe le meta' in quarti, condibili indipendentemente. Clic ingrediente applica alla zona puntata. Linee visibili temporaneamente solo tenendo mattarello o ingrediente valido; nessun cambio permanente ai modelli/texture.
 - [x] Rimozione parziale senza rimborso; rimborso una sola volta dopo la rimozione di tutti i quarti coperti da una specifica applicazione.
 - [x] Recupero ingredienti direttamente nell'inventario, drop solo se pieno; rottura della pizza cruda recupera impasto e ingredienti residui senza duplicazioni, pizza cotta non restituisce ingredienti.
 - [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
@@ -30,7 +30,8 @@
 - [x] Texture dedicata del mattarello: item handheld 16×16, sfondo trasparente e pixel opachi; durabilità confermata: **64 usi**, 1 per pizza stesa. **Aspetto da verificare in gioco.**
 - [ ] Limite delle porzioni di topping (proposta: 8 incluse le salse).
 - [ ] Consumi esatti per ingrediente, ripetizioni, più salse, remainder.
-- [ ] Definire i gesti per scegliere/rimuovere il condimento da un quarto; Shift + clic destro e' ancora una possibile interazione, non una decisione definitiva.
+- [ ] Definire il gesto per **rimuovere** topping da una zona. La **selezione in applicazione** e' gia' definita dalla zona puntata e dalle divisioni create col mattarello.
+- [ ] Definire orientamento/hitbox delle divisioni, usura del mattarello per queste azioni ed eventuale gesto Shift + clic col mattarello per riunire le zone senza perdere topping (non ancora confermato).
 - [ ] Pala: definire ricetta, durabilita', tooltip, item occupato/distrutto, gestione inventari e dettagli di interazione col forno (il ruolo di trasporto di una pizza e' gia' confermato).
 - [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
 - [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
@@ -67,7 +68,8 @@
 
 - [ ] Definizioni ingredienti via codice/datapack.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
-- [ ] Implementare i **quattro quarti**, l'identita' delle singole applicazioni, i mask dei quarti ancora coperti e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
+- [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti), salvandone la configurazione; evidenziare le linee solo con mattarello o ingrediente valido.
+- [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
 - [ ] Recupero diretto nell'inventario (drop solo con spazio insufficiente); rottura pizza cruda/cotta secondo specifica.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno.
 - [ ] Gestire gli eventuali remainder dei contenitori senza duplicazioni.
@@ -117,4 +119,4 @@
 
 ## Prossimo tema da concordare
 
-**Quantita', copertura e limiti per applicazione/ciascun quarto** (unita' massime, item ripetibili, quantita' consumata, salse), poi gesto preciso per rimozione e selezione del quarto, insieme dei gusti riconosciuti e dettagli del rendering. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+**Quantita' e limiti per applicazione/zona selezionata** (unita' massime, item ripetibili, quantita' consumata, salse), poi gesto preciso di rimozione, geometria dei clic/divisioni con mattarello, insieme dei gusti riconosciuti e dettagli del rendering. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
