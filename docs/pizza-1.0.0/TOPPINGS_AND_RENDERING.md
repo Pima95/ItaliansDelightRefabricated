@@ -35,7 +35,7 @@ Per geometrie e hitbox dettagliate vedere [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md)
 
 La pizza puo' essere **completamente bianca**, avere salsa soltanto su una parte o usare **tipi di salsa differenti su parti fisiche distinte**. **Non si possono sovrapporre due salse sulla stessa sottoarea**, neppure se sono diverse (per esempio pomodoro e pesto). Dividere o riunire la pizza non cambia le coperture delle salse preesistenti. Gli altri topping possono essere aggiunti anche senza salsa. Una salsa puo' essere necessaria per riconoscere una ricetta specifica, ma **non e' richiesta per preparare una pizza libera**.
 
-**DA DEFINIRE:** quando un clic con una nuova salsa mira a una zona parzialmente occupata da una salsa differente, stabilire se respingere il clic o condire soltanto le aree prive di salsa; il vincolo di non sovrapporre/sovrascrivere resta comunque obbligatorio.
+**CONFERMATO:** se la zona selezionata contiene gia' **anche soltanto su una parte** una salsa *differente*, il clic con la nuova salsa viene **rifiutato interamente**: nessuna applicazione neanche sulle parti libere, nessuna sostituzione, nessun consumo di item. Dopo aver riunito due meta' (una al pomodoro, una bianca), un tentativo di applicare pesto alla pizza intera fallisce. Il giocatore puo' usare il mattarello per dividerla nuovamente e applicare il pesto **solo alla meta' bianca**.
 
 Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Delight direttamente o una salsa dedicata.
 
@@ -107,4 +107,4 @@ Separare **validità dell'ingrediente** (tag/definizione) e **preset grafico** (
 
 ## Da definire
 
-Altezze e dimensioni in voxel, forma del bordo, hitbox, modalità di render per ogni categoria, resa dei formaggi fusi, comportamento dei clic su zone parzialmente gia' coperte da salse differenti (sovrapposizioni vietate), dettagli delle varianti per item in inventario e budget performance.
+Altezze e dimensioni in voxel, forma del bordo, hitbox, modalità di render per ogni categoria, resa dei formaggi fusi, implementazione del rifiuto completo dei clic con una salsa diversa su zone parzialmente occupate (nessuna modifica, nessun consumo), dettagli delle varianti per item in inventario e budget performance.
