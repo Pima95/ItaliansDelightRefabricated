@@ -19,7 +19,7 @@ Internamente e' possibile mappare tutte le coperture sui quattro quarti logici, 
 
 **Riunione confermata:** Shift + clic destro col mattarello riunisce prima i due quarti della stessa meta' e infine le due meta' intere. Le coperture e le posizioni visive dei topping gia' applicati **non cambiano** quando l'overlay viene unificato, e non si restituiscono ingredienti. Dopo la riunione i topping aggiunti successivamente coprono la nuova zona logica; il renderer deve conservare le posizioni degli ingredienti preesistenti.
 
-**Nessun topping duplicato nella stessa sottoarea — CONFERMATO:** piu' applicazioni di uno stesso ingrediente sono ammesse **solo quando coprono aree fisiche differenti**. In una zona parzialmente gia' condita, un clic aggiunge l'ingrediente alle sole sottoaree libere, consumando un item; un clic interamente duplicato non consuma nulla. Dopo una riunione la copertura preesistente resta al suo posto. Le applicazioni originali mantengono identita' e cronologia per rimuoverle e rimborsarle senza duplicazioni.
+**Nessun topping duplicato nella stessa sottoarea — CONFERMATO:** piu' applicazioni dello stesso ingrediente, **incluse versioni di altre mod esplicitamente equivalenti**, sono ammesse **solo quando coprono aree fisiche differenti**. In una zona parzialmente gia' condita, un clic aggiunge l'ingrediente alle sole sottoaree libere, consumando un item; un clic interamente duplicato non consuma nulla. Dopo una riunione la copertura preesistente resta al suo posto. Le applicazioni originali mantengono identita' e cronologia per rimuoverle e rimborsarle senza duplicazioni.
 
 Per il modello di stato, recupero e pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
@@ -74,7 +74,7 @@ Queste variazioni cromatiche sono idee estetiche, non specifiche asset già appr
 - Se un ingrediente aggiunto porterebbe **almeno un quarto** a 7 tipi diversi, l'**intera applicazione** e' rifiutata senza consumo, anche se gli altri quarti hanno posti liberi.
 - Il limite resta valido dopo divisioni e riunioni col mattarello, senza alterare le coperture di topping gia' presenti.
 - Esempio di quarto pieno: pomodoro, mozzarella, gorgonzola, speck, funghi, basilico = 6 ingredienti; un altro tipo non puo' essere aggiunto.
-- La duplicazione dello stesso ingrediente sulla stessa sottoarea rimane vietata; la salsa e' facoltativa e occupa uno dei sei posti, non uno slot extra.
+- La duplicazione dello stesso ingrediente sulla stessa sottoarea rimane vietata **anche tra varianti cross-mod riconosciute come equivalenti**. Tutti gli item di un gruppo di equivalenza contano come **un solo tipo**; la salsa e' facoltativa e occupa uno dei sei posti, non uno slot extra.
 - **Vietate le ripetizioni dello stesso ingrediente nella stessa sottoarea.** Lo stesso ingrediente puo' essere applicato su aree diverse non coperte; non sono previsti strati multipli dello stesso item nello stesso punto.
 - Quantità **logica** (porzioni realmente consumate) separata dalla densità **visiva** (quanti elementi disegnare).
 - **PROPOSTA GRAFICA:** distribuire pochi frammenti per ingrediente e limitare la densita' massima delle geometrie, cosi' che anche sei ingredienti distinti restino leggibili senza coprire il bordo.
@@ -101,7 +101,7 @@ Le pizze cotte riposizionabili sono una proposta da validare.
 
 ## Compatibilità con altre mod
 
-Separare **validità dell'ingrediente** (tag/definizione) e **preset grafico** (categoria, geometria, aspetto). Un ingrediente compatibile senza modello dedicato usa un fallback visuale del suo gruppo, senza apparire invisibile. Non accettare automaticamente ogni alimento come topping.
+Separare **validita' dell'ingrediente** (tag/definizione), **identita' canonica equivalente** (antiduplicazione e conteggio del limite di 6) e **preset grafico** (categoria, geometria, aspetto). Una mozzarella riconosciuta di un'altra mod deve condividere l'identita' logica della mozzarella gia' applicata, senza sostituire l'item reale da rimborsare. I tag troppo generici (es. tutti i formaggi) non determinano equivalenza. Un ingrediente compatibile senza modello dedicato usa un fallback visuale del suo gruppo, senza apparire invisibile. Non accettare automaticamente ogni alimento come topping.
 
 ## Texture già presenti da conservare
 
