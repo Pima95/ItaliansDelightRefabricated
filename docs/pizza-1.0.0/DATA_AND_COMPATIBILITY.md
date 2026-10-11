@@ -18,7 +18,7 @@ Dati da conservare:
 - versione del formato, per eventuali migrazioni;
 - **division_state**: configurazione scelta col mattarello (intera, due meta', solo una meta' ulteriormente divisa, entrambe divise in quattro quarti);
 - elenco degli ingredienti reali (ID, quantità, eventuali proprietà necessarie);
-- identificativo distinto di ogni applicazione e maschere dei quarti originari/ancora coperti (requisito confermato); ordine di inserimento solo se utile alle interazioni ancora da decidere;
+- identificativo distinto di ogni applicazione e maschere dei quarti originari/ancora coperti (requisito confermato); **ordine cronologico persistente di inserimento**, necessario per rimuovere con Shift + clic destro a mano vuota **l'ultima applicazione ancora presente nella zona selezionata**;
 - stato crudo/cotto o progresso pertinente;
 - `render_seed` e parametri di disposizione che non cambino raccogliendo la pizza;
 - informazioni per calcolare nutrizione, nome e tooltip, evitando stringhe ridondanti già tradotte.
