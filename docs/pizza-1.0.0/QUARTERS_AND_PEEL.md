@@ -56,7 +56,7 @@ La stessa tipologia di ingrediente **non puo' essere aggiunta due volte sulla st
 
 **Esempio C:** mozzarella applicata sull'intera pizza prima di dividerla: divide la pizza in quarti ma **non diventa applicabile altra mozzarella su nessuno dei quarti** finche' quella copertura non e' stata rimossa.
 
-**DA DEFINIRE:** se ingredienti equivalenti tramite tag debbano condividere il vincolo anti-duplicato, ed eventuale limite ai diversi tipi di ingredienti. **Salse gia' confermate:** facoltative, al massimo una per sottoarea fisica, anche se di tipo diverso. Il comportamento dei clic su zone parzialmente occupate da salse differenti resta da precisare.
+**DA DEFINIRE:** se ingredienti equivalenti tramite tag debbano condividere il vincolo anti-duplicato, ed eventuale limite ai diversi tipi di ingredienti. **Salse gia' confermate:** facoltative, al massimo una per sottoarea fisica, anche se di tipo diverso. Un clic con una salsa *diversa* su una zona che contiene anche solo parzialmente una salsa preesistente viene **rifiutato interamente**, senza consumare l'item.
 
 ### Distinzione dopo una riunione
 
@@ -72,7 +72,13 @@ Se nella zona riunita convivono piu' **applicazioni distinte dello stesso ingred
 - I condimenti diversi dalle salse (formaggi, salumi, verdure, erbe) possono essere applicati anche **senza salsa**; non esiste un ordine obbligatorio di preparazione.
 - La salsa puo' essere un ingrediente necessario **per riconoscere un gusto specifico** (per esempio Margherita), senza diventare un requisito per tutte le pizze, specialmente quelle personalizzate o bianche.
 
-**Non ancora deciso:** in una zona riunita che contiene gia' una salsa solo su alcune parti, come gestire esattamente il clic con una salsa *differente*: rifiutare l'intera operazione o condire soltanto le parti prive di salsa. In nessun caso e' consentito sovrascrivere o sovrapporre la salsa esistente senza una rimozione esplicita. Restano aperti gli item concreti da usare come salse e i dettagli dei contenitori restituiti.
+**Applicazione di una salsa differente su zona parzialmente occupata — CONFERMATO:** se una parte qualsiasi della zona selezionata contiene gia' una salsa differente, il tentativo deve essere **rifiutato per intero**. Non applicare la nuova salsa nemmeno alle parti libere della zona, non sovrascrivere la salsa esistente, **non consumare alcun item** e non modificare la pizza. Il controllo va fatto sull'intera zona mirata, anche quando questa deriva da una riunione col mattarello.
+
+**Esempio:** la meta' sinistra contiene pomodoro, la destra e' senza salsa; dopo aver riunito la pizza, tentare di applicare il pesto sull'intera superficie **non fa nulla**. Per mettere pesto nella meta' destra occorre prima **dividerla nuovamente col mattarello** e fare clic soltanto sulla parte senza salsa.
+
+**Distinzione:** questa regola riguarda il tentativo di aggiungere una **salsa differente da una gia' presente nell'area mirata**. Restano valide, senza modifiche, le regole gia' confermate contro la doppia applicazione dello **stesso ingrediente**, e quelle di copertura delle sole parti libere per i normali topping.
+
+**DA DEFINIRE:** item concreti da utilizzare come salse e dettagli dei contenitori restituiti.
 
 **Stato:** decisioni documentate, **non ancora implementate** nel prototipo attuale.
 
@@ -182,7 +188,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 - Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
 - **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. Restano da precisare usura del mattarello, hitbox e casi limite.
-- Limite ai **diversi tipi** di topping, definizione delle equivalenze tra ingredienti e gestione di zone riunite gia' parzialmente condite con salse differenti. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
+- Limite ai **diversi tipi** di topping, definizione delle equivalenze tra ingredienti e implementazione del **rifiuto integrale** di una salsa diversa sulle zone gia' parzialmente occupate da un'altra salsa. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
 - Priorita' e visualizzazione degli ingredienti **diversi** sovrapposti (non delle salse tra loro, che non possono sovrapporsi).
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
 - Modellazione 2.5D per quarto, forme, seme deterministico, rendering da cruda e cotta.
@@ -201,6 +207,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] Due clic dello stesso ingrediente sulla stessa zona: il secondo non consuma item e non aggiunge condimento.
 - [ ] Pizza bianca senza alcuna salsa, pizza con salsa su una sola meta' e pizza con salse diverse su meta' differenti sono tutte preparazioni valide.
 - [ ] Impedire che due salse, anche diverse, occupino la stessa parte fisica, anche dopo divisioni e riunioni col mattarello.
+- [ ] Tentare pesto sull'intera pizza dopo aver riunito una meta' al pomodoro e una meta' bianca: **rifiutare tutto**, nessuna modifica e nessun consumo. Dopo nuova divisione, consentire di condire la sola meta' bianca.
 - [ ] Dopo la riunione di zone parzialmente coperte, un clic dello stesso ingrediente riempie **solo le sottoaree libere**, consumando un solo item; se non restano sottoaree libere non accade nulla.
 - [ ] La rottura di una pizza cruda recupera impasto e ingredienti residui senza duplicare; quella cotta non restituisce gli ingredienti separati.
 - [ ] Recupero nel normale inventario; drop solo in mancanza di spazio.
