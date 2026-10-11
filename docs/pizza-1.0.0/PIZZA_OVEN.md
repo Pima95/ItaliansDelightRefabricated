@@ -23,10 +23,10 @@
 | Clic destro con fuel valido | Rifornisce lo slot combustibile |
 | Clic destro a mano vuota | Estrae la pizza **pronta** |
 | Shift + clic destro vuoto | Recupera una pizza ancora cruda/con cottura incompleta |
-| Clic destro con pala per pizza | Eventuale inserimento/estrazione agevolati; pala facoltativa |
+| Clic destro con pala per pizza | **Confermato come obiettivo:** la pala trasporta una sola pizza completa con tutti i dati e ne permette il trasferimento da/verso il forno. Gestualita' precisa e priorita' ancora da definire; meccanica non implementata |
 | Rottura del forno | Recupera pizza e combustibile non consumato, senza duplicare |
 
-La priorità tra pizza, combustibile e altri oggetti e la gestione dei remainder sono ancora da definire.
+La priorità tra pizza, combustibile e altri oggetti e la gestione dei remainder sono ancora da definire. La pala non e' richiesta per condire; per il suo stato persistente e per la selezione/rimozione dei quarti vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
 ## Combustibili
 
