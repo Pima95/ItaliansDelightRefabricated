@@ -23,6 +23,8 @@ La **palla d'impasto** va appoggiata con clic destro direttamente sopra un blocc
 
 Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se l'ingrediente è valido, viene consumata una porzione e aggiunta alla composizione. Non è necessario inserire prima pomodoro, formaggio o erbe in un ordine particolare. Sono ammesse pizze inventate dal giocatore, anche senza salsa rossa.
 
+**La specifica definitiva del condimento per quarti e della pala e' in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).** Ogni pizza ha quattro quarti logici e ogni applicazione di condimento mantiene l'associazione con i quarti coperti. La rimozione parziale non rimborsa; il rimborso avviene soltanto quando tutte le parti dell'applicazione originale sono state rimosse. L'ingrediente torna nell'inventario, con drop soltanto se pieno.
+
 **Primo prototipo funzionale, da testare:** su `stage=4`, un clic destro con **una mozzarella intera** della mod (`italiansdelight:mozzarella`) consuma 1 item in Sopravvivenza, imposta `mozzarella=true` sul BlockState e disegna cinque piccoli pezzi nella conca senza coprire il bordo. Non accetta una seconda mozzarella: è solo un test di interazione/rendering, non il futuro sistema di dosi e topping multipli. In Creativa non consuma l'item. Alla rottura del blocco il loot table restituisce anche la mozzarella, evitando di perderla. I modelli riutilizzano la texture mozzarella già presente, senza modificare PNG.
 
 **Proposte:** massimo 8 porzioni complessive, includendo salse; più porzioni dello stesso topping; categorie ingredienti registrate e non tutti i cibi ammessi indiscriminatamente; controllo dei contenitori restituiti.
@@ -35,9 +37,10 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 | Clic destro vuoto sull'impasto | Avanza la stesura manuale |
 | Clic destro con mattarello | Stende rapidamente |
 | Clic destro con topping valido sulla base | Aggiunge il topping |
-| Shift + clic destro a mano vuota sulla pizza condita | **Proposta:** rimuove l'ultimo topping e lo restituisce |
-| Shift + clic destro a mano vuota sulla pizza senza topping | **Proposta:** raccoglie la base |
-| Clic destro con pala per pizza | **Proposta:** recupero/inserimento rapido; pala non obbligatoria |
+| Interazione di rimozione di un quarto (gesto **da decidere**) | Rimuove la parte selezionata senza rimborso immediato; restituisce l'applicazione **una sola volta** solo quando tutti i quarti originariamente coperti sono stati liberati |
+| Shift + clic destro a mano vuota sulla pizza senza topping | **Proposta ancora aperta:** alternativa per raccogliere la base |
+| Clic destro con pala per pizza libera | **Confermato:** raccoglie direttamente una pizza con tutti i dati; massimo una pizza per pala |
+| Clic destro con pala occupata su superficie valida | **Confermato:** riposiziona la pizza, preservandone la composizione |
 | Rottura della pizza o del blocco di supporto | Recupero dell'oggetto con dati completi, senza duplicazioni |
 
 Le priorità esatte di Shift, della mano secondaria e dei clic sono **ancora da confermare**.
@@ -50,7 +53,9 @@ Quando si raccoglie la pizza, devono sopravvivere:
 - identità visiva della pizza e seme di distribuzione;
 - dati per nomi, nutrizione e cottura.
 
-La pizza cruda va trasportata al Pizza Oven o a un forno vanilla. Se raccolta e riposizionata, deve tornare con la **stessa composizione**; la rottura del supporto non può creare più item.
+**Pala confermata:** trasporta direttamente una pizza per volta, con composizione, quarti, stato e dati visivi; non richiede un secondo item pizza nell'inventario. La pala non e' obbligatoria per aggiungere o rimuovere condimenti. L'inserimento/estrazione con pala nel Pizza Oven e' previsto ma ancora da implementare. Se raccolta e riposizionata, la pizza deve tornare con la **stessa composizione**; la rottura del supporto non puo' creare piu' item.
+
+**Rottura della pizza:** se cruda, recuperare impasto e applicazioni di ingredienti ancora associate senza duplicazioni; se cotta, non restituire gli ingredienti separati. Dettagli e test in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
 ## 5. Crafting table — CONFERMATO come alternativa
 
