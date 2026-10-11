@@ -16,7 +16,7 @@ Identificatori iniziali possibili, **non definitivi**:
 
 Dati da conservare:
 - versione del formato, per eventuali migrazioni;
-- **division_state**: configurazione scelta col mattarello (intera, due meta', solo una meta' ulteriormente divisa, entrambe divise in quattro quarti);
+- **division_state**: configurazione scelta col mattarello (intera, due meta', solo una meta' ulteriormente divisa, entrambe divise in quattro quarti); puo' regredire con **Shift + clic destro col mattarello** senza eliminare o modificare le applicazioni gia' effettuate;
 - elenco degli ingredienti reali (ID, quantità, eventuali proprietà necessarie);
 - identificativo distinto di ogni applicazione e maschere dei quarti originari/ancora coperti (requisito confermato); **ordine cronologico persistente di inserimento**, necessario per rimuovere con Shift + clic destro a mano vuota **l'ultima applicazione ancora presente nella zona selezionata**;
 - stato crudo/cotto o progresso pertinente;
@@ -24,6 +24,8 @@ Dati da conservare:
 - informazioni per calcolare nutrizione, nome e tooltip, evitando stringhe ridondanti già tradotte.
 
 **Decisione aggiornata:** la pizza e' **inizialmente intera** e si divide **solo su richiesta col mattarello**, prima in due meta', poi eventualmente in quarti; il rendering mostra le linee solo se si tiene mattarello o topping valido e non modifica modelli/texture. I 4 quarti possono essere **un riferimento interno** per mappare ogni possibile copertura, ma la configurazione reale della divisione deve essere persistita. Ogni applicazione di topping conserva la provenienza (item/quantita' realmente consumata), i quarti originari e quelli ancora coperti. Il rimborso avviene **una sola volta**, solo quando tutti i quarti dell'applicazione sono stati liberati. Una pizza cruda rotta restituisce impasto e ingredienti ancora associati; una pizza cotta non viene scomposta nei vecchi ingredienti. Specifiche complete: [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+
+**Invariante delle riunioni:** la modifica di `division_state` NON cancella ne' rimappa automaticamente le coperture degli ingredienti gia' presenti, le loro posizioni o l'ordine delle applicazioni; cambia soltanto le zone selezionabili per le interazioni successive. I nuovi topping coprono la zona attualmente selezionabile. Anche una riunione non genera alcun rimborso.
 
 **Invariante:** nessun item o condimento perso nel trasferimento **mondo -> pala occupata -> mondo/Pizza Oven -> pala**; la pala conserva direttamente una sola pizza con tutti i dati, senza creare un item pizza separato. Restano da progettare i trasferimenti con crafting/forni vanilla, la gestione di inventari e distruzione della pala. Il multiplayer deve sincronizzare lo stesso stato su client e server.
 
