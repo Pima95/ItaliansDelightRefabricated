@@ -31,6 +31,8 @@
 - [x] **Limite di 6 ingredienti diversi per quarto fisico**, salsa inclusa e facoltativa; invariato da divisioni e riunioni. Un tentativo che supererebbe sei in **anche un solo quarto interessato** e' rifiutato integralmente senza consumare item.
 - [x] Recupero ingredienti direttamente nell'inventario, drop solo se pieno; rottura della pizza cruda recupera impasto e ingredienti residui senza duplicazioni, pizza cotta non restituisce ingredienti.
 - [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
+- [x] **Pala senza durabilita'**, riutilizzabile indefinitamente per raccogliere, spostare e trasferire pizze.
+- [x] **Intenzione di aggiungere la pala come arma** in una fase successiva, ispirandosi alla padella di Farmer's Delight Refabricated; dati di combattimento ancora da concordare, funzionalita' non implementata.
 
 ## Questioni da risolvere prima del codice (NON CONFERMATE)
 
@@ -45,7 +47,7 @@
 - [x] **Confermati linea parallela alla direzione cardinale piu' vicina allo sguardo e orientamento a scatti** N/S/E/O, per due meta' sinistra/destra. Non viene usata una rotazione libera per le diagonali.
 - [x] **Selezione delle zone tramite posizione effettiva del clic**; sui confini e sulle intersezioni una sola zona in modo deterministico, senza selezioni doppie.
 - [ ] Definire **quale zona prevale esattamente sul confine** (criterio di spareggio fisso), lo spareggio deterministico negli angoli a meta' tra due cardinali e i dettagli di hitbox/tolleranze (**snap cardinale, gesti e assenza di usura gia' confermati**).
-- [ ] Pala: definire ricetta, durabilita', tooltip, item occupato/distrutto, gestione inventari e dettagli di interazione col forno (il ruolo di trasporto di una pizza e' gia' confermato).
+- [ ] Pala: definire ricetta, tooltip, item occupato/distrutto, gestione inventari e dettagli di interazione col forno (**ruolo di trasporto e assenza di durabilita' gia' confermati**).
 - [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
 - [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
 - [ ] Verificare in gioco che la Soul Sand sia vietata e che slab superiori/doppie, scale capovolte, botole superiori chiuse e incudini funzionino ancora; verificare anche recupero se il supporto viene rotto.
@@ -84,10 +86,17 @@
 - [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), **senza consumare durabilita'**, salvandone la configurazione e preservando posizioni e storici dei topping; selezionare la zona dal punto reale di clic con **un solo risultato deterministico ai confini**; evidenziare le linee solo con mattarello o ingrediente valido.
 - [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali dei topping alle sole zone ancora libere, **il blocco totale delle salse differenti se una qualsiasi parte della zona mirata contiene gia' un'altra salsa**, la **validazione atomica del massimo di 6 tipi per quarto fisico (salsa inclusa)** e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
 - [ ] Recupero diretto nell'inventario (drop solo con spazio insufficiente); rottura pizza cruda/cotta secondo specifica.
-- [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno.
+- [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**.
 - [ ] Gestire gli eventuali remainder dei contenitori senza duplicazioni.
 - [ ] Nomi dinamici localizzati e ricette riconosciute.
 - [ ] Rendering provvisorio per convalidare i dati.
+
+### Estensione successiva: pala usabile anche come arma (pianificata)
+
+- [ ] Studiare il comportamento effettivo della **padella di Farmer's Delight Refabricated** come riferimento per la pala.
+- [ ] Concordare danni, velocita' d'attacco, animazioni, effetti e regole di priorita' con le interazioni di raccolta/posizionamento.
+- [ ] Stabilire cosa succede durante un attacco se la pala contiene una pizza, senza perdere o duplicare i dati della preparazione.
+- [ ] Aggiungere e testare la funzionalita' **solo dopo** averne definito le regole; non e' richiesta per considerare concluso il sistema base di trasporto.
 
 ### Fase 3: rendering 2.5D
 
