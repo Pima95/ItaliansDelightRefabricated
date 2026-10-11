@@ -32,7 +32,7 @@
 - [x] Recupero ingredienti direttamente nell'inventario, drop solo se pieno; rottura della pizza cruda recupera impasto e ingredienti residui senza duplicazioni, pizza cotta non restituisce ingredienti.
 - [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
 - [x] **Pala senza durabilita'**, riutilizzabile indefinitamente per raccogliere, spostare e trasferire pizze.
-- [x] **Intenzione di aggiungere la pala come arma** in una fase successiva, ispirandosi alla padella di Farmer's Delight Refabricated; dati di combattimento ancora da concordare, funzionalita' non implementata.
+- [x] **Pala come futura arma solo quando VUOTA**, ispirata alla padella di Farmer's Delight Refabricated. **Se OCCUPATA non attiva alcun bonus o effetto speciale da arma** e mantiene intatti i dati della pizza. Statistiche e dettagli non concordati; codice non implementato.
 
 ## Questioni da risolvere prima del codice (NON CONFERMATE)
 
@@ -94,8 +94,9 @@
 ### Estensione successiva: pala usabile anche come arma (pianificata)
 
 - [ ] Studiare il comportamento effettivo della **padella di Farmer's Delight Refabricated** come riferimento per la pala.
-- [ ] Concordare danni, velocita' d'attacco, animazioni, effetti e regole di priorita' con le interazioni di raccolta/posizionamento.
-- [ ] Stabilire cosa succede durante un attacco se la pala contiene una pizza, senza perdere o duplicare i dati della preparazione.
+- [ ] Concordare danni, velocita' d'attacco, animazioni ed effetti **della sola pala vuota**, e regole di priorita' con raccolta/posizionamento. **Pala occupata: funzionalita' speciali da arma disabilitate** (decisione confermata).
+- [x] **Confermato** che la pala con pizza non funge da arma e non conferisce effetti/bonus speciali da combattimento.
+- [ ] Verificare che lo stato vuota/occupata disattivi e riattivi correttamente gli attributi speciali da arma; gli attacchi base di Minecraft non devono alterare, perdere o duplicare la pizza trasportata.
 - [ ] Aggiungere e testare la funzionalita' **solo dopo** averne definito le regole; non e' richiesta per considerare concluso il sistema base di trasporto.
 
 ### Fase 3: rendering 2.5D
