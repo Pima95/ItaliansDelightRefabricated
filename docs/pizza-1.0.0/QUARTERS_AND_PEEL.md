@@ -21,7 +21,8 @@ Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozza
 - Le suddivisioni servono al condimento, **non** significano che la pizza e' stata tagliata fisicamente in fette.
 - **Orientamento della prima divisione — CONFERMATO:** usare la direzione del giocatore al momento del primo clic con mattarello sulla base stesa. La configurazione spaziale risultante resta associata alla pizza, anche dopo che il giocatore cambia direzione, e va conservata attraverso salvataggio/ricarica e trasporto con pala: i topping non devono ruotare seguendo la visuale del giocatore.
 - **Linea parallela allo sguardo — CONFERMATO:** osservando la pizza dalla posizione del giocatore, la prima linea centrale corre nella direzione in cui guarda (proiezione orizzontale), producendo una **meta' a sinistra** e una **a destra**. **Non** separa la pizza in una meta' vicina e una lontana. Le divisioni successive di ciascuna meta' rispettano l'orientamento iniziale.
-- **Ancora da definire:** come rappresentare la direzione se il giocatore guarda diagonalmente (rotazione effettiva o aggancio agli assi della griglia), soglie e comportamento dei clic esattamente sul confine; questa scelta non modifica la regola gia' confermata che la linea sia **parallela**.
+- **Orientamento a scatti — CONFERMATO:** leggere la direzione orizzontale del giocatore al momento della prima divisione, scegliere la **direzione cardinale piu' vicina** (Nord, Sud, Est o Ovest) e tracciare la linea centrale **parallela a quella direzione cardinale**, non ruotata liberamente in base a un angolo diagonale. La divisione resta in meta' sinistra/destra rispetto alla direzione selezionata. Memorizzare il verso cardinale scelto con la pizza, in modo che zone, topping e interazioni siano coerenti dopo movimenti, riunioni, salvataggio e trasporto con pala.
+- **Ancora da definire:** regola di spareggio deterministica quando lo sguardo e' esattamente equidistante tra due direzioni cardinali, e hitbox/precedenze del clic esattamente sul confine. Sono dettagli tecnici che non cambiano l'orientamento **a scatti** appena confermato.
 
 ### Riunione progressiva delle zone con il mattarello — CONFERMATO (11 ottobre 2026)
 
@@ -38,7 +39,7 @@ Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozza
 
 **Durabilita' — CONFERMATO:** dividere o riunire le zone di una pizza **non consuma alcun punto di durabilita' del mattarello**. Rimane invariato il consumo di **1 punto soltanto quando si completa effettivamente la stesura** di un impasto (attualmente 64 punti totali); nessun consumo per tentativi senza effetto e in Creativa. **DA DEFINIRE:** dettagli di hitbox e precedenza delle interazioni ai confini.
 
-**DA DEFINIRE:** quantizzazione delle direzioni intermedie/diagonali, hitbox della divisione di una meta' e priorita' del clic al confine. **CONFERMATO:** la prima linea centrale e' **parallela alla direzione orizzontale dello sguardo** e determina due meta' sinistra/destra. **CONFERMATO:** la prima divisione non usa un asse fisso: segue la direzione del giocatore quando clicca. **Durabilita' confermata:** zero per divisioni/riunioni, uno per completare la stesura. **Confermati:** riunione progressiva e conservazione della distribuzione, un solo item per applicazione riuscita e massimo 6 ingredienti diversi per quarto fisico (salsa inclusa).
+**DA DEFINIRE:** spareggio tecnico per angoli esattamente equidistanti da due cardinali, hitbox della divisione di una meta' e priorita' del clic al confine. **CONFERMATO:** la prima linea centrale e' **parallela alla direzione cardinale piu' vicina allo sguardo orizzontale**, con orientamento a scatti (Nord/Sud/Est/Ovest), e determina due meta' sinistra/destra. **CONFERMATO:** la prima divisione non usa un asse fisso: segue la direzione del giocatore quando clicca. **Durabilita' confermata:** zero per divisioni/riunioni, uno per completare la stesura. **Confermati:** riunione progressiva e conservazione della distribuzione, un solo item per applicazione riuscita e massimo 6 ingredienti diversi per quarto fisico (salsa inclusa).
 
 **Nota tecnica:** una griglia interna di quattro quarti puo' essere usata per rappresentare le coperture anche quando la pizza e' intera o divisa solo in due, ma il **livello di divisione effettivo** va salvato separatamente. NON mostrare o attivare automaticamente tutti e quattro i quarti.
 
@@ -196,7 +197,7 @@ PizzaState
   format_version
   preparation_state / cooking_state
   division_state       // intera, 2 meta', 1 meta' divisa, 4 quarti
-  division_orientation // linea parallela alla direzione orizzontale dello sguardo al primo clic; stabile dopo
+  division_orientation // N/S/E/O scelto dalla direzione cardinale piu' vicina al primo clic; stabile dopo
   applications[]
     application_id
     ingredient_id + consumed_stack/count
@@ -224,7 +225,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 ## 5. Questioni ancora aperte
 
-- Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. **Linea parallela allo sguardo confermata**, meta' sinistra/destra; da decidere soltanto la gestione delle direzioni diagonali e dei confini. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
+- Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. **Linea parallela alla direzione cardinale piu' vicina allo sguardo e orientamento a scatti confermati**, meta' sinistra/destra; restano da precisare hitbox, clic ai confini e spareggio al confine esatto tra cardinali. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
 - **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. **Divisioni e riunioni non consumano durabilita'**; restano da precisare hitbox e casi limite.
 - **Limite confermato di 6 ingredienti diversi per quarto fisico**, salsa inclusa, con rifiuto dell'intera applicazione se anche un solo quarto supererebbe sei. **Equivalenze tra mod confermate nel principio**: item esplicitamente equivalenti condividono il vincolo anti-duplicato e occupano un unico tipo; da definire formato tecnico e mapping iniziale. Per una salsa diversa su zona parzialmente occupata e' previsto il rifiuto integrale. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
 - Priorita' e visualizzazione degli ingredienti **diversi** sovrapposti (non delle salse tra loro, che non possono sovrapporsi).
@@ -237,7 +238,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 ## 6. Criteri di accettazione futuri
 
 - [ ] Senza divisioni: il topping cliccato si applica all'intera pizza; dopo un passaggio col mattarello si applica alla meta' puntata; un ulteriore passaggio su quella meta' crea due quarti condibili singolarmente.
-- [ ] La prima divisione traccia una linea **parallela alla direzione orizzontale dello sguardo del giocatore al momento del clic**, creando meta' **sinistra/destra**, non vicino/lontano e non lungo un asse mondiale fisso. Le relative aree e i topping non ruotano quando il giocatore si sposta, e mantengono lo stesso orientamento dopo salvataggio e trasporto sulla pala.
+- [ ] La prima divisione **aggancia** la direzione orizzontale del giocatore al **cardinale piu' vicino** (N/S/E/O), tracciando una linea parallela a quel cardinale e creando meta' **sinistra/destra**. Non esistono linee a rotazione libera in diagonale; la direzione scelta e' memorizzata e non cambia quando il giocatore si sposta, ne' dopo salvataggio o trasporto con la pala.
 - [ ] Le divisioni sono mostrate solo mentre e' in mano il mattarello o un ingrediente valido, senza variazioni permanenti ai modelli/texture.
 - [ ] Shift + clic destro col mattarello riunisce prima due quarti della stessa meta' e poi due meta' intere, senza cancellare o redistribuire topping, senza restituzioni automatiche.
 - [ ] Una stesura completata con mattarello consuma **1 durabilita'** (in Sopravvivenza); divisioni e riunioni riuscite consumano **0**. Nessuna usura per interazioni prive di effetto o in Creativa.
