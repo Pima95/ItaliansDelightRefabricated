@@ -20,9 +20,22 @@ Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozza
 - **Divisioni solo come overlay temporaneo:** le linee di suddivisione si vedono soltanto quando il giocatore tiene **il mattarello o un ingrediente valido**. La suddivisione e' virtuale: **non cambiare le texture o i modelli fisici della base**.
 - Le suddivisioni servono al condimento, **non** significano che la pizza e' stata tagliata fisicamente in fette.
 
-**Riunione delle zone:** era stata discussa la possibilita' di **Shift + clic destro col mattarello** per riunire le zone, senza perdere i condimenti gia' applicati. Il gesto specifico e le regole di priorita' restano **DA CONFERMARE**; il requisito di non cancellare condimenti durante una eventuale riunione rimane fondamentale.
+### Riunione progressiva delle zone con il mattarello — CONFERMATO (11 ottobre 2026)
 
-**DA DEFINIRE:** direzione e hitbox della prima divisione e dell'eventuale divisione di una meta'; priorita' del clic al confine; costo in durabilita' di una divisione del mattarello; eventuale riunione e comportamento con ingredienti sovrapposti; consumo per ingrediente e limite di applicazioni.
+- **Gesto:** Shift + clic destro **tenendo in mano il mattarello** sulla zona da riunire.
+- Se si punta un **quarto**, esso viene riunito al quarto adiacente **della stessa meta'**, ritornando a una singola meta' logica. Le due meta' della pizza non vengono riunite finche' una delle due e' ancora suddivisa.
+- Quando **entrambe le meta' sono intere** (nessun quarto ulteriormente diviso), Shift + clic destro col mattarello permette di riunirle in **una sola zona: la pizza intera**.
+- Se la zona selezionata **non puo' essere riunita allo stato attuale**, l'operazione non deve eliminare ingredienti o alterare la composizione. Se la pizza e' gia' intera, il gesto non produce una ulteriore riunione.
+- **Gli ingredienti rimangono esattamente nelle zone fisiche in cui erano stati applicati:** riunire zone logiche **non redistribuisce**, non elimina e non duplica i topping. Non c'e' **alcun rimborso** di ingredienti dovuto alla sola riunione.
+- Ogni applicazione conserva identita', quantita' consumata, maschere dei quarti originari e ancora coperti e ordine cronologico. Le successive operazioni di rimozione rispettano la zona **attualmente selezionabile**, senza perdere lo storico dei singoli ingredienti.
+- **I nuovi ingredienti** aggiunti *dopo* una riunione si distribuiscono sulla zona logica risultante (per esempio, sulla pizza intera), mentre quelli precedenti restano nella posizione originaria.
+- Le divisioni restano **virtuali**: l'overlay appare soltanto tenendo il mattarello o un ingrediente valido; la riunione non modifica fisicamente modelli o texture dell'impasto.
+
+**Esempio:** si mette mozzarella su un solo quarto, poi con Shift + clic col mattarello si riuniscono prima i quarti della stessa meta', poi entrambe le meta'. La mozzarella rimane visibile **soltanto nel quarto originario**, anche se la pizza ora e' logicamente intera; un condimento aggiunto dopo si distribuisce sull'intera pizza.
+
+**DA DEFINIRE:** consumo di durabilita' del mattarello durante divisioni/riunioni, dettagli di hitbox e precedenza delle interazioni ai confini. Il gesto e la conservazione dei condimenti sono invece **confermati**.
+
+**DA DEFINIRE:** direzione e hitbox della prima divisione e dell'eventuale divisione di una meta'; priorita' del clic al confine; costo in durabilita' delle divisioni e riunioni con mattarello; consumo per ingrediente e limite di applicazioni. **Riunione progressiva e conservazione della distribuzione gia' confermate.**
 
 **Nota tecnica:** una griglia interna di quattro quarti puo' essere usata per rappresentare le coperture anche quando la pizza e' intera o divisa solo in due, ma il **livello di divisione effettivo** va salvato separatamente. NON mostrare o attivare automaticamente tutti e quattro i quarti.
 
@@ -49,7 +62,7 @@ Una singola applicazione che consuma un ingrediente puo' interessare uno o piu' 
 - Se in quella zona non esistono topping da rimuovere, **non avviene nulla**. Non si rimuovono ingredienti di zone adiacenti e non si raccoglie l'impasto come effetto secondario.
 - L'**ordine cronologico delle applicazioni** deve essere persistente, distinto dall'ordine dei livelli grafici e conservato raccogliendo la pizza con la pala, ricaricando il mondo e dividendo le zone successivamente.
 - Restano valide le regole sui rimborsi: la rimozione parziale **non restituisce nulla**, quella completa rimborsa **una sola volta** la quantità consumata, direttamente nell'inventario o a terra solo se pieno.
-- Il gesto per la **riunione delle divisioni** con il mattarello è ancora da concordare; non deve interferire con Shift + clic a mano vuota.
+- **Shift + clic destro col mattarello riunisce progressivamente le zone** senza alterare i topping; Shift + clic destro **a mano vuota** resta riservato alla rimozione, quindi i due gesti non confliggono.
 
 **Esempio di applicazione globale:** mozzarella aggiunta alla pizza intera, poi base divisa in quattro quarti. Shift + clic vuoto su un quarto toglie solo la porzione di mozzarella visibile lì, senza restituire l'item; il quarto e ultimo recupero della stessa applicazione rende una sola mozzarella.
 
@@ -131,7 +144,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 ## 5. Questioni ancora aperte
 
 - Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
-- Gesto esatto per una possibile **riunione** delle zone (Shift + clic col mattarello discusso ma non ancora approvato) e gestione della visualizzazione temporanea.
+- **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. Restano da precisare usura del mattarello, hitbox e casi limite.
 - I costi per singola applicazione, ripetizioni e limiti; la copertura di default dipende gia' dalla **zona selezionata dalla suddivisione attuale** (intera, meta', quarto).
 - Priorita' e visualizzazione degli ingredienti sovrapposti, specialmente delle salse.
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
@@ -144,6 +157,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 - [ ] Senza divisioni: il topping cliccato si applica all'intera pizza; dopo un passaggio col mattarello si applica alla meta' puntata; un ulteriore passaggio su quella meta' crea due quarti condibili singolarmente.
 - [ ] Le divisioni sono mostrate solo mentre e' in mano il mattarello o un ingrediente valido, senza variazioni permanenti ai modelli/texture.
+- [ ] Shift + clic destro col mattarello riunisce prima due quarti della stessa meta' e poi due meta' intere, senza cancellare o redistribuire topping, senza restituzioni automatiche.
 - [ ] Shift + clic destro a mano vuota sulla zona selezionata rimuove una applicazione alla volta partendo dalla piu' recente presente su quella zona; se vuota non produce effetti.
 - [ ] Una mozzarella originariamente applicata a tutti i 4 quarti logici costa 1 item; toglierla da 3 quarti non rimborsa; togliere l'ultimo rimborsa 1.
 - [ ] Quattro applicazioni distinte non si fondono in una e non producono rimborsi errati.
