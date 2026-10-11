@@ -39,7 +39,8 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 | Clic destro con mattarello su base completamente stesa e non divisa | Divide logicamente la pizza in **due meta'** |
 | Clic destro con mattarello sulla meta' desiderata | Divide quella meta' in **due quarti** |
 | Clic destro con ingrediente valido sulla zona desiderata | Applica il topping all'**intera pizza, alla meta' o al quarto** puntato, secondo la suddivisione corrente |
-| Shift + clic destro col mattarello su una zona divisa | **Ipotesi da confermare:** riunisce le zone conservando i topping |
+| Shift + clic destro col mattarello su un quarto | **CONFERMATO:** riunisce i due quarti della stessa meta' senza spostare o rimborsare ingredienti |
+| Shift + clic destro col mattarello quando le due meta' sono intere | **CONFERMATO:** riunisce le meta' in una pizza intera, conservando il posizionamento dei topping |
 | Clic destro con topping valido sulla base | Aggiunge il topping solo alla zona logica puntata (intera, meta' o quarto) |
 | Shift + clic destro **a mano vuota** sulla zona condita | **CONFERMATO:** rimuove un solo condimento, dall'ultima applicazione ancora presente in quella zona; il rimborso scatta soltanto quando l'intera applicazione originale e' stata rimossa da tutte le zone coperte |
 | Shift + clic destro **a mano vuota** sulla zona senza condimenti | **CONFERMATO:** nessun effetto |
@@ -47,13 +48,13 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 | Clic destro con pala occupata su superficie valida | **Confermato:** riposiziona la pizza, preservandone la composizione |
 | Rottura della pizza o del blocco di supporto | Recupero dell'oggetto con dati completi, senza duplicazioni |
 
-La rimozione con **Shift + clic destro a mano vuota**, una applicazione alla volta in ordine inverso a quello di aggiunta sulla zona, e' **CONFERMATA**. Le priorita' della mano secondaria e del gesto Shift col mattarello per riunire le zone sono ancora da confermare. Non prevedere clic sulle linee per condire due quarti, ne' Shift + clic con ingrediente per condire tutta la pizza: la superficie dipende dalla divisione col mattarello.
+La rimozione con **Shift + clic destro a mano vuota**, una applicazione alla volta in ordine inverso a quello di aggiunta sulla zona, e' **CONFERMATA**. Il gesto **Shift + clic destro col mattarello per riunire le zone e' confermato**. La mano secondaria e i clic ai confini delle zone rimangono da definire. Non prevedere clic sulle linee per condire due quarti, ne' Shift + clic con ingrediente per condire tutta la pizza: la superficie dipende dalla divisione col mattarello.
 
 ## 4. Raccolta e conservazione
 
 Quando si raccoglie la pizza, devono sopravvivere:
 - topping effettivi, quantita' e ordine di inserimento se serve per rimuovere l'ultimo;
-- **livello e configurazione di divisione** della pizza, inclusa la possibilita' di avere una meta' divisa e l'altra intera;
+- **livello e configurazione di divisione** della pizza, inclusa la possibilita' di avere una meta' divisa e l'altra intera; una successiva riunione deve preservare i dettagli spaziali dei vecchi condimenti, anche se le linee temporanee non sono piu' visibili;
 - stadio impasto/cruda/cotta;
 - identità visiva della pizza e seme di distribuzione;
 - dati per nomi, nutrizione e cottura.
