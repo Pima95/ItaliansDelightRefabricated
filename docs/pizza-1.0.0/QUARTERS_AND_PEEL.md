@@ -56,11 +56,25 @@ La stessa tipologia di ingrediente **non puo' essere aggiunta due volte sulla st
 
 **Esempio C:** mozzarella applicata sull'intera pizza prima di dividerla: divide la pizza in quarti ma **non diventa applicabile altra mozzarella su nessuno dei quarti** finche' quella copertura non e' stata rimossa.
 
-**DA DEFINIRE:** se ingredienti equivalenti tramite tag debbano condividere il vincolo anti-duplicato. **L'eventuale limite non e' piu' aperto: sono confermati 6 ingredienti diversi per quarto fisico.** **Salse gia' confermate:** facoltative, al massimo una per sottoarea fisica, anche se di tipo diverso. Un clic con una salsa *diversa* su una zona che contiene anche solo parzialmente una salsa preesistente viene **rifiutato interamente**, senza consumare l'item.
+**Equivalenze confermate:** due item, anche provenienti da mod diverse, riconosciuti come lo stesso ingrediente condividono il vincolo anti-duplicato e valgono come **un solo tipo** nel limite di 6 ingredienti diversi per quarto fisico. Il limite e' gia' confermato. **Salse gia' confermate:** facoltative, al massimo una per sottoarea fisica, anche se di tipo diverso. Un clic con una salsa *diversa* su una zona che contiene anche solo parzialmente una salsa preesistente viene **rifiutato interamente**, senza consumare l'item.
 
 ### Distinzione dopo una riunione
 
 Se nella zona riunita convivono piu' **applicazioni distinte dello stesso ingrediente**, il comando gia' confermato di rimozione (Shift + clic destro a mano vuota) agisce **prima sull'applicazione piu' recente**, e soltanto sulla copertura residua che le appartiene all'interno della zona selezionata. Le applicazioni precedenti restano al loro posto fino alle successive rimozioni. Non rimborsare due volte, ne' trattare una riunione come una nuova applicazione.
+
+## Ingredienti equivalenti tra mod — CONFERMATO (11 ottobre 2026)
+
+- Due item provenienti da mod differenti **riconosciuti esplicitamente come equivalenti** sono considerati **lo stesso ingrediente** ai fini della pizza. Esempio: due mozzarelle equivalenti, una di Italian's Delight e una di una mod compatibile.
+- **Antiduplicazione:** se nel quarto fisico e' gia' presente un item equivalente, non si puo' aggiungerne una seconda versione come ingrediente distinto; su una zona che ne e' solo parzialmente coperta l'applicazione interessa soltanto le sottoaree ancora libere da *tutto il gruppo equivalente*.
+- **Limite di 6:** tutti gli item appartenenti al medesimo gruppo di equivalenza contano come **un solo tipo di ingrediente** per quarto fisico. Non si puo' aggirare il limite usando mod diverse.
+- **Salse:** varianti riconosciute come equivalenti rappresentano la medesima salsa, ma resta valido anche il vincolo generale di **una sola salsa di qualsiasi tipo per quarto** e il rifiuto integrale se si prova una salsa *differente* su una zona gia' parzialmente occupata.
+- **Provenienza conservata:** l'applicazione registra sempre l'**ItemStack realmente consumato**, l'origine, l'ordine e la copertura. Quando e solo quando si completa la rimozione di quell'applicazione, il giocatore recupera **l'item originale**, non un suo equivalente scelto arbitrariamente.
+- **Non confondere categorie ed equivalenza:** appartenere entrambi al gruppo generale dei formaggi **non** rende automaticamente equivalenti mozzarella e gorgonzola. I gruppi di equivalenza devono essere abbastanza specifici da non confondere ingredienti diversi.
+- **Compatibilita' configurabile:** individuare le equivalenze mediante **tag semanticamente specifici e/o definizioni di compatibilita'**, in modo estendibile a nuove mod; non dedurle indiscriminatamente dal nome visualizzato, da un tag generico o dal fatto che due item siano cibi.
+
+**Esempio:** se un quarto contiene gia' mozzarella di Italian's Delight, un'altra mozzarella esplicitamente riconosciuta come equivalente non puo' essere aggiunta nella stessa posizione e non consuma nulla. Su un quarto libero, quella seconda mozzarella e' valida e, quando rimossa completamente, restituisce esattamente l'item di origine.
+
+**DA DEFINIRE:** formato esatto delle dichiarazioni per datapack, priorita' in caso di tag sovrapposti ed elenco iniziale delle equivalenze supportate. **Non ancora implementato.**
 
 ## Salsa facoltativa, al massimo una per porzione — CONFERMATO (11 ottobre 2026)
 
@@ -208,7 +222,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 - Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
 - **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. **Divisioni e riunioni non consumano durabilita'**; restano da precisare hitbox e casi limite.
-- **Limite gia' confermato di 6 ingredienti diversi per quarto fisico**, salsa inclusa, con rifiuto dell'intera applicazione se anche un solo quarto supererebbe sei. Restano da definire equivalenze tra ingredienti e dettagli implementativi; per una salsa diversa su zona parzialmente occupata e' gia' previsto il rifiuto integrale. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
+- **Limite confermato di 6 ingredienti diversi per quarto fisico**, salsa inclusa, con rifiuto dell'intera applicazione se anche un solo quarto supererebbe sei. **Equivalenze tra mod confermate nel principio**: item esplicitamente equivalenti condividono il vincolo anti-duplicato e occupano un unico tipo; da definire formato tecnico e mapping iniziale. Per una salsa diversa su zona parzialmente occupata e' previsto il rifiuto integrale. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
 - Priorita' e visualizzazione degli ingredienti **diversi** sovrapposti (non delle salse tra loro, che non possono sovrapporsi).
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
 - Modellazione 2.5D per quarto, forme, seme deterministico, rendering da cruda e cotta.
@@ -230,6 +244,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] Impedire che due salse, anche diverse, occupino la stessa parte fisica, anche dopo divisioni e riunioni col mattarello.
 - [ ] Applicazione con massimo sei tipi di ingredienti diversi per quarto (salsa inclusa); un nuovo ingrediente che farebbe arrivare qualsiasi quarto interessato a sette viene respinto integralmente **senza consumo**.
 - [ ] Conteggio e rifiuto invariati dopo divisioni, riunioni, salvataggio, pala e eventuale crafting. Rimozione libera il posto soltanto nella parte effettivamente ripulita.
+- [ ] Due mozzarelle di mod diverse esplicitamente equivalenti sono trattate come lo stesso ingrediente: niente doppia applicazione sul medesimo quarto, un solo tipo nel limite di 6; recupero dell'item *effettivamente usato* e non di un item equivalente.
 - [ ] Tentare pesto sull'intera pizza dopo aver riunito una meta' al pomodoro e una meta' bianca: **rifiutare tutto**, nessuna modifica e nessun consumo. Dopo nuova divisione, consentire di condire la sola meta' bianca.
 - [ ] Dopo la riunione di zone parzialmente coperte, un clic dello stesso ingrediente riempie **solo le sottoaree libere**, consumando un solo item; se non restano sottoaree libere non accade nulla.
 - [ ] La rottura di una pizza cruda recupera impasto e ingredienti residui senza duplicare; quella cotta non restituisce gli ingredienti separati.
