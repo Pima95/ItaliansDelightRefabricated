@@ -9,14 +9,22 @@ La pizza e' preparata direttamente nel mondo, senza GUI obbligatoria per condirl
 
 Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozzarella` del BlockState, consuma un item e visualizza cinque pezzi. **Non** implementa ancora i quattro quarti, le applicazioni multiple, la rimozione parziale o i dati sulla pala.
 
-## 1. Quattro quarti — CONFERMATO
+## 1. Divisione facoltativa con il mattarello — CONFERMATO
 
-- Ogni pizza ha **quattro quarti logici distinti**, condibili in modo indipendente.
-- Il giocatore puo' applicare condimenti diversi su quarti diversi, oppure distribuire un condimento su piu' quarti.
-- I quarti sono una suddivisione **per il condimento**: non e' automaticamente una pizza tagliata in quattro fette.
-- Gli ingredienti e la loro distribuzione devono rimanere identificabili durante le interazioni, la cottura e il trasporto.
+**Correzione importante:** la pizza NON nasce obbligatoriamente divisa in quattro parti. La suddivisione viene scelta dal giocatore **solo dopo aver steso completamente l'impasto**.
 
-**DA DEFINIRE:** selezione del quarto tramite hitbox/clic, applicazione simultanea a piu' quarti, costo in item per tipo, limite complessivo, ripetizioni di topping e gestione dei livelli sovrapposti.
+- **Pizza intera (1 zona):** nessuna ulteriore interazione col mattarello; un ingrediente applicato copre l'intera pizza.
+- **Due meta' (2 zone):** con un clic destro del **mattarello sulla base gia' completamente stesa** la pizza si divide logicamente in due meta'. Ogni meta' puo' essere condita in modo autonomo.
+- **Fino a quattro quarti (3 o 4 zone):** usando nuovamente il mattarello **sulla meta' mirata**, solo quella meta' viene divisa in due quarti; anche l'altra meta' puo' essere divisa successivamente. E' ammessa una pizza con una meta' ancora intera e l'altra divisa in due quarti.
+- **Applicazione:** con clic destro tenendo un ingrediente valido, il condimento viene distribuito **sulla zona logica puntata** (pizza intera, una meta' o un quarto, in base alle divisioni esistenti). Non e' necessario cliccare sulle linee, ne' premere Shift per scegliere una superficie intera.
+- **Divisioni solo come overlay temporaneo:** le linee di suddivisione si vedono soltanto quando il giocatore tiene **il mattarello o un ingrediente valido**. La suddivisione e' virtuale: **non cambiare le texture o i modelli fisici della base**.
+- Le suddivisioni servono al condimento, **non** significano che la pizza e' stata tagliata fisicamente in fette.
+
+**Riunione delle zone:** era stata discussa la possibilita' di **Shift + clic destro col mattarello** per riunire le zone, senza perdere i condimenti gia' applicati. Il gesto specifico e le regole di priorita' restano **DA CONFERMARE**; il requisito di non cancellare condimenti durante una eventuale riunione rimane fondamentale.
+
+**DA DEFINIRE:** direzione e hitbox della prima divisione e dell'eventuale divisione di una meta'; priorita' del clic al confine; costo in durabilita' di una divisione del mattarello; eventuale riunione e comportamento con ingredienti sovrapposti; consumo per ingrediente e limite di applicazioni.
+
+**Nota tecnica:** una griglia interna di quattro quarti puo' essere usata per rappresentare le coperture anche quando la pizza e' intera o divisa solo in due, ma il **livello di divisione effettivo** va salvato separatamente. NON mostrare o attivare automaticamente tutti e quattro i quarti.
 
 ## 2. Applicazione originale e recupero — CONFERMATO
 
@@ -62,7 +70,7 @@ La **pala per pizza** e' lo strumento per trasferire una pizza **intera**. E' gi
 
 L'intero stato della preparazione deve viaggiare **dentro i dati persistenti della pala occupata**, incluse almeno le seguenti informazioni:
 
-- stato e progresso della pizza (impasto/base, cruda/condita/cotta secondo il caso);
+- stato e progresso della pizza (impasto/base, cruda/condita/cotta secondo il caso), **inclusa la struttura di suddivisione scelta col mattarello**;
 - ingredienti, quantita', applicazioni originali e quarti ancora coperti;
 - disposizione visiva, inclusi eventuali semi e parametri di rendering;
 - proprieta' necessarie per determinare il gusto e preservare la cottura.
@@ -79,6 +87,7 @@ Una rappresentazione possibile, **non API definitiva**:
 PizzaState
   format_version
   preparation_state / cooking_state
+  division_state       // intera, 2 meta', 1 meta' divisa, 4 quarti
   applications[]
     application_id
     ingredient_id + consumed_stack/count
@@ -105,8 +114,9 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 ## 5. Questioni ancora aperte
 
-- Interazione precisa per **scegliere il quarto** e per **rimuovere** un condimento senza interferire con stesura, aggiunta e pala.
-- Se una singola applicazione copra di default un quarto, piu' quarti o tutta la pizza; costi, ripetizioni e limiti.
+- Geometria delle suddivisioni create col mattarello, clic ai confini tra zone e gesto di **rimozione** dei topping, senza interferire con stesura, aggiunta e pala.
+- Gesto esatto per una possibile **riunione** delle zone (Shift + clic col mattarello discusso ma non ancora approvato) e gestione della visualizzazione temporanea.
+- I costi per singola applicazione, ripetizioni e limiti; la copertura di default dipende gia' dalla **zona selezionata dalla suddivisione attuale** (intera, meta', quarto).
 - Priorita' e visualizzazione degli ingredienti sovrapposti, specialmente delle salse.
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
 - Modellazione 2.5D per quarto, forme, seme deterministico, rendering da cruda e cotta.
@@ -116,7 +126,9 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 ## 6. Criteri di accettazione futuri
 
-- [ ] Una mozzarella applicata sui 4 quarti costa 1 item; togliere 3 quarti non rimborsa; togliere l'ultimo rimborsa 1.
+- [ ] Senza divisioni: il topping cliccato si applica all'intera pizza; dopo un passaggio col mattarello si applica alla meta' puntata; un ulteriore passaggio su quella meta' crea due quarti condibili singolarmente.
+- [ ] Le divisioni sono mostrate solo mentre e' in mano il mattarello o un ingrediente valido, senza variazioni permanenti ai modelli/texture.
+- [ ] Una mozzarella originariamente applicata a tutti i 4 quarti logici costa 1 item; toglierla da 3 quarti non rimborsa; togliere l'ultimo rimborsa 1.
 - [ ] Quattro applicazioni distinte non si fondono in una e non producono rimborsi errati.
 - [ ] La rottura di una pizza cruda recupera impasto e ingredienti residui senza duplicare; quella cotta non restituisce gli ingredienti separati.
 - [ ] Recupero nel normale inventario; drop solo in mancanza di spazio.
