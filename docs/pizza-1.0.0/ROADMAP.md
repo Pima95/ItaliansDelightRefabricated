@@ -22,6 +22,7 @@
 - [x] Rimozione parziale senza rimborso; rimborso una sola volta dopo la rimozione di tutti i quarti coperti da una specifica applicazione.
 - [x] **Rimozione con Shift + clic destro a mano vuota**: un condimento per clic, partendo dall'ultima applicazione ancora presente nella zona mirata; zona priva di topping = nessun effetto.
 - [x] **Riunione con Shift + clic destro col mattarello**: due quarti della stessa meta' -> due meta' intere -> pizza intera, senza perdita, rimborso o redistribuzione dei topping preesistenti.
+- [x] **Stesso ingrediente massimo una volta per sottoarea**: applicazioni su zone distinte consentite; se l'area puntata e' parzialmente coperta, il clic interessa solo la parte libera e consuma 1 item; se completamente coperta, nessun effetto/consumo.
 - [x] Recupero ingredienti direttamente nell'inventario, drop solo se pieno; rottura della pizza cruda recupera impasto e ingredienti residui senza duplicazioni, pizza cotta non restituisce ingredienti.
 - [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
 
@@ -30,8 +31,8 @@
 - [ ] Bilanciamento definitivo della stesura (attualmente 4 clic a mano, 1 col mattarello).
 - [x] Ricetta del mattarello: 2 bastoni + 1 asse di qualsiasi legno (`#minecraft:planks`), con sblocco nel libro delle ricette (**test in gioco necessario**).
 - [x] Texture dedicata del mattarello: item handheld 16×16, sfondo trasparente e pixel opachi; durabilità confermata: **64 usi**, 1 per pizza stesa. **Aspetto da verificare in gioco.**
-- [ ] Limite delle porzioni di topping (proposta: 8 incluse le salse).
-- [ ] Consumi esatti per ingrediente, ripetizioni, più salse, remainder.
+- [ ] Eventuale limite totale ai **diversi tipi** di topping (precedente proposta: 8 porzioni, **non confermata**), compatibile con il vincolo anti-duplicato per sottoarea.
+- [ ] Definire ingredienti equivalenti, coesistenza di **salse diverse**, remainder e ulteriori bilanciamenti. Per uno stesso ingrediente e' confermato **1 item per nuova applicazione effettiva a zone libere**, e nessun item per clic duplicato.
 - [x] Definire il gesto per **rimuovere** topping: Shift + clic destro **a mano vuota** sulla zona puntata, dall'ultima applicazione alla piu' vecchia.
 - [ ] Implementare cronologia persistente delle applicazioni e rimozione per zona senza duplicazioni.
 - [ ] Definire orientamento/hitbox delle divisioni e riunioni e usura del mattarello per queste azioni (**gesto di riunione gia' confermato**).
@@ -72,7 +73,7 @@
 - [ ] Definizioni ingredienti via codice/datapack.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
 - [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), salvandone la configurazione e preservando posizioni e storici dei topping; evidenziare le linee solo con mattarello o ingrediente valido.
-- [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
+- [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali alle sole zone ancora libere e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
 - [ ] Recupero diretto nell'inventario (drop solo con spazio insufficiente); rottura pizza cruda/cotta secondo specifica.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno.
 - [ ] Gestire gli eventuali remainder dei contenitori senza duplicazioni.
@@ -122,4 +123,4 @@
 
 ## Prossimo tema da concordare
 
-**Quantita' e limiti per applicazione/zona**, gestione delle sovrapposizioni e costi in durabilita' di divisioni/riunioni col mattarello. La riunione con Shift + clic destro col mattarello e la conservazione dei topping sono gia' **confermate**. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+**Coesistenza di ingredienti differenti e salse** sulla stessa area, limiti ai diversi tipi di topping e costi in durabilita' di divisioni/riunioni col mattarello. Il divieto di ripetere lo stesso ingrediente sulla stessa sottoarea e' gia' confermato. La riunione con Shift + clic destro col mattarello e la conservazione dei topping sono gia' **confermate**. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
