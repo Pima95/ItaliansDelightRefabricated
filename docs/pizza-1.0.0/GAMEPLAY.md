@@ -36,7 +36,7 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 | Clic destro con palla d'impasto su blocco | Colloca impasto per la preparazione |
 | Clic destro vuoto sull'impasto | Avanza la stesura manuale |
 | Clic destro con mattarello sulla palla/base non ancora stesa | Stende rapidamente |
-| Clic destro con mattarello su base completamente stesa e non divisa | Divide logicamente la pizza in **due meta' orientate secondo la direzione del giocatore al momento del clic**, non secondo un asse fisso, senza perdere durabilita' |
+| Clic destro con mattarello su base completamente stesa e non divisa | Traccia una divisione logica **parallela alla direzione orizzontale dello sguardo**, creando **meta' sinistra e destra** rispetto al giocatore, senza perdere durabilita' |
 | Clic destro con mattarello sulla meta' desiderata | Divide quella meta' in **due quarti**, senza perdere durabilita' |
 | Clic destro con ingrediente valido sulla zona desiderata | Applica il topping all'**intera pizza, alla meta' o al quarto** puntato, secondo la suddivisione corrente |
 | Shift + clic destro col mattarello su un quarto | **CONFERMATO:** riunisce i due quarti della stessa meta' senza spostare o rimborsare ingredienti e senza consumare durabilita' |
@@ -52,7 +52,7 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 | Clic destro con pala occupata su superficie valida | **Confermato:** riposiziona la pizza, preservandone la composizione |
 | Rottura della pizza o del blocco di supporto | Recupero dell'oggetto con dati completi, senza duplicazioni |
 
-**Orientamento della prima divisione confermato:** dipende dalla direzione in cui guarda il giocatore nell'istante del clic col mattarello. Una volta creata, la divisione e' memorizzata e non ruota con i movimenti del giocatore, ne' sposta i condimenti. Rimangono da approvare la relazione esatta linea/sguardo (parallela o perpendicolare) e la gestione dei clic sul confine.
+**Orientamento della prima divisione confermato:** dipende dalla direzione in cui guarda il giocatore nell'istante del clic col mattarello. Una volta creata, la divisione e' memorizzata e non ruota con i movimenti del giocatore, ne' sposta i condimenti. **CONFERMATO:** la linea e' **parallela allo sguardo** e separa sinistra/destra, anziche' vicino/lontano. Restano da approvare solo il trattamento delle direzioni diagonali e la gestione dei clic sul confine.
 
 La rimozione con **Shift + clic destro a mano vuota**, una applicazione alla volta in ordine inverso a quello di aggiunta sulla zona, e' **CONFERMATA**. Anche dopo una riunione le applicazioni precedenti restano separate: una nuova applicazione dello stesso ingrediente puo' coprire **solo le parti ancora libere** della zona riunita. Il gesto **Shift + clic destro col mattarello per riunire le zone e' confermato**. La mano secondaria e i clic ai confini delle zone rimangono da definire. Non prevedere clic sulle linee per condire due quarti, ne' Shift + clic con ingrediente per condire tutta la pizza: la superficie dipende dalla divisione col mattarello.
 
