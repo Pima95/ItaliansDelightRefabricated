@@ -10,6 +10,7 @@ Le ricette riconosciute non devono impedire la creatività:
 - ordine di inserimento degli ingredienti **irrilevante** per il nome;
 - **nessuna salsa obbligatoria** per preparare una pizza (anche bianca); la salsa puo' invece essere **richiesta da una specifica ricetta riconosciuta**;
 - **una sola salsa per sottoarea fisica**, pur ammettendo salse diverse in parti distinte;
+- **non piu' di 6 ingredienti diversi per quarto fisico**, contando l'eventuale salsa; nessuna divisione/riunione col mattarello permette di superare il limite;
 - ingrediente aggiunto oltre alla ricetta riconosciuta -> di norma **personalizzata**, salvo una definizione più specifica.
 
 Esempi illustrativi:
@@ -37,7 +38,7 @@ Non introdurre nuovi ingredienti (origano, olive, pesto ecc.) automaticamente so
 - Match esatto di default sulle quantità/categorie quando necessario.
 - Tag solo se la corrispondenza preserva il gusto: non ogni formaggio generico deve diventare mozzarella per una Margherita.
 - Priorità deterministiche fra ricette sovrapposte.
-- Numero di condimenti massimo e valori nutrizionali da approvare.
+- **Numero massimo gia' confermato: 6 ingredienti diversi per quarto fisico (salsa inclusa)**; valori nutrizionali e bilanciamento ancora da definire.
 - Nomi tradotti EN/IT con ingredienti completi nel tooltip.
 
 ## Bilanciamento da affrontare
