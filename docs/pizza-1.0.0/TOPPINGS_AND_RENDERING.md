@@ -11,11 +11,13 @@ La pizza viene condita **cliccando sulla base posizionata nel mondo**. Il risult
 
 Non è prevista una texture completa separata per ogni combinazione possibile.
 
-## Quattro quarti e provenienza dei condimenti — CONFERMATO
+## Divisione facoltativa, coperture e provenienza — CONFERMATO
 
-La pizza e' suddivisa in **quattro quarti logici**. Ogni applicazione dell'ingrediente conserva quali quarti copriva in origine e quali copre ancora. **Rimuovere il topping su uno solo dei quarti non restituisce l'item finche' tutti i quarti della stessa applicazione non sono stati liberati**. Un'applicazione singola da una mozzarella distribuita su 4 quarti deve restituire 1 mozzarella alla rimozione completa, non 4. Il rimborso entra nell'inventario (drop solo se pieno). La geometria di ogni quarto, la selezione del quarto e le regole di sovrapposizione sono **ancora da definire**.
+Una pizza stesa e' inizialmente **intera**: si puo' condire completamente senza dividere nulla. Il mattarello permette di creare **2 meta'** e successivamente di suddividere una o entrambe le meta' in quarti, **senza cambiare i modelli/texture della base**. Il topping cliccato viene applicato alla **zona puntata**: intera, meta' o quarto. Le linee di divisione sono un **overlay temporaneo**, visibile solo mentre si tiene il mattarello o un ingrediente valido.
 
-Per i dettagli di stato, recupero e pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+Internamente e' possibile mappare tutte le coperture sui quattro quarti logici, pur memorizzando la **configurazione effettiva** della divisione. Ogni applicazione conserva i quarti originari e quelli ancora coperti. **Rimuovere solo una parte dell'applicazione non restituisce l'item**, che viene recuperato una sola volta alla rimozione completa. Esempio: una mozzarella applicata all'intera pizza rappresenta una sola applicazione, anche se dopo la si divide in quarti; eliminarla da quattro quarti non rimborsa quattro mozzarelle.
+
+Per il modello di stato, recupero e pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
 ## Geometria già predisposta (modelli dell'impasto)
 
