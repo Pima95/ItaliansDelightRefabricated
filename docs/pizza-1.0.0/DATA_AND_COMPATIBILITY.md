@@ -17,6 +17,7 @@ Identificatori iniziali possibili, **non definitivi**:
 Dati da conservare:
 - versione del formato, per eventuali migrazioni;
 - **division_state**: configurazione scelta col mattarello (intera, due meta', solo una meta' ulteriormente divisa, entrambe divise in quattro quarti); puo' regredire con **Shift + clic destro col mattarello** senza eliminare o modificare le applicazioni gia' effettuate;
+- **division_orientation** (campo concettuale): orientamento della prima divisione **determinato dalla direzione del giocatore al momento del clic col mattarello**, non da un asse fisso del mondo. Deve restare stabile quando il giocatore cambia direzione e deve essere persistito con la pizza e i suoi topping (mondo/pala/forno). Da definire la relazione parallelo/perpendicolare e la scelta per le direzioni diagonali;
 - elenco degli ingredienti reali (ID, quantità, eventuali proprietà necessarie);
 - identificativo distinto di ogni applicazione e maschere dei quarti originari/ancora coperti (requisito confermato); **ordine cronologico persistente di inserimento**, necessario per rimuovere con Shift + clic destro a mano vuota **l'ultima applicazione ancora presente nella zona selezionata**;
 - **vincolo univoco per ingrediente canonico e quarto fisico**: prima di applicare, sottrarre la copertura gia' occupata da qualunque item esplicitamente equivalente (anche di altre mod); salvare solo la maschera residua libera, consumare **1 item per applicazione non vuota**, nessun consumo e nessuna nuova applicazione per maschera residua vuota;
