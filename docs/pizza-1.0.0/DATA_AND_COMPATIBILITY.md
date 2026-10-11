@@ -20,6 +20,7 @@ Dati da conservare:
 - elenco degli ingredienti reali (ID, quantità, eventuali proprietà necessarie);
 - identificativo distinto di ogni applicazione e maschere dei quarti originari/ancora coperti (requisito confermato); **ordine cronologico persistente di inserimento**, necessario per rimuovere con Shift + clic destro a mano vuota **l'ultima applicazione ancora presente nella zona selezionata**;
 - **vincolo univoco per ingrediente e quarto fisico**: prima di applicare, sottrarre la copertura gia' occupata dallo stesso ingrediente; salvare solo la maschera residua libera, consumare **1 item per applicazione non vuota**, nessun consumo e nessuna nuova applicazione per maschera residua vuota;
+- **vincolo salse**: nessuna salsa richiesta per una pizza valida; al massimo una salsa **di qualunque tipo** per singola sottoarea fisica. Le aree senza salsa sono valide, mentre salse di tipo diverso non possono occupare insieme lo stesso quarto. Non confondere il requisito opzionale di una salsa per il **matching di un gusto specifico** con un requisito di preparazione generale;
 - stato crudo/cotto o progresso pertinente;
 - `render_seed` e parametri di disposizione che non cambino raccogliendo la pizza;
 - informazioni per calcolare nutrizione, nome e tooltip, evitando stringhe ridondanti già tradotte.
@@ -98,7 +99,7 @@ La Margherita richiede concettualmente **pomodoro + mozzarella + basilico**. Un 
 }
 ```
 
-La definizione definitiva dovrà prevedere alternative via tag, gestione delle quantità, priorità e traduzioni. Non confondere **riconoscimento** dei gusti con limitazione al crafting.
+La definizione definitiva dovrà prevedere alternative via tag, gestione delle quantità, priorità e traduzioni. Non confondere **riconoscimento** dei gusti con limitazione al crafting. **La salsa e' facoltativa per le pizze personalizzate e bianche**, anche se una singola definizione di gusto puo' richiedere il pomodoro o un'altra salsa.
 
 ## Cottura e crafting dinamici: punti a rischio
 
