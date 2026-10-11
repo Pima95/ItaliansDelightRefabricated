@@ -40,6 +40,21 @@ Una singola applicazione che consuma un ingrediente puo' interessare uno o piu' 
 
 **Esempio B:** 4 mozzarelle applicate singolarmente, una per ogni quarto = **quattro** applicazioni distinte. Ognuna puo' essere restituita separatamente quando viene rimossa interamente.
 
+### Gesto e ordine di rimozione — CONFERMATO (11 ottobre 2026)
+
+- Il giocatore usa **Shift + clic destro con la mano vuota** sulla zona della pizza che vuole ripulire.
+- Viene rimossa **una singola applicazione alla volta**, scegliendo tra quelle ancora presenti sulla zona cliccata quella **aggiunta più recentemente**.
+- Se sulla zona sono sovrapposti, in ordine, pomodoro, mozzarella e basilico, i tre Shift + clic successivi rimuovono **basilico, mozzarella, pomodoro**, purché ciascuno sia ancora presente in quella zona.
+- L'operazione agisce sulla **zona logica corrente** determinata dalle divisioni col mattarello: pizza intera, metà oppure quarto. Quando un'applicazione copre anche altre zone, il clic la elimina solo dalla zona selezionata.
+- Se in quella zona non esistono topping da rimuovere, **non avviene nulla**. Non si rimuovono ingredienti di zone adiacenti e non si raccoglie l'impasto come effetto secondario.
+- L'**ordine cronologico delle applicazioni** deve essere persistente, distinto dall'ordine dei livelli grafici e conservato raccogliendo la pizza con la pala, ricaricando il mondo e dividendo le zone successivamente.
+- Restano valide le regole sui rimborsi: la rimozione parziale **non restituisce nulla**, quella completa rimborsa **una sola volta** la quantità consumata, direttamente nell'inventario o a terra solo se pieno.
+- Il gesto per la **riunione delle divisioni** con il mattarello è ancora da concordare; non deve interferire con Shift + clic a mano vuota.
+
+**Esempio di applicazione globale:** mozzarella aggiunta alla pizza intera, poi base divisa in quattro quarti. Shift + clic vuoto su un quarto toglie solo la porzione di mozzarella visibile lì, senza restituire l'item; il quarto e ultimo recupero della stessa applicazione rende una sola mozzarella.
+
+**Non ancora implementato:** questa è una regola di design approvata, non il comportamento del prototipo attuale con booleano `mozzarella` nel BlockState.
+
 ### Destinazione degli oggetti recuperati — CONFERMATO
 
 - La rimozione normale restituisce l'ingrediente **direttamente all'inventario del giocatore**.
@@ -93,6 +108,7 @@ PizzaState
     ingredient_id + consumed_stack/count
     original_quarter_mask   // 4 bit
     remaining_quarter_mask  // 4 bit
+    application_order   // cronologia persistente della rimozione
     render data / seed
   additional_visual_and_recipe_data
 
@@ -114,7 +130,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 ## 5. Questioni ancora aperte
 
-- Geometria delle suddivisioni create col mattarello, clic ai confini tra zone e gesto di **rimozione** dei topping, senza interferire con stesura, aggiunta e pala.
+- Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
 - Gesto esatto per una possibile **riunione** delle zone (Shift + clic col mattarello discusso ma non ancora approvato) e gestione della visualizzazione temporanea.
 - I costi per singola applicazione, ripetizioni e limiti; la copertura di default dipende gia' dalla **zona selezionata dalla suddivisione attuale** (intera, meta', quarto).
 - Priorita' e visualizzazione degli ingredienti sovrapposti, specialmente delle salse.
@@ -128,6 +144,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 - [ ] Senza divisioni: il topping cliccato si applica all'intera pizza; dopo un passaggio col mattarello si applica alla meta' puntata; un ulteriore passaggio su quella meta' crea due quarti condibili singolarmente.
 - [ ] Le divisioni sono mostrate solo mentre e' in mano il mattarello o un ingrediente valido, senza variazioni permanenti ai modelli/texture.
+- [ ] Shift + clic destro a mano vuota sulla zona selezionata rimuove una applicazione alla volta partendo dalla piu' recente presente su quella zona; se vuota non produce effetti.
 - [ ] Una mozzarella originariamente applicata a tutti i 4 quarti logici costa 1 item; toglierla da 3 quarti non rimborsa; togliere l'ultimo rimborsa 1.
 - [ ] Quattro applicazioni distinte non si fondono in una e non producono rimborsi errati.
 - [ ] La rottura di una pizza cruda recupera impasto e ingredienti residui senza duplicare; quella cotta non restituisce gli ingredienti separati.
