@@ -22,12 +22,16 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 10. **Non esiste il rischio di bruciare la pizza**, in nessun forno.
 11. Il rendering è **2.5D**: **salse piatte** e **condimenti leggermente in rilievo**.
 12. Il sistema deve poter estendere i condimenti alle **altre mod**, tramite tag e definizioni compatibili.
+13. La pizza e' suddivisa logicamente in **quattro quarti**, condibili separatamente.
+14. La rimozione parziale non restituisce gli ingredienti: ogni applicazione originale e' rimborsata **una sola volta** solo dopo la rimozione da tutti i quarti da essa coperti. Recupero in inventario, drop soltanto se pieno; rompendo la pizza cruda si restituiscono impasto e ingredienti ancora associati, senza moltiplicazioni. La pizza cotta non si scompone nei vecchi ingredienti.
+15. La **pala per pizza** trasporta direttamente **una sola pizza alla volta**, conservando ingredienti, quarti, stadio e dati visivi. Non serve per condire o rimuovere topping.
 
 ## PROPOSTE non ancora confermate
 
 - 4 clic per stendere a mano, 1 clic con mattarello; mattarello riutilizzabile senza durabilità.
 - Limite iniziale di **8 porzioni di condimento** (comprese le salse), anche ripetendo ingredienti.
-- Shift + clic destro a mano vuota per togliere l'ultimo condimento; pala per pizza opzionale.
+- Gesti precisi di selezione del quarto e rimozione del condimento (lo Shift + clic destro resta un'opzione da valutare).
+- Ricetta, durabilita' e comportamento della pala se occupata viene distrutta; asset della vecchia Italian's Delight fornito dall'autore, da recuperare e verificare.
 - Pizza Oven senza GUI obbligatoria, con alimentazione/estrazione via hopper.
 - Tempi indicativi: **20 s** Pizza Oven, **30 s** affumicatore, **60 s** fornace.
 - Consumo di combustibile solo durante una cottura effettiva, conservazione dell'energia residua.
@@ -38,6 +42,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 
 ## Indice documentazione
 
+- [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md) — **riferimento aggiornato e confermato** per quarti, restituzioni e pala per pizza.
 - [GAMEPLAY.md](GAMEPLAY.md) — fasi, comandi nel mondo, stesura, condimento, crafting, raccolta.
 - [SURFACE_RULES.md](SURFACE_RULES.md) — superfici approvate/escluse, stati dei blocchi e test.
 - [PIZZA_OVEN.md](PIZZA_OVEN.md) — forno 1×1, combustibili, tempi, automazione e forni vanilla.
