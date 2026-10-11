@@ -22,6 +22,7 @@
 - [x] Rimozione parziale senza rimborso; rimborso una sola volta dopo la rimozione di tutti i quarti coperti da una specifica applicazione.
 - [x] **Rimozione con Shift + clic destro a mano vuota**: un condimento per clic, partendo dall'ultima applicazione ancora presente nella zona mirata; zona priva di topping = nessun effetto.
 - [x] **Riunione con Shift + clic destro col mattarello**: due quarti della stessa meta' -> due meta' intere -> pizza intera, senza perdita, rimborso o redistribuzione dei topping preesistenti.
+- [x] **Durabilita' del mattarello**: 1 punto per stesura completata, **0 per tutte le divisioni e riunioni**, 0 se il gesto non ha effetto e in Creativa. Il mattarello esistente ha 64 punti.
 - [x] **Stesso ingrediente massimo una volta per sottoarea**: applicazioni su zone distinte consentite; se l'area puntata e' parzialmente coperta, il clic interessa solo la parte libera e consuma 1 item; se completamente coperta, nessun effetto/consumo.
 - [x] **Salsa facoltativa**: pizze bianche valide, nessun ingrediente salsa richiesto in generale.
 - [x] **Massimo una salsa per sottoarea fisica**, indipendentemente dal tipo; salse differenti ammesse in porzioni separate, mai sovrapposte.
@@ -39,7 +40,7 @@
 - [ ] Definire ingredienti equivalenti, remainder e ulteriori bilanciamenti; il comportamento delle **salse differenti sulle zone parzialmente condite e' gia' confermato** (rifiuto dell'intera applicazione). La coesistenza di salse diverse sulla **stessa sottoarea e' vietata**, su sottoaree distinte e' consentita. Per uno stesso ingrediente e' confermato **1 item per nuova applicazione effettiva a zone libere**, e nessun item per clic duplicato.
 - [x] Definire il gesto per **rimuovere** topping: Shift + clic destro **a mano vuota** sulla zona puntata, dall'ultima applicazione alla piu' vecchia.
 - [ ] Implementare cronologia persistente delle applicazioni e rimozione per zona senza duplicazioni.
-- [ ] Definire orientamento/hitbox delle divisioni e riunioni e usura del mattarello per queste azioni (**gesto di riunione gia' confermato**).
+- [ ] Definire orientamento e hitbox delle divisioni e riunioni, inclusi clic ai confini (**gesti e assenza di usura gia' confermati**).
 - [ ] Pala: definire ricetta, durabilita', tooltip, item occupato/distrutto, gestione inventari e dettagli di interazione col forno (il ruolo di trasporto di una pizza e' gia' confermato).
 - [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
 - [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
@@ -76,7 +77,7 @@
 
 - [ ] Definizioni ingredienti via codice/datapack.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
-- [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), salvandone la configurazione e preservando posizioni e storici dei topping; evidenziare le linee solo con mattarello o ingrediente valido.
+- [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), **senza consumare durabilita'**, salvandone la configurazione e preservando posizioni e storici dei topping; evidenziare le linee solo con mattarello o ingrediente valido.
 - [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali dei topping alle sole zone ancora libere, **il blocco totale delle salse differenti se una qualsiasi parte della zona mirata contiene gia' un'altra salsa**, la **validazione atomica del massimo di 6 tipi per quarto fisico (salsa inclusa)** e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
 - [ ] Recupero diretto nell'inventario (drop solo con spazio insufficiente); rottura pizza cruda/cotta secondo specifica.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno.
@@ -127,4 +128,4 @@
 
 ## Prossimo tema da concordare
 
-**Costi in durabilita' di divisioni/riunioni col mattarello** e identificazione di ingredienti equivalenti. Il limite di **6 ingredienti diversi per quarto** e' gia' confermato. Il rifiuto delle salse differenti su zone anche solo parzialmente occupate e' confermato. Il divieto di ripetere lo stesso ingrediente sulla stessa sottoarea e' gia' confermato. La riunione con Shift + clic destro col mattarello e la conservazione dei topping sono gia' **confermate**. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+**Identificazione di ingredienti equivalenti tra mod** e geometria delle hitbox per le divisioni. L'assenza di usura del mattarello per dividere/riunire e il limite di **6 ingredienti diversi per quarto** sono gia' confermati. Il rifiuto delle salse differenti su zone anche solo parzialmente occupate e' confermato. Il divieto di ripetere lo stesso ingrediente sulla stessa sottoarea e' gia' confermato. La riunione con Shift + clic destro col mattarello e la conservazione dei topping sono gia' **confermate**. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
