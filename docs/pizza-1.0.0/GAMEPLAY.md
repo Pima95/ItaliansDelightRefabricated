@@ -23,7 +23,7 @@ La **palla d'impasto** va appoggiata con clic destro direttamente sopra un blocc
 
 Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se l'ingrediente è valido, viene consumata una porzione e aggiunta alla composizione. Non è necessario inserire prima pomodoro, formaggio o erbe in un ordine particolare. Sono ammesse pizze inventate dal giocatore, anche senza salsa rossa.
 
-**La specifica definitiva del condimento per quarti e della pala e' in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).** Ogni pizza ha quattro quarti logici e ogni applicazione di condimento mantiene l'associazione con i quarti coperti. La rimozione parziale non rimborsa; il rimborso avviene soltanto quando tutte le parti dell'applicazione originale sono state rimosse. L'ingrediente torna nell'inventario, con drop soltanto se pieno.
+**La specifica definitiva del condimento e della pala e' in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).** Dopo la stesura la pizza resta intera finche' il giocatore non usa il **mattarello per dividerla prima in due meta', poi eventualmente per suddividere ogni meta' in due quarti**. Il clic con ingrediente condice la zona puntata in base alla suddivisione effettiva (intera, meta' o quarto). Le linee sono visibili temporaneamente solo tenendo mattarello o ingrediente valido. Ogni applicazione mantiene l'associazione con la propria copertura. La rimozione parziale non rimborsa; il rimborso avviene soltanto quando tutte le parti dell'applicazione originale sono state rimosse. L'ingrediente torna nell'inventario, con drop soltanto se pieno.
 
 **Primo prototipo funzionale, da testare:** su `stage=4`, un clic destro con **una mozzarella intera** della mod (`italiansdelight:mozzarella`) consuma 1 item in Sopravvivenza, imposta `mozzarella=true` sul BlockState e disegna cinque piccoli pezzi nella conca senza coprire il bordo. Non accetta una seconda mozzarella: è solo un test di interazione/rendering, non il futuro sistema di dosi e topping multipli. In Creativa non consuma l'item. Alla rottura del blocco il loot table restituisce anche la mozzarella, evitando di perderla. I modelli riutilizzano la texture mozzarella già presente, senza modificare PNG.
 
@@ -35,20 +35,25 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 | --- | --- |
 | Clic destro con palla d'impasto su blocco | Colloca impasto per la preparazione |
 | Clic destro vuoto sull'impasto | Avanza la stesura manuale |
-| Clic destro con mattarello | Stende rapidamente |
-| Clic destro con topping valido sulla base | Aggiunge il topping |
+| Clic destro con mattarello sulla palla/base non ancora stesa | Stende rapidamente |
+| Clic destro con mattarello su base completamente stesa e non divisa | Divide logicamente la pizza in **due meta'** |
+| Clic destro con mattarello sulla meta' desiderata | Divide quella meta' in **due quarti** |
+| Clic destro con ingrediente valido sulla zona desiderata | Applica il topping all'**intera pizza, alla meta' o al quarto** puntato, secondo la suddivisione corrente |
+| Shift + clic destro col mattarello su una zona divisa | **Ipotesi da confermare:** riunisce le zone conservando i topping |
+| Clic destro con topping valido sulla base | Aggiunge il topping solo alla zona logica puntata (intera, meta' o quarto) |
 | Interazione di rimozione di un quarto (gesto **da decidere**) | Rimuove la parte selezionata senza rimborso immediato; restituisce l'applicazione **una sola volta** solo quando tutti i quarti originariamente coperti sono stati liberati |
 | Shift + clic destro a mano vuota sulla pizza senza topping | **Proposta ancora aperta:** alternativa per raccogliere la base |
 | Clic destro con pala per pizza libera | **Confermato:** raccoglie direttamente una pizza con tutti i dati; massimo una pizza per pala |
 | Clic destro con pala occupata su superficie valida | **Confermato:** riposiziona la pizza, preservandone la composizione |
 | Rottura della pizza o del blocco di supporto | Recupero dell'oggetto con dati completi, senza duplicazioni |
 
-Le priorità esatte di Shift, della mano secondaria e dei clic sono **ancora da confermare**.
+Le priorita' esatte di Shift, della mano secondaria e dei clic sono **ancora da confermare**. Non prevedere clic sulle linee per condire due quarti, ne' Shift + clic con ingrediente per condire tutta la pizza: la superficie dipende dalla divisione col mattarello.
 
 ## 4. Raccolta e conservazione
 
 Quando si raccoglie la pizza, devono sopravvivere:
-- topping effettivi, quantità e ordine di inserimento se serve per rimuovere l'ultimo;
+- topping effettivi, quantita' e ordine di inserimento se serve per rimuovere l'ultimo;
+- **livello e configurazione di divisione** della pizza, inclusa la possibilita' di avere una meta' divisa e l'altra intera;
 - stadio impasto/cruda/cotta;
 - identità visiva della pizza e seme di distribuzione;
 - dati per nomi, nutrizione e cottura.
