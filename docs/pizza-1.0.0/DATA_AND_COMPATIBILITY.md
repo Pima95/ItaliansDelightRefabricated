@@ -17,12 +17,14 @@ Identificatori iniziali possibili, **non definitivi**:
 Dati da conservare:
 - versione del formato, per eventuali migrazioni;
 - elenco degli ingredienti reali (ID, quantità, eventuali proprietà necessarie);
-- ordine di inserimento, se si consentirà di rimuovere l'ultimo topping;
+- identificativo distinto di ogni applicazione e maschere dei quarti originari/ancora coperti (requisito confermato); ordine di inserimento solo se utile alle interazioni ancora da decidere;
 - stato crudo/cotto o progresso pertinente;
 - `render_seed` e parametri di disposizione che non cambino raccogliendo la pizza;
 - informazioni per calcolare nutrizione, nome e tooltip, evitando stringhe ridondanti già tradotte.
 
-**Invariante:** nessun item o condimento perso durante trasformazione mondo -> item -> forno -> item -> mondo. Il multiplayer deve sincronizzare lo stesso stato su client e server.
+**Decisione aggiornata:** ogni pizza ha **4 quarti logici** e ogni applicazione di topping conserva la provenienza (item/quantita' realmente consumata), i quarti originari e quelli ancora coperti. Il rimborso avviene **una sola volta**, solo quando tutti i quarti dell'applicazione sono stati liberati. Una pizza cruda rotta restituisce impasto e ingredienti ancora associati; una pizza cotta non viene scomposta nei vecchi ingredienti. Specifiche complete: [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+
+**Invariante:** nessun item o condimento perso nel trasferimento **mondo -> pala occupata -> mondo/Pizza Oven -> pala**; la pala conserva direttamente una sola pizza con tutti i dati, senza creare un item pizza separato. Restano da progettare i trasferimenti con crafting/forni vanilla, la gestione di inventari e distruzione della pala. Il multiplayer deve sincronizzare lo stesso stato su client e server.
 
 ## Riconoscimento dei gusti — PRINCIPIO CONFERMATO
 
