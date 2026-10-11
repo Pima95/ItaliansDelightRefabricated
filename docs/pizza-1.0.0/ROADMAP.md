@@ -20,6 +20,7 @@
 - [x] Ingredienti di altre mod supportabili tramite definizioni e tag.
 - [x] Suddivisione **facoltativa con mattarello dopo la stesura**: intera -> due meta' -> divisione di una o entrambe le meta' in quarti, condibili indipendentemente. Clic ingrediente applica alla zona puntata. Linee visibili temporaneamente solo tenendo mattarello o ingrediente valido; nessun cambio permanente ai modelli/texture.
 - [x] Rimozione parziale senza rimborso; rimborso una sola volta dopo la rimozione di tutti i quarti coperti da una specifica applicazione.
+- [x] **Rimozione con Shift + clic destro a mano vuota**: un condimento per clic, partendo dall'ultima applicazione ancora presente nella zona mirata; zona priva di topping = nessun effetto.
 - [x] Recupero ingredienti direttamente nell'inventario, drop solo se pieno; rottura della pizza cruda recupera impasto e ingredienti residui senza duplicazioni, pizza cotta non restituisce ingredienti.
 - [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
 
@@ -30,7 +31,8 @@
 - [x] Texture dedicata del mattarello: item handheld 16×16, sfondo trasparente e pixel opachi; durabilità confermata: **64 usi**, 1 per pizza stesa. **Aspetto da verificare in gioco.**
 - [ ] Limite delle porzioni di topping (proposta: 8 incluse le salse).
 - [ ] Consumi esatti per ingrediente, ripetizioni, più salse, remainder.
-- [ ] Definire il gesto per **rimuovere** topping da una zona. La **selezione in applicazione** e' gia' definita dalla zona puntata e dalle divisioni create col mattarello.
+- [x] Definire il gesto per **rimuovere** topping: Shift + clic destro **a mano vuota** sulla zona puntata, dall'ultima applicazione alla piu' vecchia.
+- [ ] Implementare cronologia persistente delle applicazioni e rimozione per zona senza duplicazioni.
 - [ ] Definire orientamento/hitbox delle divisioni, usura del mattarello per queste azioni ed eventuale gesto Shift + clic col mattarello per riunire le zone senza perdere topping (non ancora confermato).
 - [ ] Pala: definire ricetta, durabilita', tooltip, item occupato/distrutto, gestione inventari e dettagli di interazione col forno (il ruolo di trasporto di una pizza e' gia' confermato).
 - [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
@@ -119,4 +121,4 @@
 
 ## Prossimo tema da concordare
 
-**Quantita' e limiti per applicazione/zona selezionata** (unita' massime, item ripetibili, quantita' consumata, salse), poi gesto preciso di rimozione, geometria dei clic/divisioni con mattarello, insieme dei gusti riconosciuti e dettagli del rendering. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+**Riunione delle divisioni col mattarello**, conservando la distribuzione e le applicazioni originali. Gesto Shift + clic col mattarello e comportamento delle zone gia' condite ancora da approvare. Poi quantita' e limiti per applicazione/zona, geometria dei clic e dettagli del rendering. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
