@@ -11,13 +11,19 @@ La pizza viene condita **cliccando sulla base posizionata nel mondo**. Il risult
 
 Non è prevista una texture completa separata per ogni combinazione possibile.
 
+## Quattro quarti e provenienza dei condimenti — CONFERMATO
+
+La pizza e' suddivisa in **quattro quarti logici**. Ogni applicazione dell'ingrediente conserva quali quarti copriva in origine e quali copre ancora. **Rimuovere il topping su uno solo dei quarti non restituisce l'item finche' tutti i quarti della stessa applicazione non sono stati liberati**. Un'applicazione singola da una mozzarella distribuita su 4 quarti deve restituire 1 mozzarella alla rimozione completa, non 4. Il rimborso entra nell'inventario (drop solo se pieno). La geometria di ogni quarto, la selezione del quarto e le regole di sovrapposizione sono **ancora da definire**.
+
+Per i dettagli di stato, recupero e pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+
 ## Geometria già predisposta (modelli dell'impasto)
 
 I cinque modelli ora realizzano una **base piatta, con scanalatura centrale e bordo rialzato**, senza un secondo strato appoggiato sopra come nel primo prototipo. Alla fine della stesura la superficie interna arriva a Y=1/16 e il bordo a Y=2/16, con **scanalatura profonda esattamente 1/16 di blocco (1 pixel)** e fascia esterna larga 2/16. Il condimento va collocato nella zona centrale (da X/Z=3 a 13) e deve **lasciare visibile il bordo**.
 
 Per geometrie e hitbox dettagliate vedere [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md).
 
-**Prototipo successivo alla modifica dei modelli:** primo topping rappresentato da `italiansdelight:mozzarella`. Clic destro sulla base stesa: si consuma una mozzarella intera, il BlockState salva `mozzarella=true` e il modello multipart disegna cinque pezzi poco rialzati usando la texture mozzarella già esistente. Il loot table restituisce l'ingrediente alla rottura. **Questo non è ancora il sistema definitivo**: quantità, liste di topping e compatibilità con altre mod richiederanno dati persistenti generalizzati.
+**Prototipo successivo alla modifica dei modelli:** primo topping rappresentato da `italiansdelight:mozzarella`. Clic destro sulla base stesa: si consuma una mozzarella intera, il BlockState salva `mozzarella=true` e il modello multipart disegna cinque pezzi poco rialzati usando la texture mozzarella già esistente. Il loot table restituisce l'ingrediente alla rottura. **Questo non è ancora il sistema definitivo**: il booleano e il loot provvisorio non rappresentano quarti, identita' delle applicazioni, rimozione parziale, rimborso per applicazione e trasporto sulla pala. Tutto richiedera' dati persistenti generalizzati.
 
 Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Delight direttamente o una salsa dedicata.
 
