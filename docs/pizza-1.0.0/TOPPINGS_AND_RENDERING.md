@@ -13,7 +13,7 @@ Non è prevista una texture completa separata per ogni combinazione possibile.
 
 ## Divisione facoltativa, coperture e provenienza — CONFERMATO
 
-Una pizza stesa e' inizialmente **intera**: si puo' condire completamente senza dividere nulla. Il mattarello permette di creare **2 meta'**, con orientamento scelto dalla **direzione del giocatore al momento della prima divisione**, e successivamente di suddividere una o entrambe le meta' in quarti, **senza cambiare i modelli/texture della base**. Il topping cliccato viene applicato alla **zona puntata**: intera, meta' o quarto. Le linee di divisione sono un **overlay temporaneo**, visibile solo mentre si tiene il mattarello o un ingrediente valido.
+Una pizza stesa e' inizialmente **intera**: si puo' condire completamente senza dividere nulla. Il mattarello permette di creare **2 meta'**, con orientamento scelto dalla **direzione del giocatore al momento della prima divisione**, e successivamente di suddividere una o entrambe le meta' in quarti, **senza cambiare i modelli/texture della base**. Il topping cliccato viene applicato alla **sola zona logica selezionata dalla posizione effettiva del clic**: intera, meta' o quarto. **Anche un clic esattamente su un confine o sull'incrocio delle linee produce un'unica zona, scelta deterministicamente**; non un'applicazione automatica a due zone. Le linee di divisione sono un **overlay temporaneo**, visibile solo mentre si tiene il mattarello o un ingrediente valido.
 
 Internamente e' possibile mappare tutte le coperture sui quattro quarti logici, pur memorizzando la **configurazione effettiva** della divisione. Ogni applicazione conserva i quarti originari e quelli ancora coperti. **Rimuovere solo una parte dell'applicazione non restituisce l'item**, che viene recuperato una sola volta alla rimozione completa. Esempio: una mozzarella applicata all'intera pizza rappresenta una sola applicazione, anche se dopo la si divide in quarti; eliminarla da quattro quarti non rimborsa quattro mozzarelle.
 
@@ -55,7 +55,7 @@ Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Deligh
 | Foglie/erbe | `leaf_small` | basilico, altre erbe |
 | Altri mod non specifici | `generic_topping` | fallback basato sulla categoria |
 
-**Rendering a livelli proposto**: (1) impasto, (2) salsa, (3) formaggi, (4) salumi/verdure, (5) erbe e dettagli. L'ordine nel rendering non impone l'ordine di aggiunta degli ingredienti.
+**Rendering a livelli proposto**: (1) impasto, (2) salsa, (3) formaggi, (4) salumi/verdure, (5) erbe e dettagli. L'ordine nel rendering non impone l'ordine di aggiunta degli ingredienti. **Le linee di divisione non hanno hitbox proprie**: il renderer deve usare lo stesso orientamento e le stesse zone logiche del selettore di hit, senza usare la vicinanza a una linea per condire automaticamente due parti.
 
 ## Crudo e cotto
 
