@@ -35,7 +35,7 @@ Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozza
 
 **DA DEFINIRE:** consumo di durabilita' del mattarello durante divisioni/riunioni, dettagli di hitbox e precedenza delle interazioni ai confini. Il gesto e la conservazione dei condimenti sono invece **confermati**.
 
-**DA DEFINIRE:** direzione e hitbox della prima divisione e dell'eventuale divisione di una meta'; priorita' del clic al confine; costo in durabilita' delle divisioni e riunioni con mattarello; consumo per ingrediente e limite di applicazioni. **Riunione progressiva e conservazione della distribuzione gia' confermate.**
+**DA DEFINIRE:** direzione e hitbox della prima divisione e dell'eventuale divisione di una meta'; priorita' del clic al confine e costo in durabilita' delle divisioni e riunioni col mattarello. **Confermati:** riunione progressiva e conservazione della distribuzione, un solo item per applicazione riuscita e massimo 6 ingredienti diversi per quarto fisico (salsa inclusa).
 
 **Nota tecnica:** una griglia interna di quattro quarti puo' essere usata per rappresentare le coperture anche quando la pizza e' intera o divisa solo in due, ma il **livello di divisione effettivo** va salvato separatamente. NON mostrare o attivare automaticamente tutti e quattro i quarti.
 
@@ -56,7 +56,7 @@ La stessa tipologia di ingrediente **non puo' essere aggiunta due volte sulla st
 
 **Esempio C:** mozzarella applicata sull'intera pizza prima di dividerla: divide la pizza in quarti ma **non diventa applicabile altra mozzarella su nessuno dei quarti** finche' quella copertura non e' stata rimossa.
 
-**DA DEFINIRE:** se ingredienti equivalenti tramite tag debbano condividere il vincolo anti-duplicato, ed eventuale limite ai diversi tipi di ingredienti. **Salse gia' confermate:** facoltative, al massimo una per sottoarea fisica, anche se di tipo diverso. Un clic con una salsa *diversa* su una zona che contiene anche solo parzialmente una salsa preesistente viene **rifiutato interamente**, senza consumare l'item.
+**DA DEFINIRE:** se ingredienti equivalenti tramite tag debbano condividere il vincolo anti-duplicato. **L'eventuale limite non e' piu' aperto: sono confermati 6 ingredienti diversi per quarto fisico.** **Salse gia' confermate:** facoltative, al massimo una per sottoarea fisica, anche se di tipo diverso. Un clic con una salsa *diversa* su una zona che contiene anche solo parzialmente una salsa preesistente viene **rifiutato interamente**, senza consumare l'item.
 
 ### Distinzione dopo una riunione
 
@@ -81,6 +81,26 @@ Se nella zona riunita convivono piu' **applicazioni distinte dello stesso ingred
 **DA DEFINIRE:** item concreti da utilizzare come salse e dettagli dei contenitori restituiti.
 
 **Stato:** decisioni documentate, **non ancora implementate** nel prototipo attuale.
+
+## Limite di 6 ingredienti diversi per quarto fisico — CONFERMATO (11 ottobre 2026)
+
+- Il limite e' **6 ingredienti diversi per ciascuno dei quattro quarti fisici/logici sottostanti** alla pizza, **non** 6 per l'intera pizza e **non** 6 per ciascuna zona selezionabile con il mattarello.
+- Se e' presente una salsa, **conta come uno dei sei**; senza salsa e' possibile usare sei ingredienti di altre categorie. La salsa resta facoltativa e ne puo' esistere **al massimo una per quarto**.
+- Contano i **tipi di ingredienti effettivamente presenti su ogni quarto**, non il numero globale di applicazioni, le ricette nominate o il numero di frammenti disegnati dal renderer. Lo stesso ingrediente non puo' comunque essere duplicato sulla stessa area.
+- Le divisioni (intera / meta' / quarto) e le successive riunioni col mattarello **non modificano il numero di ingredienti su alcun quarto**, ne' azzerano il limite.
+- **Validazione atomica prima del consumo:** determinare prima la nuova copertura effettiva della singola applicazione (al netto delle parti gia' occupate dallo stesso ingrediente); controllare che **ogni quarto in cui verrebbe aggiunto un ingrediente** resti a massimo sei tipi differenti.
+- Se anche **un solo quarto** della copertura richiesta arriverebbe a **sette**, **rifiutare integralmente** il clic: non condire nemmeno gli altri quarti disponibili, non decrementare lo stack e non creare una nuova applicazione.
+- Se la nuova copertura e' vuota perche' l'ingrediente e' gia' presente ovunque nella zona selezionata, il clic non modifica la pizza e non consuma nulla.
+- Rimuovere un condimento libera un posto **solo nei quarti da cui viene realmente rimosso**. Non si rimborsa l'ingrediente finche' l'intera applicazione originale non e' stata rimossa, come gia' concordato.
+- Il limite vale anche dopo trasporto sulla pala, salvataggio/ricarica, spostamento al forno e preparazione alternativa via crafting: il mezzo di preparazione non deve aggirarlo.
+
+**Esempio A:** un quarto con salsa di pomodoro + mozzarella + speck + funghi + gorgonzola + basilico ha **6 ingredienti**, ed e' pieno. Un tentativo di aggiungere prosciutto su quel quarto viene respinto, senza consumare nulla.
+
+**Esempio B:** due meta' sono state riunite. Un quarto ha gia' 6 ingredienti e un quarto vicino ne ha 4. Un clic che aggiungerebbe un nuovo ingrediente a entrambi viene **respinto integralmente**: non aggiunge il settimo al primo e non aggiunge il quinto al secondo.
+
+**Esempio C:** una salsa su un quarto e' **1 ingrediente**, non un requisito obbligatorio e non un settimo slot separato.
+
+**Nota implementativa:** i quattro quarti sono la griglia di riferimento per il conteggio anche quando l'overlay di divisione e' nascosto o la pizza e' logicamente intera. La validazione lato server deve essere deterministica e impedire duplicazioni nel multiplayer.
 
 ## 2. Applicazione originale e recupero — CONFERMATO
 
@@ -188,7 +208,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 - Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
 - **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. Restano da precisare usura del mattarello, hitbox e casi limite.
-- Limite ai **diversi tipi** di topping, definizione delle equivalenze tra ingredienti e implementazione del **rifiuto integrale** di una salsa diversa sulle zone gia' parzialmente occupate da un'altra salsa. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
+- **Limite gia' confermato di 6 ingredienti diversi per quarto fisico**, salsa inclusa, con rifiuto dell'intera applicazione se anche un solo quarto supererebbe sei. Restano da definire equivalenze tra ingredienti e dettagli implementativi; per una salsa diversa su zona parzialmente occupata e' gia' previsto il rifiuto integrale. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
 - Priorita' e visualizzazione degli ingredienti **diversi** sovrapposti (non delle salse tra loro, che non possono sovrapporsi).
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
 - Modellazione 2.5D per quarto, forme, seme deterministico, rendering da cruda e cotta.
@@ -207,6 +227,8 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] Due clic dello stesso ingrediente sulla stessa zona: il secondo non consuma item e non aggiunge condimento.
 - [ ] Pizza bianca senza alcuna salsa, pizza con salsa su una sola meta' e pizza con salse diverse su meta' differenti sono tutte preparazioni valide.
 - [ ] Impedire che due salse, anche diverse, occupino la stessa parte fisica, anche dopo divisioni e riunioni col mattarello.
+- [ ] Applicazione con massimo sei tipi di ingredienti diversi per quarto (salsa inclusa); un nuovo ingrediente che farebbe arrivare qualsiasi quarto interessato a sette viene respinto integralmente **senza consumo**.
+- [ ] Conteggio e rifiuto invariati dopo divisioni, riunioni, salvataggio, pala e eventuale crafting. Rimozione libera il posto soltanto nella parte effettivamente ripulita.
 - [ ] Tentare pesto sull'intera pizza dopo aver riunito una meta' al pomodoro e una meta' bianca: **rifiutare tutto**, nessuna modifica e nessun consumo. Dopo nuova divisione, consentire di condire la sola meta' bianca.
 - [ ] Dopo la riunione di zone parzialmente coperte, un clic dello stesso ingrediente riempie **solo le sottoaree libere**, consumando un solo item; se non restano sottoaree libere non accade nulla.
 - [ ] La rottura di una pizza cruda recupera impasto e ingredienti residui senza duplicare; quella cotta non restituisce gli ingredienti separati.
