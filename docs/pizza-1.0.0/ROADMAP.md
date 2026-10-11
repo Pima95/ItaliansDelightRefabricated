@@ -26,6 +26,7 @@
 - [x] **Salsa facoltativa**: pizze bianche valide, nessun ingrediente salsa richiesto in generale.
 - [x] **Massimo una salsa per sottoarea fisica**, indipendentemente dal tipo; salse differenti ammesse in porzioni separate, mai sovrapposte.
 - [x] **Rifiuto integrale delle salse differenti sulle zone parzialmente occupate**: se una zona mirata contiene gia' una salsa differente anche solo su una parte, il clic non applica nulla e non consuma item.
+- [x] **Limite di 6 ingredienti diversi per quarto fisico**, salsa inclusa e facoltativa; invariato da divisioni e riunioni. Un tentativo che supererebbe sei in **anche un solo quarto interessato** e' rifiutato integralmente senza consumare item.
 - [x] Recupero ingredienti direttamente nell'inventario, drop solo se pieno; rottura della pizza cruda recupera impasto e ingredienti residui senza duplicazioni, pizza cotta non restituisce ingredienti.
 - [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
 
@@ -34,7 +35,7 @@
 - [ ] Bilanciamento definitivo della stesura (attualmente 4 clic a mano, 1 col mattarello).
 - [x] Ricetta del mattarello: 2 bastoni + 1 asse di qualsiasi legno (`#minecraft:planks`), con sblocco nel libro delle ricette (**test in gioco necessario**).
 - [x] Texture dedicata del mattarello: item handheld 16×16, sfondo trasparente e pixel opachi; durabilità confermata: **64 usi**, 1 per pizza stesa. **Aspetto da verificare in gioco.**
-- [ ] Eventuale limite totale ai **diversi tipi** di topping (precedente proposta: 8 porzioni, **non confermata**), compatibile con il vincolo anti-duplicato per sottoarea.
+- [x] **Definito il limite:** massimo 6 ingredienti diversi per quarto fisico (salsa inclusa), sostituisce la vecchia proposta non approvata di 8 porzioni.
 - [ ] Definire ingredienti equivalenti, remainder e ulteriori bilanciamenti; il comportamento delle **salse differenti sulle zone parzialmente condite e' gia' confermato** (rifiuto dell'intera applicazione). La coesistenza di salse diverse sulla **stessa sottoarea e' vietata**, su sottoaree distinte e' consentita. Per uno stesso ingrediente e' confermato **1 item per nuova applicazione effettiva a zone libere**, e nessun item per clic duplicato.
 - [x] Definire il gesto per **rimuovere** topping: Shift + clic destro **a mano vuota** sulla zona puntata, dall'ultima applicazione alla piu' vecchia.
 - [ ] Implementare cronologia persistente delle applicazioni e rimozione per zona senza duplicazioni.
@@ -76,7 +77,7 @@
 - [ ] Definizioni ingredienti via codice/datapack.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
 - [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), salvandone la configurazione e preservando posizioni e storici dei topping; evidenziare le linee solo con mattarello o ingrediente valido.
-- [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali dei topping alle sole zone ancora libere, **il blocco totale delle salse differenti se una qualsiasi parte della zona mirata contiene gia' un'altra salsa** e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
+- [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali dei topping alle sole zone ancora libere, **il blocco totale delle salse differenti se una qualsiasi parte della zona mirata contiene gia' un'altra salsa**, la **validazione atomica del massimo di 6 tipi per quarto fisico (salsa inclusa)** e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
 - [ ] Recupero diretto nell'inventario (drop solo con spazio insufficiente); rottura pizza cruda/cotta secondo specifica.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno.
 - [ ] Gestire gli eventuali remainder dei contenitori senza duplicazioni.
@@ -126,4 +127,4 @@
 
 ## Prossimo tema da concordare
 
-**Limiti ai diversi tipi di topping**, ingredienti equivalenti e costi in durabilita' di divisioni/riunioni col mattarello. Il rifiuto delle salse differenti su zone anche solo parzialmente occupate e' confermato. Il divieto di ripetere lo stesso ingrediente sulla stessa sottoarea e' gia' confermato. La riunione con Shift + clic destro col mattarello e la conservazione dei topping sono gia' **confermate**. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+**Costi in durabilita' di divisioni/riunioni col mattarello** e identificazione di ingredienti equivalenti. Il limite di **6 ingredienti diversi per quarto** e' gia' confermato. Il rifiuto delle salse differenti su zone anche solo parzialmente occupate e' confermato. Il divieto di ripetere lo stesso ingrediente sulla stessa sottoarea e' gia' confermato. La riunione con Shift + clic destro col mattarello e la conservazione dei topping sono gia' **confermate**. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
