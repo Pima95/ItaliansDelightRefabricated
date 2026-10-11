@@ -22,6 +22,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 10. **Non esiste il rischio di bruciare la pizza**, in nessun forno.
 11. Il rendering è **2.5D**: **salse piatte** e **condimenti leggermente in rilievo**.
 12. Il sistema deve poter estendere i condimenti alle **altre mod**, tramite tag e definizioni compatibili.
+12a. La **salsa e' facoltativa**: le pizze bianche sono valide. Ogni sottoarea puo' contenere **al massimo una salsa di qualsiasi tipo**; salse diverse possono condire porzioni diverse, senza sovrapposizioni.
 13. La pizza parte **intera**; dopo la stesura il **mattarello** permette facoltativamente di dividerla in **due meta'**, poi di suddividere una o entrambe le meta' per ottenere fino a **quattro quarti**. Gli ingredienti si applicano alla zona puntata, secondo il livello di divisione. Le linee sono visibili solo mentre si tiene il mattarello o un ingrediente valido, senza modifiche ai modelli/texture.
 14. La rimozione parziale non restituisce gli ingredienti: ogni applicazione originale e' rimborsata **una sola volta** solo dopo la rimozione da tutti i quarti da essa coperti. Recupero in inventario, drop soltanto se pieno; rompendo la pizza cruda si restituiscono impasto e ingredienti ancora associati, senza moltiplicazioni. La pizza cotta non si scompone nei vecchi ingredienti.
 15. La **pala per pizza** trasporta direttamente **una sola pizza alla volta**, conservando ingredienti, quarti, stadio e dati visivi. Non serve per condire o rimuovere topping.
@@ -29,7 +30,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 ## PROPOSTE non ancora confermate
 
 - Bilanciamento della stesura ancora provvisorio (attualmente 4 clic a mano, 1 col mattarello); il mattarello esistente ha 64 punti di durabilita' e perde 1 punto per stesura riuscita. Usura per le successive divisioni da decidere.
-- Limite iniziale di **8 porzioni di condimento** (comprese le salse), anche ripetendo ingredienti.
+- Eventuale limite totale ai differenti condimenti: **8 era solo una proposta**. **Non sono ammesse ripetizioni dello stesso ingrediente sulla stessa parte**.
 - Geometria precisa delle divisioni con mattarello e gesto di rimozione del condimento (Shift + clic col mattarello per riunire le zone e' una possibilita' discussa, non ancora finalizzata).
 - Ricetta, durabilita' e comportamento della pala se occupata viene distrutta; asset della vecchia Italian's Delight fornito dall'autore, da recuperare e verificare.
 - Pizza Oven senza GUI obbligatoria, con alimentazione/estrazione via hopper.
