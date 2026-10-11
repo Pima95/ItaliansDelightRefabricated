@@ -49,7 +49,7 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 | Shift + clic destro **a mano vuota** sulla zona condita | **CONFERMATO:** rimuove un solo condimento, dall'ultima applicazione ancora presente in quella zona; il rimborso scatta soltanto quando l'intera applicazione originale e' stata rimossa da tutte le zone coperte |
 | Shift + clic destro **a mano vuota** sulla zona senza condimenti | **CONFERMATO:** nessun effetto |
 | Clic destro con pala per pizza libera | **Confermato:** raccoglie direttamente una pizza con tutti i dati; massimo una pizza per pala |
-| Clic destro con pala occupata su superficie valida | **Confermato:** riposiziona la pizza, preservandone la composizione |
+| Clic destro con pala occupata su superficie valida | **Confermato:** riposiziona la pizza, preservandone la composizione e senza consumare durabilita' |
 | Rottura della pizza o del blocco di supporto | Recupero dell'oggetto con dati completi, senza duplicazioni |
 
 **Orientamento della prima divisione confermato:** dipende dalla direzione in cui guarda il giocatore nell'istante del clic col mattarello. Una volta creata, la divisione e' memorizzata e non ruota con i movimenti del giocatore, ne' sposta i condimenti. **CONFERMATO:** la linea e' **parallela alla direzione cardinale piu' vicina allo sguardo orizzontale**, separa sinistra/destra anziche' vicino/lontano, e usa un **orientamento a scatti N/S/E/O**, senza rotazione libera in diagonale. **CONFERMATO:** la posizione effettiva del clic seleziona **una sola zona logica**, anche se il punto e' esattamente su una linea o all'incrocio; in questi casi il risultato deve essere deterministico. Rimangono da precisare l'ordine esatto della priorita' tecnica sui confini e lo spareggio dei cardinali per angoli perfettamente intermedi.
@@ -65,7 +65,9 @@ Quando si raccoglie la pizza, devono sopravvivere:
 - identità visiva della pizza e seme di distribuzione;
 - dati per nomi, nutrizione e cottura.
 
-**Pala confermata:** trasporta direttamente una pizza per volta, con composizione, quarti, stato e dati visivi; non richiede un secondo item pizza nell'inventario. La pala non e' obbligatoria per aggiungere o rimuovere condimenti. L'inserimento/estrazione con pala nel Pizza Oven e' previsto ma ancora da implementare. Se raccolta e riposizionata, la pizza deve tornare con la **stessa composizione**; la rottura del supporto non puo' creare piu' item.
+**Pala confermata:** trasporta direttamente una pizza per volta, con composizione, quarti, stato e dati visivi; non richiede un secondo item pizza nell'inventario. E' uno **strumento riutilizzabile senza durabilita'**: raccogliere e riposizionare pizze non lo usura. La pala non e' obbligatoria per aggiungere o rimuovere condimenti. L'inserimento/estrazione con pala nel Pizza Oven e' previsto ma ancora da implementare. Se raccolta e riposizionata, la pizza deve tornare con la **stessa composizione**; la rottura del supporto non puo' creare piu' item.
+
+**Uso futuro come arma (pianificato, non ancora progettato nei dettagli):** l'autore vuole usare anche la pala in combattimento, prendendo come riferimento la padella di Farmer's Delight Refabricated. Non sono ancora fissati danni, velocita', effetti e interazioni con la pala occupata. Il trasporto di una pizza e l'assenza di durabilita' sono invece confermati.
 
 **Rottura della pizza:** se cruda, recuperare impasto e applicazioni di ingredienti ancora associate senza duplicazioni; se cotta, non restituire gli ingredienti separati. Dettagli e test in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
