@@ -19,6 +19,8 @@ Internamente e' possibile mappare tutte le coperture sui quattro quarti logici, 
 
 **Riunione confermata:** Shift + clic destro col mattarello riunisce prima i due quarti della stessa meta' e infine le due meta' intere. Le coperture e le posizioni visive dei topping gia' applicati **non cambiano** quando l'overlay viene unificato, e non si restituiscono ingredienti. Dopo la riunione i topping aggiunti successivamente coprono la nuova zona logica; il renderer deve conservare le posizioni degli ingredienti preesistenti.
 
+**Nessun topping duplicato nella stessa sottoarea — CONFERMATO:** piu' applicazioni di uno stesso ingrediente sono ammesse **solo quando coprono aree fisiche differenti**. In una zona parzialmente gia' condita, un clic aggiunge l'ingrediente alle sole sottoaree libere, consumando un item; un clic interamente duplicato non consuma nulla. Dopo una riunione la copertura preesistente resta al suo posto. Le applicazioni originali mantengono identita' e cronologia per rimuoverle e rimborsarle senza duplicazioni.
+
 Per il modello di stato, recupero e pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
 ## Geometria già predisposta (modelli dell'impasto)
@@ -61,8 +63,8 @@ Queste variazioni cromatiche sono idee estetiche, non specifiche asset già appr
 
 ## Quantità e limiti (PROPOSTE)
 
-- Massimo iniziale di **8 porzioni**, incluse le salse.
-- Ripetizioni per lo stesso ingrediente per creare versioni più condite.
+- Limite numerico complessivo **ancora da decidere** (era stata proposta una soglia di 8 porzioni, NON approvata); la duplicazione dello stesso ingrediente sulla stessa sottoarea resta sempre vietata.
+- **Vietate le ripetizioni dello stesso ingrediente nella stessa sottoarea.** Lo stesso ingrediente puo' essere applicato su aree diverse non coperte; non sono previsti strati multipli dello stesso item nello stesso punto.
 - Quantità **logica** (porzioni realmente consumate) separata dalla densità **visiva** (quanti elementi disegnare).
 - Distribuire pochi frammenti per 1 porzione, aumentarli con 2–3, fissare densità massima con molte porzioni per salvare la leggibilità.
 - Non utilizzare un'unica enorme texture di salame/formaggio per rappresentare una porzione.
