@@ -17,6 +17,8 @@ Una pizza stesa e' inizialmente **intera**: si puo' condire completamente senza 
 
 Internamente e' possibile mappare tutte le coperture sui quattro quarti logici, pur memorizzando la **configurazione effettiva** della divisione. Ogni applicazione conserva i quarti originari e quelli ancora coperti. **Rimuovere solo una parte dell'applicazione non restituisce l'item**, che viene recuperato una sola volta alla rimozione completa. Esempio: una mozzarella applicata all'intera pizza rappresenta una sola applicazione, anche se dopo la si divide in quarti; eliminarla da quattro quarti non rimborsa quattro mozzarelle.
 
+**Riunione confermata:** Shift + clic destro col mattarello riunisce prima i due quarti della stessa meta' e infine le due meta' intere. Le coperture e le posizioni visive dei topping gia' applicati **non cambiano** quando l'overlay viene unificato, e non si restituiscono ingredienti. Dopo la riunione i topping aggiunti successivamente coprono la nuova zona logica; il renderer deve conservare le posizioni degli ingredienti preesistenti.
+
 Per il modello di stato, recupero e pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
 ## Geometria già predisposta (modelli dell'impasto)
