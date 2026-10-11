@@ -8,6 +8,8 @@ Le ricette riconosciute non devono impedire la creatività:
 - combinazione che corrisponde a una definizione -> **nome ufficiale**;
 - combinazione non registrata -> **nome dinamico con i condimenti**;
 - ordine di inserimento degli ingredienti **irrilevante** per il nome;
+- **nessuna salsa obbligatoria** per preparare una pizza (anche bianca); la salsa puo' invece essere **richiesta da una specifica ricetta riconosciuta**;
+- **una sola salsa per sottoarea fisica**, pur ammettendo salse diverse in parti distinte;
 - ingrediente aggiunto oltre alla ricetta riconosciuta -> di norma **personalizzata**, salvo una definizione più specifica.
 
 Esempi illustrativi:
