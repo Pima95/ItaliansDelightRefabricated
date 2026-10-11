@@ -22,6 +22,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 10. **Non esiste il rischio di bruciare la pizza**, in nessun forno.
 11. Il rendering è **2.5D**: **salse piatte** e **condimenti leggermente in rilievo**.
 12. Il sistema deve poter estendere i condimenti alle **altre mod**, tramite tag e definizioni compatibili.
+12b. Item di mod diverse **riconosciuti esplicitamente come equivalenti** sono lo stesso ingrediente nella pizza: niente doppia applicazione sul medesimo quarto, **un solo tipo nel limite di 6**, rimborso sempre dell'item originale realmente consumato. Non basta appartenere a una categoria generica come 'formaggi'.
 12a. La **salsa e' facoltativa**: le pizze bianche sono valide. Ogni sottoarea puo' contenere **al massimo una salsa di qualsiasi tipo**; salse diverse possono condire porzioni diverse, senza sovrapposizioni.
 13. La pizza parte **intera**; dopo la stesura il **mattarello** permette facoltativamente di dividerla in **due meta'**, poi di suddividere una o entrambe le meta' per ottenere fino a **quattro quarti**. Gli ingredienti si applicano alla zona puntata, secondo il livello di divisione. Le linee sono visibili solo mentre si tiene il mattarello o un ingrediente valido, senza modifiche ai modelli/texture.
 14. La rimozione parziale non restituisce gli ingredienti: ogni applicazione originale e' rimborsata **una sola volta** solo dopo la rimozione da tutti i quarti da essa coperti. Recupero in inventario, drop soltanto se pieno; rompendo la pizza cruda si restituiscono impasto e ingredienti ancora associati, senza moltiplicazioni. La pizza cotta non si scompone nei vecchi ingredienti.
@@ -32,7 +33,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 ## PROPOSTE non ancora confermate
 
 - Bilanciamento dei clic della stesura ancora provvisorio (attualmente 4 clic a mano, 1 col mattarello). **Il mattarello ha 64 punti di durabilita': 1 punto per stesura completata, 0 per dividere o riunire zone** (regola confermata).
-- Eventuali regole aggiuntive sugli ingredienti equivalenti di altre mod e sulla loro categorizzazione. **Il limite a 6 per quarto e il divieto di ripetere lo stesso ingrediente nella stessa parte sono confermati.**
+- Formato esatto dei dati e **mappature iniziali** per gli ingredienti equivalenti tra mod da definire; **la regola di equivalenza ai fini dei doppioni e del limite a 6 e' confermata**.
 - Geometria precisa e hitbox delle divisioni; **la riunione con Shift + clic destro col mattarello e' confermata**, cosi' come la rimozione di un topping con Shift + clic destro a mano vuota.
 - Ricetta, durabilita' e comportamento della pala se occupata viene distrutta; asset della vecchia Italian's Delight fornito dall'autore, da recuperare e verificare.
 - Pizza Oven senza GUI obbligatoria, con alimentazione/estrazione via hopper.
