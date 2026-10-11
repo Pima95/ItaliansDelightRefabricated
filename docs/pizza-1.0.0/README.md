@@ -27,12 +27,13 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 14. La rimozione parziale non restituisce gli ingredienti: ogni applicazione originale e' rimborsata **una sola volta** solo dopo la rimozione da tutti i quarti da essa coperti. Recupero in inventario, drop soltanto se pieno; rompendo la pizza cruda si restituiscono impasto e ingredienti ancora associati, senza moltiplicazioni. La pizza cotta non si scompone nei vecchi ingredienti.
 15. La **pala per pizza** trasporta direttamente **una sola pizza alla volta**, conservando ingredienti, quarti, stadio e dati visivi. Non serve per condire o rimuovere topping.
 16. **Limite definitivo: massimo 6 ingredienti diversi per quarto fisico, salsa facoltativa inclusa**. Se un'aggiunta farebbe superare il limite anche in un solo quarto della zona puntata, l'intero tentativo fallisce senza consumi. Divisioni e riunioni col mattarello non azzerano il conteggio.
+17. **Durabilita' del mattarello:** 1 punto per stesura completa, **nessun consumo** per dividere o riunire zone.
 
 ## PROPOSTE non ancora confermate
 
-- Bilanciamento della stesura ancora provvisorio (attualmente 4 clic a mano, 1 col mattarello); il mattarello esistente ha 64 punti di durabilita' e perde 1 punto per stesura riuscita. Usura per le successive divisioni da decidere.
+- Bilanciamento dei clic della stesura ancora provvisorio (attualmente 4 clic a mano, 1 col mattarello). **Il mattarello ha 64 punti di durabilita': 1 punto per stesura completata, 0 per dividere o riunire zone** (regola confermata).
 - Eventuali regole aggiuntive sugli ingredienti equivalenti di altre mod e sulla loro categorizzazione. **Il limite a 6 per quarto e il divieto di ripetere lo stesso ingrediente nella stessa parte sono confermati.**
-- Geometria precisa delle divisioni con mattarello e gesto di rimozione del condimento (Shift + clic col mattarello per riunire le zone e' una possibilita' discussa, non ancora finalizzata).
+- Geometria precisa e hitbox delle divisioni; **la riunione con Shift + clic destro col mattarello e' confermata**, cosi' come la rimozione di un topping con Shift + clic destro a mano vuota.
 - Ricetta, durabilita' e comportamento della pala se occupata viene distrutta; asset della vecchia Italian's Delight fornito dall'autore, da recuperare e verificare.
 - Pizza Oven senza GUI obbligatoria, con alimentazione/estrazione via hopper.
 - Tempi indicativi: **20 s** Pizza Oven, **30 s** affumicatore, **60 s** fornace.
