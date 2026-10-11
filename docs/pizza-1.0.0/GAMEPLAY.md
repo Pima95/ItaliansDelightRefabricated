@@ -27,7 +27,7 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 
 **Primo prototipo funzionale, da testare:** su `stage=4`, un clic destro con **una mozzarella intera** della mod (`italiansdelight:mozzarella`) consuma 1 item in Sopravvivenza, imposta `mozzarella=true` sul BlockState e disegna cinque piccoli pezzi nella conca senza coprire il bordo. Non accetta una seconda mozzarella: è solo un test di interazione/rendering, non il futuro sistema di dosi e topping multipli. In Creativa non consuma l'item. Alla rottura del blocco il loot table restituisce anche la mozzarella, evitando di perderla. I modelli riutilizzano la texture mozzarella già presente, senza modificare PNG.
 
-**Questioni aperte:** eventuale limite complessivo ai diversi topping (8 era una proposta, non approvata); categorie ingredienti registrate; gestione dei contenitori restituiti; comportamento del clic con una salsa diversa su una zona parzialmente occupata da altre salse. **Confermato:** stessa tipologia di ingrediente mai ripetuta sulla stessa porzione; salsa non obbligatoria e massimo una salsa per sottoarea.
+**Questioni aperte:** eventuale limite complessivo ai diversi topping (8 era una proposta, non approvata); categorie ingredienti registrate; gestione dei contenitori restituiti. **Confermato:** se la zona cliccata contiene anche parzialmente una salsa differente, l'intera applicazione viene rifiutata senza consumi, anche nelle parti libere; dividere la pizza con il mattarello permette di mirare alla sola zona senza salsa. **Confermato:** stessa tipologia di ingrediente mai ripetuta sulla stessa porzione; salsa non obbligatoria e massimo una salsa per sottoarea.
 
 ### Tabella interazioni ipotizzata
 
@@ -43,6 +43,7 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 | Shift + clic destro col mattarello quando le due meta' sono intere | **CONFERMATO:** riunisce le meta' in una pizza intera, conservando il posizionamento dei topping |
 | Clic destro con topping valido sulla base | Aggiunge il topping **solo alle parti non gia' coperte dallo stesso ingrediente** nella zona logica puntata (intera, meta' o quarto); consuma 1 item per clic riuscito |
 | Clic con ingrediente gia' presente su tutta la zona | **CONFERMATO:** non modifica nulla e non consuma item |
+| Clic con salsa diversa su una zona che contiene gia' un'altra salsa anche soltanto in parte | **CONFERMATO:** rifiuta **l'intera applicazione**, anche sulle parti vuote; nessun item consumato o salsa sostituita |
 | Shift + clic destro **a mano vuota** sulla zona condita | **CONFERMATO:** rimuove un solo condimento, dall'ultima applicazione ancora presente in quella zona; il rimborso scatta soltanto quando l'intera applicazione originale e' stata rimossa da tutte le zone coperte |
 | Shift + clic destro **a mano vuota** sulla zona senza condimenti | **CONFERMATO:** nessun effetto |
 | Clic destro con pala per pizza libera | **Confermato:** raccoglie direttamente una pizza con tutti i dati; massimo una pizza per pala |
