@@ -33,9 +33,9 @@ Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozza
 
 **Esempio:** si mette mozzarella su un solo quarto, poi con Shift + clic col mattarello si riuniscono prima i quarti della stessa meta', poi entrambe le meta'. La mozzarella rimane visibile **soltanto nel quarto originario**, anche se la pizza ora e' logicamente intera; un condimento aggiunto dopo si distribuisce sull'intera pizza.
 
-**DA DEFINIRE:** consumo di durabilita' del mattarello durante divisioni/riunioni, dettagli di hitbox e precedenza delle interazioni ai confini. Il gesto e la conservazione dei condimenti sono invece **confermati**.
+**Durabilita' — CONFERMATO:** dividere o riunire le zone di una pizza **non consuma alcun punto di durabilita' del mattarello**. Rimane invariato il consumo di **1 punto soltanto quando si completa effettivamente la stesura** di un impasto (attualmente 64 punti totali); nessun consumo per tentativi senza effetto e in Creativa. **DA DEFINIRE:** dettagli di hitbox e precedenza delle interazioni ai confini.
 
-**DA DEFINIRE:** direzione e hitbox della prima divisione e dell'eventuale divisione di una meta'; priorita' del clic al confine e costo in durabilita' delle divisioni e riunioni col mattarello. **Confermati:** riunione progressiva e conservazione della distribuzione, un solo item per applicazione riuscita e massimo 6 ingredienti diversi per quarto fisico (salsa inclusa).
+**DA DEFINIRE:** direzione e hitbox della prima divisione e dell'eventuale divisione di una meta' e priorita' del clic al confine. **Durabilita' confermata:** zero per divisioni/riunioni, uno per completare la stesura. **Confermati:** riunione progressiva e conservazione della distribuzione, un solo item per applicazione riuscita e massimo 6 ingredienti diversi per quarto fisico (salsa inclusa).
 
 **Nota tecnica:** una griglia interna di quattro quarti puo' essere usata per rappresentare le coperture anche quando la pizza e' intera o divisa solo in due, ma il **livello di divisione effettivo** va salvato separatamente. NON mostrare o attivare automaticamente tutti e quattro i quarti.
 
@@ -207,7 +207,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 ## 5. Questioni ancora aperte
 
 - Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
-- **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. Restano da precisare usura del mattarello, hitbox e casi limite.
+- **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. **Divisioni e riunioni non consumano durabilita'**; restano da precisare hitbox e casi limite.
 - **Limite gia' confermato di 6 ingredienti diversi per quarto fisico**, salsa inclusa, con rifiuto dell'intera applicazione se anche un solo quarto supererebbe sei. Restano da definire equivalenze tra ingredienti e dettagli implementativi; per una salsa diversa su zona parzialmente occupata e' gia' previsto il rifiuto integrale. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
 - Priorita' e visualizzazione degli ingredienti **diversi** sovrapposti (non delle salse tra loro, che non possono sovrapporsi).
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
@@ -221,6 +221,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] Senza divisioni: il topping cliccato si applica all'intera pizza; dopo un passaggio col mattarello si applica alla meta' puntata; un ulteriore passaggio su quella meta' crea due quarti condibili singolarmente.
 - [ ] Le divisioni sono mostrate solo mentre e' in mano il mattarello o un ingrediente valido, senza variazioni permanenti ai modelli/texture.
 - [ ] Shift + clic destro col mattarello riunisce prima due quarti della stessa meta' e poi due meta' intere, senza cancellare o redistribuire topping, senza restituzioni automatiche.
+- [ ] Una stesura completata con mattarello consuma **1 durabilita'** (in Sopravvivenza); divisioni e riunioni riuscite consumano **0**. Nessuna usura per interazioni prive di effetto o in Creativa.
 - [ ] Shift + clic destro a mano vuota sulla zona selezionata rimuove una applicazione alla volta partendo dalla piu' recente presente su quella zona; se vuota non produce effetti.
 - [ ] Una mozzarella originariamente applicata a tutti i 4 quarti logici costa 1 item; toglierla da 3 quarti non rimborsa; togliere l'ultimo rimborsa 1.
 - [ ] Quattro applicazioni distinte non si fondono in una e non producono rimborsi errati.
