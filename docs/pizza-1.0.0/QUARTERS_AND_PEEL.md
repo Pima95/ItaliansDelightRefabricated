@@ -186,6 +186,7 @@ La **pala per pizza** e' lo strumento per trasferire una pizza **intera**. E' gi
 - L'uso della pala **non e' obbligatorio per applicare o rimuovere** i condimenti: queste interazioni avvengono direttamente sulla pizza nel mondo.
 - La pala e' destinata anche a **inserimento ed estrazione** della pizza nel futuro Pizza Oven. L'integrazione del forno deve essere implementata e verificata quando il forno esistera'.
 - **Durabilita' — CONFERMATO:** la pala e' uno **strumento riutilizzabile senza durabilita'**. Raccogliere, posizionare o trasferire una pizza, anche ripetutamente, non consuma la pala ne' ne modifica la capacita' di trasportare **una pizza alla volta**.
+- **Non impilabile — CONFERMATO:** la pala ha **dimensione massima dello stack pari a 1**, sia **VUOTA** sia **OCCUPATA**. Ogni pala richiede un proprio slot di inventario; due pale identiche, anche vuote, non si uniscono mai in uno stack. Lo stato vuoto/occupato non cambia questa regola.
 
 ### Dati conservati durante il trasporto — CONFERMATO
 
@@ -196,7 +197,7 @@ L'intero stato della preparazione deve viaggiare **dentro i dati persistenti del
 - disposizione visiva, inclusi eventuali semi e parametri di rendering;
 - proprieta' necessarie per determinare il gusto e preservare la cottura.
 
-Il trasferimento **mondo -> pala -> mondo/forno -> pala** dev'essere atomico dal punto di vista logico: mai due pizze create dalla stessa raccolta e mai cancellazione della fonte prima che lo stato sia trasferito in sicurezza. Il salvataggio del mondo, il chunk unload e il multiplayer devono mantenere uno stato coerente.
+Il trasferimento **mondo -> pala -> mondo/forno -> pala** dev'essere atomico dal punto di vista logico: mai due pizze create dalla stessa raccolta e mai cancellazione della fonte prima che lo stato sia trasferito in sicurezza. Il salvataggio del mondo, il chunk unload e il multiplayer devono mantenere uno stato coerente. **La pala non e' mai impilabile**: le informazioni di contenuto restano associate a singoli ItemStack di dimensione 1, anche quando entrambi gli oggetti sono vuoti.
 
 ### Uso futuro anche come arma — SOLO A PALA VUOTA (CONFERMATO)
 
@@ -210,7 +211,7 @@ L'autore vuole rendere **anche la pala un'arma**, prendendo come riferimento il 
 - **DA DEFINIRE in fase di combattimento:** danni, velocita' d'attacco, eventuali effetti/animazioni/suoni **solo quando la pala e' vuota**; dettagli di interazione con i normali attacchi base quando e' occupata. **Gia' definito:** con una pizza caricata non si attivano mai le capacita' speciali da arma. Non copiare parametri della padella senza prima verificarne la versione effettiva e concordare il bilanciamento.
 - Non modificare ne' sostituire l'**asset gia' disponibile** della pala dalla vecchia Italian's Delight: recuperarlo e valutarne il riutilizzo prima di creare ulteriori risorse.
 
-**CONFERMATO:** la pala e' **riutilizzabile senza durabilita'** e in futuro dovra' poter fungere anche da **arma ispirata alla padella di Farmer's Delight Refabricated, ma esclusivamente quando e' vuota**. Se contiene una pizza, le capacita' speciali da arma sono disattivate e i dati della pizza devono rimanere intatti. **DA DEFINIRE:** ricetta, tooltip, stackability, resa grafica quando occupata, comportamento se droppata/distrutta/spostata in contenitori, precedenze d'uso col forno, pizze cotte e superfici compatibili. Le statistiche e interazioni da arma sono ancora aperte e non vanno implementate senza definizione.
+**CONFERMATO:** la pala e' **riutilizzabile senza durabilita'** e in futuro dovra' poter fungere anche da **arma ispirata alla padella di Farmer's Delight Refabricated, ma esclusivamente quando e' vuota**. Se contiene una pizza, le capacita' speciali da arma sono disattivate e i dati della pizza devono rimanere intatti. **CONFERMATO:** stack massimo 1, sia a pala vuota sia occupata. **DA DEFINIRE:** ricetta, tooltip, resa grafica quando occupata, comportamento se droppata/distrutta/spostata in contenitori, precedenze d'uso col forno, pizze cotte e superfici compatibili. Le statistiche e interazioni da arma sono ancora aperte e non vanno implementate senza definizione.
 
 ## 4. Vincoli tecnici di progetto (da implementare)
 
@@ -282,6 +283,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] Recupero nel normale inventario; drop solo in mancanza di spazio.
 - [ ] La pala trasporta esattamente una pizza con tutti i dati e rifiuta una seconda.
 - [ ] La pala **non ha durabilita'**: raccolte, depositi e trasferimenti ripetuti non causano usura o rottura dell'oggetto.
+- [ ] **Stack massimo 1** in entrambi gli stati; pale vuote uguali non si impilano, pale occupate non si uniscono tra loro ne' a pale vuote, nemmeno trasferendole tra inventari e contenitori. Le pizze devono mantenere dati separati senza duplicazioni.
 - [ ] In una fase successiva, progettare la pala come **arma ispirata alla padella di Farmer's Delight Refabricated solo quando e' VUOTA**; la versione OCCUPATA non ha bonus ne' effetti speciali da arma e deve conservare integralmente la pizza. Danni, animazioni e dettagli di combattimento restano da definire.
 - [ ] Test: pala vuota con caratteristiche da arma attive; caricare una pizza e verificare che le caratteristiche speciali siano disattivate; depositare la pizza e verificare che tornino attive, senza perdita o duplicazione dei dati.
 - [ ] Raccolta e riposizionamento mantengono quarti, stadio e resa visiva dopo salvataggio/ricarica.
