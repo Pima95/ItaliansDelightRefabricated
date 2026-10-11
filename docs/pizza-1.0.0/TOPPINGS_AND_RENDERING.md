@@ -67,12 +67,17 @@ Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Deligh
 
 Queste variazioni cromatiche sono idee estetiche, non specifiche asset già approvate.
 
-## Quantità e limiti (PROPOSTE)
+## Quantità e limiti
 
-- Limite numerico complessivo **ancora da decidere** (era stata proposta una soglia di 8 porzioni, NON approvata); la duplicazione dello stesso ingrediente sulla stessa sottoarea resta sempre vietata.
+**CONFERMATO:** **massimo 6 ingredienti diversi per ciascun quarto fisico**, compresa l'eventuale salsa. Non e' un limite di 6 per pizza intera o per meta'; la griglia sottostante dei quattro quarti governa anche zone riunite e pizza indivisa.
+
+- Se un ingrediente aggiunto porterebbe **almeno un quarto** a 7 tipi diversi, l'**intera applicazione** e' rifiutata senza consumo, anche se gli altri quarti hanno posti liberi.
+- Il limite resta valido dopo divisioni e riunioni col mattarello, senza alterare le coperture di topping gia' presenti.
+- Esempio di quarto pieno: pomodoro, mozzarella, gorgonzola, speck, funghi, basilico = 6 ingredienti; un altro tipo non puo' essere aggiunto.
+- La duplicazione dello stesso ingrediente sulla stessa sottoarea rimane vietata; la salsa e' facoltativa e occupa uno dei sei posti, non uno slot extra.
 - **Vietate le ripetizioni dello stesso ingrediente nella stessa sottoarea.** Lo stesso ingrediente puo' essere applicato su aree diverse non coperte; non sono previsti strati multipli dello stesso item nello stesso punto.
 - Quantità **logica** (porzioni realmente consumate) separata dalla densità **visiva** (quanti elementi disegnare).
-- Distribuire pochi frammenti per 1 porzione, aumentarli con 2–3, fissare densità massima con molte porzioni per salvare la leggibilità.
+- **PROPOSTA GRAFICA:** distribuire pochi frammenti per ingrediente e limitare la densita' massima delle geometrie, cosi' che anche sei ingredienti distinti restino leggibili senza coprire il bordo.
 - Non utilizzare un'unica enorme texture di salame/formaggio per rappresentare una porzione.
 
 ## Posizioni stabili — PROPOSTA TECNICA
