@@ -17,7 +17,7 @@ La **palla d'impasto** va appoggiata con clic destro direttamente sopra un blocc
 
 **Test riuscito confermato dall'autore:** stesura manuale e con mattarello dopo la correzione dell'interazione. **Da provare ora:** crafting con assi di quercia, abete, bambù, cremisi e deformate; verificare il risultato singolo, il libro delle ricette e l'assenza di variazioni nelle meccaniche di stesura.
 
-**Test di regressione richiesti:** clic destro con mano principale vuota (anche con oggetto nella mano secondaria), mattarello sulla palla e su impasto parzialmente steso, perdita di 1 durabilità, nessuna perdita sulla base completa, rottura dopo 64 stesure, Creative vs Survival e salvataggio progressi.
+**Test di regressione richiesti:** clic destro con mano principale vuota (anche con oggetto nella mano secondaria), mattarello sulla palla e su impasto parzialmente steso, perdita di 1 durabilita' **solo quando completa una stesura**, nessuna perdita per divisioni o riunioni sulla base stesa, nessuna perdita per tentativi senza effetto, rottura dopo 64 stesure riuscite, Creative vs Survival e salvataggio progressi.
 
 ## 3. Condimento con clic destro — CONFERMATO
 
@@ -36,11 +36,11 @@ Il giocatore tiene l'ingrediente in mano e usa clic destro sulla pizza stesa. Se
 | Clic destro con palla d'impasto su blocco | Colloca impasto per la preparazione |
 | Clic destro vuoto sull'impasto | Avanza la stesura manuale |
 | Clic destro con mattarello sulla palla/base non ancora stesa | Stende rapidamente |
-| Clic destro con mattarello su base completamente stesa e non divisa | Divide logicamente la pizza in **due meta'** |
-| Clic destro con mattarello sulla meta' desiderata | Divide quella meta' in **due quarti** |
+| Clic destro con mattarello su base completamente stesa e non divisa | Divide logicamente la pizza in **due meta'**, senza perdere durabilita' |
+| Clic destro con mattarello sulla meta' desiderata | Divide quella meta' in **due quarti**, senza perdere durabilita' |
 | Clic destro con ingrediente valido sulla zona desiderata | Applica il topping all'**intera pizza, alla meta' o al quarto** puntato, secondo la suddivisione corrente |
-| Shift + clic destro col mattarello su un quarto | **CONFERMATO:** riunisce i due quarti della stessa meta' senza spostare o rimborsare ingredienti |
-| Shift + clic destro col mattarello quando le due meta' sono intere | **CONFERMATO:** riunisce le meta' in una pizza intera, conservando il posizionamento dei topping |
+| Shift + clic destro col mattarello su un quarto | **CONFERMATO:** riunisce i due quarti della stessa meta' senza spostare o rimborsare ingredienti e senza consumare durabilita' |
+| Shift + clic destro col mattarello quando le due meta' sono intere | **CONFERMATO:** riunisce le meta' in una pizza intera, conservando il posizionamento dei topping e senza consumare durabilita' |
 | Clic destro con topping valido sulla base | Aggiunge il topping **solo alle parti non gia' coperte dallo stesso ingrediente** nella zona logica puntata (intera, meta' o quarto); consuma 1 item per clic riuscito |
 | Clic con ingrediente gia' presente su tutta la zona | **CONFERMATO:** non modifica nulla e non consuma item |
 | Clic con salsa diversa su una zona che contiene gia' un'altra salsa anche soltanto in parte | **CONFERMATO:** rifiuta **l'intera applicazione**, anche sulle parti vuote; nessun item consumato o salsa sostituita |
