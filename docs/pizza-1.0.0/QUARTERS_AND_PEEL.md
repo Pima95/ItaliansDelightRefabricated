@@ -185,6 +185,7 @@ La **pala per pizza** e' lo strumento per trasferire una pizza **intera**. E' gi
 - Con **clic destro** su una superficie compatibile, la pala occupata deposita la pizza e ricostruisce lo stato precedente.
 - L'uso della pala **non e' obbligatorio per applicare o rimuovere** i condimenti: queste interazioni avvengono direttamente sulla pizza nel mondo.
 - La pala e' destinata anche a **inserimento ed estrazione** della pizza nel futuro Pizza Oven. L'integrazione del forno deve essere implementata e verificata quando il forno esistera'.
+- **Durabilita' — CONFERMATO:** la pala e' uno **strumento riutilizzabile senza durabilita'**. Raccogliere, posizionare o trasferire una pizza, anche ripetutamente, non consuma la pala ne' ne modifica la capacita' di trasportare **una pizza alla volta**.
 
 ### Dati conservati durante il trasporto — CONFERMATO
 
@@ -197,7 +198,16 @@ L'intero stato della preparazione deve viaggiare **dentro i dati persistenti del
 
 Il trasferimento **mondo -> pala -> mondo/forno -> pala** dev'essere atomico dal punto di vista logico: mai due pizze create dalla stessa raccolta e mai cancellazione della fonte prima che lo stato sia trasferito in sicurezza. Il salvataggio del mondo, il chunk unload e il multiplayer devono mantenere uno stato coerente.
 
-**DA DEFINIRE:** ricetta della pala; se abbia durabilita' (orientamento: strumento riutilizzabile senza usura); tooltip, stackability e aspetto mentre e' occupata; comportamento se la pala occupata e' droppata, distrutta o spostata in contenitori; comandi/precedenze per il forno; supporto alle pizze gia' cotte e alle superfici specifiche. Nessuna di queste e' ancora una regola tecnica finalizzata.
+### Uso futuro anche come arma — INTENZIONE CONFERMATA, CARATTERISTICHE DA DEFINIRE
+
+L'autore vuole rendere **anche la pala un'arma**, prendendo come riferimento il comportamento della **padella di Farmer's Delight Refabricated**. Questa e' una **funzionalita' da progettare e implementare successivamente**; non e' ancora una meccanica approvata nei dettagli e non risulta implementata dal prototipo pizza.
+
+- La funzione principale gia' confermata rimane **raccogliere, trasportare e depositare una sola pizza alla volta**; l'uso offensivo futuro dovra' coesistere con gli usi di clic destro sul mondo e sul Pizza Oven.
+- La pala resta **senza durabilita'** come oggetto; non introdurre ora usura o rottura dello strumento per il trasporto.
+- **DA DEFINIRE in fase di combattimento:** danni, velocita' d'attacco, eventuali effetti/animazioni/suoni, interazione quando la pala contiene una pizza e comportamento delle relative componenti. Non copiare parametri della padella senza prima verificarne la versione effettiva e concordare il bilanciamento.
+- Non modificare ne' sostituire l'**asset gia' disponibile** della pala dalla vecchia Italian's Delight: recuperarlo e valutarne il riutilizzo prima di creare ulteriori risorse.
+
+**CONFERMATO:** la pala e' **riutilizzabile senza durabilita'** e in futuro dovra' poter fungere anche da **arma ispirata alla padella di Farmer's Delight Refabricated**. **DA DEFINIRE:** ricetta, tooltip, stackability, resa grafica quando occupata, comportamento se droppata/distrutta/spostata in contenitori, precedenze d'uso col forno, pizze cotte e superfici compatibili. Le statistiche e interazioni da arma sono ancora aperte e non vanno implementate senza definizione.
 
 ## 4. Vincoli tecnici di progetto (da implementare)
 
@@ -242,7 +252,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - Priorita' e visualizzazione degli ingredienti **diversi** sovrapposti (non delle salse tra loro, che non possono sovrapporsi).
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
 - Modellazione 2.5D per quarto, forme, seme deterministico, rendering da cruda e cotta.
-- Interazione della pala con Pizza Oven e forni vanilla, inventari, hopper e pizza gia' cotta.
+- Interazione della pala con Pizza Oven e forni vanilla, inventari, hopper e pizza gia' cotta. **Riutilizzo senza durabilita' confermato. Futuro utilizzo come arma in stile padella di Farmer's Delight Refabricated da progettare, senza cambiare le regole di trasporto gia' confermate.**
 - Cosa fare con una pala occupata quando viene distrutta e come visualizzarla.
 - Taglio in fette della pizza cotta, bilanciamento e valori alimentari.
 
@@ -268,6 +278,8 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] La rottura di una pizza cruda recupera impasto e ingredienti residui senza duplicare; quella cotta non restituisce gli ingredienti separati.
 - [ ] Recupero nel normale inventario; drop solo in mancanza di spazio.
 - [ ] La pala trasporta esattamente una pizza con tutti i dati e rifiuta una seconda.
+- [ ] La pala **non ha durabilita'**: raccolte, depositi e trasferimenti ripetuti non causano usura o rottura dell'oggetto.
+- [ ] In una fase successiva, progettare la pala come **arma ispirata alla padella di Farmer's Delight Refabricated** senza compromettere la pizza eventualmente trasportata; danni, animazioni e regole d'attacco ancora da definire.
 - [ ] Raccolta e riposizionamento mantengono quarti, stadio e resa visiva dopo salvataggio/ricarica.
 - [ ] Test multiplayer, chunk unload, distruzione supporto, inventario pieno e trasferimento al forno quando disponibile.
 
