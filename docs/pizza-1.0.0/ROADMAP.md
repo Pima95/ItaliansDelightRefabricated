@@ -18,6 +18,7 @@
 - [x] **Nessuna bruciatura** con qualsiasi metodo.
 - [x] Rendering 2.5D: **salse piatte, altri topping poco rialzati**.
 - [x] Ingredienti di altre mod supportabili tramite definizioni e tag.
+- [x] **Equivalenze di ingredienti tra mod**: due item riconosciuti esplicitamente come equivalenti sono lo stesso topping ai fini dell'anti-duplicato e del limite di 6 per quarto; il recupero restituisce sempre l'item originale.
 - [x] Suddivisione **facoltativa con mattarello dopo la stesura**: intera -> due meta' -> divisione di una o entrambe le meta' in quarti, condibili indipendentemente. Clic ingrediente applica alla zona puntata. Linee visibili temporaneamente solo tenendo mattarello o ingrediente valido; nessun cambio permanente ai modelli/texture.
 - [x] Rimozione parziale senza rimborso; rimborso una sola volta dopo la rimozione di tutti i quarti coperti da una specifica applicazione.
 - [x] **Rimozione con Shift + clic destro a mano vuota**: un condimento per clic, partendo dall'ultima applicazione ancora presente nella zona mirata; zona priva di topping = nessun effetto.
@@ -37,7 +38,7 @@
 - [x] Ricetta del mattarello: 2 bastoni + 1 asse di qualsiasi legno (`#minecraft:planks`), con sblocco nel libro delle ricette (**test in gioco necessario**).
 - [x] Texture dedicata del mattarello: item handheld 16×16, sfondo trasparente e pixel opachi; durabilità confermata: **64 usi**, 1 per pizza stesa. **Aspetto da verificare in gioco.**
 - [x] **Definito il limite:** massimo 6 ingredienti diversi per quarto fisico (salsa inclusa), sostituisce la vecchia proposta non approvata di 8 porzioni.
-- [ ] Definire ingredienti equivalenti, remainder e ulteriori bilanciamenti; il comportamento delle **salse differenti sulle zone parzialmente condite e' gia' confermato** (rifiuto dell'intera applicazione). La coesistenza di salse diverse sulla **stessa sottoarea e' vietata**, su sottoaree distinte e' consentita. Per uno stesso ingrediente e' confermato **1 item per nuova applicazione effettiva a zone libere**, e nessun item per clic duplicato.
+- [ ] Definire **formato tecnico e mapping iniziale** dei gruppi di equivalenza cross-mod, remainder e ulteriori bilanciamenti; **la regola di gameplay sulle equivalenze e' gia' confermata**; il comportamento delle **salse differenti sulle zone parzialmente condite e' gia' confermato** (rifiuto dell'intera applicazione). La coesistenza di salse diverse sulla **stessa sottoarea e' vietata**, su sottoaree distinte e' consentita. Per uno stesso ingrediente e' confermato **1 item per nuova applicazione effettiva a zone libere**, e nessun item per clic duplicato.
 - [x] Definire il gesto per **rimuovere** topping: Shift + clic destro **a mano vuota** sulla zona puntata, dall'ultima applicazione alla piu' vecchia.
 - [ ] Implementare cronologia persistente delle applicazioni e rimozione per zona senza duplicazioni.
 - [ ] Definire orientamento e hitbox delle divisioni e riunioni, inclusi clic ai confini (**gesti e assenza di usura gia' confermati**).
@@ -75,7 +76,7 @@
 - [x] Zona interna per condimenti definita nella nuova base finale (`x/z = 3..13`, centro alto 1 pixel), con bordo alto 2 pixel (**conca profonda 1 pixel**); implementazione dopo il test della geometria.
 - [ ] Decidere se il pomodoro di Farmer's Delight va applicato direttamente oppure trasformato prima in salsa.
 
-- [ ] Definizioni ingredienti via codice/datapack.
+- [ ] Definizioni ingredienti via codice/datapack, con **identita' canonica** dei gruppi equivalenti cross-mod distinta dall'ItemStack originale consumato e da categorie generiche.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
 - [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), **senza consumare durabilita'**, salvandone la configurazione e preservando posizioni e storici dei topping; evidenziare le linee solo con mattarello o ingrediente valido.
 - [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali dei topping alle sole zone ancora libere, **il blocco totale delle salse differenti se una qualsiasi parte della zona mirata contiene gia' un'altra salsa**, la **validazione atomica del massimo di 6 tipi per quarto fisico (salsa inclusa)** e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
@@ -128,4 +129,4 @@
 
 ## Prossimo tema da concordare
 
-**Identificazione di ingredienti equivalenti tra mod** e geometria delle hitbox per le divisioni. L'assenza di usura del mattarello per dividere/riunire e il limite di **6 ingredienti diversi per quarto** sono gia' confermati. Il rifiuto delle salse differenti su zone anche solo parzialmente occupate e' confermato. Il divieto di ripetere lo stesso ingrediente sulla stessa sottoarea e' gia' confermato. La riunione con Shift + clic destro col mattarello e la conservazione dei topping sono gia' **confermate**. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+**Formato delle definizioni di equivalenza cross-mod e loro lista iniziale**, poi geometria delle hitbox per le divisioni. **Il principio di equivalenza e' confermato:** stesso ingrediente logico, un solo tipo nel limite di 6 e nessuna doppia applicazione sullo stesso quarto. L'assenza di usura del mattarello per dividere/riunire e il limite di **6 ingredienti diversi per quarto** sono gia' confermati. Il rifiuto delle salse differenti su zone anche solo parzialmente occupate e' confermato. Il divieto di ripetere lo stesso ingrediente sulla stessa sottoarea e' gia' confermato. La riunione con Shift + clic destro col mattarello e la conservazione dei topping sono gia' **confermate**. Le decisioni gia' prese sono registrate in [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
