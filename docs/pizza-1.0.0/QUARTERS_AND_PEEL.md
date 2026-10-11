@@ -39,6 +39,29 @@ Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozza
 
 **Nota tecnica:** una griglia interna di quattro quarti puo' essere usata per rappresentare le coperture anche quando la pizza e' intera o divisa solo in due, ma il **livello di divisione effettivo** va salvato separatamente. NON mostrare o attivare automaticamente tutti e quattro i quarti.
 
+## 2. Un ingrediente una sola volta per area — CONFERMATO
+
+La stessa tipologia di ingrediente **non puo' essere aggiunta due volte sulla stessa porzione fisica di pizza** (regola valida anche dopo successive divisioni e riunioni). Questo non impedisce di usare quel medesimo ingrediente su **zone differenti non gia' coperte**.
+
+- Un clic destro con un ingrediente valido prova a condire la **zona selezionata** (intera, meta' o quarto) secondo le divisioni create dal mattarello.
+- Per l'ingrediente selezionato, il sistema determina quali sottoaree sono **gia' occupate** e quali sono **ancora prive** di quell'ingrediente.
+- L'applicazione copre **soltanto la parte ancora priva** dell'ingrediente; le parti gia' condite non ricevono uno strato o una porzione supplementare.
+- **Una sola unita' di ingrediente** viene consumata per un'applicazione effettiva riuscita, anche quando la nuova copertura comprende piu' quarti logici liberi. Se nessuna sottoarea della zona cliccata e' disponibile, il clic **non consuma nulla e non modifica la pizza**.
+- Applicazioni dello stesso ingrediente in zone differenti restano **identificabili separatamente** per ordine cronologico e rimborso; e' vietato usare questa separazione per sovrapporre lo stesso ingrediente.
+- La riunione col mattarello **non modifica** la copertura esistente. Un clic successivo con lo stesso ingrediente su una zona riunita applica l'ingrediente **solo alla parte ancora libera**, preservando le applicazioni precedenti.
+
+**Esempio A:** pizza divisa in due meta'. Si applica mozzarella prima a sinistra e poi a destra: si consumano due mozzarelle, una per ogni applicazione non sovrapposta. Un'ulteriore applicazione a sinistra e' respinta senza consumi.
+
+**Esempio B:** si applica mozzarella solo a sinistra, poi si riuniscono le due meta'. Un clic con mozzarella sulla pizza intera **consuma una mozzarella solo per coprire la meta' destra**. Un altro clic, dopo che entrambe le meta' sono coperte, non produce alcun effetto.
+
+**Esempio C:** mozzarella applicata sull'intera pizza prima di dividerla: divide la pizza in quarti ma **non diventa applicabile altra mozzarella su nessuno dei quarti** finche' quella copertura non e' stata rimossa.
+
+**DA DEFINIRE:** se ingredienti equivalenti tramite tag debbano condividere il vincolo anti-duplicato, eventuale limite ai diversi tipi di ingredienti, e gestione dei condimenti di tipo salsa. La regola vale per lo **stesso ingrediente**; la coesistenza di ingredienti *diversi* e' trattata separatamente.
+
+### Distinzione dopo una riunione
+
+Se nella zona riunita convivono piu' **applicazioni distinte dello stesso ingrediente**, il comando gia' confermato di rimozione (Shift + clic destro a mano vuota) agisce **prima sull'applicazione piu' recente**, e soltanto sulla copertura residua che le appartiene all'interno della zona selezionata. Le applicazioni precedenti restano al loro posto fino alle successive rimozioni. Non rimborsare due volte, ne' trattare una riunione come una nuova applicazione.
+
 ## 2. Applicazione originale e recupero — CONFERMATO
 
 Una singola applicazione che consuma un ingrediente puo' interessare uno o piu' quarti. L'applicazione va considerata una **unita' indivisibile ai fini del rimborso**, anche se la sua rappresentazione viene rimossa un quarto alla volta.
@@ -99,7 +122,7 @@ La **pala per pizza** e' lo strumento per trasferire una pizza **intera**. E' gi
 L'intero stato della preparazione deve viaggiare **dentro i dati persistenti della pala occupata**, incluse almeno le seguenti informazioni:
 
 - stato e progresso della pizza (impasto/base, cruda/condita/cotta secondo il caso), **inclusa la struttura di suddivisione scelta col mattarello**;
-- ingredienti, quantita', applicazioni originali e quarti ancora coperti;
+- ingredienti, quantita', applicazioni originali e quarti ancora coperti; **nessun ingrediente puo' occupare due volte lo stesso quarto fisico**;
 - disposizione visiva, inclusi eventuali semi e parametri di rendering;
 - proprieta' necessarie per determinare il gusto e preservare la cottura.
 
@@ -145,7 +168,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 - Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
 - **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. Restano da precisare usura del mattarello, hitbox e casi limite.
-- I costi per singola applicazione, ripetizioni e limiti; la copertura di default dipende gia' dalla **zona selezionata dalla suddivisione attuale** (intera, meta', quarto).
+- Limite ai **diversi tipi** di topping, definizione delle equivalenze tra ingredienti e restrizioni specifiche delle salse. **Confermato**: lo stesso ingrediente non puo' essere duplicato sulla stessa porzione, e ogni clic riuscito consuma un item per la sola copertura libera.
 - Priorita' e visualizzazione degli ingredienti sovrapposti, specialmente delle salse.
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
 - Modellazione 2.5D per quarto, forme, seme deterministico, rendering da cruda e cotta.
@@ -161,6 +184,8 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] Shift + clic destro a mano vuota sulla zona selezionata rimuove una applicazione alla volta partendo dalla piu' recente presente su quella zona; se vuota non produce effetti.
 - [ ] Una mozzarella originariamente applicata a tutti i 4 quarti logici costa 1 item; toglierla da 3 quarti non rimborsa; togliere l'ultimo rimborsa 1.
 - [ ] Quattro applicazioni distinte non si fondono in una e non producono rimborsi errati.
+- [ ] Due clic dello stesso ingrediente sulla stessa zona: il secondo non consuma item e non aggiunge condimento.
+- [ ] Dopo la riunione di zone parzialmente coperte, un clic dello stesso ingrediente riempie **solo le sottoaree libere**, consumando un solo item; se non restano sottoaree libere non accade nulla.
 - [ ] La rottura di una pizza cruda recupera impasto e ingredienti residui senza duplicare; quella cotta non restituisce gli ingredienti separati.
 - [ ] Recupero nel normale inventario; drop solo in mancanza di spazio.
 - [ ] La pala trasporta esattamente una pizza con tutti i dati e rifiuta una seconda.
