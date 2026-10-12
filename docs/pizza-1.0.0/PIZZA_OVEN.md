@@ -11,6 +11,8 @@
 - **Pala FACOLTATIVA — CONFERMATO:** il Pizza Oven deve funzionare sia **con** sia **senza** la pala per pizza. La pala e' una comodita' di trasporto, non un requisito generale per utilizzare il forno.
 - **GUI — CONFERMATO (12 ottobre 2026):** il forno ha una propria interfaccia di gestione per inserire pizza e combustibile, seguire la cottura e recuperare la pizza. La GUI e' il normale percorso senza pala.
 - **Inserimento diretto con pala OCCUPATA — CONFERMATO:** se una pizza e' caricata sulla pala, usare la pala sul Pizza Oven permette di **trasferire direttamente la pizza nel forno senza passare dalla GUI**, a condizione che lo spazio pizza sia disponibile. La pala ritorna vuota; ogni dato della pizza e' preservato. Se lo spazio e' occupato o il trasferimento fallisce, la pizza rimane sulla pala. La pala non e' consumata e non perde durabilita'.
+- **Estrazione rapida con pala VUOTA — CONFERMATO (12 ottobre 2026):** clic destro sul Pizza Oven tenendo una pala vuota **preleva direttamente la pizza presente senza aprire la GUI**, sia quando e' **cotta** sia quando e' **cruda o parzialmente cotta**. La pala torna occupata e il forno resta senza pizza; l'energia residua si conserva. Lo stato completo, incluso **progresso di cottura parziale**, ingredienti, divisioni e dati visivi, deve essere trasferito intatto. L'estrazione funziona indipendentemente dalla disponibilita' di combustibile; non consuma durabilita'.
+- **Nessuna perdita o duplicazione:** il trasferimento forno -> pala avviene soltanto se la pala e' vuota e la pizza e' presente; lato server lo stato viene trasferito in modo atomico, senza crearne una copia. Se il forno non contiene pizza non avviene alcun prelievo. La **GUI** rimane il metodo alternativo di estrazione senza pala.
 - **Pizza preparata a terra — CONFERMATO:** non si raccoglie con clic destro a mano vuota. Per toglierla da terra **si rompe**, ottenendo **l'item pizza completo**, crudo o cotto secondo lo stato, con ingredienti, coperture, suddivisioni e ogni dato di preparazione/cottura. **Non** restituire separatamente impasto e ingredienti quando una pizza completa viene rotta. La pala resta un'alternativa facoltativa per trasportarla direttamente.
 - **Percorso senza pala — CONFERMATO:** preparare la pizza sul terreno -> rompere la pizza per ottenere il relativo **item completo** -> inserire l'item nel Pizza Oven. Non serve alcun gesto di raccolta a mano vuota. L'item conserva la stessa ricetta personalizzata e gli stessi dati della pizza; inserimento, cottura ed estrazione non devono azzerarli.
 - **Nessun preriscaldamento — CONFERMATO:** quando c'e' una pizza cruda e combustibile/energia sufficiente, la cottura inizia subito, senza attendere che il forno raggiunga una temperatura minima.
@@ -23,7 +25,7 @@
 - Forno orientabile verso il giocatore, apertura frontale, pizza visibile all'interno.
 - Modello 3D con fuoco/fumo/particelle quando è attivo.
 - **GUI presente e confermata:** per l'uso ordinario, il giocatore apre la GUI con l'interazione sul blocco. L'interfaccia deve permettere di gestire pizza, combustibile, avanzamento ed estrazione; disposizione esatta degli slot ancora da progettare.
-- **Eccezione all'apertura della GUI — CONFERMATO:** quando il giocatore usa il clic destro sul Pizza Oven tenendo una **pala occupata**, l'interazione tenta **prima l'inserimento diretto della pizza**. Non e' necessario aprire la GUI per depositarla. Non introdurre il requisito della pala per gli altri giocatori.
+- **Eccezione all'apertura della GUI — CONFERMATO:** il clic destro sul Pizza Oven con **pala occupata** tenta **l'inserimento diretto**, mentre con **pala vuota** tenta **l'estrazione diretta**, senza aprire la GUI per le interazioni riuscite. Non introdurre il requisito della pala per chi usa la GUI.
 - Una BlockEntity conserva `ItemStack` intero, combustibile, energia e avanzamento; salva i dati quando il chunk si scarica.
 
 ### Interfaccia e interazioni — decisioni confermate e dettagli aperti
@@ -36,12 +38,12 @@
 | Clic destro sul forno con **pala occupata** | **CONFERMATO:** trasferimento diretto di una pizza dalla pala al forno senza GUI; la pala torna vuota, senza perdita di dati e senza usura |
 | Pala occupata su forno che contiene gia' una pizza | Nessun trasferimento: pala e pizza restano invariati, senza sostituzioni o duplicazioni |
 | Estrazione della pizza dalla GUI | **CONFERMATO nel principio:** il forno e' utilizzabile senza pala e la GUI consente di recuperare la pizza mantenendo i dati |
-| Clic destro sul forno con pala vuota | **DA DEFINIRE:** se debba estrarre direttamente la pizza oppure aprire la GUI; non dedurre la scelta dalla conferma dell'inserimento diretto |
+| Clic destro sul forno con **pala vuota** | **CONFERMATO:** estrae subito la pizza, anche cruda o **parzialmente cotta**, senza aprire la GUI; pala occupata, forno libero e stato di cottura trasferito integralmente |
 | Rottura del forno | Applicare le normali regole di recupero degli inventari del blocco, senza perdita o duplicazione di pizza e combustibile non consumato |
 
-La GUI dovra' rendere chiaramente leggibili **pizza presente, stato di cottura e combustibile residuo**. **DA DEFINIRE:** layout esatto, numero e ruolo degli slot di input/output (mantenendo la capienza di una pizza alla volta), resa grafica, priorita' delle interazioni ulteriori, eventuale uso della pala vuota per estrazione rapida e automazione hopper. Evitare di inventare un secondo item pizza dentro l'inventario durante l'inserimento con pala.
+La GUI dovra' rendere chiaramente leggibili **pizza presente, stato di cottura e combustibile residuo**. **CONFERMATO:** la pala occupata inserisce direttamente la pizza; la pala vuota estrae direttamente la pizza **a qualunque stadio di cottura**, sempre senza GUI. **DA DEFINIRE:** layout esatto, numero e ruolo degli slot di input/output (mantenendo la capienza di una pizza alla volta), resa grafica e automazione hopper. Evitare di inventare un secondo item pizza dentro l'inventario durante un trasferimento con pala.
 
-**Conservazione dei dati:** ingresso da pizza-item tramite GUI e ingresso diretto da pala occupata devono convergere nello stesso stato persistente lato server. Il trasferimento deve essere atomico: verificare disponibilita' dello spazio pizza, copiare/salvare i dati nel forno, quindi svuotare la pala; mai svuotare la pala se il forno rifiuta l'item.
+**Conservazione dei dati:** ingresso da pizza-item tramite GUI e ingresso diretto da pala occupata devono convergere nello stesso stato persistente lato server. Il trasferimento deve essere atomico: verificare disponibilita' dello spazio pizza, copiare/salvare i dati nel forno, quindi svuotare la pala; mai svuotare la pala se il forno rifiuta l'item. Analogamente, per l'uscita diretta, copiare/trasferire alla pala vuota **tutti i dati compreso l'avanzamento di cottura**, quindi liberare lo spazio pizza nel forno, senza duplicazioni. Una pizza estratta prima del completamento resta cruda/parzialmente cotta e deve poter riprendere la cottura successivamente conservando l'avanzamento; non deve trasformarsi prematuramente in pizza cotta.
 
 Rimane valida la distinzione fondamentale: **il clic destro a mano vuota sulla pizza nel mondo non la raccoglie**. Per ottenere una pizza-item la si **rompe**; la pizza-item puo' essere inserita nella GUI senza pala.
 
@@ -61,6 +63,15 @@ Rimane valida la distinzione fondamentale: **il clic destro a mano vuota sulla p
 - il comportamento del combustibile del Pizza Oven e' **intenzionalmente diverso dalla combustione continua vanilla** quando la fornace resta accesa senza cuocere.
 
 Il forno non deve continuare a cuocere una pizza dopo il 100%, perché **non deve mai bruciarsi**.
+
+## Test obbligatori per la pala — DA IMPLEMENTARE
+
+- Pala occupata + forno vuoto -> un inserimento, pala vuota, pizza nel forno con tutti i dati.
+- Pala occupata + forno occupato -> nessuna sovrascrittura, perdita o duplicazione.
+- Pala vuota + pizza cruda, parzialmente cotta o pronta -> **un'estrazione** senza GUI, pala occupata; forno libero.
+- Pala vuota + forno senza pizza -> nessuna pizza creata e nessun trasferimento.
+- Estrazione a meta' cottura, salvataggio/ricarica, reinserimento -> cottura riprende dallo stato persistente, senza azzerare o completare artificialmente il progresso.
+- GUI continua a funzionare per inserimento/estrazione senza pala; provare in multiplayer con piu' giocatori e nessuna duplicazione.
 
 ## Durate di cottura — valori PLACEHOLDER
 
