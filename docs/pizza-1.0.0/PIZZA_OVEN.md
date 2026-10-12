@@ -32,7 +32,7 @@
 
 La GUI riprende **esattamente il layout standard della fornace vanilla**: tre slot, fiamma per il combustibile e freccia per la progressione. **Non** usare la proposta precedente di uno slot pizza unico, ne' disegnare un'interfaccia apposita; usare la grafica e i controlli normali della fornace con la logica di pizza specializzata del Pizza Oven.
 
-- **Ingresso (slot superiore sinistro):** accetta soltanto pizze **non completamente cotte** (anche con progresso parziale salvato), ottenute dal mondo o via crafting. La pizza resta qui durante la cottura e puo' essere rimossa manualmente anche prima della fine, conservando la percentuale di avanzamento nei dati dell'item.
+- **Ingresso (slot superiore sinistro):** accetta soltanto pizze **non completamente cotte** (anche con progresso parziale salvato), ottenute dal mondo o via crafting. La pizza resta qui durante la cottura e puo' essere rimossa manualmente anche prima della fine, conservando la percentuale di avanzamento nei dati dell'item. Una pizza con progresso parziale resta **l'item crudo**, non un nuovo item alimentare.
 - **Combustibile (slot inferiore sinistro):** accetta tutti i combustibili vanilla validi, con il burn time residuo conservato come gia' concordato.
 - **Risultato (slot destro):** quando la cottura termina, la pizza cotta con dati integri passa dall'ingresso al risultato, che puo' essere ritirato con le normali interazioni dell'inventario.
 - **Una pizza in totale:** poiche' e' gia' confermata la capienza massima di una sola pizza, non ammettere contemporaneamente pizza in ingresso e risultato. Quando il risultato e' occupato, impedire un nuovo inserimento (anche tramite pala) finche' la pizza cotta non viene estratta. Questa e' una limitazione del Pizza Oven, non un cambiamento alle fornaci vanilla.
@@ -95,16 +95,28 @@ Il forno non deve continuare a cuocere una pizza dopo il 100%, perché **non dev
 
 I **tempi 20/30/60 secondi sono placeholder**, non ancora bilanciati: i valori definitivi saranno decisi durante il rebalancing. **L'assenza di preriscaldamento e la gestione dell'energia del Pizza Oven sono invece confermate**, indipendentemente dai tempi.
 
-## Automazione hopper — PROPOSTA
+## Automazione hopper — CONFERMATA (12 ottobre 2026)
 
-| Lato | Inventario |
+Il Pizza Oven supporta gli **hopper con le direzioni della fornace vanilla**, rispettando la specializzazione pizza e la capienza massima di **una pizza totale** fra ingresso e risultato.
+
+| Lato | Comportamento confermato |
 | --- | --- |
-| Sopra | Inserimento pizza cruda |
-| Laterali | Inserimento combustibile |
-| Sotto | **Solo estrazione pizza cotta** |
-| Fronte | Uso manuale |
+| **Sopra** | Inserisce soltanto **pizze crude** nello slot di ingresso, se il forno non contiene gia' una pizza |
+| **Laterali** | Inseriscono **combustibili vanilla validi** nello slot combustibile |
+| **Sotto** | Estrae **soltanto pizze completamente cotte** dallo slot di risultato |
+| **Fronte** | Il giocatore usa la **GUI vanilla** o i trasferimenti diretti con la pala |
 
-Nessun hopper deve poter estrarre pizza ancora cruda o parzialmente cotta. Testare hopper paralleli, rifornimento e estrazione, inclusi i remainder dei combustibili.
+- L'hopper inferiore **non puo' estrarre pizze crude o con cottura incompleta**, anche se sono visibili/recuperabili manualmente dallo slot di ingresso.
+- Se lo slot di risultato contiene una pizza, l'inserimento di un'altra pizza e' bloccato anche tramite hopper, rispettando il limite di **una sola pizza** nel forno.
+- Una pizza pronta passa nello slot risultato; solo da li' l'hopper inferiore puo' prelevarla. L'output deve mantenere composizione, gusto, componenti e dati visivi.
+- Automazione e interazioni del giocatore devono essere **coerenti e sicure lato server**: niente prelievi simultanei duplicati, nessuna perdita di item, nessun aggiramento dei controlli con hopper multipli.
+- **Test da effettuare:** hopper sopra/lati/sotto, hopper paralleli, forno pieno, combustibile esaurito, secchio vuoto dopo lava, salvataggio/ricarica, chunk unload e test multiplayer. Il comportamento dei remainder resta quello compatibile con vanilla da verificare nell'implementazione.
+
+### Pizza con cottura incompleta — chiarimento di gameplay
+
+La **cottura incompleta non e' un prodotto alimentare aggiuntivo previsto**: non e' stata introdotta una nuova pizza "mezza cotta" con ricetta, nutrizione o effetti particolari. E' semplicemente lo **stato temporaneo di una pizza ancora cruda** con una parte del progresso di cottura salvato.
+
+Estrarla manualmente dalla GUI o con pala vuota e' utile per **spostare la pizza o liberare il forno senza perdere il progresso**, come gia' approvato. Se reinserita, la cottura riprende dal valore memorizzato. Solo al completamento si trasforma nell'item pizza cotta e passa nello slot risultato. **L'automazione con hopper non gestisce il prodotto incompleto in uscita**.
 
 ## Fornaci vanilla: problema tecnico da risolvere
 
