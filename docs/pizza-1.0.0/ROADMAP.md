@@ -24,6 +24,7 @@
 - [x] **Ricetta crafting Pizza Oven CONFERMATA:** shaped 3x3, **1 fornace vanilla al centro**, **4 blocchi di mattoni** negli angoli, **4 blocchi di mattoni di pietra** sui lati; risultato **1 Pizza Oven**, nessun altro materiale.
 - [x] **Inserimento diretto con pala occupata**: clic destro sul Pizza Oven con pizza sulla pala trasferisce la pizza direttamente nel forno **senza aprire la GUI**; pala vuota dopo successo, nessun trasferimento se il forno e' occupato e dati conservati.
 - [x] **Estrazione diretta con pala vuota**: clic destro sul Pizza Oven preleva la pizza **anche a cottura incompleta**, senza GUI e conservando il progresso, gli ingredienti e tutti i dati. La GUI resta disponibile come metodo alternativo.
+- [x] **Ruolo della cottura parziale chiarito:** e' uno stato tecnico/progresso della pizza cruda, non un alimento o risultato separato previsto; serve a poter spostare la pizza senza perdere il lavoro svolto. Solo la pizza cotta al 100% entra nell'output.
 - [x] **Pizza sul terreno recuperabile rompendo il blocco come ITEM PIZZA** (crudo o cotto), con tutti i dati di composizione, divisione, orientamento e cottura. **Nessuna raccolta con clic destro a mano vuota** sulla pizza stesa e nessun drop separato di impasto/topping dalla pizza formata. Stesura della palla e rimozione topping restano interazioni distinte.
 - [x] **Nessuna bruciatura** con qualsiasi metodo.
 - [x] Rendering 2.5D: **salse piatte, altri topping poco rialzati**.
@@ -69,7 +70,8 @@
 - [ ] **Rebalancing finale dei tempi di cottura:** 20/30/60 secondi per Pizza Oven/affumicatore/fornace sono **placeholder** confermati solo come valori provvisori, non tempi definitivi.
 - [x] **Meccanica consumo fuel / preriscaldamento / burn time residuo definita**: zero preriscaldamento, solo consumo durante cottura, energia residua conservata tra pizze, avanzamento in pausa se finisce il fuel.
 - [ ] Implementare e testare la gestione del burn time residuo e il progresso di cottura persistente del Pizza Oven (inclusi salvataggio, chunk unload e cambio combustibile); il consumo durante inattivita' deve rimanere nullo.
-- [ ] Hopper sopra/lati/sotto e fallback manuale.
+- [x] **Automazione hopper approvata**: **sopra** inserimento pizze crude, **lati** inserimento combustibile, **sotto** estrazione esclusiva delle pizze completamente cotte dallo slot output, come nella fornace vanilla. La GUI e la pala restano metodi manuali.
+- [ ] **Implementare e testare gli hopper** rispettando il vincolo di una pizza totale, l'assenza di estrazione automatica a cottura incompleta, le rimanenze del combustibile, i salvataggi e il multiplayer.
 - [x] **Ricetta Pizza Oven concordata**: fornace centrale + 4 blocchi di mattoni + 4 blocchi di mattoni di pietra; schema **BSB / SFS / BSB** (B = bricks, S = stone bricks, F = furnace).
 - [ ] **Implementare e testare** la ricetta shaped 3x3, il relativo sblocco nel ricettario e la visualizzazione in JEI.
 - [ ] Implementare e testare la **pizza-item ottenuta rompendo la pizza formata nel mondo**, con stato di cottura, divisioni, applicazioni e rendering conservati; verificare nessun drop separato di dough/topping e trasferimento corretto al Pizza Oven.
@@ -142,7 +144,7 @@
 - [ ] Test inserimento con pala occupata: un solo trasferimento, pala svuotata solo a successo, dati della pizza intatti; forno occupato -> nessun consumo/sostituzione. Test parallelo inserimento ed estrazione tramite GUI senza pala.
 - [ ] Test estrazione rapida con **pala vuota** a qualsiasi stadio della pizza (cruda, parzialmente cotta, cotta), incluso forno vuoto, conservazione progressi e ripresa della cottura dopo reinserimento; verificare multiplayer e nessuna duplicazione.
 - [ ] Tutti i combustibili vanilla, rimanenze dei contenitori e **energia residua conservata senza consumi a vuoto**; solo pizza come ricetta valida, inizio immediato senza preriscaldamento e progresso in pausa senza energia.
-- [ ] Automazione con hopper, se confermata.
+- [ ] **Implementare e testare l'automazione hopper gia' confermata** (sopra pizze crude, lati combustibile, sotto solo pizze cotte). Verificare che non estragga una pizza in ingresso con progresso parziale e che non si duplichi l'output.
 - [ ] Modelli, animazioni, traduzioni e **implementazione della ricetta gia' approvata** (BSB / SFS / BSB).
 
 ### Fase 5: forno vanilla e crafting
