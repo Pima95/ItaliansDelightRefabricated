@@ -8,8 +8,8 @@
 - **Le pizze non bruciano mai**, indipendentemente da tempo trascorso e tipo di forno.
 - La trasformazione da cruda a cotta deve conservare ingredienti, quantità, composizione e dati della pizza.
 - **Pala FACOLTATIVA — CONFERMATO:** il Pizza Oven deve funzionare sia **con** sia **senza** la pala per pizza. La pala e' una comodita' di trasporto, non un requisito generale per utilizzare il forno. Il percorso per una pizza creata come item e' ancora da finalizzare.
-- **Pizza preparata a terra — REGOLA PREESISTENTE CONFERMATA:** non si raccoglie con clic destro a mano vuota. Per rimuoverla da terra **si rompe**; la rottura di una pizza cruda restituisce **impasto e ingredienti ancora associati**, non una pizza cruda completa da portare al forno. Una pizza cotta non restituisce ingredienti separati. La pala permette invece il trasporto integro.
-- **QUESTIONE APERTA:** come portare una pizza preparata nel mondo al Pizza Oven **senza** pala, evitando di introdurre una nuova raccolta a mano non approvata. La possibilita' di usare il forno senza pala resta confermata, ma non implica che rompere una pizza cruda produca un item pizza intero.
+- **Pizza preparata a terra — CONFERMATO:** non si raccoglie con clic destro a mano vuota. Per toglierla da terra **si rompe**, ottenendo **l'item pizza completo**, crudo o cotto secondo lo stato, con ingredienti, coperture, suddivisioni e ogni dato di preparazione/cottura. **Non** restituire separatamente impasto e ingredienti quando una pizza completa viene rotta. La pala resta un'alternativa facoltativa per trasportarla direttamente.
+- **Percorso senza pala — CONFERMATO:** preparare la pizza sul terreno -> rompere la pizza per ottenere il relativo **item completo** -> inserire l'item nel Pizza Oven. Non serve alcun gesto di raccolta a mano vuota. L'item conserva la stessa ricetta personalizzata e gli stessi dati della pizza; inserimento, cottura ed estrazione non devono azzerarli.
 
 ## Struttura del Pizza Oven — PROPOSTA
 
@@ -22,14 +22,14 @@
 
 | Gesto | Azione |
 | --- | --- |
-| Clic destro con pizza cruda tenuta come item | **Percorso diretto proposto, senza pala:** inserisce se il forno e' libero; preserva tutti i dati della pizza |
+| Clic destro con pizza cruda tenuta come item | **Percorso diretto proposto, senza pala:** inserisce la pizza-item ottenuta **rompendo la pizza nel mondo** oppure via crafting, se il forno e' libero; preserva tutti i dati |
 | Clic destro con fuel valido | Rifornisce lo slot combustibile |
 | Clic destro a mano vuota | **Percorso diretto proposto, senza pala:** estrae la pizza pronta come item mantenendo tutte le informazioni |
 | Shift + clic destro a mano vuota | **Percorso diretto proposto, senza pala:** estrae una pizza ancora cruda o con cottura incompleta, salvandone il progresso |
 | Clic destro con pala per pizza | **Alternativa facoltativa confermata come obiettivo:** pala occupata per inserire e pala vuota per estrarre, mantenendo una sola pizza e tutti i dati. Gesti esatti e precedenze ancora da definire; meccanica non implementata |
 | Rottura del forno | Recupera pizza e combustibile non consumato, senza duplicare |
 
-La **facoltativita' della pala e' una decisione confermata**. Le interazioni dirette a mano vuota **sul forno** e con pizza-item elencate in tabella sono **proposte operative da finalizzare**, non gesti gia' approvati nel dettaglio. Il clic destro a mano vuota **sulla pizza posizionata nel mondo NON la raccoglie**. La rimozione avviene rompendola: da cruda tornano impasto e ingredienti (senza pizza cruda integra), da cotta non vengono restituiti gli ingredienti separati. **Questione significativa ancora aperta:** come trasferire al forno senza pala una pizza preparata nel mondo, senza contraddire la regola di rottura. La via del crafting in inventario puo' produrre pizze da cuocere senza pala, ma il formato dell'output e i suoi gesti sono ancora in progettazione. La priorita' tra pizza, combustibile e altri oggetti e la gestione dei remainder rimangono da definire. Per i dati della pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+La **facoltativita' della pala e' una decisione confermata**. Le interazioni dirette a mano vuota **sul forno** e con pizza-item elencate in tabella sono **proposte operative da finalizzare**, non gesti gia' approvati nel dettaglio. Il clic destro a mano vuota **sulla pizza posizionata nel mondo NON la raccoglie**. La rimozione richiede la **rottura del blocco pizza**, che restituisce **l'item pizza integro con tutti i dati**, sia crudo sia cotto, senza rimborsare separatamente impasto e topping. **Il trasferimento al forno senza pala e' quindi risolto:** la pizza raccolta come item puo' essere inserita direttamente nel Pizza Oven; la via alternativa via crafting rimane disponibile. I gesti esatti del forno in tabella restano proposte operative, salvo diversa approvazione. La priorita' tra pizza, combustibile e altri oggetti e la gestione dei remainder rimangono da definire. Per i dati della pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
 ## Combustibili
 
