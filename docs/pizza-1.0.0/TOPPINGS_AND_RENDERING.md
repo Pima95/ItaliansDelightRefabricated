@@ -41,6 +41,12 @@ La pizza puo' essere **completamente bianca**, avere salsa soltanto su una parte
 
 Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Delight direttamente o una salsa dedicata.
 
+## Idoneita' fisica dei topping — CONFERMATO (12 ottobre 2026)
+
+Il renderer 2.5D deve rappresentare **vere porzioni effettivamente utilizzabili**, non far sembrare valida una forma intera di prosciutto, una ruota di formaggio o una bistecca mediante una semplice riduzione del modello. **Il requisito di porzionatura/preparazione e' applicato prima di scegliere un preset grafico**: ammettere item affettati, grattugiati, tagliati in pezzi piccoli, salse/creme/erbe pronti; rifiutare item troppo grandi, interi o intermedi, **anche se trovati in un tag comune di categoria**. Il fatto che il formaggio sia `cheese_pieces` o che la carne sia `chunk_small` non rende utilizzabile qualunque item senza lavorazione. Per le forme crude gia' tagliate di carne/pesce la decisione e' ancora aperta.
+
+La Cutting Board di Farmer's Delight Refabricated puo' produrre le porzioni prima del condimento **soltanto dove esistono ricette e output validi**; non serve per stendere o per servire le fette di pizza. Vedere [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md).
+
 ## Categorie ingredienti e preset (PROPOSTE)
 
 | Categoria | Preset visuale | Esempi |
