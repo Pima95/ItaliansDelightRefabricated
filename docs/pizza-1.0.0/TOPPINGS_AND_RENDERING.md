@@ -76,6 +76,8 @@ La Cutting Board di Farmer's Delight Refabricated puo' produrre le porzioni prim
 
 **Compatibilita' release 1.0.0 confermata:** mapping e resa/fallback per ingredienti selezionati da **Italian's Delight Refabricated e Farmer's Delight Refabricated**, come salsa di pomodoro, cipolla, uova fritte, bacon, prosciutto, pesce e altri ingredienti idonei; le **altre mod forniscono soltanto item sostitutivi equivalenti** riconosciuti tramite tag comuni `c:` specifici o mappature puntuali, **non ulteriori tipi di topping**; **verificare nomi e tag nella dipendenza 26.2 e approvare i topping singolarmente**. Non accettare automaticamente tutti i pasti/cibi di altre mod. Vedi [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md).
 
+**Varianti crude e cotte equivalenti — CONFERMATO (12 ottobre 2026):** quando un ingrediente e' disponibile nelle due versioni, il **tipo di topping/identita' canonica e' unico** (es. `bacon`/`cooked_bacon`; `cod_slice`/`cooked_cod_slice`). Il rendering puo' eventualmente differenziare l'aspetto, ma **non** creare due condimenti sovrapponibili nel medesimo quarto, due posti nel limite sei o due bonus alimentari. La copertura gia' occupata da una delle due forme blocca anche l'altra: se l'area puntata contiene un mix di quarti occupati/liberi, la nuova applicazione copre solo quelli liberi. Se l'area e' tutta occupata, nessun consumo. Salvare l'item realmente utilizzato per ogni applicazione e renderlo al rimborso. **Merluzzo e salmone sono distinti**, come ogni altra carne differente. Non convertire automaticamente gli item durante la cottura della pizza.
+
 ## Crudo e cotto
 
 | Proprietà | Crudo | Cotto |
