@@ -20,6 +20,8 @@
 - [x] **Cottura in pausa senza energia**, con avanzamento salvato e ripresa dopo rifornimento senza ripartire da zero.
 - [x] Pizza Oven accetta **tutti i combustibili vanilla**.
 - [x] **Pala FACOLTATIVA per il Pizza Oven**: inserimento ed estrazione devono essere possibili anche senza pala. Il suo impiego resta un'opzione di comodita', non un requisito.
+- [x] **Pizza Oven CON GUI**: l'interfaccia e' il metodo ordinario per gestire pizza-item, combustibile, progresso di cottura e recupero.
+- [x] **Inserimento diretto con pala occupata**: clic destro sul Pizza Oven con pizza sulla pala trasferisce la pizza direttamente nel forno **senza aprire la GUI**; pala vuota dopo successo, nessun trasferimento se il forno e' occupato e dati conservati.
 - [x] **Pizza sul terreno recuperabile rompendo il blocco come ITEM PIZZA** (crudo o cotto), con tutti i dati di composizione, divisione, orientamento e cottura. **Nessuna raccolta con clic destro a mano vuota** sulla pizza stesa e nessun drop separato di impasto/topping dalla pizza formata. Stesura della palla e rimozione topping restano interazioni distinte.
 - [x] **Nessuna bruciatura** con qualsiasi metodo.
 - [x] Rendering 2.5D: **salse piatte, altri topping poco rialzati**.
@@ -69,7 +71,9 @@
 - [ ] Ricetta crafting Pizza Oven.
 - [ ] Implementare e testare la **pizza-item ottenuta rompendo la pizza formata nel mondo**, con stato di cottura, divisioni, applicazioni e rendering conservati; verificare nessun drop separato di dough/topping e trasferimento corretto al Pizza Oven.
 - [x] **Percorso senza pala dal mondo al Pizza Oven — CONFERMATO:** rompere la pizza gia' formata a terra per ottenere la **pizza-item integra**, quindi inserirla nel forno direttamente. Nessun clic destro a mano vuota raccoglie la pizza da terra.
-- [ ] Definire i gesti diretti per inserire nel Pizza Oven una **pizza-item ottenuta rompendo una pizza formata a terra** oppure tramite crafting, ed estrarla a mano vuota **dal forno**; entrambi sono proposti in [PIZZA_OVEN.md](PIZZA_OVEN.md).
+- [x] **Pizza-item nel forno tramite GUI**: la pizza ottenuta rompendo una pizza formata a terra (o da crafting) e' inseribile senza pala tramite la GUI; estrazione tramite GUI disponibile.
+- [ ] Definire il **layout della GUI**, gli slot input/output e la visualizzazione di avanzamento/energia, mantenendo la capienza di una pizza alla volta.
+- [ ] Definire se la **pala vuota** debba estrarre direttamente dal forno oppure aprire la GUI. L'**inserimento con pala occupata** e' invece gia' confermato.
 - [ ] Griglia crafting della pizza libera e output crudo/cotto.
 - [ ] Pizza cotta mangiabile intera o tagliata in 4 fette.
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
@@ -130,7 +134,8 @@
 ### Fase 4: Pizza Oven
 
 - [ ] Forno compatto orientabile con una pizza alla volta, **utilizzabile con o senza pala** (la pala non e' obbligatoria).
-- [ ] BlockEntity persistente, interazioni manuali e nessuna bruciatura.
+- [ ] BlockEntity persistente, **GUI funzionante** per pizza/combustibile/cottura e **inserimento diretto alternativo con pala occupata**, senza bruciatura.
+- [ ] Test inserimento con pala occupata: un solo trasferimento, pala svuotata solo a successo, dati della pizza intatti; forno occupato -> nessun consumo/sostituzione. Test parallelo inserimento ed estrazione tramite GUI senza pala.
 - [ ] Tutti i combustibili vanilla, rimanenze dei contenitori e **energia residua conservata senza consumi a vuoto**; solo pizza come ricetta valida, inizio immediato senza preriscaldamento e progresso in pausa senza energia.
 - [ ] Automazione con hopper, se confermata.
 - [ ] Modelli, animazioni, traduzioni e ricetta.
