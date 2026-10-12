@@ -42,6 +42,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - **Ricetta Pizza Oven (confermata, da implementare):** 1 `minecraft:furnace`, 4 `minecraft:bricks` e 4 `minecraft:stone_bricks`; pattern shaped `BSB / SFS / BSB`.
 - Tempi indicativi: **20 s** Pizza Oven, **30 s** affumicatore, **60 s** fornace.
 - **Confermato:** nessun preriscaldamento; consumo di combustibile solo durante una cottura effettiva; energia residua conservata anche tra piu' pizze, senza consumo a vuoto; cottura in pausa e ripresa dallo stesso avanzamento quando si rifornisce. **Pizza Oven riservato alle pizze** (non una seconda fornace generica).
+- **Automazione hopper confermata:** **sopra** inserisce pizze crude, **lati** inseriscono combustibili vanilla, **sotto** estrae solo pizze **completamente cotte** dallo slot risultato; una pizza cruda/parzialmente cotta e' recuperabile manualmente ma **non dall'hopper inferiore**. Una pizza a meta' cottura non e' un nuovo alimento: e' una pizza cruda con progresso persistente, utile se viene spostata prima del completamento.
 - Pizza intera mangiabile, riposizionabile nel mondo e tagliabile in **4 fette** mediante Cutting Board (usato **solo per il taglio**, non per stendere).
 - Valori alimentari derivati dai condimenti, con un tetto per evitare abusi.
 - Preparazione via crafting con ricetta speciale che conserva la composizione.
