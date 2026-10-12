@@ -94,7 +94,7 @@ La pizza deve essere ottenibile **anche con crafting**, senza costringere tutti 
 - **Pizza cotta intera non commestibile come item.** Il giocatore puo' piazzarla su una superficie valida e servirla dal mondo. Per rimuovere come item **una pizza ancora completamente integra**, occorre rompere il relativo blocco; clic destro a mano vuota **non** preleva l'item pizza completo.
 - **Porzioni disponibili fin dal posizionamento, nessun taglio richiesto — CONFERMATO:** clic destro **con mano di interazione vuota** puntando un **quarto fisico ancora presente** della pizza cotta piazzata -> il giocatore ottiene **una fetta cotta del quarto selezionato** nell'inventario. Con la mano occupata, il prelievo non avviene. Non occorrono coltello, Cutting Board, gesto di taglio, ciotola o stato `sliced` preliminare.
 - **Inventario pieno — CONFERMATO:** se non c'e' spazio per la fetta, **non avviene alcun prelievo e la fetta resta nella pizza**, senza drop a terra e senza modifiche allo stato persistente. Un inventario con spazio consente il normale trasferimento di una sola fetta.
-- **Quattro porzioni distinte:** ogni quarto produce una sola fetta, con **soltanto i condimenti effettivamente presenti nel quarto corrispondente**. Vale anche se l'impasto non era stato suddiviso con il mattarello o era stato successivamente riunito. **I punti fame seguono la tabella confermata qui sotto**; la **saturazione segue anch'essa le categorie di ingredienti**, ma i valori numerici restano da approvare.
+- **Quattro porzioni distinte:** ogni quarto produce una sola fetta, con **soltanto i condimenti effettivamente presenti nel quarto corrispondente**. Vale anche se l'impasto non era stato suddiviso con il mattarello o era stato successivamente riunito. **I punti fame e quelli di saturazione seguono le rispettive tabelle CONFERMATE qui sotto**, calcolate per quarto.
 - **Stato visivo e persistenza:** il primo prelievo rende visibile la porzione mancante; i quarti rimanenti restano presenti nel mondo e sono ancora prelevabili uno alla volta. Salvare una **maschera dei quattro quarti rimasti**: nessun quarto puo' essere prelevato due volte. Dopo l'ultima fetta, il blocco pizza scompare.
 - **Rottura nel mondo:** se la pizza cotta non ha ancora perso nessuna fetta, romperla restituisce **l'item pizza intera** con tutti i dati, come da regola generale. **Dopo che almeno una fetta e' stata prelevata**, romperla droppa **solo le fette dei quarti rimasti**, ciascuna con i propri topping; mai la pizza intera ne' fette gia' ottenute. La rimozione del supporto segue la stessa distinzione.
 - **Nutrizione:** solo gli item fette cotte sono commestibili, non la pizza intera. Nessun cambio ai limiti per i topping, alla loro provenienza, alla divisione logica per condire o alla meccanica della pala.
@@ -116,17 +116,27 @@ Ogni fetta ottiene **1 punto fame dalla base/crosta**, piu' un bonus per **ciasc
 - **Non cumulabilita' nella categoria:** mozzarella + gorgonzola non sommano due bonus formaggio; salame + prosciutto non sommano due bonus carne/salumi. Il conteggio degli ingredienti (massimo 6 tipi per quarto) resta un limite distinto dal numero di categorie nutrizionali.
 - **Esempi:** pizza bianca senza topping = **1**; Margherita (crosta + salsa + formaggio) = **3**; salame con salsa e formaggio = **5**; vegetariana con salsa, formaggio e verdure = **4**; salsa + formaggio + carne + verdure = **6**. Le quattro fette della stessa pizza possono avere valori diversi.
 - **La crosta non e' un item alimentare distinto:** e' il contributo base della fetta. La pizza intera continua a non essere commestibile e va servita in quarti, senza coltello o Cutting Board.
-- **Da definire separatamente:** valori numerici di saturazione e possibili effetti alimentari, mappatura tecnica iniziale di ingredienti cross-mod nelle categorie e test del calcolo dinamico. La tabella di **fame** e' una **regola di gameplay approvata**, non un'implementazione gia' presente.
+- **Da definire separatamente:** possibili effetti alimentari, mappatura tecnica iniziale di ingredienti cross-mod nelle categorie, test del calcolo dinamico e adattamento ai parametri FoodData/FoodComponent della versione Minecraft target. **Fame e saturazione sono valori di gameplay approvati**, non funzionalita' gia' implementate.
 
-### Saturazione per categoria — PRINCIPIO CONFERMATO (12 ottobre 2026)
+### Saturazione per fetta — VALORI CONFERMATI (12 ottobre 2026)
 
-- **Anche la saturazione dipende dalle categorie dei condimenti realmente presenti in ciascun quarto fisico**, e si calcola per singola fetta, senza media sull'intera pizza.
-- **Formaggi** e **salumi/carne/pesce** contribuiscono **maggiormente** alla saturazione; **salse** e **verdure/funghi** contribuiscono **meno**; **erbe/spezie** incidono poco o per nulla. Il valore di base della crosta e la scala dei contributi saranno decisi a parte.
-- Come per la fame, **piu' ingredienti appartenenti alla stessa categoria non devono moltiplicare il bonus**. Una pizza con molti formaggi non produce saturazione illimitata; eventuale tetto numerico ancora da stabilire.
-- **Fame e saturazione sono parametri distinti**: due fette con gli stessi punti fame possono avere saturazione differente in base alla composizione locale.
-- **Non ancora deciso:** coefficienti esatti per categoria, base/crosta della saturazione, eventuale massimale, eventuali effetti alimentari. Non introdurre valori definitivi in codice o datapack prima dell'approvazione.
+Anche la saturazione dipende dai condimenti effettivamente presenti nel **singolo quarto fisico**, non dal gusto medio della pizza, e conta **ogni categoria soltanto una volta**.
 
-**Test obbligatori:** raccogliere la prima fetta senza coltello da una pizza appena posizionata; quattro quarti con condimenti diversi; mano vuota/occupata; inventario pieno; doppio clic sullo stesso quarto; prelievi in multiplayer; rottura di pizza integra e pizza con 3/2/1 fette residue; rimozione del supporto e salvataggio/ricarica, senza perdite o duplicazioni.
+| Categoria | Punti saturazione per fetta |
+| --- | ---: |
+| Base/crosta | **+1** |
+| Salsa facoltativa | **+0,5** |
+| Formaggi (anche grattugiati) | **+1,5** |
+| Salumi, carne e pesce | **+2,5** |
+| Verdure e funghi | **+0,5** |
+| Erbe aromatiche e spezie | **+0** |
+
+- **Formula CONFERMATA:** `saturazione = min(6, 1 + somma_bonus_saturazione_categorie_distinte_del_quarto)`. **Massimo 6 punti di saturazione per fetta**.
+- **Esempi confermati:** bianca senza topping **1**; Margherita (base + salsa + formaggio) **3**; pomodoro + mozzarella + salame **5,5**; salsa + formaggio + salumi + verdure **6**. Salse opzionali: se mancanti, nessun +0,5.
+- **Categorie non cumulative:** due formaggi insieme contano sempre +1,5; salame e prosciutto insieme contano sempre +2,5. I quarti della stessa pizza possono avere saturazione differente.
+- **Fame e saturazione distinte:** una fetta con base + carne ha **3 punti fame** e **3,5 di saturazione**; una Margherita ha **3 punti fame** e **3 di saturazione**.
+- **NOTA TECNICA:** i numeri sopra sono **punti di saturazione effettiva**, **non** il valore grezzo di un eventuale `saturationModifier` vanilla. L'implementazione deve adattarli alla versione Minecraft 26.2/Fabric verificando le API disponibili; non trascriverli automaticamente nel campo del moltiplicatore. Le cifre e il tetto 6 sono approvati; gli **effetti alimentari opzionali** e le mappature iniziali cross-mod sono ancora da progettare.
+
 
 ## 7. Stati da gestire e testare
 
