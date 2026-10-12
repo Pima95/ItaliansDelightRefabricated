@@ -16,6 +16,7 @@
 - [x] Pizza Oven 1×1×1, **capienza una pizza alla volta**.
 - [x] Pizza Oven accetta **tutti i combustibili vanilla**.
 - [x] **Pala FACOLTATIVA per il Pizza Oven**: inserimento ed estrazione devono essere possibili anche senza pala. Il suo impiego resta un'opzione di comodita', non un requisito.
+- [x] **Rimozione della pizza dal terreno solo tramite ROTTURA**, decisione gia' confermata nella vecchia chat. **Nessuna raccolta con clic destro a mano vuota** sulla pizza stesa; la pizza cruda rotta restituisce impasto e ingredienti ancora associati, non un item pizza cruda integra. Le interazioni precedentemente approvate per stendere la palla o togliere topping restano distinte.
 - [x] **Nessuna bruciatura** con qualsiasi metodo.
 - [x] Rendering 2.5D: **salse piatte, altri topping poco rialzati**.
 - [x] Ingredienti di altre mod supportabili tramite definizioni e tag.
@@ -61,8 +62,8 @@
 - [ ] Consumo fuel del Pizza Oven, preriscaldamento e burn time residuo.
 - [ ] Hopper sopra/lati/sotto e fallback manuale.
 - [ ] Ricetta crafting Pizza Oven.
-- [ ] **Percorso senza pala dal mondo al Pizza Oven:** decidere come raccogliere una pizza gia' stesa/condita nel mondo in forma trasportabile senza confliggere con la stesura a mano e con Shift + clic per rimuovere condimenti. Verificare persistenza e nessuna duplicazione.
-- [ ] Definire i gesti diretti per inserire una pizza-item ed estrarla a mano vuota dal Pizza Oven; entrambi sono proposti in [PIZZA_OVEN.md](PIZZA_OVEN.md), ma la facoltativita' della pala e' gia' confermata.
+- [ ] **Percorso senza pala dal mondo al Pizza Oven:** verificare se sia previsto davvero un trasferimento integro di pizze gia' preparate a terra senza pala. **Non** proporre raccolta con clic destro a mano vuota ne' un item pizza completa come risultato della rottura della pizza cruda: quella rottura restituisce impasto e ingredienti. La facoltativita' generale della pala per il forno resta confermata; il percorso preciso da terra senza pala e' aperto.
+- [ ] Definire i gesti diretti per inserire nel Pizza Oven una pizza-item **ottenuta mediante un percorso valido, non dalla rottura di una pizza cruda**, ed estrarla a mano vuota **dal forno**; entrambi sono proposti in [PIZZA_OVEN.md](PIZZA_OVEN.md), ma la facoltativita' della pala e' gia' confermata.
 - [ ] Griglia crafting della pizza libera e output crudo/cotto.
 - [ ] Pizza cotta mangiabile intera o tagliata in 4 fette.
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
