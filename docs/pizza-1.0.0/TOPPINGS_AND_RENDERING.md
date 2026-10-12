@@ -97,9 +97,10 @@ Valutare caching di mesh e ricomposizione solo quando cambia la pizza, non a ogn
 - **Nel mondo**: modello completo con strati 2.5D.
 - **Nel Pizza Oven**: stessa pizza visibile dentro la bocca del forno.
 - **Item in inventario**: rappresentazione semplificata ma coerente con il gusto e la condizione cruda/cotta.
-- **Pizza Slice — CONFERMATO:** quattro possibili fette fisiche per pizza tagliata sul Cutting Board; il rendering dell'item fetta deve rappresentare **soltanto i topping effettivamente presenti nel proprio quarto fisico**. Una fetta margherita, una al pesto, una bianca e una al salame ricavate dalla stessa pizza devono conservare resa e gusto distinti. **La pizza intera (anche cotta) non e' commestibile; soltanto le fette cotte sono cibo.**
+- **Pizza cotta tagliata nel mondo — CONFERMATO:** il blocco pizza cotta e' posizionabile nel mondo. Con un **coltello** la pizza intera viene tagliata in quattro settori **che restano sul blocco**, senza droppare automaticamente quattro item. Dopo ciascun prelievo il renderer nasconde **solo la fetta prelevata**, lasciando visibili le altre e i rispettivi ingredienti; dopo l'ultima il blocco scompare.
+- **Pizza Slice — CONFERMATO:** l'item fetta rappresenta esclusivamente i condimenti del proprio quarto fisico, con gusto e nutrizione individuali. **La pizza intera non e' commestibile**, mentre lo sono le fette cotte. Cutting Board non obbligatorio, eventuale alternativa.
 
-Le pizze cotte riposizionabili sono una proposta da validare.
+**Pizza cotta posizionabile nel mondo — CONFERMATO:** il giocatore puo' appoggiare la pizza cotta su una superficie compatibile, tagliarla li' col coltello e prelevare individualmente le fette. **Da definire:** gesture precisa di prelievo e collisioni/shape delle porzioni rimaste. La suddivisione grafica delle zone di condimento non e' di per se' un taglio.
 
 ## Compatibilità con altre mod
 
