@@ -100,7 +100,7 @@ Valutare caching di mesh e ricomposizione solo quando cambia la pizza, non a ogn
 - **Pizza cotta tagliata nel mondo — CONFERMATO:** il blocco pizza cotta e' posizionabile nel mondo. Con un **coltello** la pizza intera viene tagliata in quattro settori **che restano sul blocco**, senza droppare automaticamente quattro item. Dopo ciascun prelievo il renderer nasconde **solo la fetta prelevata**, lasciando visibili le altre e i rispettivi ingredienti; dopo l'ultima il blocco scompare.
 - **Pizza Slice — CONFERMATO:** l'item fetta rappresenta esclusivamente i condimenti del proprio quarto fisico, con gusto e nutrizione individuali. **La pizza intera non e' commestibile**, mentre lo sono le fette cotte. Cutting Board non obbligatorio, eventuale alternativa.
 
-**Pizza cotta posizionabile nel mondo — CONFERMATO:** il giocatore puo' appoggiare la pizza cotta su una superficie compatibile, tagliarla li' col coltello e prelevare individualmente le fette. **Da definire:** gesture precisa di prelievo e collisioni/shape delle porzioni rimaste. La suddivisione grafica delle zone di condimento non e' di per se' un taglio.
+**Pizza cotta posizionabile nel mondo — CONFERMATO:** il giocatore puo' appoggiare la pizza cotta su una superficie compatibile, tagliarla li' col coltello e prelevare individualmente le fette. **CONFERMATO:** la raccolta avviene con **clic destro a mano vuota sulla fetta desiderata**; questa scompare visivamente mentre le altre restano. Con mano occupata nessuna raccolta. **Da definire:** collisioni/shape delle porzioni rimaste, reazione a inventario pieno e rottura della pizza gia' tagliata. La suddivisione grafica delle zone di condimento non e' di per se' un taglio.
 
 ## Compatibilità con altre mod
 
