@@ -22,6 +22,7 @@
 - [x] **Pala FACOLTATIVA per il Pizza Oven**: inserimento ed estrazione devono essere possibili anche senza pala. Il suo impiego resta un'opzione di comodita', non un requisito.
 - [x] **Pizza Oven CON GUI**: l'interfaccia e' il metodo ordinario per gestire pizza-item, combustibile, progresso di cottura e recupero.
 - [x] **Inserimento diretto con pala occupata**: clic destro sul Pizza Oven con pizza sulla pala trasferisce la pizza direttamente nel forno **senza aprire la GUI**; pala vuota dopo successo, nessun trasferimento se il forno e' occupato e dati conservati.
+- [x] **Estrazione diretta con pala vuota**: clic destro sul Pizza Oven preleva la pizza **anche a cottura incompleta**, senza GUI e conservando il progresso, gli ingredienti e tutti i dati. La GUI resta disponibile come metodo alternativo.
 - [x] **Pizza sul terreno recuperabile rompendo il blocco come ITEM PIZZA** (crudo o cotto), con tutti i dati di composizione, divisione, orientamento e cottura. **Nessuna raccolta con clic destro a mano vuota** sulla pizza stesa e nessun drop separato di impasto/topping dalla pizza formata. Stesura della palla e rimozione topping restano interazioni distinte.
 - [x] **Nessuna bruciatura** con qualsiasi metodo.
 - [x] Rendering 2.5D: **salse piatte, altri topping poco rialzati**.
@@ -73,7 +74,7 @@
 - [x] **Percorso senza pala dal mondo al Pizza Oven — CONFERMATO:** rompere la pizza gia' formata a terra per ottenere la **pizza-item integra**, quindi inserirla nel forno direttamente. Nessun clic destro a mano vuota raccoglie la pizza da terra.
 - [x] **Pizza-item nel forno tramite GUI**: la pizza ottenuta rompendo una pizza formata a terra (o da crafting) e' inseribile senza pala tramite la GUI; estrazione tramite GUI disponibile.
 - [ ] Definire il **layout della GUI**, gli slot input/output e la visualizzazione di avanzamento/energia, mantenendo la capienza di una pizza alla volta.
-- [ ] Definire se la **pala vuota** debba estrarre direttamente dal forno oppure aprire la GUI. L'**inserimento con pala occupata** e' invece gia' confermato.
+- [x] **Estrazione rapida con pala vuota — CONFERMATO:** clic destro sul Pizza Oven senza GUI preleva la pizza presente, **anche cruda o parzialmente cotta**. Dati e progresso di cottura restano nella pala. L'inserimento diretto con pala occupata era gia' confermato.
 - [ ] Griglia crafting della pizza libera e output crudo/cotto.
 - [ ] Pizza cotta mangiabile intera o tagliata in 4 fette.
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
@@ -136,6 +137,7 @@
 - [ ] Forno compatto orientabile con una pizza alla volta, **utilizzabile con o senza pala** (la pala non e' obbligatoria).
 - [ ] BlockEntity persistente, **GUI funzionante** per pizza/combustibile/cottura e **inserimento diretto alternativo con pala occupata**, senza bruciatura.
 - [ ] Test inserimento con pala occupata: un solo trasferimento, pala svuotata solo a successo, dati della pizza intatti; forno occupato -> nessun consumo/sostituzione. Test parallelo inserimento ed estrazione tramite GUI senza pala.
+- [ ] Test estrazione rapida con **pala vuota** a qualsiasi stadio della pizza (cruda, parzialmente cotta, cotta), incluso forno vuoto, conservazione progressi e ripresa della cottura dopo reinserimento; verificare multiplayer e nessuna duplicazione.
 - [ ] Tutti i combustibili vanilla, rimanenze dei contenitori e **energia residua conservata senza consumi a vuoto**; solo pizza come ricetta valida, inizio immediato senza preriscaldamento e progresso in pausa senza energia.
 - [ ] Automazione con hopper, se confermata.
 - [ ] Modelli, animazioni, traduzioni e ricetta.
