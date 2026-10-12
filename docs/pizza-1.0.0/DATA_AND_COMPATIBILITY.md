@@ -7,7 +7,7 @@
 
 ## Obiettivo tecnico
 
-Per supportare gusti combinabili senza migliaia di item separati, usare un sistema di pochi item/stati (palla, pizza cruda, pizza cotta, possibile fetta) con **data component** personalizzati. Le informazioni viaggiano tra blocco di preparazione, inventario, forni, pizza cotta e, se approvate, fette.
+Per supportare gusti combinabili senza migliaia di item separati, usare un sistema di pochi item/stati (palla, pizza cruda, pizza cotta, fetta) con **data component** personalizzati. Le informazioni viaggiano tra blocco di preparazione, inventario, forni, pizza cotta e, se approvate, fette.
 
 Identificatori iniziali possibili, **non definitivi**:
 - `italiansdelight:pizza_dough_ball`;
@@ -136,7 +136,7 @@ Il Pizza Oven e' un forno specializzato **esclusivamente per le pizze**: accetta
 - Una ricetta speciale da crafting potrebbe costruire una pizza cruda con gli stessi componenti della preparazione manuale.
 - Il Pizza Oven può salvare internamente l'intero `ItemStack` e produrne una copia cotta con componenti preservati. **CONFERMATO:** nessun requisito generale di possedere o impugnare una pala per usare il forno; l'inserimento/estrazione diretti senza pala sono previsti per una pizza ottenuta come item tramite un percorso valido (il crafting e' un'alternativa di preparazione prevista). **VINCOLO CONFERMATO:** una pizza preparata nel mondo **non** viene raccolta con clic destro a mano vuota; per rimuoverla si rompe, ottenendo **l'item pizza completo con data component persistenti**, anche quando e' cruda. Il percorso dal terreno al forno **senza pala** e' quindi la raccolta della pizza-item tramite rottura e il successivo inserimento diretto nel forno.
 - **Fornace/affumicatore vanilla**: una normale ricetta di smelting produce un output statico; trasferire i dati dell'input richiede verifica approfondita e una integrazione mirata che **non** cambi le ricette di altre mod.
-- Per le fette, se confermate, usare gli stessi ingredienti/nome e nutrizione frazionata con gestione coerente di arrotondamenti.
+- **Fette CONFERMATE nel principio:** la pizza cotta e' consumabile intera oppure tagliabile in **4 fette sul Cutting Board di Farmer's Delight Refabricated**. Ogni fetta deve mantenere metadati di gusto/composizione e contribuire indicativamente per **1/4 ai valori nutrizionali totali**, con arrotondamenti e bilanciamento ancora aperti. **Non e' ancora stabilito** se i dati degli ingredienti di una fetta provengano esclusivamente dal **quarto fisico corrispondente** oppure rappresentino il gusto complessivo della pizza; evitare una scelta implicita nell'implementazione.
 
 ## Compatibilità con altre mod
 
