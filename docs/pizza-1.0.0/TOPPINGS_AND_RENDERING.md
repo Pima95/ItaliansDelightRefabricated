@@ -68,7 +68,7 @@ Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Deligh
 
 **Il ruolo della pizza e' distinto dalla categoria nutrizionale**: se panna ha ruolo salsa, occupa l'unico slot salsa nel quarto ma nutrizionalmente conta solo come latticino; l'olio e' compatibile con la salsa senza occupare il suo ruolo, pur contando nel massimo di 6 topping. Ingrediente/categoria non significa equivalenza: uovo e prosciutto, panna e mozzarella restano item distinti per lo storico e i rimborsi. Ogni categoria contribuisce **una volta per quarto**; entrambe le statistiche mantengono tetto 6.
 
-**Compatibilita' Farmer's Delight Refabricated e mod future confermata:** prevedere mapping e resa/fallback per candidati come salsa di pomodoro, cipolla, uova fritte, bacon, prosciutto, pesce e altri ingredienti idonei; **verificare nomi e tag nella dipendenza 26.2 e approvare i topping singolarmente**. Non accettare automaticamente tutti i pasti/cibi di altre mod. Vedi [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md).
+**Compatibilita' release 1.0.0 confermata:** mapping e resa/fallback per ingredienti selezionati da **Italian's Delight Refabricated e Farmer's Delight Refabricated**, come salsa di pomodoro, cipolla, uova fritte, bacon, prosciutto, pesce e altri ingredienti idonei; le **altre mod forniscono soltanto item sostitutivi equivalenti** riconosciuti tramite tag comuni `c:` specifici o mappature puntuali, **non ulteriori tipi di topping**; **verificare nomi e tag nella dipendenza 26.2 e approvare i topping singolarmente**. Non accettare automaticamente tutti i pasti/cibi di altre mod. Vedi [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md).
 
 ## Crudo e cotto
 
@@ -121,7 +121,7 @@ Valutare caching di mesh e ricomposizione solo quando cambia la pizza, non a ogn
 
 ## Compatibilità con altre mod
 
-Separare **validita' dell'ingrediente** (tag/definizione), **identita' canonica equivalente** (antiduplicazione e conteggio del limite di 6) e **preset grafico** (categoria, geometria, aspetto). Una mozzarella riconosciuta di un'altra mod deve condividere l'identita' logica della mozzarella gia' applicata, senza sostituire l'item reale da rimborsare. I tag troppo generici (es. tutti i formaggi) non determinano equivalenza. Un ingrediente compatibile senza modello dedicato usa un fallback visuale del suo gruppo, senza apparire invisibile. Non accettare automaticamente ogni alimento come topping.
+**AMBITO 1.0.0:** i tipi di topping ufficiali derivano solo da Italian's Delight e Farmer's Delight Refabricated; tag comuni `c:` e mapping specifici possono accettare item di altre mod **soltanto come varianti equivalenti di quei tipi**. Un tag alimentare ampio non deve introdurre nuovi tipi. Separare **validita' dell'ingrediente** (tag/definizione), **identita' canonica equivalente** (antiduplicazione e conteggio del limite di 6) e **preset grafico** (categoria, geometria, aspetto). Una mozzarella riconosciuta di un'altra mod deve condividere l'identita' logica della mozzarella gia' applicata, senza sostituire l'item reale da rimborsare. I tag troppo generici (es. tutti i formaggi) non determinano equivalenza. Un ingrediente compatibile senza modello dedicato usa un fallback visuale del suo gruppo, senza apparire invisibile. Non accettare automaticamente ogni alimento come topping.
 
 ## Texture già presenti da conservare
 
