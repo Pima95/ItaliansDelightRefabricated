@@ -185,9 +185,10 @@ Ogni fetta servita direttamente da una pizza cotta piazzata deve usare **soltant
 | --- | ---: |
 | Base/crosta della fetta | **+1** |
 | Salse (opzionali) | **+1** |
-| Formaggi (anche grattugiati) | **+1** |
-| Salumi, carni, pesce | **+2** |
-| Verdure e funghi | **+1** |
+| Latticini: formaggi (anche grattugiati), panna | **+1** |
+| Proteine animali: salumi, carni, pesce, uova | **+2** |
+| Vegetali: verdure, funghi, olive | **+1** |
+| Oli e grassi: olio d'oliva | **+0** |
 | Erbe e spezie | **+0** |
 
 **Algoritmo confermato:** dare il valore base **1** alla porzione e aggiungere **una sola volta** il bonus di ogni categoria presente nel relativo quarto (non un bonus per ogni item). Quindi **`hunger = min(6, 1 + sum(bonus_per_categoria_presente))`**, con cap di **6 punti fame (3 cosciotti) per fetta**. La salsa non e' obbligatoria ma, se presente, vale **+1**; mozzarella e gorgonzola insieme danno un solo **+1 formaggi**, salame e prosciutto insieme un solo **+2 salumi/carne/pesce**. I valori per fetta di una pizza mista possono differire. Esempi: margherita **3**, salame+salsa+formaggio **5**, vegetariana+salsa+formaggio **4**, bianca vuota **1**.
@@ -200,9 +201,10 @@ Ogni fetta servita direttamente da una pizza cotta piazzata deve usare **soltant
 | --- | ---: |
 | Base/crosta | **+1** |
 | Salsa facoltativa | **+0,5** |
-| Formaggi (anche grattugiati) | **+1,5** |
-| Salumi, carne e pesce | **+2,5** |
-| Verdure e funghi | **+0,5** |
+| Latticini: formaggi (anche grattugiati), panna | **+1,5** |
+| Proteine animali: salumi, carne, pesce, uova | **+2,5** |
+| Vegetali: verdure, funghi, olive | **+0,5** |
+| Oli e grassi: olio d'oliva | **+1** |
 | Erbe aromatiche e spezie | **+0** |
 
 **Formula:** `saturation_points = min(6, 1 + sum(category_saturation_bonus))`, ogni categoria distinta presente sul quarto fisico conta **una volta**. Saturazione distinta dalla fame, anche per fette con la stessa fame. Il conteggio e' effettuato sul quarto dopo il trasferimento dei dati dei topping, e non modifica il limite di sei ingredienti diversi per quarto.
