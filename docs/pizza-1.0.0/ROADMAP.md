@@ -21,6 +21,7 @@
 - [x] Pizza Oven accetta **tutti i combustibili vanilla**.
 - [x] **Pala FACOLTATIVA per il Pizza Oven**: inserimento ed estrazione devono essere possibili anche senza pala. Il suo impiego resta un'opzione di comodita', non un requisito.
 - [x] **Pizza Oven con GUI VANILLA DELLA FORNACE**: stessa grafica/disposizione della fornace di Minecraft, **tre slot** (pizza in ingresso, combustibile, pizza cotta in uscita), fiamma e freccia di progressione. Nessuna GUI grafica personalizzata; la gestione della pala resta un'interazione diretta alternativa.
+- [x] **Ricetta crafting Pizza Oven CONFERMATA:** shaped 3x3, **1 fornace vanilla al centro**, **4 blocchi di mattoni** negli angoli, **4 blocchi di mattoni di pietra** sui lati; risultato **1 Pizza Oven**, nessun altro materiale.
 - [x] **Inserimento diretto con pala occupata**: clic destro sul Pizza Oven con pizza sulla pala trasferisce la pizza direttamente nel forno **senza aprire la GUI**; pala vuota dopo successo, nessun trasferimento se il forno e' occupato e dati conservati.
 - [x] **Estrazione diretta con pala vuota**: clic destro sul Pizza Oven preleva la pizza **anche a cottura incompleta**, senza GUI e conservando il progresso, gli ingredienti e tutti i dati. La GUI resta disponibile come metodo alternativo.
 - [x] **Pizza sul terreno recuperabile rompendo il blocco come ITEM PIZZA** (crudo o cotto), con tutti i dati di composizione, divisione, orientamento e cottura. **Nessuna raccolta con clic destro a mano vuota** sulla pizza stesa e nessun drop separato di impasto/topping dalla pizza formata. Stesura della palla e rimozione topping restano interazioni distinte.
@@ -69,7 +70,8 @@
 - [x] **Meccanica consumo fuel / preriscaldamento / burn time residuo definita**: zero preriscaldamento, solo consumo durante cottura, energia residua conservata tra pizze, avanzamento in pausa se finisce il fuel.
 - [ ] Implementare e testare la gestione del burn time residuo e il progresso di cottura persistente del Pizza Oven (inclusi salvataggio, chunk unload e cambio combustibile); il consumo durante inattivita' deve rimanere nullo.
 - [ ] Hopper sopra/lati/sotto e fallback manuale.
-- [ ] Ricetta crafting Pizza Oven.
+- [x] **Ricetta Pizza Oven concordata**: fornace centrale + 4 blocchi di mattoni + 4 blocchi di mattoni di pietra; schema **BSB / SFS / BSB** (B = bricks, S = stone bricks, F = furnace).
+- [ ] **Implementare e testare** la ricetta shaped 3x3, il relativo sblocco nel ricettario e la visualizzazione in JEI.
 - [ ] Implementare e testare la **pizza-item ottenuta rompendo la pizza formata nel mondo**, con stato di cottura, divisioni, applicazioni e rendering conservati; verificare nessun drop separato di dough/topping e trasferimento corretto al Pizza Oven.
 - [x] **Percorso senza pala dal mondo al Pizza Oven — CONFERMATO:** rompere la pizza gia' formata a terra per ottenere la **pizza-item integra**, quindi inserirla nel forno direttamente. Nessun clic destro a mano vuota raccoglie la pizza da terra.
 - [x] **Pizza-item nel forno tramite GUI**: la pizza ottenuta rompendo una pizza formata a terra (o da crafting) e' inseribile senza pala tramite la GUI; estrazione tramite GUI disponibile.
@@ -141,7 +143,7 @@
 - [ ] Test estrazione rapida con **pala vuota** a qualsiasi stadio della pizza (cruda, parzialmente cotta, cotta), incluso forno vuoto, conservazione progressi e ripresa della cottura dopo reinserimento; verificare multiplayer e nessuna duplicazione.
 - [ ] Tutti i combustibili vanilla, rimanenze dei contenitori e **energia residua conservata senza consumi a vuoto**; solo pizza come ricetta valida, inizio immediato senza preriscaldamento e progresso in pausa senza energia.
 - [ ] Automazione con hopper, se confermata.
-- [ ] Modelli, animazioni, traduzioni e ricetta.
+- [ ] Modelli, animazioni, traduzioni e **implementazione della ricetta gia' approvata** (BSB / SFS / BSB).
 
 ### Fase 5: forno vanilla e crafting
 
