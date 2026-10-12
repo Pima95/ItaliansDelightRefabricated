@@ -14,6 +14,20 @@ Questa ricognizione e' basata sui **registri degli item esistenti**, non sulle d
 - Farmer's Delight Refabricated, branch ufficiale `fabric/latest/26.2` con `mod_version=3.6.28`: [ModItemIds.java](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/references/ModItemIds.java), [ModBlockItemIds.java](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/references/ModBlockItemIds.java) e [ModItems.java](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/registry/ModItems.java).
 - Dipendenza effettiva di Italian's Delight: `fdrf_version=26.2-3.6.28+refabricated` in [gradle.properties](https://github.com/Pima95/ItaliansDelightRefabricated/blob/feature/pizza-1.0.0/gradle.properties).
 
+## Requisito di preparazione e dimensione — CONFERMATO (12 ottobre 2026)
+
+**Nessun alimento puo' essere messo sulla pizza solo perche' commestibile, presente in una delle due mod autorizzate o incluso in un tag condiviso.** Il topping deve rappresentare un **ingrediente gia' pronto a essere distribuito sulla pizza**, porzionato e fisicamente plausibile per dimensioni/forma, oppure una **salsa/crema pronta da spalmare**. Il filtro si applica a tutti gli ItemStack, **anche se provenienti da mod terze equivalenti**.
+
+**NON applicabili direttamente:** prosciutti cotti/crudi e salumi in forme intere, ruote intere di formaggio, grandi forme intere di scamorza, bistecche o grossi tagli di carne interi (es. `minecraft:beef` o `minecraft:cooked_beef`), cavoli/cipolle interi quando il risultato non rappresenterebbe una guarnizione credibile, ingredienti industriali/preparatori, cibi ancora da lavorare, e pasti completi. Non scalare graficamente un grande pezzo di carne/formaggio per farlo apparire una fetta: **serve una vera variante di item idonea**.
+
+**Candidati idonei per forma (singole scelte da confermare in elenco):** formaggi gia' affettati, porzionati a spicchi o grattugiati; salumi gia' affettati; carni/pesci gia' tagliati e preparati per l'uso (preferire le versioni cotte quando applicabile); pomodoro gia' a fette, verdure a foglia/pezzetti pronti, erbe, salse e creme preparate. Un ingrediente **non deve necessariamente essere gia' cotto** quando puo' ragionevolmente essere aggiunto alla pizza prima della cottura (es. pomodoro affettato o basilico), ma deve essere **gia' nella forma adatta**. Le varianti crude di carne/pesce gia' tagliate e il requisito preciso di cottura sono **ancora da valutare**: non includerle automaticamente nel primo elenco.
+
+**Cutting Board:** utilizzare una ricetta reale di **Farmer's Delight Refabricated** (o altra lavorazione consentita) per trasformare un ingrediente troppo grande nella relativa porzione, **se una tale ricetta e un output effettivamente idoneo esistono**. La Cutting Board non e' richiesta per i condimenti gia' porzionati; **non** e' un requisito per la stesura dell'impasto, il condimento o il servizio delle fette della pizza cotta. **Non inventare una ricetta o un nuovo item di output** prima di concordarli esplicitamente. Se un alimento e' troppo grande e non esiste ancora una variante lavorata idonea, resta **non applicabile**.
+
+**Conseguenza per tag comuni/equivalenze:** validazione in ordine di **tipo ufficiale del catalogo -> ID/tag comune specifico -> variante/stato dell'item effettivamente pronto -> limiti di salsa, sei topping e anti-duplicato**. Un tag `c:foods/cheese`, per esempio, non rende applicabile una ruota intera solo perche' contiene una fetta compatibile. Le definizioni devono distinguere **forme intere e porzionate** anche quando condividono categoria nutrizionale. Se il test fallisce, il clic non consuma oggetti e non cambia la pizza.
+
+**Criteri di test:** mozzarella a fette accettabile ma grande ruota di parmigiano no; salame a fette si, salame intero no; `farmersdelight:cooked_chicken_cuts` candidato, bistecca intera `minecraft:cooked_beef` no; `farmersdelight:tomato_sauce` candidato come salsa, una ciotola di pasto completo no; equivalenza cross-mod che **non** aggira il controllo su porzione/stato. Tutti i valori nutrizionali e i rimborsi gia' approvati restano invariati.
+
 ## 1. Italian's Delight Refabricated — ID esistenti e candidati
 
 Tutti gli ID delle prossime tabelle usano il namespace **`italiansdelight:`**, tranne diversa indicazione.
@@ -22,13 +36,13 @@ Tutti gli ID delle prossime tabelle usano il namespace **`italiansdelight:`**, t
 | --- | --- | --- | --- |
 | Pomodoro | `tomato_slice` | topping vegetale, **non salsa automatica** | candidato prioritario |
 | Basilico | `basil` (item del blocco coltivabile) | erba aromatica | candidato prioritario |
-| Mozzarella | `mozzarella`, `mozzarella_slice` | latticini, pezzi/fette | candidati prioritari; scegliere le equivalenze di formato |
-| Latticini freschi | `bocconcino`, `ricotta`, `burrata` | latticini, pezzi/creme | candidati |
+| Mozzarella | `mozzarella`, `mozzarella_slice` | latticini | **`mozzarella_slice` candidata prioritariamente**; mozzarella intera da valutare per dimensione, **non abilitare direttamente per default** |
+| Latticini freschi | `bocconcino`, `ricotta`, `burrata` | latticini, pezzi/creme | candidati **solo se servibili in dimensione/forma appropriata**; crema pronta ammessa come principio, burrata intera non automaticamente |
 | Parmigiano | `parmigiano_reggiano_wedge`, `grated_parmigiano_reggiano` | latticini, scaglie/grattugiato | candidati prioritari |
 | Pecorino | `pecorino_romano_wedge`, `grated_pecorino_romano` | latticini, scaglie/grattugiato | candidati prioritari |
 | Gorgonzola | `gorgonzola_wedge` | latticini, pezzetti/crema | candidato prioritario |
 | Provolone | `provolone_slice` | latticini, fette | candidato prioritario |
-| Scamorza | `scamorza`, `smoked_scamorza`, `scamorza_slice`, `smoked_scamorza_slice` | latticini; decidere se includere forme intere oppure solo fette | candidati |
+| Scamorza | `scamorza`, `smoked_scamorza`, `scamorza_slice`, `smoked_scamorza_slice` | latticini | **fette `scamorza_slice`, `smoked_scamorza_slice` candidate**; **forme intere `scamorza`, `smoked_scamorza` non applicabili direttamente** |
 | Panna/creme | `cream_bowl`, `mascarpone` | categoria **latticini**, eventuale ruolo **salsa**; restituire la ciotola quando previsto | candidati; decidere ruolo per ciascuno |
 | Salumi affettati | `prosciutto_crudo_slice`, `salame_slice`, `mortadella_slice`, `pancetta_slice` | proteine animali, fette | candidati prioritari |
 | Salumi affettati (continua) | `guanciale_slice`, `bresaola_slice`, `coppa_slice`, `speck_slice` | proteine animali, fette | candidati prioritari |
@@ -45,17 +59,17 @@ Tutti gli ID di questa tabella usano namespace **`farmersdelight:`**. Anche `oni
 | Gruppo | ID verificati nel sorgente 26.2 | Uso sulla pizza proposto | Stato |
 | --- | --- | --- | --- |
 | Salsa di pomodoro | `tomato_sauce` | **ruolo salsa**, categoria nutrizionale salse | candidato prioritario; **resto: bowl** |
-| Pomodoro fresco | `tomato` | topping vegetale, non salsa implicita | candidato prioritario |
-| Cipolla | `onion` | vegetale, anelli/pezzetti | candidato prioritario |
-| Cavolo | `cabbage`, `cabbage_leaf` | vegetale, preferibile forma foglia | candidati; decidere intero vs foglia |
+| Pomodoro fresco | `tomato` | topping vegetale, non salsa implicita | **pomodoro intero non applicabile direttamente**; servono fette/porzioni idonee con item/ricetta verificati |
+| Cipolla | `onion` | vegetale, anelli/pezzetti | **cipolla intera non applicabile direttamente**; anelli/pezzetti solo se esiste output tagliato appropriato |
+| Cavolo | `cabbage`, `cabbage_leaf` | vegetale, foglie | **`cabbage` intero escluso**; `cabbage_leaf` candidato se compatibile come condimento |
 | Uovo | `fried_egg` | proteine animali, topping solido | candidato prioritario |
-| Bacon | `bacon`, `cooked_bacon` | proteine animali, striscioline | candidati; distinguere varianti |
-| Prosciutto | `ham`, `smoked_ham` | proteine animali, affettato/pezzi | candidati |
-| Pollo | `chicken_cuts`, `cooked_chicken_cuts` | proteine animali, pezzetti | candidati; preferire cotto se si sceglie |
-| Merluzzo | `cod_slice`, `cooked_cod_slice` | proteine animali, pesce | candidati; valutare crudo/cotto |
-| Salmone | `salmon_slice`, `cooked_salmon_slice` | proteine animali, pesce | candidati; valutare crudo/cotto |
+| Bacon | `bacon`, `cooked_bacon` | proteine animali, striscioline | **`cooked_bacon` candidato prioritario**; `bacon` gia' affettato ma crudo **da valutare**, non incluso automaticamente |
+| Prosciutto | `ham`, `smoked_ham` | proteine animali | **forme intere NON utilizzabili direttamente**, anche se cotte/affumicate; richiedere un item di fette/pezzi realmente ottenibile tramite lavorazione |
+| Pollo | `chicken_cuts`, `cooked_chicken_cuts` | proteine animali, pezzetti | **`cooked_chicken_cuts` candidato prioritario**; `chicken_cuts` crudo da valutare separatamente |
+| Merluzzo | `cod_slice`, `cooked_cod_slice` | proteine animali, pesce | **`cooked_cod_slice` candidato prioritario**; `cod_slice` crudo da valutare separatamente |
+| Salmone | `salmon_slice`, `cooked_salmon_slice` | proteine animali, pesce | **`cooked_salmon_slice` candidato prioritario**; `salmon_slice` crudo da valutare separatamente |
 | Zucca | `pumpkin_slice` | vegetale stagionale | candidato secondario |
-| Carne macinata | `minced_beef`, `beef_patty` | proteine animali | **non nel primo insieme prioritario**: patties e lavorazioni ancora da valutare |
+| Carne macinata | `minced_beef`, `beef_patty` | proteine animali | **non applicabili direttamente nel primo elenco**; valutare solo forme pronte e porzioni realmente adatte, non patty/bistecca interi |
 | Impasto | `wheat_dough` | **base della pizza**, non topping | riuso del percorso impasto gia' progettato |
 
 **Da escludere come topping nel primo elenco proposto:** `rotten_tomato`, `raw_pasta`, `pie_crust`, `milk_bottle`, `hot_cocoa`, `apple_cider`, `melon_juice`, zuppe, risi, insalate e piatti completi (sandwich, hamburger, ecc.), dolci e dessert. Non significa escludere future ricette autonome: questa lista riguarda soltanto i condimenti applicati alla pizza.
@@ -78,7 +92,7 @@ I tag `#c:foods/cheese` e `#c:cheese` sono **ampi**: consentono di conoscere la 
 ## 4. Decisioni ancora necessarie prima del codice
 
 1. **Approvare o correggere i gruppi proposti** nelle due tabelle: una lista di ID reali non e' da sola il via libera a usarli tutti sulle pizze.
-2. **Forma prima dell'applicazione:** mozzarella e scamorza intere o a fette; cavolo intero o foglie; formaggi a spicchi/grattugiati; carni crude vs gia' cotte; ciotole di panna/ricotta/mascarpone.
+2. **Forma prima dell'applicazione (PRINCIPIO APPROVATO):** grandi forme intere di formaggio/salumi, prosciutto intero e bistecche intere non possono essere topping. Verificare **quali porzioni gia' pronte** usare effettivamente (mozzarella/scamorza a fette, cavolo a foglie, formaggi a spicchi/grattugiati, carni/pesci gia' tagliati e preparati), i casi piccoli come bocconcino e l'uso delle ciotole di panna/ricotta/mascarpone; le singole varianti non sono tutte approvate.
 3. **Pomodoro di Farmer's Delight:** usare `tomato` come topping vegetale e `tomato_sauce` come salsa e' la proposta attuale, **non ancora una decisione confermata**.
 4. **Equivalenze puntuali e tag reali:** mozzarella vs mozzarella_slice, pomodoro fresco di Farmer's Delight vs tomato_slice di Italian's Delight (non necessariamente lo stesso tipo fino alla decisione), bacon/ham vs salumi della nostra mod; controllare sovrapposizioni e trasformazioni prima di raggruppare.
 5. **Remainder dei contenitori:** `farmersdelight:tomato_sauce` dichiara `craftRemainder(Items.BOWL)`, e `italiansdelight:cream_bowl`, `ricotta`, `mascarpone` dichiarano un resto ciotola. **Verificare in gioco** il meccanismo quando il contenuto viene applicato alla pizza, facendo restituire il recipiente **una sola volta** senza duplicare l'ingrediente.
