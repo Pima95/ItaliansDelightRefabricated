@@ -4,12 +4,17 @@
 
 - **Pizza Oven dedicato** e possibilità di cuocere le pizze anche nei **forni vanilla esistenti** (fornace e affumicatore).
 - Pizza Oven **compatto da un solo blocco (1×1×1)**, che cuoce **una pizza per volta**.
+- **Specializzazione confermata:** e' un forno con logica simile alla fornace vanilla, ma **cuoce esclusivamente pizze**. Non accetta altri cibi o oggetti come input di cottura; il combustibile e' gestito separatamente con tutti i tipi vanilla validi.
 - Accetta **tutti i combustibili vanilla validi**, non solo legna.
 - **Le pizze non bruciano mai**, indipendentemente da tempo trascorso e tipo di forno.
 - La trasformazione da cruda a cotta deve conservare ingredienti, quantità, composizione e dati della pizza.
 - **Pala FACOLTATIVA — CONFERMATO:** il Pizza Oven deve funzionare sia **con** sia **senza** la pala per pizza. La pala e' una comodita' di trasporto, non un requisito generale per utilizzare il forno. Il percorso per una pizza creata come item e' ancora da finalizzare.
 - **Pizza preparata a terra — CONFERMATO:** non si raccoglie con clic destro a mano vuota. Per toglierla da terra **si rompe**, ottenendo **l'item pizza completo**, crudo o cotto secondo lo stato, con ingredienti, coperture, suddivisioni e ogni dato di preparazione/cottura. **Non** restituire separatamente impasto e ingredienti quando una pizza completa viene rotta. La pala resta un'alternativa facoltativa per trasportarla direttamente.
 - **Percorso senza pala — CONFERMATO:** preparare la pizza sul terreno -> rompere la pizza per ottenere il relativo **item completo** -> inserire l'item nel Pizza Oven. Non serve alcun gesto di raccolta a mano vuota. L'item conserva la stessa ricetta personalizzata e gli stessi dati della pizza; inserimento, cottura ed estrazione non devono azzerarli.
+- **Nessun preriscaldamento — CONFERMATO:** quando c'e' una pizza cruda e combustibile/energia sufficiente, la cottura inizia subito, senza attendere che il forno raggiunga una temperatura minima.
+- **Nessuno spreco di combustibile — CONFERMATO:** il burn time/energia si consuma **solo mentre la cottura procede effettivamente**; rimane congelato quando il forno e' vuoto, in attesa di una pizza, o quando la pizza e' pronta.
+- **Interruzione e ripresa — CONFERMATO:** se il combustibile termina durante la preparazione, la cottura si **mette in pausa** conservando il progresso, e riprende quando viene aggiunto combustibile valido. Non riparte da zero.
+- **Energia residua — CONFERMATO:** il valore residuo di un combustibile gia' attivato puo' essere riutilizzato per cuocere altre pizze, senza consumarlo durante inattivita' e senza prelevare nuove unita' di combustibile quando non necessario.
 
 ## Struttura del Pizza Oven — PROPOSTA
 
@@ -35,16 +40,16 @@ La **facoltativita' della pala e' una decisione confermata**. Le interazioni dir
 
 **Confermato:** compatibilità con tutti i combustibili vanilla.
 
-**Comportamenti proposti da implementare/verificare:**
-- usare il sistema di burn time di Minecraft/Fabric 26.2, senza lista hardcoded;
+**Meccanica approvata:** consumo di energia **solo con cottura effettiva**; pausa del consumo a forno vuoto o pizza pronta; memorizzazione dell'energia residua anche tra pizze; stop della cottura quando l'energia finisce e ripresa dallo stesso avanzamento al rifornimento, senza preriscaldamento.
+
+**Dettagli tecnici da implementare/verificare (non nuove decisioni di design):**
+- usare i burn time dei combustibili validi di Minecraft/Fabric 26.2, evitando liste hardcoded;
 - uno slot interno per combustibile, fino allo stack consentito;
-- memorizzare l'energia residua di un'unità di fuel per più pizze;
-- **consumare energia solo quando una pizza sta effettivamente cuocendo**;
-- fermare il consumo quando il forno è vuoto o la pizza è pronta;
-- se esaurisce fuel a metà, mettere la cottura in pausa, non azzerarla;
-- salvare progressi e sospenderli con chunk scaricato;
-- gestire i contenitori del combustibile, ad esempio **secchio vuoto dopo lava**;
-- preservare fuel e stato tra caricamenti, multiplayer e automazioni.
+- non prelevare unita' di combustibile se non serve per una cottura effettiva;
+- salvare energia residua e progresso, sospendendo il progresso quando il chunk non e' caricato;
+- gestire i contenitori dei combustibili, ad esempio **secchio vuoto dopo lava**;
+- preservare fuel e stato tra caricamenti, multiplayer e automazioni;
+- il comportamento del combustibile del Pizza Oven e' **intenzionalmente diverso dalla combustione continua vanilla** quando la fornace resta accesa senza cuocere.
 
 Il forno non deve continuare a cuocere una pizza dopo il 100%, perché **non deve mai bruciarsi**.
 
@@ -52,11 +57,11 @@ Il forno non deve continuare a cuocere una pizza dopo il 100%, perché **non dev
 
 | Sistema | Tempo proposto |
 | --- | ---: |
-| Pizza Oven già caldo | 20 secondi |
+| Pizza Oven (nessun preriscaldamento) | 20 secondi |
 | Affumicatore vanilla | 30 secondi |
 | Fornace vanilla | 60 secondi |
 
-Non sono tempi approvati; verranno bilanciati dopo test. Eventuale preriscaldamento ancora da decidere.
+I **tempi 20/30/60 secondi sono placeholder**, non ancora bilanciati: i valori definitivi saranno decisi durante il rebalancing. **L'assenza di preriscaldamento e la gestione dell'energia del Pizza Oven sono invece confermate**, indipendentemente dai tempi.
 
 ## Automazione hopper — PROPOSTA
 
