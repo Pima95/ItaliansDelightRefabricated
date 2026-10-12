@@ -83,11 +83,13 @@
 - [ ] Griglia crafting della pizza libera e output crudo/cotto.
 - [x] **Pizza intera cotta NON commestibile — CONFERMATO:** per mangiarla occorrono fette. **Metodo diretto approvato:** piazzare la pizza cotta a terra, usare un **coltello** per tagliarla in quattro e poi prelevare singole fette dalla pizza che rimane nel mondo. **Cutting Board NON obbligatorio**, solo possibile alternativa.
 - [x] **Fette con il gusto del proprio QUARTO FISICO — CONFERMATO:** ogni fetta conserva solo i topping del quarto corrispondente, mai la composizione globale. Vale indipendentemente da divisioni/riunioni logiche fatte con il mattarello.
-- [ ] Implementare e testare il **taglio con coltello della pizza cotta posizionata nel mondo**, stato tagliato e maschera a quattro quarti rimanenti, prelievo singolo senza drop automatico al taglio, dati/visuale/nutrizione distinti per fetta, e nessuna duplicazione. Testare anche l'eventuale alternativa Cutting Board.
+- [ ] Implementare e testare il **taglio con coltello della pizza cotta posizionata nel mondo**, stato tagliato e maschera a quattro quarti rimanenti; **clic destro a mano vuota sulla fetta specifica per raccoglierla in inventario**, senza automatismi al taglio; mano occupata non raccoglie. Mantenere dati/visuale/nutrizione distinti, niente duplicazioni. Testare anche l'eventuale alternativa Cutting Board.
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
 - [ ] Elenco ufficiale delle pizze riconosciute e dei condimenti iniziali.
 - [ ] Valori fame, saturazione, eventuali effetti alimentari.
-- [ ] Definire il **gesto per prendere una singola fetta nel mondo**, il drop se viene rotto il blocco gia' tagliato e l'insieme dei coltelli compatibili: non sono ancora stati approvati i dettagli.
+- [x] **Raccolta fette CONFERMATA:** clic destro **a mano vuota sulla fetta scelta di una pizza gia' tagliata** -> **una sola fetta nell'inventario**, quella fetta scompare dal mondo e le altre restano disponibili. Con un oggetto nella mano usata per interagire non raccogliere nulla. La pizza intera non si raccoglie a mano vuota.
+- [ ] **Da definire:** comportamento a inventario pieno, drop rompendo una pizza gia' tagliata e coltelli compatibili; il gesto di raccolta e il vincolo di mano vuota sono invece decisi.
+- [ ] **Implementare/testare** pickup delle fette a mano vuota (target per quarto), aggiornamento maschera, rimozione dopo ultima fetta, test mano occupata, doppio clic/multiplayer, salvataggio e inventario pieno senza duplicazioni.
 - [ ] Test visivo delle nuove forme e hitbox dell'impasto nei cinque stadi (vedi [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md)).
 - [ ] Gestione delle collisioni, del posizionamento e rendering di dettaglio.
 - [ ] API effettive per mantenere data component nelle fornaci vanilla.
