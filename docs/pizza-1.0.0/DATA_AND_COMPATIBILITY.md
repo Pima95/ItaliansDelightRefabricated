@@ -116,7 +116,7 @@ La definizione definitiva dovrà prevedere alternative via tag, gestione delle q
 ## Cottura e crafting dinamici: punti a rischio
 
 - Una ricetta speciale da crafting potrebbe costruire una pizza cruda con gli stessi componenti della preparazione manuale.
-- Il Pizza Oven può salvare internamente l'intero `ItemStack` e produrne una copia cotta con componenti preservati.
+- Il Pizza Oven può salvare internamente l'intero `ItemStack` e produrne una copia cotta con componenti preservati. **CONFERMATO:** nessun requisito di possedere o impugnare una pala per usare il forno; il trasporto con pala e l'inserimento/estrazione diretti senza pala devono essere percorsi alternativi che preservano identici dati. **Ancora da definire:** recupero senza pala di una pizza preparata direttamente nel mondo (evitando conflitti con la stesura e la rimozione dei topping).
 - **Fornace/affumicatore vanilla**: una normale ricetta di smelting produce un output statico; trasferire i dati dell'input richiede verifica approfondita e una integrazione mirata che **non** cambi le ricette di altre mod.
 - Per le fette, se confermate, usare gli stessi ingredienti/nome e nutrizione frazionata con gestione coerente di arrotondamenti.
 
