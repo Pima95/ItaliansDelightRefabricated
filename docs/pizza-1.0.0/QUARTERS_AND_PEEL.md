@@ -2,6 +2,8 @@
 
 > **Stato (11 ottobre 2026): specifica di design, non implementazione completata.**
 > Questo documento registra le decisioni concordate. **CONFERMATO** indica un comportamento deciso; **DA DEFINIRE** indica una scelta ancora aperta. Le indicazioni tecniche sono requisiti o proposte, non attestazioni di codice gia' presente.
+>
+> **Principio generale CONFERMATO:** per le interazioni di base si segue sempre il **comportamento vanilla di Minecraft** (caduta, raccolta, despawn, distruzione tramite danni ambientali, ecc.) salvo diversa regola personalizzata gia' approvata. Non richiedere nuove decisioni per ogni caso standard; discutere soltanto eccezioni e meccaniche che cambiano il gameplay.
 
 ## Obiettivo e contesto
 
@@ -14,11 +16,26 @@ Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozza
 **Correzione importante:** la pizza NON nasce obbligatoriamente divisa in quattro parti. La suddivisione viene scelta dal giocatore **solo dopo aver steso completamente l'impasto**.
 
 - **Pizza intera (1 zona):** nessuna ulteriore interazione col mattarello; un ingrediente applicato copre l'intera pizza.
-- **Due meta' (2 zone):** con un clic destro del **mattarello sulla base gia' completamente stesa** la pizza si divide logicamente in due meta'. Ogni meta' puo' essere condita in modo autonomo.
+- **Due meta' (2 zone):** con un clic destro del **mattarello sulla base gia' completamente stesa** la pizza si divide logicamente in due meta'. **L'orientamento della prima linea dipende dalla direzione verso cui guarda il giocatore quando esegue il clic**, non da un asse fisso del mondo. Ogni meta' puo' essere condita in modo autonomo.
 - **Fino a quattro quarti (3 o 4 zone):** usando nuovamente il mattarello **sulla meta' mirata**, solo quella meta' viene divisa in due quarti; anche l'altra meta' puo' essere divisa successivamente. E' ammessa una pizza con una meta' ancora intera e l'altra divisa in due quarti.
 - **Applicazione:** con clic destro tenendo un ingrediente valido, il condimento viene distribuito **sulla zona logica puntata** (pizza intera, una meta' o un quarto, in base alle divisioni esistenti). Non e' necessario cliccare sulle linee, ne' premere Shift per scegliere una superficie intera.
 - **Divisioni solo come overlay temporaneo:** le linee di suddivisione si vedono soltanto quando il giocatore tiene **il mattarello o un ingrediente valido**. La suddivisione e' virtuale: **non cambiare le texture o i modelli fisici della base**.
-- Le suddivisioni servono al condimento, **non** significano che la pizza e' stata tagliata fisicamente in fette.
+- Le suddivisioni col mattarello servono **solo a condire** e NON tagliano fisicamente la pizza. La **pizza cotta intera non e' commestibile** ma puo' essere **piazzata su una superficie nel mondo e tagliata li' usando un coltello**: il taglio crea **quattro fette ancora presenti sulla pizza a terra**, da prelevare separatamente. **Cutting Board non obbligatorio**, solo eventuale alternativa. Ciascuna fetta conserva solo i topping del proprio quarto fisico. La pizza non tagliata continua a richiedere **rottura** per essere raccolta intera; **CONFERMATO:** clic destro **a mano vuota** sulla fetta selezionata della pizza GIA' TAGLIATA trasferisce quella sola fetta nell'inventario, facendola sparire dal mondo; se si tiene un oggetto nella mano usata per il clic non si puo' raccogliere la fetta. La pizza intera/non tagliata non si raccoglie a mano vuota.
+- **Orientamento della prima divisione — CONFERMATO:** usare la direzione del giocatore al momento del primo clic con mattarello sulla base stesa. La configurazione spaziale risultante resta associata alla pizza, anche dopo che il giocatore cambia direzione, e va conservata attraverso salvataggio/ricarica e trasporto con pala: i topping non devono ruotare seguendo la visuale del giocatore.
+- **Linea parallela allo sguardo — CONFERMATO:** osservando la pizza dalla posizione del giocatore, la prima linea centrale corre nella direzione in cui guarda (proiezione orizzontale), producendo una **meta' a sinistra** e una **a destra**. **Non** separa la pizza in una meta' vicina e una lontana. Le divisioni successive di ciascuna meta' rispettano l'orientamento iniziale.
+- **Orientamento a scatti — CONFERMATO:** leggere la direzione orizzontale del giocatore al momento della prima divisione, scegliere la **direzione cardinale piu' vicina** (Nord, Sud, Est o Ovest) e tracciare la linea centrale **parallela a quella direzione cardinale**, non ruotata liberamente in base a un angolo diagonale. La divisione resta in meta' sinistra/destra rispetto alla direzione selezionata. Memorizzare il verso cardinale scelto con la pizza, in modo che zone, topping e interazioni siano coerenti dopo movimenti, riunioni, salvataggio e trasporto con pala.
+- **Ancora da definire:** regola di spareggio deterministica quando lo sguardo e' esattamente equidistante tra due direzioni cardinali. **Clic sul confine confermato:** la selezione e' basata sulla posizione effettiva del clic; ai confini tra zone deve sempre risultare **una sola zona deterministica**, mai entrambe. L'ordine preciso di priorita' ai punti esattamente di confine rimane un dettaglio implementativo da fissare e testare.
+
+### Selezione della zona e clic sui confini — CONFERMATO (11 ottobre 2026)
+
+- Usare la **posizione effettiva del punto di interazione** sulla superficie della pizza (coordinate locali ricavate dal punto del clic nel mondo) per identificare una zona **della suddivisione effettivamente presente**: pizza intera, una delle due meta', un quarto oppure una meta' accanto a due quarti.
+- Le coordinate locali devono rispettare l'**orientamento cardinale memorizzato** nella prima divisione; non dipendono dal verso in cui il giocatore guarda ai clic successivi.
+- **Un clic seleziona esattamente una zona logica.** Non deve selezionare due meta' o due quarti solo perche' il punto coincide con la linea di separazione. La zona selezionata puo' comunque comprendere piu' quarti *fisici* se il giocatore non ha suddiviso la pizza, come gia' previsto dal gameplay.
+- Per un punto **esattamente su una linea di confine** (inclusa un'eventuale intersezione centrale di quattro quarti), applicare una **priorita' stabile e deterministica**: scegliere sempre una sola zona secondo un criterio fisso, uguale lato server e client, mai casuale o legato all'ordine temporaneo degli oggetti grafici.
+- Lo stesso metodo di selezione viene usato per **aggiunta ingredienti**, **rimozione con Shift + clic destro a mano vuota**, **divisione di una meta'** e **riunione col mattarello**. Non cambia i gesti confermati, la logica di rimborso, il limite dei sei ingredienti o i divieti sulle salse.
+- Le linee dell'overlay rimangono **soltanto visive** quando si tiene mattarello/ingrediente valido: non diventano elementi con hitbox proprie e non richiedono un clic esatto su di esse.
+
+**DA DEFINIRE come dettaglio tecnico:** priorita' esatta della zona agli incroci perfettamente centrati (ad esempio, un ordine fisso di ID logici), coordinate/padding delle hitbox e tolleranze floating point. La regola di **una sola zona deterministica per clic** e' invece approvata.
 
 ### Riunione progressiva delle zone con il mattarello — CONFERMATO (11 ottobre 2026)
 
@@ -33,9 +50,9 @@ Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozza
 
 **Esempio:** si mette mozzarella su un solo quarto, poi con Shift + clic col mattarello si riuniscono prima i quarti della stessa meta', poi entrambe le meta'. La mozzarella rimane visibile **soltanto nel quarto originario**, anche se la pizza ora e' logicamente intera; un condimento aggiunto dopo si distribuisce sull'intera pizza.
 
-**DA DEFINIRE:** consumo di durabilita' del mattarello durante divisioni/riunioni, dettagli di hitbox e precedenza delle interazioni ai confini. Il gesto e la conservazione dei condimenti sono invece **confermati**.
+**Durabilita' — CONFERMATO:** dividere o riunire le zone di una pizza **non consuma alcun punto di durabilita' del mattarello**. Rimane invariato il consumo di **1 punto soltanto quando si completa effettivamente la stesura** di un impasto (attualmente 64 punti totali); nessun consumo per tentativi senza effetto e in Creativa. **DA DEFINIRE:** dettagli di hitbox e precedenza delle interazioni ai confini.
 
-**DA DEFINIRE:** direzione e hitbox della prima divisione e dell'eventuale divisione di una meta'; priorita' del clic al confine e costo in durabilita' delle divisioni e riunioni col mattarello. **Confermati:** riunione progressiva e conservazione della distribuzione, un solo item per applicazione riuscita e massimo 6 ingredienti diversi per quarto fisico (salsa inclusa).
+**DA DEFINIRE:** spareggio tecnico per angoli esattamente equidistanti da due cardinali, forma esatta delle hitbox e *ordine specifico* di priorita' ai punti sul confine. **CONFERMATO:** selezione dalla posizione reale del clic, sempre una sola zona logica deterministica, anche su linee o incroci. **CONFERMATO:** la prima linea centrale e' **parallela alla direzione cardinale piu' vicina allo sguardo orizzontale**, con orientamento a scatti (Nord/Sud/Est/Ovest), e determina due meta' sinistra/destra. **CONFERMATO:** la prima divisione non usa un asse fisso: segue la direzione del giocatore quando clicca. **Durabilita' confermata:** zero per divisioni/riunioni, uno per completare la stesura. **Confermati:** riunione progressiva e conservazione della distribuzione, un solo item per applicazione riuscita e massimo 6 ingredienti diversi per quarto fisico (salsa inclusa).
 
 **Nota tecnica:** una griglia interna di quattro quarti puo' essere usata per rappresentare le coperture anche quando la pizza e' intera o divisa solo in due, ma il **livello di divisione effettivo** va salvato separatamente. NON mostrare o attivare automaticamente tutti e quattro i quarti.
 
@@ -56,11 +73,25 @@ La stessa tipologia di ingrediente **non puo' essere aggiunta due volte sulla st
 
 **Esempio C:** mozzarella applicata sull'intera pizza prima di dividerla: divide la pizza in quarti ma **non diventa applicabile altra mozzarella su nessuno dei quarti** finche' quella copertura non e' stata rimossa.
 
-**DA DEFINIRE:** se ingredienti equivalenti tramite tag debbano condividere il vincolo anti-duplicato. **L'eventuale limite non e' piu' aperto: sono confermati 6 ingredienti diversi per quarto fisico.** **Salse gia' confermate:** facoltative, al massimo una per sottoarea fisica, anche se di tipo diverso. Un clic con una salsa *diversa* su una zona che contiene anche solo parzialmente una salsa preesistente viene **rifiutato interamente**, senza consumare l'item.
+**Equivalenze confermate:** due item, anche provenienti da mod diverse, riconosciuti come lo stesso ingrediente condividono il vincolo anti-duplicato e valgono come **un solo tipo** nel limite di 6 ingredienti diversi per quarto fisico. Il limite e' gia' confermato. **Salse gia' confermate:** facoltative, al massimo una per sottoarea fisica, anche se di tipo diverso. Un clic con una salsa *diversa* su una zona che contiene anche solo parzialmente una salsa preesistente viene **rifiutato interamente**, senza consumare l'item.
 
 ### Distinzione dopo una riunione
 
 Se nella zona riunita convivono piu' **applicazioni distinte dello stesso ingrediente**, il comando gia' confermato di rimozione (Shift + clic destro a mano vuota) agisce **prima sull'applicazione piu' recente**, e soltanto sulla copertura residua che le appartiene all'interno della zona selezionata. Le applicazioni precedenti restano al loro posto fino alle successive rimozioni. Non rimborsare due volte, ne' trattare una riunione come una nuova applicazione.
+
+## Ingredienti equivalenti tra mod — CONFERMATO (11 ottobre 2026)
+
+- Due item provenienti da mod differenti **riconosciuti esplicitamente come equivalenti** sono considerati **lo stesso ingrediente** ai fini della pizza. Esempio: due mozzarelle equivalenti, una di Italian's Delight e una di una mod compatibile.
+- **Antiduplicazione:** se nel quarto fisico e' gia' presente un item equivalente, non si puo' aggiungerne una seconda versione come ingrediente distinto; su una zona che ne e' solo parzialmente coperta l'applicazione interessa soltanto le sottoaree ancora libere da *tutto il gruppo equivalente*.
+- **Limite di 6:** tutti gli item appartenenti al medesimo gruppo di equivalenza contano come **un solo tipo di ingrediente** per quarto fisico. Non si puo' aggirare il limite usando mod diverse.
+- **Salse:** varianti riconosciute come equivalenti rappresentano la medesima salsa, ma resta valido anche il vincolo generale di **una sola salsa di qualsiasi tipo per quarto** e il rifiuto integrale se si prova una salsa *differente* su una zona gia' parzialmente occupata.
+- **Provenienza conservata:** l'applicazione registra sempre l'**ItemStack realmente consumato**, l'origine, l'ordine e la copertura. Quando e solo quando si completa la rimozione di quell'applicazione, il giocatore recupera **l'item originale**, non un suo equivalente scelto arbitrariamente.
+- **Non confondere categorie ed equivalenza:** appartenere entrambi al gruppo generale dei formaggi **non** rende automaticamente equivalenti mozzarella e gorgonzola. I gruppi di equivalenza devono essere abbastanza specifici da non confondere ingredienti diversi.
+- **Compatibilita' configurabile:** individuare le equivalenze mediante **tag semanticamente specifici e/o definizioni di compatibilita'**, in modo estendibile a nuove mod; non dedurle indiscriminatamente dal nome visualizzato, da un tag generico o dal fatto che due item siano cibi.
+
+**Esempio:** se un quarto contiene gia' mozzarella di Italian's Delight, un'altra mozzarella esplicitamente riconosciuta come equivalente non puo' essere aggiunta nella stessa posizione e non consuma nulla. Su un quarto libero, quella seconda mozzarella e' valida e, quando rimossa completamente, restituisce esattamente l'item di origine.
+
+**DA DEFINIRE:** formato esatto delle dichiarazioni per datapack, priorita' in caso di tag sovrapposti ed elenco iniziale delle equivalenze supportate. **Non ancora implementato.**
 
 ## Salsa facoltativa, al massimo una per porzione — CONFERMATO (11 ottobre 2026)
 
@@ -137,14 +168,22 @@ Una singola applicazione che consuma un ingrediente puo' interessare uno o piu' 
 - Un item puo' cadere a terra **soltanto se manca spazio nell'inventario** (o in casi di recupero senza inventario destinatario, da disciplinare).
 - Nessun drop avviene durante una rimozione parziale che non ha ancora completato l'applicazione originale.
 
+### Rimozione della pizza dal terreno — CONFERMATO (gia' deciso nelle conversazioni precedenti)
+
+- **Per togliere una pizza posizionata nel mondo bisogna rompere il blocco e raccogliere la pizza stessa come item**. Non introdurre alcuna azione di **raccolta con clic destro a mano vuota** sulla pizza completamente stesa o condita: la proposta di raccolta diretta e' stata esplicitamente respinta.
+- **Clic destro normale a mano vuota** sulla pizza gia' stesa non la raccoglie e non crea un item pizza completo. Restano valide le **altre interazioni gia' approvate e distinte**: clic destro a mano vuota per stendere la *palla d'impasto non ancora stesa* e **Shift + clic destro a mano vuota per rimuovere una applicazione di topping** dalla pizza condibile.
+- La **rottura di una pizza cruda completamente formata** restituisce **una pizza cruda come item integro** che conserva condimenti, quantita' effettivamente impiegate, maschere delle zone, orientamento, ordine cronologico delle applicazioni, stato e seed visivo. Non restituire contemporaneamente impasto e ingredienti separati: sarebbero duplicati dei materiali gia' incorporati nell'item pizza.
+- La **rottura di una pizza cotta INTERA e NON tagliata** sul terreno restituisce la pizza cotta come item completo, senza ingredienti separati. La **pizza gia' tagliata** segue un caso distinto, con drop alla rottura ancora da definire: NON far ricomparire una pizza completa se qualche fetta e' stata gia' prelevata.
+
 ### Rottura della pizza — CONFERMATO
 
-- Rompendo una **pizza cruda in preparazione** si recuperano l'impasto e gli ingredienti ancora associati alla preparazione.
-- Un'applicazione ancora presente anche su un solo quarto puo' restituire **al massimo** la quantita' inizialmente consumata (es. **una mozzarella**, non una per quarto).
-- Il recupero alla rottura e il recupero tramite rimozione devono essere reciprocamente esclusivi: **nessuna duplicazione**.
-- La **pizza gia' cotta** non viene scomposta in ingredienti originari quando viene rotta: e' un prodotto finito.
+- Rompendo una **pizza completa sul terreno**, cruda o cotta, si recupera **l'item pizza corrispondente**, con tutti i dati di ingredienti, coperture, divisioni, orientamento e cottura salvati.
+- La rottura non produce **impasto o topping separati**, per evitare il doppio recupero dei materiali gia' incorporati nell'item pizza.
+- La **rimozione intenzionale di topping con Shift + clic destro a mano vuota**, prima della rottura, resta distinta: un'applicazione restituisce l'item originale soltanto dopo essere stata rimossa per intero, come gia' concordato.
+- **Palla e impasto non ancora completamente steso** mantengono per ora il comportamento di recupero del Wheat Dough del prototipo; il nuovo item riguarda la **pizza gia' formata** e i suoi dati.
+- La pizza cotta **non ancora tagliata** si raccoglie rompendo il blocco come item finito; quella **gia' tagliata con il coltello** mantiene sul posto le fette residue, che si possono prelevare **una alla volta con clic destro a mano vuota sulla rispettiva fetta**, senza riprodurre quelle gia' prese.
 
-**DA DEFINIRE:** dettagli della raccolta quando la pizza viene rotta da un evento senza giocatore, creativa, blocco di supporto distrutto, esplosioni e contenitori/remainder particolari. Queste varianti non devono violare la conservazione degli item.
+**Dettagli implementativi da testare:** rottura effettuata da un giocatore, rimozione del supporto, multiplayer, modalita' Creativa e altri eventi vanilla. La regola di base confermata per una pizza formata e' **un solo item pizza con dati integri, senza drop separati dei topping**; non introdurre restituzioni multiple o eccezioni non richieste.
 
 ## 3. Pala per pizza (Pizza Peel) — CONFERMATO
 
@@ -155,7 +194,9 @@ La **pala per pizza** e' lo strumento per trasferire una pizza **intera**. E' gi
 - La pala occupata **non puo' raccogliere una seconda pizza**.
 - Con **clic destro** su una superficie compatibile, la pala occupata deposita la pizza e ricostruisce lo stato precedente.
 - L'uso della pala **non e' obbligatorio per applicare o rimuovere** i condimenti: queste interazioni avvengono direttamente sulla pizza nel mondo.
-- La pala e' destinata anche a **inserimento ed estrazione** della pizza nel futuro Pizza Oven. L'integrazione del forno deve essere implementata e verificata quando il forno esistera'.
+- La pala e' **FACOLTATIVA** per il Pizza Oven, che ha una **GUI confermata** per le pizze-item, il combustibile e il recupero. **CONFERMATO:** con una pizza sulla pala, **clic destro sul forno per inserimento diretto senza GUI**: dopo successo la pala torna vuota e i dati della pizza sono trasferiti integralmente. Se il forno non puo' accettare la pizza, la pala resta occupata e nulla viene sovrascritto. **CONFERMATO:** una **pala vuota** sul Pizza Oven estrae direttamente con clic destro la pizza presente, **anche se non completamente cotta**, senza aprire la GUI. La pala diventa occupata e il forno resta vuoto; ingredienti, orientamento, divisioni, aspetto e progresso di cottura devono restare intatti. Se non c'e' una pizza nel forno non e' possibile estrarre nulla. **Non aggiungere raccolta a mano vuota della pizza dal terreno:** la pizza completa si rimuove **rompendola e raccogliendola come item**, con dati preservati. Questo e' anche il **percorso confermato senza pala** dal mondo al forno. La pala rimane una via alternativa facoltativa per il trasporto diretto. L'integrazione del forno deve essere implementata e verificata quando il forno esistera'.
+- **Durabilita' — CONFERMATO:** la pala e' uno **strumento riutilizzabile senza durabilita'**. Raccogliere, posizionare o trasferire una pizza, anche ripetutamente, non consuma la pala ne' ne modifica la capacita' di trasportare **una pizza alla volta**.
+- **Non impilabile — CONFERMATO:** la pala ha **dimensione massima dello stack pari a 1**, sia **VUOTA** sia **OCCUPATA**. Ogni pala richiede un proprio slot di inventario; due pale identiche, anche vuote, non si uniscono mai in uno stack. Lo stato vuoto/occupato non cambia questa regola.
 
 ### Dati conservati durante il trasporto — CONFERMATO
 
@@ -166,9 +207,33 @@ L'intero stato della preparazione deve viaggiare **dentro i dati persistenti del
 - disposizione visiva, inclusi eventuali semi e parametri di rendering;
 - proprieta' necessarie per determinare il gusto e preservare la cottura.
 
-Il trasferimento **mondo -> pala -> mondo/forno -> pala** dev'essere atomico dal punto di vista logico: mai due pizze create dalla stessa raccolta e mai cancellazione della fonte prima che lo stato sia trasferito in sicurezza. Il salvataggio del mondo, il chunk unload e il multiplayer devono mantenere uno stato coerente.
+Il trasferimento **mondo -> pala -> mondo/forno -> pala** dev'essere atomico dal punto di vista logico: mai due pizze create dalla stessa raccolta e mai cancellazione della fonte prima che lo stato sia trasferito in sicurezza. Il salvataggio del mondo, il chunk unload e il multiplayer devono mantenere uno stato coerente. **La pala non e' mai impilabile**: le informazioni di contenuto restano associate a singoli ItemStack di dimensione 1, anche quando entrambi gli oggetti sono vuoti.
 
-**DA DEFINIRE:** ricetta della pala; se abbia durabilita' (orientamento: strumento riutilizzabile senza usura); tooltip, stackability e aspetto mentre e' occupata; comportamento se la pala occupata e' droppata, distrutta o spostata in contenitori; comandi/precedenze per il forno; supporto alle pizze gia' cotte e alle superfici specifiche. Nessuna di queste e' ancora una regola tecnica finalizzata.
+### Pala lasciata cadere e recuperata — CONFERMATO (12 ottobre 2026)
+
+- Il tasto **Q** (o il normale comando di lancio/drop dell'inventario) lascia cadere la pala, **vuota o occupata**, come un normale oggetto di Minecraft: una sola entita' item che trasporta il relativo `ItemStack`.
+- Se la pala contiene una pizza, **la pizza resta nei dati della pala**; non viene piazzata automaticamente nel mondo e non diventa un item separato. La pala rimane **non impilabile**.
+- **Raccogliendo l'oggetto lasciato a terra**, lo stesso `ItemStack` ritorna nell'inventario, con la pizza intatta: ingredienti originali e loro applicazioni/coperure, divisioni, orientamento, stato di cottura/preparazione, cronologia e dati visivi invariati.
+- Anche altri giocatori che raccolgono la pala devono ottenere il medesimo stato persistente; il passaggio inventario -> entita' item -> inventario non crea copie, non cancella contenuti e non modifica le regole per salse e limite di sei ingredienti per quarto.
+- La pala resta riutilizzabile senza durabilita' e **le capacita' future da arma restano disabilitate mentre contiene una pizza**.
+- **Despawn naturale — CONFERMATO:** la pala lasciata a terra, anche se contiene una pizza, segue il **normale despawn degli item vanilla** (tempo e condizioni del mondo/server); **non e' immune al despawn** e non ha un timer personalizzato. Quando l'entita' item scompare per despawn naturale, **vengono perse sia la pala sia la pizza contenuta**, senza drop aggiuntivi, recupero automatico o estrazione degli ingredienti.
+- **Distruzione ambientale — CONFERMATO (regola vanilla):** lava, fuoco, cactus, esplosioni e altri danni alle entita' item seguono esattamente le normali regole vanilla. **Se** questi eventi distruggono la pala lasciata a terra, si perdono **sia la pala sia la pizza contenuta**, senza item pizza separato, recupero automatico, ingredienti, impasto o drop aggiuntivi. Se l'oggetto non viene distrutto dalle regole vanilla, il contenuto resta intatto. Nessuna immunita', resistenza, eccezione o drop personalizzato.
+
+**Test di accettazione:** pala con pizza personalizzata -> Q -> raccolta dello stesso oggetto -> riposizionamento della pizza: composizione e stato identici; ripetere con due pale separate e in multiplayer, senza perdita o duplicazioni.
+
+### Uso futuro anche come arma — SOLO A PALA VUOTA (CONFERMATO)
+
+L'autore vuole rendere **anche la pala un'arma**, prendendo come riferimento il comportamento della **padella di Farmer's Delight Refabricated**. Questa e' una **funzionalita' da progettare e implementare successivamente**; non e' ancora una meccanica approvata nei dettagli e non risulta implementata dal prototipo pizza.
+
+- La funzione principale gia' confermata rimane **raccogliere, trasportare e depositare una sola pizza alla volta**; l'uso offensivo futuro dovra' coesistere con gli usi di clic destro sul mondo e sul Pizza Oven.
+- **Stato VUOTO — CONFERMATO:** la pala potra' attivare le **funzionalita' speciali da arma** soltanto quando non contiene alcuna pizza.
+- **Stato OCCUPATO — CONFERMATO:** la pala contenente una pizza **non funziona come arma**: nessun bonus/statistica o effetto offensivo della futura arma mentre trasporta la preparazione. Rimane uno strumento di trasporto e collocazione. La pizza e i suoi dati non devono essere alterati o persi per un tentativo di attacco.
+- Nel progetto delle future proprieta' da combattimento, **abilitare/disabilitare le proprieta' speciali da arma in base alla presenza della pizza**; il normale funzionamento degli attacchi base di Minecraft, indipendente da queste proprieta', non e' specificato qui.
+- La pala resta **senza durabilita'** come oggetto; non introdurre ora usura o rottura dello strumento per il trasporto.
+- **DA DEFINIRE in fase di combattimento:** danni, velocita' d'attacco, eventuali effetti/animazioni/suoni **solo quando la pala e' vuota**; dettagli di interazione con i normali attacchi base quando e' occupata. **Gia' definito:** con una pizza caricata non si attivano mai le capacita' speciali da arma. Non copiare parametri della padella senza prima verificarne la versione effettiva e concordare il bilanciamento.
+- Non modificare ne' sostituire l'**asset gia' disponibile** della pala dalla vecchia Italian's Delight: recuperarlo e valutarne il riutilizzo prima di creare ulteriori risorse.
+
+**CONFERMATO:** la pala e' **riutilizzabile senza durabilita'** e in futuro dovra' poter fungere anche da **arma ispirata alla padella di Farmer's Delight Refabricated, ma esclusivamente quando e' vuota**. Se contiene una pizza, le capacita' speciali da arma sono disattivate e i dati della pizza devono rimanere intatti. **CONFERMATO:** stack massimo 1, sia a pala vuota sia occupata. **CONFERMATO:** una pala droppata come item (Q) conserva la pizza internamente e il recupero ripristina tutti i dati; **se l'item despawna naturalmente, pala e pizza vengono perse secondo il comportamento vanilla**. **CONFERMATO:** distruzione e danni ambientali seguono Minecraft vanilla; se l'item viene distrutto, pala e pizza scompaiono senza rimborsi. **CONFERMATO:** inserimento diretto con pala occupata nel Pizza Oven, dotato di GUI; con forno occupato niente trasferimento o perdita di dati. **CONFERMATO:** estrazione rapida dal forno con pala vuota, anche per pizze parzialmente cotte, conservando il progresso e senza GUI. **DA DEFINIRE:** ricetta, tooltip, resa grafica quando occupata, dettagli di resa delle pizze cotte e superfici compatibili. **CONFERMATO:** la pala non e' obbligatoria per utilizzare il Pizza Oven, ma non e' consentita la raccolta a mano vuota di una pizza collocata nel mondo. **CONFERMATO:** rompendo una pizza formata a terra si ottiene la pizza **integra come item** (senza drop separati di impasto e ingredienti); l'item puo' essere portato al Pizza Oven senza pala. Le statistiche e interazioni da arma sono ancora aperte e non vanno implementate senza definizione.
 
 ## 4. Vincoli tecnici di progetto (da implementare)
 
@@ -179,6 +244,7 @@ PizzaState
   format_version
   preparation_state / cooking_state
   division_state       // intera, 2 meta', 1 meta' divisa, 4 quarti
+  division_orientation // N/S/E/O scelto dalla direzione cardinale piu' vicina al primo clic; stabile dopo
   applications[]
     application_id
     ingredient_id + consumed_stack/count
@@ -197,7 +263,7 @@ Invarianti da mantenere:
 1. `remaining_quarter_mask` e' un sottoinsieme dei quarti originariamente coperti.
 2. Ogni applicazione puo' rimborsare la propria quantita' **una volta sola**.
 3. La rimozione completa cancella l'applicazione soltanto dopo aver gestito il rimborso.
-4. La rottura della pizza non rimborsa applicazioni gia' restituite.
+4. La rottura di una pizza formata produce **soltanto la pizza-item** con le applicazioni ancora presenti, senza rimborsarle di nuovo come ingredienti separati. Le applicazioni gia' rimosse e rimborsate non ricompaiono nell'item.
 5. Il trasporto sulla pala conserva dati e identita' visiva, non li ricostruisce da un gusto predefinito.
 6. Tutte le mutazioni di inventario e mondo devono essere autorevoli lato server e sincronizzate ai client.
 7. La rappresentazione deve consentire tag/definizioni per ingredienti di altre mod senza assumere automaticamente che tutti i cibi siano validi.
@@ -206,21 +272,24 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 
 ## 5. Questioni ancora aperte
 
-- Geometria delle suddivisioni create col mattarello e clic ai confini tra zone. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
-- **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. Restano da precisare usura del mattarello, hitbox e casi limite.
-- **Limite gia' confermato di 6 ingredienti diversi per quarto fisico**, salsa inclusa, con rifiuto dell'intera applicazione se anche un solo quarto supererebbe sei. Restano da definire equivalenze tra ingredienti e dettagli implementativi; per una salsa diversa su zona parzialmente occupata e' gia' previsto il rifiuto integrale. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
+- Geometria delle suddivisioni create col mattarello: **linea parallela alla direzione cardinale piu' vicina allo sguardo e orientamento a scatti confermati**. **Clic su zone/confini confermato:** posizione effettiva del punto colpito, sempre una sola zona con tie-break deterministico; restano da precisare le tolleranze/hitbox, la priorita' esatta per i punti sul confine e lo spareggio tra cardinali. Il **gesto di rimozione** e la **priorita' dell'ultima applicazione** sono ora confermati.
+- **Riunione confermata** con Shift + clic destro col mattarello: quarti della stessa meta', poi due meta' intere. **Divisioni e riunioni non consumano durabilita'**; restano da precisare hitbox e casi limite.
+- **Limite confermato di 6 ingredienti diversi per quarto fisico**, salsa inclusa, con rifiuto dell'intera applicazione se anche un solo quarto supererebbe sei. **Equivalenze tra mod confermate nel principio**: item esplicitamente equivalenti condividono il vincolo anti-duplicato e occupano un unico tipo; da definire formato tecnico e mapping iniziale. Per una salsa diversa su zona parzialmente occupata e' previsto il rifiuto integrale. **Confermato:** le salse sono facoltative e non si sovrappongono; lo stesso ingrediente non puo' essere duplicato sulla stessa porzione.
 - Priorita' e visualizzazione degli ingredienti **diversi** sovrapposti (non delle salse tra loro, che non possono sovrapporsi).
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
 - Modellazione 2.5D per quarto, forme, seme deterministico, rendering da cruda e cotta.
-- Interazione della pala con Pizza Oven e forni vanilla, inventari, hopper e pizza gia' cotta.
-- Cosa fare con una pala occupata quando viene distrutta e come visualizzarla.
+- Interazione della pala con Pizza Oven e forni vanilla, inventari, hopper e pizza gia' cotta. **Riutilizzo senza durabilita' confermato. Futuro utilizzo come arma in stile padella di Farmer's Delight Refabricated da progettare, senza cambiare le regole di trasporto gia' confermate.**
+- **Drop, pickup, despawn e distruzione ambientale della pala gia' confermati secondo vanilla:** Q produce il normale item con la pizza persistente all'interno; al pickup ritorna integra. Se l'item despawna o viene effettivamente distrutto da lava, fuoco, cactus, esplosioni ecc., **si perdono pala e pizza senza rimborsi**. Resta da progettare la resa grafica e l'uso col forno.
 - Taglio in fette della pizza cotta, bilanciamento e valori alimentari.
 
 ## 6. Criteri di accettazione futuri
 
 - [ ] Senza divisioni: il topping cliccato si applica all'intera pizza; dopo un passaggio col mattarello si applica alla meta' puntata; un ulteriore passaggio su quella meta' crea due quarti condibili singolarmente.
+- [ ] La prima divisione **aggancia** la direzione orizzontale del giocatore al **cardinale piu' vicino** (N/S/E/O), tracciando una linea parallela a quel cardinale e creando meta' **sinistra/destra**. Non esistono linee a rotazione libera in diagonale; la direzione scelta e' memorizzata e non cambia quando il giocatore si sposta, ne' dopo salvataggio o trasporto con la pala.
+- [ ] I clic dentro una zona, esattamente sul confine tra due zone o sul centro tra quattro quarti selezionano **una e una sola zona** in modo deterministico, usando la posizione locale reale e l'orientamento persistente; nessuna doppia applicazione per un solo clic.
 - [ ] Le divisioni sono mostrate solo mentre e' in mano il mattarello o un ingrediente valido, senza variazioni permanenti ai modelli/texture.
 - [ ] Shift + clic destro col mattarello riunisce prima due quarti della stessa meta' e poi due meta' intere, senza cancellare o redistribuire topping, senza restituzioni automatiche.
+- [ ] Una stesura completata con mattarello consuma **1 durabilita'** (in Sopravvivenza); divisioni e riunioni riuscite consumano **0**. Nessuna usura per interazioni prive di effetto o in Creativa.
 - [ ] Shift + clic destro a mano vuota sulla zona selezionata rimuove una applicazione alla volta partendo dalla piu' recente presente su quella zona; se vuota non produce effetti.
 - [ ] Una mozzarella originariamente applicata a tutti i 4 quarti logici costa 1 item; toglierla da 3 quarti non rimborsa; togliere l'ultimo rimborsa 1.
 - [ ] Quattro applicazioni distinte non si fondono in una e non producono rimborsi errati.
@@ -229,11 +298,21 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] Impedire che due salse, anche diverse, occupino la stessa parte fisica, anche dopo divisioni e riunioni col mattarello.
 - [ ] Applicazione con massimo sei tipi di ingredienti diversi per quarto (salsa inclusa); un nuovo ingrediente che farebbe arrivare qualsiasi quarto interessato a sette viene respinto integralmente **senza consumo**.
 - [ ] Conteggio e rifiuto invariati dopo divisioni, riunioni, salvataggio, pala e eventuale crafting. Rimozione libera il posto soltanto nella parte effettivamente ripulita.
+- [ ] Due mozzarelle di mod diverse esplicitamente equivalenti sono trattate come lo stesso ingrediente: niente doppia applicazione sul medesimo quarto, un solo tipo nel limite di 6; recupero dell'item *effettivamente usato* e non di un item equivalente.
 - [ ] Tentare pesto sull'intera pizza dopo aver riunito una meta' al pomodoro e una meta' bianca: **rifiutare tutto**, nessuna modifica e nessun consumo. Dopo nuova divisione, consentire di condire la sola meta' bianca.
 - [ ] Dopo la riunione di zone parzialmente coperte, un clic dello stesso ingrediente riempie **solo le sottoaree libere**, consumando un solo item; se non restano sottoaree libere non accade nulla.
-- [ ] La rottura di una pizza cruda recupera impasto e ingredienti residui senza duplicare; quella cotta non restituisce gli ingredienti separati.
+- [ ] Rompere una **pizza formata cruda o cotta** restituisce **un solo item pizza completo**, con dati di ricetta e cottura invariati, senza drop separati di impasto o topping. Le pizze-item possono essere utilizzate come input del forno senza pala.
 - [ ] Recupero nel normale inventario; drop solo in mancanza di spazio.
 - [ ] La pala trasporta esattamente una pizza con tutti i dati e rifiuta una seconda.
+- [ ] La pala **non ha durabilita'**: raccolte, depositi e trasferimenti ripetuti non causano usura o rottura dell'oggetto.
+- [ ] **Pizza Oven:** pala occupata inserisce; pala vuota estrae con clic destro **anche una pizza cruda o parzialmente cotta** senza GUI. Nessuna duplicazione o usura; prova con forno vuoto, forno pieno, energia residua, salvataggio e reinserimento della pizza a meta' cottura.
+- [ ] **Stack massimo 1** in entrambi gli stati; pale vuote uguali non si impilano, pale occupate non si uniscono tra loro ne' a pale vuote, nemmeno trasferendole tra inventari e contenitori. Le pizze devono mantenere dati separati senza duplicazioni.
+- [ ] **Q/drop** di pala occupata: un normale item a terra, con pizza ancora nei suoi dati; **pickup** restituisce pala occupata e pizza con ingredienti, divisioni, orientamento, applicazioni, cottura e visuale identici, anche tra giocatori diversi.
+- [ ] Test drop/pickup ripetuti con una o piu' pale e in multiplayer, senza dupe o corruzione.
+- [ ] Test **despawn naturale vanilla** della pala occupata: al normale termine della vita dell'item a terra scompaiono **sia pala sia pizza**, senza item/ingredienti droppati e senza protezioni o timer aggiuntivi. Verificare anche comportamento del mondo quando il chunk non e' caricato.
+- [ ] Test **danni ambientali vanilla** sulla pala occupata lasciata a terra (lava, fuoco, cactus, esplosioni): quando l'item viene distrutto, pala e pizza scompaiono senza drop o recuperi, come per gli item normali. Nessuna protezione aggiuntiva.
+- [ ] In una fase successiva, progettare la pala come **arma ispirata alla padella di Farmer's Delight Refabricated solo quando e' VUOTA**; la versione OCCUPATA non ha bonus ne' effetti speciali da arma e deve conservare integralmente la pizza. Danni, animazioni e dettagli di combattimento restano da definire.
+- [ ] Test: pala vuota con caratteristiche da arma attive; caricare una pizza e verificare che le caratteristiche speciali siano disattivate; depositare la pizza e verificare che tornino attive, senza perdita o duplicazione dei dati.
 - [ ] Raccolta e riposizionamento mantengono quarti, stadio e resa visiva dopo salvataggio/ricarica.
 - [ ] Test multiplayer, chunk unload, distruzione supporto, inventario pieno e trasferimento al forno quando disponibile.
 

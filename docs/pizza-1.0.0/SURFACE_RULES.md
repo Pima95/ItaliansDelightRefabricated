@@ -47,7 +47,7 @@ Le altre superfici particolari, incluse superfici parziali di mod esterne, non s
 - Il clic destro su una superficie approvata inserisce il `pizza_dough` nel blocco d'aria soprastante.
 - Il blocco impasto usa **lo stesso controllo** in `canSurvive`, quindi non può continuare a rimanere su un supporto che non è più consentito.
 - Non esistono più le varianti `lowered`: tutte le superfici permesse usano i modelli normali, senza spostamenti verticali.
-- Il recupero con la rottura del supporto deve rilasciare l'impasto una volta soltanto; verificare in gioco.
+- La rottura del supporto sotto **palla/impasto non ancora steso completamente** puo' recuperare il Wheat Dough come nel prototipo; sotto una **pizza gia' formata** deve invece recuperare **l'item pizza integrale una sola volta**, con tutti i dati, senza ingredienti separati. Verificare in gioco.
 - I cinque modelli 3D mantengono la geometria del prototipo e usano texture dedicate all'impasto crudo, documentate in [TEXTURES.md](TEXTURES.md).
 
 ## Checklist test manuale
@@ -60,6 +60,6 @@ Le altre superfici particolari, incluse superfici parziali di mod esterne, non s
 - [ ] DIRT_PATH, FARMLAND, SNOW, CARPET, CHEST, ENDER_CHEST, ENCHANTING_TABLE, BED, CAULDRON, COMPOSTER vietati.
 - [x] Blocchi cubici normali ancora consentiti (test confermato dall'autore).
 - [ ] Cambio di stato del supporto: la palla non rimane su supporto vietato.
-- [ ] La rottura del supporto non duplica né perde il Wheat Dough.
+- [ ] La rottura del supporto non duplica ne' perde il Wheat Dough per l'impasto non ancora completamente steso e restituisce invece **un solo item pizza** completo quando la pizza e' gia' formata.
 
 I test qui sopra sono **ancora da svolgere dall'autore** sul client Minecraft 26.2 con la mod caricata.

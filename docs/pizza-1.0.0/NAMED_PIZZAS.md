@@ -36,7 +36,7 @@ Non introdurre nuovi ingredienti (origano, olive, pesto ecc.) automaticamente so
 ## Matching proposto
 
 - Match esatto di default sulle quantità/categorie quando necessario.
-- Tag solo se la corrispondenza preserva il gusto: non ogni formaggio generico deve diventare mozzarella per una Margherita.
+- **Equivalenze cross-mod confermate nel comportamento**: item di mod diverse esplicitamente identificati come lo stesso ingrediente condividono anti-duplicazione, conteggio di un solo tipo nel limite di 6 e riconoscimento semantico del gusto. Si conserva l'ItemStack consumato per rimborsare l'originale. Tag soltanto quando la corrispondenza preserva il gusto: **non ogni formaggio generico diventa mozzarella** per una Margherita.
 - Priorità deterministiche fra ricette sovrapposte.
 - **Numero massimo gia' confermato: 6 ingredienti diversi per quarto fisico (salsa inclusa)**; valori nutrizionali e bilanciamento ancora da definire.
 - Nomi tradotti EN/IT con ingredienti completi nel tooltip.

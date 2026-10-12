@@ -13,13 +13,15 @@ Non è prevista una texture completa separata per ogni combinazione possibile.
 
 ## Divisione facoltativa, coperture e provenienza — CONFERMATO
 
-Una pizza stesa e' inizialmente **intera**: si puo' condire completamente senza dividere nulla. Il mattarello permette di creare **2 meta'** e successivamente di suddividere una o entrambe le meta' in quarti, **senza cambiare i modelli/texture della base**. Il topping cliccato viene applicato alla **zona puntata**: intera, meta' o quarto. Le linee di divisione sono un **overlay temporaneo**, visibile solo mentre si tiene il mattarello o un ingrediente valido.
+Una pizza stesa e' inizialmente **intera**: si puo' condire completamente senza dividere nulla. Il mattarello permette di creare **2 meta'**, con orientamento scelto dalla **direzione del giocatore al momento della prima divisione**, e successivamente di suddividere una o entrambe le meta' in quarti, **senza cambiare i modelli/texture della base**. Il topping cliccato viene applicato alla **sola zona logica selezionata dalla posizione effettiva del clic**: intera, meta' o quarto. **Anche un clic esattamente su un confine o sull'incrocio delle linee produce un'unica zona, scelta deterministicamente**; non un'applicazione automatica a due zone. Le linee di divisione sono un **overlay temporaneo**, visibile solo mentre si tiene il mattarello o un ingrediente valido.
 
 Internamente e' possibile mappare tutte le coperture sui quattro quarti logici, pur memorizzando la **configurazione effettiva** della divisione. Ogni applicazione conserva i quarti originari e quelli ancora coperti. **Rimuovere solo una parte dell'applicazione non restituisce l'item**, che viene recuperato una sola volta alla rimozione completa. Esempio: una mozzarella applicata all'intera pizza rappresenta una sola applicazione, anche se dopo la si divide in quarti; eliminarla da quattro quarti non rimborsa quattro mozzarelle.
 
+**Orientamento confermato:** la linea della prima divisione non segue un asse globale fisso: dipende dalla direzione in cui guarda il giocatore nel momento del clic. Il rendering deve mantenere la suddivisione associata alla pizza mentre il giocatore si muove e dopo il trasporto, senza alterare il posizionamento dei topping. **CONFERMATO:** la linea centrale e' **parallela alla direzione cardinale piu' vicina allo sguardo orizzontale**, con **orientamento a scatti N/S/E/O**, producendo meta' a **sinistra e destra** del giocatore, non davanti/dietro. Non e' prevista rotazione libera delle linee in diagonale. Memorizzare il cardinale scelto per renderizzare i medesimi overlay e topping in modo stabile. Restano da precisare lo spareggio degli angoli esattamente intermedi e i clic sul confine.
+
 **Riunione confermata:** Shift + clic destro col mattarello riunisce prima i due quarti della stessa meta' e infine le due meta' intere. Le coperture e le posizioni visive dei topping gia' applicati **non cambiano** quando l'overlay viene unificato, e non si restituiscono ingredienti. Dopo la riunione i topping aggiunti successivamente coprono la nuova zona logica; il renderer deve conservare le posizioni degli ingredienti preesistenti.
 
-**Nessun topping duplicato nella stessa sottoarea — CONFERMATO:** piu' applicazioni di uno stesso ingrediente sono ammesse **solo quando coprono aree fisiche differenti**. In una zona parzialmente gia' condita, un clic aggiunge l'ingrediente alle sole sottoaree libere, consumando un item; un clic interamente duplicato non consuma nulla. Dopo una riunione la copertura preesistente resta al suo posto. Le applicazioni originali mantengono identita' e cronologia per rimuoverle e rimborsarle senza duplicazioni.
+**Nessun topping duplicato nella stessa sottoarea — CONFERMATO:** piu' applicazioni dello stesso ingrediente, **incluse versioni di altre mod esplicitamente equivalenti**, sono ammesse **solo quando coprono aree fisiche differenti**. In una zona parzialmente gia' condita, un clic aggiunge l'ingrediente alle sole sottoaree libere, consumando un item; un clic interamente duplicato non consuma nulla. Dopo una riunione la copertura preesistente resta al suo posto. Le applicazioni originali mantengono identita' e cronologia per rimuoverle e rimborsarle senza duplicazioni.
 
 Per il modello di stato, recupero e pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
@@ -29,7 +31,7 @@ I cinque modelli ora realizzano una **base piatta, con scanalatura centrale e bo
 
 Per geometrie e hitbox dettagliate vedere [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md).
 
-**Prototipo successivo alla modifica dei modelli:** primo topping rappresentato da `italiansdelight:mozzarella`. Clic destro sulla base stesa: si consuma una mozzarella intera, il BlockState salva `mozzarella=true` e il modello multipart disegna cinque pezzi poco rialzati usando la texture mozzarella già esistente. Il loot table restituisce l'ingrediente alla rottura. **Questo non è ancora il sistema definitivo**: il booleano e il loot provvisorio non rappresentano quarti, identita' delle applicazioni, rimozione parziale, rimborso per applicazione e trasporto sulla pala. Tutto richiedera' dati persistenti generalizzati.
+**Prototipo successivo alla modifica dei modelli:** primo topping rappresentato da `italiansdelight:mozzarella`. Clic destro sulla base stesa: si consuma una mozzarella intera, il BlockState salva `mozzarella=true` e il modello multipart disegna cinque pezzi poco rialzati usando la texture mozzarella già esistente. Il loot table del **prototipo** restituisce ancora l'ingrediente alla rottura. **Per il sistema definitivo questa regola e' superata:** rompere una **pizza formata** deve rilasciare **un item pizza integrale** con tutti i topping e le divisioni conservati, **senza** restituire ingredienti separati. **Questo non è ancora il sistema definitivo**: il booleano e il loot provvisorio non rappresentano quarti, identita' delle applicazioni, rimozione parziale, rimborso per applicazione e trasporto sulla pala. Tutto richiedera' dati persistenti generalizzati.
 
 ## Salsa facoltativa e unica per porzione — CONFERMATO
 
@@ -53,7 +55,7 @@ Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Deligh
 | Foglie/erbe | `leaf_small` | basilico, altre erbe |
 | Altri mod non specifici | `generic_topping` | fallback basato sulla categoria |
 
-**Rendering a livelli proposto**: (1) impasto, (2) salsa, (3) formaggi, (4) salumi/verdure, (5) erbe e dettagli. L'ordine nel rendering non impone l'ordine di aggiunta degli ingredienti.
+**Rendering a livelli proposto**: (1) impasto, (2) salsa, (3) formaggi, (4) salumi/verdure, (5) erbe e dettagli. L'ordine nel rendering non impone l'ordine di aggiunta degli ingredienti. **Le linee di divisione non hanno hitbox proprie**: il renderer deve usare lo stesso orientamento e le stesse zone logiche del selettore di hit, senza usare la vicinanza a una linea per condire automaticamente due parti.
 
 ## Crudo e cotto
 
@@ -74,7 +76,7 @@ Queste variazioni cromatiche sono idee estetiche, non specifiche asset già appr
 - Se un ingrediente aggiunto porterebbe **almeno un quarto** a 7 tipi diversi, l'**intera applicazione** e' rifiutata senza consumo, anche se gli altri quarti hanno posti liberi.
 - Il limite resta valido dopo divisioni e riunioni col mattarello, senza alterare le coperture di topping gia' presenti.
 - Esempio di quarto pieno: pomodoro, mozzarella, gorgonzola, speck, funghi, basilico = 6 ingredienti; un altro tipo non puo' essere aggiunto.
-- La duplicazione dello stesso ingrediente sulla stessa sottoarea rimane vietata; la salsa e' facoltativa e occupa uno dei sei posti, non uno slot extra.
+- La duplicazione dello stesso ingrediente sulla stessa sottoarea rimane vietata **anche tra varianti cross-mod riconosciute come equivalenti**. Tutti gli item di un gruppo di equivalenza contano come **un solo tipo**; la salsa e' facoltativa e occupa uno dei sei posti, non uno slot extra.
 - **Vietate le ripetizioni dello stesso ingrediente nella stessa sottoarea.** Lo stesso ingrediente puo' essere applicato su aree diverse non coperte; non sono previsti strati multipli dello stesso item nello stesso punto.
 - Quantità **logica** (porzioni realmente consumate) separata dalla densità **visiva** (quanti elementi disegnare).
 - **PROPOSTA GRAFICA:** distribuire pochi frammenti per ingrediente e limitare la densita' massima delle geometrie, cosi' che anche sei ingredienti distinti restino leggibili senza coprire il bordo.
@@ -95,13 +97,14 @@ Valutare caching di mesh e ricomposizione solo quando cambia la pizza, non a ogn
 - **Nel mondo**: modello completo con strati 2.5D.
 - **Nel Pizza Oven**: stessa pizza visibile dentro la bocca del forno.
 - **Item in inventario**: rappresentazione semplificata ma coerente con il gusto e la condizione cruda/cotta.
-- **Pizza Slice**: piccola resa che mostri i condimenti principali della pizza originale (se il sistema fette viene confermato).
+- **Pizza cotta tagliata nel mondo — CONFERMATO:** il blocco pizza cotta e' posizionabile nel mondo. Con un **coltello** la pizza intera viene tagliata in quattro settori **che restano sul blocco**, senza droppare automaticamente quattro item. Dopo ciascun prelievo il renderer nasconde **solo la fetta prelevata**, lasciando visibili le altre e i rispettivi ingredienti; dopo l'ultima il blocco scompare.
+- **Pizza Slice — CONFERMATO:** l'item fetta rappresenta esclusivamente i condimenti del proprio quarto fisico, con gusto e nutrizione individuali. **La pizza intera non e' commestibile**, mentre lo sono le fette cotte. Cutting Board non obbligatorio, eventuale alternativa.
 
-Le pizze cotte riposizionabili sono una proposta da validare.
+**Pizza cotta posizionabile nel mondo — CONFERMATO:** il giocatore puo' appoggiare la pizza cotta su una superficie compatibile, tagliarla li' col coltello e prelevare individualmente le fette. **CONFERMATO:** la raccolta avviene con **clic destro a mano vuota sulla fetta desiderata**; questa scompare visivamente mentre le altre restano. Con mano occupata nessuna raccolta. **Da definire:** collisioni/shape delle porzioni rimaste, reazione a inventario pieno e rottura della pizza gia' tagliata. La suddivisione grafica delle zone di condimento non e' di per se' un taglio.
 
 ## Compatibilità con altre mod
 
-Separare **validità dell'ingrediente** (tag/definizione) e **preset grafico** (categoria, geometria, aspetto). Un ingrediente compatibile senza modello dedicato usa un fallback visuale del suo gruppo, senza apparire invisibile. Non accettare automaticamente ogni alimento come topping.
+Separare **validita' dell'ingrediente** (tag/definizione), **identita' canonica equivalente** (antiduplicazione e conteggio del limite di 6) e **preset grafico** (categoria, geometria, aspetto). Una mozzarella riconosciuta di un'altra mod deve condividere l'identita' logica della mozzarella gia' applicata, senza sostituire l'item reale da rimborsare. I tag troppo generici (es. tutti i formaggi) non determinano equivalenza. Un ingrediente compatibile senza modello dedicato usa un fallback visuale del suo gruppo, senza apparire invisibile. Non accettare automaticamente ogni alimento come topping.
 
 ## Texture già presenti da conservare
 
