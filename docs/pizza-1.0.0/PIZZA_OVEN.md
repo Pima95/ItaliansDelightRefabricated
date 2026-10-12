@@ -7,6 +7,7 @@
 - Accetta **tutti i combustibili vanilla validi**, non solo legna.
 - **Le pizze non bruciano mai**, indipendentemente da tempo trascorso e tipo di forno.
 - La trasformazione da cruda a cotta deve conservare ingredienti, quantità, composizione e dati della pizza.
+- **Pala FACOLTATIVA — CONFERMATO:** il Pizza Oven deve funzionare sia **con** sia **senza** la pala per pizza. La pala e' una comodita' di trasporto, non un requisito per inserire o estrarre la pizza. Non imporla ne' per la cottura manuale ne' per le alternative di preparazione previste.
 
 ## Struttura del Pizza Oven — PROPOSTA
 
@@ -19,14 +20,14 @@
 
 | Gesto | Azione |
 | --- | --- |
-| Clic destro con pizza cruda | Inserisce se il forno è libero |
+| Clic destro con pizza cruda tenuta come item | **Percorso diretto proposto, senza pala:** inserisce se il forno e' libero; preserva tutti i dati della pizza |
 | Clic destro con fuel valido | Rifornisce lo slot combustibile |
-| Clic destro a mano vuota | Estrae la pizza **pronta** |
-| Shift + clic destro vuoto | Recupera una pizza ancora cruda/con cottura incompleta |
-| Clic destro con pala per pizza | **Confermato come obiettivo:** la pala trasporta una sola pizza completa con tutti i dati e ne permette il trasferimento da/verso il forno. Gestualita' precisa e priorita' ancora da definire; meccanica non implementata |
+| Clic destro a mano vuota | **Percorso diretto proposto, senza pala:** estrae la pizza pronta come item mantenendo tutte le informazioni |
+| Shift + clic destro a mano vuota | **Percorso diretto proposto, senza pala:** estrae una pizza ancora cruda o con cottura incompleta, salvandone il progresso |
+| Clic destro con pala per pizza | **Alternativa facoltativa confermata come obiettivo:** pala occupata per inserire e pala vuota per estrarre, mantenendo una sola pizza e tutti i dati. Gesti esatti e precedenze ancora da definire; meccanica non implementata |
 | Rottura del forno | Recupera pizza e combustibile non consumato, senza duplicare |
 
-La priorità tra pizza, combustibile e altri oggetti e la gestione dei remainder sono ancora da definire. La pala non e' richiesta per condire; per il suo stato persistente e per la selezione/rimozione dei quarti vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
+La **facoltativita' della pala e' una decisione confermata**. Le interazioni dirette a mano vuota e con pizza-item elencate in tabella sono **proposte operative da finalizzare**, non gesti gia' approvati nel dettaglio. **Questione significativa ancora aperta:** come recuperare *senza pala* una pizza preparata nel mondo e trasformarla in un item trasportabile, preservando ingredienti, divisioni e applicazioni. La ricetta alternativa via crafting e' gia' prevista, ma non risolve da sola il trasporto delle pizze create nel mondo. La priorita' tra pizza, combustibile e altri oggetti e la gestione dei remainder rimangono da definire. Per i dati della pala vedere [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md).
 
 ## Combustibili
 
