@@ -100,3 +100,5 @@ La pizza deve essere ottenibile **anche con crafting**, senza costringere tutti 
 `DOUGH_BALL -> STRETCHING -> RAW_BASE -> RAW_TOPPED -> COOKING -> BAKED -> SLICES`
 
 Test: salvataggio durante stesura, chunk unload, rottura del supporto, due giocatori che cliccano la stessa pizza, mano secondaria, riconoscimento degli ingredienti, recupero dei remainder (es. ciotole/bottiglie), limite topping raggiunto, trasferimento tra blocco e inventario senza perdite.
+
+**Pizza Oven — meccanica confermata:** forno riservato esclusivamente alla cottura delle pizze, con tutti i combustibili vanilla validi. La cottura parte subito se pizza ed energia sono disponibili (nessun preriscaldamento). Combustibile e burn time residuo si consumano solo durante avanzamento reale della cottura: nessuno spreco a forno vuoto o pizza pronta. Con fuel esaurito, il progresso resta in pausa e riprende dal punto precedente al rifornimento. Tempi 20/30/60 secondi (Pizza Oven/affumicatore/fornace) soltanto placeholder, da riequilibrare. La pala resta facoltativa, e la pizza formata si puo' ottenere come item rompendola dal terreno.
