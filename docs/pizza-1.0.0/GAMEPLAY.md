@@ -87,14 +87,14 @@ La pizza deve essere ottenibile **anche con crafting**, senza costringere tutti 
 
 **Da decidere:** griglia/forma della ricetta, condimenti ripetuti e limitazioni di capienza, presenza di ricette predefinite per JEI, risultato crudo o cotto (proposta: crudo). La logica delle porzioni e dei nomi deve essere condivisa tra crafting e preparazione nel mondo.
 
-## 6. Consumo della pizza cotta e taglio — CONFERMATO (12 ottobre 2026)
+## 6. Taglio e consumo della pizza cotta — CONFERMATO (12 ottobre 2026)
 
-- **Una pizza intera NON e' commestibile, nemmeno se completamente cotta.** La pizza intera e' un oggetto da trasportare, posizionare e tagliare; non deve attivare l'azione di consumo/cibo di Minecraft.
-- Per mangiarla bisogna **prima tagliare la pizza cotta in quattro fette** con il **Cutting Board di Farmer's Delight Refabricated**; il Cutting Board **non** serve per stendere o condire l'impasto.
-- **Ogni fetta corrisponde a un quarto fisico specifico della pizza originale e contiene SOLO gli ingredienti realmente presenti su quel quarto.** Es.: una pizza con margherita, pesto, bianca e salame nei quattro quarti produce quattro fette con **quei rispettivi gusti**, non quattro copie del gusto complessivo.
-- La regola vale anche quando il giocatore **non ha diviso esplicitamente la pizza con il mattarello**, oppure ha riunito le zone: i quattro quarti fisici sottostanti e le maschere dei topping sono gia' memorizzati; il taglio non dipende dall'overlay logico.
-- **Solo le fette cotte sono oggetti commestibili**. Fame e saturazione si calcolano in base alla base di un quarto e ai topping **di quella specifica fetta**: i valori possono differire tra le quattro fette. Non applicare ciecamente a ciascuna fetta 1/4 della nutrizione globale della pizza quando i condimenti sono diversi.
-- **Da bilanciare:** numeri esatti di fame/saturazione, eventuali effetti, massimali e arrotondamenti. Mantenere il trasferimento di dati e rendering senza duplicazioni nel taglio; la pizza intera cotta rimane riposizionabile secondo le regole gia' previste.
+- **La pizza intera, anche cotta, NON si mangia.** Resta piazzabile e trasportabile come item completo; il clic destro a mano vuota non raccoglie la pizza intera posizionata: occorre romperla per recuperarla.
+- **Taglio principale direttamente nel mondo — CONFERMATO:** il giocatore puo' **piazzare una pizza cotta su una superficie valida** e **usare un coltello sulla pizza posizionata** per tagliarla in **quattro fette**. Non e' obbligatorio usare il Cutting Board di Farmer's Delight Refabricated, che resta una possibile alternativa opzionale per il taglio; non e' usato per stendere o condire l'impasto.
+- **Le fette restano sulla pizza a terra dopo il taglio**, anziche' essere tutte droppate automaticamente. Il giocatore puo' **prelevarle singolarmente**; a ogni prelievo si rimuove solo il quarto corrispondente, mentre le altre fette rimangono visibili e disponibili nel mondo. Dopo il prelievo della quarta fetta, la pizza tagliata non rimane come blocco.
+- **Una fetta corrisponde a uno dei quattro quarti fisici** e conserva solo i topping realmente presenti su quel quarto. Vale anche se la pizza non era divisa con il mattarello o se le sue divisioni logiche erano state riunite.
+- Solo **le fette cotte** sono item commestibili. I loro valori di fame/saturazione dipendono dai rispettivi ingredienti e possono variare per quarto; il bilanciamento numerico rimane aperto.
+- **DA DEFINIRE:** gesto preciso per prelevare una fetta dalla pizza tagliata (es. clic destro a mano vuota sul quarto mirato), eventuale consumo diretto dalla pizza nel mondo, comportamento alla rottura di un blocco pizza **gia' tagliato** e quali coltelli/tag siano accettati. **Non** estendere il prelievo a mano vuota all'intera pizza non tagliata; conservare tutti i dati e impedire duplicazioni.
 
 ## 7. Stati da gestire e testare
 
