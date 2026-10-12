@@ -139,6 +139,23 @@ Il Pizza Oven e' un forno specializzato **esclusivamente per le pizze**: accetta
 - **SERVIZIO DIRETTO — DECISIONE CONFERMATA (12 ottobre 2026):** la pizza cotta intera non ha `FoodComponent` e non e' mangiabile come item. Una pizza cotta piazzata sul blocco di appoggio supportato e' subito pronta a servire **quattro porzioni**, senza coltello, taglio preliminare, Cutting Board, ciotola o altri utensili. Il giocatore seleziona un quarto fisico presente e usa **clic destro a mano vuota** per ottenere la fetta corrispondente nell'inventario. A mano occupata nessuna raccolta. La ciotola di alcuni piatti di Farmer's Delight Refabricated e' soltanto l'analogia per il serving; per la pizza serve la **mano vuota**, non una ciotola.
 - **STATO TECNICO DEL SERVIZIO — CONFERMATO:** il blocco pizza cotta posizionato conserva fin dall'inizio una **maschera a quattro bit `remaining_quarters`** (nome concettuale) con tutti i quarti presenti, senza booleano di taglio `sliced`. La pizza puo' apparire intera fino alla prima porzione prelevata. La selezione tramite punto di clic individua un solo quarto fisico e ricava un ItemStack fetta con **i soli condimenti di quel quarto**, indipendentemente dalle divisioni logiche create col mattarello. Se la mano e' vuota, c'e' spazio nell'inventario e il quarto e' ancora presente, il server trasferisce **esattamente una fetta** e solo allora azzera il suo bit, salvando e sincronizzando il rendering delle porzioni residue; quando la maschera arriva a zero, rimuove il blocco. **Inventario pieno** o mano occupata -> **nessun item consegnato, nessuna modifica del blocco e nessun drop**. Ogni transazione deve essere atomica anche in multiplayer e dopo i salvataggi. **Rottura dell'intera pizza cotta ancora intatta (`remaining_quarters=1111`) -> unico item pizza cotta completo**; dopo uno o piu' prelievi, la rottura produce **solo le fette relative ai bit rimasti a 1**, ciascuna con propri ingredienti. Mai duplicare fette, pizza intera o topping. La cottura e la divisione logica dei condimenti sono sistemi indipendenti; bilanciamento nutrizionale ancora aperto.
 
+## Nutrizione dinamica delle fette — CONFERMATO (12 ottobre 2026)
+
+Ogni fetta servita direttamente da una pizza cotta piazzata deve usare **soltanto i topping del proprio quarto fisico** per calcolare la fame, senza ricavare un valore medio dalla pizza completa.
+
+| Categoria nutrizionale | Punti fame per fetta |
+| --- | ---: |
+| Base/crosta della fetta | **+1** |
+| Salse (opzionali) | **+1** |
+| Formaggi (anche grattugiati) | **+1** |
+| Salumi, carni, pesce | **+2** |
+| Verdure e funghi | **+1** |
+| Erbe e spezie | **+0** |
+
+**Algoritmo confermato:** dare il valore base **1** alla porzione e aggiungere **una sola volta** il bonus di ogni categoria presente nel relativo quarto (non un bonus per ogni item). Quindi **`hunger = min(6, 1 + sum(bonus_per_categoria_presente))`**, con cap di **6 punti fame (3 cosciotti) per fetta**. La salsa non e' obbligatoria ma, se presente, vale **+1**; mozzarella e gorgonzola insieme danno un solo **+1 formaggi**, salame e prosciutto insieme un solo **+2 salumi/carne/pesce**. I valori per fetta di una pizza mista possono differire. Esempi: margherita **3**, salame+salsa+formaggio **5**, vegetariana+salsa+formaggio **4**, bianca vuota **1**.
+
+**Compatibilita' e dati:** separare le **categorie nutrizionali** dalle identita' canoniche usate per i doppioni e dal preset grafico. Per item di altre mod determinare la categoria da definizioni/registrazioni appropriate (formato e mappatura iniziale da implementare), evitando di assegnare arbitrariamente bonus a un ingrediente non classificato. Non modificare il limite distinto di **6 ingredienti differenti per quarto** e non distribuire automaticamente un ingrediente globale su una fetta dove non e' presente. **Saturazione e possibili effetti** non sono ancora approvati numericamente: progettare la loro formula a parte. La pizza intera non acquisisce FoodComponent.
+
 ## Compatibilità con altre mod
 
 - Usare tag condivisi **solo se semanticamente appropriati**; per ingredienti canonici come la mozzarella, definizioni specifiche possono essere necessarie. **Equivalenza cross-mod confermata nel comportamento**, non nella selezione di tag esatti: un gruppo logico condiviso impedisce doppioni e vale un unico tipo di topping per quarto, ma il rimborso conserva l'item originario.
