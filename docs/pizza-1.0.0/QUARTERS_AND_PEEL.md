@@ -170,19 +170,20 @@ Una singola applicazione che consuma un ingrediente puo' interessare uno o piu' 
 
 ### Rimozione della pizza dal terreno — CONFERMATO (gia' deciso nelle conversazioni precedenti)
 
-- **Per togliere una pizza posizionata nel mondo bisogna rompere il blocco**. Non introdurre alcuna azione di **raccolta con clic destro a mano vuota** sulla pizza completamente stesa o condita: la proposta di raccolta diretta e' stata esplicitamente respinta.
+- **Per togliere una pizza posizionata nel mondo bisogna rompere il blocco e raccogliere la pizza stessa come item**. Non introdurre alcuna azione di **raccolta con clic destro a mano vuota** sulla pizza completamente stesa o condita: la proposta di raccolta diretta e' stata esplicitamente respinta.
 - **Clic destro normale a mano vuota** sulla pizza gia' stesa non la raccoglie e non crea un item pizza completo. Restano valide le **altre interazioni gia' approvate e distinte**: clic destro a mano vuota per stendere la *palla d'impasto non ancora stesa* e **Shift + clic destro a mano vuota per rimuovere una applicazione di topping** dalla pizza condibile.
-- La **rottura di una pizza cruda** restituisce impasto e ingredienti ancora associati, secondo le regole di rimborso per applicazione; **non** restituisce un item pizza cruda completa con topping e divisioni. Rompere la pizza e trasportarla intatta sono operazioni distinte: il trasporto integro tramite pala resta confermato.
-- La **rottura di una pizza cotta** non scompone il prodotto negli ingredienti originari. L'esatto risultato di rottura della pizza cotta, ove non gia' deciso, non va inventato.
+- La **rottura di una pizza cruda completamente formata** restituisce **una pizza cruda come item integro** che conserva condimenti, quantita' effettivamente impiegate, maschere delle zone, orientamento, ordine cronologico delle applicazioni, stato e seed visivo. Non restituire contemporaneamente impasto e ingredienti separati: sarebbero duplicati dei materiali gia' incorporati nell'item pizza.
+- La **rottura di una pizza cotta collocata sul terreno** restituisce la **pizza cotta come item integro**, senza scomporla in ingredienti originari. I dati persistenti devono rimanere validi per il consumo, il trasporto e l'eventuale riposizionamento secondo le funzionalita' previste.
 
 ### Rottura della pizza — CONFERMATO
 
-- Rompendo una **pizza cruda in preparazione** si recuperano l'impasto e gli ingredienti ancora associati alla preparazione.
-- Un'applicazione ancora presente anche su un solo quarto puo' restituire **al massimo** la quantita' inizialmente consumata (es. **una mozzarella**, non una per quarto).
-- Il recupero alla rottura e il recupero tramite rimozione devono essere reciprocamente esclusivi: **nessuna duplicazione**.
-- La **pizza gia' cotta** non viene scomposta in ingredienti originari quando viene rotta: e' un prodotto finito.
+- Rompendo una **pizza completa sul terreno**, cruda o cotta, si recupera **l'item pizza corrispondente**, con tutti i dati di ingredienti, coperture, divisioni, orientamento e cottura salvati.
+- La rottura non produce **impasto o topping separati**, per evitare il doppio recupero dei materiali gia' incorporati nell'item pizza.
+- La **rimozione intenzionale di topping con Shift + clic destro a mano vuota**, prima della rottura, resta distinta: un'applicazione restituisce l'item originale soltanto dopo essere stata rimossa per intero, come gia' concordato.
+- **Palla e impasto non ancora completamente steso** mantengono per ora il comportamento di recupero del Wheat Dough del prototipo; il nuovo item riguarda la **pizza gia' formata** e i suoi dati.
+- La **pizza cotta** viene raccolta come item finito e non viene scomposta nei vecchi ingredienti.
 
-**DA DEFINIRE:** dettagli della raccolta quando la pizza viene rotta da un evento senza giocatore, creativa, blocco di supporto distrutto, esplosioni e contenitori/remainder particolari. Queste varianti non devono violare la conservazione degli item.
+**Dettagli implementativi da testare:** rottura effettuata da un giocatore, rimozione del supporto, multiplayer, modalita' Creativa e altri eventi vanilla. La regola di base confermata per una pizza formata e' **un solo item pizza con dati integri, senza drop separati dei topping**; non introdurre restituzioni multiple o eccezioni non richieste.
 
 ## 3. Pala per pizza (Pizza Peel) — CONFERMATO
 
@@ -193,7 +194,7 @@ La **pala per pizza** e' lo strumento per trasferire una pizza **intera**. E' gi
 - La pala occupata **non puo' raccogliere una seconda pizza**.
 - Con **clic destro** su una superficie compatibile, la pala occupata deposita la pizza e ricostruisce lo stato precedente.
 - L'uso della pala **non e' obbligatorio per applicare o rimuovere** i condimenti: queste interazioni avvengono direttamente sulla pizza nel mondo.
-- La pala e' destinata anche a **inserimento ed estrazione** della pizza nel futuro Pizza Oven, **ma e' FACOLTATIVA per usare il forno** (decisione confermata). Le interazioni dirette con item-pizza e mano vuota **sul forno** sono ancora proposte, descritte in [PIZZA_OVEN.md](PIZZA_OVEN.md). **Non aggiungere raccolta a mano vuota della pizza dal terreno:** una pizza cruda posizionata si rimuove rompendola, recuperando impasto e ingredienti; per trasferirla intatta la pala e' il metodo gia' confermato. Resta da chiarire se esista un percorso alternativo senza pala per la pizza preparata a terra. L'integrazione del forno deve essere implementata e verificata quando il forno esistera'.
+- La pala e' destinata anche a **inserimento ed estrazione** della pizza nel futuro Pizza Oven, **ma e' FACOLTATIVA per usare il forno** (decisione confermata). Le interazioni dirette con item-pizza e mano vuota **sul forno** sono ancora proposte, descritte in [PIZZA_OVEN.md](PIZZA_OVEN.md). **Non aggiungere raccolta a mano vuota della pizza dal terreno:** la pizza completa si rimuove **rompendola e raccogliendola come item**, con dati preservati. Questo e' anche il **percorso confermato senza pala** dal mondo al forno. La pala rimane una via alternativa facoltativa per il trasporto diretto. L'integrazione del forno deve essere implementata e verificata quando il forno esistera'.
 - **Durabilita' — CONFERMATO:** la pala e' uno **strumento riutilizzabile senza durabilita'**. Raccogliere, posizionare o trasferire una pizza, anche ripetutamente, non consuma la pala ne' ne modifica la capacita' di trasportare **una pizza alla volta**.
 - **Non impilabile — CONFERMATO:** la pala ha **dimensione massima dello stack pari a 1**, sia **VUOTA** sia **OCCUPATA**. Ogni pala richiede un proprio slot di inventario; due pale identiche, anche vuote, non si uniscono mai in uno stack. Lo stato vuoto/occupato non cambia questa regola.
 
@@ -232,7 +233,7 @@ L'autore vuole rendere **anche la pala un'arma**, prendendo come riferimento il 
 - **DA DEFINIRE in fase di combattimento:** danni, velocita' d'attacco, eventuali effetti/animazioni/suoni **solo quando la pala e' vuota**; dettagli di interazione con i normali attacchi base quando e' occupata. **Gia' definito:** con una pizza caricata non si attivano mai le capacita' speciali da arma. Non copiare parametri della padella senza prima verificarne la versione effettiva e concordare il bilanciamento.
 - Non modificare ne' sostituire l'**asset gia' disponibile** della pala dalla vecchia Italian's Delight: recuperarlo e valutarne il riutilizzo prima di creare ulteriori risorse.
 
-**CONFERMATO:** la pala e' **riutilizzabile senza durabilita'** e in futuro dovra' poter fungere anche da **arma ispirata alla padella di Farmer's Delight Refabricated, ma esclusivamente quando e' vuota**. Se contiene una pizza, le capacita' speciali da arma sono disattivate e i dati della pizza devono rimanere intatti. **CONFERMATO:** stack massimo 1, sia a pala vuota sia occupata. **CONFERMATO:** una pala droppata come item (Q) conserva la pizza internamente e il recupero ripristina tutti i dati; **se l'item despawna naturalmente, pala e pizza vengono perse secondo il comportamento vanilla**. **CONFERMATO:** distruzione e danni ambientali seguono Minecraft vanilla; se l'item viene distrutto, pala e pizza scompaiono senza rimborsi. **DA DEFINIRE:** ricetta, tooltip, resa grafica quando occupata, precedenze d'uso col forno, pizze cotte e superfici compatibili. **CONFERMATO:** la pala non e' obbligatoria per utilizzare il Pizza Oven, ma non e' consentita la raccolta a mano vuota di una pizza collocata nel mondo. **DA DEFINIRE:** se e come una pizza preparata a terra possa arrivare *intatta* al forno senza pala, fermo restando che rompendola cruda si ottengono impasto e ingredienti separati. Le statistiche e interazioni da arma sono ancora aperte e non vanno implementate senza definizione.
+**CONFERMATO:** la pala e' **riutilizzabile senza durabilita'** e in futuro dovra' poter fungere anche da **arma ispirata alla padella di Farmer's Delight Refabricated, ma esclusivamente quando e' vuota**. Se contiene una pizza, le capacita' speciali da arma sono disattivate e i dati della pizza devono rimanere intatti. **CONFERMATO:** stack massimo 1, sia a pala vuota sia occupata. **CONFERMATO:** una pala droppata come item (Q) conserva la pizza internamente e il recupero ripristina tutti i dati; **se l'item despawna naturalmente, pala e pizza vengono perse secondo il comportamento vanilla**. **CONFERMATO:** distruzione e danni ambientali seguono Minecraft vanilla; se l'item viene distrutto, pala e pizza scompaiono senza rimborsi. **DA DEFINIRE:** ricetta, tooltip, resa grafica quando occupata, precedenze d'uso col forno, pizze cotte e superfici compatibili. **CONFERMATO:** la pala non e' obbligatoria per utilizzare il Pizza Oven, ma non e' consentita la raccolta a mano vuota di una pizza collocata nel mondo. **CONFERMATO:** rompendo una pizza formata a terra si ottiene la pizza **integra come item** (senza drop separati di impasto e ingredienti); l'item puo' essere portato al Pizza Oven senza pala. Le statistiche e interazioni da arma sono ancora aperte e non vanno implementate senza definizione.
 
 ## 4. Vincoli tecnici di progetto (da implementare)
 
@@ -262,7 +263,7 @@ Invarianti da mantenere:
 1. `remaining_quarter_mask` e' un sottoinsieme dei quarti originariamente coperti.
 2. Ogni applicazione puo' rimborsare la propria quantita' **una volta sola**.
 3. La rimozione completa cancella l'applicazione soltanto dopo aver gestito il rimborso.
-4. La rottura della pizza non rimborsa applicazioni gia' restituite.
+4. La rottura di una pizza formata produce **soltanto la pizza-item** con le applicazioni ancora presenti, senza rimborsarle di nuovo come ingredienti separati. Le applicazioni gia' rimosse e rimborsate non ricompaiono nell'item.
 5. Il trasporto sulla pala conserva dati e identita' visiva, non li ricostruisce da un gusto predefinito.
 6. Tutte le mutazioni di inventario e mondo devono essere autorevoli lato server e sincronizzate ai client.
 7. La rappresentazione deve consentire tag/definizioni per ingredienti di altre mod senza assumere automaticamente che tutti i cibi siano validi.
@@ -300,7 +301,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] Due mozzarelle di mod diverse esplicitamente equivalenti sono trattate come lo stesso ingrediente: niente doppia applicazione sul medesimo quarto, un solo tipo nel limite di 6; recupero dell'item *effettivamente usato* e non di un item equivalente.
 - [ ] Tentare pesto sull'intera pizza dopo aver riunito una meta' al pomodoro e una meta' bianca: **rifiutare tutto**, nessuna modifica e nessun consumo. Dopo nuova divisione, consentire di condire la sola meta' bianca.
 - [ ] Dopo la riunione di zone parzialmente coperte, un clic dello stesso ingrediente riempie **solo le sottoaree libere**, consumando un solo item; se non restano sottoaree libere non accade nulla.
-- [ ] La rottura di una pizza cruda recupera impasto e ingredienti residui senza duplicare; quella cotta non restituisce gli ingredienti separati.
+- [ ] Rompere una **pizza formata cruda o cotta** restituisce **un solo item pizza completo**, con dati di ricetta e cottura invariati, senza drop separati di impasto o topping. Le pizze-item possono essere utilizzate come input del forno senza pala.
 - [ ] Recupero nel normale inventario; drop solo in mancanza di spazio.
 - [ ] La pala trasporta esattamente una pizza con tutti i dati e rifiuta una seconda.
 - [ ] La pala **non ha durabilita'**: raccolte, depositi e trasferimenti ripetuti non causano usura o rottura dell'oggetto.
