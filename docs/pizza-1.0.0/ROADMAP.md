@@ -86,7 +86,9 @@
 - [ ] **Implementare e testare il prelievo diretto** dalla pizza cotta appena piazzata (nessuna fase di taglio): clic destro a mano vuota sul quarto ancora presente -> fetta con dati/topping di quel quarto in inventario e scomparsa del solo quarto prelevato. Mano occupata -> nessuna raccolta. Maschera quattro quarti persistente, multiplayer/anti-duplicazione.
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
 - [ ] Elenco ufficiale delle pizze riconosciute e dei condimenti iniziali.
-- [ ] Valori fame, saturazione, eventuali effetti alimentari.
+- [x] **Fame per fetta CONFERMATA:** **crosta/base +1**, **salsa +1**, **formaggi +1**, **salumi/carne/pesce +2**, **verdure/funghi +1**, **erbe/spezie +0**; ogni categoria conta **una sola volta per quarto** e la fetta ha **massimo 6 punti fame**. La scelta modifica la proposta iniziale (base 2 -> 1, salsa 0 -> 1).
+- [ ] **Saturazione, eventuali effetti alimentari e mappatura tecnica cross-mod:** numeri e regole di classificazione ancora da definire.
+- [ ] **Implementare/testare la fame dinamica** delle singole fette (4 quarti con topping diversi, categoria ripetuta, pizza bianca, cap 6, ingredienti equivalenti di altre mod), senza dare proprieta' commestibili alla pizza intera.
 - [x] **Raccolta fette SENZA taglio — CONFERMATA:** clic destro a mano vuota su un quarto ancora presente della pizza cotta piazzata -> una sola fetta corrispondente nell'inventario; il quarto scompare dalla pizza. Mano occupata non raccoglie nulla. La pizza integra come item non viene raccolta con clic destro.
 - [x] **Drop alla rottura — CONFERMATO:** pizza cotta **ancora integra (4/4) -> item pizza intera**, mentre una pizza da cui e' stata gia' raccolta almeno una fetta (3/2/1 quarti restanti) -> **soltanto gli item delle fette rimanenti**, con topping del proprio quarto. Mai rimborsi extra o fette duplicate.
 - [x] **Decisione sui coltelli SUPERATA:** nessun coltello, tag/API di coltelli o Cutting Board e' richiesto per ottenere una fetta. Prendere le porzioni direttamente dalla pizza cotta posizionata, ispirandosi ai cibi piazzabili di Farmer's Delight Refabricated.
@@ -167,7 +169,7 @@
 - [ ] Test approfonditi con ingredienti della mod e di altre mod.
 - [ ] Test stress di tanti topping/pizze, multiplayer e server dedicato.
 - [ ] Test no bruciatura, hopper, chunk unload, salvataggi e dupe.
-- [ ] Rebalancing dei tempi, costi e valori alimentari.
+- [ ] Rebalancing di tempi, costi, **saturazione** e dei valori alimentari nel gameplay (i **bonus base della fame e il tetto 6 per fetta sono gia' approvati**; modificarli solo su esplicita richiesta).
 - [ ] Documentazione EN/IT, README, CHANGELOG 1.0.0, JEI.
 - [ ] Build finale, PR su `main`, release GitHub, CurseForge, Modrinth.
 
