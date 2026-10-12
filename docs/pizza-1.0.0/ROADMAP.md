@@ -81,12 +81,13 @@
 - [ ] Implementare e testare la GUI con layout vanilla e logica specializzata: estrazione manuale di pizza parzialmente cotta dallo slot ingresso con progresso salvato; input vietato se output occupato; test pali e hopper senza duplicazioni.
 - [x] **Estrazione rapida con pala vuota — CONFERMATO:** clic destro sul Pizza Oven senza GUI preleva la pizza presente, **anche cruda o parzialmente cotta**. Dati e progresso di cottura restano nella pala. L'inserimento diretto con pala occupata era gia' confermato.
 - [ ] Griglia crafting della pizza libera e output crudo/cotto.
-- [x] **Pizza cotta INTERA NON commestibile — CONFERMATO:** deve essere tagliata sul **Cutting Board di Farmer's Delight Refabricated in 4 fette** prima di poter essere mangiata. Solo le fette sono item alimentari.
+- [x] **Pizza intera cotta NON commestibile — CONFERMATO:** per mangiarla occorrono fette. **Metodo diretto approvato:** piazzare la pizza cotta a terra, usare un **coltello** per tagliarla in quattro e poi prelevare singole fette dalla pizza che rimane nel mondo. **Cutting Board NON obbligatorio**, solo possibile alternativa.
 - [x] **Fette con il gusto del proprio QUARTO FISICO — CONFERMATO:** ogni fetta conserva solo i topping del quarto corrispondente, mai la composizione globale. Vale indipendentemente da divisioni/riunioni logiche fatte con il mattarello.
-- [ ] Implementare e testare il **taglio in 4 fette** con dati distinti per quarto e nutrizione individuale; verificare che la **pizza intera non abbia proprieta' di cibo** e che soltanto le fette cotte siano consumabili. Evitare duplicazioni nel taglio.
+- [ ] Implementare e testare il **taglio con coltello della pizza cotta posizionata nel mondo**, stato tagliato e maschera a quattro quarti rimanenti, prelievo singolo senza drop automatico al taglio, dati/visuale/nutrizione distinti per fetta, e nessuna duplicazione. Testare anche l'eventuale alternativa Cutting Board.
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
 - [ ] Elenco ufficiale delle pizze riconosciute e dei condimenti iniziali.
 - [ ] Valori fame, saturazione, eventuali effetti alimentari.
+- [ ] Definire il **gesto per prendere una singola fetta nel mondo**, il drop se viene rotto il blocco gia' tagliato e l'insieme dei coltelli compatibili: non sono ancora stati approvati i dettagli.
 - [ ] Test visivo delle nuove forme e hitbox dell'impasto nei cinque stadi (vedi [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md)).
 - [ ] Gestione delle collisioni, del posizionamento e rendering di dettaglio.
 - [ ] API effettive per mantenere data component nelle fornaci vanilla.
@@ -154,7 +155,7 @@
 - [ ] Prototipo conservazione componenti passando da **fornace e affumicatore vanilla**.
 - [ ] Ricetta speciale di crafting per pizze libere.
 - [ ] JEI: esempi di pizze riconosciute, condimenti, lavorazioni e forni.
-- [ ] Implementare il **taglio obbligatorio della pizza cotta in 4 fette** sul Cutting Board prima del consumo; testare che ogni fetta contenga i dati esclusivi del **proprio quarto**, anche quando le zone non sono divise o sono state riunite. La pizza intera non deve essere mangiabile. Calcolare nutrizione di ogni fetta in base ai suoi topping, lasciando aperto solo il bilanciamento numerico; verificare il riposizionamento della pizza cotta.
+- [ ] Implementare il taglio obbligatorio **per ottenere fette commestibili**, ma **NON imporre il Cutting Board**: pizza cotta piazzata -> taglio sul blocco con coltello -> prelievo individuale delle quattro fette. La pizza intera non e' commestibile. Ogni fetta preserva i dati del suo quarto fisico; la pizza rimane in-world finche' esistono fette.
 
 ### Fase 6: test e pubblicazione
 
