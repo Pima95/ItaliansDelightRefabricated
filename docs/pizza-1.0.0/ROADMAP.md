@@ -14,6 +14,10 @@
 - [x] Pizze riconosciute con nomi prestabiliti, altre con nomi dinamici.
 - [x] Pizza Oven dedicato oltre a fornace e affumicatore vanilla.
 - [x] Pizza Oven 1×1×1, **capienza una pizza alla volta**.
+- [x] **Pizza Oven solo per pizze:** comportamento tipo fornace, ma accetta **esclusivamente pizze come input di cottura**; altri cibi e oggetti non vengono lavorati.
+- [x] **Nessun preriscaldamento**: la cottura comincia subito con pizza ed energia disponibili.
+- [x] **Combustibile consumato solo durante la cottura attiva**: energia residua conservata a forno vuoto o con pizza pronta e riutilizzabile con altre pizze.
+- [x] **Cottura in pausa senza energia**, con avanzamento salvato e ripresa dopo rifornimento senza ripartire da zero.
 - [x] Pizza Oven accetta **tutti i combustibili vanilla**.
 - [x] **Pala FACOLTATIVA per il Pizza Oven**: inserimento ed estrazione devono essere possibili anche senza pala. Il suo impiego resta un'opzione di comodita', non un requisito.
 - [x] **Pizza sul terreno recuperabile rompendo il blocco come ITEM PIZZA** (crudo o cotto), con tutti i dati di composizione, divisione, orientamento e cottura. **Nessuna raccolta con clic destro a mano vuota** sulla pizza stesa e nessun drop separato di impasto/topping dalla pizza formata. Stesura della palla e rimozione topping restano interazioni distinte.
@@ -58,8 +62,9 @@
 - [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
 - [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
 - [ ] Verificare in gioco che la Soul Sand sia vietata e che slab superiori/doppie, scale capovolte, botole superiori chiuse e incudini funzionino ancora; verificare anche recupero se il supporto viene rotto.
-- [ ] Tempi cottura (proposti: 20/30/60 secondi).
-- [ ] Consumo fuel del Pizza Oven, preriscaldamento e burn time residuo.
+- [ ] **Rebalancing finale dei tempi di cottura:** 20/30/60 secondi per Pizza Oven/affumicatore/fornace sono **placeholder** confermati solo come valori provvisori, non tempi definitivi.
+- [x] **Meccanica consumo fuel / preriscaldamento / burn time residuo definita**: zero preriscaldamento, solo consumo durante cottura, energia residua conservata tra pizze, avanzamento in pausa se finisce il fuel.
+- [ ] Implementare e testare la gestione del burn time residuo e il progresso di cottura persistente del Pizza Oven (inclusi salvataggio, chunk unload e cambio combustibile); il consumo durante inattivita' deve rimanere nullo.
 - [ ] Hopper sopra/lati/sotto e fallback manuale.
 - [ ] Ricetta crafting Pizza Oven.
 - [ ] Implementare e testare la **pizza-item ottenuta rompendo la pizza formata nel mondo**, con stato di cottura, divisioni, applicazioni e rendering conservati; verificare nessun drop separato di dough/topping e trasferimento corretto al Pizza Oven.
@@ -126,7 +131,7 @@
 
 - [ ] Forno compatto orientabile con una pizza alla volta, **utilizzabile con o senza pala** (la pala non e' obbligatoria).
 - [ ] BlockEntity persistente, interazioni manuali e nessuna bruciatura.
-- [ ] Tutti i combustibili vanilla, rimanenze dei contenitori e energia residua.
+- [ ] Tutti i combustibili vanilla, rimanenze dei contenitori e **energia residua conservata senza consumi a vuoto**; solo pizza come ricetta valida, inizio immediato senza preriscaldamento e progresso in pausa senza energia.
 - [ ] Automazione con hopper, se confermata.
 - [ ] Modelli, animazioni, traduzioni e ricetta.
 
