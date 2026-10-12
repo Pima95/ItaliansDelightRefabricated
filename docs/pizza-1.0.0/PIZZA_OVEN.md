@@ -112,6 +112,18 @@ La cottura di un item con data component personalizzati tramite **smelting ordin
 
 **La compatibilità è richiesta, ma non ancora implementata né verificata.** Prima della release va testata su pizza personalizzata con più condimenti: l'output deve conservare dati, nome dinamico e resa visiva.
 
-## Ricetta per costruire il forno — PROPOSTA
+## Ricetta per costruire il forno — CONFERMATA (12 ottobre 2026)
 
-Mattoni, mattoni di pietra e fornace vanilla; forma e quantità da scegliere nel bilanciamento. Non introdurre nuovi minerali o materiali obbligatori solo per costruire il forno.
+**Ricetta shaped 3x3 del banco da lavoro:** una **fornace vanilla** al centro, **4 blocchi di mattoni** (`minecraft:bricks`) e **4 blocchi di mattoni di pietra** (`minecraft:stone_bricks`) negli altri otto spazi. Per una disposizione regolare e simmetrica, collocare i mattoni agli **angoli** e i mattoni di pietra nelle **quattro posizioni cardinali** intorno alla fornace:
+
+```text
+B S B
+S F S
+B S B
+```
+
+- **B** = blocco di mattoni (`minecraft:bricks`), **4 totali**.
+- **S** = blocco di mattoni di pietra (`minecraft:stone_bricks`), **4 totali**.
+- **F** = fornace vanilla (`minecraft:furnace`), **1 al centro**.
+- **Risultato:** 1 Pizza Oven. Ricetta *shaped*, non shapeless; nessun materiale aggiuntivo.
+- **Confermato come gameplay; DA IMPLEMENTARE:** registrare il recipe JSON per Minecraft/Fabric 26.2, sblocco libro ricette, integrazione JEI e test crafting. Non modificare gli asset creati dall'autore.
