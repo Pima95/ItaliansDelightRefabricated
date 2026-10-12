@@ -87,13 +87,13 @@ La pizza deve essere ottenibile **anche con crafting**, senza costringere tutti 
 
 **Da decidere:** griglia/forma della ricetta, condimenti ripetuti e limitazioni di capienza, presenza di ricette predefinite per JEI, risultato crudo o cotto (proposta: crudo). La logica delle porzioni e dei nomi deve essere condivisa tra crafting e preparazione nel mondo.
 
-## 6. Servizio e taglio — PROPOSTA
+## 6. Consumo della pizza cotta e taglio — CONFERMATO NEL PRINCIPIO
 
-- Pizza cotta consumabile intera e potenzialmente riposizionabile nel mondo.
-- Taglio in **4 fette** sul Cutting Board di Farmer's Delight.
-- Ogni fetta conserva gusto, informazioni e rappresentazione coerente.
-- Il Cutting Board sarebbe utilizzato **per tagliare la pizza cotta**, non per preparare/stendere l'impasto.
-- Nutrizione/saturazione dipendenti dai condimenti con valore massimo bilanciato.
+- **La pizza cotta puo' essere mangiata intera**, senza essere necessariamente tagliata.
+- In alternativa, il **Cutting Board di Farmer's Delight Refabricated** taglia **una pizza cotta in quattro fette**; non viene usato per stendere o condire l'impasto.
+- Le **quattro fette mantengono le informazioni necessarie a rappresentare gusto e composizione**, e ciascuna ha un valore alimentare indicativamente pari a **un quarto della pizza intera**, con arrotondamenti e bilanciamento ancora da definire. Non creare fette con composizione generica che perda i dati della pizza.
+- **Decisione aperta significativa:** per una pizza con ingredienti differenti nei quattro quarti, non e' ancora deciso se ogni fetta debba rappresentare **solo i condimenti del suo quarto fisico** o l'intera composizione della pizza. Non confondere l'overlay logico di condimento col taglio fisico.
+- **Da bilanciare:** valori numerici di fame/saturazione, eventuali effetti, massimali e regole di arrotondamento. Anche la precisa esperienza di consumo/riposizionamento nel mondo resta da progettare nei dettagli.
 
 ## 7. Stati da gestire e testare
 
