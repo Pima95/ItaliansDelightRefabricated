@@ -91,6 +91,8 @@ Se nella zona riunita convivono piu' **applicazioni distinte dello stesso ingred
 
 **Esempio:** se un quarto contiene gia' mozzarella di Italian's Delight, un'altra mozzarella esplicitamente riconosciuta come equivalente non puo' essere aggiunta nella stessa posizione e non consuma nulla. Su un quarto libero, quella seconda mozzarella e' valida e, quando rimossa completamente, restituisce esattamente l'item di origine.
 
+**Classificazione estesa CONFERMATA:** uova condividono **la categoria nutrizionale** delle proteine animali con salumi/carne/pesce; olive quella dei vegetali; panna quella dei latticini con formaggi; olio d'oliva appartiene alla nuova categoria Oli e grassi. **Categoria non implica equivalenza:** uovo e prosciutto, panna e mozzarella, olive e funghi restano ingredienti distinti per il limite dei sei e i rimborsi, salvo equivalenza puntuale. Il ruolo e' indipendente: la panna puo' contare come salsa per l'unico slot salsa ma resta latticino per nutrizione, e l'olio non occupa lo slot salsa. Mappare anche Farmer's Delight Refabricated e mod compatibili tramite ID/tag verificati, preservando l'item di origine.
+
 **DA DEFINIRE:** formato esatto delle dichiarazioni per datapack, priorita' in caso di tag sovrapposti ed elenco iniziale delle equivalenze supportate. **Non ancora implementato.**
 
 ## Salsa facoltativa, al massimo una per porzione — CONFERMATO (11 ottobre 2026)
