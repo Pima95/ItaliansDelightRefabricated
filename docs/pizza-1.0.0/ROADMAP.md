@@ -33,7 +33,8 @@
 - [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
 - [x] **Pala senza durabilita'**, riutilizzabile indefinitamente per raccogliere, spostare e trasferire pizze.
 - [x] **Pala non impilabile**, sia vuota sia occupata: **stack massimo 1**, una pala per slot di inventario.
-- [x] **Pala droppata (Q)**: normale entita' item che mantiene la pizza al suo interno, anche dopo la raccolta da parte di un altro giocatore. Dati completi immutati, nessun item pizza separato; **despawn/distruzione non ancora decisi**.
+- [x] **Pala droppata (Q)**: normale entita' item che mantiene la pizza al suo interno, anche dopo la raccolta da parte di un altro giocatore. Dati completi immutati, nessun item pizza separato.
+- [x] **Despawn vanilla confermato**: una pala a terra con pizza puo' scomparire naturalmente nei tempi e condizioni vanilla; si **perdono pala e pizza**, senza ricompense o protezioni speciali. Distruzione per altri danni da definire.
 - [x] **Pala come futura arma solo quando VUOTA**, ispirata alla padella di Farmer's Delight Refabricated. **Se OCCUPATA non attiva alcun bonus o effetto speciale da arma** e mantiene intatti i dati della pizza. Statistiche e dettagli non concordati; codice non implementato.
 
 ## Questioni da risolvere prima del codice (NON CONFERMATE)
@@ -49,7 +50,7 @@
 - [x] **Confermati linea parallela alla direzione cardinale piu' vicina allo sguardo e orientamento a scatti** N/S/E/O, per due meta' sinistra/destra. Non viene usata una rotazione libera per le diagonali.
 - [x] **Selezione delle zone tramite posizione effettiva del clic**; sui confini e sulle intersezioni una sola zona in modo deterministico, senza selezioni doppie.
 - [ ] Definire **quale zona prevale esattamente sul confine** (criterio di spareggio fisso), lo spareggio deterministico negli angoli a meta' tra due cardinali e i dettagli di hitbox/tolleranze (**snap cardinale, gesti e assenza di usura gia' confermati**).
-- [ ] Pala: definire ricetta, tooltip, comportamento se l'item **despawna o viene distrutto**, gestione inventari e dettagli col forno (**trasporto, drop/pickup preservando la pizza, assenza di durabilita' e stack massimo 1 gia' confermati**).
+- [ ] Pala: definire ricetta, tooltip, comportamento in caso di **distruzione dell'item** (lava, fuoco, cactus, esplosioni), gestione inventari e dettagli col forno (**trasporto, drop/pickup e despawn naturale vanilla gia' confermati**, cosi' come assenza di durabilita' e stack massimo 1).
 - [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
 - [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
 - [ ] Verificare in gioco che la Soul Sand sia vietata e che slab superiori/doppie, scale capovolte, botole superiori chiuse e incudini funzionino ancora; verificare anche recupero se il supporto viene rotto.
@@ -91,6 +92,7 @@
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
 - [ ] Test: due pale vuote non si impilano; ogni pala occupata resta singola; spostamenti tra slot e contenitori conservano i dati senza duplicazioni.
 - [ ] **Drop/pickup**: premere Q con pala occupata e raccoglierla, anche da altro giocatore; verificare che pizza, applicazioni, divisioni, orientamento, stadio e seed grafico restino identici. Ripetere in multiplayer e con piu' pale.
+- [ ] **Despawn naturale vanilla**: lasciare a terra una pala con pizza fino al despawn; verificare che l'entita' scompaia normalmente, senza drop della pala o ingredienti e senza mantenere la pizza altrove; nessuna modifica alle regole standard del mondo/server.
 - [ ] Gestire gli eventuali remainder dei contenitori senza duplicazioni.
 - [ ] Nomi dinamici localizzati e ricette riconosciute.
 - [ ] Rendering provvisorio per convalidare i dati.
