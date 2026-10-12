@@ -94,6 +94,23 @@ Compatibilità generica proposta, sempre come bozza:
 
 Tag ampi possono includere alimenti non adatti: occorrono eccezioni e priorità. **Non rendere automaticamente valido qualsiasi item commestibile.**
 
+## Ambito dei condimenti nella Pizza Update 1.0.0 — CONFERMATO (12 ottobre 2026)
+
+**Catalogo di tipi di ingrediente CHIUSO per la release 1.0.0:** i tipi di condimento che la mod supporta ufficialmente sono selezionati **esclusivamente dai contenuti di Italian's Delight Refabricated e Farmer's Delight Refabricated**. La lista concreta verra' composta dai loro item idonei e verificati nelle rispettive versioni target; non si amplia il catalogo soltanto perche' un'altra mod e' installata. La classificazione nutrizionale gia' approvata (incluse uova, olive, panna, oli e grassi) **non implica** che nuovi item o tipi assenti dalle due mod siano automaticamente disponibili.
+
+**Eccezione deliberata per equivalenti cross-mod:** un item di **qualsiasi altra mod, e anche vanilla quando pertinente**, puo' essere utilizzato **come variante di un tipo GIA' incluso nel catalogo 1.0.0** se rientra in un **tag comune/convenzionale specifico e semanticamente corretto** oppure in una equivalenza puntuale verificata. Esempio: un formaggio di un'altra mod riconosciuto **esplicitamente come mozzarella** puo' sostituire la mozzarella presente nel catalogo; un formaggio generico o un tipo nuovo di formaggio **non** entra solo per il tag ampio dei formaggi. I tag condivisi facilitano la sostituzione, **non aggiungono nuovi concetti di topping**. Non introdurre un blocco indiscriminato sul namespace di origine: contano **tipo di ingrediente supportato e corrispondenza confermata**.
+
+**Uso previsto dei tag comuni:**
+- preferire **tag convenzionali `c:`** realmente esistenti per la versione Fabric/Minecraft target e semanticamente specifici per item equivalenti; eventuali tag locali di Italian's Delight possono includere questi tag per offrire una sola regola di matching;
+- un tag generico (es. `c:foods`, `c:foods/cheese` o gruppi ampi equivalenti) puo' aiutare a classificare, **ma non autorizza automaticamente qualsiasi elemento del gruppo come topping, ne' rende equivalenti mozzarella, gorgonzola e parmigiano**;
+- adottare ID item esatti e definizioni di compatibilita' mirate quando non esista un tag comune specifico; verificare **ID, presenza, nome e contenuto effettivo** di ogni tag nel JAR e nei datapack della versione target **prima dell'implementazione**. I nomi di esempio non sono una whitelist tecnica pronta;
+- precedenza progettuale: **identita' supportata del catalogo -> corrispondenza tramite item/tag specifico -> validazione dei vincoli per quarto -> applicazione**. Un item non riconosciuto si rifiuta **senza consumarlo** e senza cambiare la pizza; nessun fallback che consenta di usare qualunque cibo.
+- ingredienti identici di mod diverse condividono **identita' canonica**, occupazione, limite sei tipi e bonus nutrizionali; l'**ItemStack esatto usato** resta salvato per il rimborso e per i contenitori restituiti, senza duplicazioni.
+
+**Estensioni future:** mantenere l'architettura configurabile tramite datapack per nuovi cataloghi in altre versioni, ma **la configurazione e il catalogo di default di questa release non introducono ingredienti aggiuntivi di altre mod** oltre agli equivalenti dei tipi supportati. Eventuali datapack esterni che modifichino intenzionalmente il catalogo costituiscono personalizzazioni del modpack, non ingredienti ufficiali della 1.0.0.
+
+**Test di accettazione:** un ingrediente nativo di Italian's Delight e uno di Farmer's Delight ammessi esplicitamente; sostituzione con item equivalente di un'altra mod attraverso tag `c:` verificato; equivalenza anti-doppione nello stesso quarto; rifiuto di un ingrediente nuovo della terza mod pur essendo alimentare; tag generico che **non** ammette un item non previsto; assenza della mod esterna, contenitori restituiti e salvataggio/ricarica senza dupe. Regole di salsa, limite sei, fame/saturazione e rimborsi restano invariati.
+
 ## Ruolo e categoria nutrizionale — CONFERMATO (12 ottobre 2026)
 
 Un ingrediente valido deve distinguere **quattro caratteristiche indipendenti**: ruolo di preparazione/interazione, categoria nutrizionale, identita' canonica (equivalenze anti-duplicato) e preset grafico. La condivisione della categoria nutrizionale **non** rende automaticamente equivalenti due item e **non** li abilita automaticamente come topping.
@@ -113,7 +130,7 @@ Le **formule gia' confermate** diventano `hunger = min(6, 1 + sum(bonus_fame_cat
 
 ### Compatibilita' Farmer's Delight Refabricated e altre mod — REQUISITO CONFERMATO
 
-**Priorita' richiesta dall'autore:** supportare gli ingredienti adatti alla pizza di **Farmer's Delight Refabricated**, oltre a Vanilla, Italian's Delight e altre mod future tramite definizioni estendibili. Nel progetto, la dipendenza ha namespace `farmersdelight`, Minecraft `26.2`, e la versione prevista in `gradle.properties` e' `26.2-3.6.28+refabricated`. Gli esempi seguenti sono **candidati concreti da testare e verificare nel JAR 26.2**, non un elenco gia' implementato ne' una promessa che tutti gli item siano condimenti accettati:
+**Priorita' richiesta dall'autore:** catalogo ufficiale di topping ricavato da **Italian's Delight Refabricated e Farmer's Delight Refabricated**, con **varianti di altre mod soltanto quando equivalenti a tipi gia' supportati** tramite tag comuni mirati o matching specifico. Nel progetto, la dipendenza ha namespace `farmersdelight`, Minecraft `26.2`, e la versione prevista in `gradle.properties` e' `26.2-3.6.28+refabricated`. Gli esempi seguenti sono **candidati concreti da testare e verificare nel JAR 26.2**, non un elenco gia' implementato ne' una promessa che tutti gli item siano condimenti accettati:
 
 | Identificativo da verificare nella dipendenza target | Categorie/ruolo di partenza | Nota |
 | --- | --- | --- |
@@ -130,7 +147,7 @@ Le **formule gia' confermate** diventano `hunger = min(6, 1 + sum(bonus_fame_cat
 - https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/1.21.1-3.0.0/src/main/java/vectorwing/farmersdelight/common/registry/ModItems.java
 - https://www.curseforge.com/minecraft/mc-mods/farmers-delight-refabricated/files/all
 
-**Integrazione:** mappature puntuali o tag semantici **verificati**; precedenza proposta item specifico > tag specifico > fallback prudente; definizioni estendibili via datapack (schema tecnico ancora da progettare). **Non** ammettere automaticamente ogni alimento, cibo composto, piatto pronto, bevanda o preparazione di Farmer's Delight e mod terze. La categoria nutrizionale e' separata dall'identita' canonica per le equivalenze, dalla validita' come condimento e dal rendering. Salvare sempre l'**ItemStack originario** per restituzioni corrette e gestire le eventuali ciotole/bottiglie remainder **una volta sola**, senza perdite o dupe. Verificare mod mancanti, fallback grafici, conflitti di tag, salvataggi e multiplayer. Non modificare ancora il codice.
+**Integrazione per la 1.0.0:** mappature puntuali o tag semantici **verificati**, limitati ai tipi del catalogo chiuso; precedenza proposta item specifico > tag specifico > fallback prudente; definizioni estendibili via datapack (schema tecnico ancora da progettare). **Non** ammettere automaticamente ogni alimento, cibo composto, piatto pronto, bevanda o preparazione di Farmer's Delight e mod terze. La categoria nutrizionale e' separata dall'identita' canonica per le equivalenze, dalla validita' come condimento e dal rendering. Salvare sempre l'**ItemStack originario** per restituzioni corrette e gestire le eventuali ciotole/bottiglie remainder **una volta sola**, senza perdite o dupe. Verificare mod mancanti, fallback grafici, conflitti di tag, salvataggi e multiplayer. Non modificare ancora il codice.
 
 ## Ricette riconosciute via JSON — PROPOSTA
 
@@ -209,10 +226,10 @@ Ogni fetta servita direttamente da una pizza cotta piazzata deve usare **soltant
 
 **Formula:** `saturation_points = min(6, 1 + sum(category_saturation_bonus))`, ogni categoria distinta presente sul quarto fisico conta **una volta**. Saturazione distinta dalla fame, anche per fette con la stessa fame. Il conteggio e' effettuato sul quarto dopo il trasferimento dei dati dei topping, e non modifica il limite di sei ingredienti diversi per quarto.
 
-## Compatibilità con altre mod
+## Compatibilità con altre mod — sole varianti di ingredienti gia' supportati in 1.0.0
 
 - Usare tag condivisi **solo se semanticamente appropriati**; per ingredienti canonici come la mozzarella, definizioni specifiche possono essere necessarie. **Equivalenza cross-mod confermata nel comportamento**, non nella selezione di tag esatti: un gruppo logico condiviso impedisce doppioni e vale un unico tipo di topping per quarto, ma il rimborso conserva l'item originario.
-- Possibilità di datapack esterni che aggiungano ingredienti e gusti.
+- **Catalogo ufficiale 1.0.0 non estendibile automaticamente a nuovi tipi da terze mod**. Datapack esterni possono essere previsti per personalizzazioni volontarie dei modpack, o per estensioni future; non fanno parte della lista di condimenti ufficiali di questa release.
 - Fallback di rendering per item senza modelli pizza dedicati.
 - In caso di rimozione di una mod dal modpack, caricare i vecchi salvataggi senza crash o duplicazioni, per quanto possibile.
 - Documentare il comportamento JEI per gusti canonici e ingredienti dinamici senza promettere la visualizzazione di tutte le combinazioni teoriche.
