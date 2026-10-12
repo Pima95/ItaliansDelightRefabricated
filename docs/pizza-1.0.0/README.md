@@ -58,6 +58,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - [PIZZA_OVEN.md](PIZZA_OVEN.md) — forno 1×1, combustibili, tempi, automazione e forni vanilla.
 - [TOPPINGS_AND_RENDERING.md](TOPPINGS_AND_RENDERING.md) — categorie, regole di composizione e resa 2.5D.
 - [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md) — dati persistenti, nomi dinamici, tag e datapack.
+- [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md) — **ricognizione 26.2** degli ID realmente registrati in Italian's Delight e Farmer's Delight 3.6.28, proposte di condimenti, esclusioni e tag comuni verificati (**le proposte richiedono ancora approvazione item per item**).
 - [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — possibili pizze riconosciute (non ancora approvate).
 - [ROADMAP.md](ROADMAP.md) — checklist, questioni aperte e fasi di implementazione.
 
