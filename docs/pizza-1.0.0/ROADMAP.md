@@ -88,8 +88,10 @@
 - [ ] Elenco ufficiale delle pizze riconosciute e dei condimenti iniziali.
 - [ ] Valori fame, saturazione, eventuali effetti alimentari.
 - [x] **Raccolta fette CONFERMATA:** clic destro **a mano vuota sulla fetta scelta di una pizza gia' tagliata** -> **una sola fetta nell'inventario**, quella fetta scompare dal mondo e le altre restano disponibili. Con un oggetto nella mano usata per interagire non raccogliere nulla. La pizza intera non si raccoglie a mano vuota.
-- [ ] **Da definire:** comportamento a inventario pieno, drop rompendo una pizza gia' tagliata e coltelli compatibili; il gesto di raccolta e il vincolo di mano vuota sono invece decisi.
+- [x] **Drop dopo rottura di pizza GIA' TAGLIATA — CONFERMATO:** restituire **esclusivamente gli item delle fette ancora presenti**, uno per quarto rimanente, conservando i rispettivi condimenti. Mai ricreare la pizza completa, rimborsare topping o duplicare fette gia' raccolte.
+- [ ] **Da definire:** comportamento a inventario pieno durante la raccolta manuale e coltelli compatibili; i drop della pizza tagliata sono definiti.
 - [ ] **Implementare/testare** pickup delle fette a mano vuota (target per quarto), aggiornamento maschera, rimozione dopo ultima fetta, test mano occupata, doppio clic/multiplayer, salvataggio e inventario pieno senza duplicazioni.
+- [ ] **Test rottura pizza tagliata:** verificare per 4/3/2/1 quarti presenti i soli drop delle relative fette; verificare nessuna pizza intera e nessun topping separato, multiplayer, rottura supporto e salvataggio/ripristino.
 - [ ] Test visivo delle nuove forme e hitbox dell'impasto nei cinque stadi (vedi [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md)).
 - [ ] Gestione delle collisioni, del posizionamento e rendering di dettaglio.
 - [ ] API effettive per mantenere data component nelle fornaci vanilla.
