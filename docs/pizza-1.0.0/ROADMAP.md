@@ -87,7 +87,8 @@
 - [x] **Fette con il gusto del proprio QUARTO FISICO — CONFERMATO:** ogni fetta conserva solo i topping del quarto corrispondente, mai la composizione globale. Vale indipendentemente da divisioni/riunioni logiche fatte con il mattarello.
 - [ ] **Implementare e testare il prelievo diretto** dalla pizza cotta appena piazzata (nessuna fase di taglio): clic destro a mano vuota sul quarto ancora presente -> fetta con dati/topping di quel quarto in inventario e scomparsa del solo quarto prelevato. Mano occupata -> nessuna raccolta. Maschera quattro quarti persistente, multiplayer/anti-duplicazione.
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
-- [ ] Elenco ufficiale delle pizze riconosciute e dei condimenti iniziali.
+- [x] **AMBITO TOPPING 1.0.0 — CONFERMATO:** catalogo ufficiale di **soli tipi di ingredienti presenti in Italian's Delight Refabricated e Farmer's Delight Refabricated**. **Item equivalenti di altre mod ammessi** come sostituti di un tipo gia' supportato tramite tag convenzionali `c:` specifici/verificati o mapping puntuale; non aprire nuovi tipi di topping ne' accettare tutti i cibi in base a namespace o tag generici. Vedi [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md).
+- [ ] **Compilare il catalogo chiuso 1.0.0** dei singoli item/tipi di topping nativi di Italian's Delight e Farmer's Delight, con relativi equivalenti accettati da tag comuni verificati; scegliere anche le pizze riconosciute.
 - [x] **Fame per fetta CONFERMATA:** **crosta/base +1**, **salsa +1**, **latticini/formaggi +1**, **proteine animali/salumi/carne/pesce/uova +2**, **vegetali/verdure/funghi/olive +1**, **oli e grassi +0**, **erbe/spezie +0**; ogni categoria conta **una sola volta per quarto** e la fetta ha **massimo 6 punti fame**. La scelta modifica la proposta iniziale (base 2 -> 1, salsa 0 -> 1).
 - [x] **Principio della saturazione per categoria CONFERMATO:** ciascuna fetta usa i propri topping; formaggi e salumi/carne/pesce contribuiscono piu' di salse e verdure/funghi; erbe e spezie incidono poco o nulla. **Ogni categoria conta una sola volta**, senza moltiplicazione per numero di ingredienti. Fame e saturazione possono variare indipendentemente.
 - [x] **Bonus saturazione CONFERMATI:** crosta **+1**, salsa **+0,5**, latticini/formaggi **+1,5**, proteine animali/salumi/carne/pesce/uova **+2,5**, vegetali/verdure/funghi/olive **+0,5**, **oli e grassi +1**, erbe/spezie **+0**. Un solo contributo per categoria presente in un quarto, **massimo 6 punti saturazione effettiva per fetta**.
@@ -174,7 +175,7 @@
 
 ### Fase 6: test e pubblicazione
 
-- [ ] Test approfonditi con ingredienti della mod e di altre mod.
+- [ ] Test con ingredienti ufficiali di **Italian's Delight e Farmer's Delight**, sostituti di altre mod riconosciuti tramite tag `c:` precisi, e casi **negativi** per nuovi tipi di topping provenienti da mod terze, tag troppo ampi e mancata presenza della mod opzionale.
 - [ ] Test stress di tanti topping/pizze, multiplayer e server dedicato.
 - [ ] Test no bruciatura, hopper, chunk unload, salvataggi e dupe.
 - [ ] Test di bilanciamento in gioco dei tempi, costi, fame e saturazione (**bonus e tetti a 6 per fetta per entrambe le statistiche gia' approvati**; eventuali modifiche richiedono una nuova decisione dell'autore).
