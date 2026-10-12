@@ -111,6 +111,16 @@ Tag ampi possono includere alimenti non adatti: occorrono eccezioni e priorità.
 
 **Test di accettazione:** un ingrediente nativo di Italian's Delight e uno di Farmer's Delight ammessi esplicitamente; sostituzione con item equivalente di un'altra mod attraverso tag `c:` verificato; equivalenza anti-doppione nello stesso quarto; rifiuto di un ingrediente nuovo della terza mod pur essendo alimentare; tag generico che **non** ammette un item non previsto; assenza della mod esterna, contenitori restituiti e salvataggio/ricarica senza dupe. Regole di salsa, limite sei, fame/saturazione e rimborsi restano invariati.
 
+## Ingredienti utilizzabili: porzioni pronte, non cibi interi — CONFERMATO (12 ottobre 2026)
+
+Oltre a provenire da un **tipo incluso nel catalogo 1.0.0**, l'item applicato deve essere **gia' lavorato/preparato e di dimensione adatta** a una guarnizione. **Vietati direttamente** salumi e prosciutti interi anche se cotti, grandi ruote di formaggio, scamorze intere quando troppo grandi, bistecche intere crude o cotte, grandi pezzi di carne/pesce non suddivisi, verdure intere non realistiche e ingredienti intermedi di lavorazione. Ne' il fatto di essere cibo commestibile ne' i tag `c:` (anche comuni) sostituiscono questo controllo.
+
+**Varianti pronte idonee in principio:** formaggi affettati, grattugiati o in spicchi/porzioni plausibili; salumi a fette; pezzi di carne/pesce gia' preparati nella dimensione corretta; verdure affettate/a foglie/pezzetti; erbe, salse, creme. **Non tutta la verdura deve essere cotta**: pomodori gia' affettati e basilico sono ingredienti pronti per condire prima della cottura della pizza. Le forme **crude** di carni/pesce gia' tagliate rimangono **da valutare singolarmente**, senza attivarle per default.
+
+**Cutting Board di Farmer's Delight Refabricated:** puo' essere la postazione per ottenere porzioni valide da pezzi grandi **quando una ricetta e un item di output effettivamente appropriati esistono**. Non e' obbligatoria per gli item gia' pronti e non si usa per stendere la pizza, per affettare la pizza cotta o per prenderne le porzioni. **Non trasformare automaticamente la bistecca intera in pezzetti al clic sulla pizza**, ne' inventare ID di carne tagliata o ricette assenti.
+
+**Validazione operativa:** riconoscere il **tipo canonico ammesso** -> verificare l'**ItemStack specifico** in una forma/stato pronto e plausibile -> controllare salsa/capienza/anti-duplicato -> consumare un solo item in caso di applicazione effettiva. Un item non pronto (anche di una mod terza equivalente a livello generale) e' rifiutato senza consumo, nessuna modifica a blocco/dati e nessun rimborso. Il `render_preset` da solo non e' una lavorazione. Si veda [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md) per candidati e esclusioni.
+
 ## Ruolo e categoria nutrizionale — CONFERMATO (12 ottobre 2026)
 
 Un ingrediente valido deve distinguere **quattro caratteristiche indipendenti**: ruolo di preparazione/interazione, categoria nutrizionale, identita' canonica (equivalenze anti-duplicato) e preset grafico. La condivisione della categoria nutrizionale **non** rende automaticamente equivalenti due item e **non** li abilita automaticamente come topping.
