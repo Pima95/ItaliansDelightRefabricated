@@ -15,6 +15,7 @@
 - [x] Pizza Oven dedicato oltre a fornace e affumicatore vanilla.
 - [x] Pizza Oven 1×1×1, **capienza una pizza alla volta**.
 - [x] Pizza Oven accetta **tutti i combustibili vanilla**.
+- [x] **Pala FACOLTATIVA per il Pizza Oven**: inserimento ed estrazione devono essere possibili anche senza pala. Il suo impiego resta un'opzione di comodita', non un requisito.
 - [x] **Nessuna bruciatura** con qualsiasi metodo.
 - [x] Rendering 2.5D: **salse piatte, altri topping poco rialzati**.
 - [x] Ingredienti di altre mod supportabili tramite definizioni e tag.
@@ -52,7 +53,7 @@
 - [x] **Confermati linea parallela alla direzione cardinale piu' vicina allo sguardo e orientamento a scatti** N/S/E/O, per due meta' sinistra/destra. Non viene usata una rotazione libera per le diagonali.
 - [x] **Selezione delle zone tramite posizione effettiva del clic**; sui confini e sulle intersezioni una sola zona in modo deterministico, senza selezioni doppie.
 - [ ] Definire **quale zona prevale esattamente sul confine** (criterio di spareggio fisso), lo spareggio deterministico negli angoli a meta' tra due cardinali e i dettagli di hitbox/tolleranze (**snap cardinale, gesti e assenza di usura gia' confermati**).
-- [ ] Pala: definire ricetta, tooltip, resa grafica, e dettagli di integrazione con il forno (**trasporto, drop/pickup, despawn e distruzione ambientale vanilla gia' confermati**, cosi' come assenza di durabilita' e stack massimo 1).
+- [ ] Pala: definire ricetta, tooltip, resa grafica, e dettagli di integrazione **facoltativa** con il forno (**trasporto, drop/pickup, despawn e distruzione ambientale vanilla gia' confermati**, cosi' come assenza di durabilita' e stack massimo 1).
 - [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
 - [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
 - [ ] Verificare in gioco che la Soul Sand sia vietata e che slab superiori/doppie, scale capovolte, botole superiori chiuse e incudini funzionino ancora; verificare anche recupero se il supporto viene rotto.
@@ -60,6 +61,8 @@
 - [ ] Consumo fuel del Pizza Oven, preriscaldamento e burn time residuo.
 - [ ] Hopper sopra/lati/sotto e fallback manuale.
 - [ ] Ricetta crafting Pizza Oven.
+- [ ] **Percorso senza pala dal mondo al Pizza Oven:** decidere come raccogliere una pizza gia' stesa/condita nel mondo in forma trasportabile senza confliggere con la stesura a mano e con Shift + clic per rimuovere condimenti. Verificare persistenza e nessuna duplicazione.
+- [ ] Definire i gesti diretti per inserire una pizza-item ed estrarla a mano vuota dal Pizza Oven; entrambi sono proposti in [PIZZA_OVEN.md](PIZZA_OVEN.md), ma la facoltativita' della pala e' gia' confermata.
 - [ ] Griglia crafting della pizza libera e output crudo/cotto.
 - [ ] Pizza cotta mangiabile intera o tagliata in 4 fette.
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
@@ -119,7 +122,7 @@
 
 ### Fase 4: Pizza Oven
 
-- [ ] Forno compatto orientabile con una pizza alla volta.
+- [ ] Forno compatto orientabile con una pizza alla volta, **utilizzabile con o senza pala** (la pala non e' obbligatoria).
 - [ ] BlockEntity persistente, interazioni manuali e nessuna bruciatura.
 - [ ] Tutti i combustibili vanilla, rimanenze dei contenitori e energia residua.
 - [ ] Automazione con hopper, se confermata.
