@@ -82,6 +82,10 @@ Queste variazioni cromatiche sono idee estetiche, non specifiche asset già appr
 - **PROPOSTA GRAFICA:** distribuire pochi frammenti per ingrediente e limitare la densita' massima delle geometrie, cosi' che anche sei ingredienti distinti restino leggibili senza coprire il bordo.
 - Non utilizzare un'unica enorme texture di salame/formaggio per rappresentare una porzione.
 
+## Bonus alimentari delle categorie — CONFERMATO (12 ottobre 2026)
+
+La classificazione per il **rendering** non coincide necessariamente con le **categorie alimentari**. Per ciascun quarto fisico cotto, il contributo nutrizionale confermato e' **base/crosta +1, salse +1, tutti i formaggi (anche grattugiati) +1, salumi/carni/pesce +2, verdure/funghi +1, erbe/spezie +0**, **un bonus per ogni categoria presente**, non per ingrediente. **Massimo 6 punti fame per fetta.** Le quattro fette possono avere fame diversa. Il rapporto tra preset visivi e categorie di fame va gestito esplicitamente (es. formaggio grattugiato conta come formaggio, mortadella come salume, funghi come verdure/funghi); le definizioni di altre mod devono dichiarare o consentire di identificare la categoria in modo non ambiguo. **Saturazione non ancora definita**. Non cambiare il limite di massimo 6 tipi di topping per quarto.
+
 ## Posizioni stabili — PROPOSTA TECNICA
 
 Ogni pizza conserva ingredienti, quantità e un `render_seed`. Il renderer distribuisce in maniera **deterministica** posizioni, rotazioni e leggere variazioni di scala dei topping. Lo stesso item deve sembrare identico:
