@@ -107,9 +107,10 @@ Ogni fetta ottiene **1 punto fame dalla base/crosta**, piu' un bonus per **ciasc
 | --- | ---: |
 | **Base/crosta** (sempre presente nella fetta) | **+1** |
 | **Salsa**, di qualunque tipo | **+1** |
-| **Formaggi**, inclusi grattugiati | **+1** |
-| **Salumi, carne e pesce** | **+2** |
-| **Verdure e funghi** | **+1** |
+| **Latticini**: formaggi, grattugiati e panna | **+1** |
+| **Proteine animali**: salumi, carne, pesce, uova | **+2** |
+| **Vegetali**: verdure, funghi, olive | **+1** |
+| **Oli e grassi**: olio d'oliva | **+0** |
 | **Erbe aromatiche e spezie** | **+0** |
 
 - **Formula confermata:** `fame = min(6, 1 + bonus_categorie_distinte_del_quarto)`. **Massimo 6 punti fame per fetta (3 cosciotti)**. Il bonus della salsa e' **+1**, anche se facoltativa; un quarto senza salsa non lo riceve.
@@ -129,9 +130,10 @@ Anche la saturazione dipende dai condimenti effettivamente presenti nel **singol
 | --- | ---: |
 | Base/crosta | **+1** |
 | Salsa facoltativa | **+0,5** |
-| Formaggi (anche grattugiati) | **+1,5** |
-| Salumi, carne e pesce | **+2,5** |
-| Verdure e funghi | **+0,5** |
+| Latticini: formaggi (anche grattugiati), panna | **+1,5** |
+| Proteine animali: salumi, carne, pesce, uova | **+2,5** |
+| Vegetali: verdure, funghi, olive | **+0,5** |
+| Oli e grassi: olio d'oliva | **+1** |
 | Erbe aromatiche e spezie | **+0** |
 
 - **Formula CONFERMATA:** `saturazione = min(6, 1 + somma_bonus_saturazione_categorie_distinte_del_quarto)`. **Massimo 6 punti di saturazione per fetta**.
