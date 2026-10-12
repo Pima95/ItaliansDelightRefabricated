@@ -97,7 +97,7 @@ Valutare caching di mesh e ricomposizione solo quando cambia la pizza, non a ogn
 - **Nel mondo**: modello completo con strati 2.5D.
 - **Nel Pizza Oven**: stessa pizza visibile dentro la bocca del forno.
 - **Item in inventario**: rappresentazione semplificata ma coerente con il gusto e la condizione cruda/cotta.
-- **Pizza Slice**: piccola resa che mostri i condimenti principali della pizza originale (se il sistema fette viene confermato).
+- **Pizza Slice — CONFERMATO:** quattro possibili fette fisiche per pizza tagliata sul Cutting Board; il rendering dell'item fetta deve rappresentare **soltanto i topping effettivamente presenti nel proprio quarto fisico**. Una fetta margherita, una al pesto, una bianca e una al salame ricavate dalla stessa pizza devono conservare resa e gusto distinti. **La pizza intera (anche cotta) non e' commestibile; soltanto le fette cotte sono cibo.**
 
 Le pizze cotte riposizionabili sono una proposta da validare.
 
