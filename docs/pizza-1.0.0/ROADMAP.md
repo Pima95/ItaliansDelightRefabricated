@@ -88,8 +88,9 @@
 - [ ] Elenco ufficiale delle pizze riconosciute e dei condimenti iniziali.
 - [x] **Fame per fetta CONFERMATA:** **crosta/base +1**, **salsa +1**, **formaggi +1**, **salumi/carne/pesce +2**, **verdure/funghi +1**, **erbe/spezie +0**; ogni categoria conta **una sola volta per quarto** e la fetta ha **massimo 6 punti fame**. La scelta modifica la proposta iniziale (base 2 -> 1, salsa 0 -> 1).
 - [x] **Principio della saturazione per categoria CONFERMATO:** ciascuna fetta usa i propri topping; formaggi e salumi/carne/pesce contribuiscono piu' di salse e verdure/funghi; erbe e spezie incidono poco o nulla. **Ogni categoria conta una sola volta**, senza moltiplicazione per numero di ingredienti. Fame e saturazione possono variare indipendentemente.
-- [ ] **Definire numeri per saturazione** (valore base della crosta, bonus categorie, cap eventuale), eventuali effetti alimentari e mappatura tecnica cross-mod; il **principio categoriale** e' approvato, non i valori quantitativi.
-- [ ] **Implementare/testare saturazione dinamica per fetta** dopo l'approvazione dei coefficienti: quarti diversi, categorie ripetute, due fette con fame uguale ma saturazione differente, compatibilita' di ingredienti esterni.
+- [x] **Bonus saturazione CONFERMATI:** crosta **+1**, salsa **+0,5**, formaggi **+1,5**, salumi/carne/pesce **+2,5**, verdure/funghi **+0,5**, erbe/spezie **+0**. Un solo contributo per categoria presente in un quarto, **massimo 6 punti saturazione effettiva per fetta**.
+- [ ] Definire eventuali effetti alimentari e la mappatura iniziale cross-mod; verificare la conversione tecnica dei punti di saturazione nei campi di FoodComponent/FoodData per la versione target, senza scambiarli per un `saturationModifier` vanilla.
+- [ ] **Implementare/testare la saturazione dinamica con coefficienti APPROVATI**: quarti diversi, categorie ripetute, bianca (1), Margherita (3), salame+salsa+formaggio (5,5), cap a 6, due fette con fame uguale ma saturazione differente e compatibilita' di ingredienti esterni.
 - [ ] **Implementare/testare la fame dinamica** delle singole fette (4 quarti con topping diversi, categoria ripetuta, pizza bianca, cap 6, ingredienti equivalenti di altre mod), senza dare proprieta' commestibili alla pizza intera.
 - [x] **Raccolta fette SENZA taglio — CONFERMATA:** clic destro a mano vuota su un quarto ancora presente della pizza cotta piazzata -> una sola fetta corrispondente nell'inventario; il quarto scompare dalla pizza. Mano occupata non raccoglie nulla. La pizza integra come item non viene raccolta con clic destro.
 - [x] **Drop alla rottura — CONFERMATO:** pizza cotta **ancora integra (4/4) -> item pizza intera**, mentre una pizza da cui e' stata gia' raccolta almeno una fetta (3/2/1 quarti restanti) -> **soltanto gli item delle fette rimanenti**, con topping del proprio quarto. Mai rimborsi extra o fette duplicate.
@@ -171,7 +172,7 @@
 - [ ] Test approfonditi con ingredienti della mod e di altre mod.
 - [ ] Test stress di tanti topping/pizze, multiplayer e server dedicato.
 - [ ] Test no bruciatura, hopper, chunk unload, salvataggi e dupe.
-- [ ] Rebalancing di tempi, costi, **saturazione** e dei valori alimentari nel gameplay (i **bonus base della fame e il tetto 6 per fetta sono gia' approvati**; modificarli solo su esplicita richiesta).
+- [ ] Test di bilanciamento in gioco dei tempi, costi, fame e saturazione (**bonus e tetti a 6 per fetta per entrambe le statistiche gia' approvati**; eventuali modifiche richiedono una nuova decisione dell'autore).
 - [ ] Documentazione EN/IT, README, CHANGELOG 1.0.0, JEI.
 - [ ] Build finale, PR su `main`, release GitHub, CurseForge, Modrinth.
 
