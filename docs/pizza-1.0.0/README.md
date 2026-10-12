@@ -8,7 +8,7 @@
 
 La 1.0.0 introduce una pizza davvero personalizzabile e preparabile **direttamente nel mondo**, senza obbligare il giocatore a scegliere tra pochi gusti o a usare la crafting table. Le ricette note (es. Margherita) vengono riconosciute dal contenuto, mentre una combinazione non registrata riceve un **nome dinamico** con gli ingredienti scelti.
 
-Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano/mattarello -> condimento con clic destro -> raccolta -> cottura -> pizza cotta -> eventuali fette**. È prevista anche la preparazione via crafting table.
+Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano/mattarello -> condimento con clic destro -> eventuale trasferimento integro con pala -> cottura -> pizza cotta -> eventuali fette**. E' prevista anche la preparazione via crafting table. **Non** si raccoglie una pizza dal terreno con un clic destro a mano vuota: per rimuoverla si rompe, recuperando impasto e ingredienti se cruda.
 
 ## Decisioni CONFERMATE
 
@@ -19,7 +19,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 5. Le combinazioni registrate hanno **nomi ufficiali** (ad esempio Pizza Margherita); le altre hanno **nomi costruiti dagli ingredienti**.
 6. Le pizze devono poter essere preparate anche tramite **crafting**.
 7. Cottura possibile nel **Pizza Oven dedicato** e nei **forni vanilla esistenti** (fornace e affumicatore).
-8. Il Pizza Oven è un blocco **compatto 1×1×1**, con capienza di **una pizza per volta**. **La pala per pizza e' facoltativa**: il forno deve permettere inserimento ed estrazione anche senza pala. Le modalita' precise di raccolta della pizza preparata nel mondo e le interazioni dirette sono in progettazione.
+8. Il Pizza Oven è un blocco **compatto 1×1×1**, con capienza di **una pizza per volta**. **La pala per pizza e' facoltativa**: il forno deve permettere inserimento ed estrazione anche senza pala. Le interazioni dirette sul forno sono in progettazione, ma **la raccolta dal terreno con clic destro a mano vuota e' vietata**: per rimuovere la pizza dal terreno si rompe e, se cruda, restituisce impasto e ingredienti, non una pizza cruda completa. Resta da decidere l'eventuale percorso integro verso il forno senza pala per una pizza gia' preparata a terra.
 9. Il Pizza Oven accetta **tutti i combustibili vanilla** validi, non soltanto quelli a base di legno.
 10. **Non esiste il rischio di bruciare la pizza**, in nessun forno.
 11. Il rendering è **2.5D**: **salse piatte** e **condimenti leggermente in rilievo**.
@@ -38,7 +38,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - Formato esatto dei dati e **mappature iniziali** per gli ingredienti equivalenti tra mod da definire; **la regola di equivalenza ai fini dei doppioni e del limite a 6 e' confermata**.
 - Spareggio degli angoli esattamente intermedi tra due cardinali, ordine tecnico di priorita' ai clic perfettamente sul confine e dettagli delle hitbox (**scelta deterministica di una sola zona gia' confermata**); **linea parallela alla direzione cardinale piu' vicina e orientamento a scatti gia' confermati**; **la riunione con Shift + clic destro col mattarello e' confermata**, cosi' come la rimozione di un topping con Shift + clic destro a mano vuota.
 - Ricetta e dettagli grafici della pala, oltre ai parametri della futura arma **abilitata esclusivamente a pala vuota**; **drop, pickup, despawn e distruzione ambientale seguono gia' il comportamento vanilla (pala e pizza perdute se l'item scompare o viene distrutto)**; la pala senza durabilita' e il divieto delle capacita' speciali da arma quando e' occupata sono confermati. Asset della vecchia Italian's Delight fornito dall'autore, da recuperare e verificare.
-- Pizza Oven senza GUI obbligatoria, con alimentazione/estrazione via hopper e **uso della pala facoltativo**; restano da precisare i gesti di inserimento/estrazione senza pala e la raccolta della pizza dal mondo.
+- Pizza Oven senza GUI obbligatoria, con alimentazione/estrazione via hopper e **uso della pala facoltativo**; restano da precisare i gesti di inserimento/estrazione diretti e l'eventuale trasferimento della pizza gia' preparata a terra senza pala. **Il clic destro a mano vuota non raccoglie la pizza dal terreno**.
 - Tempi indicativi: **20 s** Pizza Oven, **30 s** affumicatore, **60 s** fornace.
 - Consumo di combustibile solo durante una cottura effettiva, conservazione dell'energia residua.
 - Pizza intera mangiabile, riposizionabile nel mondo e tagliabile in **4 fette** mediante Cutting Board (usato **solo per il taglio**, non per stendere).
