@@ -94,10 +94,29 @@ La pizza deve essere ottenibile **anche con crafting**, senza costringere tutti 
 - **Pizza cotta intera non commestibile come item.** Il giocatore puo' piazzarla su una superficie valida e servirla dal mondo. Per rimuovere come item **una pizza ancora completamente integra**, occorre rompere il relativo blocco; clic destro a mano vuota **non** preleva l'item pizza completo.
 - **Porzioni disponibili fin dal posizionamento, nessun taglio richiesto — CONFERMATO:** clic destro **con mano di interazione vuota** puntando un **quarto fisico ancora presente** della pizza cotta piazzata -> il giocatore ottiene **una fetta cotta del quarto selezionato** nell'inventario. Con la mano occupata, il prelievo non avviene. Non occorrono coltello, Cutting Board, gesto di taglio, ciotola o stato `sliced` preliminare.
 - **Inventario pieno — CONFERMATO:** se non c'e' spazio per la fetta, **non avviene alcun prelievo e la fetta resta nella pizza**, senza drop a terra e senza modifiche allo stato persistente. Un inventario con spazio consente il normale trasferimento di una sola fetta.
-- **Quattro porzioni distinte:** ogni quarto produce una sola fetta, con **soltanto i condimenti effettivamente presenti nel quarto corrispondente**. Vale anche se l'impasto non era stato suddiviso con il mattarello o era stato successivamente riunito. Fame/saturazione dipendono dai topping di ciascuna fetta; il bilanciamento numerico e' aperto.
+- **Quattro porzioni distinte:** ogni quarto produce una sola fetta, con **soltanto i condimenti effettivamente presenti nel quarto corrispondente**. Vale anche se l'impasto non era stato suddiviso con il mattarello o era stato successivamente riunito. **I punti fame seguono la tabella confermata qui sotto**; i coefficienti di saturazione non sono ancora definiti.
 - **Stato visivo e persistenza:** il primo prelievo rende visibile la porzione mancante; i quarti rimanenti restano presenti nel mondo e sono ancora prelevabili uno alla volta. Salvare una **maschera dei quattro quarti rimasti**: nessun quarto puo' essere prelevato due volte. Dopo l'ultima fetta, il blocco pizza scompare.
 - **Rottura nel mondo:** se la pizza cotta non ha ancora perso nessuna fetta, romperla restituisce **l'item pizza intera** con tutti i dati, come da regola generale. **Dopo che almeno una fetta e' stata prelevata**, romperla droppa **solo le fette dei quarti rimasti**, ciascuna con i propri topping; mai la pizza intera ne' fette gia' ottenute. La rimozione del supporto segue la stessa distinzione.
 - **Nutrizione:** solo gli item fette cotte sono commestibili, non la pizza intera. Nessun cambio ai limiti per i topping, alla loro provenienza, alla divisione logica per condire o alla meccanica della pala.
+
+### Punti fame per fetta — CONFERMATO (12 ottobre 2026)
+
+Ogni fetta ottiene **1 punto fame dalla base/crosta**, piu' un bonus per **ciascuna categoria di condimento presente nel suo quarto fisico**, contato **una sola volta per categoria**, indipendentemente dal numero di ingredienti dello stesso gruppo.
+
+| Categoria presente nel quarto | Punti fame |
+| --- | ---: |
+| **Base/crosta** (sempre presente nella fetta) | **+1** |
+| **Salsa**, di qualunque tipo | **+1** |
+| **Formaggi**, inclusi grattugiati | **+1** |
+| **Salumi, carne e pesce** | **+2** |
+| **Verdure e funghi** | **+1** |
+| **Erbe aromatiche e spezie** | **+0** |
+
+- **Formula confermata:** `fame = min(6, 1 + bonus_categorie_distinte_del_quarto)`. **Massimo 6 punti fame per fetta (3 cosciotti)**. Il bonus della salsa e' **+1**, anche se facoltativa; un quarto senza salsa non lo riceve.
+- **Non cumulabilita' nella categoria:** mozzarella + gorgonzola non sommano due bonus formaggio; salame + prosciutto non sommano due bonus carne/salumi. Il conteggio degli ingredienti (massimo 6 tipi per quarto) resta un limite distinto dal numero di categorie nutrizionali.
+- **Esempi:** pizza bianca senza topping = **1**; Margherita (crosta + salsa + formaggio) = **3**; salame con salsa e formaggio = **5**; vegetariana con salsa, formaggio e verdure = **4**; salsa + formaggio + carne + verdure = **6**. Le quattro fette della stessa pizza possono avere valori diversi.
+- **La crosta non e' un item alimentare distinto:** e' il contributo base della fetta. La pizza intera continua a non essere commestibile e va servita in quarti, senza coltello o Cutting Board.
+- **Da definire separatamente:** saturazione e possibili effetti alimentari, la mappatura tecnica iniziale di ingredienti cross-mod nelle categorie e test del calcolo dinamico. Questi numeri sono la **regola di gameplay approvata** e non significano che il codice sia gia' implementato.
 
 **Test obbligatori:** raccogliere la prima fetta senza coltello da una pizza appena posizionata; quattro quarti con condimenti diversi; mano vuota/occupata; inventario pieno; doppio clic sullo stesso quarto; prelievi in multiplayer; rottura di pizza integra e pizza con 3/2/1 fette residue; rimozione del supporto e salvataggio/ricarica, senza perdite o duplicazioni.
 
