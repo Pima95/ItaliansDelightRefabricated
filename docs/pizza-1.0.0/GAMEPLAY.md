@@ -116,7 +116,8 @@ Ogni fetta ottiene **1 punto fame dalla base/crosta**, piu' un bonus per **ciasc
 - **Non cumulabilita' nella categoria:** mozzarella + gorgonzola non sommano due bonus formaggio; salame + prosciutto non sommano due bonus carne/salumi. Il conteggio degli ingredienti (massimo 6 tipi per quarto) resta un limite distinto dal numero di categorie nutrizionali.
 - **Esempi:** pizza bianca senza topping = **1**; Margherita (crosta + salsa + formaggio) = **3**; salame con salsa e formaggio = **5**; vegetariana con salsa, formaggio e verdure = **4**; salsa + formaggio + carne + verdure = **6**. Le quattro fette della stessa pizza possono avere valori diversi.
 - **La crosta non e' un item alimentare distinto:** e' il contributo base della fetta. La pizza intera continua a non essere commestibile e va servita in quarti, senza coltello o Cutting Board.
-- **Da definire separatamente:** possibili effetti alimentari, mappatura tecnica iniziale di ingredienti cross-mod nelle categorie, test del calcolo dinamico e adattamento ai parametri FoodData/FoodComponent della versione Minecraft target. **Fame e saturazione sono valori di gameplay approvati**, non funzionalita' gia' implementate.
+- **Effetti alimentari — CONFERMATO PER ORA (Pizza Update 1.0.0):** consumare una fetta di pizza **non applica alcun effetto speciale o effetto di stato** (Rigenerazione, Velocita', Forza, ecc.): la fetta restituisce **soltanto i punti di fame e saturazione** calcolati per il proprio quarto. Non aggiungere effetti automatici in base ai topping. Questa e' la regola corrente, **rivedibile in futuri aggiornamenti** su decisione dell'autore.
+- **Da definire separatamente:** mappatura tecnica iniziale di ingredienti cross-mod nelle categorie, test del calcolo dinamico e adattamento ai parametri FoodData/FoodComponent della versione Minecraft target. **Fame e saturazione sono valori di gameplay approvati**, non funzionalita' gia' implementate.
 
 ### Saturazione per fetta — VALORI CONFERMATI (12 ottobre 2026)
 
@@ -135,7 +136,7 @@ Anche la saturazione dipende dai condimenti effettivamente presenti nel **singol
 - **Esempi confermati:** bianca senza topping **1**; Margherita (base + salsa + formaggio) **3**; pomodoro + mozzarella + salame **5,5**; salsa + formaggio + salumi + verdure **6**. Salse opzionali: se mancanti, nessun +0,5.
 - **Categorie non cumulative:** due formaggi insieme contano sempre +1,5; salame e prosciutto insieme contano sempre +2,5. I quarti della stessa pizza possono avere saturazione differente.
 - **Fame e saturazione distinte:** una fetta con base + carne ha **3 punti fame** e **3,5 di saturazione**; una Margherita ha **3 punti fame** e **3 di saturazione**.
-- **NOTA TECNICA:** i numeri sopra sono **punti di saturazione effettiva**, **non** il valore grezzo di un eventuale `saturationModifier` vanilla. L'implementazione deve adattarli alla versione Minecraft 26.2/Fabric verificando le API disponibili; non trascriverli automaticamente nel campo del moltiplicatore. Le cifre e il tetto 6 sono approvati; gli **effetti alimentari opzionali** e le mappature iniziali cross-mod sono ancora da progettare.
+- **NOTA TECNICA:** i numeri sopra sono **punti di saturazione effettiva**, **non** il valore grezzo di un eventuale `saturationModifier` vanilla. L'implementazione deve adattarli alla versione Minecraft 26.2/Fabric verificando le API disponibili; non trascriverli automaticamente nel campo del moltiplicatore. Le cifre e il tetto 6 sono approvati; **nessun effetto alimentare speciale nella Pizza Update 1.0.0 (confermato per ora)**. La possibilita' di aggiungerli in future versioni non e' esclusa; le mappature iniziali cross-mod sono ancora da progettare.
 
 
 ## 7. Stati da gestire e testare
