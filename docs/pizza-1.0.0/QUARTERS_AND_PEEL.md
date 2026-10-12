@@ -2,6 +2,8 @@
 
 > **Stato (11 ottobre 2026): specifica di design, non implementazione completata.**
 > Questo documento registra le decisioni concordate. **CONFERMATO** indica un comportamento deciso; **DA DEFINIRE** indica una scelta ancora aperta. Le indicazioni tecniche sono requisiti o proposte, non attestazioni di codice gia' presente.
+>
+> **Principio generale CONFERMATO:** per le interazioni di base si segue sempre il **comportamento vanilla di Minecraft** (caduta, raccolta, despawn, distruzione tramite danni ambientali, ecc.) salvo diversa regola personalizzata gia' approvata. Non richiedere nuove decisioni per ogni caso standard; discutere soltanto eccezioni e meccaniche che cambiano il gameplay.
 
 ## Obiettivo e contesto
 
@@ -207,7 +209,7 @@ Il trasferimento **mondo -> pala -> mondo/forno -> pala** dev'essere atomico dal
 - Anche altri giocatori che raccolgono la pala devono ottenere il medesimo stato persistente; il passaggio inventario -> entita' item -> inventario non crea copie, non cancella contenuti e non modifica le regole per salse e limite di sei ingredienti per quarto.
 - La pala resta riutilizzabile senza durabilita' e **le capacita' future da arma restano disabilitate mentre contiene una pizza**.
 - **Despawn naturale — CONFERMATO:** la pala lasciata a terra, anche se contiene una pizza, segue il **normale despawn degli item vanilla** (tempo e condizioni del mondo/server); **non e' immune al despawn** e non ha un timer personalizzato. Quando l'entita' item scompare per despawn naturale, **vengono perse sia la pala sia la pizza contenuta**, senza drop aggiuntivi, recupero automatico o estrazione degli ingredienti.
-- **DA DEFINIRE separatamente:** distruzione dell'entita' item con pala occupata tramite lava, fuoco, cactus, esplosioni o altri danni. La decisione sul despawn naturale non aggiunge protezioni, ma non costituisce ancora una specifica dedicata agli eventi di distruzione.
+- **Distruzione ambientale — CONFERMATO (regola vanilla):** lava, fuoco, cactus, esplosioni e altri danni alle entita' item seguono esattamente le normali regole vanilla. **Se** questi eventi distruggono la pala lasciata a terra, si perdono **sia la pala sia la pizza contenuta**, senza item pizza separato, recupero automatico, ingredienti, impasto o drop aggiuntivi. Se l'oggetto non viene distrutto dalle regole vanilla, il contenuto resta intatto. Nessuna immunita', resistenza, eccezione o drop personalizzato.
 
 **Test di accettazione:** pala con pizza personalizzata -> Q -> raccolta dello stesso oggetto -> riposizionamento della pizza: composizione e stato identici; ripetere con due pale separate e in multiplayer, senza perdita o duplicazioni.
 
@@ -223,7 +225,7 @@ L'autore vuole rendere **anche la pala un'arma**, prendendo come riferimento il 
 - **DA DEFINIRE in fase di combattimento:** danni, velocita' d'attacco, eventuali effetti/animazioni/suoni **solo quando la pala e' vuota**; dettagli di interazione con i normali attacchi base quando e' occupata. **Gia' definito:** con una pizza caricata non si attivano mai le capacita' speciali da arma. Non copiare parametri della padella senza prima verificarne la versione effettiva e concordare il bilanciamento.
 - Non modificare ne' sostituire l'**asset gia' disponibile** della pala dalla vecchia Italian's Delight: recuperarlo e valutarne il riutilizzo prima di creare ulteriori risorse.
 
-**CONFERMATO:** la pala e' **riutilizzabile senza durabilita'** e in futuro dovra' poter fungere anche da **arma ispirata alla padella di Farmer's Delight Refabricated, ma esclusivamente quando e' vuota**. Se contiene una pizza, le capacita' speciali da arma sono disattivate e i dati della pizza devono rimanere intatti. **CONFERMATO:** stack massimo 1, sia a pala vuota sia occupata. **CONFERMATO:** una pala droppata come item (Q) conserva la pizza internamente e il recupero ripristina tutti i dati; **se l'item despawna naturalmente, pala e pizza vengono perse secondo il comportamento vanilla**. **DA DEFINIRE:** ricetta, tooltip, resa grafica quando occupata, comportamento se l'item viene *distrutto* (lava, fuoco, esplosioni ecc.), precedenze d'uso col forno, pizze cotte e superfici compatibili. Le statistiche e interazioni da arma sono ancora aperte e non vanno implementate senza definizione.
+**CONFERMATO:** la pala e' **riutilizzabile senza durabilita'** e in futuro dovra' poter fungere anche da **arma ispirata alla padella di Farmer's Delight Refabricated, ma esclusivamente quando e' vuota**. Se contiene una pizza, le capacita' speciali da arma sono disattivate e i dati della pizza devono rimanere intatti. **CONFERMATO:** stack massimo 1, sia a pala vuota sia occupata. **CONFERMATO:** una pala droppata come item (Q) conserva la pizza internamente e il recupero ripristina tutti i dati; **se l'item despawna naturalmente, pala e pizza vengono perse secondo il comportamento vanilla**. **CONFERMATO:** distruzione e danni ambientali seguono Minecraft vanilla; se l'item viene distrutto, pala e pizza scompaiono senza rimborsi. **DA DEFINIRE:** ricetta, tooltip, resa grafica quando occupata, precedenze d'uso col forno, pizze cotte e superfici compatibili. Le statistiche e interazioni da arma sono ancora aperte e non vanno implementate senza definizione.
 
 ## 4. Vincoli tecnici di progetto (da implementare)
 
@@ -269,7 +271,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - Regole esatte per il recupero di contenitori e rimanenze (bottiglie, ciotole).
 - Modellazione 2.5D per quarto, forme, seme deterministico, rendering da cruda e cotta.
 - Interazione della pala con Pizza Oven e forni vanilla, inventari, hopper e pizza gia' cotta. **Riutilizzo senza durabilita' confermato. Futuro utilizzo come arma in stile padella di Farmer's Delight Refabricated da progettare, senza cambiare le regole di trasporto gia' confermate.**
-- **Drop, pickup e despawn naturale della pala occupata gia' confermati:** Q produce il normale item con la pizza persistente all'interno; al pickup ritorna integra, ma se despawna naturalmente **si perdono pala e pizza senza rimborsi**. Restano da decidere i casi di *distruzione fisica* (lava/fuoco/esplosioni) e la resa grafica.
+- **Drop, pickup, despawn e distruzione ambientale della pala gia' confermati secondo vanilla:** Q produce il normale item con la pizza persistente all'interno; al pickup ritorna integra. Se l'item despawna o viene effettivamente distrutto da lava, fuoco, cactus, esplosioni ecc., **si perdono pala e pizza senza rimborsi**. Resta da progettare la resa grafica e l'uso col forno.
 - Taglio in fette della pizza cotta, bilanciamento e valori alimentari.
 
 ## 6. Criteri di accettazione futuri
@@ -299,7 +301,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] **Q/drop** di pala occupata: un normale item a terra, con pizza ancora nei suoi dati; **pickup** restituisce pala occupata e pizza con ingredienti, divisioni, orientamento, applicazioni, cottura e visuale identici, anche tra giocatori diversi.
 - [ ] Test drop/pickup ripetuti con una o piu' pale e in multiplayer, senza dupe o corruzione.
 - [ ] Test **despawn naturale vanilla** della pala occupata: al normale termine della vita dell'item a terra scompaiono **sia pala sia pizza**, senza item/ingredienti droppati e senza protezioni o timer aggiuntivi. Verificare anche comportamento del mondo quando il chunk non e' caricato.
-- [ ] Da decidere il comportamento dedicato alle **distruzioni dell'item** (lava, fuoco, cactus, esplosioni).
+- [ ] Test **danni ambientali vanilla** sulla pala occupata lasciata a terra (lava, fuoco, cactus, esplosioni): quando l'item viene distrutto, pala e pizza scompaiono senza drop o recuperi, come per gli item normali. Nessuna protezione aggiuntiva.
 - [ ] In una fase successiva, progettare la pala come **arma ispirata alla padella di Farmer's Delight Refabricated solo quando e' VUOTA**; la versione OCCUPATA non ha bonus ne' effetti speciali da arma e deve conservare integralmente la pizza. Danni, animazioni e dettagli di combattimento restano da definire.
 - [ ] Test: pala vuota con caratteristiche da arma attive; caricare una pizza e verificare che le caratteristiche speciali siano disattivate; depositare la pizza e verificare che tornino attive, senza perdita o duplicazione dei dati.
 - [ ] Raccolta e riposizionamento mantengono quarti, stadio e resa visiva dopo salvataggio/ricarica.
