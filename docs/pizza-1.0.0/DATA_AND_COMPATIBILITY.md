@@ -63,7 +63,7 @@ Dati da conservare:
 
 I datapack possono stabilire:
 - ID item o tag ammesso;
-- categoria logica (`sauce`, `cheese`, `meat`, `vegetable`, `herb`...);
+- **ruolo nella pizza** (`sauce`, `solid_topping`, `oil`...) **distinto dalla categoria nutrizionale** (`sauce`, `dairy`, `animal_protein`, `vegetable`, `oils_fats`, `herb`...); i nomi dei campi sono indicativi, non formato tecnico gia' implementato;
 - preset grafico;
 - quantità consumata, eventuale remainder e limiti;
 - token per il nome e proprietà nutrizionali;
@@ -93,6 +93,44 @@ Compatibilità generica proposta, sempre come bozza:
 ```
 
 Tag ampi possono includere alimenti non adatti: occorrono eccezioni e priorità. **Non rendere automaticamente valido qualsiasi item commestibile.**
+
+## Ruolo e categoria nutrizionale — CONFERMATO (12 ottobre 2026)
+
+Un ingrediente valido deve distinguere **quattro caratteristiche indipendenti**: ruolo di preparazione/interazione, categoria nutrizionale, identita' canonica (equivalenze anti-duplicato) e preset grafico. La condivisione della categoria nutrizionale **non** rende automaticamente equivalenti due item e **non** li abilita automaticamente come topping.
+
+| Ingrediente | Ruolo nella pizza | Categoria nutrizionale | Bonus fame | Bonus saturazione |
+| --- | --- | --- | ---: | ---: |
+| Uova | topping solido | **Proteine animali** (insieme a salumi/carne/pesce) | +2 | +2,5 |
+| Olive | topping solido | **Vegetali** (insieme a verdure/funghi) | +1 | +0,5 |
+| Olio d'oliva | olio da distribuire, **non salsa** | **Oli e grassi**, nuova categoria | +0 | +1 |
+| Panna | condimento cremoso, eventualmente **ruolo salsa** | **Latticini** (insieme a formaggi) | +1 | +1,5 |
+
+**Una sola contribuzione per categoria nel quarto:** uovo e prosciutto condividono il bonus proteine animali; panna e mozzarella quello latticini; olive e funghi quello vegetali. **Restano ingredienti diversi** per occupazione, limite di sei tipi per quarto, provenienza e rimborsi a meno di equivalenze **esplicitamente dichiarate**.
+
+**Ruolo e categoria non coincidono:** se panna e' usata con ruolo **salsa**, rispetta il limite di una salsa per quarto e il rifiuto integrale dei conflitti gia' concordato, ma applica **soltanto** il bonus latticini (+1 fame/+1,5 saturazione), **non anche** il bonus nutrizionale salsa. L'olio non occupa il ruolo salsa, quindi puo' coesistere con pomodoro; conta comunque come **tipo di ingrediente** nel limite di sei. Non generare un nuovo item olio se non previsto: questa categoria serve anche per item di altre mod.
+
+Le **formule gia' confermate** diventano `hunger = min(6, 1 + sum(bonus_fame_categorie_nutrizionali_distinte))` e `saturation_points = min(6, 1 + sum(bonus_saturazione_categorie_nutrizionali_distinte))`, per ogni quarto fisico. Valori invariati: crosta (+1/+1), salsa (+1/+0,5), latticini (+1/+1,5), proteine animali (+2/+2,5), vegetali (+1/+0,5), **oli e grassi (+0/+1)**, erbe/spezie (+0/+0). Limite 6 per ciascuna statistica.
+
+### Compatibilita' Farmer's Delight Refabricated e altre mod — REQUISITO CONFERMATO
+
+**Priorita' richiesta dall'autore:** supportare gli ingredienti adatti alla pizza di **Farmer's Delight Refabricated**, oltre a Vanilla, Italian's Delight e altre mod future tramite definizioni estendibili. Nel progetto, la dipendenza ha namespace `farmersdelight`, Minecraft `26.2`, e la versione prevista in `gradle.properties` e' `26.2-3.6.28+refabricated`. Gli esempi seguenti sono **candidati concreti da testare e verificare nel JAR 26.2**, non un elenco gia' implementato ne' una promessa che tutti gli item siano condimenti accettati:
+
+| Identificativo da verificare nella dipendenza target | Categorie/ruolo di partenza | Nota |
+| --- | --- | --- |
+| `farmersdelight:tomato_sauce` | salsa, nutrizione salse | priorita' alta; verificare il contenitore di ritorno |
+| `farmersdelight:tomato` | vegetali se topping solido; eventuale uso come salsa da decidere | **non** trattare automaticamente un pomodoro intero come salsa |
+| `farmersdelight:onion`, `farmersdelight:cabbage` | vegetali | candidati topping da approvare/testare singolarmente |
+| `farmersdelight:fried_egg` | proteine animali | candidato uova |
+| `farmersdelight:bacon`, `farmersdelight:cooked_bacon`, `farmersdelight:ham`, `farmersdelight:smoked_ham` | proteine animali | candidati salumi/carne |
+| `farmersdelight:salmon_slice`, `farmersdelight:cod_slice` | proteine animali | candidati pesce, non fette della pizza |
+| `farmersdelight:wheat_dough` | base d'impasto; **non** topping | riutilizzare il percorso impasto gia' definito |
+| Olive, olio d'oliva, panna da Italian's Delight/altre mod | classificazione approvata sopra | **non inventare ID o tag di mod esterne** |
+
+**Verifica delle fonti:** gli identificativi sopra sono presenti nel registro `ModItems.java` della versione sorgente `fabric/1.21.1-3.0.0` di Farmer's Delight Refabricated, ma **i loro nomi effettivi e i tag vanno confermati nella dipendenza compilata 26.2/3.6.28** prima di implementarli.
+- https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/1.21.1-3.0.0/src/main/java/vectorwing/farmersdelight/common/registry/ModItems.java
+- https://www.curseforge.com/minecraft/mc-mods/farmers-delight-refabricated/files/all
+
+**Integrazione:** mappature puntuali o tag semantici **verificati**; precedenza proposta item specifico > tag specifico > fallback prudente; definizioni estendibili via datapack (schema tecnico ancora da progettare). **Non** ammettere automaticamente ogni alimento, cibo composto, piatto pronto, bevanda o preparazione di Farmer's Delight e mod terze. La categoria nutrizionale e' separata dall'identita' canonica per le equivalenze, dalla validita' come condimento e dal rendering. Salvare sempre l'**ItemStack originario** per restituzioni corrette e gestire le eventuali ciotole/bottiglie remainder **una volta sola**, senza perdite o dupe. Verificare mod mancanti, fallback grafici, conflitti di tag, salvataggi e multiplayer. Non modificare ancora il codice.
 
 ## Ricette riconosciute via JSON — PROPOSTA
 
