@@ -154,7 +154,20 @@ Ogni fetta servita direttamente da una pizza cotta piazzata deve usare **soltant
 
 **Algoritmo confermato:** dare il valore base **1** alla porzione e aggiungere **una sola volta** il bonus di ogni categoria presente nel relativo quarto (non un bonus per ogni item). Quindi **`hunger = min(6, 1 + sum(bonus_per_categoria_presente))`**, con cap di **6 punti fame (3 cosciotti) per fetta**. La salsa non e' obbligatoria ma, se presente, vale **+1**; mozzarella e gorgonzola insieme danno un solo **+1 formaggi**, salame e prosciutto insieme un solo **+2 salumi/carne/pesce**. I valori per fetta di una pizza mista possono differire. Esempi: margherita **3**, salame+salsa+formaggio **5**, vegetariana+salsa+formaggio **4**, bianca vuota **1**.
 
-**Compatibilita' e dati:** separare le **categorie nutrizionali** dalle identita' canoniche usate per i doppioni e dal preset grafico. Per item di altre mod determinare la categoria da definizioni/registrazioni appropriate (formato e mappatura iniziale da implementare), evitando di assegnare arbitrariamente bonus a un ingrediente non classificato. Non modificare il limite distinto di **6 ingredienti differenti per quarto** e non distribuire automaticamente un ingrediente globale su una fetta dove non e' presente. **PRINCIPIO SATURAZIONE APPROVATO (12 ottobre 2026):** la saturazione, come la fame, e' **dinamica per singolo quarto e basata sulle categorie di topping realmente presenti**, con **un solo contributo per categoria**. Formaggi e salumi/carne/pesce danno **contributi piu' elevati**, salse e verdure/funghi **inferiori**, erbe e spezie **minimi o nulli**. La saturazione **non e' semplicemente determinata dal punteggio fame**, quindi due fette con fame uguale ma categorie diverse possono differire nella saturazione. Definire numeri per categoria, valore base della crosta e cap **solo dopo approvazione**; non presumere coefficiente o formula vanilla definitivo. **Eventuali effetti alimentari** restano aperti. La pizza intera non acquisisce FoodComponent.
+**Compatibilita' e dati:** separare le **categorie nutrizionali** dalle identita' canoniche usate per i doppioni e dal preset grafico. Per item di altre mod determinare la categoria da definizioni/registrazioni appropriate (formato e mappatura iniziale da implementare), evitando di assegnare arbitrariamente bonus a un ingrediente non classificato. Non modificare il limite distinto di **6 ingredienti differenti per quarto** e non distribuire automaticamente un ingrediente globale su una fetta dove non e' presente. **SATURAZIONE CONFERMATA (12 ottobre 2026):** calcolata dinamicamente su ogni quarto, con **un solo bonus per categoria**; **base/crosta +1**, **salsa +0,5**, **formaggi +1,5**, **salumi/carne/pesce +2,5**, **verdure/funghi +0,5**, **erbe/spezie +0**. **Tetto 6 punti effettivi per fetta**, distinto dal tetto 6 della fame. Una fetta Margherita ha fame **3** e saturazione **3**; una fetta con salsa+formaggio+salame fame **5** e saturazione **5,5**. I valori sono punti di saturazione effettiva, **non un moltiplicatore `saturationModifier` pronto da impostare**. Verificare le API FoodComponent/FoodData di Minecraft 26.2 e trasformare i punti desiderati nei campi effettivamente esposti, senza cambiare il comportamento approvato. Eventuali effetti alimentari restano da decidere. La pizza intera non acquisisce FoodComponent.
+
+### Valori di saturazione per categoria — CONFERMATO
+
+| Categoria | Punti saturazione per fetta |
+| --- | ---: |
+| Base/crosta | **+1** |
+| Salsa facoltativa | **+0,5** |
+| Formaggi (anche grattugiati) | **+1,5** |
+| Salumi, carne e pesce | **+2,5** |
+| Verdure e funghi | **+0,5** |
+| Erbe aromatiche e spezie | **+0** |
+
+**Formula:** `saturation_points = min(6, 1 + sum(category_saturation_bonus))`, ogni categoria distinta presente sul quarto fisico conta **una volta**. Saturazione distinta dalla fame, anche per fette con la stessa fame. Il conteggio e' effettuato sul quarto dopo il trasferimento dei dati dei topping, e non modifica il limite di sei ingredienti diversi per quarto.
 
 ## Compatibilità con altre mod
 
