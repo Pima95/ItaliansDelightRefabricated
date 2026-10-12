@@ -57,6 +57,19 @@ Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Deligh
 
 **Rendering a livelli proposto**: (1) impasto, (2) salsa, (3) formaggi, (4) salumi/verdure, (5) erbe e dettagli. L'ordine nel rendering non impone l'ordine di aggiunta degli ingredienti. **Le linee di divisione non hanno hitbox proprie**: il renderer deve usare lo stesso orientamento e le stesse zone logiche del selettore di hit, senza usare la vicinanza a una linea per condire automaticamente due parti.
 
+## Ingredienti speciali e ruoli — CONFERMATO (12 ottobre 2026)
+
+| Ingrediente | Ruolo visivo/interattivo | Categoria nutrizionale | Fame | Saturazione |
+| --- | --- | --- | ---: | ---: |
+| Uova | topping solido | proteine animali con salumi/carne/pesce | +2 | +2,5 |
+| Olive | topping solido | vegetali con funghi e verdure | +1 | +0,5 |
+| Olio d'oliva | olio / velatura (**grafica da definire**), non salsa | **oli e grassi (nuova)** | +0 | +1 |
+| Panna | crema anche con ruolo salsa | latticini con formaggi | +1 | +1,5 |
+
+**Il ruolo della pizza e' distinto dalla categoria nutrizionale**: se panna ha ruolo salsa, occupa l'unico slot salsa nel quarto ma nutrizionalmente conta solo come latticino; l'olio e' compatibile con la salsa senza occupare il suo ruolo, pur contando nel massimo di 6 topping. Ingrediente/categoria non significa equivalenza: uovo e prosciutto, panna e mozzarella restano item distinti per lo storico e i rimborsi. Ogni categoria contribuisce **una volta per quarto**; entrambe le statistiche mantengono tetto 6.
+
+**Compatibilita' Farmer's Delight Refabricated e mod future confermata:** prevedere mapping e resa/fallback per candidati come salsa di pomodoro, cipolla, uova fritte, bacon, prosciutto, pesce e altri ingredienti idonei; **verificare nomi e tag nella dipendenza 26.2 e approvare i topping singolarmente**. Non accettare automaticamente tutti i pasti/cibi di altre mod. Vedi [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md).
+
 ## Crudo e cotto
 
 | Proprietà | Crudo | Cotto |
@@ -84,7 +97,7 @@ Queste variazioni cromatiche sono idee estetiche, non specifiche asset già appr
 
 ## Bonus alimentari delle categorie — CONFERMATO (12 ottobre 2026)
 
-La classificazione per il **rendering** non coincide necessariamente con le **categorie alimentari**. Per ciascun quarto fisico cotto, il contributo nutrizionale confermato e' **base/crosta +1, salse +1, tutti i formaggi (anche grattugiati) +1, salumi/carni/pesce +2, verdure/funghi +1, erbe/spezie +0**, **un bonus per ogni categoria presente**, non per ingrediente. **Massimo 6 punti fame per fetta.** Le quattro fette possono avere fame diversa. Il rapporto tra preset visivi e categorie di fame va gestito esplicitamente (es. formaggio grattugiato conta come formaggio, mortadella come salume, funghi come verdure/funghi); le definizioni di altre mod devono dichiarare o consentire di identificare la categoria in modo non ambiguo. **Saturazione per categoria CONFERMATA nel principio:** una sola contribuzione per categoria nel quarto, formaggi e salumi/carni/pesce piu' sazianti, salse e verdure/funghi meno sazianti, erbe/spezie contributo marginale o zero. **Bonus saturazione ORA CONFERMATI:** base/crosta **+1**, salse **+0,5**, formaggi **+1,5**, salumi/carni/pesce **+2,5**, verdure/funghi **+0,5**, erbe/spezie **+0**, con **massimo 6 punti saturazione effettiva per fetta**, una sola volta per categoria presente. Questi numeri sono punti di saturazione, non un generico parametro di moltiplicazione vanilla; classificazione nutrizionale distinta dai preset di rendering. **Effetti al consumo — CONFERMATO PER ORA:** i topping influenzano fame, saturazione, gusto e rendering delle fette, **non attribuiscono effetti speciali o status effect** nella Pizza Update 1.0.0. Questa scelta puo' cambiare solo per una futura decisione esplicita. Non cambiare il limite di massimo 6 tipi di topping per quarto.
+La classificazione per il **rendering** non coincide necessariamente con le **categorie alimentari**. Per ciascun quarto fisico cotto, il contributo nutrizionale confermato e' **base/crosta +1, salse +1, tutti i formaggi (anche grattugiati) +1, salumi/carni/pesce +2, verdure/funghi +1, erbe/spezie +0**, **un bonus per ogni categoria presente**, non per ingrediente. **Massimo 6 punti fame per fetta.** Le quattro fette possono avere fame diversa. Il rapporto tra preset visivi e categorie di fame va gestito esplicitamente (es. formaggio grattugiato conta come formaggio, mortadella come salume, funghi come verdure/funghi); le definizioni di altre mod devono dichiarare o consentire di identificare la categoria in modo non ambiguo. **Saturazione per categoria CONFERMATA nel principio:** una sola contribuzione per categoria nel quarto, formaggi e salumi/carni/pesce piu' sazianti, salse e verdure/funghi meno sazianti, erbe/spezie contributo marginale o zero. **Bonus saturazione ORA CONFERMATI:** base/crosta **+1**, salse **+0,5**, latticini/formaggi **+1,5**, proteine animali (anche uova/salumi/carni/pesce) **+2,5**, vegetali (anche olive/verdure/funghi) **+0,5**, oli e grassi **+1**, erbe/spezie **+0**, con **massimo 6 punti saturazione effettiva per fetta**, una sola volta per categoria presente. Questi numeri sono punti di saturazione, non un generico parametro di moltiplicazione vanilla; classificazione nutrizionale distinta dai preset di rendering. **Effetti al consumo — CONFERMATO PER ORA:** i topping influenzano fame, saturazione, gusto e rendering delle fette, **non attribuiscono effetti speciali o status effect** nella Pizza Update 1.0.0. Questa scelta puo' cambiare solo per una futura decisione esplicita. Non cambiare il limite di massimo 6 tipi di topping per quarto.
 
 ## Posizioni stabili — PROPOSTA TECNICA
 
