@@ -117,6 +117,10 @@ La definizione definitiva dovrà prevedere alternative via tag, gestione delle q
 
 Una pizza gia' formata nel mondo, cruda o cotta, quando viene rotta produce **un solo ItemStack pizza** contenente stato, ingredienti originali ancora associati, identita' delle applicazioni e maschere di copertura, suddivisioni e orientamento, ordine applicazioni, `render_seed` e progressi di cottura. Il relativo blocco e il suo stato vengono eliminati **atomicamente**, senza drop paralleli di impasto o topping. L'item puo' essere usato per inserimento diretto nel Pizza Oven, senza pala. Le applicazioni gia' eliminate e rimborsate in precedenza **non** devono ricomparire. Il comportamento dei blocchi di impasto prima della pizza completamente stesa e' separato e rimane quello previsto dal prototipo.
 
+## Pizza Oven: regole di cottura e combustibile — CONFERMATO
+
+Il Pizza Oven e' un forno specializzato **esclusivamente per le pizze**: accetta come input di cottura solo item pizza validi (crudi e con dati personalizzati), mai altri alimenti o materiali; nello slot combustibile restano validi tutti i fuel vanilla supportati. **Nessun preriscaldamento:** il progresso comincia subito con pizza ed energia disponibili. **Consumo durante cottura attiva soltanto:** conservare il burn time residuo quando non c'e' pizza da cuocere o la pizza e' pronta e riutilizzarlo per pizze successive. **Fuel terminato:** sospendere e memorizzare il progresso senza azzerarlo, riprendendo quando torna disponibile energia. Salvare e sincronizzare lato server energia residua, avanzamento, input/output e stato del forno, senza duplicazioni e senza progressi a chunk scaricato. **20/30/60 secondi** per Pizza Oven/affumicatore/fornace restano placeholder di bilanciamento. Questa conservazione del fuel e' una **meccanica intenzionale del Pizza Oven**, non una garanzia che le normali fornaci vanilla modifichino il loro comportamento.
+
 ## Cottura e crafting dinamici: punti a rischio
 
 - Una ricetta speciale da crafting potrebbe costruire una pizza cruda con gli stessi componenti della preparazione manuale.
