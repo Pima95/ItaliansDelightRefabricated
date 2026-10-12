@@ -87,13 +87,14 @@ La pizza deve essere ottenibile **anche con crafting**, senza costringere tutti 
 
 **Da decidere:** griglia/forma della ricetta, condimenti ripetuti e limitazioni di capienza, presenza di ricette predefinite per JEI, risultato crudo o cotto (proposta: crudo). La logica delle porzioni e dei nomi deve essere condivisa tra crafting e preparazione nel mondo.
 
-## 6. Consumo della pizza cotta e taglio — CONFERMATO NEL PRINCIPIO
+## 6. Consumo della pizza cotta e taglio — CONFERMATO (12 ottobre 2026)
 
-- **La pizza cotta puo' essere mangiata intera**, senza essere necessariamente tagliata.
-- In alternativa, il **Cutting Board di Farmer's Delight Refabricated** taglia **una pizza cotta in quattro fette**; non viene usato per stendere o condire l'impasto.
-- Le **quattro fette mantengono le informazioni necessarie a rappresentare gusto e composizione**, e ciascuna ha un valore alimentare indicativamente pari a **un quarto della pizza intera**, con arrotondamenti e bilanciamento ancora da definire. Non creare fette con composizione generica che perda i dati della pizza.
-- **Decisione aperta significativa:** per una pizza con ingredienti differenti nei quattro quarti, non e' ancora deciso se ogni fetta debba rappresentare **solo i condimenti del suo quarto fisico** o l'intera composizione della pizza. Non confondere l'overlay logico di condimento col taglio fisico.
-- **Da bilanciare:** valori numerici di fame/saturazione, eventuali effetti, massimali e regole di arrotondamento. Anche la precisa esperienza di consumo/riposizionamento nel mondo resta da progettare nei dettagli.
+- **Una pizza intera NON e' commestibile, nemmeno se completamente cotta.** La pizza intera e' un oggetto da trasportare, posizionare e tagliare; non deve attivare l'azione di consumo/cibo di Minecraft.
+- Per mangiarla bisogna **prima tagliare la pizza cotta in quattro fette** con il **Cutting Board di Farmer's Delight Refabricated**; il Cutting Board **non** serve per stendere o condire l'impasto.
+- **Ogni fetta corrisponde a un quarto fisico specifico della pizza originale e contiene SOLO gli ingredienti realmente presenti su quel quarto.** Es.: una pizza con margherita, pesto, bianca e salame nei quattro quarti produce quattro fette con **quei rispettivi gusti**, non quattro copie del gusto complessivo.
+- La regola vale anche quando il giocatore **non ha diviso esplicitamente la pizza con il mattarello**, oppure ha riunito le zone: i quattro quarti fisici sottostanti e le maschere dei topping sono gia' memorizzati; il taglio non dipende dall'overlay logico.
+- **Solo le fette cotte sono oggetti commestibili**. Fame e saturazione si calcolano in base alla base di un quarto e ai topping **di quella specifica fetta**: i valori possono differire tra le quattro fette. Non applicare ciecamente a ciascuna fetta 1/4 della nutrizione globale della pizza quando i condimenti sono diversi.
+- **Da bilanciare:** numeri esatti di fame/saturazione, eventuali effetti, massimali e arrotondamenti. Mantenere il trasferimento di dati e rendering senza duplicazioni nel taglio; la pizza intera cotta rimane riposizionabile secondo le regole gia' previste.
 
 ## 7. Stati da gestire e testare
 
