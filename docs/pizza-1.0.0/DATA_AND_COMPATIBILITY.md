@@ -1,6 +1,7 @@
+# Dati delle pizze, nomi dinamici, datapack e compatibilità
+
 > **Principio generale CONFERMATO:** mantenere i comportamenti ordinari di Minecraft **vanilla come default** per gli item e le entita' (drop, pickup, despawn, danni ambientali, ecc.), salvo le meccaniche personalizzate gia' concordate. Non aggiungere eccezioni senza una reale motivazione di gameplay.
 
-# Dati delle pizze, nomi dinamici, datapack e compatibilità
 
 > Le seguenti sono proposte di architettura: **non sono ancora implementate né API definitive**.
 
