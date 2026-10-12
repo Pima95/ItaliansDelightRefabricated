@@ -16,7 +16,7 @@
 - [x] Pizza Oven 1×1×1, **capienza una pizza alla volta**.
 - [x] Pizza Oven accetta **tutti i combustibili vanilla**.
 - [x] **Pala FACOLTATIVA per il Pizza Oven**: inserimento ed estrazione devono essere possibili anche senza pala. Il suo impiego resta un'opzione di comodita', non un requisito.
-- [x] **Rimozione della pizza dal terreno solo tramite ROTTURA**, decisione gia' confermata nella vecchia chat. **Nessuna raccolta con clic destro a mano vuota** sulla pizza stesa; la pizza cruda rotta restituisce impasto e ingredienti ancora associati, non un item pizza cruda integra. Le interazioni precedentemente approvate per stendere la palla o togliere topping restano distinte.
+- [x] **Pizza sul terreno recuperabile rompendo il blocco come ITEM PIZZA** (crudo o cotto), con tutti i dati di composizione, divisione, orientamento e cottura. **Nessuna raccolta con clic destro a mano vuota** sulla pizza stesa e nessun drop separato di impasto/topping dalla pizza formata. Stesura della palla e rimozione topping restano interazioni distinte.
 - [x] **Nessuna bruciatura** con qualsiasi metodo.
 - [x] Rendering 2.5D: **salse piatte, altri topping poco rialzati**.
 - [x] Ingredienti di altre mod supportabili tramite definizioni e tag.
@@ -31,7 +31,7 @@
 - [x] **Massimo una salsa per sottoarea fisica**, indipendentemente dal tipo; salse differenti ammesse in porzioni separate, mai sovrapposte.
 - [x] **Rifiuto integrale delle salse differenti sulle zone parzialmente occupate**: se una zona mirata contiene gia' una salsa differente anche solo su una parte, il clic non applica nulla e non consuma item.
 - [x] **Limite di 6 ingredienti diversi per quarto fisico**, salsa inclusa e facoltativa; invariato da divisioni e riunioni. Un tentativo che supererebbe sei in **anche un solo quarto interessato** e' rifiutato integralmente senza consumare item.
-- [x] Recupero ingredienti direttamente nell'inventario, drop solo se pieno; rottura della pizza cruda recupera impasto e ingredienti residui senza duplicazioni, pizza cotta non restituisce ingredienti.
+- [x] La **rimozione completa dei topping** rimborsa l'ingrediente originale nell'inventario (drop solo se pieno); la **rottura della pizza formata** restituisce invece **la pizza-item integra**, cruda o cotta, non impasto e ingredienti separati.
 - [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
 - [x] **Pala senza durabilita'**, riutilizzabile indefinitamente per raccogliere, spostare e trasferire pizze.
 - [x] **Pala non impilabile**, sia vuota sia occupata: **stack massimo 1**, una pala per slot di inventario.
@@ -62,8 +62,9 @@
 - [ ] Consumo fuel del Pizza Oven, preriscaldamento e burn time residuo.
 - [ ] Hopper sopra/lati/sotto e fallback manuale.
 - [ ] Ricetta crafting Pizza Oven.
-- [ ] **Percorso senza pala dal mondo al Pizza Oven:** verificare se sia previsto davvero un trasferimento integro di pizze gia' preparate a terra senza pala. **Non** proporre raccolta con clic destro a mano vuota ne' un item pizza completa come risultato della rottura della pizza cruda: quella rottura restituisce impasto e ingredienti. La facoltativita' generale della pala per il forno resta confermata; il percorso preciso da terra senza pala e' aperto.
-- [ ] Definire i gesti diretti per inserire nel Pizza Oven una pizza-item **ottenuta mediante un percorso valido, non dalla rottura di una pizza cruda**, ed estrarla a mano vuota **dal forno**; entrambi sono proposti in [PIZZA_OVEN.md](PIZZA_OVEN.md), ma la facoltativita' della pala e' gia' confermata.
+- [ ] Implementare e testare la **pizza-item ottenuta rompendo la pizza formata nel mondo**, con stato di cottura, divisioni, applicazioni e rendering conservati; verificare nessun drop separato di dough/topping e trasferimento corretto al Pizza Oven.
+- [x] **Percorso senza pala dal mondo al Pizza Oven — CONFERMATO:** rompere la pizza gia' formata a terra per ottenere la **pizza-item integra**, quindi inserirla nel forno direttamente. Nessun clic destro a mano vuota raccoglie la pizza da terra.
+- [ ] Definire i gesti diretti per inserire nel Pizza Oven una **pizza-item ottenuta rompendo una pizza formata a terra** oppure tramite crafting, ed estrarla a mano vuota **dal forno**; entrambi sono proposti in [PIZZA_OVEN.md](PIZZA_OVEN.md).
 - [ ] Griglia crafting della pizza libera e output crudo/cotto.
 - [ ] Pizza cotta mangiabile intera o tagliata in 4 fette.
 - [ ] Riconoscimento esatto di gusti e quantità, priorità tra ricette.
@@ -94,7 +95,7 @@
 - [ ] Aggiunta topping con clic destro e gestione quantità.
 - [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), **senza consumare durabilita'**, salvandone la configurazione e preservando posizioni e storici dei topping; selezionare la zona dal punto reale di clic con **un solo risultato deterministico ai confini**; evidenziare le linee solo con mattarello o ingrediente valido.
 - [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali dei topping alle sole zone ancora libere, **il blocco totale delle salse differenti se una qualsiasi parte della zona mirata contiene gia' un'altra salsa**, la **validazione atomica del massimo di 6 tipi per quarto fisico (salsa inclusa)** e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
-- [ ] Recupero diretto nell'inventario (drop solo con spazio insufficiente); rottura pizza cruda/cotta secondo specifica.
+- [ ] Recupero diretto nell'inventario dei topping **rimossi completamente** (drop solo se pieno); **rottura pizza formata -> pizza-item cruda/cotta con dati completi**, senza duplicare ingredienti.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
 - [ ] Test: due pale vuote non si impilano; ogni pala occupata resta singola; spostamenti tra slot e contenitori conservano i dati senza duplicazioni.
 - [ ] **Drop/pickup**: premere Q con pala occupata e raccoglierla, anche da altro giocatore; verificare che pizza, applicazioni, divisioni, orientamento, stadio e seed grafico restino identici. Ripetere in multiplayer e con piu' pale.
