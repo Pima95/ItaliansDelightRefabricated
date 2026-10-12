@@ -183,7 +183,7 @@ Una singola applicazione che consuma un ingrediente puo' interessare uno o piu' 
 - **Palla e impasto non ancora completamente steso** mantengono per ora il comportamento di recupero del Wheat Dough del prototipo; il nuovo item riguarda la **pizza gia' formata** e i suoi dati.
 - Una **pizza cotta appena piazzata e ancora integra** puo' essere raccolta come item completo rompendola, oppure **servita a porzioni con clic destro a mano vuota**. Dopo il primo prelievo, resta nel mondo con i quarti residui; ulteriori clic vuoti sui quarti rimasti producono le rispettive fette se l'inventario ha spazio. Se viene rotta dopo il primo prelievo, droppa **solo le fette residue**, senza rigenerare quelle gia' raccolte.
 
-**Dettagli implementativi da testare:** rottura effettuata da un giocatore, rimozione del supporto, multiplayer, modalita' Creativa e altri eventi vanilla. La regola di base confermata per una pizza formata e' **un solo item pizza con dati integri, senza drop separati dei topping**; non introdurre restituzioni multiple o eccezioni non richieste.
+**Dettagli implementativi da testare:** rottura effettuata da un giocatore, rimozione del supporto, multiplayer, modalita' Creativa e altri eventi vanilla. La regola per una pizza formata **ancora INTEGRA** e' un solo item pizza con dati completi; dopo che e' stata servita una fetta da una pizza cotta, la rottura rilascia **soltanto le fette residue**. In entrambi i casi nessun drop separato di topping; non introdurre restituzioni multiple o eccezioni non richieste.
 
 ## 3. Pala per pizza (Pizza Peel) — CONFERMATO
 
@@ -263,7 +263,7 @@ Invarianti da mantenere:
 1. `remaining_quarter_mask` e' un sottoinsieme dei quarti originariamente coperti.
 2. Ogni applicazione puo' rimborsare la propria quantita' **una volta sola**.
 3. La rimozione completa cancella l'applicazione soltanto dopo aver gestito il rimborso.
-4. La rottura di una pizza formata produce **soltanto la pizza-item** con le applicazioni ancora presenti, senza rimborsarle di nuovo come ingredienti separati. Le applicazioni gia' rimosse e rimborsate non ricompaiono nell'item.
+4. La rottura di una pizza formata **ancora INTEGRA** produce **soltanto la pizza-item** con le applicazioni ancora presenti, senza rimborsarle di nuovo come ingredienti separati. Le applicazioni gia' rimosse e rimborsate non ricompaiono nell'item.
 5. Il trasporto sulla pala conserva dati e identita' visiva, non li ricostruisce da un gusto predefinito.
 6. Tutte le mutazioni di inventario e mondo devono essere autorevoli lato server e sincronizzate ai client.
 7. La rappresentazione deve consentire tag/definizioni per ingredienti di altre mod senza assumere automaticamente che tutti i cibi siano validi.
@@ -301,7 +301,7 @@ Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEnt
 - [ ] Due mozzarelle di mod diverse esplicitamente equivalenti sono trattate come lo stesso ingrediente: niente doppia applicazione sul medesimo quarto, un solo tipo nel limite di 6; recupero dell'item *effettivamente usato* e non di un item equivalente.
 - [ ] Tentare pesto sull'intera pizza dopo aver riunito una meta' al pomodoro e una meta' bianca: **rifiutare tutto**, nessuna modifica e nessun consumo. Dopo nuova divisione, consentire di condire la sola meta' bianca.
 - [ ] Dopo la riunione di zone parzialmente coperte, un clic dello stesso ingrediente riempie **solo le sottoaree libere**, consumando un solo item; se non restano sottoaree libere non accade nulla.
-- [ ] Rompere una **pizza formata cruda o cotta** restituisce **un solo item pizza completo**, con dati di ricetta e cottura invariati, senza drop separati di impasto o topping. Le pizze-item possono essere utilizzate come input del forno senza pala.
+- [ ] Rompere una **pizza formata INTEGRA cruda o cotta** restituisce **un solo item pizza completo**; dopo aver servito almeno una fetta dalla pizza cotta, romperla restituisce invece esclusivamente i quarti rimasti, con dati di ricetta e cottura invariati, senza drop separati di impasto o topping. Le pizze-item possono essere utilizzate come input del forno senza pala.
 - [ ] Recupero nel normale inventario; drop solo in mancanza di spazio.
 - [ ] La pala trasporta esattamente una pizza con tutti i dati e rifiuta una seconda.
 - [ ] La pala **non ha durabilita'**: raccolte, depositi e trasferimenti ripetuti non causano usura o rottura dell'oggetto.
