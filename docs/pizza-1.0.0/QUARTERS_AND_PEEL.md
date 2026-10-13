@@ -313,7 +313,7 @@ Invarianti da mantenere:
 6. Tutte le mutazioni di inventario e mondo devono essere autorevoli lato server e sincronizzate ai client.
 7. La rappresentazione deve consentire **mapping espliciti per singoli ID verificati** di item esterni senza espansione automatica dei tag né ammissione generica di qualsiasi cibo.
 
-Questi nomi di campo sono *illustrativi*: codec, formato dei component, BlockEntity e protocolli saranno scelti durante l'implementazione.
+**Il primo codec di composizione e la BlockEntity sono ora aggiunti al branch (FASE 3A, build/test ancora necessari):** maschere di copertura, ordine applicazioni, item originario, divisione e orientamento sono serializzabili. **Non** sono ancora state collegate la posa/rimozione dei condimenti, il taglio, il servizio fette, i progressi di cottura, la sincronizzazione o il trasporto item/pala/forno. Gli altri nomi tecnici nella bozza concettuale restano illustrativi. [Test](PERSISTENT_COMPOSITION_TESTS.md).
 
 ## 5. Questioni ancora aperte
 
