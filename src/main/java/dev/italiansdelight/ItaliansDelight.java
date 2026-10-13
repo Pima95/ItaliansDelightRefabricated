@@ -14,6 +14,7 @@ import dev.italiansdelight.common.registry.ModRecipes;
 import dev.italiansdelight.common.registry.ModWorldGeneration;
 import dev.italiansdelight.common.salt.SaltCauldronManager;
 import dev.italiansdelight.common.pizza.PizzaDoughPlacement;
+import dev.italiansdelight.common.pizza.PizzaToppingCatalog;
 
 /**
  * Common entrypoint (server + client) for Italian's Delight.
@@ -36,6 +37,8 @@ public class ItaliansDelight implements ModInitializer {
         // all registered items and blocks when they are configured.
         ModItems.register();
         ModBlocks.register();
+        // Pure, read-only registry. The toppings will be wired to pizza interactions later.
+        PizzaToppingCatalog.register();
         PizzaDoughPlacement.register();
         ModBlockEntities.register();
         ModMenuTypes.register();
