@@ -123,6 +123,8 @@ La categoria nutrizionale di olive e olio d'oliva e' gia' progettata, **ma nella
 
 Nell'implementazione **la whitelist degli ID e tipi approvati prevale sulle categorie dei tag**; per gli item di mod terze bisogna risolvere un'identita' canonica supportata E verificare che l'item esterno rappresenti una porzione equivalente.
 
+**Audit delle equivalenze (13 ottobre 2026):** verificati nei sorgenti Farmer's Delight Refabricated `#c:foods/raw_chicken`/`cooked_chicken`, `raw_cod`/`cooked_cod`, `raw_salmon`/`cooked_salmon`, `raw_beef` e `cabbage`: contengono **anche item interi**; non possono essere usati come selettori automatici per topping porzionati. `#c:foods/raw_bacon`, `cooked_bacon` e `#c:crops/basil` sono candidati piu' specifici, ma l'ingresso di nuovi membri di altre mod resta da verificare. Lista completa, 31 chiavi canoniche proposte e matrice di test in [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md). Questo audit non autorizza nuovi item e non cambia la whitelist.
+
 ## 7. Attivita' di sviluppo ancora aperte
 
 1. Registrare i **due nuovi item** carota a fette e patata a fette; definire ID definitivi, texture e modelli e implementare le **due ricette Cutting Board gia' approvate: 1 carota -> 4 fette e 1 patata -> 4 fette, con coltello e sua usura normale**. Non aggiungere item cotti separati; entrambe le fette crude diventano condimento della pizza e cuociono con essa. **Nessuna risorsa e' stata creata in questa approvazione documentale.**
