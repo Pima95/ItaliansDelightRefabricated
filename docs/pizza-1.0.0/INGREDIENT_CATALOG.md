@@ -32,7 +32,7 @@ Namespace degli ID sotto: `italiansdelight:`.
 | Salumi | Speck a fette | `speck_slice` | Proteine animali | **SI'** |
 | Vegetali | Pomodoro a fette | `tomato_slice` | Vegetali | **SI'** |
 | Erbe | Basilico | `basil` (item del blocco coltivabile) | Erbe e spezie | **SI'** |
-| Creme | Panna | `cream_bowl` | Latticini | **SI'** — contenitore/ruolo salsa da gestire |
+| Creme | Panna | `cream_bowl` | Latticini | **SI'** — **condimento cremoso NON salsa**, sovrapponibile alla salsa di pomodoro, con gestione ciotola da testare |
 | Creme | Ricotta | `ricotta` | Latticini | **SI'** — contenitore da gestire |
 
 **Conteggio: 20 righe della tabella Italian's Delight** (8 formaggi, 8 salumi, pomodoro, basilico, panna, ricotta). Ogni riga e' un tipo ammesso distinto. Nessun formaggio o salume intero entra automaticamente nel catalogo, anche se compare in `#c:foods/cheese`.
@@ -93,14 +93,22 @@ Questi sono i quattro NO **espliciti** del modulo, **non una blacklist esaustiva
 
 La categoria nutrizionale di olive e olio d'oliva e' gia' progettata, **ma nella 1.0.0 NON si aggiungono automaticamente come topping**, poiche' non compare un loro item/tipo approvato nel presente catalogo.
 
+### Panna come topping cremoso — CONFERMATO (13 ottobre 2026)
+
+- **Item concreto:** `italiansdelight:cream_bowl`, gia' approvato e registrato; **ruolo `creamy_topping` (nome tecnico esemplificativo), esplicitamente diverso da `sauce`**.
+- **Applicazione:** ammissibile anche su un quarto gia' coperto da `farmersdelight:tomato_sauce`, senza rimuoverla/sostituirla; il posto salsa rimane occupato solo dal pomodoro. La panna resta un topping distinto e conta nel **limite di sei tipi per quarto**, incluso il pomodoro quando presente.
+- **Nutrizione:** categoria **Latticini**: +1 fame/+1,5 saturazione alla fetta se non gia' presente, **una sola volta anche con piu' formaggi e panna**. La panna **non** aggiunge bonus nutrizionale Salsa (+1/+0,5); quest'ultimo deriva separatamente dall'eventuale pomodoro.
+- **Esempio verificabile:** crosta + pomodoro + panna (+ mozzarella opzionale) = **3 fame / 3 saturazione**: crosta 1/1 + salsa 1/0,5 + latticini 1/1,5; la mozzarella non raddoppia il bonus latticini.
+- **Persistenza/remainder:** consumare e salvare il vero ingrediente della panna, gestire la ciotola/remainder secondo le regole gia' approvate senza duplicazioni. **Ruolo della ricotta NON deciso** da questa scelta.
+
 ## 5. Regole gia' confermate e da preservare
 
 - **Idoneita' dimensionale:** solo item effettivamente pronti, in fette, pezzi plausibili, grattugiati, macinati, erbe o creme/salse pronte; le eccezioni **esplicitamente approvate** come il bocconcino non autorizzano altri grandi item interi.
 - **Crudo e cotto dello stesso alimento porzionato:** stessa identita' canonica e **un solo tipo nel limite di sei** per quarto; non possono sovrapporsi. Stessi valori fame e saturazione ed effetti. Le specie e i salumi differenti restano ingredienti diversi. Preservare **esattamente l'ItemStack consumato** per l'eventuale rimborso dell'applicazione.
 - **Compatibilita' altre mod:** tag `c:` verificati e abbastanza specifici o mapping puntuali per item equivalenti a tipi del catalogo; non promuovere qualsiasi item di un tag generico di cibi, formaggi, uova, verdure o carne a topping, e non accettare versioni intere non lavorate.
 - **Valori per fetta:** crosta +1 fame/+1 saturazione; salsa +1/+0,5; latticini +1/+1,5; proteine animali +2/+2,5; vegetali +1/+0,5; erbe +0/+0; oli e grassi +0/+1 **solo qualora in futuro si ammetta un olio**. Ogni categoria nutrizionale presente conta una sola volta sul singolo quarto; **tetto 6 fame e 6 saturazione**; nessun effetto speciale.
-- **Salse/creme:** `farmersdelight:tomato_sauce` ha ruolo salsa; `italiansdelight:cream_bowl` e `ricotta` hanno categoria **latticini** anche se un eventuale ruolo salsa e' previsto. Il tipo **panna come salsa** e l'eventuale ruolo salsa della **ricotta** richiedono una scelta nel mapping: **non cumulare bonus salsa e latticini per lo stesso item**. A livello di interazione, non possono esserci salse differenti sovrapposte sullo stesso quarto.
-- **Contenitori:** tomato_sauce, cream_bowl e ricotta hanno un recipiente/ritorno da verificare nell'applicazione sulla pizza: restituire correttamente la ciotola **una sola volta**, senza consumi doppi, exploit o perdita.
+- **Salse/creme — decisione panna del 13 ottobre 2026:** `farmersdelight:tomato_sauce` ha **ruolo salsa**. **`italiansdelight:cream_bowl` e' un condimento cremoso ma NON una salsa**: si puo' aggiungere anche **sopra il pomodoro** nello stesso quarto senza occupare l'unico ruolo salsa o provocare conflitto di salse. Conta comunque come **uno dei massimo sei tipi distinti** nel quarto. Ha **solo categoria nutrizionale Latticini** (+1 fame/+1,5 saturazione **una volta per categoria**), **nessun bonus salsa aggiuntivo**, anche assieme a mozzarella e altri latticini. **`italiansdelight:ricotta` e' ammessa come ingrediente ma il suo ruolo interattivo esatto resta da definire**; non assegnarle automaticamente le regole della panna. Rimane vietato sovrapporre salse differenti sulla stessa sottoarea.
+- **Contenitori:** tomato_sauce, cream_bowl e ricotta hanno un recipiente/ritorno da verificare nell'applicazione sulla pizza: restituire correttamente la ciotola **una sola volta**, senza consumi doppi, exploit o perdita. **La panna non deve consumare o sostituire la salsa preesistente** quando viene applicata; il rimborso conserva l'ItemStack di origine e le rimanenze vengono gestite senza duplicazione.
 - **Condimenti e quarti:** massimo **sei tipi** per quarto fisico (salsa opzionale inclusa), rimozione Shift+clic a mano vuota in ordine LIFO, rimborsi originali solo alla rimozione completa dell'applicazione; niente consumo per clic duplicato.
 
 ## 6. Tag comuni: livello di verifica
