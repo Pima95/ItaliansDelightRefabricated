@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import net.minecraft.resources.Identifier;
 
 import static dev.italiansdelight.common.pizza.PizzaToppingType.NutritionCategory.*;
@@ -26,6 +27,43 @@ import static dev.italiansdelight.common.pizza.PizzaToppingType.Role.*;
 public final class PizzaToppingCatalog {
     private static final Map<Identifier, PizzaToppingType> TYPES;
     private static final Map<Identifier, PizzaToppingType> NATIVE_ITEMS;
+
+    /**
+     * Known whole/unprepared or explicitly forbidden items.
+     * This is a safety deny-list on top of the positive native whitelist.
+     * External equivalences cannot make these approved pizza portions.
+     *
+     * <p>Unknown third-party items still require deliberate verification of
+     * their real form before a mapping may be shipped in a datapack.
+     */
+    private static final Set<Identifier> EXPLICIT_EXCLUSIONS = Set.of(
+            Identifier.parse("italiansdelight:parmigiano_reggiano_wedge"),
+            Identifier.parse("italiansdelight:pecorino_romano_wedge"),
+            Identifier.parse("italiansdelight:mascarpone"),
+            Identifier.parse("italiansdelight:salt"),
+            Identifier.parse("italiansdelight:mozzarella"),
+            Identifier.parse("italiansdelight:burrata"),
+            Identifier.parse("italiansdelight:scamorza"),
+            Identifier.parse("italiansdelight:smoked_scamorza"),
+            Identifier.parse("minecraft:air"),
+            Identifier.parse("minecraft:egg"),
+            Identifier.parse("minecraft:beef"),
+            Identifier.parse("minecraft:cooked_beef"),
+            Identifier.parse("minecraft:chicken"),
+            Identifier.parse("minecraft:cooked_chicken"),
+            Identifier.parse("minecraft:cod"),
+            Identifier.parse("minecraft:cooked_cod"),
+            Identifier.parse("minecraft:salmon"),
+            Identifier.parse("minecraft:cooked_salmon"),
+            Identifier.parse("minecraft:carrot"),
+            Identifier.parse("minecraft:potato"),
+            Identifier.parse("farmersdelight:cabbage"),
+            Identifier.parse("farmersdelight:tomato"),
+            Identifier.parse("farmersdelight:onion"),
+            Identifier.parse("farmersdelight:beef_patty"),
+            Identifier.parse("farmersdelight:ham"),
+            Identifier.parse("farmersdelight:smoked_ham")
+    );
 
     static {
         Map<Identifier, PizzaToppingType> types = new LinkedHashMap<>();
@@ -77,6 +115,12 @@ public final class PizzaToppingCatalog {
                     + types.size() + " types, " + nativeItems.size() + " native item IDs");
         }
 
+        for (Identifier id : EXPLICIT_EXCLUSIONS) {
+            if (nativeItems.containsKey(id)) {
+                throw new IllegalStateException("Forbidden pizza topping registered: " + id);
+            }
+        }
+
         TYPES = Collections.unmodifiableMap(types);
         NATIVE_ITEMS = Collections.unmodifiableMap(nativeItems);
     }
@@ -116,6 +160,11 @@ public final class PizzaToppingCatalog {
     public static boolean isActiveType(Identifier canonicalId) {
         PizzaToppingType topping = TYPES.get(Objects.requireNonNull(canonicalId, "canonicalId"));
         return topping != null && !topping.planned();
+    }
+
+    /** Known forbidden items remain blocked even in optional datapack mappings. */
+    public static boolean isExplicitlyExcluded(Identifier itemId) {
+        return EXPLICIT_EXCLUSIONS.contains(Objects.requireNonNull(itemId, "itemId"));
     }
 
     private static void add(
