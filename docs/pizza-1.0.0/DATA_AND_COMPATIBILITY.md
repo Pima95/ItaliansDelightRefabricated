@@ -61,6 +61,16 @@ Dati da conservare:
 5. Le pizze personalizzate molto lunghe mostrano un nome abbreviato e un tooltip con tutti i topping.
 6. Conservare chiavi di traduzione EN/IT, non nomi finali dipendenti dalla lingua di chi cucina.
 
+### Nome della pizza intera e tooltip — CONFERMATO (13 ottobre 2026)
+
+Il formato del display name e del tooltip è **approvato** e descritto in [NAMED_PIZZAS.md](NAMED_PIZZAS.md#nomi-e-tooltip-delle-pizze--confermato-13-ottobre-2026): 
+- 4 quarti canonici uguali che corrispondono a uno dei 19 preset SÌ -> nome fisso.
+- 4 quarti canonici uguali senza preset -> **`Pizza con [ingredienti]`**, breve nell'inventario se necessario, tooltip con ingredienti completi.
+- 2 o più quarti con composizioni canoniche differenti -> **`Pizza assortita`**, tooltip **Quarto 1: ...** fino a **Quarto 4: ...**, con nome riconosciuto individuale o ingredienti completi per ciascun quarto.
+- Ogni fetta cotta conserva e nomina **solo la composizione del quarto d'origine**, anche se la pizza era assortita; se il quarto coincide con un preset SÌ, es. **Spicchio di Margherita**, altrimenti **Spicchio con [ingredienti]**.
+
+L'item e i data component conservano identità canoniche, maschere e orientamento, **non** nomi già tradotti. Tooltip e nome sono renderizzati nella lingua del giocatore. Non cambiare le tabelle nutrizionali né la logica degli item. Restano da precisare solo ordine, soglia di abbreviazione, numero stabile dei quarti rispetto alla rotazione e denominazione residua dopo servizio parziale.
+
 ## Definizioni ingredienti tramite datapack — PROPOSTA
 
 I datapack possono stabilire:
