@@ -136,7 +136,7 @@ Il nome della pizza completa si ricava dalla composizione dei **quattro quarti f
 
 **Criterio prestazionale (13 ottobre 2026):** cache diretta per item, ricostruita all'apertura mondo/`/reload` con soli **ID mappati esplicitamente**, senza espandere tag durante il gameplay e senza controlli per tick. Antiduplicato basato su identità canonica e maschere di quattro quarti; tempi e memoria da confrontare con una tabella Java diretta. [Dettagli](DATA_AND_COMPATIBILITY.md).
 
-**DECISO:** solo mapping per singolo ID di item esterno verificato, senza abilitazione automatica dei membri dei tag. **DA DEFINIRE:** formato tecnico definitivo dei JSON e politica dettagliata per i conflitti fra pack. Le equivalenze esterne non sono ancora implementate.
+**DECISO (13 ottobre 2026):** solo mapping per singolo ID di item esterno verificato, senza abilitazione automatica dei membri dei tag; **un file JSON per equivalenza, esattamente campi `item` e `canonical`**, mapping nativi non sovrascrivibili. ID esterno ambiguo fra due identità diverse rifiutato con diagnostica senza disattivare gli altri mapping. **DA REALIZZARE:** reload listener, cache e test; percorso tecnico dei file da finalizzare. Nessuna equivalenza esterna ancora implementata.
 
 ## Salsa facoltativa, al massimo una per porzione — CONFERMATO (11 ottobre 2026)
 
