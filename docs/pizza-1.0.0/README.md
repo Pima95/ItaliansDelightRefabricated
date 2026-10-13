@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated — Pizza Update 1.0.0
 
-> **Stato:** progettazione, non ancora implementazione. Le voci **CONFERMATO** derivano dalle decisioni concordate; le **PROPOSTE** sono ancora modificabili.
+> **Stato:** progettazione completata per numerose regole e **implementazione incrementale in corso**. Posizionamento/ stesura e prototipo mozzarella già nel codice; **registro canonico dei 31 tipi / 33 ID introdotto**. Sistema di condimenti generalizzato, JSON loader, forno e rendering non ancora implementati. Le voci **CONFERMATO** sono decisioni approvate; le **PROPOSTE** restano modificabili.
 >
 > **Principio guida CONFERMATO:** i comportamenti basilari seguono **Minecraft vanilla** come default (drop, pickup, despawn, danni ambientali e altre interazioni standard). Non richiedere approvazioni ripetute per queste regole ordinarie; rispettare le eccezioni personalizzate gia' concordate e discutere solo le nuove meccaniche significative.
 
@@ -63,7 +63,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - [TOPPINGS_AND_RENDERING.md](TOPPINGS_AND_RENDERING.md) — categorie, regole di composizione e resa 2.5D.
 - [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md) — dati persistenti, nomi dinamici, tag e datapack.
 - [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md) — **catalogo approvato per 1.0.0, ancora da implementare**: 29 tipi già registrati più 2 nuovi tipi (fette di carota/patata), esclusioni, equivalenze e tag semantici specifici.
-- [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) — **bozza tecnica delle 31 identita' canoniche**: mapping puntuale dei 33 item esistenti, quattro coppie crudo/cotto, due tipi futuri, audit dei tag reali FDR/Italian's Delight, prevenzione dei falsi positivi e cache a runtime. **APPROVATI:** mapping verificato per ID singolo, JSON minimo a due campi (`item`, `canonical`) e un file per equivalenza, con protezione dei mapping nativi. **Ancora da implementare:** loader, cache, estensioni e test.
+- [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) — **bozza tecnica delle 31 identita' canoniche**: mapping puntuale dei 33 item esistenti, quattro coppie crudo/cotto, due tipi futuri, audit dei tag reali FDR/Italian's Delight, prevenzione dei falsi positivi e cache a runtime. **APPROVATI:** mapping verificato per ID singolo, JSON minimo a due campi (`item`, `canonical`) e un file per equivalenza, con protezione dei mapping nativi. **Registro statico già implementato:** [PizzaToppingCatalog.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingCatalog.java); **ancora da realizzare:** loader, cache estendibile, integrazione gameplay e test build/gioco.
 - [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — 19 nomi fissi approvati, 52 combinazioni dinamiche, matching esatto su 4 quarti; 36 gusti futuri non approvati.
 - [ROADMAP.md](ROADMAP.md) — checklist, questioni aperte e fasi di implementazione.
 
@@ -72,5 +72,5 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - Mod per **Minecraft 26.2 / Fabric**, compatibile con Farmer's Delight Refabricated.
 - Non sovrascrivere, spostare o cancellare texture e modelli già prodotti dall'autore.
 - Nel repository esistono già `textures/item/pizza_margherita.png` e `textures/block/top_mushroom_pizza.png`: sono risorse da rispettare e integrare in seguito.
-- Nessuna modifica al codice o alla versione della mod è implicita nella creazione di questi documenti.
+- **Stato aggiornato:** il registro Java è stato aggiunto al branch di sviluppo; documentazione e specifiche non implicano che tutte le funzionalità descritte siano già disponibili. La versione pubblicata resta invariata.
 - Il lavoro va sviluppato su un branch dedicato e portato su `main` mediante PR dopo test e revisione.
