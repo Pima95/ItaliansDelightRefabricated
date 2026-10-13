@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated — Pizza Update 1.0.0
 
-> **Stato:** implementazione incrementale. Registro canonico Java compilato/testato dall'autore; **loader dei datapack e cache JSON aggiunti al branch (da compilare/testare)**. Sistema finale di condimenti per quarti, forno e rendering dinamico ancora da sviluppare.
+> **Stato:** implementazione incrementale. Registro delle 31 identità/33 ID testato, loader datapack confermato con 33 mapping ufficiali; **BlockEntity e codec per la persistenza dei quattro quarti aggiunti (nuova build e test nel mondo da eseguire)**. Interazioni definitive dei topping, cottura e rendering dinamico non ancora realizzati.
 >
 > **Principio guida CONFERMATO:** i comportamenti basilari seguono **Minecraft vanilla** come default (drop, pickup, despawn, danni ambientali e altre interazioni standard). Non richiedere approvazioni ripetute per queste regole ordinarie; rispettare le eccezioni personalizzate gia' concordate e discutere solo le nuove meccaniche significative.
 
@@ -65,6 +65,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md) — **catalogo approvato per 1.0.0, ancora da implementare**: 29 tipi già registrati più 2 nuovi tipi (fette di carota/patata), esclusioni, equivalenze e tag semantici specifici.
 - [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) — 31 identità/33 ID, quattro coppie crudo/cotto e regole definitive. **Registro Java implementato e già testato**; [loader JSON/cache](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingMappings.java) aggiunto ma **da collaudare**.
 - [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — 19 nomi fissi approvati, 52 combinazioni dinamiche, matching esatto su 4 quarti; 36 gusti futuri non approvati.
+- [PERSISTENT_COMPOSITION_TESTS.md](PERSISTENT_COMPOSITION_TESTS.md) — test di compilazione e dati persistenti dei quattro quarti nella nuova BlockEntity.
 - [DATAPACK_RELOAD_TESTS.md](DATAPACK_RELOAD_TESTS.md) — procedure per test build, `/reload`, invalidi, conflitti ed esclusioni.
 - [ROADMAP.md](ROADMAP.md) — checklist, questioni aperte e fasi di implementazione.
 
