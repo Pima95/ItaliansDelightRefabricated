@@ -36,6 +36,10 @@
 
 I **18 gusti già realizzabili con gli item registrati** potranno essere riconosciuti quando sarà implementato il sistema delle pizze. **Patate e Speck** avrà un nome fisso soltanto dopo la creazione delle **patate a fette**: le patate intere `minecraft:potato` restano vietate come topping. **Principessa** usa precisamente salsa di pomodoro, mozzarella, prosciutto crudo a fette e panna: quest'ultima è un condimento cremoso, NON una salsa. **Margherita (versione 1.0.0)** è la variante del catalogo attuale senza olio come topping.
 
+### Regola dei nomi fissi — 4/4 quarti APPROVATA
+
+**MATCHING ESATTO SU QUATTRO QUARTI FISICI — CONFERMATO (13 ottobre 2026):** il nome fisso di una delle **19 ricette SÌ** si applica alla pizza integra **se e solo se ciascuno dei quattro quarti fisici contiene esattamente tutti e soli i tipi canonici di topping previsti dalla stessa ricetta**. Si controllano **quattro insiemi distinti, non la sola unione globale**. Basta **un ingrediente aggiuntivo o mancante in un solo quarto** perché l'intera pizza abbia **nome dinamico**, anche se gli altri tre quarti corrispondono. Il confronto vale anche senza divisioni visibili o dopo riunioni col mattarello; l'ordine di aggiunta è irrilevante, così come lo stato crudo/cotto per gli ingredienti equivalenti e le sostituzioni cross-mod esplicitamente mappate. **Bianca:** tutti e quattro i quarti senza condimenti. **Rossa:** sola salsa di pomodoro nei quattro quarti. **Margherita:** pomodoro, mozzarella a fette e basilico esatti in ciascun quarto. Un quarto con speck extra o senza basilico -> nome dinamico. Le pizze miste a quarti diversi **non** ricevono nomi fissi nella 1.0.0: eventuali Quattro Gusti / Quattro Stagioni riconosciute restano future proposte, **non approvate**. La regola disciplina la denominazione della **pizza integra**; i nomi durante il servizio di fette richiederanno una decisione separata.
+
 ### Altre 52 combinazioni: SOLO NOME DINAMICO
 
 Le **52 righe con NO** riportate nelle tabelle sottostanti sono gusti che il giocatore può preparare (se gli item esistono), ma **non devono mai ricevere un preset di denominazione fissa**. I loro nomi nella tabella servono a identificare il gusto nel documento, non a tradursi automaticamente in un nome specifico in gioco. Anche le altre combinazioni libere non incluse fra i 19 SÌ conservano il nome dinamico. Non ereditare automaticamente il nome da una ricetta presente come sottoinsieme.
@@ -57,102 +61,102 @@ Le **52 righe con NO** riportate nelle tabelle sottostanti sono gusti che il gio
 
 | Pizza proposta | Condimenti (tipi approvati) | Nota | Riconoscimento 1.0.0 |
 | --- | --- | --- | --- |
-| Bianca | Nessun condimento | Base senza condimenti; pizza bianca semplice  **SÌ — nome fisso** |
-| Rossa | Salsa di pomodoro | Solo salsa di pomodoro  **SÌ — nome fisso** |
-| Margherita (versione 1.0.0) | Salsa di pomodoro + Mozzarella a fette + Basilico | Versione giocabile senza olio come topping; NON equivale alla certificazione AVPN  **SÌ — nome fisso** |
-| Margherita al Parmigiano | Salsa di pomodoro + Mozzarella a fette + Basilico + Parmigiano Reggiano grattugiato | Variante della Margherita con formaggio grattugiato  **NO — nome dinamico** |
-| Margherita al Pecorino | Salsa di pomodoro + Mozzarella a fette + Basilico + Pecorino Romano grattugiato | Variante con Pecorino grattugiato  **NO — nome dinamico** |
-| Margherita cremosa | Salsa di pomodoro + Mozzarella a fette + Basilico + Ricotta | Versione creativa con ricotta  **NO — nome dinamico** |
-| **Principessa** | **Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette + Panna** | **PROPOSTA per 1.0.0**: interpretazione attestata da pizzerie di Bari; tutti e quattro gli item già approvati. Panna = condimento cremoso NON salsa, quindi può coesistere con il pomodoro. Il nome «Principessa» ha anche versioni differenti in altre pizzerie: questa combinazione è da confermare nella selezione, non è una ricetta universalmente standardizzata.  **SÌ — nome fisso** |
-| Caprese rossa | Salsa di pomodoro + Mozzarella a fette + Pomodoro a fette + Basilico | Interpretazione della caprese con salsa e pomodoro a fette  **SÌ — nome fisso** |
-| Caprese bianca | Mozzarella a fette + Pomodoro a fette + Basilico | Mozzarella, pomodoro fresco a fette e basilico  **SÌ — nome fisso** |
-| Pomodoro e Bocconcino | Salsa di pomodoro + Bocconcino + Basilico | Con basilico  **NO — nome dinamico** |
-| Pomodoro e Gorgonzola | Salsa di pomodoro + Mozzarella a fette + Gorgonzola a spicchi | Rossa al gorgonzola  **NO — nome dinamico** |
+| Bianca | Nessun condimento | Base senza condimenti; pizza bianca semplice | **SÌ — nome fisso** |
+| Rossa | Salsa di pomodoro | Solo salsa di pomodoro | **SÌ — nome fisso** |
+| Margherita (versione 1.0.0) | Salsa di pomodoro + Mozzarella a fette + Basilico | Versione giocabile senza olio come topping; NON equivale alla certificazione AVPN | **SÌ — nome fisso** |
+| Margherita al Parmigiano | Salsa di pomodoro + Mozzarella a fette + Basilico + Parmigiano Reggiano grattugiato | Variante della Margherita con formaggio grattugiato | **NO — nome dinamico** |
+| Margherita al Pecorino | Salsa di pomodoro + Mozzarella a fette + Basilico + Pecorino Romano grattugiato | Variante con Pecorino grattugiato | **NO — nome dinamico** |
+| Margherita cremosa | Salsa di pomodoro + Mozzarella a fette + Basilico + Ricotta | Versione creativa con ricotta | **NO — nome dinamico** |
+| **Principessa** | **Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette + Panna** | **PROPOSTA per 1.0.0**: interpretazione attestata da pizzerie di Bari; tutti e quattro gli item già approvati. Panna = condimento cremoso NON salsa, quindi può coesistere con il pomodoro. Il nome «Principessa» ha anche versioni differenti in altre pizzerie: questa precisa combinazione è stata **APPROVATA dall'autore come Principessa**, pur non essendo una ricetta universalmente standardizzata. | **SÌ — nome fisso** |
+| Caprese rossa | Salsa di pomodoro + Mozzarella a fette + Pomodoro a fette + Basilico | Interpretazione della caprese con salsa e pomodoro a fette | **SÌ — nome fisso** |
+| Caprese bianca | Mozzarella a fette + Pomodoro a fette + Basilico | Mozzarella, pomodoro fresco a fette e basilico | **SÌ — nome fisso** |
+| Pomodoro e Bocconcino | Salsa di pomodoro + Bocconcino + Basilico | Con basilico | **NO — nome dinamico** |
+| Pomodoro e Gorgonzola | Salsa di pomodoro + Mozzarella a fette + Gorgonzola a spicchi | Rossa al gorgonzola | **NO — nome dinamico** |
 
 ### Formaggi, creme e affumicati
 
 | Pizza proposta | Condimenti (tipi approvati) | Nota | Riconoscimento 1.0.0 |
 | --- | --- | --- | --- |
-| Quattro Formaggi bianca | Mozzarella a fette + Gorgonzola a spicchi + Provolone a fette + Parmigiano Reggiano grattugiato | Quattro formaggi distinti esatti  **SÌ — nome fisso** |
-| Quattro Formaggi rossa | Salsa di pomodoro + Mozzarella a fette + Gorgonzola a spicchi + Provolone a fette + Parmigiano Reggiano grattugiato | Quattro formaggi + salsa, tutti entro 5 tipi  **SÌ — nome fisso** |
-| Quattro Formaggi affumicata | Mozzarella a fette + Gorgonzola a spicchi + Scamorza affumicata a fette + Pecorino Romano grattugiato | Versione originale con scamorza affumicata  **NO — nome dinamico** |
-| Tre Formaggi bianca | Mozzarella a fette + Gorgonzola a spicchi + Provolone a fette | Tre formaggi distinti  **NO — nome dinamico** |
-| Provolone e Pecorino | Mozzarella a fette + Provolone a fette + Pecorino Romano grattugiato | Bianca  **NO — nome dinamico** |
-| Scamorza e Parmigiano | Mozzarella a fette + Scamorza a fette + Parmigiano Reggiano grattugiato | Bianca  **NO — nome dinamico** |
-| Scamorza affumicata e Gorgonzola | Mozzarella a fette + Scamorza affumicata a fette + Gorgonzola a spicchi | Bianca  **NO — nome dinamico** |
-| Ricotta e Basilico | Mozzarella a fette + Ricotta + Basilico | Bianca  **NO — nome dinamico** |
-| Panna e Ricotta | Mozzarella a fette + Panna + Ricotta | Le creme sono topping, non salse  **NO — nome dinamico** |
-| Gorgonzola e Panna | Mozzarella a fette + Gorgonzola a spicchi + Panna | Cremosa  **NO — nome dinamico** |
-| Bocconcini e Ricotta | Bocconcino + Ricotta + Basilico | Bianca con basilico  **NO — nome dinamico** |
+| Quattro Formaggi bianca | Mozzarella a fette + Gorgonzola a spicchi + Provolone a fette + Parmigiano Reggiano grattugiato | Quattro formaggi distinti esatti | **SÌ — nome fisso** |
+| Quattro Formaggi rossa | Salsa di pomodoro + Mozzarella a fette + Gorgonzola a spicchi + Provolone a fette + Parmigiano Reggiano grattugiato | Quattro formaggi + salsa, tutti entro 5 tipi | **SÌ — nome fisso** |
+| Quattro Formaggi affumicata | Mozzarella a fette + Gorgonzola a spicchi + Scamorza affumicata a fette + Pecorino Romano grattugiato | Versione originale con scamorza affumicata | **NO — nome dinamico** |
+| Tre Formaggi bianca | Mozzarella a fette + Gorgonzola a spicchi + Provolone a fette | Tre formaggi distinti | **NO — nome dinamico** |
+| Provolone e Pecorino | Mozzarella a fette + Provolone a fette + Pecorino Romano grattugiato | Bianca | **NO — nome dinamico** |
+| Scamorza e Parmigiano | Mozzarella a fette + Scamorza a fette + Parmigiano Reggiano grattugiato | Bianca | **NO — nome dinamico** |
+| Scamorza affumicata e Gorgonzola | Mozzarella a fette + Scamorza affumicata a fette + Gorgonzola a spicchi | Bianca | **NO — nome dinamico** |
+| Ricotta e Basilico | Mozzarella a fette + Ricotta + Basilico | Bianca | **NO — nome dinamico** |
+| Panna e Ricotta | Mozzarella a fette + Panna + Ricotta | Le creme sono topping, non salse | **NO — nome dinamico** |
+| Gorgonzola e Panna | Mozzarella a fette + Gorgonzola a spicchi + Panna | Cremosa | **NO — nome dinamico** |
+| Bocconcini e Ricotta | Bocconcino + Ricotta + Basilico | Bianca con basilico | **NO — nome dinamico** |
 
 ### Salumi e sapori italiani
 
 | Pizza proposta | Condimenti (tipi approvati) | Nota | Riconoscimento 1.0.0 |
 | --- | --- | --- | --- |
-| Prosciutto crudo | Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette | Versione rossa, senza prosciutto cotto intero  **SÌ — nome fisso** |
-| Prosciutto crudo e Ricotta | Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette + Ricotta | Quattro topping  **NO — nome dinamico** |
-| Salame | Salsa di pomodoro + Mozzarella a fette + Salame a fette | Salame normale, NON Diavola  **SÌ — nome fisso** |
-| Salame e Provolone | Salsa di pomodoro + Mozzarella a fette + Salame a fette + Provolone a fette | Rossa  **NO — nome dinamico** |
-| Mortadella bianca | Mozzarella a fette + Mortadella a fette | Semplice  **NO — nome dinamico** |
-| Mortadella e Ricotta | Mozzarella a fette + Mortadella a fette + Ricotta | Bianca cremosa  **SÌ — nome fisso** |
-| Mortadella e Provolone | Mozzarella a fette + Mortadella a fette + Provolone a fette | Bianca  **NO — nome dinamico** |
-| Mortadella e Gorgonzola | Mozzarella a fette + Mortadella a fette + Gorgonzola a spicchi | Bianca  **NO — nome dinamico** |
-| Pancetta e Provolone | Mozzarella a fette + Pancetta a fette + Provolone a fette | Bianca  **NO — nome dinamico** |
-| Guanciale e Pecorino (stile Gricia) | Guanciale a fette + Pecorino Romano grattugiato + Mozzarella a fette | Ispirata al condimento romano; manca il pepe come topping  **NO — nome dinamico** |
-| Guanciale e Pecorino rossa (stile Amatriciana) | Salsa di pomodoro + Guanciale a fette + Pecorino Romano grattugiato | Ispirata all'amatriciana, versione per item disponibili  **SÌ — nome fisso** |
-| Carbonara ispirata | Mozzarella a fette + Guanciale a fette + Uovo fritto + Pecorino Romano grattugiato | Uovo fritto al posto della crema d'uovo: NON carbonara classica  **NO — nome dinamico** |
-| Speck e Gorgonzola | Mozzarella a fette + Speck a fette + Gorgonzola a spicchi | Bianca  **SÌ — nome fisso** |
-| Speck e Scamorza affumicata | Mozzarella a fette + Speck a fette + Scamorza affumicata a fette | Bianca, gusto affumicato  **NO — nome dinamico** |
-| Bresaola e Ricotta | Mozzarella a fette + Bresaola a fette + Ricotta + Basilico | Bianca con basilico  **NO — nome dinamico** |
-| Coppa e Provolone | Salsa di pomodoro + Mozzarella a fette + Coppa a fette + Provolone a fette | Rossa  **NO — nome dinamico** |
-| Bresaola e Gorgonzola | Mozzarella a fette + Bresaola a fette + Gorgonzola a spicchi | Bianca  **NO — nome dinamico** |
-| Bianca dei Salumi | Mozzarella a fette + Prosciutto crudo a fette + Salame a fette + Mortadella a fette + Speck a fette | Quattro salumi e mozzarella: 5 tipi  **NO — nome dinamico** |
+| Prosciutto crudo | Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette | Versione rossa, senza prosciutto cotto intero | **SÌ — nome fisso** |
+| Prosciutto crudo e Ricotta | Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette + Ricotta | Quattro topping | **NO — nome dinamico** |
+| Salame | Salsa di pomodoro + Mozzarella a fette + Salame a fette | Salame normale, NON Diavola | **SÌ — nome fisso** |
+| Salame e Provolone | Salsa di pomodoro + Mozzarella a fette + Salame a fette + Provolone a fette | Rossa | **NO — nome dinamico** |
+| Mortadella bianca | Mozzarella a fette + Mortadella a fette | Semplice | **NO — nome dinamico** |
+| Mortadella e Ricotta | Mozzarella a fette + Mortadella a fette + Ricotta | Bianca cremosa | **SÌ — nome fisso** |
+| Mortadella e Provolone | Mozzarella a fette + Mortadella a fette + Provolone a fette | Bianca | **NO — nome dinamico** |
+| Mortadella e Gorgonzola | Mozzarella a fette + Mortadella a fette + Gorgonzola a spicchi | Bianca | **NO — nome dinamico** |
+| Pancetta e Provolone | Mozzarella a fette + Pancetta a fette + Provolone a fette | Bianca | **NO — nome dinamico** |
+| Guanciale e Pecorino (stile Gricia) | Guanciale a fette + Pecorino Romano grattugiato + Mozzarella a fette | Ispirata al condimento romano; manca il pepe come topping | **NO — nome dinamico** |
+| Guanciale e Pecorino rossa (stile Amatriciana) | Salsa di pomodoro + Guanciale a fette + Pecorino Romano grattugiato | Ispirata all'amatriciana, versione per item disponibili | **SÌ — nome fisso** |
+| Carbonara ispirata | Mozzarella a fette + Guanciale a fette + Uovo fritto + Pecorino Romano grattugiato | Uovo fritto al posto della crema d'uovo: NON carbonara classica | **NO — nome dinamico** |
+| Speck e Gorgonzola | Mozzarella a fette + Speck a fette + Gorgonzola a spicchi | Bianca | **SÌ — nome fisso** |
+| Speck e Scamorza affumicata | Mozzarella a fette + Speck a fette + Scamorza affumicata a fette | Bianca, gusto affumicato | **NO — nome dinamico** |
+| Bresaola e Ricotta | Mozzarella a fette + Bresaola a fette + Ricotta + Basilico | Bianca con basilico | **NO — nome dinamico** |
+| Coppa e Provolone | Salsa di pomodoro + Mozzarella a fette + Coppa a fette + Provolone a fette | Rossa | **NO — nome dinamico** |
+| Bresaola e Gorgonzola | Mozzarella a fette + Bresaola a fette + Gorgonzola a spicchi | Bianca | **NO — nome dinamico** |
+| Bianca dei Salumi | Mozzarella a fette + Prosciutto crudo a fette + Salame a fette + Mortadella a fette + Speck a fette | Quattro salumi e mozzarella: 5 tipi | **NO — nome dinamico** |
 
 ### Carne, pesce e uova
 
 | Pizza proposta | Condimenti (tipi approvati) | Nota | Riconoscimento 1.0.0 |
 | --- | --- | --- | --- |
-| Bacon e Uovo | Salsa di pomodoro + Mozzarella a fette + Bacon (crudo/cotto) + Uovo fritto | Uovo solo fritto; bacon crudo/cotto stesso tipo  **NO — nome dinamico** |
-| Pollo e Scamorza | Mozzarella a fette + Pollo a pezzi (crudo/cotto) + Scamorza a fette | Bianca  **NO — nome dinamico** |
-| Pollo e Ricotta | Mozzarella a fette + Pollo a pezzi (crudo/cotto) + Ricotta | Bianca  **NO — nome dinamico** |
-| Pollo affumicato (gusto) | Mozzarella a fette + Pollo a pezzi (crudo/cotto) + Scamorza affumicata a fette | Scamorza affumicata; NON implica pollo affumicato come item  **NO — nome dinamico** |
-| Salmone e Ricotta | Mozzarella a fette + Salmone a fette (crudo/cotto) + Ricotta + Basilico | Bianca con basilico  **SÌ — nome fisso** |
-| Salmone e Scamorza affumicata | Mozzarella a fette + Salmone a fette (crudo/cotto) + Scamorza affumicata a fette | Bianca  **SÌ — nome fisso** |
-| Merluzzo e Pomodoro | Salsa di pomodoro + Mozzarella a fette + Merluzzo a fette (crudo/cotto) + Pomodoro a fette | Rossa  **NO — nome dinamico** |
-| Merluzzo e Provolone | Mozzarella a fette + Merluzzo a fette (crudo/cotto) + Provolone a fette | Bianca  **NO — nome dinamico** |
-| Carne macinata e Mozzarella | Salsa di pomodoro + Mozzarella a fette + Carne macinata | Carne macinata ufficialmente ammessa  **SÌ — nome fisso** |
-| Carne macinata e Gorgonzola | Mozzarella a fette + Carne macinata + Gorgonzola a spicchi | Bianca  **NO — nome dinamico** |
+| Bacon e Uovo | Salsa di pomodoro + Mozzarella a fette + Bacon (crudo/cotto) + Uovo fritto | Uovo solo fritto; bacon crudo/cotto stesso tipo | **NO — nome dinamico** |
+| Pollo e Scamorza | Mozzarella a fette + Pollo a pezzi (crudo/cotto) + Scamorza a fette | Bianca | **NO — nome dinamico** |
+| Pollo e Ricotta | Mozzarella a fette + Pollo a pezzi (crudo/cotto) + Ricotta | Bianca | **NO — nome dinamico** |
+| Pollo affumicato (gusto) | Mozzarella a fette + Pollo a pezzi (crudo/cotto) + Scamorza affumicata a fette | Scamorza affumicata; NON implica pollo affumicato come item | **NO — nome dinamico** |
+| Salmone e Ricotta | Mozzarella a fette + Salmone a fette (crudo/cotto) + Ricotta + Basilico | Bianca con basilico | **SÌ — nome fisso** |
+| Salmone e Scamorza affumicata | Mozzarella a fette + Salmone a fette (crudo/cotto) + Scamorza affumicata a fette | Bianca | **SÌ — nome fisso** |
+| Merluzzo e Pomodoro | Salsa di pomodoro + Mozzarella a fette + Merluzzo a fette (crudo/cotto) + Pomodoro a fette | Rossa | **NO — nome dinamico** |
+| Merluzzo e Provolone | Mozzarella a fette + Merluzzo a fette (crudo/cotto) + Provolone a fette | Bianca | **NO — nome dinamico** |
+| Carne macinata e Mozzarella | Salsa di pomodoro + Mozzarella a fette + Carne macinata | Carne macinata ufficialmente ammessa | **SÌ — nome fisso** |
+| Carne macinata e Gorgonzola | Mozzarella a fette + Carne macinata + Gorgonzola a spicchi | Bianca | **NO — nome dinamico** |
 
 ### Verdure e stagionali
 
 | Pizza proposta | Condimenti (tipi approvati) | Nota | Riconoscimento 1.0.0 |
 | --- | --- | --- | --- |
-| Zucca e Gorgonzola | Mozzarella a fette + Zucca a fette + Gorgonzola a spicchi | Bianca  **NO — nome dinamico** |
-| Zucca e Speck | Mozzarella a fette + Zucca a fette + Speck a fette | Bianca  **SÌ — nome fisso** |
-| Zucca e Provolone | Mozzarella a fette + Zucca a fette + Provolone a fette | Bianca  **NO — nome dinamico** |
-| Autunnale | Mozzarella a fette + Zucca a fette + Speck a fette + Gorgonzola a spicchi | Zucca, speck e gorgonzola  **NO — nome dinamico** |
-| Cavolo e Ricotta | Mozzarella a fette + Foglia di cavolo + Ricotta | Bianca  **NO — nome dinamico** |
-| Orto disponibile | Mozzarella a fette + Pomodoro a fette + Foglia di cavolo + Zucca a fette + Basilico | Versione con vegetali gia' disponibili, NON l'Ortolana tradizionale  **SÌ — nome fisso** |
+| Zucca e Gorgonzola | Mozzarella a fette + Zucca a fette + Gorgonzola a spicchi | Bianca | **NO — nome dinamico** |
+| Zucca e Speck | Mozzarella a fette + Zucca a fette + Speck a fette | Bianca | **SÌ — nome fisso** |
+| Zucca e Provolone | Mozzarella a fette + Zucca a fette + Provolone a fette | Bianca | **NO — nome dinamico** |
+| Autunnale | Mozzarella a fette + Zucca a fette + Speck a fette + Gorgonzola a spicchi | Zucca, speck e gorgonzola | **NO — nome dinamico** |
+| Cavolo e Ricotta | Mozzarella a fette + Foglia di cavolo + Ricotta | Bianca | **NO — nome dinamico** |
+| Orto disponibile | Mozzarella a fette + Pomodoro a fette + Foglia di cavolo + Zucca a fette + Basilico | Versione con vegetali gia' disponibili, NON l'Ortolana tradizionale | **SÌ — nome fisso** |
 
 ## Gruppo B — 15 combinazioni dopo le nuove fette (1 SÌ / 14 NO)
 
 | Pizza proposta | Condimenti (tipi approvati) | Nota | Riconoscimento 1.0.0 |
 | --- | --- | --- | --- |
-| Patate e Speck | Mozzarella a fette + Patate a fette (NUOVO) + Speck a fette | Bianca  **SÌ — nome fisso** *(dopo nuovo item)* |
-| Patate e Pancetta | Mozzarella a fette + Patate a fette (NUOVO) + Pancetta a fette | Bianca  **NO — nome dinamico** |
-| Patate e Guanciale | Mozzarella a fette + Patate a fette (NUOVO) + Guanciale a fette + Pecorino Romano grattugiato | Con Pecorino  **NO — nome dinamico** |
-| Patate e Bacon | Mozzarella a fette + Patate a fette (NUOVO) + Bacon (crudo/cotto) | Bianca  **NO — nome dinamico** |
-| Patate e Scamorza | Mozzarella a fette + Patate a fette (NUOVO) + Scamorza a fette | Bianca  **NO — nome dinamico** |
-| Patate e Gorgonzola | Mozzarella a fette + Patate a fette (NUOVO) + Gorgonzola a spicchi | Bianca  **NO — nome dinamico** |
-| Patate e Ricotta | Mozzarella a fette + Patate a fette (NUOVO) + Ricotta | Bianca  **NO — nome dinamico** |
-| Patate e Salmone | Mozzarella a fette + Patate a fette (NUOVO) + Salmone a fette (crudo/cotto) + Ricotta | Bianca  **NO — nome dinamico** |
-| Patate, Guanciale e Uovo | Mozzarella a fette + Patate a fette (NUOVO) + Guanciale a fette + Uovo fritto + Pecorino Romano grattugiato | Stile Carbonara con patate  **NO — nome dinamico** |
-| Carote e Ricotta | Mozzarella a fette + Carote a fette (NUOVO) + Ricotta | Bianca  **NO — nome dinamico** |
-| Carote e Zucca | Mozzarella a fette + Carote a fette (NUOVO) + Zucca a fette | Bianca  **NO — nome dinamico** |
-| Carote e Pecorino | Mozzarella a fette + Carote a fette (NUOVO) + Pecorino Romano grattugiato + Basilico | Bianca con basilico  **NO — nome dinamico** |
-| Carote e Pollo | Mozzarella a fette + Carote a fette (NUOVO) + Pollo a pezzi (crudo/cotto) + Scamorza a fette | Con scamorza  **NO — nome dinamico** |
-| Carote e Patate | Mozzarella a fette + Carote a fette (NUOVO) + Patate a fette (NUOVO) + Provolone a fette | Con provolone  **NO — nome dinamico** |
-| Orto di autunno | Mozzarella a fette + Carote a fette (NUOVO) + Patate a fette (NUOVO) + Zucca a fette + Foglia di cavolo + Pomodoro a fette | 6 topping per quarto: limite rispettato  **NO — nome dinamico** |
+| Patate e Speck | Mozzarella a fette + Patate a fette (NUOVO) + Speck a fette | Bianca | **SÌ — nome fisso** *(dopo nuovo item)* |
+| Patate e Pancetta | Mozzarella a fette + Patate a fette (NUOVO) + Pancetta a fette | Bianca | **NO — nome dinamico** |
+| Patate e Guanciale | Mozzarella a fette + Patate a fette (NUOVO) + Guanciale a fette + Pecorino Romano grattugiato | Con Pecorino | **NO — nome dinamico** |
+| Patate e Bacon | Mozzarella a fette + Patate a fette (NUOVO) + Bacon (crudo/cotto) | Bianca | **NO — nome dinamico** |
+| Patate e Scamorza | Mozzarella a fette + Patate a fette (NUOVO) + Scamorza a fette | Bianca | **NO — nome dinamico** |
+| Patate e Gorgonzola | Mozzarella a fette + Patate a fette (NUOVO) + Gorgonzola a spicchi | Bianca | **NO — nome dinamico** |
+| Patate e Ricotta | Mozzarella a fette + Patate a fette (NUOVO) + Ricotta | Bianca | **NO — nome dinamico** |
+| Patate e Salmone | Mozzarella a fette + Patate a fette (NUOVO) + Salmone a fette (crudo/cotto) + Ricotta | Bianca | **NO — nome dinamico** |
+| Patate, Guanciale e Uovo | Mozzarella a fette + Patate a fette (NUOVO) + Guanciale a fette + Uovo fritto + Pecorino Romano grattugiato | Stile Carbonara con patate | **NO — nome dinamico** |
+| Carote e Ricotta | Mozzarella a fette + Carote a fette (NUOVO) + Ricotta | Bianca | **NO — nome dinamico** |
+| Carote e Zucca | Mozzarella a fette + Carote a fette (NUOVO) + Zucca a fette | Bianca | **NO — nome dinamico** |
+| Carote e Pecorino | Mozzarella a fette + Carote a fette (NUOVO) + Pecorino Romano grattugiato + Basilico | Bianca con basilico | **NO — nome dinamico** |
+| Carote e Pollo | Mozzarella a fette + Carote a fette (NUOVO) + Pollo a pezzi (crudo/cotto) + Scamorza a fette | Con scamorza | **NO — nome dinamico** |
+| Carote e Patate | Mozzarella a fette + Carote a fette (NUOVO) + Patate a fette (NUOVO) + Provolone a fette | Con provolone | **NO — nome dinamico** |
+| Orto di autunno | Mozzarella a fette + Carote a fette (NUOVO) + Patate a fette (NUOVO) + Zucca a fette + Foglia di cavolo + Pomodoro a fette | 6 topping per quarto: limite rispettato | **NO — nome dinamico** |
 
 ## Gruppo C — 36 pizze con ingredienti per eventuali update futuri (PROPOSTE)
 
@@ -197,7 +201,7 @@ Le **52 righe con NO** riportate nelle tabelle sottostanti sono gusti che il gio
 | Norcina ispirata | Ricotta, prosciutto crudo a fette, tartufo nero | Tartufo nero preparato | Ricotta e prosciutto attuali disponibili |
 | Caprese al Pesto | Pesto come salsa, mozzarella, pomodoro a fette, basilico | Pesto come salsa | Pesto non ammesso attualmente |
 
-**Nota sulla Principessa:** è attestata una preparazione con pomodoro, mozzarella, prosciutto crudo e panna in [Pizzeria Da Zazzà, Bari](https://glovoapp.com/it/it/bari/stores/pizzeria-rosticceria-da-zazz); altre pizzerie usano invece stracciatella o altri condimenti. Il nome e la ricetta non sono universali. Per la Pizza Update 1.0.0 proponiamo la versione interamente realizzabile con il catalogo corrente, senza nuovi item. **Il giocatore non deve aver approvato il nome in automatico soltanto perché compare qui**; la scelta SÌ/NO arriverà con il modulo.
+**Nota sulla Principessa:** è attestata una preparazione con pomodoro, mozzarella, prosciutto crudo e panna in [Pizzeria Da Zazzà, Bari](https://glovoapp.com/it/it/bari/stores/pizzeria-rosticceria-da-zazz); altre pizzerie usano invece stracciatella o altri condimenti. Il nome e la ricetta non sono universali. Per la Pizza Update 1.0.0 **l'autore ha APPROVATO** questa versione realizzabile con il catalogo corrente: Principessa è uno dei 19 nomi fissi, riconoscibile soltanto quando tutti i quarti corrispondono esattamente alla ricetta.
 
 ## Pizze a quarti distinti: proposta di naming spaziale
 
@@ -208,11 +212,11 @@ La divisione fisica/logica del mattarello permette di creare una pizza con **qua
 - **Quattro Stagioni tradizionale (futura):** salsa di pomodoro e mozzarella comuni, quattro quarti rispettivamente con prosciutto cotto affettato, funghi, carciofi e olive: servono prima quattro tipi nuovi di topping.
 - **Nomi dinamici per pizze miste:** se la pizza non corrisponde a un pattern di quarti noto, usare un nome generico o dinamico coerente con i singoli quarti. **Il formato definitivo dei nomi e il matching delle rotazioni devono ancora essere approvati**, non forzare un nome tradizionale per la semplice presenza globale di ingredienti.
 
-## Meccanismo di matching consigliato (NON approvato come algoritmo finale)
+## Meccanismo di matching — regola su 4 quarti CONFERMATA, dettagli tecnici da implementare
 
 - Definizione JSON/datapack di ogni gusto, con ID nome localizzati `it_it` / `en_us`, condizioni di ingredienti canonici e priorità esplicita; nessuna dipendenza dai nomi visualizzati degli item.
-- **Pattern uniforme:** confronto insiemistico esatto di ingredienti canonici presenti su ciascuno dei quattro quarti (ignorare ordine di applicazione, usare l'identità condivisa per versioni crude/cotte e mod compatibili). Evita falsi positivi su pizze miste.
-- **Pattern per quarto:** confrontare i quattro insiemi di ingredienti per posizione fisica, con una policy di rotazione/reflection futura da decidere. Mai riconoscere come Quattro Stagioni una pizza con tutti i condimenti distribuiti uniformemente.
+- **Pattern uniforme APPROVATO:** ciascuno dei quattro quarti fisici deve avere **esattamente l'insieme canonico della ricetta SÌ**, anche senza divisioni del mattarello; un solo quarto diverso produce il nome dinamico. Crudo/cotto ed equivalenze cross-mod mappate sono identità canoniche comuni.
+- **Pattern a quarti differenti NON approvati per la 1.0.0:** eventuale riconoscimento con rotazioni o composizioni differenti richiede approvazione futura; nella 1.0.0 le pizze miste hanno sempre il nome dinamico.
 - **Solo le 19 combinazioni SÌ** ricevono nomi fissi; nessuna delle 52 NO può ottenere il nome di una ricetta simile per matching parziale. Confrontare gli ingredienti canonici in modo esatto e deterministico, evitando collisioni fra Margherita e Margherita con formaggi extra. Le varianti non devono essere autorizzate implicitamente.
 - **Più di 6 condimenti per quarto:** sempre vietato anche se una proposta futura li elencasse per errore. I condimenti delle quattro parti non vengono sommati ai fini della capienza dei singoli quarti.
 - Non modificare tabelle nutrizionali: valori e massimali 6/6 sono fissati in [GAMEPLAY.md](GAMEPLAY.md). Il nome di una pizza **non** conferisce alcun effetto alimentare aggiuntivo.
