@@ -16,7 +16,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 2. Il giocatore può stendere l'impasto **sia a mano, con clic destro ripetuto, sia con un mattarello**.
 3. Il giocatore aggiunge i condimenti **direttamente alla pizza posizionata nel mondo**, con clic destro.
 4. L'ordine di inserimento degli ingredienti non deve imporre una ricetta fissa: la pizza può essere inventata liberamente.
-5. Le combinazioni registrate hanno **nomi ufficiali** (ad esempio Pizza Margherita); le altre hanno **nomi costruiti dagli ingredienti**.
+5. **19 nomi fissi e 52 combinazioni a nome dinamico sono APPROVATI**. Un nome fisso è assegnato soltanto quando **tutti e quattro i quarti fisici della pizza integra contengono esattamente gli ingredienti canonici della stessa ricetta**, senza extra/mancanze: un solo quarto diverso impone nome dinamico. Suddivisione/riunione del mattarello e ordine dei clic non influenzano; equivalenze canoniche esplicite contano come stesso topping. Le pizze miste rimangono a nome dinamico nella 1.0.0. [Elenco ufficiale](NAMED_PIZZAS.md).
 6. Le pizze devono poter essere preparate anche tramite **crafting**.
 7. Cottura possibile nel **Pizza Oven dedicato** e nei **forni vanilla esistenti** (fornace e affumicatore).
 8. Il Pizza Oven è un blocco **compatto 1×1×1**, con capienza di **una pizza per volta**, e **cuoce esclusivamente pizze**, non altri alimenti o oggetti. **Usa la GUI VANILLA della fornace**, con i tre slot classici (input pizza, combustibile, risultato pizza) e indicatori di fiamma e freccia standard; la pizza su **pala occupata** si inserisce direttamente nel forno con clic destro e una **pala vuota** consente di **estrarre direttamente anche una pizza a cottura incompleta**. Entrambe le interazioni avvengono senza aprire la GUI e senza consumare durabilita', preservando tutti i dati e l'avanzamento. **La pala per pizza e' facoltativa**: il forno deve permettere inserimento ed estrazione anche senza pala. Le interazioni dirette sul forno sono in progettazione, ma **la raccolta dal terreno con clic destro a mano vuota e' vietata**: per rimuovere la pizza dal terreno **si rompe e si raccoglie come item pizza completo**, anche se cruda. Questo costituisce il **percorso senza pala** per portare al forno una pizza gia' preparata nel mondo.
@@ -61,7 +61,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - [TOPPINGS_AND_RENDERING.md](TOPPINGS_AND_RENDERING.md) — categorie, regole di composizione e resa 2.5D.
 - [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md) — dati persistenti, nomi dinamici, tag e datapack.
 - [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md) — **ricognizione 26.2** degli ID realmente registrati in Italian's Delight e Farmer's Delight 3.6.28, proposte di condimenti, esclusioni e tag comuni verificati (**le proposte richiedono ancora approvazione item per item**).
-- [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — possibili pizze riconosciute (non ancora approvate).
+- [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — 19 nomi fissi approvati, 52 combinazioni dinamiche, matching esatto su 4 quarti; 36 gusti futuri non approvati.
 - [ROADMAP.md](ROADMAP.md) — checklist, questioni aperte e fasi di implementazione.
 
 ## Regole di progetto
