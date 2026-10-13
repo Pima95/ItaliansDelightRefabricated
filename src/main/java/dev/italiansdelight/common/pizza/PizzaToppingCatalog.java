@@ -62,7 +62,7 @@ public final class PizzaToppingCatalog {
         add(types, nativeItems, "minced_beef", ANIMAL_PROTEIN, SOLID, "farmersdelight", "minced_beef");
         add(types, nativeItems, "cabbage_leaf", VEGETABLE, SOLID, "farmersdelight", "cabbage_leaf");
         add(types, nativeItems, "pumpkin_slice", VEGETABLE, SOLID, "farmersdelight", "pumpkin_slice");
-        add(types, nativeItems, "tomato_sauce", SAUCE, SAUCE, "farmersdelight", "tomato_sauce");
+        add(types, nativeItems, "tomato_sauce", SAUCES, SAUCE, "farmersdelight", "tomato_sauce");
 
         // Approved future toppings: reserve canonical IDs ONLY. The item IDs
         // and Cutting Board recipes are not registered in this step.
