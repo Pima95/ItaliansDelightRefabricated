@@ -39,7 +39,7 @@ La pizza puo' essere **completamente bianca**, avere salsa soltanto su una parte
 
 **CONFERMATO:** se la zona selezionata contiene gia' **anche soltanto su una parte** una salsa *differente*, il clic con la nuova salsa viene **rifiutato interamente**: nessuna applicazione neanche sulle parti libere, nessuna sostituzione, nessun consumo di item. Dopo aver riunito due meta' (una al pomodoro, una bianca), un tentativo di applicare pesto alla pizza intera fallisce. Il giocatore puo' usare il mattarello per dividerla nuovamente e applicare il pesto **solo alla meta' bianca**.
 
-**Salsa ammessa APPROVATA per la 1.0.0:** usare `farmersdelight:tomato_sauce` come salsa di pomodoro. L'item `farmersdelight:tomato` intero **NON e' ammesso**; la salsa pronta non richiede un nuovo item. Restano da testare gestione della ciotola e ruolo salsa eventuale di panna/ricotta.
+**Salsa ammessa APPROVATA per la 1.0.0:** usare `farmersdelight:tomato_sauce` come salsa di pomodoro. L'item `farmersdelight:tomato` intero **NON e' ammesso**; la salsa pronta non richiede un nuovo item. **Panna gia' DEFINITA come condimento cremoso NON salsa**: si puo' aggiungere sopra `farmersdelight:tomato_sauce` nello stesso quarto senza sostituirla ne' occupare lo slot salsa. Restano da testare gestione delle ciotole e **ruolo della sola ricotta**, non ancora deciso.
 
 ## Idoneita' fisica dei topping — CONFERMATO (12 ottobre 2026)
 
@@ -78,9 +78,9 @@ La Cutting Board di Farmer's Delight Refabricated puo' produrre le porzioni prim
 | Uova | topping solido | proteine animali con salumi/carne/pesce | +2 | +2,5 |
 | Olive | topping solido | vegetali con funghi e verdure | +1 | +0,5 |
 | Olio d'oliva | olio / velatura (**grafica da definire**), non salsa | **oli e grassi (nuova)** | +0 | +1 |
-| Panna | crema anche con ruolo salsa | latticini con formaggi | +1 | +1,5 |
+| Panna | **condimento cremoso NON salsa**, compatibile con pomodoro nella stessa zona | latticini con formaggi | +1 | +1,5 |
 
-**Il ruolo della pizza e' distinto dalla categoria nutrizionale**: se panna ha ruolo salsa, occupa l'unico slot salsa nel quarto ma nutrizionalmente conta solo come latticino; l'olio e' compatibile con la salsa senza occupare il suo ruolo, pur contando nel massimo di 6 topping. Ingrediente/categoria non significa equivalenza: uovo e prosciutto, panna e mozzarella restano item distinti per lo storico e i rimborsi. Ogni categoria contribuisce **una volta per quarto**; entrambe le statistiche mantengono tetto 6.
+**Il ruolo della pizza e' distinto dalla categoria nutrizionale — panna DECISA:** la panna **non e' salsa**, puo' essere disposta come crema **sopra la salsa di pomodoro**, e **non occupa lo slot salsa**; resta **uno dei massimo sei ingredienti distinti per quarto**, insieme al pomodoro quando presente. La panna da' solo il bonus **Latticini (+1 fame/+1,5 saturazione una volta per categoria)**, mentre il pomodoro aggiunge il bonus Salsa (+1/+0,5) in modo separato. Con **mozzarella + panna** il bonus latticini non raddoppia: crosta + pomodoro + panna (+ mozzarella) = **3 fame / 3 saturazione**. **Ricotta ammessa ma ruolo ancora aperto.** Il rendering della panna deve rispettare la consistenza cremosa senza sovrascrivere la salsa inferiore. Le categorie non implicano equivalenza fra ingredienti diversi e il rimborso conserva l'ItemStack originario.
 
 **Compatibilita' release 1.0.0 confermata:** mapping e resa/fallback per i **29 tipi ufficiali gia' approvati** di Italian's Delight e Farmer's Delight Refabricated, oltre alle future fette di carota/patata di Italian's Delight. Uovo fritto e carne macinata sono ammessi; uovo intero, pomodoro/cipolla interi, prosciutti interi, altri cibi/ingredienti non elencati sono esclusi. Le altre mod possono fornire **soltanto equivalenti specifici e porzionati** tramite tag comuni `c:` verificati o mapping puntuale, **non altri tipi di topping**. Non accettare automaticamente tutti i pasti/cibi di altre mod. Vedi [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md).
 
