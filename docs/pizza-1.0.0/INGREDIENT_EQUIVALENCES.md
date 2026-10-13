@@ -1,13 +1,13 @@
 # Mappatura delle identita' canoniche — Pizza Update 1.0.0
 
-> **DECISIONE CONFERMATA (13 ottobre 2026): mapping esterno verificato per ID singolo.** I 31 tipi canonici e le quattro coppie crudo/cotto già approvati restano invariati. I tag `c:` possono servire a trovare potenziali equivalenti, ma **non ammettono automaticamente alcun item**; ogni sostituto di altre mod necessita di associazione puntuale e verifica della forma porzionata. **Formato JSON minimale APPROVATO (13 ottobre 2026): un file per singola equivalenza, con esattamente i campi `item` e `canonical`, senza override degli ID ufficiali.** Percorso della risorsa e codice restano da definire.
+> **DECISIONE CONFERMATA (13 ottobre 2026): mapping esterno verificato per ID singolo.** I 31 tipi canonici e le quattro coppie crudo/cotto già approvati restano invariati. I tag `c:` possono servire a trovare potenziali equivalenti, ma **non ammettono automaticamente alcun item**; ogni sostituto di altre mod necessita di associazione puntuale e verifica della forma porzionata. **Formato JSON minimale APPROVATO (13 ottobre 2026): un file per singola equivalenza, con esattamente i campi `item` e `canonical`, senza override degli ID ufficiali.** Il **registro statico Java delle 31 identità e dei 33 ID ufficiali è ora implementato**; percorso dei JSON, loader e cache estendibile restano da realizzare.
 
 ## Obiettivi e definizioni
 
 - **Tipo canonico** = un ingrediente distinto per il limite di sei per quarto, antiduplicazione, nomi, matching dei 19 gusti e nutrizione. **Non** coincide necessariamente con un singolo item: bacon crudo e cotto hanno lo stesso tipo.
 - **Item originario** = l'ItemStack esatto consumato per ogni applicazione, necessario a restituire la variante originale e gestire gli eventuali contenitori. Non sostituirlo con l'ID canonico per i rimborsi.
 - **Categoria nutrizionale** e **ruolo fisico** (salsa, crema, topping solido) sono attributi separati: due tipi possono condividere un bonus alimentare senza essere equivalenti.
-- I nomi di identita' canonica `italiansdelight:pizza_toppings/<slug>` qui elencati sono **ID tecnici proposti**, **non ID di item gia' registrati**. Possono essere rinominati in implementazione senza alterare l'insieme dei 31 tipi approvati.
+- I nomi di identita' canonica `italiansdelight:pizza_toppings/<slug>` sono **ora adottati nel registro Java** come identificatori logici (NON item registrati), e devono rimanere stabili per salvataggi e mapping futuri.
 - Le equivalenze esterne **possono soltanto scegliere una delle 31 identita' esistenti**. Nessun nuovo tipo di topping viene approvato attraverso JSON o un tag generico.
 
 ## 1. Italian's Delight — 20 tipi distinti (ID ufficiali gia' registrati)
@@ -93,7 +93,7 @@ Risorse controllate sui rami `feature/pizza-1.0.0` e `fabric/latest/26.2`:
 
 ## 5. Risoluzione delle equivalenze — mapping puntuale e JSON minimo CONFERMATI (13 ottobre 2026)
 
-**Regola confermata:** i 33 item registrati di Italian's Delight e Farmer's Delight sono assegnati esplicitamente alle 29 identità già disponibili; i due nuovi item vegetali entreranno dopo la loro registrazione. **Un item di una mod esterna è ammesso solo attraverso una corrispondenza verificata del suo ID esatto** a una delle 31 identità. I tag sono utili per individuare possibili equivalenze, ma non sono selettori di compatibilità a runtime.
+**Regola confermata e presente nel catalogo Java:** i 33 item registrati di Italian's Delight e Farmer's Delight sono assegnati esplicitamente alle 29 identità già disponibili; i due nuovi item vegetali entreranno dopo la loro registrazione. **Un item di una mod esterna è ammesso solo attraverso una corrispondenza verificata del suo ID esatto** a una delle 31 identità. I tag sono utili per individuare possibili equivalenze, ma non sono selettori di compatibilità a runtime.
 
 **Ordine di validazione previsto:**
 
@@ -130,7 +130,7 @@ Percorso di risorsa ancora **proposto**, da verificare con l'implementazione: `d
 
 ## 6. Test di accettazione futuri
 
-- Ciascuno dei 33 ID esistenti viene associato a uno e un solo tipo canonico; 2 tipi nuovi restano disattivati prima della registrazione dei nuovi item.
+- **Registro statico: verifica di struttura già eseguita** (31 identità, 33 ID, 4 coppie condivise, 2 pianificate senza mapping item, nessun duplicato, esclusioni non registrate). **Da testare in una build Java 25/MC 26.2 e in gioco:** registrazione effettiva degli item e riconoscimento runtime nel nuovo sistema.
 - Bacon crudo/cotto, pollo a pezzi crudo/cotto, merluzzo a fette crudo/cotto, salmone a fette crudo/cotto: secondo clic con la variante equivalente sullo stesso quarto **non** consuma item; su quarti liberi si applica una sola volta e il recupero restituisce **la variante realmente usata**.
 - Mozzarella a fette ≠ mozzarella intera; Parmigiano grattugiato ≠ spicchio; `farmersdelight:cabbage_leaf` ≠ cavolo intero; carne macinata ≠ bistecca. Un item non ammesso non si aggiunge e non consuma nulla.
 - `#c:foods/raw_chicken` e tag analoghi non rendono legali item vanilla interi; `#c:foods/cheese` non fa equivalere formaggi differenti.
@@ -145,6 +145,7 @@ Percorso di risorsa ancora **proposto**, da verificare con l'implementazione: `d
 - **DECISO (13 ottobre 2026):** ogni item esterno necessita di **mapping puntuale verificato per ID**; i tag `c:` non abilitano mai automaticamente nuovi membri. Non riproporre la scelta fra questa regola e l'ammissione automatica.
 - **Eventuali identita' incrociate fra le due mod:** mantenere separati per default bacon FDR e pancetta Italian's Delight (cosi' come tutti gli altri topping), a meno di approvazione esplicita di un accorpamento.
 - **DECISO:** schema JSON di equivalenza con esattamente `item` e `canonical`, un file per mapping; **associazioni ufficiali non sovrascrivibili**, collisioni fra identità esterne diverse rifiutate solo per l'ID ambiguo e segnalate.
-- **DA DEFINIRE IN IMPLEMENTAZIONE:** percorso finale delle risorse, decoder/reload listener, ID definitivi delle due fette vegetali e benchmark. Non riaprire lo schema minimale già approvato.
+- **GIÀ IMPLEMENTATO:** registro Java read-only dei 31 tipi e mapping statico dei 33 item esistenti, senza tick né cambi di comportamento. [PizzaToppingCatalog.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingCatalog.java), [PizzaToppingType.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingType.java).
+- **DA DEFINIRE IN IMPLEMENTAZIONE:** percorso finale delle risorse, decoder/reload listener, cache `Item -> tipo`, ID definitivi delle due fette vegetali, prove Java 25 e benchmark. Non riaprire lo schema minimale già approvato.
 
 **Fonti ufficiali del catalogo e delle regole confermate:** [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md), [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md), [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md), [NAMED_PIZZAS.md](NAMED_PIZZAS.md).
