@@ -1,6 +1,6 @@
 # Mappatura delle identita' canoniche — Pizza Update 1.0.0
 
-> **DECISIONE CONFERMATA (13 ottobre 2026): mapping esterno verificato per ID singolo.** I 31 tipi canonici e le quattro coppie crudo/cotto già approvati restano invariati. I tag `c:` possono servire a trovare potenziali equivalenti, ma **non ammettono automaticamente alcun item**; ogni sostituto di altre mod necessita di associazione puntuale e verifica della forma porzionata. Formato JSON e implementazione sono ancora da definire.
+> **DECISIONE CONFERMATA (13 ottobre 2026): mapping esterno verificato per ID singolo.** I 31 tipi canonici e le quattro coppie crudo/cotto già approvati restano invariati. I tag `c:` possono servire a trovare potenziali equivalenti, ma **non ammettono automaticamente alcun item**; ogni sostituto di altre mod necessita di associazione puntuale e verifica della forma porzionata. **Formato JSON minimale APPROVATO (13 ottobre 2026): un file per singola equivalenza, con esattamente i campi `item` e `canonical`, senza override degli ID ufficiali.** Percorso della risorsa e codice restano da definire.
 
 ## Obiettivi e definizioni
 
@@ -91,7 +91,7 @@ Risorse controllate sui rami `feature/pizza-1.0.0` e `fabric/latest/26.2`:
 
 **Regola di ammissione CONFERMATA:** i 33 ID ufficiali sono mappati esplicitamente. Gli item di mod esterne vengono ammessi soltanto con **ID puntuale verificato** che indica una delle identità canoniche già approvate; un tag anche specifico non abilita nuovi membri. Il tag è una fonte per la ricognizione, non un selettore del sistema. Un datapack personalizzato può richiedere esplicitamente mapping di nuovi ID, ma la sua attendibilità dipende dal creatore del pack: non è automaticamente una compatibilità verificata dalla mod.
 
-## 5. Risoluzione delle equivalenze — mapping puntuale APPROVATO, JSON PROPOSTO
+## 5. Risoluzione delle equivalenze — mapping puntuale e JSON minimo CONFERMATI (13 ottobre 2026)
 
 **Regola confermata:** i 33 item registrati di Italian's Delight e Farmer's Delight sono assegnati esplicitamente alle 29 identità già disponibili; i due nuovi item vegetali entreranno dopo la loro registrazione. **Un item di una mod esterna è ammesso solo attraverso una corrispondenza verificata del suo ID esatto** a una delle 31 identità. I tag sono utili per individuare possibili equivalenze, ma non sono selettori di compatibilità a runtime.
 
@@ -99,13 +99,13 @@ Risorse controllate sui rami `feature/pizza-1.0.0` e `fabric/latest/26.2`:
 
 1. Whitelist base autorevole e protezione delle esclusioni (item interi, non porzionati, non ammessi); nessun datapack di equivalenze modifica i tipi approvati o riassegna un ID nativo.
 2. Verifica delle mappature opzionali **per singolo ID item**, con identità canonica di destinazione già esistente e porzione idonea. Nessuna espansione automatica dei tag `c:`.
-3. Conflitti: mapping esterni divergenti per lo stesso ID vengono ignorati/rifiutati con diagnostica; mapping ripetuti identici si deduplicano. Un item opzionale non registrato viene saltato senza obbligare a installare la mod corrispondente. Un datapack dell'utente può dichiarare un ID esplicito per una personalizzazione, ma non costituisce verifica ufficiale della correttezza fisica dell'item.
+3. **Conflitti ed override — CONFERMATO:** nessuna definizione di datapack può cambiare le associazioni ufficiali degli ID nativi o riassegnare un tipo canonico. Un file che tenta l'override viene ignorato e segnalato. Per un ID esterno assegnato da due file a identità differenti, **rifiutare le definizioni in conflitto di quell'ID**, lasciando valide tutte le altre; produrre diagnostica. Mapping multipli identici non producono doppioni. Se la mod esterna opzionale non è installata, saltare l'ID senza rendere obbligatoria la dipendenza. I datapack personalizzati dichiarano intenzionalmente un ID, ma non sono verifiche ufficiali del suo contenuto.
 4. Cache immutabile `Map<Item, CanonicalToppingDefinition>` ricostruita dopo il caricamento del mondo e a `/reload`; lookup diretto ai clic, **nessuna scansione tag/lettura JSON a ogni interazione e nessun tick dedicato**.
 5. Persistenza di ID canonico, applicazioni e **ItemStack originale** per i rimborsi; niente mutazione automatica delle pizze già esistenti durante il reload.
 
-### Schema minimale di datapack — proposta NON IMPLEMENTATA
+### Schema minimale di datapack — APPROVATO (13 ottobre 2026), NON IMPLEMENTATO
 
-Proposta: file per singolo item, con due campi. Nessuna categoria nutrizionale, ruolo o proprietà grafica ridefinibile: le eredita dal tipo canonico. Esempio con un item di Farmer's Delight **reale e già approvato**, riportato unicamente per illustrare la sintassi:
+**Un file JSON per ciascuna equivalenza**, con **esattamente due proprietà obbligatorie**: `item` (ID registrato dell'oggetto concreto) e `canonical` (identità canonica già ammessa). Nessun campo aggiuntivo per categoria nutrizionale, ruolo, render o nome: le informazioni sono definite una sola volta dal tipo canonico, e il singolo datapack non può alterarle. Invalidità di campi, ID o identità -> scartare quel file e riportare l'errore di caricamento. Esempio con un item di Farmer's Delight **reale e già approvato**, riportato unicamente per illustrare la sintassi:
 
 ```json
 {
@@ -123,9 +123,9 @@ L'ID `italiansdelight:pizza_toppings/bacon` è una **chiave canonica proposta**,
 }
 ```
 
-Percorso di risorsa **proposto**, da validare con l'implementazione: `data/<namespace>/italiansdelight/pizza_equivalences/<file>.json`. Occorrerà un reload listener della mod: non è un tipo di risorsa interpretato nativamente da Minecraft.
+Percorso di risorsa ancora **proposto**, da verificare con l'implementazione: `data/<namespace>/italiansdelight/pizza_equivalences/<file>.json`. È necessario un reload listener della mod; questo non è un formato che Minecraft interpreta da solo.
 
-**Il mapping verificato per ID è DECISO; restano PROPOSTE** la sintassi, il percorso, la politica tecnica dettagliata per i conflitti e la serializzazione. Non è stato aggiunto alcun JSON eseguibile.
+**Sono DECISI:** mapping esterno verificato per ID singolo; un file per equivalenza; campi obbligatori e unici `item` e `canonical`; associazioni native immutabili; override respinti; conflitti esterni isolati all'ID coinvolto con diagnostica; nessuna espansione automatica dei tag. **Restano tecnici:** percorso definitivo, codec/registrazione del reload listener, comportamento preciso del resource loading e test. Nessun file JSON eseguibile è stato creato.
 
 
 ## 6. Test di accettazione futuri
@@ -137,12 +137,14 @@ Percorso di risorsa **proposto**, da validare con l'implementazione: `data/<name
 - Item di altre mod **mappato e verificato** come una delle 31 identita' -> valido e antiduplicato con la variante ufficiale. Un item ambiguo tra due identita' -> rifiutato senza consumo.
 - Il nome della pizza Margherita e dei singoli spicchi usa la composizione **canonica**: la sostituzione equivalente approvata conserva il riconoscimento, ma un formaggio diverso non ottiene il nome per errore.
 - Valori nutrizionali invariati: categorie distinte una sola volta per quarto; max sei tipi, salsa inclusa; nessun doppio rimborso.
+- Verificare il JSON minimo (due proprietà soltanto), l'ignorare mapping che sovrascrivono ID ufficiali, la collisione tra due mapping discordi su un solo item esterno senza disattivare gli altri, una mod opzionale assente, e il rifiuto di identità inesistenti.
 - Verificare reload, salvataggio, trasferimento con pala/forno, inventario pieno, multiplayer e server dedicato; confrontare il costo della cache con un mapping Java diretto, senza millantare risultati prima dei benchmark.
 
 ## Da confermare prima del codice
 
 - **DECISO (13 ottobre 2026):** ogni item esterno necessita di **mapping puntuale verificato per ID**; i tag `c:` non abilitano mai automaticamente nuovi membri. Non riproporre la scelta fra questa regola e l'ammissione automatica.
 - **Eventuali identita' incrociate fra le due mod:** mantenere separati per default bacon FDR e pancetta Italian's Delight (cosi' come tutti gli altri topping), a meno di approvazione esplicita di un accorpamento.
-- **DA CONFERMARE:** sintassi e percorso dei JSON di estensione, gestione tecnica dei conflitti tra pack, ID definitivi di carota/patata a fette e benchmark.
+- **DECISO:** schema JSON di equivalenza con esattamente `item` e `canonical`, un file per mapping; **associazioni ufficiali non sovrascrivibili**, collisioni fra identità esterne diverse rifiutate solo per l'ID ambiguo e segnalate.
+- **DA DEFINIRE IN IMPLEMENTAZIONE:** percorso finale delle risorse, decoder/reload listener, ID definitivi delle due fette vegetali e benchmark. Non riaprire lo schema minimale già approvato.
 
 **Fonti ufficiali del catalogo e delle regole confermate:** [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md), [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md), [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md), [NAMED_PIZZAS.md](NAMED_PIZZAS.md).
