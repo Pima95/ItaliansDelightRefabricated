@@ -43,17 +43,19 @@ Dati da conservare:
 
 **Invariante:** nessun item o condimento perso nel trasferimento **mondo -> pala occupata -> mondo/Pizza Oven -> pala** o nel ciclo **inventario -> item droppato con Q -> raccolta in inventario**; la pala conserva direttamente una sola pizza con tutti i dati, senza creare un item pizza separato. **La pala non e' impilabile in alcuno stato (stack massimo 1)**, anche quando vuota: ogni ItemStack rappresenta una pala autonoma e non deve poter essere unito ad altre pale ne' duplicare/sovrascrivere dati della pizza. **La pala non ha durabilita'**: i trasferimenti ripetuti non provocano usura dello strumento. E' inoltre **previsto in futuro un uso come arma ispirata alla padella di Farmer's Delight Refabricated, ma esclusivamente quando la pala e' vuota**. **Se contiene una pizza, non attiva le caratteristiche o gli effetti speciali da arma** e non deve mettere a rischio la preparazione; i dati persistenti determinano senza ambiguita' lo stato vuoto/occupato. Danni, effetti e velocita' della versione vuota sono ancora da progettare. **Drop/pickup confermato:** il normale `ItemEntity` conserva l'`ItemStack` pala con gli stessi componenti persistenti della pizza (incluse maschere, identita' delle applicazioni, orientamento, stato e seed visuale); al pickup, anche da altro giocatore, si ripristina il medesimo stato senza creare una pizza-item separata ne' duplicare la preparazione. **Despawn naturale — CONFERMATO:** non alterare la scadenza ordinaria dell'`ItemEntity` prevista dal comportamento vanilla del mondo/server. Quando l'item pala scade naturalmente, **si perde l'`ItemStack` e con esso l'intero stato della pizza contenuta**, senza drop o conversioni di recupero. Nessuna immunita' o timer speciale. **Distruzione ambientale — CONFERMATO:** l'`ItemEntity` della pala occupata segue danni e distruzione degli item vanilla (fuoco, lava, cactus, esplosioni e analoghi), senza immunita' o loot personalizzato. Se l'entita' viene distrutta, scompare il suo `ItemStack` e con esso **la pizza completa**, senza creare drop di impasto, topping o un item pizza autonomo. Se non viene distrutta, conserva i dati immutati. Restano da progettare i trasferimenti con crafting/forni vanilla, la gestione di inventari e distruzione della pala. Il multiplayer deve sincronizzare lo stesso stato su client e server.
 
-## Riconoscimento dei gusti — PRINCIPIO CONFERMATO
+## Riconoscimento dei gusti — REGOLA ESATTA 4/4 CONFERMATA
 
 - **Pizza Margherita** se combacia con una ricetta canonica definita.
 - Altre combinazioni prestabilite ricevono nomi specifici secondo definizioni.
-- Combinazioni non registrate ricevono un nome dinamico come **Pizza con Mozzarella, Speck, Funghi e Gorgonzola**.
+- Combinazioni non registrate ricevono un nome dinamico, ad esempio **Pizza con Mozzarella, Speck e Gorgonzola** (topping ammessi).
 - **L'ordine di inserimento non cambia il gusto riconosciuto.**
 
-### Matching consigliato (ancora da approvare)
+**Regola di matching dei 19 preset confermata (13 ottobre 2026):** **MATCHING ESATTO SU QUATTRO QUARTI FISICI — CONFERMATO (13 ottobre 2026):** il nome fisso di una delle **19 ricette SÌ** si applica alla pizza integra **se e solo se ciascuno dei quattro quarti fisici contiene esattamente tutti e soli i tipi canonici di topping previsti dalla stessa ricetta**. Si controllano **quattro insiemi distinti, non la sola unione globale**. Basta **un ingrediente aggiuntivo o mancante in un solo quarto** perché l'intera pizza abbia **nome dinamico**, anche se gli altri tre quarti corrispondono. Il confronto vale anche senza divisioni visibili o dopo riunioni col mattarello; l'ordine di aggiunta è irrilevante, così come lo stato crudo/cotto per gli ingredienti equivalenti e le sostituzioni cross-mod esplicitamente mappate. **Bianca:** tutti e quattro i quarti senza condimenti. **Rossa:** sola salsa di pomodoro nei quattro quarti. **Margherita:** pomodoro, mozzarella a fette e basilico esatti in ciascun quarto. Un quarto con speck extra o senza basilico -> nome dinamico. Le pizze miste a quarti diversi **non** ricevono nomi fissi nella 1.0.0: eventuali Quattro Gusti / Quattro Stagioni riconosciute restano future proposte, **non approvate**. La regola disciplina la denominazione della **pizza integra**; i nomi durante il servizio di fette richiederanno una decisione separata.
+
+### Matching: regola confermata, dettagli tecnici ancora da implementare
 
 1. Normalizzare categorie, quantità e identificativi equivalenti.
-2. Preferire combinazioni **esatte** per evitare che qualsiasi topping extra resti una Margherita.
+2. **OBBLIGATORIO:** per ciascuno dei 4 quarti fisici, `insiemeCanonico(quarto) == insiemeCanonico(preset)`; **4 confronti esatti su 4** per il nome fisso. Nessun match di soli sottoinsiemi o sull'insieme globale.
 3. Usare quantità richieste e tag semantici specifici dove opportuno.
 4. Se si riconoscono più ricette, applicare una priorità esplicita e deterministica.
 5. Le pizze personalizzate molto lunghe mostrano un nome abbreviato e un tooltip con tutti i topping.
@@ -73,7 +75,7 @@ I datapack possono stabilire:
 
 ```json
 {
-  "selector": { "item": "italiansdelight:mozzarella" },
+  "selector": { "item": "italiansdelight:mozzarella_slice" },
   "category": "cheese",
   "render_preset": "cheese_pieces",
   "name_token": "mozzarella",
@@ -189,7 +191,7 @@ La Margherita richiede concettualmente **pomodoro + mozzarella + basilico**. Un 
 }
 ```
 
-La definizione definitiva dovrà prevedere alternative via tag, gestione delle quantità, priorità e traduzioni. Non confondere **riconoscimento** dei gusti con limitazione al crafting. **La salsa e' facoltativa per le pizze personalizzate e bianche**, anche se una singola definizione di gusto puo' richiedere il pomodoro o un'altra salsa.
+Questo JSON e' soltanto illustrativo: non include ancora la struttura dei quattro quarti, mentre **il matching canonico esatto su ogni quarto e' obbligatorio**. La definizione definitiva dovrà prevedere alternative via tag, gestione delle quantità, priorità e traduzioni. Non confondere **riconoscimento** dei gusti con limitazione al crafting. **La salsa e' facoltativa per le pizze personalizzate e bianche**, anche se una singola definizione di gusto puo' richiedere il pomodoro o un'altra salsa.
 
 ## Blocco pizza -> item pizza -> forno — CONFERMATO
 
