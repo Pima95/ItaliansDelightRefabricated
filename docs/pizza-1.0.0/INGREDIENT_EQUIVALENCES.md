@@ -1,6 +1,6 @@
 # Mappatura delle identita' canoniche — Pizza Update 1.0.0
 
-> **DECISIONE CONFERMATA (13 ottobre 2026): mapping esterno verificato per ID singolo.** I 31 tipi canonici e le quattro coppie crudo/cotto già approvati restano invariati. I tag `c:` possono servire a trovare potenziali equivalenti, ma **non ammettono automaticamente alcun item**; ogni sostituto di altre mod necessita di associazione puntuale e verifica della forma porzionata. **Formato JSON minimale APPROVATO (13 ottobre 2026): un file per singola equivalenza, con esattamente i campi `item` e `canonical`, senza override degli ID ufficiali.** Il **registro statico Java delle 31 identità e dei 33 ID ufficiali è ora implementato**; percorso dei JSON, loader e cache estendibile restano da realizzare.
+> **DECISIONE CONFERMATA:** mapping esterni verificati per ID singolo, un file JSON minimo con soli `item` e `canonical`, senza override degli ID ufficiali. **CODICE AGGIUNTO:** registro delle 31 identità/33 ID e loader JSON/cache `PizzaToppingMappings` nel branch `feature/pizza-1.0.0`. **Il loader è ancora da compilare/testare con Minecraft 26.2** e non modifica i clic dei topping.
 
 ## Obiettivi e definizioni
 
@@ -123,9 +123,9 @@ L'ID `italiansdelight:pizza_toppings/bacon` è una **chiave canonica proposta**,
 }
 ```
 
-Percorso di risorsa ancora **proposto**, da verificare con l'implementazione: `data/<namespace>/italiansdelight/pizza_equivalences/<file>.json`. È necessario un reload listener della mod; questo non è un formato che Minecraft interpreta da solo.
+**Percorso effettivamente utilizzato dal nuovo reload listener:** `data/<namespace>/italiansdelight/pizza_equivalences/<file>.json`. I datapack possono mettere file in qualsiasi namespace; ogni file contiene una sola corrispondenza. Il listener si registra in `DataResourceLoader`, legge al caricamento mondo o `/reload`, non ai tick.
 
-**Sono DECISI:** mapping esterno verificato per ID singolo; un file per equivalenza; campi obbligatori e unici `item` e `canonical`; associazioni native immutabili; override respinti; conflitti esterni isolati all'ID coinvolto con diagnostica; nessuna espansione automatica dei tag. **Restano tecnici:** percorso definitivo, codec/registrazione del reload listener, comportamento preciso del resource loading e test. Nessun file JSON eseguibile è stato creato.
+**Implementazione nel branch (DA TESTARE):** scansione degli stack di datapack, anche se sovrappongono lo stesso file; JSON rigoroso, protezione delle associazioni native e degli item notoriamente esclusi, item di mod opzionali non presenti ignorati, conflitti esterni isolati e loggati, cache `Map<Item, PizzaToppingType>` aggiornata atomicamente. **Nessuna compatibilità non verificata installata per default**; resta da collegare la cache ai clic sulle pizze. [Test manuali](DATAPACK_RELOAD_TESTS.md).
 
 
 ## 6. Test di accettazione futuri
@@ -146,6 +146,7 @@ Percorso di risorsa ancora **proposto**, da verificare con l'implementazione: `d
 - **Eventuali identita' incrociate fra le due mod:** mantenere separati per default bacon FDR e pancetta Italian's Delight (cosi' come tutti gli altri topping), a meno di approvazione esplicita di un accorpamento.
 - **DECISO:** schema JSON di equivalenza con esattamente `item` e `canonical`, un file per mapping; **associazioni ufficiali non sovrascrivibili**, collisioni fra identità esterne diverse rifiutate solo per l'ID ambiguo e segnalate.
 - **GIÀ IMPLEMENTATO:** registro Java read-only dei 31 tipi e mapping statico dei 33 item esistenti, senza tick né cambi di comportamento. [PizzaToppingCatalog.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingCatalog.java), [PizzaToppingType.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingType.java).
-- **DA DEFINIRE IN IMPLEMENTAZIONE:** percorso finale delle risorse, decoder/reload listener, cache `Item -> tipo`, ID definitivi delle due fette vegetali, prove Java 25 e benchmark. Non riaprire lo schema minimale già approvato.
+- **GIA' NEL CODICE (DA TESTARE):** percorso JSON, parser, listener reload, cache di lookup. [PizzaToppingMappings.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingMappings.java).
+- **DA IMPLEMENTARE/VALIDARE:** clic sui topping, data component e BlockEntity, item nuovi per le verdure, test Java 25 e benchmark.
 
 **Fonti ufficiali del catalogo e delle regole confermate:** [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md), [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md), [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md), [NAMED_PIZZAS.md](NAMED_PIZZAS.md).
