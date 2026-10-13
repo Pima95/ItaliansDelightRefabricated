@@ -1,6 +1,6 @@
 # Pizze prestabilite — proposte per la 1.0.0
 
-> **Stato: proposte, non ricette approvate.** Il meccanismo di riconoscimento delle combinazioni è CONFERMATO; l'elenco preciso di pizze e ingredienti è ancora da definire.
+> **Stato: gusti/nomi di pizza ancora PROPOSTE; catalogo topping invece APPROVATO il 13 ottobre 2026.** Il riconoscimento delle combinazioni e' confermato, ma gli ingredienti consentiti sono esclusivamente i **29 tipi con item gia' registrati**, piu' due nuovi tipi approvati ma ancora da creare (carote e patate a fette), elencati in [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md).
 
 ## Comportamento richiesto
 
@@ -16,22 +16,22 @@ Le ricette riconosciute non devono impedire la creatività:
 Esempi illustrativi:
 - Pomodoro + Mozzarella + Basilico -> **Pizza Margherita**.
 - Pomodoro + Mozzarella + Basilico + Speck -> **Pizza con Pomodoro, Mozzarella, Basilico e Speck**, se non esiste un gusto definito che corrisponda.
-- Mozzarella + Gorgonzola + Funghi -> **Pizza con Mozzarella, Gorgonzola e Funghi**, se non esiste ricetta riconosciuta.
+- Mozzarella + Gorgonzola + Speck -> **Pizza con Mozzarella, Gorgonzola e Speck**, se non esiste ricetta riconosciuta. **Funghi non inclusi** nella whitelist 1.0.0 approvata.
 
 ## Lista iniziale da discutere
 
 | Nome suggerito | Ingredienti indicativi | Questione aperta |
 | --- | --- | --- |
 | Margherita | salsa di pomodoro, mozzarella, basilico | tag/quantità precisi |
-| Marinara | salsa di pomodoro, aglio, origano | origano non necessariamente disponibile |
+| Marinara | salsa di pomodoro, aglio, origano | **NON realizzabile nella whitelist 1.0.0** finche' aglio/origano non sono approvati; non sbloccarli automaticamente |
 | Quattro Formaggi | quattro formaggi specifici o equivalenti | quali formaggi, base bianca/rossa |
-| Funghi | funghi, salsa/formaggio da definire | quale variante canonica |
-| Prosciutto | prosciutto e altri ingredienti | prosciutto cotto o crudo |
+| Funghi | funghi, salsa/formaggio da definire | **NON realizzabile nella whitelist 1.0.0**: funghi non approvati come topping |
+| Prosciutto | **prosciutto crudo a fette Italian's Delight** e altri ingredienti ammessi | prosciutto cotto intero NON supportato; gusto e combinazione da approvare |
 | Salame / Diavola | salsa, mozzarella, salame | salame piccante vs normale |
-| Capricciosa | combinazione di funghi, prosciutto, verdure ecc. | ingredienti disponibili |
+| Capricciosa | combinazione tradizionale con funghi ecc. | **NON realizzabile nella whitelist attuale**, da riprogettare solo con topping approvati |
 | Vegetariana | salsa/formaggio e verdure | insieme minimo e varianti |
 
-Non introdurre nuovi ingredienti (origano, olive, pesto ecc.) automaticamente solo perché compaiono come esempi culinari.
+Non introdurre nuovi ingredienti (origano, aglio, funghi, olive, pesto ecc.) automaticamente solo perche' compaiono come esempi culinari. **Il fatto che una categoria alimentare sia definita non rende il relativo item un topping.** Carote e patate sono ammesse **solo nelle future versioni a fette, non come item interi**.
 
 ## Matching proposto
 
@@ -44,6 +44,7 @@ Non introdurre nuovi ingredienti (origano, olive, pesto ecc.) automaticamente so
 ## Bilanciamento da affrontare
 
 - Costi effettivi degli ingredienti già presenti (formaggi e salumi richiedono lavorazioni).
-- Fame/saturazione e tetto massimo.
-- Eventuali effetti come Nourishment soltanto se coerenti con Farmer's Delight.
-- Consumo come pizza intera o fette: funzionalità proposta, non ancora confermata.
+- **Fame/saturazione gia' confermate**, calcolate per categoria nutrizionale presente in ogni quarto, con tetto 6/6 (vedere [GAMEPLAY.md](GAMEPLAY.md)).
+- **Nessun effetto speciale nella release 1.0.0**, incluso Nourishment, salvo futura decisione esplicita.
+- **Servizio in quattro fette gia' confermato:** pizza cotta piazzabile nel mondo, clic destro a mano vuota per prelevare una fetta del quarto senza taglio preliminare.
+- Resta aperta soltanto la **lista dei gusti riconosciuti per nome e il matching specifico delle ricette**, non la whitelist dei topping.
