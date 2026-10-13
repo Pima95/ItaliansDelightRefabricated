@@ -86,6 +86,8 @@ L'item e i data component conservano identità canoniche, maschere e orientament
 
 La configurabilità dei datapack resta quindi confinata a **caricamento e reload**, mentre durante le interazioni si usa solo la struttura compilata in memoria. Questo e' un criterio di progetto, **non ancora codice implementato o performance misurata**.
 
+**Mappatura concreta in bozza:** [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) enumera i 31 gruppi, gli ID base gia' verificati, quattro coppie crudo/cotto, tag `c:` di FDR realmente controllati e i tag troppo ampi che includono item interi. I selettori cross-mod futuri richiedono verifiche e non abilitano nuovi tipi. Il formato dei JSON illustrativi qui sotto **non e' ancora implementato o definitivamente approvato**.
+
 ## Definizioni ingredienti tramite datapack — PROPOSTA
 
 I datapack possono stabilire:
