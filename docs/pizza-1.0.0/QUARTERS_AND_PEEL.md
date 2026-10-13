@@ -119,7 +119,7 @@ Se nella zona riunita convivono piu' **applicazioni distinte dello stesso ingred
 
 **Distinzione:** questa regola riguarda il tentativo di aggiungere una **salsa differente da una gia' presente nell'area mirata**. Restano valide, senza modifiche, le regole gia' confermate contro la doppia applicazione dello **stesso ingrediente**, e quelle di copertura delle sole parti libere per i normali topping.
 
-**DA DEFINIRE:** item concreti da utilizzare come salse e dettagli dei contenitori restituiti.
+**Catalogo APPROVATO:** `farmersdelight:tomato_sauce` e' la salsa di pomodoro ammessa. `italiansdelight:cream_bowl` e `italiansdelight:ricotta` sono topping ammessi, ma il loro ruolo salsa/crema e' da definire senza doppi bonus nutrizionali; i recipienti vanno restituiti correttamente. Nessun altro item fuori [catalogo](INGREDIENT_CATALOG.md) e' autorizzato automaticamente.
 
 **Stato:** decisioni documentate, **non ancora implementate** nel prototipo attuale.
 
