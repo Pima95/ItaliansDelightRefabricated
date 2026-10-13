@@ -81,6 +81,10 @@ Se nella zona riunita convivono piu' **applicazioni distinte dello stesso ingred
 
 ## Ingredienti equivalenti tra mod — CONFERMATO (11 ottobre 2026)
 
+**Whitelist 1.0.0 APPROVATA (13 ottobre 2026):** [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md) definisce 29 tipi ufficiali gia' presenti (33 ID registrati per effetto delle quattro coppie crudo/cotto), piu' carota e patata a fette da creare. **Ogni altro ingrediente e' escluso**, anche se appare nei tag `c:` generici: NO espliciti a spicchi di Parmigiano/Pecorino, mascarpone e sale; uova soltanto `farmersdelight:fried_egg`, **non `minecraft:egg`**; `farmersdelight:minced_beef` e' approvato, le bistecche intere restano vietate. Carote e patate intere non si applicano: servono le varianti a fette con nuovi item/ricette Cutting Board. La whitelist verra' implementata successivamente: questa e' una regola documentata, non codice attivo.
+
+
+
 - Due item provenienti da mod differenti **riconosciuti esplicitamente come equivalenti** sono considerati **lo stesso ingrediente** ai fini della pizza. Esempio: due mozzarelle equivalenti, una di Italian's Delight e una di una mod compatibile.
 - **Antiduplicazione:** se nel quarto fisico e' gia' presente un item equivalente, non si puo' aggiungerne una seconda versione come ingrediente distinto; su una zona che ne e' solo parzialmente coperta l'applicazione interessa soltanto le sottoaree ancora libere da *tutto il gruppo equivalente*.
 - **Limite di 6:** tutti gli item appartenenti al medesimo gruppo di equivalenza contano come **un solo tipo di ingrediente** per quarto fisico. Non si puo' aggirare il limite usando mod diverse.
@@ -97,7 +101,7 @@ Se nella zona riunita convivono piu' **applicazioni distinte dello stesso ingred
 
 **Equivalenza crudo/cotto — CONFERMATO (12 ottobre 2026):** le varianti gia' affettate/tagliate **crude e cotte dello stesso ingrediente** hanno **un'identita' canonica condivisa** per la regola anti-doppione e il limite massimo di sei tipi per quarto. Esempio: bacon e cooked_bacon non possono essere applicati entrambi nello stesso quarto; uguale per le coppie chicken_cuts/cooked_chicken_cuts, cod_slice/cooked_cod_slice, salmon_slice/cooked_salmon_slice, quando abilitate nel catalogo. **Non significa equivalenza fra proteine animali differenti.** La selezione di zona gia' definita sottrae automaticamente i quarti occupati da qualsiasi versione del topping: clic solo duplicato -> nessun consumo; clic su zona parzialmente libera -> una applicazione con un solo item nei quarti liberi. Il rimborso restituisce **il vero ItemStack crudo/cotto** dell'applicazione originale. Niente trasformazioni automatiche durante la cottura, ne' bonus differenti. Mapping concreto e tag da definire, **regola funzionale gia' approvata**.
 
-**DA DEFINIRE:** formato esatto delle dichiarazioni per datapack, priorita' in caso di tag sovrapposti ed elenco iniziale delle equivalenze supportate. **Non ancora implementato.**
+**DA DEFINIRE:** formato esatto delle dichiarazioni per datapack e priorita' in caso di tag sovrapposti; gli **ID positivi/negativi di base sono approvati e riportati nel catalogo**, il mapping delle equivalenze esterne resta da implementare. **Non ancora implementato.**
 
 ## Salsa facoltativa, al massimo una per porzione — CONFERMATO (11 ottobre 2026)
 
