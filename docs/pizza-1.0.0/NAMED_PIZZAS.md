@@ -38,7 +38,7 @@ I **18 gusti già realizzabili con gli item registrati** potranno essere riconos
 
 ### Regola dei nomi fissi — 4/4 quarti APPROVATA
 
-**MATCHING ESATTO SU QUATTRO QUARTI FISICI — CONFERMATO (13 ottobre 2026):** il nome fisso di una delle **19 ricette SÌ** si applica alla pizza integra **se e solo se ciascuno dei quattro quarti fisici contiene esattamente tutti e soli i tipi canonici di topping previsti dalla stessa ricetta**. Si controllano **quattro insiemi distinti, non la sola unione globale**. Basta **un ingrediente aggiuntivo o mancante in un solo quarto** perché l'intera pizza abbia **nome dinamico**, anche se gli altri tre quarti corrispondono. Il confronto vale anche senza divisioni visibili o dopo riunioni col mattarello; l'ordine di aggiunta è irrilevante, così come lo stato crudo/cotto per gli ingredienti equivalenti e le sostituzioni cross-mod esplicitamente mappate. **Bianca:** tutti e quattro i quarti senza condimenti. **Rossa:** sola salsa di pomodoro nei quattro quarti. **Margherita:** pomodoro, mozzarella a fette e basilico esatti in ciascun quarto. Un quarto con speck extra o senza basilico -> nome dinamico. Le pizze miste a quarti diversi **non** ricevono nomi fissi nella 1.0.0: eventuali Quattro Gusti / Quattro Stagioni riconosciute restano future proposte, **non approvate**. La regola disciplina la denominazione della **pizza integra**; i nomi durante il servizio di fette richiederanno una decisione separata.
+**MATCHING ESATTO SU QUATTRO QUARTI FISICI — CONFERMATO (13 ottobre 2026):** il nome fisso di una delle **19 ricette SÌ** si applica alla pizza integra **se e solo se ciascuno dei quattro quarti fisici contiene esattamente tutti e soli i tipi canonici di topping previsti dalla stessa ricetta**. Si controllano **quattro insiemi distinti, non la sola unione globale**. Basta **un ingrediente aggiuntivo o mancante in un solo quarto** perché l'intera pizza abbia **nome dinamico**, anche se gli altri tre quarti corrispondono. Il confronto vale anche senza divisioni visibili o dopo riunioni col mattarello; l'ordine di aggiunta è irrilevante, così come lo stato crudo/cotto per gli ingredienti equivalenti e le sostituzioni cross-mod esplicitamente mappate. **Bianca:** tutti e quattro i quarti senza condimenti. **Rossa:** sola salsa di pomodoro nei quattro quarti. **Margherita:** pomodoro, mozzarella a fette e basilico esatti in ciascun quarto. Un quarto con speck extra o senza basilico -> nome dinamico. Le pizze miste a quarti diversi **non** ricevono nomi fissi nella 1.0.0: eventuali Quattro Gusti / Quattro Stagioni riconosciute restano future proposte, **non approvate**. La regola disciplina la denominazione della **pizza integra**; il riconoscimento indipendente dei singoli spicchi cotti è già confermato nella sezione seguente.
 
 ## Nomi degli spicchi cotti — CONFERMATO (13 ottobre 2026)
 
@@ -53,6 +53,29 @@ I **18 gusti già realizzabili con gli item registrati** potranno essere riconos
 - **Limite del nuovo requisito:** il riconoscimento dei nomi **delle fette cotte è ora deciso**. Rimangono aperte le convenzioni di abbreviazione dei nomi dinamici molto lunghi e gli eventuali dettagli del nome del blocco pizza **rimasto nel mondo dopo il servizio parziale**, senza bloccare il naming del singolo item.
 
 **Esempio:** pizza intera con quarto 1 Margherita, quarto 2 Principessa, quarto 3 Rossa, quarto 4 una combinazione personalizzata. La pizza intera ha nome dinamico. Dopo la cottura, le fette recuperate dai rispettivi quarti prendono **Spicchio di Margherita**, **Spicchio di Principessa**, **Spicchio di pizza rossa**, **Spicchio con ...** (per la quarta composizione libera). I nomi fissi si applicano **anche se i quarti adiacenti hanno altri condimenti**.
+
+## Nomi e tooltip delle pizze — CONFERMATO (13 ottobre 2026)
+
+La denominazione deriva **sempre dai quattro insiemi canonici dei quarti fisici**, non dalle divisioni visive fatte col mattarello, dall'ordine di posa dei condimenti o dalla lingua del creatore.
+
+1. **Quattro quarti identici e match esatto con un preset SÌ:** nome ufficiale riconosciuto, ad esempio `Pizza Margherita` (come da lista dei 19 gusti; nessun riconoscimento per sottoinsieme).
+2. **Quattro quarti identici ma senza match fra i 19 preset:** nome dinamico **`Pizza con [ingredienti]`**, ad esempio `Pizza con Mozzarella, Speck e Ricotta`. Se il testo sarebbe troppo lungo, **abbreviare soltanto il nome mostrato nell'inventario**, senza perdere la lista completa nel tooltip. Il criterio tecnico di abbreviazione e l'ordine di visualizzazione sono da definire nell'implementazione.
+3. **Almeno un quarto diverso dagli altri:** nome **`Pizza assortita`**, anche se uno o più quarti coincidono esattamente con ricette SÌ; nessun preset fisso per pizze miste nella 1.0.0. Tooltip suddiviso in **Quarto 1–4**, con il nome del gusto approvato quando il quarto corrisponde esattamente a un preset SÌ e, altrimenti, con l'elenco completo degli ingredienti di *quel singolo quarto*.
+4. **Spicchi cotti:** il nome resta **indipendente dalla pizza intera**. Si applica il preset SÌ del singolo quarto (es. `Spicchio di Margherita`) oppure `Spicchio con [ingredienti]`, eventualmente abbreviato con tooltip completo. Il quarto senza condimenti usa la denominazione Bianca già approvata; quello con solo pomodoro la Rossa.
+
+**Esempio di tooltip per `Pizza assortita`:**
+
+```text
+Pizza assortita
+Quarto 1: Margherita
+Quarto 2: Principessa
+Quarto 3: Rossa
+Quarto 4: Mozzarella, Speck e Ricotta
+```
+
+Le righe indicano il contenuto di ciascun **quarto fisico**, anche se la pizza non è stata divisa col mattarello oppure è stata riunita. I nomi e le liste sono **localizzati** (`it_it`, `en_us`) a partire dagli ID canonici degli ingredienti, senza salvare stringhe tradotte nei data component. Un tooltip non altera la composizione, la nutrizione, la cottura o la restituzione degli ingredienti.
+
+**Ancora aperti, solo tecnicamente:** soglia e resa dell'abbreviazione, ordinamento stabile delle descrizioni, assegnazione deterministica dei numeri Quarto 1–4 secondo l'orientamento della pizza, e nome visualizzato del blocco rimasto dopo prelievo parziale. Nessuno di questi punti cambia i nomi e la struttura del tooltip qui approvati.
 
 ### Altre 52 combinazioni: SOLO NOME DINAMICO
 
@@ -224,7 +247,7 @@ La divisione fisica/logica del mattarello permette di creare una pizza con **qua
 - **Quattro Gusti Italian's Delight (realizzabile con ingredienti esistenti):** base uniforme di salsa di pomodoro + mozzarella; quarto A prosciutto crudo a fette, quarto B salame a fette, quarto C gorgonzola a spicchi, quarto D zucca a fette. Ogni quarto ha **3 ingredienti** (salsa, mozzarella, aggiunta). Nome riconosciuto solo se **tutti e quattro i quarti** mostrano esattamente quella distribuzione, indipendentemente dalla rotazione se il matching lo consentirà. 
 - **Quattro Formaggi a quarti (realizzabile con ingredienti esistenti):** quattro quarti separati, ciascuno condito con **uno** dei quattro formaggi distinti gorgonzola, provolone, Parmigiano grattugiato e Pecorino grattugiato, senza mozzarella uniforme. Il nome **non** si confonde con Quattro Formaggi uniforme: gli stessi quattro tipi di formaggio sono distribuiti su quattro quarti distinti.
 - **Quattro Stagioni tradizionale (futura):** salsa di pomodoro e mozzarella comuni, quattro quarti rispettivamente con prosciutto cotto affettato, funghi, carciofi e olive: servono prima quattro tipi nuovi di topping.
-- **Nomi dinamici per pizze miste:** se la pizza non corrisponde a un pattern di quarti noto, usare un nome generico o dinamico coerente con i singoli quarti. **Il formato definitivo dei nomi e il matching delle rotazioni devono ancora essere approvati**, non forzare un nome tradizionale per la semplice presenza globale di ingredienti.
+- **Nomi per pizze miste — CONFERMATO:** usare **Pizza assortita** e il tooltip con Quarto 1–4, secondo la sezione *Nomi e tooltip delle pizze*. Queste proposte di gusti a quarti **non diventano preset fissi** nella 1.0.0; non forzare nomi tradizionali dal solo insieme globale di ingredienti.
 
 ## Meccanismo di matching — regola su 4 quarti CONFERMATA, dettagli tecnici da implementare
 
@@ -248,7 +271,7 @@ La divisione fisica/logica del mattarello permette di creare una pizza con **qua
 
 1. **DECISO (13 ottobre 2026):** delle **56 + 15 = 71 combinazioni per la 1.0.0**, **19 hanno il nome fisso** e **52 mantengono il nome dinamico**; vedi lista vincolante sopra. Non chiedere una nuova selezione: restano solo da implementare il comportamento, le definizioni e le localizzazioni.
 2. Quali delle **36 future** diventano obiettivi concreti di nuove release? Ogni ingrediente nuovo richiede **separata approvazione del topping**, nuove risorse e possibile rebalancing, senza cambiare la whitelist della 1.0.0 retroattivamente.
-3. Scelta tra **matching esatto, sottoinsiemi, varianti ammesse**, oltre alla distinzione per quarto e regole di priorità; conservare comunque le meccaniche già concordate per l'anti-duplicato, salse, sei topping/porzione e rimborso dell'item originale.
-4. Localizzazioni dei nomi e comportamento delle pizze miste/ruotate.
+3. **Matching esatto 4/4 già DECISO** per pizze intere, confronto esatto su un quarto per gli spicchi; da implementare con anti-duplicato, salse, sei topping/quarto e rimborso dell'item originale.
+4. **Pizza assortita e tooltip per quarto DECISI**, così come **Pizza con [ingredienti]** per quarti uguali non riconosciuti. Da implementare traduzioni, ordinamento, abbreviazione e indicizzazione stabile dei quarti quando la pizza è ruotata.
 
-**Ambito di questo aggiornamento:** solo documentazione `docs/pizza-1.0.0/NAMED_PIZZAS.md` e `docs/pizza-1.0.0/ROADMAP.md`. Meccaniche, item, texture, datapack e codice Java restano inalterati.
+**Stato:** specifiche documentali; meccaniche, item, texture, datapack e codice Java del naming ancora da implementare.
