@@ -76,41 +76,32 @@ L'item e i data component conservano identità canoniche, maschere e orientament
 **Obiettivo prioritario: minimizzare il costo nel gameplay**, mantenendo configurabilità tramite datapack e compatibilità con mod di terze parti. **Non dichiarare un primato prestazionale assoluto rispetto al Java hardcoded senza benchmark**: il codice puro puo' avere un caricamento più economico, ma i lookup a runtime possono essere equivalenti quando le definizioni vengono compilate una volta in una cache.
 
 - **Base incorporata leggera:** i 29 tipi/33 ID ufficiali esistenti e i 2 nuovi tipi pianificati sono validati tramite un catalogo esplicito di identita' canoniche; **nessuna scansione di tutte le ricette o di tutti i tag per ogni clic**.
-- **Estensioni datapack opzionali:** ID puntuali e soli tag `c:` **semantici e specifici** possono associare un item esterno a un tipo canonico già approvato. Nessun tag generale crea nuovi tipi o supera il filtro delle porzioni idonee.
-- **Caricamento/reload:** leggere e validare i JSON all'apertura del mondo e a `/reload`; risolvere i tag dopo che sono disponibili, espandere i selettori validi in una mappa **`Item -> definizione canonica compatta`** indicizzata in memoria, e sostituire la cache in modo coerente/atomico dopo il caricamento. Se non esistono estensioni, restano i soli valori incorporati. Loggare conflitti ed esclusioni; non eseguire letture JSON nel gameplay.
+- **Estensioni datapack opzionali, scelta APPROVATA:** soltanto **ID item esatti e verificati** possono essere associati alle identità canoniche già supportate. I tag `c:` servono alla ricognizione, non ad abilitare automaticamente nuovi membri.
+- **Caricamento/reload:** validare solo ID puntuali dichiarati nei JSON al caricamento del mondo o a `/reload`, quindi costruire una mappa compatta `Item -> definizione canonica` da sostituire atomicamente; nessuna espansione automatica di tag o scansione nel gameplay. Senza estensioni rimangono gli ID base.
 - **Lookup per interazione:** un singolo accesso alla cache per risolvere il tipo canonico (costo atteso medio **O(1)**), poi controllo delle maschere dei massimi quattro quarti e delle normali regole già approvate (duplicati, salse, limite di sei). **Nessun parsing JSON, espansione di tag, ricerca di tutte le definizioni, reflection o accesso a file nei clic**.
 - **Nessun lavoro periodico:** non aggiungere tick handler, polling, allocazioni periodiche o sincronizzazione di tutta la tabella a ogni tick/frame per gestire le equivalenze. Il server resta autorevole sulle mutazioni e la UI traduce gli ID già salvati.
 - **Persistenza minima:** salvare le identita' e i componenti necessari a ricostruire la pizza, e l'**ItemStack originale** delle applicazioni per il rimborso; non salvare copie di definizioni JSON o nomi tradotti per ogni pizza.
-- **Priorita' e conflitti:** filtro esclusioni e forma idonea inderogabile; mapping **ID espliciti** prima delle estensioni tramite **tag specifici**; in assenza di disambiguazione esplicita, un item associato a più identità incompatibili viene escluso con diagnostica, non accettato arbitrariamente. Il formato dei file e i mapping concreti dei tag rimangono da implementare e verificare.
+- **Priorita' e conflitti:** whitelist base e forme idonee prevalgono; le estensioni sono mapping espliciti di ID. Se due pack attribuiscono identità differenti allo stesso item esterno, escludere il mapping ambiguo e segnalare una diagnostica; la gestione serializzata esatta è ancora da convalidare.
 - **Prestazioni da misurare, non ipotizzare:** confrontare in test la cache con un mapping Java diretto su startup/reload, tempo di interazione su pizze dense, uso memoria, server dedicato e grandi modpack. Requisito di accettazione: **nessun overhead rilevante a tick inattivi** e nessuna rilettura/ricerca lineare di definizioni a ogni clic; se i benchmark mostrano costi significativi, preferire tabelle statiche per i tipi di base e limitare ulteriormente le estensioni configurabili.
 
 La configurabilità dei datapack resta quindi confinata a **caricamento e reload**, mentre durante le interazioni si usa solo la struttura compilata in memoria. Questo e' un criterio di progetto, **non ancora codice implementato o performance misurata**.
 
-**Mappatura concreta in bozza:** [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) enumera i 31 gruppi, gli ID base gia' verificati, quattro coppie crudo/cotto, tag `c:` di FDR realmente controllati e i tag troppo ampi che includono item interi. I selettori cross-mod futuri richiedono verifiche e non abilitano nuovi tipi. Il formato dei JSON illustrativi qui sotto **non e' ancora implementato o definitivamente approvato**.
+**Mappatura concreta:** [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) contiene i 31 tipi, le quattro coppie crudo/cotto e l'audit dei tag. **DECISO: soltanto mapping di ID esterni singoli e verificati, nessuna inclusione automatica dai tag.** Formato JSON, lista specifica di ID esterni e codice restano da finalizzare.
 
-## Definizioni ingredienti tramite datapack — PROPOSTA
+## Definizioni di equivalenze tramite datapack — ID puntuali CONFERMATI, schema PROPOSTO
 
-I datapack possono stabilire:
-- ID item o tag ammesso;
-- **ruolo nella pizza** (`sauce`, `solid_topping`, `oil`...) **distinto dalla categoria nutrizionale** (`sauce`, `dairy`, `animal_protein`, `vegetable`, `oils_fats`, `herb`...); i nomi dei campi sono indicativi, non formato tecnico gia' implementato;
-- preset grafico;
-- quantità consumata, eventuale remainder e limiti;
-- token per il nome e proprietà nutrizionali;
-- priorità tra una definizione per item specifico e un fallback per tag.
+I datapack opzionali possono proporre **associazioni puntuali** tra un ID di item esistente e **una identità canonica già approvata**. Per la 1.0.0 non è consentito introdurre nuovi tipi di topping attraverso un tag o ridefinire valori nutrizionali, ruolo, rendering e preset con un file di sola equivalenza. **I tag `c:` non sono selettori automatici**, anche quando semanticamente specifici.
 
-**Esempio puramente illustrativo** — questo formato NON è già supportato:
+Formato minimo proposto (non implementato):
 
 ```json
 {
-  "selector": { "item": "italiansdelight:mozzarella_slice" },
-  "category": "cheese",
-  "render_preset": "cheese_pieces",
-  "name_token": "mozzarella",
-  "priority": 100
+  "item": "farmersdelight:cooked_bacon",
+  "canonical": "italiansdelight:pizza_toppings/bacon"
 }
 ```
 
-**Esempio di selettore da NON utilizzare come fallback:** `c:foods/cheese`. E' un tag di categoria troppo ampio e non dimostra che l'item sia una porzione idonea o una mozzarella equivalente. Per i sostituti usare soltanto ID verificati e tag specifici controllati; un item ambiguo o non adatto deve essere rifiutato. I JSON effettivi saranno definiti e verificati in fase di implementazione.
+L'esempio mostra un ID reale già approvato, non un nuovo item. Percorso di caricamento e conflitti tra pack da convalidare prima del codice. Le eventuali definizioni più ricche dei topping e le ricette di riconoscimento dei gusti sono **argomenti separati** e non cambiano la scelta sul riconoscimento degli item di terze mod. Vedi [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md).
 
 ## Catalogo item ufficialmente APPROVATO — 13 ottobre 2026
 
@@ -126,18 +117,18 @@ L'elenco **vincolante** e' [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md): **29 
 
 **Catalogo di tipi di ingrediente CHIUSO per la release 1.0.0:** i tipi di condimento che la mod supporta ufficialmente sono selezionati **esclusivamente dai contenuti di Italian's Delight Refabricated e Farmer's Delight Refabricated**. La lista concreta verra' composta dai loro item idonei e verificati nelle rispettive versioni target; non si amplia il catalogo soltanto perche' un'altra mod e' installata. La classificazione nutrizionale gia' approvata (incluse uova, olive, panna, oli e grassi) **non implica** che nuovi item o tipi assenti dalle due mod siano automaticamente disponibili.
 
-**Eccezione deliberata per equivalenti cross-mod:** un item di **qualsiasi altra mod, e anche vanilla quando pertinente**, puo' essere utilizzato **come variante di un tipo GIA' incluso nel catalogo 1.0.0** se rientra in un **tag comune/convenzionale specifico e semanticamente corretto** oppure in una equivalenza puntuale verificata. Esempio: un formaggio di un'altra mod riconosciuto **esplicitamente come mozzarella** puo' sostituire la mozzarella presente nel catalogo; un formaggio generico o un tipo nuovo di formaggio **non** entra solo per il tag ampio dei formaggi. I tag condivisi facilitano la sostituzione, **non aggiungono nuovi concetti di topping**. Non introdurre un blocco indiscriminato sul namespace di origine: contano **tipo di ingrediente supportato e corrispondenza confermata**.
+**Equivalenti cross-mod — DECISIONE del 13 ottobre 2026:** un item di qualunque mod esterna (o vanilla, quando idoneo) può essere sostituto di uno dei 31 tipi **solo con una mappatura puntuale del suo ID esplicitamente verificata**. Essere incluso in un tag `c:` specifico è un indizio utile alla verifica, **non** un'ammissione automatica. Non introdurre blocchi indiscriminati per namespace, né nuovi tipi via tag.
 
 **Uso previsto dei tag comuni:**
-- preferire **tag convenzionali `c:`** realmente esistenti per la versione Fabric/Minecraft target e semanticamente specifici per item equivalenti; eventuali tag locali di Italian's Delight possono includere questi tag per offrire una sola regola di matching;
+- usare tag `c:` realmente esistenti solo come **riferimento per audit dei potenziali sostituti**, mai come fonte automatica di nuovi item ammessi;
 - un tag generico (es. `c:foods`, `c:foods/cheese` o gruppi ampi equivalenti) puo' aiutare a classificare, **ma non autorizza automaticamente qualsiasi elemento del gruppo come topping, ne' rende equivalenti mozzarella, gorgonzola e parmigiano**;
 - adottare ID item esatti e definizioni di compatibilita' mirate quando non esista un tag comune specifico; verificare **ID, presenza, nome e contenuto effettivo** di ogni tag nel JAR e nei datapack della versione target **prima dell'implementazione**. I nomi di esempio non sono una whitelist tecnica pronta;
-- precedenza progettuale: **identita' supportata del catalogo -> corrispondenza tramite item/tag specifico -> validazione dei vincoli per quarto -> applicazione**. Un item non riconosciuto si rifiuta **senza consumarlo** e senza cambiare la pizza; nessun fallback che consenta di usare qualunque cibo.
+- precedenza progettuale: **identità canonica prevista -> ID esatto esplicitamente mappato -> forma idonea -> vincoli per quarto -> applicazione**. Un ID non registrato come topping o sostituto viene rifiutato senza consumi.
 - ingredienti identici di mod diverse condividono **identita' canonica**, occupazione, limite sei tipi e bonus nutrizionali; l'**ItemStack esatto usato** resta salvato per il rimborso e per i contenitori restituiti, senza duplicazioni.
 
 **Estensioni future:** mantenere l'architettura configurabile tramite datapack per nuovi cataloghi in altre versioni, ma **la configurazione e il catalogo di default di questa release non introducono ingredienti aggiuntivi di altre mod** oltre agli equivalenti dei tipi supportati. Eventuali datapack esterni che modifichino intenzionalmente il catalogo costituiscono personalizzazioni del modpack, non ingredienti ufficiali della 1.0.0.
 
-**Test di accettazione:** un ingrediente nativo di Italian's Delight e uno di Farmer's Delight ammessi esplicitamente; sostituzione con item equivalente di un'altra mod attraverso tag `c:` verificato; equivalenza anti-doppione nello stesso quarto; rifiuto di un ingrediente nuovo della terza mod pur essendo alimentare; tag generico che **non** ammette un item non previsto; assenza della mod esterna, contenitori restituiti e salvataggio/ricarica senza dupe. Regole di salsa, limite sei, fame/saturazione e rimborsi restano invariati.
+**Test di accettazione:** item base di Italian's Delight e Farmer's Delight; sostituto di mod esterna con **ID puntuale verificato**; rifiuto di nuovi membri inseriti in tag `c:` senza mapping; antiduplicato, limite sei, salsa, categoria nutrizionale e rimborso corretto; assenza della mod opzionale, ricarica e multiplayer senza duplicazioni.
 
 ## Ingredienti utilizzabili: porzioni pronte, non cibi interi — CONFERMATO (12 ottobre 2026)
 
@@ -188,7 +179,7 @@ Origine degli ID e delle proprieta' da verificare in implementazione:
 - [Registro ModItems 26.2](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/registry/ModItems.java)
 - [Elenco ufficiale approvato e tag con stato di verifica](INGREDIENT_CATALOG.md)
 
-**Interoperabilita':** un item di altra mod puo' essere sostituto di **un tipo whitelist** solo tramite corrispondenza item/tag `c:` **verificata e sufficientemente specifica** e **forma fisica compatibile**. Un tag generale di formaggi, uova o verdure non abilita item ulteriori e non scavalca i quattro NO o il divieto delle forme intere. Conservare ItemStack originale, prevenire doppia applicazione e rendere i contenitori in modo corretto. **Schema JSON/datapack tecnico ancora da definire; niente codice modificato.**
+**Interoperabilità:** un item esterno può sostituire uno dei tipi whitelist soltanto con **mapping di ID esatto verificato** e forma porzionata idonea. I tag `c:` possono aiutare a ricercare equivalenze, ma non ne autorizzano automaticamente l'uso. Conservare ItemStack, rimborsi e contenitori originali; lo schema JSON è ancora da implementare.
 
 ## Ricette riconosciute via JSON — PROPOSTA
 
