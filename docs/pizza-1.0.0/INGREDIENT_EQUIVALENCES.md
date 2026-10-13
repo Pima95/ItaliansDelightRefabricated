@@ -72,7 +72,7 @@ Categoria Vegetali, ruolo solido. `minecraft:carrot` e `minecraft:potato` interi
 
 Risorse controllate sui rami `feature/pizza-1.0.0` e `fabric/latest/26.2`:
 
-| Tag presente | Contenuto verificato nel repository | Valutazione per equivalenze automatiche |
+| Tag presente | Contenuto verificato nel repository | Valutazione per ricognizione (mai ammissione automatica) |
 | --- | --- | --- |
 | `#c:crops/basil` (Italian's Delight) | `italiansdelight:basil` | **Candidato** specifico per il basilico; membri futuri esterni da verificare |
 | `#c:foods/raw_bacon` (FDR) | `farmersdelight:bacon` | **Candidato** per variante bacon cruda, non approvazione indiscriminata di nuovi membri |
