@@ -39,7 +39,7 @@ La pizza puo' essere **completamente bianca**, avere salsa soltanto su una parte
 
 **CONFERMATO:** se la zona selezionata contiene gia' **anche soltanto su una parte** una salsa *differente*, il clic con la nuova salsa viene **rifiutato interamente**: nessuna applicazione neanche sulle parti libere, nessuna sostituzione, nessun consumo di item. Dopo aver riunito due meta' (una al pomodoro, una bianca), un tentativo di applicare pesto alla pizza intera fallisce. Il giocatore puo' usare il mattarello per dividerla nuovamente e applicare il pesto **solo alla meta' bianca**.
 
-Per la prima salsa è ancora da decidere se usare il pomodoro di Farmer's Delight direttamente o una salsa dedicata.
+**Salsa ammessa APPROVATA per la 1.0.0:** usare `farmersdelight:tomato_sauce` come salsa di pomodoro. L'item `farmersdelight:tomato` intero **NON e' ammesso**; la salsa pronta non richiede un nuovo item. Restano da testare gestione della ciotola e ruolo salsa eventuale di panna/ricotta.
 
 ## Idoneita' fisica dei topping — CONFERMATO (12 ottobre 2026)
 
@@ -135,7 +135,7 @@ Valutare caching di mesh e ricomposizione solo quando cambia la pizza, non a ogn
 
 ## Compatibilità con altre mod
 
-**Elenco dei candidati realmente registrati:** [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md), con ID 26.2, esclusioni, proposte e tag verificati separati dalle ipotesi. **AMBITO 1.0.0:** i tipi di topping ufficiali derivano solo da Italian's Delight e Farmer's Delight Refabricated; tag comuni `c:` e mapping specifici possono accettare item di altre mod **soltanto come varianti equivalenti di quei tipi**. Un tag alimentare ampio non deve introdurre nuovi tipi. Separare **validita' dell'ingrediente** (tag/definizione), **identita' canonica equivalente** (antiduplicazione e conteggio del limite di 6) e **preset grafico** (categoria, geometria, aspetto). Una mozzarella riconosciuta di un'altra mod deve condividere l'identita' logica della mozzarella gia' applicata, senza sostituire l'item reale da rimborsare. I tag troppo generici (es. tutti i formaggi) non determinano equivalenza. Un ingrediente compatibile senza modello dedicato usa un fallback visuale del suo gruppo, senza apparire invisibile. Non accettare automaticamente ogni alimento come topping.
+**Whitelist ufficiale APPROVATA (29 tipi con ID esistenti + 2 da creare):** [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md), con quattro NO espliciti, altri item fuori whitelist respinti e tag verificati distinti da quelli da implementare. **AMBITO 1.0.0:** i tipi di topping ufficiali derivano solo da Italian's Delight e Farmer's Delight Refabricated; tag comuni `c:` e mapping specifici possono accettare item di altre mod **soltanto come varianti equivalenti di quei tipi**. Un tag alimentare ampio non deve introdurre nuovi tipi. Separare **validita' dell'ingrediente** (tag/definizione), **identita' canonica equivalente** (antiduplicazione e conteggio del limite di 6) e **preset grafico** (categoria, geometria, aspetto). Una mozzarella riconosciuta di un'altra mod deve condividere l'identita' logica della mozzarella gia' applicata, senza sostituire l'item reale da rimborsare. I tag troppo generici (es. tutti i formaggi) non determinano equivalenza. Un ingrediente compatibile senza modello dedicato usa un fallback visuale del suo gruppo, senza apparire invisibile. Non accettare automaticamente ogni alimento come topping.
 
 ## Texture già presenti da conservare
 
