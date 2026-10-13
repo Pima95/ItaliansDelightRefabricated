@@ -1,6 +1,6 @@
 # Catalogo ufficiale dei condimenti — Pizza Update 1.0.0
 
-**Decisione dell'autore: 13 ottobre 2026 — catalogo approvato.** **Primo passo implementato:** registro di identità canoniche con 29 tipi esistenti e due tipi futuri riservati (31 identità / 33 ID ufficiali), in [`PizzaToppingCatalog.java`](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingCatalog.java). **Le applicazioni dei topping alle pizze, la cache datapack e il gameplay generalizzato NON sono ancora implementati.**
+**Decisione dell'autore: 13 ottobre 2026 — catalogo di 31 tipi approvato.** Il [registro canonico Java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingCatalog.java) dei 33 item ufficiali è già testato dall'autore. [Loader JSON/cache](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingMappings.java) aggiunto al branch ma **da testare**. L'applicazione dei topping sulle pizze e la persistenza dei quarti non sono ancora implementate.
 
 **29 scelte AMMESSE**, corrispondenti a **33 ID di item gia' registrati** (quattro coppie crudo/cotto equivalenti contano come una scelta ciascuna), piu' **2 nuove tipologie approvate ma ancora da creare** (carote a fette e patate a fette). **4 scelte esplicitamente escluse** dal modulo. Per tutte le altre tipologie **non incluse nell'elenco ufficiale**, il default della release e' **NON ammesso**: le esclusioni esplicite non sono l'unica blacklist.
 
