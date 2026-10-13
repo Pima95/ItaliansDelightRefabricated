@@ -12,7 +12,7 @@
 - [x] Condimento diretto nel mondo con clic destro, senza GUI.
 - [x] Preparazione tramite crafting table disponibile come alternativa.
 - [x] Pizze riconosciute con nomi prestabiliti, altre con nomi dinamici.
-- [x] **RICERCA NOMI PIZZA — proposta NON ancora approvata (13 ottobre 2026):** censiti **106 gusti candidati** in [NAMED_PIZZAS.md](NAMED_PIZZAS.md), di cui **55** con tipi gia' registrati, **15** dopo le due nuove fette di carote/patate e **36** per aggiornamenti futuri con nuovi topping; aggiunti **3 esempi di matching a quarti** separati. **Nessuna di queste ricette/nome e' automaticamente approvata o implementata**; resta da selezionare il sottoinsieme di gusti con nome riconosciuto, gli ingredienti futuri eventualmente desiderati e l'algoritmo di matching.
+- [x] **RICERCA NOMI PIZZA — proposta NON ancora approvata (13 ottobre 2026):** censiti **107 gusti candidati** in [NAMED_PIZZAS.md](NAMED_PIZZAS.md), di cui **56** con tipi gia' registrati, **15** dopo le due nuove fette di carote/patate e **36** per aggiornamenti futuri con nuovi topping (inclusa **Principessa** nel gruppo delle 56 ricette gia' componibili: pomodoro + mozzarella + prosciutto crudo a fette + panna); aggiunti **3 esempi di matching a quarti** separati. **Nessuna di queste ricette/nome e' automaticamente approvata o implementata**; resta da selezionare il sottoinsieme di gusti con nome riconosciuto, gli ingredienti futuri eventualmente desiderati e l'algoritmo di matching.
 - [x] Pizza Oven dedicato oltre a fornace e affumicatore vanilla.
 - [x] Pizza Oven 1×1×1, **capienza una pizza alla volta**.
 - [x] **Pizza Oven solo per pizze:** comportamento tipo fornace, ma accetta **esclusivamente pizze come input di cottura**; altri cibi e oggetti non vengono lavorati.
