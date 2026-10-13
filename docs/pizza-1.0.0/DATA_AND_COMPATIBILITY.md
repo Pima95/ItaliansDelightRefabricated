@@ -84,7 +84,7 @@ L'item e i data component conservano identità canoniche, maschere e orientament
 - **Priorità e conflitti — CONFERMATO:** whitelist base e forme idonee prevalgono; **gli ID ufficiali non sono sovrascrivibili**. Estensioni con un file JSON minimo per ID. Se due pack attribuiscono identità differenti allo stesso item esterno, escludere **solo quell'ID ambiguo** con diagnostica, senza invalidare mapping esterni non coinvolti. Duplicati identici non devono produrre collisioni.
 - **Prestazioni da misurare, non ipotizzare:** confrontare in test la cache con un mapping Java diretto su startup/reload, tempo di interazione su pizze dense, uso memoria, server dedicato e grandi modpack. Requisito di accettazione: **nessun overhead rilevante a tick inattivi** e nessuna rilettura/ricerca lineare di definizioni a ogni clic; se i benchmark mostrano costi significativi, preferire tabelle statiche per i tipi di base e limitare ulteriormente le estensioni configurabili.
 
-La configurabilità dei datapack resta quindi confinata a **caricamento e reload**, mentre durante le interazioni si usa solo la struttura compilata in memoria. Questo e' un criterio di progetto, **non ancora codice implementato o performance misurata**.
+**Loader ora aggiunto al codice (DA TESTARE):** [PizzaToppingMappings.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingMappings.java) gestisce JSON e cache sul server al caricamento mondo e con `/reload` usando l'API Fabric 26.2. Nessun lavoro per tick. **Non** è ancora collegato al gameplay dei topping e la build Minecraft 26.2 va verificata.
 
 **Mappatura concreta:** [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) contiene i 31 tipi, le quattro coppie crudo/cotto e l'audit dei tag. **DECISO:** ID esterni singoli verificati, nessuna ammissione automatica dai tag; **JSON minimale `item` + `canonical`, un file per mapping**, senza sovrascrivere le equivalenze native. Elenco specifico di item esterni e codice restano da realizzare.
 
@@ -101,7 +101,7 @@ I datapack opzionali possono proporre **associazioni puntuali** tra un ID di ite
 }
 ```
 
-L'esempio mostra un ID reale già approvato, non un nuovo item. **I 33 ID nativi già mappati sono protetti:** qualsiasi tentativo di sovrascriverli tramite datapack deve essere rifiutato senza alterare l'associazione ufficiale. **Conflitti tra mapping esterni divergenti:** scartare soltanto l'ID ambiguo con avviso, senza compromettere gli altri. Ruolo, nutrizione, nome e rendering non possono essere ridefiniti nei JSON di equivalenza. Il percorso definitivo di caricamento e il codice sono ancora da verificare. Le definizioni più ricche dei topping e i gusti riconosciuti sono argomenti separati. Vedi [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md).
+**Percorso usato nel codice:** `data/<namespace>/italiansdelight/pizza_equivalences/<file>.json` (un file per item). L'esempio sopra usa un item ufficiale **solo per mostrare la sintassi**: un tale file di estensione verrebbe ignorato perché non si possono sovrascrivere i 33 mapping nativi. Conflitti fra estensioni diverse per lo stesso item invalidano solo quell'ID; tutti gli altri rimangono disponibili. Il codice del loader è presente ma va testato; la posa dei topping è ancora separata. Vedi [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md).
 
 ## Catalogo item ufficialmente APPROVATO — 13 ottobre 2026
 
