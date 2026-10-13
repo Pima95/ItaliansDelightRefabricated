@@ -71,6 +71,21 @@ Il formato del display name e del tooltip è **approvato** e descritto in [NAMED
 
 L'item e i data component conservano identità canoniche, maschere e orientamento, **non** nomi già tradotti. Tooltip e nome sono renderizzati nella lingua del giocatore. Non cambiare le tabelle nutrizionali né la logica degli item. Restano da precisare solo ordine, soglia di abbreviazione, numero stabile dei quarti rispetto alla rotazione e denominazione residua dopo servizio parziale.
 
+### Architettura delle equivalenze ottimizzata — scelta progettuale (13 ottobre 2026)
+
+**Obiettivo prioritario: minimizzare il costo nel gameplay**, mantenendo configurabilità tramite datapack e compatibilità con mod di terze parti. **Non dichiarare un primato prestazionale assoluto rispetto al Java hardcoded senza benchmark**: il codice puro puo' avere un caricamento più economico, ma i lookup a runtime possono essere equivalenti quando le definizioni vengono compilate una volta in una cache.
+
+- **Base incorporata leggera:** i 29 tipi/33 ID ufficiali esistenti e i 2 nuovi tipi pianificati sono validati tramite un catalogo esplicito di identita' canoniche; **nessuna scansione di tutte le ricette o di tutti i tag per ogni clic**.
+- **Estensioni datapack opzionali:** ID puntuali e soli tag `c:` **semantici e specifici** possono associare un item esterno a un tipo canonico già approvato. Nessun tag generale crea nuovi tipi o supera il filtro delle porzioni idonee.
+- **Caricamento/reload:** leggere e validare i JSON all'apertura del mondo e a `/reload`; risolvere i tag dopo che sono disponibili, espandere i selettori validi in una mappa **`Item -> definizione canonica compatta`** indicizzata in memoria, e sostituire la cache in modo coerente/atomico dopo il caricamento. Se non esistono estensioni, restano i soli valori incorporati. Loggare conflitti ed esclusioni; non eseguire letture JSON nel gameplay.
+- **Lookup per interazione:** un singolo accesso alla cache per risolvere il tipo canonico (costo atteso medio **O(1)**), poi controllo delle maschere dei massimi quattro quarti e delle normali regole già approvate (duplicati, salse, limite di sei). **Nessun parsing JSON, espansione di tag, ricerca di tutte le definizioni, reflection o accesso a file nei clic**.
+- **Nessun lavoro periodico:** non aggiungere tick handler, polling, allocazioni periodiche o sincronizzazione di tutta la tabella a ogni tick/frame per gestire le equivalenze. Il server resta autorevole sulle mutazioni e la UI traduce gli ID già salvati.
+- **Persistenza minima:** salvare le identita' e i componenti necessari a ricostruire la pizza, e l'**ItemStack originale** delle applicazioni per il rimborso; non salvare copie di definizioni JSON o nomi tradotti per ogni pizza.
+- **Priorita' e conflitti:** filtro esclusioni e forma idonea inderogabile; mapping **ID espliciti** prima delle estensioni tramite **tag specifici**; in assenza di disambiguazione esplicita, un item associato a più identità incompatibili viene escluso con diagnostica, non accettato arbitrariamente. Il formato dei file e i mapping concreti dei tag rimangono da implementare e verificare.
+- **Prestazioni da misurare, non ipotizzare:** confrontare in test la cache con un mapping Java diretto su startup/reload, tempo di interazione su pizze dense, uso memoria, server dedicato e grandi modpack. Requisito di accettazione: **nessun overhead rilevante a tick inattivi** e nessuna rilettura/ricerca lineare di definizioni a ogni clic; se i benchmark mostrano costi significativi, preferire tabelle statiche per i tipi di base e limitare ulteriormente le estensioni configurabili.
+
+La configurabilità dei datapack resta quindi confinata a **caricamento e reload**, mentre durante le interazioni si usa solo la struttura compilata in memoria. Questo e' un criterio di progetto, **non ancora codice implementato o performance misurata**.
+
 ## Definizioni ingredienti tramite datapack — PROPOSTA
 
 I datapack possono stabilire:
@@ -93,18 +108,7 @@ I datapack possono stabilire:
 }
 ```
 
-Compatibilità generica proposta, sempre come bozza:
-
-```json
-{
-  "selector": { "tag": "c:foods/cheese" },
-  "category": "cheese",
-  "render_preset": "generic_topping",
-  "priority": 10
-}
-```
-
-Tag ampi possono includere alimenti non adatti: occorrono eccezioni e priorità. **Non rendere automaticamente valido qualsiasi item commestibile.**
+**Esempio di selettore da NON utilizzare come fallback:** `c:foods/cheese`. E' un tag di categoria troppo ampio e non dimostra che l'item sia una porzione idonea o una mozzarella equivalente. Per i sostituti usare soltanto ID verificati e tag specifici controllati; un item ambiguo o non adatto deve essere rifiutato. I JSON effettivi saranno definiti e verificati in fase di implementazione.
 
 ## Catalogo item ufficialmente APPROVATO — 13 ottobre 2026
 
