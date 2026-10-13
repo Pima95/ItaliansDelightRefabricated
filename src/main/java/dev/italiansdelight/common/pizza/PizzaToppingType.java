@@ -23,7 +23,7 @@ public record PizzaToppingType(
 
         // Cream and ricotta are dairy toppings, never sauces. Only actual
         // sauces occupy the pizza's one-sauce-per-quarter slot.
-        if ((role == Role.SAUCE) != (nutritionCategory == NutritionCategory.SAUCE)) {
+        if ((role == Role.SAUCE) != (nutritionCategory == NutritionCategory.SAUCES)) {
             throw new IllegalArgumentException("Pizza sauce role/category mismatch: " + id);
         }
     }
@@ -34,7 +34,7 @@ public record PizzaToppingType(
         ANIMAL_PROTEIN,
         VEGETABLE,
         HERB,
-        SAUCE,
+        SAUCES,
         OILS_FATS
     }
 
