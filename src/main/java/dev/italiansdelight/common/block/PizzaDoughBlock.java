@@ -2,6 +2,7 @@ package dev.italiansdelight.common.block;
 
 import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.pizza.PizzaDoughSupport;
+import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -10,6 +11,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -25,7 +28,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * Hand-stretching and rolling-pin use are both handled by PizzaDoughPlacement
  * to ensure the same click path is used on client and server.
  */
-public final class PizzaDoughBlock extends Block {
+public final class PizzaDoughBlock extends Block implements EntityBlock {
     private static final MapCodec<PizzaDoughBlock> CODEC = simpleCodec(PizzaDoughBlock::new);
 
     // Four interactions turn stage 0 (round dough) into stage 4 (flat base).
@@ -63,6 +66,11 @@ public final class PizzaDoughBlock extends Block {
     public PizzaDoughBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(STAGE, 0).setValue(MOZZARELLA, false));
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new PizzaDoughBlockEntity(pos, state);
     }
 
     @Override
