@@ -63,7 +63,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - [TOPPINGS_AND_RENDERING.md](TOPPINGS_AND_RENDERING.md) — categorie, regole di composizione e resa 2.5D.
 - [DATA_AND_COMPATIBILITY.md](DATA_AND_COMPATIBILITY.md) — dati persistenti, nomi dinamici, tag e datapack.
 - [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md) — **catalogo approvato per 1.0.0, ancora da implementare**: 29 tipi già registrati più 2 nuovi tipi (fette di carota/patata), esclusioni, equivalenze e tag semantici specifici.
-- [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) — **bozza tecnica delle 31 identita' canoniche**: mapping puntuale dei 33 item esistenti, quattro coppie crudo/cotto, due tipi futuri, audit dei tag reali FDR/Italian's Delight, prevenzione dei falsi positivi e cache a runtime. **Il criterio dei singoli ID verificati è APPROVATO**; le specifiche estensioni e il formato JSON non sono ancora implementati.
+- [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) — **bozza tecnica delle 31 identita' canoniche**: mapping puntuale dei 33 item esistenti, quattro coppie crudo/cotto, due tipi futuri, audit dei tag reali FDR/Italian's Delight, prevenzione dei falsi positivi e cache a runtime. **APPROVATI:** mapping verificato per ID singolo, JSON minimo a due campi (`item`, `canonical`) e un file per equivalenza, con protezione dei mapping nativi. **Ancora da implementare:** loader, cache, estensioni e test.
 - [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — 19 nomi fissi approvati, 52 combinazioni dinamiche, matching esatto su 4 quarti; 36 gusti futuri non approvati.
 - [ROADMAP.md](ROADMAP.md) — checklist, questioni aperte e fasi di implementazione.
 
