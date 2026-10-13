@@ -1,12 +1,12 @@
 # Catalogo ufficiale dei condimenti — Pizza Update 1.0.0
 
-**Decisione dell'autore: 13 ottobre 2026 — elenco approvato, NON ancora implementato.**
+**Decisione dell'autore: 13 ottobre 2026 — catalogo approvato.** **Primo passo implementato:** registro di identità canoniche con 29 tipi esistenti e due tipi futuri riservati (31 identità / 33 ID ufficiali), in [`PizzaToppingCatalog.java`](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingCatalog.java). **Le applicazioni dei topping alle pizze, la cache datapack e il gameplay generalizzato NON sono ancora implementati.**
 
 **29 scelte AMMESSE**, corrispondenti a **33 ID di item gia' registrati** (quattro coppie crudo/cotto equivalenti contano come una scelta ciascuna), piu' **2 nuove tipologie approvate ma ancora da creare** (carote a fette e patate a fette). **4 scelte esplicitamente escluse** dal modulo. Per tutte le altre tipologie **non incluse nell'elenco ufficiale**, il default della release e' **NON ammesso**: le esclusioni esplicite non sono l'unica blacklist.
 
 Sono approvati **tipi di condimento** di Italian's Delight Refabricated e Farmer's Delight Refabricated; altre mod forniscono **soltanto item effettivamente equivalenti a tali tipi**, tramite tag comuni specifici/definizioni verificate. Nessun nuovo tipo viene sbloccato da un tag alimentare generico.
 
-> **Stato tecnico:** sono qui riportati item verificati nei registri sorgente e requisiti di gameplay, **non una whitelist o compatibilita' gia' operativa nel gioco**. Nessun Java, tag, ricetta, texture o datapack eseguibile e' stato modificato in questa fase.
+ > **Stato tecnico aggiornato:** i nomi degli item qui elencati sono registrati nei rispettivi mod sorgenti e ora raccolti in un catalogo Java **read-only**; ciò NON implica che siano già utilizzabili come topping in gioco. Il prototipo mozzarella su BlockState resta indipendente. Nessun item, texture, ricetta, tag o datapack nuovo è stato creato in questa fase.
 
 ## 1. Italian's Delight — 20 condimenti AMMESSI
 
@@ -128,9 +128,9 @@ La categoria nutrizionale di olive e olio d'oliva e' gia' progettata, **ma nella
 ## 7. Attivita' di sviluppo ancora aperte
 
 1. Registrare i **due nuovi item** carota a fette e patata a fette; definire ID definitivi, texture e modelli e implementare le **due ricette Cutting Board gia' approvate: 1 carota -> 4 fette e 1 patata -> 4 fette, con coltello e sua usura normale**. Non aggiungere item cotti separati; entrambe le fette crude diventano condimento della pizza e cuociono con essa. **Nessuna risorsa e' stata creata in questa approvazione documentale.**
-2. Implementare il **catalogo whitelist** dei 29 tipi esistenti + 2 da creare e assicurare che i quattro NO espliciti e ogni altro item non elencato siano respinti.
+2. **Registro whitelist dati GIA' CREATO** (`PizzaToppingCatalog.java`: 29 tipi attuali / 33 ID), ma deve ancora essere **collegato alla validazione delle applicazioni** nel blocco pizza, ai nuovi due item da registrare e agli eventuali mapping esterni; verificare in gioco che tutti gli item non inclusi siano respinti.
 3. Riconoscere `farmersdelight:fried_egg` ma non `minecraft:egg`; riconoscere `farmersdelight:minced_beef` ma non la bistecca intera o `beef_patty`.
-4. Implementare equivalenze canoniche crudo/cotto per le **quattro coppie approvate**, anche tramite tag comuni specifici per item di altre mod. Tutti i casi di anti-duplicato, rimborso, salse e limite sei devono usare la stessa identita' canonica.
+4. **Quattro coppie crudo/cotto GIA' UNIFICATE NEL REGISTRO** (`bacon`, `chicken_cuts`, `cod_slice`, `salmon_slice`); manca ancora usare queste identità nei clic effettivi, per prevenire doppioni, applicazioni e rimborsi. Ogni sostituto di altre mod richiederà ID puntuale verificato, senza autorizzazione automatica dai tag.
 5. Configurare rendering, ruolo interattivo e categoria alimentare dei 31 tipi: nuova resa per carne macinata e fette di carota/patata, erbe, foglie, creme.
 6. Verificare tag e remainder dei contenitori; provare i test positivi e negativi con namespace di terze mod, item interi, salvataggi/multiplayer e assenza di duplicazioni.
 7. Definire separatamente i **gusti di pizza riconosciuti**; il catalogo dei condimenti e' stato approvato, **non** ogni ricetta con nome del documento NAMED_PIZZAS.
