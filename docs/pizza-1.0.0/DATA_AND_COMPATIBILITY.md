@@ -17,6 +17,8 @@ Identificatori iniziali possibili, **non definitivi**:
 
 ## Composizione e persistenza
 
+**Prima infrastruttura di persistenza aggiunta al codice (FASE 3A, da compilare/testare):** [PizzaComposition.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaComposition.java) descrive quattro quarti, orientamento/divisioni, seed e applicazioni con `Codec` formato 1. [PizzaToppingApplication.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingApplication.java) conserva ID cronologico, ID canonico, `ItemStack` originale difensivamente copiato e maschere originali/residue. [PizzaDoughBlockEntity.java](../../src/main/java/dev/italiansdelight/common/block/entity/PizzaDoughBlockEntity.java) salva e ripristina con `ValueInput.read`/`ValueOutput.store`. **Non** sono ancora implementati la sincronizzazione client, le mutazioni sui quarti, i progressi di cottura, il servizio delle fette e i trasferimenti item/pala/forno. [Test](PERSISTENT_COMPOSITION_TESTS.md).
+
 Dati da conservare:
 - versione del formato, per eventuali migrazioni;
 - **division_state**: configurazione scelta col mattarello (intera, due meta', solo una meta' ulteriormente divisa, entrambe divise in quattro quarti); puo' regredire con **Shift + clic destro col mattarello** senza eliminare o modificare le applicazioni gia' effettuate;
