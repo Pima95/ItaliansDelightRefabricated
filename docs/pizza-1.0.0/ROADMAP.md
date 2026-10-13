@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (13 ottobre 2026):** stesura/posizionamento funzionanti secondo i test dell'autore; registro `PizzaToppingCatalog` dei 31 tipi/33 ID compilato e testato dall'autore. **Nuovo loader Java `PizzaToppingMappings` e cache aggiunti, da testare:** supporto ai JSON `item`/`canonical` con reload server, esclusioni, override bloccati e conflitti isolati. Nessuna nuova interazione topping implementata; il prototipo mozzarella su BlockState resta indipendente. **Build e `/reload` del loader da verificare in gioco.**
+**Stato implementazione pizza (13 ottobre 2026):** posizionamento/ stesura testati dall'autore, registro canonico 31 tipi/33 ID testato, **loader JSON confermato nell'avvio con 33 mapping nativi** (JSON esterni/conflitti da provare). **Fase 3A: struttura persistente per quattro quarti aggiunta al codice, DA COMPILARE/TESTARE**, con `PizzaComposition`, `PizzaToppingApplication` e `PizzaDoughBlockEntity` registrata sul blocco impasto. Nessun clic generalizzato, rendering o ricetta aggiunti. Il prototipo mozzarella resta distinto.
 
 ## Checklist decisioni già CONFERMATE
 
@@ -148,6 +148,9 @@
 
 ### Fase 2: sistema condimenti
 
+- [x] **FASE 3A — modello persistente e BlockEntity nel branch:** codec versione 1, quattro quarti fisici, divisione e orientamento, identità delle applicazioni, maschere originaria/residua, `ItemStack` originale salvato con i suoi componenti, contatore cronologico e seed. Invarianti statici controllati; **compilazione e persistenza nel mondo non ancora provate**. [Guida](PERSISTENT_COMPOSITION_TESTS.md).
+- [ ] **Testare FASE 3A:** build Java 25, `/data get block`, rientro nel mondo e conferma che stesura, prototipo mozzarella e bordo 1px rimangano invariati. [Guida](PERSISTENT_COMPOSITION_TESTS.md).
+
 - [x] **SECONDO PASSO INFRASTRUTTURA completato (build da testare):** listener dei datapack e cache diretta degli ingredienti; nessun comportamento di clic modificato.
 
 - [x] **PRIMO PASSO CODICE — REGISTRO CANONICO (13 ottobre 2026):** aggiunti `PizzaToppingType` (categoria nutrizionale distinta dal ruolo salsa/crema/solido) e `PizzaToppingCatalog` (mappa immutabile di 31 tipi / 33 item nativi). Quattro coppie FDR crudo/cotto raggruppate, panna/ricotta `CREAMY` ma non `SAUCE`; due identità vegetali future senza item. Avvio del registro in `ItaliansDelight.onInitialize` dopo gli item/blocchi; controllo duplicati e dimensioni. **Verifica statica dei 31/33 completata; build Java 25 e test in gioco ancora da eseguire.** Non collegato al prototipo mozzarella né a un loader JSON. [Identità e test](INGREDIENT_EQUIVALENCES.md).
@@ -156,7 +159,7 @@
 - [x] Zona interna per condimenti definita nella nuova base finale (`x/z = 3..13`, centro alto 1 pixel), con bordo alto 2 pixel (**conca profonda 1 pixel**); implementazione dopo il test della geometria.
 - [ ] Decidere se il pomodoro di Farmer's Delight va applicato direttamente oppure trasformato prima in salsa.
 
-- [x] **JSON/reload/cache nel codice (13 ottobre 2026):** `PizzaToppingMappings` utilizza l'API Fabric `DataResourceLoader` (MC 26.2); percorso `data/<namespace>/italiansdelight/pizza_equivalences/*.json`, parser rigoroso, whitelist base protetta, denylist note, conflitti solo sul singolo ID, cache immutabile atomica. **Da compilare e testare in gioco.**
+- [x] **JSON/reload/cache implementati:** caricamento iniziale 33 ID ufficiali confermato dal giocatore nel log; restano da provare mapping JSON esterni, conflitti ed esclusioni.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
 - [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), **senza consumare durabilita'**, salvandone la configurazione e preservando posizioni e storico; selezionare una sola zona dal punto reale con **priorita' gia' approvate destra/davanti e spareggio orario**, sincronizzare la logica client/server e testare la tolleranza iniziale. Linee visibili solo con mattarello o ingrediente valido.
 - [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali dei topping alle sole zone ancora libere, **il blocco totale delle salse differenti se una qualsiasi parte della zona mirata contiene gia' un'altra salsa**, la **validazione atomica del massimo di 6 tipi per quarto fisico (salsa inclusa)** e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
@@ -223,4 +226,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** verificare compilazione e avvio del nuovo loader/cache con `/reload`, come descritto in [DATAPACK_RELOAD_TESTS.md](DATAPACK_RELOAD_TESTS.md). Poi collegare il lookup ai topping per quarti tramite stato persistente, senza trasformare il BlockState prototipo della mozzarella nel sistema definitivo.
+**Prossimo passo:** compilare e verificare la nuova BlockEntity seguendo [PERSISTENT_COMPOSITION_TESTS.md](PERSISTENT_COMPOSITION_TESTS.md). In seguito collegare le applicazioni ai quattro quarti con operazioni atomiche di clic, conservando separato il prototipo della mozzarella.
