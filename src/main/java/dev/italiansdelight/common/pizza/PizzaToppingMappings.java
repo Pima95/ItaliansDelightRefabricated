@@ -114,6 +114,16 @@ public final class PizzaToppingMappings {
                         continue;
                     }
 
+                    // Never allow a mapping to legalize explicitly forbidden
+                    // whole foods, processing items or Minecraft air.
+                    if (PizzaToppingCatalog.isExplicitlyExcluded(mapping.itemId())) {
+                        rejectedFiles++;
+                        ItaliansDelight.LOGGER.warn(
+                                "[Pizza] Ignoring explicitly forbidden pizza item {} from {}",
+                                mapping.itemId(), origin);
+                        continue;
+                    }
+
                     PizzaToppingType type = PizzaToppingCatalog.findType(mapping.canonicalId())
                             .orElse(null);
                     if (type == null || type.planned()) {
