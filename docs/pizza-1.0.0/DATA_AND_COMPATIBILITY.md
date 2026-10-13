@@ -81,18 +81,18 @@ L'item e i data component conservano identità canoniche, maschere e orientament
 - **Lookup per interazione:** un singolo accesso alla cache per risolvere il tipo canonico (costo atteso medio **O(1)**), poi controllo delle maschere dei massimi quattro quarti e delle normali regole già approvate (duplicati, salse, limite di sei). **Nessun parsing JSON, espansione di tag, ricerca di tutte le definizioni, reflection o accesso a file nei clic**.
 - **Nessun lavoro periodico:** non aggiungere tick handler, polling, allocazioni periodiche o sincronizzazione di tutta la tabella a ogni tick/frame per gestire le equivalenze. Il server resta autorevole sulle mutazioni e la UI traduce gli ID già salvati.
 - **Persistenza minima:** salvare le identita' e i componenti necessari a ricostruire la pizza, e l'**ItemStack originale** delle applicazioni per il rimborso; non salvare copie di definizioni JSON o nomi tradotti per ogni pizza.
-- **Priorita' e conflitti:** whitelist base e forme idonee prevalgono; le estensioni sono mapping espliciti di ID. Se due pack attribuiscono identità differenti allo stesso item esterno, escludere il mapping ambiguo e segnalare una diagnostica; la gestione serializzata esatta è ancora da convalidare.
+- **Priorità e conflitti — CONFERMATO:** whitelist base e forme idonee prevalgono; **gli ID ufficiali non sono sovrascrivibili**. Estensioni con un file JSON minimo per ID. Se due pack attribuiscono identità differenti allo stesso item esterno, escludere **solo quell'ID ambiguo** con diagnostica, senza invalidare mapping esterni non coinvolti. Duplicati identici non devono produrre collisioni.
 - **Prestazioni da misurare, non ipotizzare:** confrontare in test la cache con un mapping Java diretto su startup/reload, tempo di interazione su pizze dense, uso memoria, server dedicato e grandi modpack. Requisito di accettazione: **nessun overhead rilevante a tick inattivi** e nessuna rilettura/ricerca lineare di definizioni a ogni clic; se i benchmark mostrano costi significativi, preferire tabelle statiche per i tipi di base e limitare ulteriormente le estensioni configurabili.
 
 La configurabilità dei datapack resta quindi confinata a **caricamento e reload**, mentre durante le interazioni si usa solo la struttura compilata in memoria. Questo e' un criterio di progetto, **non ancora codice implementato o performance misurata**.
 
-**Mappatura concreta:** [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) contiene i 31 tipi, le quattro coppie crudo/cotto e l'audit dei tag. **DECISO: soltanto mapping di ID esterni singoli e verificati, nessuna inclusione automatica dai tag.** Formato JSON, lista specifica di ID esterni e codice restano da finalizzare.
+**Mappatura concreta:** [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) contiene i 31 tipi, le quattro coppie crudo/cotto e l'audit dei tag. **DECISO:** ID esterni singoli verificati, nessuna ammissione automatica dai tag; **JSON minimale `item` + `canonical`, un file per mapping**, senza sovrascrivere le equivalenze native. Elenco specifico di item esterni e codice restano da realizzare.
 
-## Definizioni di equivalenze tramite datapack — ID puntuali CONFERMATI, schema PROPOSTO
+## Definizioni di equivalenze tramite datapack — ID puntuali e JSON minimo CONFERMATI (13 ottobre 2026)
 
 I datapack opzionali possono proporre **associazioni puntuali** tra un ID di item esistente e **una identità canonica già approvata**. Per la 1.0.0 non è consentito introdurre nuovi tipi di topping attraverso un tag o ridefinire valori nutrizionali, ruolo, rendering e preset con un file di sola equivalenza. **I tag `c:` non sono selettori automatici**, anche quando semanticamente specifici.
 
-Formato minimo proposto (non implementato):
+**Formato approvato (non ancora implementato):** esattamente un item per file e le due sole proprietà obbligatorie `item` e `canonical`:
 
 ```json
 {
@@ -101,7 +101,7 @@ Formato minimo proposto (non implementato):
 }
 ```
 
-L'esempio mostra un ID reale già approvato, non un nuovo item. Percorso di caricamento e conflitti tra pack da convalidare prima del codice. Le eventuali definizioni più ricche dei topping e le ricette di riconoscimento dei gusti sono **argomenti separati** e non cambiano la scelta sul riconoscimento degli item di terze mod. Vedi [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md).
+L'esempio mostra un ID reale già approvato, non un nuovo item. **I 33 ID nativi già mappati sono protetti:** qualsiasi tentativo di sovrascriverli tramite datapack deve essere rifiutato senza alterare l'associazione ufficiale. **Conflitti tra mapping esterni divergenti:** scartare soltanto l'ID ambiguo con avviso, senza compromettere gli altri. Ruolo, nutrizione, nome e rendering non possono essere ridefiniti nei JSON di equivalenza. Il percorso definitivo di caricamento e il codice sono ancora da verificare. Le definizioni più ricche dei topping e i gusti riconosciuti sono argomenti separati. Vedi [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md).
 
 ## Catalogo item ufficialmente APPROVATO — 13 ottobre 2026
 
