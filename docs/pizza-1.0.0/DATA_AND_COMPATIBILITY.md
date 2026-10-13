@@ -94,6 +94,16 @@ Compatibilità generica proposta, sempre come bozza:
 
 Tag ampi possono includere alimenti non adatti: occorrono eccezioni e priorità. **Non rendere automaticamente valido qualsiasi item commestibile.**
 
+## Catalogo item ufficialmente APPROVATO — 13 ottobre 2026
+
+L'elenco **vincolante** e' [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md): **29 tipologie di topping con ID reali**, formate da **20 Italian's Delight + 9 Farmer's Delight Refabricated**, e **2 tipologie approvate ma non ancora registrate (carote e patate a fette Italian's Delight)**. Le **quattro coppie** `bacon/cooked_bacon`, `chicken_cuts/cooked_chicken_cuts`, `cod_slice/cooked_cod_slice`, `salmon_slice/cooked_salmon_slice` contano **una tipologia canonica ciascuna**: in totale **33 ID esistenti**, **31 tipologie finali pianificate**. Tutte le voci positive sono ora approvate dall'autore, **non** restano semplici candidati.
+
+**Esclusi per decisione esplicita:** `italiansdelight:parmigiano_reggiano_wedge`, `italiansdelight:pecorino_romano_wedge`, `italiansdelight:mascarpone` e `italiansdelight:salt`. Altri ID non elencati sono anch'essi esclusi per default (compresi `minecraft:egg`, forme intere, verdure intere, bistecche e preparazioni pronte troppo grandi). **Uova soltanto `farmersdelight:fried_egg`; carne macinata `farmersdelight:minced_beef` e' ammessa.**
+
+**Nuovi item richiesti, non ancora creati:** carote a fette e patate a fette. Creare **item, modelli/texture e ricette Cutting Board** con output porzionati; `minecraft:carrot` e `minecraft:potato` possono essere materiali d'ingresso ma **non** vanno applicati interi. **ID nuovi, resa delle ricette, strumenti, eventuali varianti cotte e rendering sono ancora da definire**; non scrivere ID fittizi come se fossero registrati. Non introdurre altri tipi da tag comuni generici.
+
+**Semantica invariata:** ruolo interattivo, identita' canonica, categoria nutrizionale, aspetto/render e provenienza ItemStack sono dimensioni indipendenti. Salse e creme in ciotola da gestire con remainder una sola volta; per la panna/ricotta scegliere la corretta classificazione del ruolo salsa senza doppio bonus. **La nuova approvazione non implica implementazione gia' avvenuta.**
+
 ## Ambito dei condimenti nella Pizza Update 1.0.0 — CONFERMATO (12 ottobre 2026)
 
 **Catalogo di tipi di ingrediente CHIUSO per la release 1.0.0:** i tipi di condimento che la mod supporta ufficialmente sono selezionati **esclusivamente dai contenuti di Italian's Delight Refabricated e Farmer's Delight Refabricated**. La lista concreta verra' composta dai loro item idonei e verificati nelle rispettive versioni target; non si amplia il catalogo soltanto perche' un'altra mod e' installata. La classificazione nutrizionale gia' approvata (incluse uova, olive, panna, oli e grassi) **non implica** che nuovi item o tipi assenti dalle due mod siano automaticamente disponibili.
@@ -150,26 +160,14 @@ Le **formule gia' confermate** diventano `hunger = min(6, 1 + sum(bonus_fame_cat
 
 ### Compatibilita' Farmer's Delight Refabricated e altre mod — REQUISITO CONFERMATO
 
-**Priorita' richiesta dall'autore:** catalogo ufficiale di topping ricavato da **Italian's Delight Refabricated e Farmer's Delight Refabricated**, con **varianti di altre mod soltanto quando equivalenti a tipi gia' supportati** tramite tag comuni mirati o matching specifico. Nel progetto, la dipendenza ha namespace `farmersdelight`, Minecraft `26.2`, e la versione prevista in `gradle.properties` e' `26.2-3.6.28+refabricated`. Gli esempi seguenti sono **candidati concreti da testare e verificare nel JAR 26.2**, non un elenco gia' implementato ne' una promessa che tutti gli item siano condimenti accettati:
+Farmer's Delight Refabricated `3.6.28` / Minecraft `26.2` fornisce esclusivamente i **9 tipi di topping approvati** elencati con i loro veri ID in [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md). **Gli altri item reali di Farmer's Delight non sono topping per default** (es. `tomato` intero, `onion` intera, `ham`/`smoked_ham` interi, `cabbage` intero, `beef_patty`, zuppe e piatti completi). Tra i 9 tipi sono inclusi **uovo fritto** e **carne macinata**; le quattro coppie crudo/cotto devono condividere ciascuna identita' canonica.
 
-| Identificativo da verificare nella dipendenza target | Categorie/ruolo di partenza | Nota |
-| --- | --- | --- |
-| `farmersdelight:tomato_sauce` | salsa, nutrizione salse | priorita' alta; verificare il contenitore di ritorno |
-| `farmersdelight:tomato` | vegetali se topping solido; eventuale uso come salsa da decidere | **non** trattare automaticamente un pomodoro intero come salsa |
-| `farmersdelight:onion`, `farmersdelight:cabbage` | vegetali | candidati topping da approvare/testare singolarmente |
-| `farmersdelight:fried_egg` | proteine animali | candidato uova |
-| `farmersdelight:bacon`, `farmersdelight:cooked_bacon`, `farmersdelight:ham`, `farmersdelight:smoked_ham` | proteine animali | candidati salumi/carne |
-| `farmersdelight:salmon_slice`, `farmersdelight:cod_slice` | proteine animali | candidati pesce, non fette della pizza |
-| `farmersdelight:wheat_dough` | base d'impasto; **non** topping | riutilizzare il percorso impasto gia' definito |
-| Olive, olio d'oliva, panna da Italian's Delight/altre mod | classificazione approvata sopra | **non inventare ID o tag di mod esterne** |
+Origine degli ID e delle proprieta' da verificare in implementazione:
+- [Registro item 26.2](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/references/ModItemIds.java)
+- [Registro ModItems 26.2](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/registry/ModItems.java)
+- [Elenco ufficiale approvato e tag con stato di verifica](INGREDIENT_CATALOG.md)
 
-**Verifica delle fonti aggiornata:** ho controllato gli ID citati nel codice sorgente della **versione corretta 3.6.28 per Minecraft 26.2**, ramo `fabric/latest/26.2`, inclusa la cipolla registrata come BlockItem. Gli **ID sorgente** sono verificati; **tag effettivi, rimanenze e funzionamento nel JAR caricato** restano da verificare prima di implementare. La lista completa e aggiornata, con categorie, esclusioni e livello di conferma dei tag, e' [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md).
-- https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/references/ModItemIds.java
-- https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/references/ModBlockItemIds.java
-- https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/registry/ModItems.java
-- https://www.curseforge.com/minecraft/mc-mods/farmers-delight-refabricated/files/all
-
-**Integrazione per la 1.0.0:** mappature puntuali o tag semantici **verificati**, limitati ai tipi del catalogo chiuso; precedenza proposta item specifico > tag specifico > fallback prudente; definizioni estendibili via datapack (schema tecnico ancora da progettare). **Non** ammettere automaticamente ogni alimento, cibo composto, piatto pronto, bevanda o preparazione di Farmer's Delight e mod terze. La categoria nutrizionale e' separata dall'identita' canonica per le equivalenze, dalla validita' come condimento e dal rendering. Salvare sempre l'**ItemStack originario** per restituzioni corrette e gestire le eventuali ciotole/bottiglie remainder **una volta sola**, senza perdite o dupe. Verificare mod mancanti, fallback grafici, conflitti di tag, salvataggi e multiplayer. Non modificare ancora il codice.
+**Interoperabilita':** un item di altra mod puo' essere sostituto di **un tipo whitelist** solo tramite corrispondenza item/tag `c:` **verificata e sufficientemente specifica** e **forma fisica compatibile**. Un tag generale di formaggi, uova o verdure non abilita item ulteriori e non scavalca i quattro NO o il divieto delle forme intere. Conservare ItemStack originale, prevenire doppia applicazione e rendere i contenitori in modo corretto. **Schema JSON/datapack tecnico ancora da definire; niente codice modificato.**
 
 ## Ricette riconosciute via JSON — PROPOSTA
 
