@@ -4,11 +4,11 @@
 
 ## Numeri e stati
 
-- **Gruppo A — 55 proposte con tipi già registrati:** gli item condimento esistono in Italian's Delight o Farmer's Delight Refabricated nella versione target; **non** significa che il sistema pizza completo sia già implementato o che il gusto sia già approvato.
+- **Gruppo A — 56 proposte con tipi già registrati (inclusa Principessa):** gli item condimento esistono in Italian's Delight o Farmer's Delight Refabricated nella versione target; **non** significa che il sistema pizza completo sia già implementato o che il gusto sia già approvato.
 - **Gruppo B — 15 proposte per la release 1.0.0 dopo la creazione delle due nuove fette:** usano carote e/o patate a fette già approvate come concetti, **ma non ancora registrate**; ricette Cutting Board di rendimento **1 vegetale -> 4 fette** già decise.
 - **Gruppo C — 36 proposte per aggiornamenti futuri:** i nuovi topping NON appartengono alla whitelist della 1.0.0; **tutti richiedono approvazione esplicita futura** e, quando pertinenti, item/texture/modelli/tag/ricette. Alcune hanno ingredienti extra anche in gastronomia reale, qui riportati come schema concettuale.
 
-**Totale:** **106 pizze proposte**, più le combinazioni libere con nome dinamico. Le ricette classiche riportate come *ispirate/adattate* NON vanno spacciate per ricette tradizionali autentiche o conformi a disciplinari.
+**Totale:** **107 pizze proposte**, più le combinazioni libere con nome dinamico. Le ricette classiche riportate come *ispirate/adattate* NON vanno spacciate per ricette tradizionali autentiche o conformi a disciplinari.
 
 ## Vincoli e criteri comuni di design
 
@@ -21,7 +21,7 @@
 7. Per tutte le ricette B, **carote e patate intere non sono condimenti**: servono le fette degli appositi nuovi item, crude al momento della posa e cotte con la pizza, senza secondo item cotto.
 8. **Ogni proposta è modificabile/scartabile prima dell'approvazione definitiva.** Nessuna tabella crea automaticamente nuovi gusti in gioco.
 
-## Gruppo A — 55 pizze componibili con item già registrati (PROPOSTE)
+## Gruppo A — 56 pizze componibili con item già registrati (PROPOSTE)
 
 ### Basi e pizze rosse
 
@@ -33,6 +33,7 @@
 | Margherita al Parmigiano | Salsa di pomodoro + Mozzarella a fette + Basilico + Parmigiano Reggiano grattugiato | Variante della Margherita con formaggio grattugiato |
 | Margherita al Pecorino | Salsa di pomodoro + Mozzarella a fette + Basilico + Pecorino Romano grattugiato | Variante con Pecorino grattugiato |
 | Margherita cremosa | Salsa di pomodoro + Mozzarella a fette + Basilico + Ricotta | Versione creativa con ricotta |
+| **Principessa** | **Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette + Panna** | **PROPOSTA per 1.0.0**: interpretazione attestata da pizzerie di Bari; tutti e quattro gli item già approvati. Panna = condimento cremoso NON salsa, quindi può coesistere con il pomodoro. Il nome «Principessa» ha anche versioni differenti in altre pizzerie: questa combinazione è da confermare nella selezione, non è una ricetta universalmente standardizzata. |
 | Caprese rossa | Salsa di pomodoro + Mozzarella a fette + Pomodoro a fette + Basilico | Interpretazione della caprese con salsa e pomodoro a fette |
 | Caprese bianca | Mozzarella a fette + Pomodoro a fette + Basilico | Mozzarella, pomodoro fresco a fette e basilico |
 | Pomodoro e Bocconcino | Salsa di pomodoro + Bocconcino + Basilico | Con basilico |
@@ -166,6 +167,8 @@
 | Norcina ispirata | Ricotta, prosciutto crudo a fette, tartufo nero | Tartufo nero preparato | Ricotta e prosciutto attuali disponibili |
 | Caprese al Pesto | Pesto come salsa, mozzarella, pomodoro a fette, basilico | Pesto come salsa | Pesto non ammesso attualmente |
 
+**Nota sulla Principessa:** è attestata una preparazione con pomodoro, mozzarella, prosciutto crudo e panna in [Pizzeria Da Zazzà, Bari](https://glovoapp.com/it/it/bari/stores/pizzeria-rosticceria-da-zazz); altre pizzerie usano invece stracciatella o altri condimenti. Il nome e la ricetta non sono universali. Per la Pizza Update 1.0.0 proponiamo la versione interamente realizzabile con il catalogo corrente, senza nuovi item. **Il giocatore non deve aver approvato il nome in automatico soltanto perché compare qui**; la scelta SÌ/NO arriverà con il modulo.
+
 ## Pizze a quarti distinti: proposta di naming spaziale
 
 La divisione fisica/logica del mattarello permette di creare una pizza con **quattro quarti differenti**. I condimenti uniformi devono essere registrati su tutti i quarti secondo le regole correnti; condimenti speciali devono essere applicati solo sul quarto bersaglio. Proposte **non ancora approvate**:
@@ -195,7 +198,7 @@ La divisione fisica/logica del mattarello permette di creare una pizza con **qua
 
 ## Decisioni necessarie prima di implementare nomi fissi
 
-1. Quali delle **55 + 15 proposte della release 1.0.0** devono essere riconosciute con nome dedicato? Non servono tutte: altre combinazioni restano valide come pizza personalizzata con nome dinamico.
+1. Quali delle **56 + 15 proposte della release 1.0.0** devono essere riconosciute con nome dedicato? Non servono tutte: altre combinazioni restano valide come pizza personalizzata con nome dinamico.
 2. Quali delle **36 future** diventano obiettivi concreti di nuove release? Ogni ingrediente nuovo richiede **separata approvazione del topping**, nuove risorse e possibile rebalancing, senza cambiare la whitelist della 1.0.0 retroattivamente.
 3. Scelta tra **matching esatto, sottoinsiemi, varianti ammesse**, oltre alla distinzione per quarto e regole di priorità; conservare comunque le meccaniche già concordate per l'anti-duplicato, salse, sei topping/porzione e rimborso dell'item originale.
 4. Localizzazioni dei nomi e comportamento delle pizze miste/ruotate.
