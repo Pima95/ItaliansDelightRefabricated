@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (14 ottobre 2026):** stesura, registro canonico (31 tipi/33 ID), caricamento nativo del loader JSON e persistenza iniziale della BlockEntity **confermati funzionanti dall'autore**. **FASE 3B implementata nel branch, DA TESTARE:** selezione deterministica di una sola zona fisica/logica e divisione/riunione progressiva col mattarello (nessuna usura aggiuntiva), salvando orientamento/stato; motore di applicazioni e rimozioni atomiche `PizzaCompositionOperations` pronto **ma NON ancora collegato ai clic degli ingredienti**, per evitare perdite alla rottura in assenza della pizza-item persistente. **Overlay delle linee non ancora implementato.** [Test](ZONE_SELECTION_TESTS.md).
+**Stato implementazione pizza (14 ottobre 2026):** stesura, registro 31 tipi/33 item, caricamento nativo dei datapack e persistenza della BlockEntity verificati dall'autore. **FASE 3B (divisione/riunione) verificata dall'autore:** `division_state` confermato. **FASE 3C implementata nel branch, DA COMPILARE/TESTARE:** `italiansdelight:raw_pizza` non impilabile, con componente persistente `italiansdelight:pizza_contents` (composizione completa + flag provvisorio mozzarella); rottura di pizza stesa -> unico item; item -> blocco già steso, ripristinando i dati. Stadi 0–3 e modelli non modificati; nuovo modello item usa texture già esistente. **Clic sui topping, overlay, cottura e forno ancora non implementati.** [Test](RAW_PIZZA_ITEM_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -146,6 +146,9 @@
 - [ ] Salvare e recuperare correttamente stati e oggetti.
 - [ ] Test chunk unload, multiplayer, rottura del supporto e superfici particolari.
 
+- [x] **FASE 3C implementazione codice (14 ottobre 2026, DA TESTARE):** item `raw_pizza`, data component persistente e sincronizzato tramite codec, loot unificato per pizza stesa (incluse proprietà composizione/flag mozzarella esistente), riposizionamento sul terreno senza perdita dei dati, icona da texture `pizza_dough_top`, nome EN/IT. Impasto non completamente steso conserva il drop `farmersdelight:wheat_dough`. [Test](RAW_PIZZA_ITEM_TESTS.md).
+- [ ] **Confermare FASE 3C in gioco:** `gradlew clean build`, `/data get block`, stadi 0–3 vs 4, rottura, drop Q/raccolta, riposizionamento e riavvio mondo, proto mozzarella senza duplicazione.
+
 ### Fase 2: sistema condimenti
 
 - [x] **FASE 3A — modello persistente e BlockEntity nel branch:** codec versione 1, quattro quarti fisici, divisione e orientamento, identità delle applicazioni, maschere originaria/residua, `ItemStack` originale salvato con i suoi componenti, contatore cronologico e seed. Invarianti statici controllati; **compilazione e persistenza nel mondo non ancora provate**. [Guida](PERSISTENT_COMPOSITION_TESTS.md).
@@ -161,8 +164,8 @@
 
 - [x] **JSON/reload/cache implementati:** caricamento iniziale 33 ID ufficiali confermato dal giocatore nel log; restano da provare mapping JSON esterni, conflitti ed esclusioni.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
-- [ ] **FASE 3B — divisioni e hit-zone AGGIUNTE, da testare:** clic col mattarello sulla pizza completamente stesa: intera -> metà -> quarti, Shift + clic per riunire; orientamento fissato al primo taglio, spareggio orario e confini destra/davanti, scelta di una sola zona dal clic reale; progressi salvati in `PizzaComposition`. **Restano** anteprima delle linee soltanto mentre si tiene mattarello/topping, sincronizzazione dello stato per il client e test precisione/multiplayer. [Test](ZONE_SELECTION_TESTS.md).
-- [ ] **FASE 3B — funzioni applicazione/rimozione già aggiunte al codice, NON abilitate in gioco:** `PizzaCompositionOperations` risolve i topping usando la cache, gestisce maschere parziali, massimo 6 per quarto, rifiuto atomico di salse differenti e LIFO con rimborso solo alla rimozione completa. **Mancano** transazione server/inventario, contenitori, blocco pizza-item persistente su rottura e sincronizzazione/rendering; prima implementare il recupero sicuro degli item. [Test](ZONE_SELECTION_TESTS.md).
+- [x] **FASE 3B divisioni/riunioni col mattarello provate dall'autore:** `division_state` confermato nel salvataggio. **Restano** overlay temporaneo, sincronizzazione/preview client, test precisione/spareggio e multiplayer. [Prove complementari](ZONE_SELECTION_TESTS.md).
+- [ ] **FASE 3B — logica interna dei condimenti pronta, non ancora collegata ai clic:** `PizzaCompositionOperations` applica maschere parziali, limite sei, anti-duplicato canonico e LIFO/rimborso; l'item pizza cruda persistente è stato aggiunto in fase 3C, ma sono ancora necessarie build e prove del ciclo blocco-item-blocco, oltre a transazioni server/inventario, contenitori, sincronizzazione e rendering. [Test](RAW_PIZZA_ITEM_TESTS.md).
 - [ ] Recupero diretto nell'inventario dei topping **rimossi completamente** (drop solo se pieno); **rottura pizza formata INTEGRA -> pizza-item cruda/cotta con dati completi** (pizza cotta servita parzialmente -> sole fette residue), senza duplicare ingredienti.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
 - [ ] Test: due pale vuote non si impilano; ogni pala occupata resta singola; spostamenti tra slot e contenitori conservano i dati senza duplicazioni.
@@ -226,4 +229,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** compilare e verificare in gioco la **FASE 3B** seguendo [ZONE_SELECTION_TESTS.md](ZONE_SELECTION_TESTS.md): taglio con mattarello, Shift-riunione, direzioni e `/data get block`. Dopo la conferma, implementare la **pizza-item con contenuto persistente quando si rompe una pizza formata**, così le operazioni di applicazione/rimozione dei topping potranno essere abilitate senza perdere o duplicare ingredienti.
+**Prossimo passo:** eseguire la compilazione e i test di [RAW_PIZZA_ITEM_TESTS.md](RAW_PIZZA_ITEM_TESTS.md), incluso il ciclo completo mondo -> item -> Q -> inventario -> mondo e il caso mozzarella prototipo. **Solo dopo la conferma:** collegare i clic dei topping al sistema persistente e le transazioni atomiche di inventario/rimborso; restano da realizzare gli item pizza cotta, fette, forno e pala.
