@@ -113,14 +113,20 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
     }
 
     /**
-     * Formed dough yields ONE complete pizza item, not the wheat dough and
-     * separate toppings. Earlier dough stages retain their normal loot table.
-     * Loot context supplies the original BlockEntity before it is removed.
+     * Fully formed preparations (divided or topped) yield ONE pizza item.
+     * Untouched flattened dough or dough rejoined without toppings returns
+     * FDR wheat dough. Loot conditions and the original BlockEntity are
+     * supplied by vanilla's loot context.
      */
     @Override
     protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> normalDrops = super.getDrops(state, params);
-        if (state.getValue(STAGE) < MAX_STAGE) {
+        PizzaDoughBlockEntity pizzaEntity =
+                params.getOptionalParameter(LootContextParams.BLOCK_ENTITY)
+                        instanceof PizzaDoughBlockEntity entity ? entity : null;
+        if (!hasPersistentPizzaContents(state, pizzaEntity)) {
+            // Unfinished dough, or completely flattened but never split /
+            // split and rejoined WITHOUT toppings: refund the wheat dough.
             return normalDrops;
         }
         // Respect the existing vanilla loot conditions (including explosion
@@ -133,10 +139,33 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
         // Convert the whole surviving base into ONE data-carrying item.
         // Suppress the old loot table's separate legacy-mozzarella drop:
         // that ingredient is preserved in the component instead.
-        PizzaDoughBlockEntity pizzaEntity =
-                params.getOptionalParameter(LootContextParams.BLOCK_ENTITY)
-                        instanceof PizzaDoughBlockEntity entity ? entity : null;
         return List.of(createPizzaItem(state, pizzaEntity));
+    }
+
+    /**
+     * A flattened base becomes a pizza item only when its PRESENT state
+     * represents an actual preparation: it is still divided, or contains
+     * a topping. Historical cuts do not count once rejoined.
+     *
+     * <p>Checking applications as well as the temporary BlockState mozzarella
+     * flag prevents losing already-consumed ingredients if an uncut pizza has
+     * toppings. If all toppings are removed and all cuts are joined, it can
+     * safely return to Farmer's Delight wheat dough.
+     */
+    private static boolean hasPersistentPizzaContents(
+            BlockState state, PizzaDoughBlockEntity pizzaEntity) {
+        if (state.getValue(STAGE) < MAX_STAGE) {
+            return false;
+        }
+        if (state.getValue(MOZZARELLA)) {
+            return true;
+        }
+        if (pizzaEntity == null) {
+            return false;
+        }
+        PizzaComposition composition = pizzaEntity.composition();
+        return composition.divisionState() != 0
+                || !composition.applications().isEmpty();
     }
 
     private static ItemStack createPizzaItem(BlockState state, PizzaDoughBlockEntity entity) {
@@ -150,10 +179,11 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
 
     @Override
     protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
-        if (state.getValue(STAGE) == MAX_STAGE) {
-            // Pick Block on a formed pizza also preserves its composition.
-            PizzaDoughBlockEntity entity = level.getBlockEntity(pos)
-                    instanceof PizzaDoughBlockEntity pizza ? pizza : null;
+        PizzaDoughBlockEntity entity = level.getBlockEntity(pos)
+                instanceof PizzaDoughBlockEntity pizza ? pizza : null;
+        if (hasPersistentPizzaContents(state, entity)) {
+            // Pick Block follows the same eligibility rule as normal loot,
+            // and preserves the prepared pizza's full composition.
             return createPizzaItem(state, entity);
         }
         return new ItemStack(vectorwing.farmersdelight.common.registry.ModItems.WHEAT_DOUGH.get());
