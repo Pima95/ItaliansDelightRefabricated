@@ -75,6 +75,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 
 - Mod per **Minecraft 26.2 / Fabric**, compatibile con Farmer's Delight Refabricated.
 - **Autorizzazione dal 14 ottobre 2026:** è consentito creare e pubblicare direttamente nuove texture originali nel branch, in pixel art coerente con Minecraft e preferibilmente 16×16 per gli item. Non sovrascrivere, spostare o cancellare texture e modelli già prodotti dall'autore senza necessità o consenso specifico.
+- **Vincolo grafico della pizza cruda (14 ottobre 2026):** `textures/item/raw_pizza.png` deve essere una PNG RGBA da **16×16** con **alpha=255 su tutti e 256 i pixel**, senza trasparenza nemmeno ai bordi. La sagoma ovale riprende il placeholder `textures/item/pizza_margherita.png` (stile disco musicale Minecraft), ma usa colori da impasto crudo, senza salsa o condimenti. Conservare le stesse precauzioni di opacità quando si creano o modificano altre texture item per il sistema pizza, secondo la richiesta dell'autore.
 - Nel repository esistono già `textures/item/pizza_margherita.png` e `textures/block/top_mushroom_pizza.png`: sono risorse da rispettare e integrare in seguito.
 - **Stato aggiornato:** il registro Java è stato aggiunto al branch di sviluppo; documentazione e specifiche non implicano che tutte le funzionalità descritte siano già disponibili. La versione pubblicata resta invariata.
 - Il lavoro va sviluppato su un branch dedicato e portato su `main` mediante PR dopo test e revisione.
