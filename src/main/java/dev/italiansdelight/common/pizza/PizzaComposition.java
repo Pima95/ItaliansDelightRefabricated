@@ -124,6 +124,16 @@ public record PizzaComposition(
     }
 
     /**
+     * Change only which logical zones are selectable. Physical topping
+     * coverage and application IDs remain exactly as before the cut/rejoin.
+     */
+    public PizzaComposition withDivision(int newDivisionState, String newOrientation) {
+        return new PizzaComposition(
+                version, newDivisionState, newOrientation,
+                nextApplicationId, renderSeed, applications);
+    }
+
+    /**
      * The next implementation can use this for atomic state replacement.
      * No stack consumption happens here; server gameplay must consume the
      * actual source item only after all placement checks pass.
