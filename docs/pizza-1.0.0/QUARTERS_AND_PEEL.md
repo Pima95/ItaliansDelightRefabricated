@@ -313,7 +313,7 @@ Invarianti da mantenere:
 6. Tutte le mutazioni di inventario e mondo devono essere autorevoli lato server e sincronizzate ai client.
 7. La rappresentazione deve consentire **mapping espliciti per singoli ID verificati** di item esterni senza espansione automatica dei tag né ammissione generica di qualsiasi cibo.
 
-**Il primo codec di composizione e la BlockEntity sono ora aggiunti al branch (FASE 3A, build/test ancora necessari):** maschere di copertura, ordine applicazioni, item originario, divisione e orientamento sono serializzabili. **Non** sono ancora state collegate la posa/rimozione dei condimenti, il taglio, il servizio fette, i progressi di cottura, la sincronizzazione o il trasporto item/pala/forno. Gli altri nomi tecnici nella bozza concettuale restano illustrativi. [Test](PERSISTENT_COMPOSITION_TESTS.md).
+**Il primo codec di composizione e la BlockEntity sono già stati testati dall'autore (FASE 3A). La FASE 3B aggiunge la selezione delle zone, taglio/riunione col mattarello e operazioni di topping NON ANCORA ATTIVE in gioco:** maschere di copertura, ordine applicazioni, item originario, divisione e orientamento sono serializzabili. **Il taglio logico e la riunione ora sono collegati ai clic col mattarello, ma richiedono test in gioco; non sono presenti le linee grafiche temporanee.** Non sono ancora collegate ai clic degli ingredienti le funzioni di posa/rimozione; rimangono da realizzare servizio fette, cottura, sincronizzazione del client e trasporto item/pala/forno. Gli altri nomi tecnici nella bozza concettuale restano illustrativi. [Test della nuova fase](ZONE_SELECTION_TESTS.md).
 
 ## 5. Questioni ancora aperte
 
