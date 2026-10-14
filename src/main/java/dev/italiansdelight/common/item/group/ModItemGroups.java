@@ -35,6 +35,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CHEESE_HOOK);
                 output.accept(ModItems.CHEESE_GRATER);
                 output.accept(ModItems.ROLLING_PIN);
+                // Visible for creative testing; normally collected from a formed pizza.
+                output.accept(ModItems.RAW_PIZZA);
 
                 // Cheese aging racks.
                 output.accept(ModBlocks.OAK_CHEESE_AGING_RACK);
