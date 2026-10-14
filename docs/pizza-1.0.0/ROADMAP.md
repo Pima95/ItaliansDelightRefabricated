@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (14 ottobre 2026):** stesura, catalogo e loader, BlockEntity, divisioni, item pizza cruda, regola di drop e icona corretta verificati dall'autore. **FASE 3D PUBBLICATA, DA COMPILARE/TESTARE:** clic destro con topping SOLID approvato su pizza stesa, applicazione ai quarti dal punto mirato, anti-duplicato canonico e consumo di una sola unità, Shift + clic vuoto per rimozione LIFO e rimborso soltanto al completamento. Lo stato è persistente in BlockEntity e raw_pizza. **Esclusi temporaneamente** tomato_sauce, cream_bowl, ricotta per sicurezza del recipiente/rimborso. L'overlay/rendering/sync client e la cottura sono ancora da implementare. [Test](TOPPING_INTERACTIONS_TESTS.md).
+**Stato implementazione pizza (14 ottobre 2026):** stesura, catalogo, BlockEntity, divisioni, recupero pizza-item e condimenti solidi **confermati funzionanti dall'autore**. **FASE 3E PUBBLICATA, DA COMPILARE/TESTARE:** overlay temporaneo delle linee (stati 0/1/3/5/7), visibile nel raggio vicino al giocatore quando tiene il mattarello o un ingrediente SOLID ufficiale; orientamento fissato al primo taglio, nessun modello/texture/hitbox alterato. Per aggiornare i client, il server riflette divisione/orientamento in due proprietà BlockState; le vecchie BlockEntity vengono sincronizzate una volta dopo caricamento. **Resta da realizzare** il rendering dei topping e la gestione dei tre ingredienti con ciotola. [Test](DIVISION_OVERLAY_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -148,6 +148,9 @@
 
 ### Fase 2: sistema condimenti
 
+- [x] **FASE 3E — visualizzazione divisioni implementata (14 ottobre 2026, DA TESTARE):** client renderer Fabric 26.2, linee temporanee in crema entro il bordo, proprietà BlockState `division`/`facing` sincronizzate lato server, migrazione unica al caricamento dei vecchi blocchi. Non cambia fisica o texture. [Guida](DIVISION_OVERLAY_TESTS.md).
+- [ ] **Confermare FASE 3E:** build Gradle Java 25; linee 0/1/3/5/7; Nord/Est/Sud/Ovest; assenza linee con mano vuota o item esclusi; multiplayer e regressioni dei topping.
+
 - [x] **FASE 3C verificata dall'autore; aggiornamento dei drop e della texture da testare (14 ottobre 2026):** `raw_pizza` mantiene componente persistente completo, ma viene droppata solo se la pizza e' ancora suddivisa oppure contiene condimenti. Stadio 4 intero e pulito -> `farmersdelight:wheat_dough` anche dopo riunione. Nuova texture pixel art `textures/item/raw_pizza.png` (16×16 RGBA) e relativo modello; nessun asset preesistente sovrascritto. [Test](RAW_PIZZA_ITEM_TESTS.md).
 - [ ] **Verificare nuove regole e texture:** build Java 25, `division_state = 0` pulito -> impasto; diviso -> raw_pizza; diviso poi riunito pulito -> impasto; mozzarella prototipo oppure qualsiasi topping residuo -> raw_pizza. Verificare Pick Block, explosion loot, icon 16×16 e Q/inventario.
 
@@ -164,8 +167,8 @@
 
 - [x] **JSON/reload/cache implementati:** caricamento iniziale 33 ID ufficiali confermato dal giocatore nel log; restano da provare mapping JSON esterni, conflitti ed esclusioni.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
-- [x] **FASE 3B divisioni/riunioni col mattarello provate dall'autore:** `division_state` confermato nel salvataggio. **Restano** overlay temporaneo, sincronizzazione/preview client, test precisione/spareggio e multiplayer. [Prove complementari](ZONE_SELECTION_TESTS.md).
-- [ ] **FASE 3D — condimenti SOLID attivati, da testare:** `PizzaToppingInteractions` collega `PizzaCompositionOperations` ai clic sulla pizza completamente stesa; il server gestisce 6 tipi/quarto, esclusioni, equivalenze, applicazioni parziali, consumo 1 item e rimborso LIFO (inventario, drop solo se pieno). La pizza cruda raccoglie le applicazioni nel suo data component. **Rimangono** i tre item con ciotola, overlay, rendering, sincronizzazione visuale, test di multiplayer e blocco ricette pizza; [guida](TOPPING_INTERACTIONS_TESTS.md).
+- [x] **FASE 3B divisioni/riunioni col mattarello provate dall'autore:** test `division_state` confermato. **FASE 3E aggiunta, build/test visivi ancora necessari:** anteprima dei tagli soltanto con mattarello/topping solido, senza hitbox e con orientamento salvato; verificare precisione, artefatti e multiplayer. [Guida](DIVISION_OVERLAY_TESTS.md).
+- [x] **FASE 3D — condimenti SOLID testati dall'autore:** applicazione/rimozione sui quarti, rimborsi LIFO, persistenza item e no duplicazione. Restano i tre topping con recipiente, rendering fisico degli ingredienti e nomi/ricette. [Test archiviati](TOPPING_INTERACTIONS_TESTS.md).
 - [ ] Recupero diretto nell'inventario dei topping **rimossi completamente** (drop solo se pieno); **rottura pizza formata INTEGRA -> pizza-item cruda/cotta con dati completi** (pizza cotta servita parzialmente -> sole fette residue), senza duplicare ingredienti.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
 - [ ] Test: due pale vuote non si impilano; ogni pala occupata resta singola; spostamenti tra slot e contenitori conservano i dati senza duplicazioni.
@@ -229,4 +232,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** verificare in gioco la nuova fase 3D con [TOPPING_INTERACTIONS_TESTS.md](TOPPING_INTERACTIONS_TESTS.md): clic sui solidi, `/data get block`, quattro quarti, restituzione parziale/finale, inventario pieno, salvataggio e recupero da `raw_pizza`. Dopo la conferma implementare la gestione dei recipienti (panna, ricotta, salsa di pomodoro) senza duplicazioni, seguita dal rendering e dalla sincronizzazione client.
+**Prossimo passo:** eseguire build e prova visiva dell'overlay fase 3E con [DIVISION_OVERLAY_TESTS.md](DIVISION_OVERLAY_TESTS.md). Verificare quattro orientamenti, visibilità solo con item validi, croce sui quarti e apertura di mondi con pizza già divisa. Dopo la conferma: rendering dei condimenti solidi e gestione ciotole/recipienti senza exploit.
