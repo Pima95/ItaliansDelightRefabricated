@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -48,7 +48,7 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
     // A small BlockState representation avoids relying on client-only BE NBT
     // and is synchronized automatically by vanilla (also on chunk watch).
     public static final IntegerProperty DIVISION = IntegerProperty.create("division", 0, 7);
-    public static final DirectionProperty DIVISION_FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> DIVISION_FACING = BlockStateProperties.HORIZONTAL_FACING;
     // First topping proof of concept; arbitrary toppings will use a dedicated
     // data representation later, rather than adding one property per ingredient.
     public static final BooleanProperty MOZZARELLA = BooleanProperty.create("mozzarella");
