@@ -15,6 +15,7 @@ import net.minecraft.core.Registry;
 
 import dev.italiansdelight.ItaliansDelight;
 import dev.italiansdelight.common.aging.AgingCheeseType;
+import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 
 import vectorwing.farmersdelight.common.FoodValues;
@@ -44,6 +45,18 @@ public final class ModItems {
                         // Farmer's Delight's iron knife uses this same material durability.
                         .durability(ToolMaterial.IRON.durability())
                         .repairable(ToolMaterial.IRON.repairItems()));
+
+        // Formed pizza item: retains its complete, versioned composition.
+        // No separate baked pizza or slice is registered in this phase.
+        public static final ResourceKey<Item> RAW_PIZZA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("raw_pizza"));
+
+        public static final Item RAW_PIZZA = register(
+                RAW_PIZZA_KEY,
+                new Item.Properties()
+                        .stacksTo(1)
+                        .component(ModDataComponents.PIZZA_CONTENTS, PizzaItemData.empty()));
 
         // Pizza 1.0.0: rolling pin, 64 uses like the vanilla brush.
         // Crafting recipe and a dedicated texture are intentionally deferred.
