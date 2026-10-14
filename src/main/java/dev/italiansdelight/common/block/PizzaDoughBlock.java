@@ -24,6 +24,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -42,6 +44,11 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
     // This is an initial test value; final hand-stretching balance is open.
     public static final int MAX_STAGE = 4;
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, MAX_STAGE);
+    // Client-visible shadow of the authoritative BlockEntity's logical cuts.
+    // A small BlockState representation avoids relying on client-only BE NBT
+    // and is synchronized automatically by vanilla (also on chunk watch).
+    public static final IntegerProperty DIVISION = IntegerProperty.create("division", 0, 7);
+    public static final DirectionProperty DIVISION_FACING = BlockStateProperties.HORIZONTAL_FACING;
     // First topping proof of concept; arbitrary toppings will use a dedicated
     // data representation later, rather than adding one property per ingredient.
     public static final BooleanProperty MOZZARELLA = BooleanProperty.create("mozzarella");
@@ -72,7 +79,11 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
 
     public PizzaDoughBlock(Properties properties) {
         super(properties);
-        registerDefaultState(stateDefinition.any().setValue(STAGE, 0).setValue(MOZZARELLA, false));
+        registerDefaultState(stateDefinition.any()
+                .setValue(STAGE, 0)
+                .setValue(MOZZARELLA, false)
+                .setValue(DIVISION, 0)
+                .setValue(DIVISION_FACING, Direction.NORTH));
     }
 
     @Override
@@ -88,7 +99,7 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(STAGE, MOZZARELLA);
+        builder.add(STAGE, MOZZARELLA, DIVISION, DIVISION_FACING);
     }
 
     @Override
