@@ -3,6 +3,8 @@ package dev.italiansdelight.common.pizza;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
+import dev.italiansdelight.common.registry.ModDataComponents;
+import net.minecraft.world.level.block.Blocks;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -142,6 +144,53 @@ public final class PizzaDoughPlacement {
 
                 server.playSound(null, clickedPos, SoundEvents.WOOL_PLACE,
                         SoundSource.BLOCKS, 0.55F, rollingPin ? 0.9F : 0.95F);
+                return InteractionResult.SUCCESS;
+            }
+
+            // A formed pizza ItemStack can be placed back into the world with
+            // its exact persisted composition, original ingredient stacks,
+            // division/orientation and temporary legacy mozzarella topping.
+            // This is separate from placing Farmer's Delight wheat dough.
+            if (held.is(dev.italiansdelight.common.registry.ModItems.RAW_PIZZA)) {
+                if (hit.getDirection() != Direction.UP) {
+                    return InteractionResult.PASS;
+                }
+                PizzaItemData pizzaData = held.get(ModDataComponents.PIZZA_CONTENTS);
+                if (pizzaData == null) {
+                    return InteractionResult.FAIL;
+                }
+                BlockPos target = clickedPos.above();
+                BlockState placed = ModBlocks.PIZZA_DOUGH.defaultBlockState()
+                        .setValue(PizzaDoughBlock.STAGE, PizzaDoughBlock.MAX_STAGE)
+                        .setValue(PizzaDoughBlock.MOZZARELLA, pizzaData.legacyMozzarella());
+
+                if (!level.getBlockState(target).isAir() || !placed.canSurvive(level, target)) {
+                    return InteractionResult.PASS;
+                }
+                if (!player.mayUseItemAt(target, Direction.UP, held)
+                        || !level.isUnobstructed(placed, target, CollisionContext.empty())) {
+                    return InteractionResult.FAIL;
+                }
+                if (level.isClientSide()) {
+                    return InteractionResult.SUCCESS;
+                }
+                if (!(level instanceof ServerLevel server)
+                        || !server.setBlock(target, placed, Block.UPDATE_ALL)) {
+                    return InteractionResult.FAIL;
+                }
+                if (!(server.getBlockEntity(target) instanceof PizzaDoughBlockEntity pizzaEntity)) {
+                    // Do not consume an item unless both the block and its
+                    // data holder exist. Undo the partial placement safely.
+                    server.setBlock(target, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+                    return InteractionResult.FAIL;
+                }
+                pizzaEntity.setComposition(pizzaData.composition());
+                if (!player.getAbilities().instabuild) {
+                    held.shrink(1);
+                }
+                server.playSound(null, target, SoundEvents.WOOL_PLACE,
+                        SoundSource.BLOCKS, 0.7F, 1.0F);
+                server.gameEvent(player, GameEvent.BLOCK_PLACE, target);
                 return InteractionResult.SUCCESS;
             }
 
