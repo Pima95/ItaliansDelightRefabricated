@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "italiansdelight:block/pizza_dough_top"
+    "layer0": "italiansdelight:item/raw_pizza"
   }
 }
