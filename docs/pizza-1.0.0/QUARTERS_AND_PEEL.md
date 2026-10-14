@@ -11,7 +11,7 @@ La pizza e' preparata direttamente nel mondo, senza GUI obbligatoria per condirl
 
 Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozzarella` del BlockState, consuma un item e visualizza cinque pezzi. **Non** implementa ancora i quattro quarti, le applicazioni multiple, la rimozione parziale o i dati sulla pala.
 
-**Nota implementativa (14 ottobre 2026):** l'autore ha verificato il salvataggio di `division_state` nei test della fase 3B. La fase 3C aggiunge al codice il recupero della pizza completamente stesa come `italiansdelight:raw_pizza`, contenente composizione e mozzarella del vecchio prototipo, e il riposizionamento sul terreno. **Ancora da compilare/testare in gioco:** l'intero ciclo blocco-item-blocco. [Procedura](RAW_PIZZA_ITEM_TESTS.md). I clic degli ingredienti, i rimborsi, l'overlay e il forno sono successivi.
+**Nota implementativa aggiornata (14 ottobre 2026):** l'autore ha confermato funzionanti salvataggio dei quarti, tagli, recupero/riposizionamento `raw_pizza` e regola del ritorno all'impasto quando la pizza è intera e senza condimenti. **FASE 3D implementata nel branch, da compilare e testare:** clic destro con topping solidi approvati per aggiungere un'applicazione ai quarti selezionati, Shift + clic destro a mano vuota per rimuovere la più recente (rimborso una volta sola). Sono esclusi temporaneamente i tre condimenti in ciotola (tomato_sauce, cream_bowl, ricotta) per evitare exploit di recipiente/rimborso. **Overlay delle divisioni, resa grafica dei nuovi topping e sincronizzazione della BlockEntity al client NON ancora implementati.** [Guida test](TOPPING_INTERACTIONS_TESTS.md).
 
 ## 1. Divisione facoltativa con il mattarello — CONFERMATO
 
