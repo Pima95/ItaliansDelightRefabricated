@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (14 ottobre 2026):** stesura, registro 31 tipi/33 item, caricamento nativo dei datapack e persistenza della BlockEntity verificati dall'autore. **FASE 3B (divisione/riunione) verificata dall'autore:** `division_state` confermato. **FASE 3C implementata nel branch, DA COMPILARE/TESTARE:** `italiansdelight:raw_pizza` non impilabile, con componente persistente `italiansdelight:pizza_contents` (composizione completa + flag provvisorio mozzarella); rottura di pizza stesa -> unico item; item -> blocco già steso, ripristinando i dati. Stadi 0–3 e modelli non modificati; nuovo modello item usa texture già esistente. **Clic sui topping, overlay, cottura e forno ancora non implementati.** [Test](RAW_PIZZA_ITEM_TESTS.md).
+**Stato implementazione pizza (14 ottobre 2026):** stesura, registro 31 tipi/33 item, caricamento native datapack, BlockEntity, divisioni e ciclo item pizza cruda **confermati dall'autore**. **Nuova modifica nel branch, DA TESTARE:** icona `raw_pizza` originale 16×16; drop del normale impasto per base stadio 4 non divisa e senza topping, anche dopo divisione e successiva riunione. Le pizze tuttora divise oppure con condimenti (inclusa mozzarella del prototipo) conservano il drop unico `raw_pizza` con i dati. Nessuna modifica a topping generalizzati, modelli del blocco, overlay, forno o cottura. [Test](RAW_PIZZA_ITEM_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -148,8 +148,8 @@
 
 ### Fase 2: sistema condimenti
 
-- [x] **FASE 3C implementazione codice (14 ottobre 2026, DA TESTARE):** item `raw_pizza`, data component persistente e sincronizzato tramite codec, loot unificato per pizza stesa (incluse proprietà composizione/flag mozzarella esistente), riposizionamento sul terreno senza perdita dei dati, icona da texture `pizza_dough_top`, nome EN/IT. Impasto non completamente steso conserva il drop `farmersdelight:wheat_dough`. [Test](RAW_PIZZA_ITEM_TESTS.md).
-- [ ] **Confermare FASE 3C in gioco:** `gradlew clean build`, `/data get block`, stadi 0–3 vs 4, rottura, drop Q/raccolta, riposizionamento e riavvio mondo, proto mozzarella senza duplicazione.
+- [x] **FASE 3C verificata dall'autore; aggiornamento dei drop e della texture da testare (14 ottobre 2026):** `raw_pizza` mantiene componente persistente completo, ma viene droppata solo se la pizza e' ancora suddivisa oppure contiene condimenti. Stadio 4 intero e pulito -> `farmersdelight:wheat_dough` anche dopo riunione. Nuova texture pixel art `textures/item/raw_pizza.png` (16×16 RGBA) e relativo modello; nessun asset preesistente sovrascritto. [Test](RAW_PIZZA_ITEM_TESTS.md).
+- [ ] **Verificare nuove regole e texture:** build Java 25, `division_state = 0` pulito -> impasto; diviso -> raw_pizza; diviso poi riunito pulito -> impasto; mozzarella prototipo oppure qualsiasi topping residuo -> raw_pizza. Verificare Pick Block, explosion loot, icon 16×16 e Q/inventario.
 
 - [x] **FASE 3A — modello persistente e BlockEntity nel branch:** codec versione 1, quattro quarti fisici, divisione e orientamento, identità delle applicazioni, maschere originaria/residua, `ItemStack` originale salvato con i suoi componenti, contatore cronologico e seed. Invarianti statici controllati; **compilazione e persistenza nel mondo non ancora provate**. [Guida](PERSISTENT_COMPOSITION_TESTS.md).
 - [x] **FASE 3A testata dall'autore:** build, persistenza e comportamento del blocco confermati funzionanti; [guida](PERSISTENT_COMPOSITION_TESTS.md).
@@ -229,4 +229,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** eseguire la compilazione e i test di [RAW_PIZZA_ITEM_TESTS.md](RAW_PIZZA_ITEM_TESTS.md), incluso il ciclo completo mondo -> item -> Q -> inventario -> mondo e il caso mozzarella prototipo. **Solo dopo la conferma:** collegare i clic dei topping al sistema persistente e le transazioni atomiche di inventario/rimborso; restano da realizzare gli item pizza cotta, fette, forno e pala.
+**Prossimo passo:** provare i nuovi drop e l'icona con [RAW_PIZZA_ITEM_TESTS.md](RAW_PIZZA_ITEM_TESTS.md). In seguito collegare le applicazioni di ingredienti ai quattro quarti con transazioni server/inventario e rimborsi, usando la nuova regola: solo una pizza senza divisioni e senza topping torna impasto.
