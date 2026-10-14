@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -150,7 +151,7 @@ public final class PizzaToppingRenderer
             poseStack.mulPose(Axis.ZP.rotationDegrees(piece.rotation()));
             poseStack.scale(ITEM_SCALE, ITEM_SCALE, ITEM_SCALE);
             piece.renderState().submit(
-                    poseStack, queue, state.lightCoords, 0, 0);
+                    poseStack, queue, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();
         }
     }
