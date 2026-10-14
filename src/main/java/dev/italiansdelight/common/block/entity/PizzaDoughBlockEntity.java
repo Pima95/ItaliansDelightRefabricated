@@ -1,6 +1,9 @@
 package dev.italiansdelight.common.block.entity;
 
 import dev.italiansdelight.common.pizza.PizzaComposition;
+import dev.italiansdelight.common.block.PizzaDoughBlock;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import java.util.Objects;
 import net.minecraft.core.BlockPos;
@@ -14,8 +17,9 @@ import net.minecraft.world.level.storage.ValueOutput;
  * one BlockState property per ingredient) supports arbitrary four-quarter
  * compositions without the combinatorial explosion of blockstate variants.
  *
- * <p>No ticker, no hopper interface, and no new interaction yet. Rendering
- * still comes from the existing blockstate models.
+ * <p>No ticker or hopper interface. The authoritative composition is saved
+ * here. A compact division/facing shadow is synchronized as BlockState for
+ * client-only visual hints; no ingredient data is duplicated in BlockState.
  */
 public final class PizzaDoughBlockEntity extends BlockEntity {
     private PizzaComposition composition = PizzaComposition.empty();
@@ -40,8 +44,36 @@ public final class PizzaDoughBlockEntity extends BlockEntity {
         }
         this.composition = next;
         setChanged();
-        // Client synchronization and rendering will be implemented when
-        // topping interactions are wired up.
+        syncDivisionBlockState();
+    }
+
+    /**
+     * Vanilla automatically broadcasts blockstate updates to nearby clients.
+     * It is intentionally *not* a second storage for toppings or chronology.
+     * Called after all successful cuts/joins and when a saved pizza is placed.
+     */
+    public void syncDivisionBlockState() {
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+        BlockState current = level.getBlockState(worldPosition);
+        if (!(current.getBlock() instanceof PizzaDoughBlock)) {
+            return;
+        }
+        Direction direction = switch (composition.orientation()) {
+            case "north" -> Direction.NORTH;
+            case "south" -> Direction.SOUTH;
+            case "east" -> Direction.EAST;
+            case "west" -> Direction.WEST;
+            default -> throw new IllegalStateException(
+                    "Unsupported saved pizza orientation: " + composition.orientation());
+        };
+        BlockState updated = current
+                .setValue(PizzaDoughBlock.DIVISION, composition.divisionState())
+                .setValue(PizzaDoughBlock.DIVISION_FACING, direction);
+        if (updated != current) {
+            level.setBlock(worldPosition, updated, Block.UPDATE_ALL);
+        }
     }
 
     @Override
