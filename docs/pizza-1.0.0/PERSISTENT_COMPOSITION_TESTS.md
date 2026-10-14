@@ -1,6 +1,6 @@
 # Test infrastruttura dati persistenti — Pizza Update 1.0.0
 
-> **Fase 3, primo intervento nel branch `feature/pizza-1.0.0`.** Questo intervento aggiunge la BlockEntity e il formato serializzabile dei quattro quarti, **NON** ancora il gesto di inserimento di condimenti sui quarti. Nessun cambiamento previsto ai modelli o alla stesura. Il nuovo codice necessita di **build e collaudo in Minecraft 26.2**.
+> **Fase 3A, infrastruttura di persistenza già testata dall'autore.** Per la successiva fase 3B (divisione logica e selezione zone) vedi [ZONE_SELECTION_TESTS.md](ZONE_SELECTION_TESTS.md). Questo intervento aggiunge la BlockEntity e il formato serializzabile dei quattro quarti, **NON** ancora il gesto di inserimento di condimenti sui quarti. Nessun cambiamento previsto ai modelli o alla stesura. Il nuovo codice necessita di **build e collaudo in Minecraft 26.2**.
 
 ## File principali
 
@@ -60,4 +60,4 @@ git pull
 - Il formato salva gli ID canonici, **non** i nomi già tradotti o le definizioni JSON.
 - Nessun tick aggiuntivo per il contenuto della pizza.
 
-**Non ancora implementati:** divisione con mattarello, ricerca della zona cliccata, transazioni applicazione/rimozione/rimborso, trasferimento a item/pala/forno, sincronizzazione client e rendering finale. La nuova BlockEntity è un contenitore di dati, non una meccanica completa.
+**Dopo la FASE 3B:** divisione e selezione delle zone sono implementate nel codice ma da provare in game; **non ancora implementati** clic reali di applicazione/rimozione/rimborso, trasferimento a item/pala/forno, sincronizzazione client e rendering finale. La nuova BlockEntity è un contenitore di dati, non una meccanica completa.
