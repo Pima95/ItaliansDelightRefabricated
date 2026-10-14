@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (14 ottobre 2026):** stesura, catalogo, BlockEntity, divisioni, recupero pizza-item e condimenti solidi **confermati funzionanti dall'autore**. **FASE 3E PUBBLICATA, DA COMPILARE/TESTARE:** overlay temporaneo delle linee (stati 0/1/3/5/7), visibile nel raggio vicino al giocatore quando tiene il mattarello o un ingrediente SOLID ufficiale; orientamento fissato al primo taglio, nessun modello/texture/hitbox alterato. Per aggiornare i client, il server riflette divisione/orientamento in due proprietà BlockState; le vecchie BlockEntity vengono sincronizzate una volta dopo caricamento. **Resta da realizzare** il rendering dei topping e la gestione dei tre ingredienti con ciotola. [Test](DIVISION_OVERLAY_TESTS.md).
+**Stato implementazione pizza (14 ottobre 2026):** stesura, quarti, recupero `raw_pizza`, condimenti SOLID e **overlay scuro dei tagli** verificati funzionanti dall'autore. **FASE 3F pubblicata su GitHub, DA COMPILARE/TESTARE:** sincronizzazione della composizione completa tramite aggiornamenti standard della BlockEntity, visualizzazione dei modelli degli ItemStack originali sul singolo quarto fisico e aggiornamento in tempo reale su applicazioni/rimozioni. Nessuna texture, modello del blocco o regola gameplay modificata. Rimangono da sviluppare il sistema anti-duplicazione dei recipienti, ricette forno e nomi dinamici. [Test](TOPPING_RENDER_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -148,8 +148,9 @@
 
 ### Fase 2: sistema condimenti
 
-- [x] **FASE 3E — visualizzazione divisioni implementata (14 ottobre 2026, DA TESTARE):** client renderer Fabric 26.2, linee temporanee in crema entro il bordo, proprietà BlockState `division`/`facing` sincronizzate lato server, migrazione unica al caricamento dei vecchi blocchi. Non cambia fisica o texture. [Guida](DIVISION_OVERLAY_TESTS.md).
-- [ ] **Confermare FASE 3E:** build Gradle Java 25; linee 0/1/3/5/7; Nord/Est/Sud/Ovest; assenza linee con mano vuota o item esclusi; multiplayer e regressioni dei topping.
+- [x] **FASE 3E — overlay di divisione verificato dall'autore:** linee visibili negli stati 1/3/5/7, con colore nero/scuro applicato dall'autore e meccanica confermata. [Test](DIVISION_OVERLAY_TESTS.md).
+- [x] **FASE 3E confermata dall'autore:** visualizzazione delle linee e comportamento della divisione funzionanti; eventuali controlli multiplayer restano consigliati.
+- [ ] **FASE 3F — rendering dei topping SOLID pubblicato, da testare:** `PizzaToppingRenderer` client usa gli item model 2.5D già presenti e le maschere `remaining_mask` per disegnare soltanto sui quarti fisici che contengono gli ingredienti. `PizzaDoughBlockEntity` sincronizza il codec di composizione via packet vanilla su watch e modifiche. Il vecchio flag mozzarella resta separato. [Test](TOPPING_RENDER_TESTS.md).
 
 - [x] **FASE 3C verificata dall'autore; aggiornamento dei drop e della texture da testare (14 ottobre 2026):** `raw_pizza` mantiene componente persistente completo, ma viene droppata solo se la pizza e' ancora suddivisa oppure contiene condimenti. Stadio 4 intero e pulito -> `farmersdelight:wheat_dough` anche dopo riunione. Nuova texture pixel art `textures/item/raw_pizza.png` (16×16 RGBA) e relativo modello; nessun asset preesistente sovrascritto. [Test](RAW_PIZZA_ITEM_TESTS.md).
 - [ ] **Verificare nuove regole e texture:** build Java 25, `division_state = 0` pulito -> impasto; diviso -> raw_pizza; diviso poi riunito pulito -> impasto; mozzarella prototipo oppure qualsiasi topping residuo -> raw_pizza. Verificare Pick Block, explosion loot, icon 16×16 e Q/inventario.
@@ -167,7 +168,7 @@
 
 - [x] **JSON/reload/cache implementati:** caricamento iniziale 33 ID ufficiali confermato dal giocatore nel log; restano da provare mapping JSON esterni, conflitti ed esclusioni.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
-- [x] **FASE 3B divisioni/riunioni col mattarello provate dall'autore:** test `division_state` confermato. **FASE 3E aggiunta, build/test visivi ancora necessari:** anteprima dei tagli soltanto con mattarello/topping solido, senza hitbox e con orientamento salvato; verificare precisione, artefatti e multiplayer. [Guida](DIVISION_OVERLAY_TESTS.md).
+- [x] **FASE 3B/3E provate dall'autore:** divisioni, riunioni, valori `division_state` e overlay scuro. Anteprima temporanea e hitbox invariata. [Guida](DIVISION_OVERLAY_TESTS.md).
 - [x] **FASE 3D — condimenti SOLID testati dall'autore:** applicazione/rimozione sui quarti, rimborsi LIFO, persistenza item e no duplicazione. Restano i tre topping con recipiente, rendering fisico degli ingredienti e nomi/ricette. [Test archiviati](TOPPING_INTERACTIONS_TESTS.md).
 - [ ] Recupero diretto nell'inventario dei topping **rimossi completamente** (drop solo se pieno); **rottura pizza formata INTEGRA -> pizza-item cruda/cotta con dati completi** (pizza cotta servita parzialmente -> sole fette residue), senza duplicare ingredienti.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
@@ -232,4 +233,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** eseguire build e prova visiva dell'overlay fase 3E con [DIVISION_OVERLAY_TESTS.md](DIVISION_OVERLAY_TESTS.md). Verificare quattro orientamenti, visibilità solo con item validi, croce sui quarti e apertura di mondi con pizza già divisa. Dopo la conferma: rendering dei condimenti solidi e gestione ciotole/recipienti senza exploit.
+**Prossimo passo:** eseguire build e test visivi della **FASE 3F** secondo [TOPPING_RENDER_TESTS.md](TOPPING_RENDER_TESTS.md): modelli dei condimenti realmente usati, quarti, orientamenti, rimozione parziale, persistenza mondo/item e multiplayer. Dopo conferma, perfezionare scala/densità dei topping e aggiungere i condimenti con recipiente senza duping.
