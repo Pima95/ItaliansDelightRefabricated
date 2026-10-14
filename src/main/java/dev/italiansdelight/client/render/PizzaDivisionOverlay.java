@@ -44,7 +44,7 @@ public final class PizzaDivisionOverlay {
     private static final double LINE_HALF_WIDTH = 1.0 / 150.0;
     private static final double Y_MIN = 1.0 / 16.0 + 0.004;
     private static final double Y_MAX = Y_MIN + 0.002;
-    private static final int COLOR = 0xDDF9EACB;
+    private static final int COLOR = 0xDD000000;
 
     // Restrict the lookup to nearby loaded blocks while the player holds
     // a relevant item. One reusable BlockPos eliminates per-cell allocations.
