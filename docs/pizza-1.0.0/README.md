@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated — Pizza Update 1.0.0
 
-> **Stato:** implementazione incrementale. Registro 31/33, loader, BlockEntity e divisione/riunione con mattarello verificati dall'autore. **FASE 3C inserita nel branch, da compilare/testare:** `raw_pizza` come item persistente, unico drop dalla pizza cruda interamente stesa, ricollocabile sul terreno con composizione e prototipo mozzarella preservati. I clic dei topping generici, overlay, rendering, cottura e forno restano da implementare.
+> **Stato:** registro, loader, BlockEntity, divisioni e item pizza cruda confermati in gioco dall'autore. **Nuovo aggiornamento (da testare):** texture originale 16×16 per `raw_pizza` e drop di `farmersdelight:wheat_dough` quando la pizza, anche se completamente stesa o già divisa e riunita, e' attualmente intera e priva di condimenti. Se ancora divisa o con topping, preserva la pizza-item completa. Mancano topping interattivi generici, overlay e cottura.
 >
 > **Principio guida CONFERMATO:** i comportamenti basilari seguono **Minecraft vanilla** come default (drop, pickup, despawn, danni ambientali e altre interazioni standard). Non richiedere approvazioni ripetute per queste regole ordinarie; rispettare le eccezioni personalizzate gia' concordate e discutere solo le nuove meccaniche significative.
 
@@ -74,7 +74,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 ## Regole di progetto
 
 - Mod per **Minecraft 26.2 / Fabric**, compatibile con Farmer's Delight Refabricated.
-- Non sovrascrivere, spostare o cancellare texture e modelli già prodotti dall'autore.
+- **Autorizzazione dal 14 ottobre 2026:** è consentito creare e pubblicare direttamente nuove texture originali nel branch, in pixel art coerente con Minecraft e preferibilmente 16×16 per gli item. Non sovrascrivere, spostare o cancellare texture e modelli già prodotti dall'autore senza necessità o consenso specifico.
 - Nel repository esistono già `textures/item/pizza_margherita.png` e `textures/block/top_mushroom_pizza.png`: sono risorse da rispettare e integrare in seguito.
 - **Stato aggiornato:** il registro Java è stato aggiunto al branch di sviluppo; documentazione e specifiche non implicano che tutte le funzionalità descritte siano già disponibili. La versione pubblicata resta invariata.
 - Il lavoro va sviluppato su un branch dedicato e portato su `main` mediante PR dopo test e revisione.
