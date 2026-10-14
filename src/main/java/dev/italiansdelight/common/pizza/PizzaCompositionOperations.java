@@ -9,10 +9,11 @@ import net.minecraft.world.item.ItemStack;
  * Pure, all-or-nothing operations on the immutable pizza composition.
  *
  * <p>These operations deliberately do NOT change inventories or the world:
- * callers must check permissions and item availability, then commit the new
- * composition and item consumption/refund on the server as one interaction.
- * In particular, do not enable live ingredient consumption before pizza
- * block drops and transfer-to-item persistence are implemented.
+ * the server-side PizzaToppingInteractions handler commits the returned state
+ * and only then consumes or refunds the corresponding ItemStack. The existing
+ * raw_pizza loot/item component preserves these applications when the formed
+ * pizza is broken and replaced. Bowl-bearing toppings remain deferred until
+ * their container and refund lifecycle is safe.
  */
 public final class PizzaCompositionOperations {
     private PizzaCompositionOperations() {
