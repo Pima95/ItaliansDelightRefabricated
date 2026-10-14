@@ -146,10 +146,10 @@
 - [ ] Salvare e recuperare correttamente stati e oggetti.
 - [ ] Test chunk unload, multiplayer, rottura del supporto e superfici particolari.
 
+### Fase 2: sistema condimenti
+
 - [x] **FASE 3C implementazione codice (14 ottobre 2026, DA TESTARE):** item `raw_pizza`, data component persistente e sincronizzato tramite codec, loot unificato per pizza stesa (incluse proprietà composizione/flag mozzarella esistente), riposizionamento sul terreno senza perdita dei dati, icona da texture `pizza_dough_top`, nome EN/IT. Impasto non completamente steso conserva il drop `farmersdelight:wheat_dough`. [Test](RAW_PIZZA_ITEM_TESTS.md).
 - [ ] **Confermare FASE 3C in gioco:** `gradlew clean build`, `/data get block`, stadi 0–3 vs 4, rottura, drop Q/raccolta, riposizionamento e riavvio mondo, proto mozzarella senza duplicazione.
-
-### Fase 2: sistema condimenti
 
 - [x] **FASE 3A — modello persistente e BlockEntity nel branch:** codec versione 1, quattro quarti fisici, divisione e orientamento, identità delle applicazioni, maschere originaria/residua, `ItemStack` originale salvato con i suoi componenti, contatore cronologico e seed. Invarianti statici controllati; **compilazione e persistenza nel mondo non ancora provate**. [Guida](PERSISTENT_COMPOSITION_TESTS.md).
 - [x] **FASE 3A testata dall'autore:** build, persistenza e comportamento del blocco confermati funzionanti; [guida](PERSISTENT_COMPOSITION_TESTS.md).
