@@ -2,6 +2,7 @@ package dev.italiansdelight.common.pizza;
 
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
+import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,11 +36,45 @@ public final class PizzaDoughPlacement {
             // UseBlockCallback runs before vanilla item/block interactions; using
             // one handler prevents inconsistent right-click behavior.
             if (clickedState.is(ModBlocks.PIZZA_DOUGH)) {
+                int stage = clickedState.getValue(PizzaDoughBlock.STAGE);
+                boolean rollingPin = held.is(
+                        dev.italiansdelight.common.registry.ModItems.ROLLING_PIN);
+
+                // A fully stretched pizza can be divided into logical zones:
+                // right-click = split, Shift + right-click = join. This is
+                // only a persisted selection layout for now. It does not
+                // change the block model, consume durability or move toppings.
+                if (stage == PizzaDoughBlock.MAX_STAGE && rollingPin) {
+                    if (!player.mayUseItemAt(clickedPos, hit.getDirection(), held)) {
+                        return InteractionResult.FAIL;
+                    }
+                    if (level.isClientSide()) {
+                        return InteractionResult.SUCCESS;
+                    }
+                    if (!(level instanceof ServerLevel server)
+                            || !(server.getBlockEntity(clickedPos)
+                                    instanceof PizzaDoughBlockEntity pizzaEntity)) {
+                        return InteractionResult.FAIL;
+                    }
+
+                    PizzaComposition current = pizzaEntity.composition();
+                    int clickedMask = PizzaQuarterSelection.selectMask(
+                            current, clickedPos, hit.getLocation());
+                    PizzaComposition updated = player.isShiftKeyDown()
+                            ? PizzaQuarterSelection.join(current, clickedMask)
+                            : PizzaQuarterSelection.split(current, clickedMask,
+                                    PizzaQuarterSelection.nearestClockwiseFacing(player.getYRot()));
+                    if (updated != current) {
+                        pizzaEntity.setComposition(updated);
+                        server.playSound(null, clickedPos, SoundEvents.WOOL_PLACE,
+                                SoundSource.BLOCKS, 0.55F, 1.15F);
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+
                 if (player.isShiftKeyDown()) {
                     return InteractionResult.PASS;
                 }
-
-                int stage = clickedState.getValue(PizzaDoughBlock.STAGE);
 
                 // First topping milestone: one mozzarella on a fully stretched
                 // base. Further toppings will use a general ingredient system.
@@ -70,7 +105,6 @@ public final class PizzaDoughPlacement {
                     return InteractionResult.SUCCESS;
                 }
 
-                boolean rollingPin = held.is(dev.italiansdelight.common.registry.ModItems.ROLLING_PIN);
                 if (!rollingPin && !held.isEmpty()) {
                     return InteractionResult.PASS;
                 }
