@@ -2,7 +2,7 @@
 
 **Stato: codice pubblicato sul branch `feature/pizza-1.0.0`, compilazione e test in Minecraft 26.2 DA ESEGUIRE.** Non confondere questo stato con una verifica positiva in gioco.
 
-Questa fase collega [PizzaToppingInteractions.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingInteractions.java), [PizzaCompositionOperations.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaCompositionOperations.java) e [PizzaDoughPlacement.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaDoughPlacement.java). Usa la BlockEntity e il `raw_pizza` con componente persistente delle fasi precedenti. **Non contiene ancora il rendering dei condimenti, l'overlay dei tagli o la sincronizzazione dello stato dei quarti verso il client**: per vedere i risultati si usa `/data get block` sulla pizza.
+Questa fase collega [PizzaToppingInteractions.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingInteractions.java), [PizzaCompositionOperations.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaCompositionOperations.java) e [PizzaDoughPlacement.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaDoughPlacement.java). Usa la BlockEntity e il `raw_pizza` con componente persistente delle fasi precedenti. **Aggiornamento (FASE 3E, da testare):** l'overlay visivo dei tagli e la sincronizzazione delle sole proprietà `division`/`facing` sul client sono ora implementati nel branch, ma non ancora verificati in gioco. Il rendering dei condimenti resta assente: per vedere gli ingredienti memorizzati si usa ancora `/data get block`. [Test overlay](DIVISION_OVERLAY_TESTS.md).
 
 ## Build e preparazione
 
