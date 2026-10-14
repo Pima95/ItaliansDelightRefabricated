@@ -3,6 +3,13 @@ package dev.italiansdelight.common.block;
 import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.pizza.PizzaDoughSupport;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
+import dev.italiansdelight.common.pizza.PizzaComposition;
+import dev.italiansdelight.common.pizza.PizzaItemData;
+import dev.italiansdelight.common.registry.ModDataComponents;
+import dev.italiansdelight.common.registry.ModItems;
+import java.util.List;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -105,8 +112,39 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
         return super.updateShape(state, level, ticks, pos, direction, neighborPos, neighborState, random);
     }
 
+    /**
+     * Formed dough yields ONE complete pizza item, not the wheat dough and
+     * separate toppings. Earlier dough stages retain their normal loot table.
+     * Loot context supplies the original BlockEntity before it is removed.
+     */
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        if (state.getValue(STAGE) < MAX_STAGE) {
+            return super.getDrops(state, params);
+        }
+        PizzaDoughBlockEntity pizzaEntity =
+                params.getOptionalParameter(LootContextParams.BLOCK_ENTITY)
+                        instanceof PizzaDoughBlockEntity entity ? entity : null;
+        return List.of(createPizzaItem(state, pizzaEntity));
+    }
+
+    private static ItemStack createPizzaItem(BlockState state, PizzaDoughBlockEntity entity) {
+        PizzaComposition composition =
+                entity == null ? PizzaComposition.empty() : entity.composition();
+        ItemStack stack = new ItemStack(ModItems.RAW_PIZZA);
+        stack.set(ModDataComponents.PIZZA_CONTENTS,
+                new PizzaItemData(composition, state.getValue(MOZZARELLA)));
+        return stack;
+    }
+
     @Override
     protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        if (state.getValue(STAGE) == MAX_STAGE) {
+            // Pick Block on a formed pizza also preserves its composition.
+            PizzaDoughBlockEntity entity = level.getBlockEntity(pos)
+                    instanceof PizzaDoughBlockEntity pizza ? pizza : null;
+            return createPizzaItem(state, entity);
+        }
         return new ItemStack(vectorwing.farmersdelight.common.registry.ModItems.WHEAT_DOUGH.get());
     }
 }
