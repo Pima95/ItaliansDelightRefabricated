@@ -3,6 +3,10 @@
 > **Fase 3B, codice aggiunto su `feature/pizza-1.0.0`; nuova build e prove in gioco necessarie.**
 > Questa fase abilita **solo la suddivisione/riunione logica col mattarello**; nessun rendering delle linee e nessuna nuova applicazione di topping consumabile ancora attivi. Non considerare la mancanza di linee grafiche un errore del codec: l'overlay è previsto nella fase di rendering.
 
+## Aggiornamento dello stato
+
+La suddivisione e i valori `division_state` di questa fase sono **stati verificati dall'autore**. Il recupero della pizza già formata come item persistente è ora aggiunto nel codice della fase 3C, ma richiede ancora test: [RAW_PIZZA_ITEM_TESTS.md](RAW_PIZZA_ITEM_TESTS.md). La posa/rimozione di condimenti generici è sempre separata dai clic.
+
 ## 1. Build e regressioni
 
 In PowerShell dalla cartella della mod:
