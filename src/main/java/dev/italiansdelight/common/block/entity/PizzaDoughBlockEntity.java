@@ -11,6 +11,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 
 /**
  * Persistent pizza state in the world. Keeping the data here (rather than
@@ -45,6 +50,12 @@ public final class PizzaDoughBlockEntity extends BlockEntity {
         this.composition = next;
         setChanged();
         syncDivisionBlockState();
+        // Dynamic topping models need the full BE data, not just the compact
+        // cut/facing BlockState shadow. This packet is standard vanilla sync.
+        if (level != null) {
+            BlockState current = level.getBlockState(worldPosition);
+            level.sendBlockUpdated(worldPosition, current, current, Block.UPDATE_CLIENTS);
+        }
     }
 
     /**
@@ -87,5 +98,21 @@ public final class PizzaDoughBlockEntity extends BlockEntity {
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         output.store("PizzaComposition", PizzaComposition.CODEC, composition);
+    }
+
+    /**
+     * Chunk watch/initial load: preserve the SAME codec as disk persistence,
+     * including the precise remaining masks and the original ingredient
+     * stacks. There is no separately mutable visual inventory.
+     */
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
+    }
+
+    /** Current watchers receive updates after each successful interaction. */
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 }
