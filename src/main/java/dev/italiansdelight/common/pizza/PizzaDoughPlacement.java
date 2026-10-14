@@ -74,6 +74,34 @@ public final class PizzaDoughPlacement {
                     return InteractionResult.SUCCESS;
                 }
 
+                // Phase 3D: server-authoritative solid topping composition.
+                // Shift + empty hand peels only the newest application in
+                // the selected physical zone, with refund on LAST removal.
+                if (stage == PizzaDoughBlock.MAX_STAGE && held.isEmpty()
+                        && player.isShiftKeyDown()) {
+                    return PizzaToppingInteractions.remove(
+                            player, level, clickedPos, hit);
+                }
+
+                // The native catalog can be checked on BOTH sides without a
+                // resource reload; optional datapack substitutes are resolved
+                // by the authoritative server lookup. The custom mapping's
+                // full client preview/synchronization comes in a later phase.
+                if (stage == PizzaDoughBlock.MAX_STAGE
+                        && !player.isShiftKeyDown()
+                        && !held.isEmpty()
+                        && (level.isClientSide()
+                            ? PizzaToppingCatalog.findNativeItem(
+                                    net.minecraft.core.registries.BuiltInRegistries.ITEM
+                                            .getKey(held.getItem()))
+                                    .filter(type -> type.role()
+                                            == PizzaToppingType.Role.SOLID)
+                                    .isPresent()
+                            : PizzaToppingInteractions.isImplementedTopping(held))) {
+                    return PizzaToppingInteractions.add(
+                            player, level, clickedPos, hit, held);
+                }
+
                 if (player.isShiftKeyDown()) {
                     return InteractionResult.PASS;
                 }
