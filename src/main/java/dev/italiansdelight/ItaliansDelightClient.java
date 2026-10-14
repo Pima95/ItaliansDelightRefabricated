@@ -5,6 +5,9 @@ import net.fabricmc.api.ClientModInitializer;
 import dev.italiansdelight.client.gui.CheeseVatScreen;
 import dev.italiansdelight.client.particle.WhiteBubblePopParticle;
 import dev.italiansdelight.client.render.PizzaDivisionOverlay;
+import dev.italiansdelight.client.render.PizzaToppingRenderer;
+import dev.italiansdelight.common.registry.ModBlockEntities;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import dev.italiansdelight.common.registry.ModMenuTypes;
 import dev.italiansdelight.common.registry.ModParticles;
 
@@ -22,6 +25,7 @@ public class ItaliansDelightClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         PizzaDivisionOverlay.register();
+        BlockEntityRenderers.register(ModBlockEntities.PIZZA_DOUGH, PizzaToppingRenderer::new);
         // Links the server-synchronized MenuType to the client-side screen.
         MenuScreens.register(
             ModMenuTypes.CHEESE_VAT,
