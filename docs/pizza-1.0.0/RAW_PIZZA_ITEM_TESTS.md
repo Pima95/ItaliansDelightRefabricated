@@ -1,7 +1,7 @@
 # Test pizza cruda persistente (item ↔ blocco) — Pizza Update 1.0.0
 
-> **Fase 3C — codice caricato nel branch, build e test in gioco da eseguire.**
-> La suddivisione logica dei quarti è stata verificata dall'autore. In questo intervento una pizza **completamente stesa** si raccoglie rompendo il blocco e diventa un unico `italiansdelight:raw_pizza` con i dati conservati. Un impasto agli stadi 0–3 restituisce ancora impasto di Farmer's Delight. Non sono ancora stati attivati i clic per aggiungere topping generici.
+> **Fase 3C confermata funzionante dall'autore (14 ottobre 2026); nuove modifiche da provare.** La rottura di una base stesa restituisce ora impasto normale quando la pizza non e' attualmente divisa e non contiene alcun condimento, anche se in precedenza era stata divisa e poi riunita. Una base ancora divisa o con almeno un condimento restituisce invece `raw_pizza` con tutti i suoi dati. Il modello dell'item usa ora una texture originale 16×16.
+> La suddivisione logica dei quarti è stata verificata dall'autore. In questa fase una pizza **completamente stesa ma ancora divisa oppure con condimenti** diventa un unico `italiansdelight:raw_pizza` con dati conservati; una pizza **intera senza condimenti** restituisce invece l'impasto Farmer's Delight. Un impasto agli stadi 0–3 restituisce ancora impasto di Farmer's Delight. Non sono ancora stati attivati i clic per aggiungere topping generici.
 
 ## Implementazione
 
@@ -10,7 +10,7 @@
 - [ModItems.java](../../src/main/java/dev/italiansdelight/common/registry/ModItems.java): `raw_pizza` non impilabile (massimo 1) e non commestibile.
 - [PizzaDoughBlock.java](../../src/main/java/dev/italiansdelight/common/block/PizzaDoughBlock.java): drop singolo e copia con Pick Block; il loot standard rimane per gli impasti incompleti. La pizza completa rispetta il fatto che la base sia sopravvissuta alle normali condizioni del loot table.
 - [PizzaDoughPlacement.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaDoughPlacement.java): ricolloca sul terreno la base già completamente stesa e ripristina la BlockEntity. Non consuma l'item se il posizionamento fallisce.
-- [Modelli item](../../src/main/resources/assets/italiansdelight/items/raw_pizza.json): l'icona usa la texture `pizza_dough_top` già esistente; nessuna texture originale è stata modificata.
+- [Texture personalizzata 16×16](../../src/main/resources/assets/italiansdelight/textures/item/raw_pizza.png) e [modello item](../../src/main/resources/assets/italiansdelight/models/item/raw_pizza.json): nuova icona originale della pizza cruda in pixel art; nessuna texture preesistente alterata.
 
 ## 1. Build
 
@@ -53,6 +53,13 @@ Testare in un **mondo di prova**, preferibilmente con backup, non su una partita
 ## 5. Regressioni e casi negativi
 
 - Rompere un impasto **agli stadi 0, 1, 2 e 3**: deve continuare a restituire `farmersdelight:wheat_dough`, non `raw_pizza`.
+- Rompere una base **stadio 4 mai divisa e senza topping**: deve restituire **un solo impasto FDR**, non pizza cruda.
+- Dividere la base stadio 4 in metà (stato 1) oppure quarti (3, 5 o 7), **senza alcun condimento**, e romperla **mentre e' ancora divisa**: deve restituire **un solo `raw_pizza`** che conserva orientamento e suddivisione.
+- Dividere, poi riunire con Shift + mattarello fino a `division_state = 0`, **senza avere applicato alcun topping**, infine rompere: deve tornare **un solo `farmersdelight:wheat_dough`**.
+- Provare una pizza stesa con `division_state = 0` ma con la **mozzarella del prototipo**: deve restituire **`raw_pizza`**, preservare l'ingrediente e non dropparlo separatamente.
+- In futuro, con le applicazioni generiche attive, una pizza **intera ma ancora con ingredienti** dovrà sempre dare `raw_pizza`; una pizza con tutte le applicazioni eliminate, riunita a intera, tornerà a dare il normale impasto.
+- Usare **Pick Block** sugli stessi casi: deve restituire impasto negli stati vuoti/interi e l'item pizza quando ci sono divisioni o condimenti.
+- Controllare l'inventario: `raw_pizza` deve avere l'icona pixel art **16×16** dedicata, non più la facciata del blocco.
 - Tentare di posizionare la pizza in una cella occupata o senza supporto compatibile: non deve consumare l'item.
 - Il modello della pizza completamente stesa deve mantenere il **bordo di 1 pixel**; divisioni e riunioni mantengono il comportamento già testato.
 - Verificare le normali rotture del supporto e le esplosioni su un mondo di prova. In presenza di esplosione, il drop resta soggetto alla normale sopravvivenza della base; non è garantita la comparsa dell'item.
@@ -61,4 +68,4 @@ Testare in un **mondo di prova**, preferibilmente con backup, non su una partita
 
 ## Risultato atteso per questa fase
 
-**Un ciclo mondo → inventario → Q → inventario → mondo → salvataggio/caricamento che preserva la composizione.** Una volta verificato, si potrà collegare `PizzaCompositionOperations` ai clic con ingredienti approvati e implementare le regole di prelievo/rimborso senza rischiare di perdere ingredienti alla rottura del blocco.
+**Un ciclo mondo → inventario → Q → inventario → mondo → salvataggio/caricamento che preserva la composizione quando la pizza e' ancora divisa o condita. Se la pizza torna intera e senza condimenti, il drop si converte in normale impasto.** Una volta verificato, si potrà collegare `PizzaCompositionOperations` ai clic con ingredienti approvati e implementare le regole di prelievo/rimborso senza rischiare di perdere ingredienti alla rottura del blocco.
