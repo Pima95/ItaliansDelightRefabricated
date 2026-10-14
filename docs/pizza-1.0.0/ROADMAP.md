@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (14 ottobre 2026):** stesura, registro 31 tipi/33 item, caricamento native datapack, BlockEntity, divisioni e ciclo item pizza cruda **confermati dall'autore**. **Nuova modifica nel branch, DA TESTARE:** icona `raw_pizza` originale 16×16; drop del normale impasto per base stadio 4 non divisa e senza topping, anche dopo divisione e successiva riunione. Le pizze tuttora divise oppure con condimenti (inclusa mozzarella del prototipo) conservano il drop unico `raw_pizza` con i dati. Nessuna modifica a topping generalizzati, modelli del blocco, overlay, forno o cottura. [Test](RAW_PIZZA_ITEM_TESTS.md).
+**Stato implementazione pizza (14 ottobre 2026):** stesura, catalogo e loader, BlockEntity, divisioni, item pizza cruda, regola di drop e icona corretta verificati dall'autore. **FASE 3D PUBBLICATA, DA COMPILARE/TESTARE:** clic destro con topping SOLID approvato su pizza stesa, applicazione ai quarti dal punto mirato, anti-duplicato canonico e consumo di una sola unità, Shift + clic vuoto per rimozione LIFO e rimborso soltanto al completamento. Lo stato è persistente in BlockEntity e raw_pizza. **Esclusi temporaneamente** tomato_sauce, cream_bowl, ricotta per sicurezza del recipiente/rimborso. L'overlay/rendering/sync client e la cottura sono ancora da implementare. [Test](TOPPING_INTERACTIONS_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -165,7 +165,7 @@
 - [x] **JSON/reload/cache implementati:** caricamento iniziale 33 ID ufficiali confermato dal giocatore nel log; restano da provare mapping JSON esterni, conflitti ed esclusioni.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
 - [x] **FASE 3B divisioni/riunioni col mattarello provate dall'autore:** `division_state` confermato nel salvataggio. **Restano** overlay temporaneo, sincronizzazione/preview client, test precisione/spareggio e multiplayer. [Prove complementari](ZONE_SELECTION_TESTS.md).
-- [ ] **FASE 3B — logica interna dei condimenti pronta, non ancora collegata ai clic:** `PizzaCompositionOperations` applica maschere parziali, limite sei, anti-duplicato canonico e LIFO/rimborso; l'item pizza cruda persistente è stato aggiunto in fase 3C, ma sono ancora necessarie build e prove del ciclo blocco-item-blocco, oltre a transazioni server/inventario, contenitori, sincronizzazione e rendering. [Test](RAW_PIZZA_ITEM_TESTS.md).
+- [ ] **FASE 3D — condimenti SOLID attivati, da testare:** `PizzaToppingInteractions` collega `PizzaCompositionOperations` ai clic sulla pizza completamente stesa; il server gestisce 6 tipi/quarto, esclusioni, equivalenze, applicazioni parziali, consumo 1 item e rimborso LIFO (inventario, drop solo se pieno). La pizza cruda raccoglie le applicazioni nel suo data component. **Rimangono** i tre item con ciotola, overlay, rendering, sincronizzazione visuale, test di multiplayer e blocco ricette pizza; [guida](TOPPING_INTERACTIONS_TESTS.md).
 - [ ] Recupero diretto nell'inventario dei topping **rimossi completamente** (drop solo se pieno); **rottura pizza formata INTEGRA -> pizza-item cruda/cotta con dati completi** (pizza cotta servita parzialmente -> sole fette residue), senza duplicare ingredienti.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
 - [ ] Test: due pale vuote non si impilano; ogni pala occupata resta singola; spostamenti tra slot e contenitori conservano i dati senza duplicazioni.
@@ -229,4 +229,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** provare i nuovi drop e l'icona con [RAW_PIZZA_ITEM_TESTS.md](RAW_PIZZA_ITEM_TESTS.md). In seguito collegare le applicazioni di ingredienti ai quattro quarti con transazioni server/inventario e rimborsi, usando la nuova regola: solo una pizza senza divisioni e senza topping torna impasto.
+**Prossimo passo:** verificare in gioco la nuova fase 3D con [TOPPING_INTERACTIONS_TESTS.md](TOPPING_INTERACTIONS_TESTS.md): clic sui solidi, `/data get block`, quattro quarti, restituzione parziale/finale, inventario pieno, salvataggio e recupero da `raw_pizza`. Dopo la conferma implementare la gestione dei recipienti (panna, ricotta, salsa di pomodoro) senza duplicazioni, seguita dal rendering e dalla sincronizzazione client.
