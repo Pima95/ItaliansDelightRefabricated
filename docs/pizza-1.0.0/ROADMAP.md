@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (13 ottobre 2026):** posizionamento/ stesura testati dall'autore, registro canonico 31 tipi/33 ID testato, **loader JSON confermato nell'avvio con 33 mapping nativi** (JSON esterni/conflitti da provare). **Fase 3A: struttura persistente per quattro quarti aggiunta al codice, DA COMPILARE/TESTARE**, con `PizzaComposition`, `PizzaToppingApplication` e `PizzaDoughBlockEntity` registrata sul blocco impasto. Nessun clic generalizzato, rendering o ricetta aggiunti. Il prototipo mozzarella resta distinto.
+**Stato implementazione pizza (14 ottobre 2026):** stesura, registro canonico (31 tipi/33 ID), caricamento nativo del loader JSON e persistenza iniziale della BlockEntity **confermati funzionanti dall'autore**. **FASE 3B implementata nel branch, DA TESTARE:** selezione deterministica di una sola zona fisica/logica e divisione/riunione progressiva col mattarello (nessuna usura aggiuntiva), salvando orientamento/stato; motore di applicazioni e rimozioni atomiche `PizzaCompositionOperations` pronto **ma NON ancora collegato ai clic degli ingredienti**, per evitare perdite alla rottura in assenza della pizza-item persistente. **Overlay delle linee non ancora implementato.** [Test](ZONE_SELECTION_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -149,7 +149,7 @@
 ### Fase 2: sistema condimenti
 
 - [x] **FASE 3A — modello persistente e BlockEntity nel branch:** codec versione 1, quattro quarti fisici, divisione e orientamento, identità delle applicazioni, maschere originaria/residua, `ItemStack` originale salvato con i suoi componenti, contatore cronologico e seed. Invarianti statici controllati; **compilazione e persistenza nel mondo non ancora provate**. [Guida](PERSISTENT_COMPOSITION_TESTS.md).
-- [ ] **Testare FASE 3A:** build Java 25, `/data get block`, rientro nel mondo e conferma che stesura, prototipo mozzarella e bordo 1px rimangano invariati. [Guida](PERSISTENT_COMPOSITION_TESTS.md).
+- [x] **FASE 3A testata dall'autore:** build, persistenza e comportamento del blocco confermati funzionanti; [guida](PERSISTENT_COMPOSITION_TESTS.md).
 
 - [x] **SECONDO PASSO INFRASTRUTTURA completato (build da testare):** listener dei datapack e cache diretta degli ingredienti; nessun comportamento di clic modificato.
 
@@ -161,8 +161,8 @@
 
 - [x] **JSON/reload/cache implementati:** caricamento iniziale 33 ID ufficiali confermato dal giocatore nel log; restano da provare mapping JSON esterni, conflitti ed esclusioni.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
-- [ ] Implementare le **divisioni facoltative create col mattarello** (intera -> meta' -> quarti) e la **riunione inversa con Shift + clic destro** (due quarti stessa meta' -> due meta' -> intera), **senza consumare durabilita'**, salvandone la configurazione e preservando posizioni e storico; selezionare una sola zona dal punto reale con **priorita' gia' approvate destra/davanti e spareggio orario**, sincronizzare la logica client/server e testare la tolleranza iniziale. Linee visibili solo con mattarello o ingrediente valido.
-- [ ] Implementare l'identita' delle singole applicazioni, le coperture su zone/quarti logici, il **vincolo dello stesso ingrediente massimo una volta per sottoarea**, le applicazioni parziali dei topping alle sole zone ancora libere, **il blocco totale delle salse differenti se una qualsiasi parte della zona mirata contiene gia' un'altra salsa**, la **validazione atomica del massimo di 6 tipi per quarto fisico (salsa inclusa)** e la rimozione parziale con rimborso senza duplicazioni (vedi [QUARTERS_AND_PEEL.md](QUARTERS_AND_PEEL.md)).
+- [ ] **FASE 3B — divisioni e hit-zone AGGIUNTE, da testare:** clic col mattarello sulla pizza completamente stesa: intera -> metà -> quarti, Shift + clic per riunire; orientamento fissato al primo taglio, spareggio orario e confini destra/davanti, scelta di una sola zona dal clic reale; progressi salvati in `PizzaComposition`. **Restano** anteprima delle linee soltanto mentre si tiene mattarello/topping, sincronizzazione dello stato per il client e test precisione/multiplayer. [Test](ZONE_SELECTION_TESTS.md).
+- [ ] **FASE 3B — funzioni applicazione/rimozione già aggiunte al codice, NON abilitate in gioco:** `PizzaCompositionOperations` risolve i topping usando la cache, gestisce maschere parziali, massimo 6 per quarto, rifiuto atomico di salse differenti e LIFO con rimborso solo alla rimozione completa. **Mancano** transazione server/inventario, contenitori, blocco pizza-item persistente su rottura e sincronizzazione/rendering; prima implementare il recupero sicuro degli item. [Test](ZONE_SELECTION_TESTS.md).
 - [ ] Recupero diretto nell'inventario dei topping **rimossi completamente** (drop solo se pieno); **rottura pizza formata INTEGRA -> pizza-item cruda/cotta con dati completi** (pizza cotta servita parzialmente -> sole fette residue), senza duplicare ingredienti.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
 - [ ] Test: due pale vuote non si impilano; ogni pala occupata resta singola; spostamenti tra slot e contenitori conservano i dati senza duplicazioni.
@@ -226,4 +226,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** compilare e verificare la nuova BlockEntity seguendo [PERSISTENT_COMPOSITION_TESTS.md](PERSISTENT_COMPOSITION_TESTS.md). In seguito collegare le applicazioni ai quattro quarti con operazioni atomiche di clic, conservando separato il prototipo della mozzarella.
+**Prossimo passo:** compilare e verificare in gioco la **FASE 3B** seguendo [ZONE_SELECTION_TESTS.md](ZONE_SELECTION_TESTS.md): taglio con mattarello, Shift-riunione, direzioni e `/data get block`. Dopo la conferma, implementare la **pizza-item con contenuto persistente quando si rompe una pizza formata**, così le operazioni di applicazione/rimozione dei topping potranno essere abilitate senza perdere o duplicare ingredienti.
