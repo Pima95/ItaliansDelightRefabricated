@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.item.group.ModItemGroups;
@@ -36,6 +37,7 @@ public class ItaliansDelight implements ModInitializer {
         // Registries are initialized before the systems that depend on them.
         // This ensures BlockEntities, menus, recipes, and events can already find
         // all registered items and blocks when they are configured.
+        ModDataComponents.register();
         ModItems.register();
         ModBlocks.register();
         // Pure, read-only registry. The toppings will be wired to pizza interactions later.
