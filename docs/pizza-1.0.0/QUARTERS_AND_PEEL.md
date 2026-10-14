@@ -11,6 +11,8 @@ La pizza e' preparata direttamente nel mondo, senza GUI obbligatoria per condirl
 
 Il prototipo attuale della mozzarella e' **provvisorio**: usa il booleano `mozzarella` del BlockState, consuma un item e visualizza cinque pezzi. **Non** implementa ancora i quattro quarti, le applicazioni multiple, la rimozione parziale o i dati sulla pala.
 
+**Nota implementativa (14 ottobre 2026):** l'autore ha verificato il salvataggio di `division_state` nei test della fase 3B. La fase 3C aggiunge al codice il recupero della pizza completamente stesa come `italiansdelight:raw_pizza`, contenente composizione e mozzarella del vecchio prototipo, e il riposizionamento sul terreno. **Ancora da compilare/testare in gioco:** l'intero ciclo blocco-item-blocco. [Procedura](RAW_PIZZA_ITEM_TESTS.md). I clic degli ingredienti, i rimborsi, l'overlay e il forno sono successivi.
+
 ## 1. Divisione facoltativa con il mattarello — CONFERMATO
 
 **Correzione importante:** la pizza NON nasce obbligatoriamente divisa in quattro parti. La suddivisione viene scelta dal giocatore **solo dopo aver steso completamente l'impasto**.
