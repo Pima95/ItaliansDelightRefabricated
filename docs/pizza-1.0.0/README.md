@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated — Pizza Update 1.0.0
 
-> **Stato:** implementazione incrementale. Registro 31/33, loader dei datapack e prima BlockEntity dei quarti testati. **FASE 3B aggiunta al branch, da verificare in build/gioco:** selezione zona dal clic, divisione e riunione col mattarello. Logica atomica dei topping predisposta, ma non ancora collegata ai clic per prevenire perdita di item prima dell'implementazione della pizza-item persistente alla rottura. L'overlay delle linee, il rendering dei topping e la cottura sono ancora da sviluppare.
+> **Stato:** implementazione incrementale. Registro 31/33, loader, BlockEntity e divisione/riunione con mattarello verificati dall'autore. **FASE 3C inserita nel branch, da compilare/testare:** `raw_pizza` come item persistente, unico drop dalla pizza cruda interamente stesa, ricollocabile sul terreno con composizione e prototipo mozzarella preservati. I clic dei topping generici, overlay, rendering, cottura e forno restano da implementare.
 >
 > **Principio guida CONFERMATO:** i comportamenti basilari seguono **Minecraft vanilla** come default (drop, pickup, despawn, danni ambientali e altre interazioni standard). Non richiedere approvazioni ripetute per queste regole ordinarie; rispettare le eccezioni personalizzate gia' concordate e discutere solo le nuove meccaniche significative.
 
@@ -65,6 +65,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md) — **catalogo approvato per 1.0.0, ancora da implementare**: 29 tipi già registrati più 2 nuovi tipi (fette di carota/patata), esclusioni, equivalenze e tag semantici specifici.
 - [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) — 31 identità/33 ID, quattro coppie crudo/cotto e regole definitive. **Registro Java implementato e già testato**; [loader JSON/cache](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingMappings.java) aggiunto ma **da collaudare**.
 - [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — 19 nomi fissi approvati, 52 combinazioni dinamiche, matching esatto su 4 quarti; 36 gusti futuri non approvati.
+- [RAW_PIZZA_ITEM_TESTS.md](RAW_PIZZA_ITEM_TESTS.md) — test item pizza cruda, conservazione dei dati tra blocco e inventario, Q, rientro nel mondo e regressioni.
 - [ZONE_SELECTION_TESTS.md](ZONE_SELECTION_TESTS.md) — prove della nuova suddivisione col mattarello, selezione dei quarti e ripristino tramite `/data`.
 - [PERSISTENT_COMPOSITION_TESTS.md](PERSISTENT_COMPOSITION_TESTS.md) — test di compilazione e dati persistenti dei quattro quarti nella nuova BlockEntity.
 - [DATAPACK_RELOAD_TESTS.md](DATAPACK_RELOAD_TESTS.md) — procedure per test build, `/reload`, invalidi, conflitti ed esclusioni.
