@@ -106,8 +106,9 @@ public final class PizzaDoughPlacement {
                     return InteractionResult.PASS;
                 }
 
-                // First topping milestone: one mozzarella on a fully stretched
-                // base. Further toppings will use a general ingredient system.
+                // Temporary legacy proof of concept: WHOLE mozzarella toggles
+                // a BlockState overlay. New prepared SOLID toppings above use
+                // the canonical persistent quarter-based composition instead.
                 if (stage == PizzaDoughBlock.MAX_STAGE
                         && held.is(dev.italiansdelight.common.registry.ModItems.MOZZARELLA)) {
                     if (clickedState.getValue(PizzaDoughBlock.MOZZARELLA)) {
