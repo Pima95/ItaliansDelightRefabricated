@@ -68,7 +68,7 @@ public final class PizzaToppingRenderer
     @Override
     public void extractRenderState(
             PizzaDoughBlockEntity entity, State state, float partialTicks,
-            Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress
+            Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress
     ) {
         BlockEntityRenderer.super.extractRenderState(
                 entity, state, partialTicks, cameraPosition, breakProgress);
