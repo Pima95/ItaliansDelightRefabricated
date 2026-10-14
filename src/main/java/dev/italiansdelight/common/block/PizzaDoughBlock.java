@@ -119,9 +119,20 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
      */
     @Override
     protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        List<ItemStack> normalDrops = super.getDrops(state, params);
         if (state.getValue(STAGE) < MAX_STAGE) {
-            return super.getDrops(state, params);
+            return normalDrops;
         }
+        // Respect the existing vanilla loot conditions (including explosion
+        // survival). If the base dough did not survive, do not create a pizza.
+        boolean baseSurvived = normalDrops.stream().anyMatch(
+                stack -> stack.is(vectorwing.farmersdelight.common.registry.ModItems.WHEAT_DOUGH.get()));
+        if (!baseSurvived) {
+            return List.of();
+        }
+        // Convert the whole surviving base into ONE data-carrying item.
+        // Suppress the old loot table's separate legacy-mozzarella drop:
+        // that ingredient is preserved in the component instead.
         PizzaDoughBlockEntity pizzaEntity =
                 params.getOptionalParameter(LootContextParams.BLOCK_ENTITY)
                         instanceof PizzaDoughBlockEntity entity ? entity : null;
