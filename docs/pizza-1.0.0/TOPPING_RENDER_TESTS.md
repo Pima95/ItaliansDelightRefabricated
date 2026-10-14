@@ -31,6 +31,14 @@ Per una build Java 25 / Minecraft 26.2, inviare **il primo errore completo di co
 4. Girare intorno alla pizza, uscire e rientrare nel mondo: le posizioni dei condimenti devono rimanere **identiche**, senza animazioni casuali.
 5. Verificare che non ci siano oggetti verticali, scomparsi sotto l'impasto, ruotati in modo scorretto o troppo grandi/piccoli. In caso di errore visivo, inviare uno screenshot per regolare orientamento e scala.
 
+### Regressione colore dei condimenti — correzione 14 ottobre 2026
+
+**Problema segnalato in gioco:** i modelli item dei topping apparivano con una patina rossa anche senza danni o effetti. In `PizzaToppingRenderer.submit()` veniva passato `overlayCoords = 0`, che seleziona la regione errata della texture vanilla degli overlay.
+
+**Correzione pubblicata:** `ItemStackRenderState.submit(poseStack, queue, state.lightCoords, OverlayTexture.NO_OVERLAY, 0)`. Rimangono invariati la luce del blocco e il colore outline nullo.
+
+**Verifica richiesta:** controllare di giorno e di notte mozzarella a fette, basilico, speck e bacon; confrontare i colori dei topping con gli stessi item nell'inventario, in ogni orientamento e dopo la rimozione/riposizionamento. Non devono presentare tinta rossa, mentre copertura dei quattro quarti, numero di pezzi e rimborso restano invariati.
+
 ## 3. Metà, quarti e riunioni
 
 1. Dividere la base in due metà; mettere speck sulla sinistra, basilico sulla destra. Ogni condimento deve comparire solo nei **due quarti fisici** che appartengono alla metà mirata.
