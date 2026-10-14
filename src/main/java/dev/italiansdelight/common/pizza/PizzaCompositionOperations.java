@@ -27,11 +27,14 @@ public final class PizzaCompositionOperations {
      */
     public static Optional<PizzaComposition> add(
             PizzaComposition pizza,
-            PizzaToppingType type,
             ItemStack ingredient,
             int zoneMask
     ) {
-        if (!validZone(zoneMask) || ingredient.isEmpty() || type.planned()
+        // The canonical type must come from the verified runtime allowlist.
+        // Never allow callers to attach an arbitrary type to a whole/forbidden
+        // item, even when that type itself exists in the catalog.
+        PizzaToppingType type = PizzaToppingMappings.find(ingredient).orElse(null);
+        if (!validZone(zoneMask) || type == null || type.planned()
                 || !PizzaToppingCatalog.isActiveType(type.id())
                 || pizza.nextApplicationId() == Long.MAX_VALUE) {
             return Optional.empty();
