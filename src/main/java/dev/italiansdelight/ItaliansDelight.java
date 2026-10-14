@@ -15,6 +15,7 @@ import dev.italiansdelight.common.registry.ModRecipes;
 import dev.italiansdelight.common.registry.ModWorldGeneration;
 import dev.italiansdelight.common.salt.SaltCauldronManager;
 import dev.italiansdelight.common.pizza.PizzaDoughPlacement;
+import dev.italiansdelight.common.pizza.PizzaDivisionSync;
 import dev.italiansdelight.common.pizza.PizzaToppingCatalog;
 import dev.italiansdelight.common.pizza.PizzaToppingMappings;
 
@@ -45,6 +46,7 @@ public class ItaliansDelight implements ModInitializer {
         // Datapack equivalences are loaded on server data reload, never per tick.
         PizzaToppingMappings.register();
         PizzaDoughPlacement.register();
+        PizzaDivisionSync.register();
         ModBlockEntities.register();
         ModMenuTypes.register();
         ModRecipes.register();
