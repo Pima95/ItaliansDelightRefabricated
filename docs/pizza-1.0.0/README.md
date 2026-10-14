@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated — Pizza Update 1.0.0
 
-> **Stato:** stesura, divisione, BlockEntity, item pizza cruda, logica drop e topping SOLID verificati dall'autore. **FASE 3E pubblicata, da compilare/testare:** overlay di linee temporanee per le divisioni 1/3/5/7 in orientamento corretto, solo mentre si impugna il mattarello o un ingrediente solido valido. Il client riceve divisione/facing tramite BlockState; le vecchie pizze si sincronizzano dopo caricamento. Rimangono da implementare rendering visibile dei topping, 3 condimenti con recipiente, cottura e forno.
+> **Stato:** stesura, divisioni, BlockEntity, `raw_pizza`, condimenti SOLID e overlay scuro delle linee confermati funzionanti dall'autore. **FASE 3F pubblicata, da compilare e provare in gioco:** il renderer client disegna le texture/modelli degli item effettivamente applicati sui quattro quarti; la BlockEntity sincronizza la composizione ai giocatori anche in multiplayer. Restano da gestire i tre topping con recipiente, i nomi dinamici e la cottura.
 >
 > **Principio guida CONFERMATO:** i comportamenti basilari seguono **Minecraft vanilla** come default (drop, pickup, despawn, danni ambientali e altre interazioni standard). Non richiedere approvazioni ripetute per queste regole ordinarie; rispettare le eccezioni personalizzate gia' concordate e discutere solo le nuove meccaniche significative.
 
@@ -65,6 +65,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md) — **catalogo approvato per 1.0.0, ancora da implementare**: 29 tipi già registrati più 2 nuovi tipi (fette di carota/patata), esclusioni, equivalenze e tag semantici specifici.
 - [INGREDIENT_EQUIVALENCES.md](INGREDIENT_EQUIVALENCES.md) — 31 identità/33 ID, quattro coppie crudo/cotto e regole definitive. **Registro Java implementato e già testato**; [loader JSON/cache](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingMappings.java) aggiunto ma **da collaudare**.
 - [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — 19 nomi fissi approvati, 52 combinazioni dinamiche, matching esatto su 4 quarti; 36 gusti futuri non approvati.
+- [TOPPING_RENDER_TESTS.md](TOPPING_RENDER_TESTS.md) — fase 3F: resa 2.5D degli ingredienti, sincronizzazione server-client, quarti, multiplayer e verifiche anti-dupe.
 - [DIVISION_OVERLAY_TESTS.md](DIVISION_OVERLAY_TESTS.md) — fase 3E: verifica della croce visiva, orientamenti, condizioni di visibilità e multiplayer.
 - [TOPPING_INTERACTIONS_TESTS.md](TOPPING_INTERACTIONS_TESTS.md) — nuova fase 3D: transazioni condimenti solidi, rimozione LIFO, restituzione e test dei quattro quarti.\n- [RAW_PIZZA_ITEM_TESTS.md](RAW_PIZZA_ITEM_TESTS.md) — test item pizza cruda, conservazione dei dati tra blocco e inventario, Q, rientro nel mondo e regressioni.
 - [ZONE_SELECTION_TESTS.md](ZONE_SELECTION_TESTS.md) — prove della nuova suddivisione col mattarello, selezione dei quarti e ripristino tramite `/data`.
