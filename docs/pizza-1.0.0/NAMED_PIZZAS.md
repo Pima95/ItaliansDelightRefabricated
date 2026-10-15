@@ -2,6 +2,9 @@
 
 > **Decisione definitiva dell'autore del 13 ottobre 2026:** tra le 71 combinazioni per la release 1.0.0, **19 nomi fissi APPROVATI** (18 con item già registrati, 1 con patate a fette da creare) e **52 combinazioni a nome dinamico**. La whitelist rimane di 31 topping in [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md). Le 36 proposte future sono ancora **NON APPROVATE**. **Nessun codice, texture, ricetta o datapack eseguibile è stato modificato**.
 
+> **AGGIORNAMENTO DI GAMEPLAY — 15 ottobre 2026, prioritario sulle decisioni precedenti:** ogni quarto può contenere **una sola scelta fra salsa di pomodoro, panna e ricotta**. La ricetta «Principessa» approvata il 13 ottobre (pomodoro + panna) è ora **INCOMPATIBILE/SOSPESA**: non è più componibile come nuova pizza. La lista dei **19 nomi storicamente approvati** e i conteggi SÌ/NO rimangono documentati, ma «Principessa» **non va implementata come preset attivo** finché l'autore non decide gli ingredienti della variante compatibile. Non inventare automaticamente una ricetta sostitutiva e non eliminare i dati delle pizze già salvate. Le altre combinazioni prive di sovrapposizioni continuano a seguire le regole previste.
+
+
 ## Numeri e stati
 
 - **Gruppo A — 56 combinazioni con item già registrati (inclusa Principessa):** **18 con nome fisso approvato e 38 con nome dinamico**. Il riconoscimento dei nomi non è ancora implementato.
@@ -34,7 +37,7 @@
 | Orto disponibile | Mozzarella a fette + Pomodoro a fette + Foglia di cavolo + Zucca a fette + Basilico | **Ingredienti già registrati** |
 | Patate e Speck | Mozzarella a fette + Patate a fette (NUOVO) + Speck a fette | **Attivare dopo registrazione delle patate a fette** |
 
-I **18 gusti già realizzabili con gli item registrati** potranno essere riconosciuti quando sarà implementato il sistema delle pizze. **Patate e Speck** avrà un nome fisso soltanto dopo la creazione delle **patate a fette**: le patate intere `minecraft:potato` restano vietate come topping. **Principessa** usa precisamente salsa di pomodoro, mozzarella, prosciutto crudo a fette e panna: quest'ultima è un condimento cremoso, NON una salsa. **Margherita (versione 1.0.0)** è la variante del catalogo attuale senza olio come topping.
+Dei 18 gusti con item già registrati e un nome fisso storicamente approvato, **17 sono attualmente preparabili secondo la nuova regola di una salsa per quarto**, mentre **Principessa** (pomodoro + panna) è sospesa in attesa di decisione. **Patate e Speck** rimane il diciannovesimo nome fisso, attivabile soltanto dopo la creazione delle patate a fette. Le decisioni precedenti sulla Principessa sono conservate sotto come documentazione storica, non come istruzione di implementazione. La Margherita 1.0.0 resta quella senza olio.
 
 ### Regola dei nomi fissi — 4/4 quarti APPROVATA
 
@@ -52,7 +55,7 @@ I **18 gusti già realizzabili con gli item registrati** potranno essere riconos
 - **Compatibilità col servizio già approvato:** la fetta conserva unicamente i suoi topping, nutrienti, dati e stato, senza nuovi item registrati per ogni gusto; il nome è un **display name localizzato e derivato dai dati dello spicchio**. La pizza intera cotta **non è commestibile**. Le porzioni continuano a essere 4 e vengono prelevate dalla pizza cotta senza coltello. Inventario pieno o mano occupata non producono una fetta e non cambiano il blocco. I rimborsi/drops e la nutrizione restano invariati.
 - **Limite del nuovo requisito:** il riconoscimento dei nomi **delle fette cotte è ora deciso**. Rimangono aperte le convenzioni di abbreviazione dei nomi dinamici molto lunghi e gli eventuali dettagli del nome del blocco pizza **rimasto nel mondo dopo il servizio parziale**, senza bloccare il naming del singolo item.
 
-**Esempio:** pizza intera con quarto 1 Margherita, quarto 2 Principessa, quarto 3 Rossa, quarto 4 una combinazione personalizzata. La pizza intera si chiama **Pizza assortita**. Dopo la cottura, le fette recuperate dai rispettivi quarti prendono **Spicchio di Margherita**, **Spicchio di Principessa**, **Spicchio di pizza rossa**, **Spicchio con ...** (per la quarta composizione libera). I nomi fissi si applicano **anche se i quarti adiacenti hanno altri condimenti**.
+**Esempio aggiornato 15 ottobre:** pizza intera con quarto 1 Margherita, quarto 2 una combinazione panna + speck (senza pomodoro), quarto 3 Rossa, quarto 4 una combinazione personalizzata. La pizza intera è **Pizza assortita**; i quarti riconosciuti ricevono nomi fissi, gli altri dinamici. **L'esempio precedente che includeva Principessa non è più realizzabile con i nuovi clic** e rimane soltanto come nota storica.
 
 ## Nomi e tooltip delle pizze — CONFERMATO (13 ottobre 2026)
 
@@ -68,7 +71,7 @@ La denominazione deriva **sempre dai quattro insiemi canonici dei quarti fisici*
 ```text
 Pizza assortita
 Quarto 1: Margherita
-Quarto 2: Principessa
+Quarto 2: combinazione con panna e speck (nome dinamico, nessun pomodoro)
 Quarto 3: Rossa
 Quarto 4: Mozzarella, Speck e Ricotta
 ```
@@ -84,7 +87,7 @@ Le **52 righe con NO** riportate nelle tabelle sottostanti sono gusti che il gio
 ## Vincoli e criteri comuni di design
 
 1. **Ogni singolo ingrediente nel gruppo A usa soltanto gli item della whitelist già registrati** di [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md). Gruppo B usa soltanto gli stessi item e le due future fette di carota/patata già approvate. **Nessun item non autorizzato entra nella 1.0.0 attraverso un nome di pizza**.
-2. Tutte le combinazioni uniformi elencate nei gruppi A/B contengono **da 0 a 6 ingredienti distinti per quarto** (la salsa è un ingrediente). La salsa è opzionale e massimo una per quarto fisico. **Panna e ricotta NON sono salse**, quindi possono coesistere con il pomodoro e tra loro. La loro categoria nutrizionale è Latticini e contribuisce una sola volta per fetta; analogamente gli altri gruppi nutrizionali.
+2. I record originali dei 71 gusti rappresentano una lista **storicamente approvata**. Con la decisione del 15 ottobre, le combinazioni che sovrappongono pomodoro/panna/ricotta **non sono più realizzabili come nuove pizze**, indipendentemente dall'etichetta SÌ/NO. Una sola delle tre scelte è ammessa per quarto fisico; combinazioni differenti su quarti distinti rimangono valide. Panna/ricotta mantengono categoria nutrizionale Latticini, non Salsa. Non si modificano in automatico le ricette originali.
 3. Le coppie crude/cotte bacon, pollo a pezzi, merluzzo a fette e salmone a fette sono **la stessa identità canonica per coppia**. I sostituti di altre mod riconosciuti come equivalenti tramite tag `c:` **specifici/verificati** devono soddisfare esattamente gli stessi gusti; un tag generico non cambia identità o whitelist.
 4. Una **combinazione esatta** di topping distribuita uniformemente sui quattro quarti può ottenere uno dei 19 nomi fissi, altrimenti il nome è **Pizza con [ingredienti]**. Per quarti non uniformi il nome approvato è **Pizza assortita** con tooltip dettagliato per quarto; nessun preset spaziale misto è approvato nella 1.0.0. L'ordine di posa non influisce sul riconoscimento.
 5. Sulla **Margherita di gioco** si usano salsa di pomodoro, mozzarella e basilico; la variante napoletana disciplinata include anche olio e possibili dettagli di formaggio: **non rivendicare conformità AVPN** finché manca olio nella whitelist. **Marinara tradizionale non ottenibile oggi**: necessita almeno aglio, origano e olio EVO. **Diavola** significa **salame piccante**; salame ordinario non basta. **Capricciosa e Quattro Stagioni** necessitano per una proposta fedele funghi, carciofi, olive, prosciutto cotto porzionato, assenti dalla whitelist.
@@ -103,8 +106,8 @@ Le **52 righe con NO** riportate nelle tabelle sottostanti sono gusti che il gio
 | Margherita (versione 1.0.0) | Salsa di pomodoro + Mozzarella a fette + Basilico | Versione giocabile senza olio come topping; NON equivale alla certificazione AVPN | **SÌ — nome fisso** |
 | Margherita al Parmigiano | Salsa di pomodoro + Mozzarella a fette + Basilico + Parmigiano Reggiano grattugiato | Variante della Margherita con formaggio grattugiato | **NO — nome dinamico** |
 | Margherita al Pecorino | Salsa di pomodoro + Mozzarella a fette + Basilico + Pecorino Romano grattugiato | Variante con Pecorino grattugiato | **NO — nome dinamico** |
-| Margherita cremosa | Salsa di pomodoro + Mozzarella a fette + Basilico + Ricotta | Versione creativa con ricotta | **NO — nome dinamico** |
-| **Principessa** | **Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette + Panna** | **PROPOSTA per 1.0.0**: interpretazione attestata da pizzerie di Bari; tutti e quattro gli item già approvati. Panna = condimento cremoso NON salsa, quindi può coesistere con il pomodoro. Il nome «Principessa» ha anche versioni differenti in altre pizzerie: questa precisa combinazione è stata **APPROVATA dall'autore come Principessa**, pur non essendo una ricetta universalmente standardizzata. | **SÌ — nome fisso** |
+| Margherita cremosa | Salsa di pomodoro + Mozzarella a fette + Basilico + Ricotta | Versione creativa con ricotta | **NO storico — combinazione non più applicabile (pomodoro + ricotta)** |
+| **Principessa** | **Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette + Panna** | **PROPOSTA per 1.0.0**: interpretazione attestata da pizzerie di Bari; tutti e quattro gli item già approvati. Panna = condimento cremoso NON salsa, quindi può coesistere con il pomodoro. Il nome «Principessa» ha anche versioni differenti in altre pizzerie: questa precisa combinazione è stata **APPROVATA dall'autore come Principessa**, pur non essendo una ricetta universalmente standardizzata. | **SÌ storico — PRESET SOSPESO, ricetta incompatibile con la regola 15/10** |
 | Caprese rossa | Salsa di pomodoro + Mozzarella a fette + Pomodoro a fette + Basilico | Interpretazione della caprese con salsa e pomodoro a fette | **SÌ — nome fisso** |
 | Caprese bianca | Mozzarella a fette + Pomodoro a fette + Basilico | Mozzarella, pomodoro fresco a fette e basilico | **SÌ — nome fisso** |
 | Pomodoro e Bocconcino | Salsa di pomodoro + Bocconcino + Basilico | Con basilico | **NO — nome dinamico** |
@@ -238,7 +241,7 @@ Le **52 righe con NO** riportate nelle tabelle sottostanti sono gusti che il gio
 | Norcina ispirata | Ricotta, prosciutto crudo a fette, tartufo nero | Tartufo nero preparato | Ricotta e prosciutto attuali disponibili |
 | Caprese al Pesto | Pesto come salsa, mozzarella, pomodoro a fette, basilico | Pesto come salsa | Pesto non ammesso attualmente |
 
-**Nota sulla Principessa:** è attestata una preparazione con pomodoro, mozzarella, prosciutto crudo e panna in [Pizzeria Da Zazzà, Bari](https://glovoapp.com/it/it/bari/stores/pizzeria-rosticceria-da-zazz); altre pizzerie usano invece stracciatella o altri condimenti. Il nome e la ricetta non sono universali. Per la Pizza Update 1.0.0 **l'autore ha APPROVATO** questa versione realizzabile con il catalogo corrente: Principessa è uno dei 19 nomi fissi, riconoscibile soltanto quando tutti i quarti corrispondono esattamente alla ricetta.
+**Nota storica sulla Principessa:** era stata approvata una variante documentata con pomodoro, mozzarella, prosciutto crudo e panna. **La nuova regola del 15 ottobre ne impedisce la preparazione**, perché pomodoro e panna occupano lo stesso slot funzionale. Conservare questo record, ma sospendere il riconoscimento e la produzione di quella variante finché l'autore non ne approvi una sostituzione.
 
 ## Pizze a quarti distinti: proposta di naming spaziale
 
