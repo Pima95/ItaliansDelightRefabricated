@@ -12,8 +12,10 @@ import net.minecraft.world.item.ItemStack;
  * the server-side PizzaToppingInteractions handler commits the returned state
  * and only then consumes or refunds the corresponding ItemStack. The existing
  * raw_pizza loot/item component preserves these applications when the formed
- * pizza is broken and replaced. Bowl-bearing toppings remain deferred until
- * their container and refund lifecycle is safe.
+ * pizza is broken and replaced. For bowl-bearing toppings the ORIGINAL item
+ * stack (including its container) stays deposited until the final refund or
+ * irreversible consumption. A separate bowl must never be handed out on
+ * application while the original stack is still fully refundable.
  */
 public final class PizzaCompositionOperations {
     private PizzaCompositionOperations() {
