@@ -46,14 +46,28 @@ public final class ModItems {
                         .durability(ToolMaterial.IRON.durability())
                         .repairable(ToolMaterial.IRON.repairItems()));
 
-        // Formed pizza item: retains its complete, versioned composition.
-        // No separate baked pizza or slice is registered in this phase.
+        // Formed raw pizza item: retains full composition and optional
+        // normalized baking progress until an oven finishes the transaction.
         public static final ResourceKey<Item> RAW_PIZZA_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("raw_pizza"));
 
         public static final Item RAW_PIZZA = register(
                 RAW_PIZZA_KEY,
+                new Item.Properties()
+                        .stacksTo(1)
+                        .component(ModDataComponents.PIZZA_CONTENTS, PizzaItemData.empty()));
+
+        // Phase 4A: a complete pizza is still ONE non-edible item.
+        // Later it will be placeable in the world for serving four slices.
+        // The existing raw_pizza pixel art is reused temporarily; its redesign
+        // and the baked-pizza art are still separate graphical TODOs.
+        public static final ResourceKey<Item> COOKED_PIZZA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("cooked_pizza"));
+
+        public static final Item COOKED_PIZZA = register(
+                COOKED_PIZZA_KEY,
                 new Item.Properties()
                         .stacksTo(1)
                         .component(ModDataComponents.PIZZA_CONTENTS, PizzaItemData.empty()));
