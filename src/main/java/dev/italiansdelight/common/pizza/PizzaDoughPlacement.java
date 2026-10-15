@@ -74,7 +74,8 @@ public final class PizzaDoughPlacement {
                     return InteractionResult.SUCCESS;
                 }
 
-                // Phase 3D: server-authoritative solid topping composition.
+                // Phase 3G: server-authoritative pizza topping composition,
+                // including SOLID, CREAMY and SAUCE approved roles.
                 // Shift + empty hand peels only the newest application in
                 // the selected physical zone, with refund on LAST removal.
                 if (stage == PizzaDoughBlock.MAX_STAGE && held.isEmpty()
@@ -83,10 +84,10 @@ public final class PizzaDoughPlacement {
                             player, level, clickedPos, hit);
                 }
 
-                // The native catalog can be checked on BOTH sides without a
-                // resource reload; optional datapack substitutes are resolved
-                // by the authoritative server lookup. The custom mapping's
-                // full client preview/synchronization comes in a later phase.
+                // The native allowlist is available on BOTH sides without a
+                // resource reload; the authoritative server lookup resolves
+                // optional datapack equivalents. The client receives the
+                // canonical composition through the pizza BlockEntity.
                 if (stage == PizzaDoughBlock.MAX_STAGE
                         && !player.isShiftKeyDown()
                         && !held.isEmpty()
@@ -94,8 +95,8 @@ public final class PizzaDoughPlacement {
                             ? PizzaToppingCatalog.findNativeItem(
                                     net.minecraft.core.registries.BuiltInRegistries.ITEM
                                             .getKey(held.getItem()))
-                                    .filter(type -> type.role()
-                                            == PizzaToppingType.Role.SOLID)
+                                    .filter(type -> !type.planned()
+                                            && PizzaToppingCatalog.isActiveType(type.id()))
                                     .isPresent()
                             : PizzaToppingInteractions.isImplementedTopping(held))) {
                     return PizzaToppingInteractions.add(
@@ -107,7 +108,7 @@ public final class PizzaDoughPlacement {
                 }
 
                 // Temporary legacy proof of concept: WHOLE mozzarella toggles
-                // a BlockState overlay. New prepared SOLID toppings above use
+                // a BlockState overlay. New prepared approved toppings above use
                 // the canonical persistent quarter-based composition instead.
                 if (stage == PizzaDoughBlock.MAX_STAGE
                         && held.is(dev.italiansdelight.common.registry.ModItems.MOZZARELLA)) {
