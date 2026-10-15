@@ -25,10 +25,16 @@ import net.minecraft.world.phys.BlockHitResult;
  * alive its entity owns the original stack, so a later break can transfer all
  * topping data into the existing raw_pizza item component.
  *
- * <p>Bowl/container toppings (tomato sauce, cream bowl, ricotta) are held back
- * until the container/refund accounting is implemented without a duplication
- * exploit. SOLID toppings are usable immediately. Rendering is a separate
- * client synchronization milestone.
+ * <p>All approved toppings are usable: solid pieces, the tomato SAUCE,
+ * cream and ricotta (CREAMY). A bowl-bearing input is held in escrow inside
+ * its saved original ItemStack. A successful placement consumes one full
+ * source item, WITHOUT issuing a separate bowl: that same original item must
+ * remain refundable when its last covered quarter is removed. Its empty
+ * container may be returned only when the topping is irreversibly consumed,
+ * e.g. when baking is implemented. Never give both the intact original item
+ * and its bowl on placement/removal.
+ *
+ * <p>All client rendering is separate and remains a graphical placeholder.
  */
 public final class PizzaToppingInteractions {
     private PizzaToppingInteractions() {
@@ -36,11 +42,12 @@ public final class PizzaToppingInteractions {
 
     public static boolean isImplementedTopping(ItemStack held) {
         return PizzaToppingMappings.find(held)
-                .filter(type -> type.role() == PizzaToppingType.Role.SOLID)
+                .filter(type -> !type.planned()
+                        && PizzaToppingCatalog.isActiveType(type.id()))
                 .isPresent();
     }
 
-    /** Right-click with one approved, prepared, SOLID ingredient. */
+    /** Right-click with any approved, prepared topping (solid, cream or sauce). */
     public static InteractionResult add(
             Player player, Level level, BlockPos pos, BlockHitResult hit, ItemStack held
     ) {
@@ -71,7 +78,10 @@ public final class PizzaToppingInteractions {
             return InteractionResult.SUCCESS; // No consumption on rejection.
         }
 
-        // One item per successful application, regardless of physical area.
+        // One original item is deposited per successful application, regardless
+        // of area. Its bowl, if any, remains part of that original refundable
+        // stack until an irreversible use. Do NOT issue the crafting remainder
+        // here: doing so would duplicate a bowl on Shift + empty-hand refund.
         pizza.setComposition(updated.get());
         if (!player.getAbilities().instabuild) {
             held.shrink(1);
@@ -109,6 +119,9 @@ public final class PizzaToppingInteractions {
         if (removed.isPresent()) {
             PizzaCompositionOperations.Removal result = removed.get();
             pizza.setComposition(result.composition());
+            // The complete deposited ItemStack is refunded exactly once
+            // when its very last covered quarter is removed. No extra
+            // remainder/empty bowl is created on this cancellation path.
             ItemStack refund = result.refund();
             if (!refund.isEmpty() && !player.addItem(refund) && !refund.isEmpty()) {
                 player.drop(refund, false);
