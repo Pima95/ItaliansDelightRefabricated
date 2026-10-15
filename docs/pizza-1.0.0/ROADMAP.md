@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (14 ottobre 2026):** stesura, quarti, recupero `raw_pizza`, condimenti SOLID e **overlay scuro dei tagli** verificati funzionanti dall'autore. **FASE 3F pubblicata su GitHub, DA COMPILARE/TESTARE:** sincronizzazione della composizione completa tramite aggiornamenti standard della BlockEntity, visualizzazione dei modelli degli ItemStack originali sul singolo quarto fisico e aggiornamento in tempo reale su applicazioni/rimozioni. Nessuna texture, modello del blocco o regola gameplay modificata. Rimangono da sviluppare il sistema anti-duplicazione dei recipienti, ricette forno e nomi dinamici. [Test](TOPPING_RENDER_TESTS.md).
+**Stato implementazione pizza (14 ottobre 2026):** stesura, quarti, recupero `raw_pizza`, condimenti SOLID e **overlay scuro dei tagli** verificati funzionanti dall'autore. **FASE 3F confermata funzionante dall'autore (15 ottobre 2026):** sincronizzazione della composizione completa e visualizzazione degli ItemStack originali sui quarti; corretta la patina rossa con `OverlayTexture.NO_OVERLAY`. **La resa attuale degli item appoggiati sulla pizza, simile a un item frame, e' esplicitamente PROVVISORIA: non e' la grafica finale.** Nessuna texture, modello del blocco o regola gameplay modificata. Rimangono da sviluppare il sistema anti-duplicazione dei recipienti, ricette forno e nomi dinamici. [Test](TOPPING_RENDER_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -150,7 +150,7 @@
 
 - [x] **FASE 3E — overlay di divisione verificato dall'autore:** linee visibili negli stati 1/3/5/7, con colore nero/scuro applicato dall'autore e meccanica confermata. [Test](DIVISION_OVERLAY_TESTS.md).
 - [x] **FASE 3E confermata dall'autore:** visualizzazione delle linee e comportamento della divisione funzionanti; eventuali controlli multiplayer restano consigliati.
-- [ ] **FASE 3F — rendering dei topping SOLID pubblicato, da testare:** `PizzaToppingRenderer` client usa gli item model 2.5D già presenti e le maschere `remaining_mask` per disegnare soltanto sui quarti fisici che contengono gli ingredienti. `PizzaDoughBlockEntity` sincronizza il codec di composizione via packet vanilla su watch e modifiche. Il vecchio flag mozzarella resta separato. [Test](TOPPING_RENDER_TESTS.md).
+- [x] **FASE 3F — rendering funzionale dei topping SOLID testato dall'autore:** `PizzaToppingRenderer` visualizza gli ItemStack originali secondo `remaining_mask`, la BlockEntity sincronizza la composizione. Confermata anche la correzione della patina rossa. **Aspetto "item frame" considerato PLACEHOLDER grafico, da sostituire**, senza modificare il gameplay. Il vecchio flag mozzarella resta separato. [Test](TOPPING_RENDER_TESTS.md).
 
 - [x] **FASE 3C verificata dall'autore; aggiornamento dei drop e della texture da testare (14 ottobre 2026):** `raw_pizza` mantiene componente persistente completo, ma viene droppata solo se la pizza e' ancora suddivisa oppure contiene condimenti. Stadio 4 intero e pulito -> `farmersdelight:wheat_dough` anche dopo riunione. Nuova texture pixel art `textures/item/raw_pizza.png` (16×16 RGBA) e relativo modello; nessun asset preesistente sovrascritto. [Test](RAW_PIZZA_ITEM_TESTS.md).
 - [ ] **Verificare nuove regole e texture:** build Java 25, `division_state = 0` pulito -> impasto; diviso -> raw_pizza; diviso poi riunito pulito -> impasto; mozzarella prototipo oppure qualsiasi topping residuo -> raw_pizza. Verificare Pick Block, explosion loot, icon 16×16 e Q/inventario.
@@ -191,6 +191,8 @@
 ### Fase 3: rendering 2.5D
 
 - [x] Texture dell'impasto crudo nei cinque stadi di stesura: superficie, lati e particelle dedicate 16×16, completamente opache. **Aspetto da verificare in gioco**; [anteprima e test](TEXTURES.md).
+- [ ] **TODO GRAFICA — Ridisegnare la texture item `raw_pizza.png`:** sostituire/rifinire la pixel art attuale, che l'autore considera provvisoria, mantenendo il formato **16×16 PNG RGBA**, con **alpha=255 sui pixel visibili**, **alpha=0 soltanto fuori dalla sagoma** e nessun pixel semitrasparente (1–254). Preservare il riconoscimento dell'item, il modello JSON e i componenti/dati della pizza. Definire l'aspetto definitivo insieme all'autore prima di sostituire l'asset.
+- [ ] **TODO GRAFICA — Sostituire la resa dei topping "item frame":** i modelli degli ItemStack oggi appoggiati sui quattro quarti sono **soltanto placeholder**; realizzare una rappresentazione credibile dei condimenti sulla superficie della pizza (salse piatte, formaggi/erbe/fette proporzionati, distribuzione naturale e leggibile). Conservare identità dell'ingrediente, maschere dei quarti, rotazione/orientamento, aggiornamenti multiplayer, ordine/rimborsi e prestazioni. Le future texture originali devono seguire la regola 16×16 RGBA/alpha definita sopra.
 - [ ] Pizza condita cruda/cotta.
 - [ ] Salse piatte, formaggi/condimenti 2.5D, preset riutilizzabili.
 - [ ] Seed deterministico e conservazione della distribuzione.
@@ -233,4 +235,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** eseguire build e test visivi della **FASE 3F** secondo [TOPPING_RENDER_TESTS.md](TOPPING_RENDER_TESTS.md): modelli dei condimenti realmente usati, quarti, orientamenti, rimozione parziale, persistenza mondo/item e multiplayer. Dopo conferma, perfezionare scala/densità dei topping e aggiungere i condimenti con recipiente senza duping.
+**Prossimo passo:** implementare le altre meccaniche previste (inclusi i topping con recipiente, senza duplicazioni), mantenendo in roadmap **due attività grafiche da completare prima della release 1.0.0**: nuova texture item `raw_pizza` e sostituzione del renderer placeholder "item frame" con topping realistici sulla pizza. Le funzionalità attuali sono state confermate funzionanti dall'autore.
