@@ -1,5 +1,8 @@
 # Pizza Oven: forno compatto e altri metodi di cottura
 
+> **Fase 4A pubblicata nel branch `feature/pizza-1.0.0` (15 ottobre 2026), DA COMPILARE/TESTARE:** esistono ora l'item `italiansdelight:cooked_pizza`, il codec retrocompatibile con `bake_progress` (0..1200), il progresso salvato anche su `PizzaDoughBlockEntity` e la logica pura `PizzaBaking` per progressione e preparazione dei recipienti a cottura completa. **Il blocco Pizza Oven, la GUI, gli hopper e le ricette forno/affumicatore NON sono ancora realizzati.** [Guida test della base](PIZZA_BAKING_FOUNDATION_TESTS.md). La nuova texture definitiva della pizza cotta è ancora un TODO, e il suo modello item usa temporaneamente `raw_pizza`.
+
+
 ## Requisiti CONFERMATI
 
 - **Pizza Oven dedicato** e possibilità di cuocere le pizze anche nei **forni vanilla esistenti** (fornace e affumicatore).
