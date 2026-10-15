@@ -69,6 +69,14 @@ public record PizzaComposition(
         Set<Long> usedIds = new HashSet<>();
         // Validation is performed on canonical IDs and quarter bitmasks, not
         // broad food tags. Never accept overlapping same-type applications.
+        //
+        // Intentional legacy compatibility: existing pizzas saved before
+        // the one-sauce-or-cream-per-quarter rule may already have tomato,
+        // cream and/or ricotta on the same physical quarter. This constructor
+        // must continue to load those complete original stacks and allow
+        // normal removals/refunds, NEVER discarding a topping on deserialize.
+        // All NEW placements are restricted by PizzaCompositionOperations.add
+        // using PizzaToppingType.occupiesSauceSlot() on the intended zone.
         for (int quarter = 0; quarter < QUARTER_COUNT; quarter++) {
             Set<Identifier> distinctTypes = new LinkedHashSet<>();
             int sauceCount = 0;
