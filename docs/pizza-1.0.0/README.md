@@ -1,8 +1,15 @@
 # Italian's Delight Refabricated — Pizza Update 1.0.0
 
-> **Stato:** stesura, divisioni, BlockEntity, `raw_pizza`, condimenti SOLID e overlay scuro delle linee confermati funzionanti dall'autore. **FASE 3F pubblicata, da compilare e provare in gioco:** il renderer client disegna le texture/modelli degli item effettivamente applicati sui quattro quarti; la BlockEntity sincronizza la composizione ai giocatori anche in multiplayer. Restano da gestire i tre topping con recipiente, i nomi dinamici e la cottura.
+> **Stato (15 ottobre 2026):** stesura, divisioni, `raw_pizza`, condimenti solidi, linee scure di divisione e visualizzazione degli ingredienti **confermati funzionanti dall'autore** (inclusa la correzione della patina rossa). **L'aspetto grafico non è definitivo:** la texture item `raw_pizza.png` va rifinita e la rappresentazione attuale dei condimenti come item posizionati in un «item frame» è soltanto un **placeholder**. Entrambe le attività sono annotate in [ROADMAP.md](ROADMAP.md#fase-3-rendering-25d). Restano da implementare topping con recipiente, nomi dinamici e cottura.
 >
 > **Principio guida CONFERMATO:** i comportamenti basilari seguono **Minecraft vanilla** come default (drop, pickup, despawn, danni ambientali e altre interazioni standard). Non richiedere approvazioni ripetute per queste regole ordinarie; rispettare le eccezioni personalizzate gia' concordate e discutere solo le nuove meccaniche significative.
+
+## Attività grafiche da completare prima della 1.0.0
+
+- [ ] Aggiornare la **texture dell'item `raw_pizza`**: PNG 16×16 RGBA; pixel dell'oggetto interamente opachi, sfondo trasparente e nessuna semitrasparenza ai bordi.
+- [ ] Sostituire la **visualizzazione provvisoria dei condimenti appoggiati come item frame** con una resa 2.5D naturale e integrata nella superficie della pizza, senza modificare la meccanica già funzionante dei quattro quarti, del salvataggio e dei rimborsi.
+
+Questi due miglioramenti sono richieste **ancora aperte**, non modifiche già implementate. Nessuna texture esistente va sovrascritta senza approvazione.
 
 ## Visione
 
