@@ -20,7 +20,7 @@
 | Bianca | Nessun condimento | **Ingredienti già registrati** |
 | Rossa | Salsa di pomodoro | **Ingredienti già registrati** |
 | Margherita (versione 1.0.0) | Salsa di pomodoro + Mozzarella a fette + Basilico | **Ingredienti già registrati** |
-| Principessa | **Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette + Panna** | **Ingredienti già registrati** |
+| Principessa | **RICETTA STORICA SOSPESA:** Salsa di pomodoro + Mozzarella a fette + Prosciutto crudo a fette + Panna | **Ingredienti registrati, ma combinazione non più realizzabile (pomodoro + panna); in attesa di nuova scelta** |
 | Caprese rossa | Salsa di pomodoro + Mozzarella a fette + Pomodoro a fette + Basilico | **Ingredienti già registrati** |
 | Caprese bianca | Mozzarella a fette + Pomodoro a fette + Basilico | **Ingredienti già registrati** |
 | Quattro Formaggi bianca | Mozzarella a fette + Gorgonzola a spicchi + Provolone a fette + Parmigiano Reggiano grattugiato | **Ingredienti già registrati** |
