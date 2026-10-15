@@ -21,8 +21,9 @@ public record PizzaToppingType(
         Objects.requireNonNull(nutritionCategory, "nutritionCategory");
         Objects.requireNonNull(role, "role");
 
-        // Cream and ricotta are dairy toppings, never sauces. Only actual
-        // sauces occupy the pizza's one-sauce-per-quarter slot.
+        // Cream and ricotta remain DAIRY/Creamy for nutrition and model
+        // purposes. Their placement nevertheless occupies the same exclusive
+        // sauce/spread slot as tomato sauce (see occupiesSauceSlot()).
         if ((role == Role.SAUCE) != (nutritionCategory == NutritionCategory.SAUCES)) {
             throw new IllegalArgumentException("Pizza sauce role/category mismatch: " + id);
         }
