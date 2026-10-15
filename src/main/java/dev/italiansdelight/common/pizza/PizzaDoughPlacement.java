@@ -215,6 +215,9 @@ public final class PizzaDoughPlacement {
                     return InteractionResult.FAIL;
                 }
                 pizzaEntity.setComposition(pizzaData.composition());
+                // Progress is carried by the item if it was withdrawn before
+                // completion in an oven; placing/breaking never resets it.
+                pizzaEntity.setBakeProgress(pizzaData.bakeProgress());
                 if (!player.getAbilities().instabuild) {
                     held.shrink(1);
                 }
