@@ -1,8 +1,10 @@
 # Italian's Delight Refabricated — Pizza Update 1.0.0
 
-> **Stato (15 ottobre 2026):** stesura, divisioni, `raw_pizza`, condimenti solidi, linee scure di divisione e visualizzazione degli ingredienti **confermati funzionanti dall'autore** (inclusa la correzione della patina rossa). **L'aspetto grafico non è definitivo:** la texture item `raw_pizza.png` va rifinita e la rappresentazione attuale dei condimenti come item posizionati in un «item frame» è soltanto un **placeholder**. Entrambe le attività sono annotate in [ROADMAP.md](ROADMAP.md#fase-3-rendering-25d). Restano da implementare topping con recipiente, nomi dinamici e cottura.
+> **Stato (15 ottobre 2026):** stesura, divisioni, `raw_pizza`, topping solidi, linee scure e rendering degli ingredienti testati e confermati dall'autore. **FASE 3G pubblicata, DA COMPILARE/PROVARE:** aggiunta ai topping di salsa di pomodoro, panna e ricotta, conservando l'ItemStack originale senza creare ciotole alla posa/rimozione; ciotole rinviate al consumo irreversibile in cottura (ancora non implementato). Rimangono in roadmap texture `raw_pizza` da rifinire e resa `item frame` da sostituire, oltre a nomi dinamici e cottura.
 >
 > **Principio guida CONFERMATO:** i comportamenti basilari seguono **Minecraft vanilla** come default (drop, pickup, despawn, danni ambientali e altre interazioni standard). Non richiedere approvazioni ripetute per queste regole ordinarie; rispettare le eccezioni personalizzate gia' concordate e discutere solo le nuove meccaniche significative.
+
+**Nuovi test disponibili:** [CONTAINER_TOPPING_TESTS.md](CONTAINER_TOPPING_TESTS.md) — Fase 3G, posizionamento di salsa/panna/ricotta, rimborsi anti-dupe e multiplayer.
 
 ## Attività grafiche da completare prima della 1.0.0
 
