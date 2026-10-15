@@ -184,7 +184,8 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
                 entity == null ? PizzaComposition.empty() : entity.composition();
         ItemStack stack = new ItemStack(ModItems.RAW_PIZZA);
         stack.set(ModDataComponents.PIZZA_CONTENTS,
-                new PizzaItemData(composition, state.getValue(MOZZARELLA)));
+                new PizzaItemData(composition, state.getValue(MOZZARELLA),
+                        entity == null ? 0 : entity.bakeProgress()));
         return stack;
     }
 
