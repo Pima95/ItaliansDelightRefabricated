@@ -4,7 +4,7 @@
 
 Questa fase collega [PizzaToppingInteractions.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingInteractions.java), [PizzaCompositionOperations.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaCompositionOperations.java) e [PizzaDoughPlacement.java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaDoughPlacement.java). Usa la BlockEntity e il `raw_pizza` con componente persistente delle fasi precedenti. **Aggiornamento (FASE 3E, da testare):** l'overlay visivo dei tagli e la sincronizzazione delle sole proprietà `division`/`facing` sul client sono ora implementati nel branch, ma non ancora verificati in gioco. Il rendering dei condimenti resta assente: per vedere gli ingredienti memorizzati si usa ancora `/data get block`. [Test overlay](DIVISION_OVERLAY_TESTS.md).
 
-## Build e preparazione
+**Nota retrospettiva (fase 3G, 15 ottobre 2026):** la lista dei tre topping con ciotola disabilitati in questo vecchio protocollo di test rappresenta lo stato della **fase 3D**. Ora gli item sono stati abilitati nel codice, ma sono ancora da compilare/testare: usare [CONTAINER_TOPPING_TESTS.md](CONTAINER_TOPPING_TESTS.md). Il recipiente resta depositato con l'item, quindi alla posa/rimozione non si genera una ciotola separata.\n\n## Build e preparazione
 
 ```powershell
 git switch feature/pizza-1.0.0
