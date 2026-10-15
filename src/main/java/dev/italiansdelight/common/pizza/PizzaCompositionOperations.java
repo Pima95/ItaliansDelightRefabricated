@@ -23,8 +23,10 @@ public final class PizzaCompositionOperations {
 
     /**
      * Add one original item to previously uncovered physical quarters only.
-     * A differently named sauce anywhere in the target zone rejects the
-     * entire click even if some other quarters are free.
+     * A different sauce OR creamy spread (tomato, cream, ricotta) anywhere
+     * in the intended logical zone rejects the ENTIRE click, even if some
+     * other physical quarters are free. The three alternatives occupy one
+     * shared sauce slot per quarter, independently of nutrition category.
      *
      * @return updated composition, or empty if invalid/duplicated/overfull
      */
@@ -52,11 +54,21 @@ public final class PizzaCompositionOperations {
             if (application.canonicalId().equals(type.id())) {
                 uncovered &= ~overlapping;
             }
-            // Reject DIFFERENT sauce in any part of the entire intended zone.
+            // The three spread choices share a SINGLE sauce slot:
+            // tomato sauce, cream and ricotta are mutually exclusive on
+            // every physical quarter of the clicked logical zone.
+            // Check the entire target zone, not just "uncovered", so a
+            // click on a reunited/mixed pizza never silently paints over
+            // the other sauce on a partly occupied selection.
+            //
+            // This check is symmetric: a new creamy spread must be rejected
+            // over tomato, and tomato must be rejected over existing cream.
+            // Ignore legacy combinations already saved; they remain loaded
+            // and refundable without deleting or converting ItemStacks.
             PizzaToppingType existing = PizzaToppingCatalog.findType(
                     application.canonicalId()).orElse(null);
-            if (type.role() == PizzaToppingType.Role.SAUCE
-                    && existing != null && existing.role() == PizzaToppingType.Role.SAUCE
+            if (type.occupiesSauceSlot()
+                    && existing != null && existing.occupiesSauceSlot()
                     && !existing.id().equals(type.id())) {
                 return Optional.empty();
             }
