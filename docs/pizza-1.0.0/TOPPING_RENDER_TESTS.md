@@ -71,6 +71,6 @@ Per una build Java 25 / Minecraft 26.2, inviare **il primo errore completo di co
 
 - L'overlay nero dei tagli (fase 3E) rimane invariato.
 - Il blocco pizza conserva lo stesso bordo 1px, hitbox, click, drop e comportamento vanilla degli item a terra.
-- `tomato_sauce`, `cream_bowl`, `ricotta` **non sono ancora applicabili**: manca la gestione definitiva dei recipienti. Non ci sono nuovi item tagliati per carota e patata.
+- **FASE 3G (da compilare/testare):** `tomato_sauce`, `cream_bowl`, `ricotta` diventano applicabili e sono renderizzati con i loro modelli item, ancora provvisori. Le ciotole restano trattenute con l'originale e il recupero dopo cottura è futuro. [Test dei tre topping](CONTAINER_TOPPING_TESTS.md). Carota e patata a fette restano da implementare.
 - La grafica 2.5D può essere perfezionata dopo il test con piccoli modelli dedicati e texture 16×16. Ogni nuova texture futura rispetterà: **RGBA con alpha 255 sui pixel dell'item, alpha 0 solo fuori dalla sagoma, niente pixel semitrasparenti**.
 - Il rendering copia i modelli ItemStack per applicazione e per quarto, con al massimo 24 simboli su una pizza. Non crea render tickers o oggetti server.
