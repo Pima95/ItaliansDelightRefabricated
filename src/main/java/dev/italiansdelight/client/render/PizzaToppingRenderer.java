@@ -23,12 +23,14 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Phase 3F: dynamic SOLID toppings using the ORIGINAL item models.
+ * Phase 3F/3G: dynamic approved toppings using ORIGINAL item models.
  *
  * <p>Four physical quarters are always defined, even when the logical cuts
  * have been joined. Applications are drawn only on their remainingMask bits,
  * preserving their real source ItemStack (including cooked/raw/external
- * equivalents). The render state is extracted before the drawing phase:
+ * equivalents). Creams and sauces temporarily use the same item-model
+ * placeholder: their final low-profile surface rendering remains a separate
+ * visual-art task. The render state is extracted before the drawing phase:
  * no world/BE/item data is accessed by submit().
  *
  * <p>All geometry is visual only. No new hitbox, texture, block model,
