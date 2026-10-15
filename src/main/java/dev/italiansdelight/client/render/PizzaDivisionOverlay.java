@@ -66,11 +66,13 @@ public final class PizzaDivisionOverlay {
         if (stack.is(ModItems.ROLLING_PIN)) {
             return true;
         }
-        // Only the approved toppings currently enabled by the server-side
-        // interaction handler: bowls/creamy/sauces are not interactive yet.
+        // Approved native toppings activate the temporary guides, including
+        // sauce, cream and ricotta. External datapack mappings are authoritative
+        // on the server and will receive a client-side preview in a later step.
         return PizzaToppingCatalog.findNativeItem(
                         BuiltInRegistries.ITEM.getKey(stack.getItem()))
-                .filter(type -> type.role() == PizzaToppingType.Role.SOLID)
+                .filter(type -> !type.planned()
+                        && PizzaToppingCatalog.isActiveType(type.id()))
                 .isPresent();
     }
 
