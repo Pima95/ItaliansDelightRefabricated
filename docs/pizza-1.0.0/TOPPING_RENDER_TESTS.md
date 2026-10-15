@@ -1,7 +1,13 @@
 # Pizza 1.0.0 — Fase 3F: rendering dei condimenti per quarto
 
-> **Implementato su `feature/pizza-1.0.0` — build e test in Minecraft 26.2 DA ESEGUIRE.**
+> **Stato aggiornato 15 ottobre 2026:** build, rendering delle applicazioni solide e correzione della patina rossa **confermati funzionanti dall'autore**. Rimangono prove supplementari e la rifinitura grafica.
 > L'autore ha già confermato che le linee di divisione (ora scure) e l'applicazione/rimozione dei condimenti funzionano. Questa fase cambia soltanto **la sincronizzazione della composizione verso il client e il rendering**, non il consumo, i rimborsi, la logica dei quarti o i drop.
+
+## Stato grafico: PLACEHOLDER confermato
+
+L'autore ha confermato che l'attuale disegno dei topping sembra composto da **item appoggiati come in un item frame**. Questa rappresentazione è un **placeholder tecnico**: non è l'aspetto definitivo della pizza 1.0.0. Nella [roadmap](ROADMAP.md) sono aperte due attività indipendenti: **riprogettare la texture dell'item `raw_pizza`** e **ridisegnare i condimenti sulla pizza** in stile 2.5D, integrandoli meglio con la superficie.
+
+Entrambi i miglioramenti devono preservare gli invarianti già funzionanti: maschere dei quarti fisici, LIFO/rimborso, persistenza, sincronizzazione e assenza di patina rossa. Per tutte le nuove texture item: **16×16 PNG RGBA**, alpha 255 sui pixel visibili, alpha 0 solo fuori sagoma, mai pixel semitrasparenti.
 
 ## Novità tecniche
 
