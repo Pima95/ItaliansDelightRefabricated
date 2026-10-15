@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (15 ottobre 2026):** stesura, quarti, recupero `raw_pizza`, topping SOLID e cremosi, rendering placeholder e linee scure confermati funzionanti dall'autore. **FASE 3H pubblicata, da compilare/testare:** l'utente ha richiesto che le tre scelte di salsa/base cremosa (pomodoro, panna, ricotta) siano **mutuamente esclusive su ogni quarto fisico**, con una scelta sulla pizza intera e alternative differenti su spicchi distinti. La nuova validazione di `PizzaCompositionOperations.add` blocca l'intera posa su un'area contenente già una diversa salsa, preservando LIFO, contenitori e vecchi salvataggi. **Preset «Principessa» storicamente approvato (pomodoro + panna) ora incompatibile, SUSPENDED fino a nuova decisione dell'autore.** Il rendering definitivo e l'icona `raw_pizza` restano TODO. [Test](CONTAINER_TOPPING_TESTS.md).
+**Stato implementazione pizza (15 ottobre 2026):** stesura, quarti, topping solidi e cremosi, esclusività salse e rendering placeholder confermati funzionanti dall'autore. **FASE 4A pubblicata, build/test da eseguire:** `PizzaItemData.bake_progress` opzionale e retrocompatibile (0..1200), trasferimento progresso in `PizzaDoughBlockEntity`/item/world, `PizzaBaking` con durate placeholder 20/30/60 s per Pizza Oven/smoker/furnace, preparazione di una ciotola per applicazione originale solo al completamento; `cooked_pizza` registrato, ancora non commestibile, non piazzabile e senza ricetta. **Nessun forno funzionante ancora implementato.** La texture cooked usa provvisoriamente la raw; gli altri TODO grafici e la Principessa sospesa restano. [Test](PIZZA_BAKING_FOUNDATION_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -203,6 +203,9 @@
 
 ### Fase 4: Pizza Oven
 
+- [ ] **FASE 4A — base dati di cottura pubblicata, build/test pendenti:** normalizzazione progresso 1200 unità con codec opzionale e default 0, conservazione del progresso in raw pizza ↔ blocco, registrazione item `cooked_pizza` non commestibile, utilità `PizzaBaking.advance/finish` (risultato e ciotole calcolate una volta per applicazione originale). Il completamento esiste come funzione pura, **non è ancora chiamato in gioco da un forno**. [Test 4A](PIZZA_BAKING_FOUNDATION_TESTS.md).
+- [ ] **FASE 4B — Pizza Oven funzionante:** implementare blocco, BE, menu/GUI vanilla, combustibile, progressi, output, hopper e contenitori come trasferimento atomico server. L'assenza di combustibile mette in pausa e il forno vuoto non spreca energia.
+
 - [ ] Forno compatto orientabile con una pizza alla volta, **utilizzabile con o senza pala** (la pala non e' obbligatoria).
 - [ ] BlockEntity persistente, **GUI VANILLA della fornace** (input pizza, fuel, output pizza, fiamma/freccia standard) e inserimento/estrazione diretti con pala, senza bruciatura. Capienza massima una pizza totale in input/output.
 - [ ] Test inserimento con pala occupata: un solo trasferimento, pala svuotata solo a successo, dati della pizza intatti; forno occupato -> nessun consumo/sostituzione. Test parallelo inserimento ed estrazione tramite GUI senza pala.
@@ -237,4 +240,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** verificare in gioco la **FASE 3H** con [CONTAINER_TOPPING_TESTS.md](CONTAINER_TOPPING_TESTS.md) (pizza intera, metà, quarti, tentativi respinti senza consumo, old save, multiplayer). **Decisione da prendere prima del matching delle ricette:** nuova versione della Principessa senza pomodoro+panna sovrapposti. Poi riprendere cottura e recupero ciotole; rimangono i TODO grafici `raw_pizza` e renderer "item frame".
+**Prossimo passo:** compilare e verificare la **FASE 4A** con [PIZZA_BAKING_FOUNDATION_TESTS.md](PIZZA_BAKING_FOUNDATION_TESTS.md) (retrocompatibilità, item cotto di debug, regressioni su `raw_pizza`). Dopo la conferma costruire **FASE 4B**: Pizza Oven orientabile 1×1 con GUI della fornace vanilla, combustibili, inventario e avanzamento persistenti, trasferimenti atomici di pizza e ciotole. In seguito supporto fornace/affumicatore vanilla, pizza cotta piazzabile e fette. Restano la texture `raw_pizza` e il renderer dei topping da rifinire.
