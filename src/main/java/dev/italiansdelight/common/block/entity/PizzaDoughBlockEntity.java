@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.block.entity;
 
 import dev.italiansdelight.common.pizza.PizzaComposition;
+import dev.italiansdelight.common.pizza.PizzaBaking;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
@@ -28,6 +29,9 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
  */
 public final class PizzaDoughBlockEntity extends BlockEntity {
     private PizzaComposition composition = PizzaComposition.empty();
+    // A raw pizza may already be partly baked when placed back in the world.
+    // Kept distinct from composition: cuts/toppings are independent of baking.
+    private int bakeProgress;
 
     public PizzaDoughBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.PIZZA_DOUGH, pos, state);
@@ -36,6 +40,33 @@ public final class PizzaDoughBlockEntity extends BlockEntity {
     /** Immutable snapshot. Individual original ItemStacks are defensive copies. */
     public PizzaComposition composition() {
         return composition;
+    }
+
+    public int bakeProgress() {
+        return bakeProgress;
+    }
+
+    /**
+     * Restore oven progress when placing a partly baked RAW_PIZZA back on
+     * the ground. Keep original progress when the block is later broken.
+     * This is NOT a ticking oven: progress advances only in a cooking machine.
+     */
+    public void setBakeProgress(int value) {
+        if (value < 0 || value > PizzaBaking.MAX_PROGRESS) {
+            throw new IllegalArgumentException("Invalid placed pizza bake progress");
+        }
+        if (level != null && level.isClientSide()) {
+            throw new IllegalStateException("Cannot change pizza progress on client");
+        }
+        if (this.bakeProgress == value) {
+            return;
+        }
+        this.bakeProgress = value;
+        setChanged();
+        if (level != null) {
+            BlockState state = level.getBlockState(worldPosition);
+            level.sendBlockUpdated(worldPosition, state, state, Block.UPDATE_CLIENTS);
+        }
     }
 
     /**
@@ -92,12 +123,18 @@ public final class PizzaDoughBlockEntity extends BlockEntity {
         super.loadAdditional(input);
         composition = input.read("PizzaComposition", PizzaComposition.CODEC)
                 .orElseGet(PizzaComposition::empty);
+        // Old worlds have no BakeProgress field: default to zero.
+        bakeProgress = Math.clamp(
+                input.getIntOr("BakeProgress", 0), 0, PizzaBaking.MAX_PROGRESS);
     }
 
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         output.store("PizzaComposition", PizzaComposition.CODEC, composition);
+        if (bakeProgress > 0) {
+            output.putInt("BakeProgress", bakeProgress);
+        }
     }
 
     /**
