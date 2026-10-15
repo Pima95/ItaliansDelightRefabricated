@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (14 ottobre 2026):** stesura, quarti, recupero `raw_pizza`, condimenti SOLID e **overlay scuro dei tagli** verificati funzionanti dall'autore. **FASE 3F confermata funzionante dall'autore (15 ottobre 2026):** sincronizzazione della composizione completa e visualizzazione degli ItemStack originali sui quarti; corretta la patina rossa con `OverlayTexture.NO_OVERLAY`. **La resa attuale degli item appoggiati sulla pizza, simile a un item frame, e' esplicitamente PROVVISORIA: non e' la grafica finale.** Nessuna texture, modello del blocco o regola gameplay modificata. Rimangono da sviluppare il sistema anti-duplicazione dei recipienti, ricette forno e nomi dinamici. [Test](TOPPING_RENDER_TESTS.md).
+**Stato implementazione pizza (15 ottobre 2026):** divisioni, recupero `raw_pizza`, topping solidi, rendering provvisorio e correzione della patina rossa confermati funzionanti dall'autore. **FASE 3G aggiunta nel branch, DA COMPILARE/TESTARE:** clic con `farmersdelight:tomato_sauce`, `italiansdelight:cream_bowl` e `italiansdelight:ricotta`, stesse maschere/anti-duplicato/LIFO dei solidi, panna e ricotta NON salse. **Policy anti-dupe:** il recipiente è depositato insieme all'item pieno fino a eventuale rimborso; la ciotola NON esce durante la posa, e sarà emessa una sola volta al consumo irreversibile in cottura (ancora da sviluppare). Grafica dei topping “item frame” e icona `raw_pizza` restano due TODO artistici. [Test 3G](CONTAINER_TOPPING_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -151,6 +151,7 @@
 - [x] **FASE 3E — overlay di divisione verificato dall'autore:** linee visibili negli stati 1/3/5/7, con colore nero/scuro applicato dall'autore e meccanica confermata. [Test](DIVISION_OVERLAY_TESTS.md).
 - [x] **FASE 3E confermata dall'autore:** visualizzazione delle linee e comportamento della divisione funzionanti; eventuali controlli multiplayer restano consigliati.
 - [x] **FASE 3F — rendering funzionale dei topping SOLID testato dall'autore:** `PizzaToppingRenderer` visualizza gli ItemStack originali secondo `remaining_mask`, la BlockEntity sincronizza la composizione. Confermata anche la correzione della patina rossa. **Aspetto "item frame" considerato PLACEHOLDER grafico, da sostituire**, senza modificare il gameplay. Il vecchio flag mozzarella resta separato. [Test](TOPPING_RENDER_TESTS.md).
+- [ ] **FASE 3G — condimenti in ciotola pubblicati, DA TESTARE:** `tomato_sauce` è l'unica salsa; `cream_bowl` e `ricotta` sono cremosi non salse e condividono soltanto il bonus latticini. L'item pieno rimane depositato nella composizione; **nessuna ciotola alla posa o al rimborso**, che restituisce l'item originale. Da realizzare la restituzione della ciotola al consumo irreversibile in cottura, senza rilascio per quarto. [Guida](CONTAINER_TOPPING_TESTS.md).
 
 - [x] **FASE 3C verificata dall'autore; aggiornamento dei drop e della texture da testare (14 ottobre 2026):** `raw_pizza` mantiene componente persistente completo, ma viene droppata solo se la pizza e' ancora suddivisa oppure contiene condimenti. Stadio 4 intero e pulito -> `farmersdelight:wheat_dough` anche dopo riunione. Nuova texture pixel art `textures/item/raw_pizza.png` (16×16 RGBA) e relativo modello; nessun asset preesistente sovrascritto. [Test](RAW_PIZZA_ITEM_TESTS.md).
 - [ ] **Verificare nuove regole e texture:** build Java 25, `division_state = 0` pulito -> impasto; diviso -> raw_pizza; diviso poi riunito pulito -> impasto; mozzarella prototipo oppure qualsiasi topping residuo -> raw_pizza. Verificare Pick Block, explosion loot, icon 16×16 e Q/inventario.
@@ -169,7 +170,7 @@
 - [x] **JSON/reload/cache implementati:** caricamento iniziale 33 ID ufficiali confermato dal giocatore nel log; restano da provare mapping JSON esterni, conflitti ed esclusioni.
 - [ ] Aggiunta topping con clic destro e gestione quantità.
 - [x] **FASE 3B/3E provate dall'autore:** divisioni, riunioni, valori `division_state` e overlay scuro. Anteprima temporanea e hitbox invariata. [Guida](DIVISION_OVERLAY_TESTS.md).
-- [x] **FASE 3D — condimenti SOLID testati dall'autore:** applicazione/rimozione sui quarti, rimborsi LIFO, persistenza item e no duplicazione. Restano i tre topping con recipiente, rendering fisico degli ingredienti e nomi/ricette. [Test archiviati](TOPPING_INTERACTIONS_TESTS.md).
+- [x] **FASE 3D — condimenti SOLID testati dall'autore:** applicazione/rimozione sui quarti, rimborsi LIFO, persistenza item e no duplicazione. I condimenti in ciotola sono attivati dalla fase 3G, in attesa di test e gestione della ciotola a cottura completa. Rendering definitivo e ricette pizza rimangono incompleti. [Test](TOPPING_INTERACTIONS_TESTS.md).
 - [ ] Recupero diretto nell'inventario dei topping **rimossi completamente** (drop solo se pieno); **rottura pizza formata INTEGRA -> pizza-item cruda/cotta con dati completi** (pizza cotta servita parzialmente -> sole fette residue), senza duplicare ingredienti.
 - [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
 - [ ] Test: due pale vuote non si impilano; ogni pala occupata resta singola; spostamenti tra slot e contenitori conservano i dati senza duplicazioni.
@@ -235,4 +236,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** implementare le altre meccaniche previste (inclusi i topping con recipiente, senza duplicazioni), mantenendo in roadmap **due attività grafiche da completare prima della release 1.0.0**: nuova texture item `raw_pizza` e sostituzione del renderer placeholder "item frame" con topping realistici sulla pizza. Le funzionalità attuali sono state confermate funzionanti dall'autore.
+**Prossimo passo:** compilare e provare la **FASE 3G** con [CONTAINER_TOPPING_TESTS.md](CONTAINER_TOPPING_TESTS.md). Dopo conferma, implementare la cottura e il recupero di un recipiente per applicazione al consumo definitivo, verificando inventario e hopper senza duplicazioni. Restano anche le due attività grafiche TODO: nuova texture `raw_pizza` e sostituzione del rendering “item frame” dei condimenti.
