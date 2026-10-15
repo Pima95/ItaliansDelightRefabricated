@@ -23,7 +23,10 @@ import net.minecraft.world.item.Items;
  * during which it actually spent fuel. This class never consumes fuel.
  * The future machine must atomically consume ONE raw pizza before issuing
  * the result and container remainders returned from finish(). Never call
- * finish() twice for the same physical input.
+ * finish() twice for the same physical input. The baked output still
+ * retains the source stacks for ingredient provenance and future per-slice
+ * naming, but after cooking they are NOT refundable as whole source items:
+ * their containers have already been accounted for at baking completion.
  */
 public final class PizzaBaking {
     public static final int MAX_PROGRESS = 1_200;
