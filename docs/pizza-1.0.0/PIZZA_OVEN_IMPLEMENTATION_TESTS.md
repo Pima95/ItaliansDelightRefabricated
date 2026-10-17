@@ -1,6 +1,6 @@
 # Pizza 1.0.0 — Fase 4B: Pizza Oven (regressioni aggiornate)
 
-> **Regole aggiornate il 17 ottobre 2026 dopo il test dell'autore.** Le modifiche sono pubblicate su `feature/pizza-1.0.0`, ma questa revisione **non è ancora stata compilata o testata in gioco** dall'autore. Le precedenti prove confermavano l'apertura della GUI, la cottura e gli hopper.
+> **Conferma dell'autore del 17 ottobre 2026:** il Pizza Oven, inclusi i recenti effetti in stile fornace vanilla, è stato provato in gioco ed è risultato funzionante. La conferma è funzionale generale; la checklist di regressione dettagliata (tutti gli orientamenti, riavvio, multiplayer, ecc.) rimane disponibile e non va considerata implicitamente completata.
 
 ## Decisioni confermate
 
