@@ -4,6 +4,8 @@
 
 **Stato implementazione pizza (17 ottobre 2026, fase pizza cotta piazzabile):** l'autore ha confermato funzionanti cottura, fuoco, hopper e ciotole del Pizza Oven. **Fase 4C pubblicata, DA COMPILARE/TESTARE:** `cooked_pizza` non commestibile intera ma piazzabile, `CookedPizzaBlock` + BlockEntity salva composizione, orientamento e maschera dei quattro quarti; mano principale vuota preleva lo **Spicchio di pizza** del quarto scelto con il nuovo componente `pizza_slice_contents`, fame/saturazione calcolate per categoria. Quando l'inventario non ha spazio non avviene alcun prelievo o drop. Rottura integra -> item cotto intero; rottura parziale -> soltanto gli spicchi restanti. Rendering dei quarti e condimenti provvisorio. **Nomi fissi/dinamici, tooltip ingredienti e texture definitive ancora TODO.** [Test](COOKED_PIZZA_SLICES_TESTS.md).
 
+**AGGIORNAMENTO 17 ottobre 2026:** l'autore ha confermato funzionanti il Pizza Oven (inclusa l'animazione) e la **FASE 4C** di pizza cotta piazzabile con quattro spicchi. La **fase nomi/tooltip** è ora implementata nel branch: 17 gusti già realizzabili, nomi dinamici, assortita, spicchi indipendenti, tooltip IT/EN; **build e test in gioco pendenti**. [Guida dedicata](PIZZA_NAMING_TESTS.md). Il vecchio resoconto della fase 4C sopra si conserva come riferimento storico.
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
@@ -217,7 +219,7 @@
 - [ ] **Implementare e testare l'automazione hopper gia' confermata** (sopra pizze crude, lati combustibile, sotto solo pizze cotte). Verificare che non estragga una pizza in ingresso con progresso parziale e che non si duplichi l'output.
 - [ ] Modelli, animazioni, traduzioni e **implementazione della ricetta gia' approvata** (BSB / SFS / BSB).
 
-- [ ] **FASE 4C — piazzamento pizza cotta, QUATTRO SPICCHI, DATI QUARTO implementati / DA TESTARE:** nuovo blocco interno `cooked_pizza`, BE persistente, blocco rotabile con maschera `remaining` 0..15, quattro modelli placeholder + `CookedPizzaRenderer`, clic a mano vuota server-side, `pizza_slice` commestibile e componente `pizza_slice_contents` solo con i propri topping, valori fame/saturazione per categorie; inventario pieno -> no pickup/no drop. Rottura integra e rottura parziale danno output corretto. **Nomi gusti e tooltip NON IMPLEMENTATI.** [Test](COOKED_PIZZA_SLICES_TESTS.md).
+- [x] **FASE 4C — piazzamento pizza cotta, QUATTRO SPICCHI, DATI QUARTO confermati funzionanti dall'autore (17 ottobre 2026):** nuovo blocco interno `cooked_pizza`, BE persistente, blocco rotabile con maschera `remaining` 0..15, quattro modelli placeholder + `CookedPizzaRenderer`, clic a mano vuota server-side, `pizza_slice` commestibile e componente `pizza_slice_contents` solo con i propri topping, valori fame/saturazione per categorie; inventario pieno -> no pickup/no drop. Rottura integra e rottura parziale danno output corretto. **Nomi gusti e tooltip NON IMPLEMENTATI.** [Test](COOKED_PIZZA_SLICES_TESTS.md).
 
 ### Fase 5: forno vanilla e crafting
 
@@ -245,4 +247,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** compilare, avviare e collaudare la **FASE 4C** seguendo [COOKED_PIZZA_SLICES_TESTS.md](COOKED_PIZZA_SLICES_TESTS.md), inclusi orientamento, fette/nutrizione, drop, inventario pieno e multiplayer. Dopo conferma, implementare riconoscimento dei 19 gusti storici compatibili (Principessa ancora sospesa) e **nomi/tooltip ingredienti per pizza cotta e spicchi**, poi pala e fornace/affumicatore vanilla. I TODO grafici `raw_pizza`, `cooked_pizza`, `pizza_slice` e topping 2.5D restano.
+**Prossimo passo:** compilare e collaudare la **fase nomi e tooltip** seguendo [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md). In code sono attivi i 17 gusti attualmente realizzabili, con Principessa sospesa e Patate e Speck in attesa del nuovo item. Il servizio delle quattro fette (FASE 4C) è già stato confermato. Dopo questo collaudo, procedere con la pala e con i forni vanilla/affumicatore, mantenendo aperti i TODO grafici. Le migliorie future al Cardoon e al Basilico sono registrate separatamente in [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md).
