@@ -9,7 +9,7 @@
 - La proprietà del blocco `remaining` è una maschera intera di quattro bit (inizialmente **15**, cioè tutti i quarti). **Clic destro a mano principale vuota** su un quarto fisico presente = consegna **una** `italiansdelight:pizza_slice`, quindi elimina quel quarto visivamente. Nessun coltello/ciotola, nessuna fase di taglio successiva e nessuna azione con la mano occupata.
 - `PizzaQuarterSelection.physicalQuarter(orientation, x, z)` seleziona la stessa mappa **0=sinistra/dietro, 1=sinistra/davanti, 2=destra/dietro, 3=destra/davanti** che era già presente sulla pizza cruda, anche quando non è mai stata divisa dal mattarello. Orientamento salvato, nessuna rotazione causata dal giocatore che la serve.
 - La maschera ridotta e il modello multipart dei quarti sono sincronizzati da Minecraft tramite BlockState. **L'ultimo clic rimuove il blocco senza drop aggiuntivi.** Se due giocatori cliccano lo stesso quarto, la mutazione è server-side prima della consegna dell'item.
-- **Rompere la pizza ancora intera** = drop di **1 `cooked_pizza` completa** con lo stesso componente composizione. **Rompere una pizza parzialmente servita** = drop delle sole `pizza_slice` dei quarti ancora presenti (mai la pizza intera, mai le fette già servite e mai ingredienti/ciotole duplicati). Se l'inventario è pieno quando si prende una fetta, essa cade a terra.
+- **Rompere la pizza ancora intera** = drop di **1 `cooked_pizza` completa** con lo stesso componente composizione. **Rompere una pizza parzialmente servita** = drop delle sole `pizza_slice` dei quarti ancora presenti (mai la pizza intera, mai le fette già servite e mai ingredienti/ciotole duplicati). Se l'inventario è pieno e non può accogliere una fetta, **nessuna fetta è consegnata o droppata e il quarto rimane sul blocco**. Una pila identica non ancora piena è comunque spazio disponibile.
 - Ogni `pizza_slice` contiene il nuovo componente persistente `pizza_slice_contents`, che include **solo le applicazioni che coprono quel quarto** (identità canonica e ItemStack di origine), più il vecchio flag mozzarella se esistente. Gli altri quarti non vengono copiati nel suo elenco. Il componente è dati descrittivi: gli ingredienti della fetta **non possono essere riscattati come item grezzi**.
 - Le fette sono **commestibili**, con valori per **categoria diversa presente nel quarto**: base crosta 1 fame/1 saturazione; pomodoro Salsa +1/+0,5; Latticini +1/+1,5; Proteine +2/+2,5; Verdure +1/+0,5; Erbe +0/+0; Oli/grassi +0/+1. Limiti **6 fame/6 punti di saturazione**, una sola contribuzione per categoria per fetta. In `FoodProperties` la saturazione è convertita a un modificatore vanilla.
 - La grafica del blocco ricicla **temporaneamente** `pizza_dough_top` e `pizza_dough_side` mediante 4 modelli separati, e il renderer usa ancora gli item sospesi come topping (placeholder `item frame`). L'icona della fetta riusa `raw_pizza` come **placeholder**. Nessuna PNG è stata modificata.
@@ -39,7 +39,7 @@ La build non è stata eseguita nell'ambiente GitHub: segnalare il primo errore c
 1. Preparare una pizza con quattro quarti differenti: primo pomodoro + mozzarella; secondo panna + speck; terzo ricotta + basilico; quarto nessuna salsa + mozzarella.
 2. Cotta e piazzata, puntare e prelevare le quattro fette in un ordine variabile.
 3. Atteso: ciascuna fetta riceve `pizza_slice_contents` **solo degli ingredienti presenti in quel quarto**, non quelli vicini. Verificarlo tramite componenti/item data in debug o quando verrà implementato il tooltip.
-4. Per ora i **nomi fissi dei gusti**, come «Fetta di Margherita», e le descrizioni dei condimenti sul tooltip restano una fase successiva: le fette usano il nome generico localizzato «Fetta di pizza». Non confondere questo limite con un'eventuale perdita dei dati.
+4. Per ora i **nomi fissi dei gusti**, come «Fetta di Margherita», e le descrizioni dei condimenti sul tooltip restano una fase successiva: le fette usano il nome generico localizzato «Spicchio di pizza». Non confondere questo limite con un'eventuale perdita dei dati.
 
 ## Test C — Rottura e recupero sicuro
 
@@ -51,7 +51,7 @@ La build non è stata eseguita nell'ambiente GitHub: segnalare il primo errore c
 ## Test D — Multiplayer e saturazione
 
 1. Due giocatori vicini: fare clic contemporaneamente sullo stesso quarto. Il server deve consegnare **una sola fetta**, non due.
-2. Riempire l'inventario: la fetta prelevata deve cadere nel mondo, non sparire.
+2. Riempire ogni slot dell'inventario con item non compatibili: il clic non deve dare alcuno spicchio o drop e la pizza deve conservare il suo quarto. Liberare un solo slot e ritentare: deve consegnare esattamente uno spicchio. Ripetere con inventario pieno ma uno stack di spicchi identici non pieno: lo spicchio deve aggiungersi alla pila.
 3. Mangiare una fetta vuota, una margherita semplice e una con proteine, latticini, vegetali e salsa. Il valore nutritivo deve salire secondo le categorie, rispettando il limite di 6 fame e 6 saturazione.
 4. Verificare che panna e ricotta siano ancora **Latticini** per la nutrizione, ma mutuamente esclusivi con pomodoro **come condimento prima della cottura**. Il modello non cancella le composizioni legacy sovrapposte già salvate.
 
