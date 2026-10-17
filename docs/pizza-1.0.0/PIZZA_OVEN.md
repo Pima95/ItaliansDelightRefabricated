@@ -3,6 +3,19 @@
 > **Fase 4A pubblicata nel branch `feature/pizza-1.0.0` (15 ottobre 2026), DA COMPILARE/TESTARE:** esistono ora l'item `italiansdelight:cooked_pizza`, il codec retrocompatibile con `bake_progress` (0..1200), il progresso salvato anche su `PizzaDoughBlockEntity` e la logica pura `PizzaBaking` per progressione e preparazione dei recipienti a cottura completa. **Il blocco Pizza Oven, la GUI, gli hopper e le ricette forno/affumicatore NON sono ancora realizzati.** [Guida test della base](PIZZA_BAKING_FOUNDATION_TESTS.md). La nuova texture definitiva della pizza cotta è ancora un TODO, e il suo modello item usa temporaneamente `raw_pizza`.
 
 
+## Implementazione FASE 4B — 17 ottobre 2026
+
+> **PUBBLICATA SU GITHUB, IN ATTESA DI BUILD E TEST GIOCO MC 26.2.** [Piano test 4B](PIZZA_OVEN_IMPLEMENTATION_TESTS.md). Il modello del blocco è TEMPORANEAMENTE quello della fornace vanilla; le nuove texture sono da preparare.
+
+- `PizzaOvenBlock` (1×1, direzione salvata, `lit` gestito dal ticker), `PizzaOvenBlockEntity` (3 slot, energia residua, data GUI a 4 valori, caricamento/salvataggio, sided hopper, cottura delle sole pizze), `PizzaOvenMenu` (menu server associato al **tipo vanilla FURNACE**, per usare il normale `FurnaceScreen` client).
+- Energia da `level.fuelValues()`: vengono riconosciuti combustibili vanilla e mod registrati correttamente. Un combustibile si consuma solo quando inizia effettivamente un tick di cottura; l'energia residua rimane ferma quando la macchina è inattiva.
+- Al completamento `PizzaBaking.finish()` crea un item `cooked_pizza` con component originali; il ticker sposta una sola pizza dall'input al risultato e rilascia una ciotola **per ogni applicazione di salsa/panna/ricotta ancora presente** sul piano superiore del forno, non per quarto.
+- Caricamento da hopper sopra `raw_pizza`; hopper laterali solo combustibili; hopper sotto soltanto `cooked_pizza` dallo slot risultato. Inserimento e output contemporanei non ammessi.
+- **La pala non è ancora realizzata come item di trasporto**: le interazioni dirette con pala vuota/occupata rimangono specifiche approvate da implementare in una fase successiva. La GUI funziona senza pala.
+- **Non sono ancora disponibili**: cottura della pizza personalizzata in fornace/affumicatore vanilla, pizza cotta piazzabile/servita in quattro spicchi, nomi dinamici in gioco e texture dedicate.
+
+Le sezioni successive descrivono le **specifiche finali** (alcune già realizzate, altre ancora da testare/implementare). Le affermazioni storiche «ancora da implementare» vanno interpretate alla luce di questo stato 4B.
+
 ## Requisiti CONFERMATI
 
 - **Pizza Oven dedicato** e possibilità di cuocere le pizze anche nei **forni vanilla esistenti** (fornace e affumicatore).
