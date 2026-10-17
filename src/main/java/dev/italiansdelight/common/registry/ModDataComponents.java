@@ -2,6 +2,7 @@ package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.pizza.PizzaSliceData;
+import dev.italiansdelight.common.pizza.PizzaPeelCargo;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,6 +34,16 @@ public final class ModDataComponents {
                     ModRegistries.id("pizza_slice_contents"),
                     DataComponentType.<PizzaSliceData>builder()
                             .persistent(PizzaSliceData.CODEC)
+                            .build()
+            );
+
+    /** One complete pizza on a peel; absent component means empty peel. */
+    public static final DataComponentType<PizzaPeelCargo> PEEL_CARGO =
+            Registry.register(
+                    BuiltInRegistries.DATA_COMPONENT_TYPE,
+                    ModRegistries.id("peel_cargo"),
+                    DataComponentType.<PizzaPeelCargo>builder()
+                            .persistent(PizzaPeelCargo.CODEC)
                             .build()
             );
 
