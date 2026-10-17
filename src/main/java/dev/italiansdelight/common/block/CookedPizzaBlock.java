@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
 import dev.italiansdelight.common.pizza.PizzaDoughSupport;
 import dev.italiansdelight.common.pizza.PizzaItemData;
+import dev.italiansdelight.common.pizza.PizzaDisplayNames;
 import dev.italiansdelight.common.pizza.PizzaQuarterSelection;
 import dev.italiansdelight.common.pizza.PizzaSliceFactory;
 import dev.italiansdelight.common.registry.ModDataComponents;
@@ -230,6 +231,7 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
         if (mask == PizzaQuarterSelection.ALL_QUARTERS) {
             ItemStack whole = new ItemStack(ModItems.COOKED_PIZZA);
             whole.set(ModDataComponents.PIZZA_CONTENTS, pizza);
+            PizzaDisplayNames.nameWholeStack(whole, pizza);
             return List.of(whole);
         }
 
