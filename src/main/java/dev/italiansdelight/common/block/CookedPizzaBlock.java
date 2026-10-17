@@ -175,6 +175,14 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
             return InteractionResult.PASS; // Already eaten or empty hit region.
         }
 
+        ItemStack slice = PizzaSliceFactory.create(data, q);
+        // Established pizza serving rule: an inventory with no capacity
+        // must NOT consume the slice and must NOT drop it to the ground.
+        // Slots with a compatible non-full stack still count as capacity.
+        if (!canReceiveSlice(player, slice)) {
+            return InteractionResult.SUCCESS;
+        }
+
         // Commit the removal BEFORE issuing an item. Every physical quarter
         // can be claimed exactly once, even with simultaneous players/clicks.
         boolean changed = (remaining == bit)
@@ -185,12 +193,30 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
             return InteractionResult.FAIL;
         }
 
-        ItemStack slice = PizzaSliceFactory.create(data, q);
+        // Inventory space was validated before changing the block. If an
+        // external inventory handler unexpectedly refuses, preserve the
+        // committed item as a final failsafe instead of silently losing it.
         if (!player.addItem(slice) && !slice.isEmpty()) {
             player.drop(slice, false);
         }
         server.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.6F, 1.0F);
         return InteractionResult.SUCCESS;
+    }
+
+    /** Check before mutating the block; never serve into a full inventory. */
+    private static boolean canReceiveSlice(Player player, ItemStack slice) {
+        if (player.getInventory().getFreeSlot() >= 0) {
+            return true;
+        }
+        for (int slot = 0; slot < 36; slot++) {
+            ItemStack current = player.getInventory().getItem(slot);
+            if (!current.isEmpty()
+                    && ItemStack.isSameItemSameComponents(current, slice)
+                    && current.getCount() < current.getMaxStackSize()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static List<ItemStack> remainingDrops(
