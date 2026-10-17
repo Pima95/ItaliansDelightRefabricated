@@ -32,11 +32,13 @@ public final class ModItemGroups {
             .displayItems((params, output) -> {
                 // Production blocks and tools.
                 output.accept(ModBlocks.CHEESE_VAT);
+                output.accept(ModBlocks.PIZZA_OVEN);
                 output.accept(ModBlocks.CHEESE_HOOK);
                 output.accept(ModItems.CHEESE_GRATER);
                 output.accept(ModItems.ROLLING_PIN);
                 // Visible for creative testing; normally collected from a formed pizza.
                 output.accept(ModItems.RAW_PIZZA);
+                output.accept(ModItems.COOKED_PIZZA);
 
                 // Cheese aging racks.
                 output.accept(ModBlocks.OAK_CHEESE_AGING_RACK);
