@@ -5,7 +5,11 @@ import dev.italiansdelight.common.block.entity.PizzaOvenBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -103,6 +107,49 @@ public final class PizzaOvenBlock extends BaseEntityBlock {
         // The peel's atomic direct-transfer interactions will be connected
         // after its own persisted item component has been implemented.
         return open(level, pos, player);
+    }
+
+    /**
+     * Mirror vanilla furnace's client-side burning animation. Unlike a
+     * texture animation, the vanilla furnace uses smoke and flame particles
+     * at the front opening and occasional fire-crackle sounds.
+     *
+     * <p>Only the server-controlled LIT blockstate activates these effects.
+     * In particular, the fire keeps crackling after the pizza is cooked
+     * while the ignited fuel continues burning (vanilla furnace behavior).
+     * Direction-relative positions work for all four horizontal facings.
+     */
+    @Override
+    public void animateTick(
+            BlockState state, Level level, BlockPos pos, RandomSource random
+    ) {
+        if (!state.getValue(LIT)) {
+            return;
+        }
+
+        double centerX = pos.getX() + 0.5D;
+        double baseY = pos.getY();
+        double centerZ = pos.getZ() + 0.5D;
+
+        if (random.nextDouble() < 0.1D) {
+            level.playLocalSound(
+                    centerX, baseY, centerZ,
+                    SoundEvents.FURNACE_FIRE_CRACKLE,
+                    SoundSource.BLOCKS, 1.0F, 1.0F, false
+            );
+        }
+
+        Direction facing = state.getValue(FACING);
+        Direction.Axis axis = facing.getAxis();
+        double acrossOpening = random.nextDouble() * 0.6D - 0.3D;
+        double x = centerX + (axis == Direction.Axis.X
+                ? facing.getStepX() * 0.52D : acrossOpening);
+        double y = baseY + random.nextDouble() * 6.0D / 16.0D;
+        double z = centerZ + (axis == Direction.Axis.Z
+                ? facing.getStepZ() * 0.52D : acrossOpening);
+
+        level.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 0.0D, 0.0D);
+        level.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
     }
 
     @Override
