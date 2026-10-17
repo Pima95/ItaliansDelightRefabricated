@@ -11,6 +11,7 @@ import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
 import dev.italiansdelight.common.block.PizzaOvenBlock;
+import dev.italiansdelight.common.block.CookedPizzaBlock;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -86,6 +87,16 @@ public final class ModBlocks {
         new PizzaDoughBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
             .setId(PIZZA_DOUGH_KEY).noCollision().noOcclusion().strength(0.2F))
     );
+
+    // One baked pizza served as four physical quarters. No BlockItem:
+    // players place the data-carrying cooked_pizza directly via the same
+    // interaction handler used for raw pizza.
+    public static final ResourceKey<Block> COOKED_PIZZA_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("cooked_pizza"));
+    public static final Block COOKED_PIZZA = registerBlockOnly(
+        COOKED_PIZZA_KEY,
+        new CookedPizzaBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
+            .setId(COOKED_PIZZA_KEY).noCollision().noOcclusion().strength(0.2F)));
 
     // One-block, pizza-only furnace. BlockItem is registered automatically.
     public static final ResourceKey<Block> PIZZA_OVEN_KEY = ResourceKey.create(
