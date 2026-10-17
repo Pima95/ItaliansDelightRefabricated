@@ -39,6 +39,7 @@ public final class ModItemGroups {
                 // Visible for creative testing; normally collected from a formed pizza.
                 output.accept(ModItems.RAW_PIZZA);
                 output.accept(ModItems.COOKED_PIZZA);
+                output.accept(ModItems.PIZZA_SLICE);
 
                 // Cheese aging racks.
                 output.accept(ModBlocks.OAK_CHEESE_AGING_RACK);
