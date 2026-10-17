@@ -155,9 +155,9 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
 
     /**
      * A flattened base becomes a pizza item only when its PRESENT state
-     * represents an actual preparation: it is still divided, has toppings,
-     * or was partially baked in a cooking machine. Historical cuts alone
-     * do not count once rejoined, but baking progress must never be lost.
+     * represents an actual preparation: it is still divided or has toppings.
+     * Historical cuts alone do not count once rejoined. Cooking progress
+     * belongs exclusively to the oven and never to the pizza item/block.
      *
      * <p>Checking applications as well as the temporary BlockState mozzarella
      * flag prevents losing already-consumed ingredients if an uncut pizza has
@@ -177,8 +177,7 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
         }
         PizzaComposition composition = pizzaEntity.composition();
         return composition.divisionState() != 0
-                || !composition.applications().isEmpty()
-                || pizzaEntity.bakeProgress() > 0;
+                || !composition.applications().isEmpty();
     }
 
     private static ItemStack createPizzaItem(BlockState state, PizzaDoughBlockEntity entity) {
@@ -186,8 +185,7 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
                 entity == null ? PizzaComposition.empty() : entity.composition();
         ItemStack stack = new ItemStack(ModItems.RAW_PIZZA);
         stack.set(ModDataComponents.PIZZA_CONTENTS,
-                new PizzaItemData(composition, state.getValue(MOZZARELLA),
-                        entity == null ? 0 : entity.bakeProgress()));
+                new PizzaItemData(composition, state.getValue(MOZZARELLA)));
         return stack;
     }
 
