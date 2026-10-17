@@ -1,15 +1,15 @@
 # Pizza Oven: forno compatto e altri metodi di cottura
 
-> **Fase 4A pubblicata nel branch `feature/pizza-1.0.0` (15 ottobre 2026), DA COMPILARE/TESTARE:** esistono ora l'item `italiansdelight:cooked_pizza`, il codec retrocompatibile con `bake_progress` (0..1200), il progresso salvato anche su `PizzaDoughBlockEntity` e la logica pura `PizzaBaking` per progressione e preparazione dei recipienti a cottura completa. **Il blocco Pizza Oven, la GUI, gli hopper e le ricette forno/affumicatore NON sono ancora realizzati.** [Guida test della base](PIZZA_BAKING_FOUNDATION_TESTS.md). La nuova texture definitiva della pizza cotta è ancora un TODO, e il suo modello item usa temporaneamente `raw_pizza`.
+> **Aggiornamento del 17 ottobre 2026:** la fase 4A era un prototipo con progresso della pizza salvato nell'item. **Quella parte è stata superata e rimossa su richiesta dell'autore**. Il progresso è ora solo nella BlockEntity del forno, che lo resetta se la pizza viene rimossa. `PizzaItemData` conserva esclusivamente composizione e flag mozzarella legacy, come nei salvataggi prima del prototipo. [Test attuali](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
 
 
 ## Implementazione FASE 4B — 17 ottobre 2026
 
-> **PUBBLICATA SU GITHUB, IN ATTESA DI BUILD E TEST GIOCO MC 26.2.** [Piano test 4B](PIZZA_OVEN_IMPLEMENTATION_TESTS.md). Il modello del blocco è TEMPORANEAMENTE quello della fornace vanilla; le nuove texture sono da preparare.
+> **Revisione post-test PUBBLICATA, DA COMPILARE E RITESTARE MC 26.2.** L'autore ha già confermato avvio e cottura del forno; il nuovo codice corregge fiamma, reset progresso, numero di ciotole e raccolta con hopper. [Test mirati](PIZZA_OVEN_IMPLEMENTATION_TESTS.md). Grafica del blocco provvisoria, fornace vanilla.
 
 - `PizzaOvenBlock` (1×1, direzione salvata, `lit` gestito dal ticker), `PizzaOvenBlockEntity` (3 slot, energia residua, data GUI a 4 valori, caricamento/salvataggio, sided hopper, cottura delle sole pizze), `PizzaOvenMenu` (menu server associato al **tipo vanilla FURNACE**, per usare il normale `FurnaceScreen` client).
-- Energia da `level.fuelValues()`: vengono riconosciuti combustibili vanilla e mod registrati correttamente. Un combustibile si consuma solo quando inizia effettivamente un tick di cottura; l'energia residua rimane ferma quando la macchina è inattiva.
-- Al completamento `PizzaBaking.finish()` crea un item `cooked_pizza` con component originali; il ticker sposta una sola pizza dall'input al risultato e rilascia una ciotola **per ogni applicazione di salsa/panna/ricotta ancora presente** sul piano superiore del forno, non per quarto.
+- Combustibili dalla registry `level.fuelValues()`. **AGGIORNATO:** una volta acceso, il combustibile continua a consumarsi anche senza lavoro, con la barra della fiamma in calo come vanilla. Quando il forno è vuoto non accende un'altra unità. `CookTime` appartiene al forno, non alla pizza.
+- Al completamento `PizzaBaking.finish(input, cookTime)` produce una sola `cooked_pizza` conservandone tutti gli ingredienti. Conta le ciotole **per applicazione originale**: due salse separate sulle due metà danno **2 ciotole**, eventualmente un unico stack da 2. Con hopper direttamente sotto il forno, le ciotole vengono inserite nel suo inventario, mentre la pizza cotta è estratta dall'output con il normale comportamento hopper; senza spazio, i contenitori rimanenti sono espulsi come il Cooking Pot.
 - Caricamento da hopper sopra `raw_pizza`; hopper laterali solo combustibili; hopper sotto soltanto `cooked_pizza` dallo slot risultato. Inserimento e output contemporanei non ammessi.
 - **La pala non è ancora realizzata come item di trasporto**: le interazioni dirette con pala vuota/occupata rimangono specifiche approvate da implementare in una fase successiva. La GUI funziona senza pala.
 - **Non sono ancora disponibili**: cottura della pizza personalizzata in fornace/affumicatore vanilla, pizza cotta piazzabile/servita in quattro spicchi, nomi dinamici in gioco e texture dedicate.
@@ -27,14 +27,14 @@ Le sezioni successive descrivono le **specifiche finali** (alcune già realizzat
 - **Pala FACOLTATIVA — CONFERMATO:** il Pizza Oven deve funzionare sia **con** sia **senza** la pala per pizza. La pala e' una comodita' di trasporto, non un requisito generale per utilizzare il forno.
 - **GUI VANILLA DELLA FORNACE — CONFERMATO (12 ottobre 2026):** riutilizzare **aspetto e disposizione dell'interfaccia standard della fornace di Minecraft**, senza disegnare una GUI personalizzata: **slot ingresso pizza in alto a sinistra, slot combustibile in basso a sinistra e slot risultato a destra**, con **fiamma** per il combustibile e **freccia** per il progresso di cottura. La GUI e' il normale percorso senza pala.
 - **Inserimento diretto con pala OCCUPATA — CONFERMATO:** se una pizza e' caricata sulla pala, usare la pala sul Pizza Oven permette di **trasferire direttamente la pizza nel forno senza passare dalla GUI**, a condizione che lo spazio pizza sia disponibile. La pala ritorna vuota; ogni dato della pizza e' preservato. Se lo spazio e' occupato o il trasferimento fallisce, la pizza rimane sulla pala. La pala non e' consumata e non perde durabilita'.
-- **Estrazione rapida con pala VUOTA — CONFERMATO (12 ottobre 2026):** clic destro sul Pizza Oven tenendo una pala vuota **preleva direttamente la pizza presente senza aprire la GUI**, sia quando e' **cotta** sia quando e' **cruda o parzialmente cotta**. La pala torna occupata e il forno resta senza pizza; l'energia residua si conserva. Lo stato completo, incluso **progresso di cottura parziale**, ingredienti, divisioni e dati visivi, deve essere trasferito intatto. L'estrazione funziona indipendentemente dalla disponibilita' di combustibile; non consuma durabilita'.
+- **Estrazione rapida con pala VUOTA — SPECIFICA AGGIORNATA 17 ottobre:** l'interazione futura deve prelevare la pizza cruda/parzialmente cotta o il prodotto finito senza GUI; **il progresso di cottura NON deve essere trasferito sulla pala**, ma azzerarsi quando la pizza lascia l'input, come una fornace vanilla. La pala resta riutilizzabile e non obbligatoria; non è ancora implementata.
 - **Nessuna perdita o duplicazione:** il trasferimento forno -> pala avviene soltanto se la pala e' vuota e la pizza e' presente; lato server lo stato viene trasferito in modo atomico, senza crearne una copia. Se il forno non contiene pizza non avviene alcun prelievo. La **GUI** rimane il metodo alternativo di estrazione senza pala.
 - **Pizza preparata a terra — CONFERMATO:** non si raccoglie con clic destro a mano vuota. Per toglierla da terra **si rompe**, ottenendo **l'item pizza completo**, crudo o cotto secondo lo stato, con ingredienti, coperture, suddivisioni e ogni dato di preparazione/cottura. **Non** restituire separatamente impasto e ingredienti quando una pizza completa viene rotta. La pala resta un'alternativa facoltativa per trasportarla direttamente.
 - **Percorso senza pala — CONFERMATO:** preparare la pizza sul terreno -> rompere la pizza per ottenere il relativo **item completo** -> inserire l'item nel Pizza Oven. Non serve alcun gesto di raccolta a mano vuota. L'item conserva la stessa ricetta personalizzata e gli stessi dati della pizza; inserimento, cottura ed estrazione non devono azzerarli.
 - **Nessun preriscaldamento — CONFERMATO:** quando c'e' una pizza cruda e combustibile/energia sufficiente, la cottura inizia subito, senza attendere che il forno raggiunga una temperatura minima.
-- **Nessuno spreco di combustibile — CONFERMATO:** il burn time/energia si consuma **solo mentre la cottura procede effettivamente**; rimane congelato quando il forno e' vuoto, in attesa di una pizza, o quando la pizza e' pronta.
-- **Interruzione e ripresa — CONFERMATO:** se il combustibile termina durante la preparazione, la cottura si **mette in pausa** conservando il progresso, e riprende quando viene aggiunto combustibile valido. Non riparte da zero.
-- **Energia residua — CONFERMATO:** il valore residuo di un combustibile gia' attivato puo' essere riutilizzato per cuocere altre pizze, senza consumarlo durante inattivita' e senza prelevare nuove unita' di combustibile quando non necessario.
+- **Fuoco come fornace vanilla — CONFERMATO (17 ottobre):** una volta acceso un combustibile, la fiamma continua a consumarlo anche a forno vuoto/pizza pronta. La barra GUI diminuisce fino a 0 e il blocco `lit` si spegne al termine. Non si consuma una nuova unità di combustibile finché non serve avviare altra cottura.
+- **Progresso come fornace vanilla — CONFERMATO (17 ottobre):** `CookTime` è conservato soltanto dal forno mentre la pizza rimane nello slot; se l'input è tolto o sostituito, il progresso riparte da zero. Se il fuoco manca, il contatore interno decresce gradualmente. Chiudere la GUI non azzera il forno.
+- **Energia del combustibile acceso — AGGIORNATA:** dopo l'accensione il burn time residuo **non è congelato**, neppure quando la pizza è pronta. Il forno non avvia nuovo fuel da vuoto; il comportamento è quello della fornace vanilla.
 
 ## Struttura del Pizza Oven — PROPOSTA
 
@@ -48,12 +48,12 @@ Le sezioni successive descrivono le **specifiche finali** (alcune già realizzat
 
 La GUI riprende **esattamente il layout standard della fornace vanilla**: tre slot, fiamma per il combustibile e freccia per la progressione. **Non** usare la proposta precedente di uno slot pizza unico, ne' disegnare un'interfaccia apposita; usare la grafica e i controlli normali della fornace con la logica di pizza specializzata del Pizza Oven.
 
-- **Ingresso (slot superiore sinistro):** accetta soltanto pizze **non completamente cotte** (anche con progresso parziale salvato), ottenute dal mondo o via crafting. La pizza resta qui durante la cottura e puo' essere rimossa manualmente anche prima della fine, conservando la percentuale di avanzamento nei dati dell'item. Una pizza con progresso parziale resta **l'item crudo**, non un nuovo item alimentare.
+- **Ingresso (slot superiore sinistro):** accetta solo `raw_pizza`, ottenuta dal mondo o tramite crafting futuro. Il progresso appartiene esclusivamente al forno e non viene salvato nell'item: se tolta dall'input prima della fine, la pizza rimane cruda e **ricomincia da 0 quando reinserita**. Nessuna pizza parzialmente cotta è un item diverso.
 - **Combustibile (slot inferiore sinistro):** accetta tutti i combustibili vanilla validi, con il burn time residuo conservato come gia' concordato.
 - **Risultato (slot destro):** quando la cottura termina, la pizza cotta con dati integri passa dall'ingresso al risultato, che puo' essere ritirato con le normali interazioni dell'inventario.
 - **Una pizza in totale:** poiche' e' gia' confermata la capienza massima di una sola pizza, non ammettere contemporaneamente pizza in ingresso e risultato. Quando il risultato e' occupato, impedire un nuovo inserimento (anche tramite pala) finche' la pizza cotta non viene estratta. Questa e' una limitazione del Pizza Oven, non un cambiamento alle fornaci vanilla.
 - **Pala occupata:** inserisce la pizza nel percorso di ingresso soltanto se il Pizza Oven non contiene alcuna pizza; il trasferimento non apre la GUI. **Pala vuota:** preleva direttamente la pizza da ingresso o risultato (a seconda di dove si trova), anche incompleta, senza aprire la GUI. Gli stati sono trasferiti atomicamente e il progresso parziale non viene azzerato.
-- **Regole speciali gia' concordate:** cuoce solo pizze, non le brucia, non ha preriscaldamento, conserva energia residua quando inattivo, e mette in pausa la cottura senza combustibile. Queste differenze riguardano la *logica del Pizza Oven*, non il suo aspetto vanilla.
+- **Regole confermate/aggiornate:** cuoce solo pizze, non brucia le pizze, non necessita preriscaldamento. Fiamma e reset dell'avanzamento seguono **Minecraft vanilla**; solo la conversione dati pizza e l'output delle ciotole sono specializzati.
 
 ### Interazioni confermate
 
@@ -65,12 +65,12 @@ La GUI riprende **esattamente il layout standard della fornace vanilla**: tre sl
 | Clic destro sul forno con **pala occupata** | **CONFERMATO:** trasferimento diretto di una pizza dalla pala al forno senza GUI; la pala torna vuota, senza perdita di dati e senza usura |
 | Pala occupata su forno che contiene gia' una pizza | Nessun trasferimento: pala e pizza restano invariati, senza sostituzioni o duplicazioni |
 | Estrazione della pizza dalla GUI | **CONFERMATO nel principio:** il forno e' utilizzabile senza pala e la GUI consente di recuperare la pizza mantenendo i dati |
-| Clic destro sul forno con **pala vuota** | **CONFERMATO:** estrae subito la pizza, anche cruda o **parzialmente cotta**, senza aprire la GUI; pala occupata, forno libero e stato di cottura trasferito integralmente |
+| Clic destro sul forno con **pala vuota** (futuro) | Preleva cruda/parzialmente cotta/cotta, preserva ingredienti; **NON il progresso**: reset all'estrazione come vanilla |
 | Rottura del forno | Applicare le normali regole di recupero degli inventari del blocco, senza perdita o duplicazione di pizza e combustibile non consumato |
 
 La GUI dovra' rendere chiaramente leggibili **pizza presente, stato di cottura e combustibile residuo**. **CONFERMATO:** la GUI e' quella della **fornace vanilla con tre slot, fiamma e freccia**, senza interfaccia dedicata; la pala occupata inserisce direttamente la pizza e la pala vuota estrae direttamente la pizza **a qualunque stadio di cottura**, sempre senza GUI. **Ancora da implementare/verificare:** automazione hopper, sincronizzazione del progresso e compatibilita' della schermata vanilla con i dati persistenti delle pizze. Evitare di inventare un secondo item pizza dentro l'inventario durante un trasferimento con pala.
 
-**Conservazione dei dati:** ingresso da pizza-item tramite GUI e ingresso diretto da pala occupata devono convergere nello stesso stato persistente lato server. Il trasferimento deve essere atomico: verificare disponibilita' dello spazio pizza, copiare/salvare i dati nel forno, quindi svuotare la pala; mai svuotare la pala se il forno rifiuta l'item. Analogamente, per l'uscita diretta, copiare/trasferire alla pala vuota **tutti i dati compreso l'avanzamento di cottura**, quindi liberare lo spazio pizza nel forno, senza duplicazioni. Una pizza estratta prima del completamento resta cruda/parzialmente cotta e deve poter riprendere la cottura successivamente conservando l'avanzamento; non deve trasformarsi prematuramente in pizza cotta.
+**Conservazione dei dati:** trasferimenti GUI e futuri trasferimenti con pala devono preservare composizione, quarti e ItemStack originali dei topping, ma **non** il `CookTime`: il progresso resta nel forno e si resetta quando la pizza è estratta. La pala deve essere svuotata soltanto a trasferimento riuscito e non duplicare il contenuto.
 
 Rimane valida la distinzione fondamentale: **il clic destro a mano vuota sulla pizza nel mondo non la raccoglie**. Per ottenere una pizza-item la si **rompe**; la pizza-item puo' essere inserita nella GUI senza pala.
 
@@ -78,7 +78,7 @@ Rimane valida la distinzione fondamentale: **il clic destro a mano vuota sulla p
 
 **Confermato:** compatibilità con tutti i combustibili vanilla.
 
-**Meccanica approvata:** consumo di energia **solo con cottura effettiva**; pausa del consumo a forno vuoto o pizza pronta; memorizzazione dell'energia residua anche tra pizze; stop della cottura quando l'energia finisce e ripresa dallo stesso avanzamento al rifornimento, senza preriscaldamento.
+**Meccanica approvata/aggiornata 17 ottobre:** una volta avviato, il combustibile brucia continuamente come vanilla, non è congelato nel forno vuoto e la fiamma GUI cala; il forno non attiva nuovo fuel a vuoto. Il contatore `CookTime` è mantenuto dalla macchina (non dall'item), diminuisce senza fuoco e si resetta quando cambia l'input.
 
 **Dettagli tecnici da implementare/verificare (non nuove decisioni di design):**
 - usare i burn time dei combustibili validi di Minecraft/Fabric 26.2, evitando liste hardcoded;
@@ -95,10 +95,10 @@ Il forno non deve continuare a cuocere una pizza dopo il 100%, perché **non dev
 
 - Pala occupata + forno vuoto -> un inserimento, pala vuota, pizza nel forno con tutti i dati.
 - Pala occupata + forno occupato -> nessuna sovrascrittura, perdita o duplicazione.
-- Pala vuota + pizza cruda, parzialmente cotta o pronta -> **un'estrazione** senza GUI, pala occupata; forno libero.
+- Pala vuota + pizza cruda, parzialmente cotta o pronta -> un'estrazione senza GUI, pala occupata; forno libero e **progresso non trasferito** sull'item.
 - Pala vuota + forno senza pizza -> nessuna pizza creata e nessun trasferimento.
-- Estrazione a meta' cottura, salvataggio/ricarica, reinserimento -> cottura riprende dallo stato persistente, senza azzerare o completare artificialmente il progresso.
-- **GUI vanilla identica alla fornace:** tre slot nelle posizioni standard, fiamma e freccia; verificare che non siano introdotti slot/grafiche extra. Testare pizza parzialmente cotta prelevata dallo slot ingresso con progressi invariati, pizza pronta nel risultato, e blocco di un secondo ingresso finche' il risultato e' occupato.
+- Estrazione a metà cottura con pala (futura): la pizza conserva condimenti, ma perde il progresso. Reinserimento dopo salvataggio/ricarica -> cottura da zero, come nella fornace vanilla.
+- **GUI vanilla identica alla fornace:** tre slot, fiamma e freccia; quando la pizza parzialmente cotta è estratta la freccia si azzera, l'item resta crudo. Il risultato è una pizza cotta non ancora piazzabile, da testare visivamente quando esisterà il relativo blocco/tooltip.
 - GUI continua a funzionare per inserimento/estrazione senza pala; provare in multiplayer con piu' giocatori e nessuna duplicazione.
 
 ## Durate di cottura — valori PLACEHOLDER
@@ -126,13 +126,13 @@ Il Pizza Oven supporta gli **hopper con le direzioni della fornace vanilla**, ri
 - Se lo slot di risultato contiene una pizza, l'inserimento di un'altra pizza e' bloccato anche tramite hopper, rispettando il limite di **una sola pizza** nel forno.
 - Una pizza pronta passa nello slot risultato; solo da li' l'hopper inferiore puo' prelevarla. L'output deve mantenere composizione, gusto, componenti e dati visivi.
 - Automazione e interazioni del giocatore devono essere **coerenti e sicure lato server**: niente prelievi simultanei duplicati, nessuna perdita di item, nessun aggiramento dei controlli con hopper multipli.
-- **Test da effettuare:** hopper sopra/lati/sotto, hopper paralleli, forno pieno, combustibile esaurito, secchio vuoto dopo lava, salvataggio/ricarica, chunk unload e test multiplayer. Il comportamento dei remainder resta quello compatibile con vanilla da verificare nell'implementazione.
+- **Test da effettuare:** hopper sopra/lati/sotto, due applicazioni distinte di salsa in due metà -> 2 ciotole (non una), inserimento delle ciotole nell'hopper sotto insieme a `cooked_pizza`, overflow come drop; secchio vuoto lava, gestione input/output concorrente, chunk unload, GUI e multiplayer.
 
 ### Pizza con cottura incompleta — chiarimento di gameplay
 
 La **cottura incompleta non e' un prodotto alimentare aggiuntivo previsto**: non e' stata introdotta una nuova pizza "mezza cotta" con ricetta, nutrizione o effetti particolari. E' semplicemente lo **stato temporaneo di una pizza ancora cruda** con una parte del progresso di cottura salvato.
 
-Estrarla manualmente dalla GUI o con pala vuota e' utile per **spostare la pizza o liberare il forno senza perdere il progresso**, come gia' approvato. Se reinserita, la cottura riprende dal valore memorizzato. Solo al completamento si trasforma nell'item pizza cotta e passa nello slot risultato. **L'automazione con hopper non gestisce il prodotto incompleto in uscita**.
+Estrarla manualmente dalla GUI (o con pala vuota quando sarà implementata) serve a liberare il forno o recuperare una pizza cruda. **Il progresso di cottura viene perso all'estrazione.** La nuova cottura parte da zero all'inserimento, come in una fornace vanilla. L'hopper sotto non può prelevare pizza incompleta.
 
 ## Fornaci vanilla: problema tecnico da risolvere
 
