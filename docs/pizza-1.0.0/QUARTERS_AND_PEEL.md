@@ -232,6 +232,12 @@ Una singola applicazione che consuma un ingrediente puo' interessare uno o piu' 
 
 **Dettagli implementativi da testare:** rottura effettuata da un giocatore, rimozione del supporto, multiplayer, modalita' Creativa e altri eventi vanilla. La regola per una pizza formata **ancora INTEGRA** e' un solo item pizza con dati completi; dopo che e' stata servita una fetta da una pizza cotta, la rottura rilascia **soltanto le fette residue**. In entrambi i casi nessun drop separato di topping; non introdurre restituzioni multiple o eccezioni non richieste.
 
+## 3. Pala per pizza (Pizza Peel) — FASE 4D PUBBLICATA, DA TESTARE
+
+> **Aggiornamento implementativo 17 ottobre 2026:** la pala è stata aggiunta sul ramo `feature/pizza-1.0.0` con ID `italiansdelight:pizza_peel`, componente persistente `peel_cargo`, raccolta/deposito di una pizza intera e trasferimento diretto col Pizza Oven. Senza durabilità, stack massimo 1, texture già esistente `pizza_peel.png`; nessuna ricetta o funzione da arma introdotta senza decisione dell'autore. [Test fase 4D](PIZZA_PEEL_TESTS.md).
+>
+> **Decisione più recente del 17 ottobre (prioritaria rispetto alla specifica storica sottostante):** estrarre una pizza **parzialmente cotta** dal forno con la pala conserva composizione, condimenti e orientamento, ma **AZZERA il progresso di cottura**. Il progresso appartiene esclusivamente al Pizza Oven come nella fornace vanilla; non viene trasferito né sulla pala né sulla pizza. Gli eventuali passaggi storici qui sotto che parlano di «conservare il progresso» sono quindi superati.
+
 ## 3. Pala per pizza (Pizza Peel) — CONFERMATO
 
 La **pala per pizza** e' lo strumento per trasferire una pizza **intera**. E' gia' disponibile un asset della vecchia Italian's Delight fornito dall'autore: **riutilizzarlo dopo averlo recuperato e verificato**, senza crearne o sostituirne la texture autonomamente.
