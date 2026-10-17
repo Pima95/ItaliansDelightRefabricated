@@ -2,9 +2,10 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
-    "top": "italiansdelight:block/pizza_dough_top",
-    "side": "italiansdelight:block/pizza_dough_side",
-    "particle": "italiansdelight:block/pizza_dough_side"
+    "top": "italiansdelight:block/cooked_pizza_top",
+    "side": "italiansdelight:block/cooked_pizza_side",
+    "particle": "italiansdelight:block/cooked_pizza_side",
+    "bottom": "italiansdelight:block/cooked_pizza_bottom"
   },
   "elements": [
     {
@@ -26,7 +27,7 @@
             15,
             8
           ],
-          "texture": "#top"
+          "texture": "#bottom"
         },
         "up": {
           "uv": [
@@ -94,7 +95,7 @@
             15,
             8
           ],
-          "texture": "#top"
+          "texture": "#bottom"
         },
         "up": {
           "uv": [
@@ -162,7 +163,7 @@
             15,
             2
           ],
-          "texture": "#top"
+          "texture": "#bottom"
         },
         "up": {
           "uv": [
