@@ -184,6 +184,12 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
     }
 
     @Override
+    public int getContainerSize() {
+        // Must match the input, fuel and output slots used by FurnaceMenu.
+        return SIZE;
+    }
+
+    @Override
     protected NonNullList<ItemStack> getItems() {
         return items;
     }
