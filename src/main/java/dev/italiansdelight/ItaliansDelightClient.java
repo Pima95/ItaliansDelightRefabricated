@@ -3,6 +3,7 @@ package dev.italiansdelight;
 import net.fabricmc.api.ClientModInitializer;
 
 import dev.italiansdelight.client.gui.CheeseVatScreen;
+import dev.italiansdelight.client.gui.PizzaOvenScreen;
 import dev.italiansdelight.client.particle.WhiteBubblePopParticle;
 import dev.italiansdelight.client.render.PizzaDivisionOverlay;
 import dev.italiansdelight.client.render.PizzaToppingRenderer;
@@ -30,6 +31,12 @@ public class ItaliansDelightClient implements ClientModInitializer {
         MenuScreens.register(
             ModMenuTypes.CHEESE_VAT,
             CheeseVatScreen::new
+        );
+
+        // Dedicated pizza-only screen, no vanilla furnace recipe book.
+        MenuScreens.register(
+            ModMenuTypes.PIZZA_OVEN,
+            PizzaOvenScreen::new
         );
 
         ParticleProviderRegistry.getInstance().register(
