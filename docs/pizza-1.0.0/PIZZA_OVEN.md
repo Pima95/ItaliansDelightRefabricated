@@ -7,7 +7,7 @@
 
 > **Revisione post-test PUBBLICATA, DA COMPILARE E RITESTARE MC 26.2.** L'autore ha già confermato avvio e cottura del forno; il nuovo codice corregge fiamma, reset progresso, numero di ciotole e raccolta con hopper. [Test mirati](PIZZA_OVEN_IMPLEMENTATION_TESTS.md). Grafica del blocco provvisoria, fornace vanilla.
 
-- `PizzaOvenBlock` (1×1, direzione salvata, `lit` gestito dal ticker), `PizzaOvenBlockEntity` (3 slot, energia residua, data GUI a 4 valori, caricamento/salvataggio, sided hopper, cottura delle sole pizze), `PizzaOvenMenu` (menu server associato al **tipo vanilla FURNACE**, per usare il normale `FurnaceScreen` client).
+- `PizzaOvenBlock` (1×1, direzione salvata, `lit` gestito dal ticker), `PizzaOvenBlockEntity` (3 slot, dati GUI a quattro valori, salvataggio, hopper, cottura esclusiva pizze), `PizzaOvenMenu` (**tipo dedicato `italiansdelight:pizza_oven`**) e `PizzaOvenScreen` (grafica e indicatori della **fornace vanilla senza pulsante né pannello del ricettario**). Il menu personalizzato sostituisce il vecchio `MenuType.FURNACE` soltanto come identificativo/protocollo GUI; slot, layout, texture e meccaniche del forno rimangono invariati.
 - Combustibili dalla registry `level.fuelValues()`. **AGGIORNATO:** una volta acceso, il combustibile continua a consumarsi anche senza lavoro, con la barra della fiamma in calo come vanilla. Quando il forno è vuoto non accende un'altra unità. `CookTime` appartiene al forno, non alla pizza.
 - Al completamento `PizzaBaking.finish(input, cookTime)` produce una sola `cooked_pizza` conservandone tutti gli ingredienti. Conta le ciotole **per applicazione originale**: due salse separate sulle due metà danno **2 ciotole**, eventualmente un unico stack da 2. Con hopper direttamente sotto il forno, le ciotole vengono inserite nel suo inventario, mentre la pizza cotta è estratta dall'output con il normale comportamento hopper; senza spazio, i contenitori rimanenti sono espulsi come il Cooking Pot.
 - Caricamento da hopper sopra `raw_pizza`; hopper laterali solo combustibili; hopper sotto soltanto `cooked_pizza` dallo slot risultato. Inserimento e output contemporanei non ammessi.
@@ -15,6 +15,8 @@
 - **Non sono ancora disponibili**: cottura della pizza personalizzata in fornace/affumicatore vanilla, pizza cotta piazzabile/servita in quattro spicchi, nomi dinamici in gioco e texture dedicate.
 
 Le sezioni successive descrivono le **specifiche finali** (alcune già realizzate, altre ancora da testare/implementare). Le affermazioni storiche «ancora da implementare» vanno interpretate alla luce di questo stato 4B.
+
+> **Correzione ricettario (17 ottobre, da collaudare):** il Pizza Oven **non deve avere il ricettario della fornace vanilla**. La schermata ora riusa le texture/sprite vanilla ma estende direttamente `AbstractContainerScreen`, quindi non crea un `RecipeBookComponent`. [Test](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
 
 ## Requisiti CONFERMATI
 
