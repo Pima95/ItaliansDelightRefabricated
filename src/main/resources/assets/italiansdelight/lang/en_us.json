@@ -109,5 +109,6 @@
   "gui.italiansdelight.jei.salt_evaporation.yield": "Yield: %s–%s Salt",
   "gui.italiansdelight.jei.salt_evaporation.conditions": "Requires a full cauldron, daylight, clear weather, and open sky",
   "block.italiansdelight.basil": "Basil",
-  "block.italiansdelight.wild_basil": "Wild Basil"
+  "block.italiansdelight.wild_basil": "Wild Basil",
+  "block.italiansdelight.pizza_oven": "Pizza Oven"
 }
