@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated — Pizza Update 1.0.0
 
-> **Stato (17 ottobre 2026):** Pizza Oven già confermato funzionante dall'autore per cottura, fuoco, ciotole e hopper. **Correzione ricettario pubblicata, DA PROVARE IN GIOCO:** il forno mantiene la grafica, i tre slot, fiamma e freccia della fornace vanilla, ma utilizza un menu/schermo dedicato **senza il ricettario vanilla**. Tutte le meccaniche precedenti restano immutate. La pizza cotta non è ancora piazzabile né mostra tooltip con i condimenti; questo sarà il prossimo sviluppo. Grafiche forno, `raw_pizza` e condimenti ancora provvisorie.
+> **Stato (17 ottobre 2026):** la fase Pizza Oven funziona secondo le verifiche precedenti dell'autore. **FASE 4C pubblicata, DA COMPILARE/TESTARE:** `cooked_pizza` non commestibile intera ma piazzabile, quattro quarti removibili con clic a mano vuota, nuovo item edibile `pizza_slice` (tradotto «Spicchio di pizza») con componente `pizza_slice_contents` che descrive soltanto gli ingredienti del quarto, nutrizione dinamica. Pizza intera rotta -> item intero; pizza parzialmente servita -> solo spicchi residui; inventario pieno -> quarto invariato. Visualizzazione placeholder di quarti e condimenti; nomi gusti e tooltip ancora da sviluppare. GUI Pizza Oven senza ricettario da verificare insieme alla nuova build.
 >
 > **Principio guida CONFERMATO:** i comportamenti basilari seguono **Minecraft vanilla** come default (drop, pickup, despawn, danni ambientali e altre interazioni standard). Non richiedere approvazioni ripetute per queste regole ordinarie; rispettare le eccezioni personalizzate gia' concordate e discutere solo le nuove meccaniche significative.
 
@@ -78,6 +78,7 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — 19 nomi fissi approvati, 52 combinazioni dinamiche, matching esatto su 4 quarti; 36 gusti futuri non approvati.
 - [PIZZA_BAKING_FOUNDATION_TESTS.md](PIZZA_BAKING_FOUNDATION_TESTS.md) — Documenta la fase 4A storica e il successivo aggiornamento: progresso ora esclusivamente nella fornace, non negli item.
 - [PIZZA_OVEN_IMPLEMENTATION_TESTS.md](PIZZA_OVEN_IMPLEMENTATION_TESTS.md) — Test attuali: fuoco vanilla che cala, reset progresso, quantità ciotole su metà e hopper di uscita.
+- [COOKED_PIZZA_SLICES_TESTS.md](COOKED_PIZZA_SLICES_TESTS.md) — Fase 4C, piazzamento pizza cotta, servizio per quarto, nutrizione, inventario pieno, rottura e multiplayer.
 - [TOPPING_RENDER_TESTS.md](TOPPING_RENDER_TESTS.md) — fase 3F: resa 2.5D degli ingredienti, sincronizzazione server-client, quarti, multiplayer e verifiche anti-dupe.
 - [DIVISION_OVERLAY_TESTS.md](DIVISION_OVERLAY_TESTS.md) — fase 3E: verifica della croce visiva, orientamenti, condizioni di visibilità e multiplayer.
 - [TOPPING_INTERACTIONS_TESTS.md](TOPPING_INTERACTIONS_TESTS.md) — nuova fase 3D: transazioni condimenti solidi, rimozione LIFO, restituzione e test dei quattro quarti.\n- [RAW_PIZZA_ITEM_TESTS.md](RAW_PIZZA_ITEM_TESTS.md) — test item pizza cruda, conservazione dei dati tra blocco e inventario, Q, rientro nel mondo e regressioni.
