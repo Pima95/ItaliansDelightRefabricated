@@ -19,6 +19,7 @@ import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 import dev.italiansdelight.common.item.PizzaNamedItem;
+import dev.italiansdelight.common.item.PizzaPeelItem;
 
 import vectorwing.farmersdelight.common.FoodValues;
 import vectorwing.farmersdelight.common.item.ConsumableItem;
@@ -93,6 +94,16 @@ public final class ModItems {
                         .food(new FoodProperties.Builder()
                                 .nutrition(1).saturationModifier(0.5f).build())
                         .component(ModDataComponents.PIZZA_SLICE_CONTENTS, PizzaSliceData.empty()));
+
+        // Uses the owner's existing 16x16 pizza_peel texture.
+        // A loaded peel stores one whole pizza in ModDataComponents.PEEL_CARGO.
+        // Crafting costs are not yet approved: test via the creative tab.
+        public static final ResourceKey<Item> PIZZA_PEEL_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("pizza_peel"));
+
+        public static final Item PIZZA_PEEL = register(
+                PIZZA_PEEL_KEY, PizzaPeelItem::new,
+                new Item.Properties().stacksTo(1));
 
         // Pizza 1.0.0: rolling pin, 64 uses like the vanilla brush.
         // Crafting recipe and a dedicated texture are intentionally deferred.
