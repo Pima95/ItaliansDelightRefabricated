@@ -79,6 +79,7 @@ public final class PizzaBaking {
 
         ItemStack cooked = new ItemStack(ModItems.COOKED_PIZZA);
         cooked.set(ModDataComponents.PIZZA_CONTENTS, data);
+        PizzaDisplayNames.nameWholeStack(cooked, data);
 
         int bowls = 0;
         for (PizzaToppingApplication application : data.composition().applications()) {
