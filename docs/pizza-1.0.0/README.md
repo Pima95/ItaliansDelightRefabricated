@@ -12,6 +12,8 @@
 
 **Nuova regola confermata (15 ottobre):** è possibile usare **una sola salsa a scelta tra pomodoro, panna e ricotta** su una pizza intera, una metà o uno spicchio. Con i quarti separati puoi applicare salse differenti a quarti diversi, ma mai sovrapposte. [Test aggiornati](CONTAINER_TOPPING_TESTS.md). La ricetta storica «Principessa» con pomodoro e panna contemporanei è incompatibile e rimane **sospesa in attesa di una variante approvata dall'autore**, senza modificarla automaticamente.
 
+**Stato aggiornato 17 ottobre 2026:** la fase 4C (pizza cotta e spicchi) è stata confermata funzionante dall'autore. La nuova fase **nomi riconosciuti, nomi dinamici e tooltip degli ingredienti** è implementata nel ramo, ma attende build e test: [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md). I nuovi nomi non alterano i dati delle pizze.
+
 ## Attività grafiche da completare prima della 1.0.0
 
 - [ ] Aggiornare la **texture dell'item `raw_pizza`**: PNG 16×16 RGBA; pixel dell'oggetto interamente opachi, sfondo trasparente e nessuna semitrasparenza ai bordi.
@@ -82,7 +84,8 @@ Flusso previsto: **palla d'impasto -> posizionamento su blocco -> stesura a mano
 - [NAMED_PIZZAS.md](NAMED_PIZZAS.md) — 19 nomi fissi approvati, 52 combinazioni dinamiche, matching esatto su 4 quarti; 36 gusti futuri non approvati.
 - [PIZZA_BAKING_FOUNDATION_TESTS.md](PIZZA_BAKING_FOUNDATION_TESTS.md) — Documenta la fase 4A storica e il successivo aggiornamento: progresso ora esclusivamente nella fornace, non negli item.
 - [PIZZA_OVEN_IMPLEMENTATION_TESTS.md](PIZZA_OVEN_IMPLEMENTATION_TESTS.md) — Test attuali: fuoco vanilla che cala, reset progresso, quantità ciotole su metà e hopper di uscita.
-- [COOKED_PIZZA_SLICES_TESTS.md](COOKED_PIZZA_SLICES_TESTS.md) — Fase 4C, piazzamento pizza cotta, servizio per quarto, nutrizione, inventario pieno, rottura e multiplayer.
+- [COOKED_PIZZA_SLICES_TESTS.md](COOKED_PIZZA_SLICES_TESTS.md) — Fase 4C confermata dall'autore: piazzamento pizza cotta, servizio per quarto, nutrizione, inventario pieno, rottura e multiplayer.
+- [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md) — Fase nomi/tooltip IT-EN, ricette esatte, nomi dinamici e spicchi indipendenti; build e test da effettuare.
 - [TOPPING_RENDER_TESTS.md](TOPPING_RENDER_TESTS.md) — fase 3F: resa 2.5D degli ingredienti, sincronizzazione server-client, quarti, multiplayer e verifiche anti-dupe.
 - [DIVISION_OVERLAY_TESTS.md](DIVISION_OVERLAY_TESTS.md) — fase 3E: verifica della croce visiva, orientamenti, condizioni di visibilità e multiplayer.
 - [TOPPING_INTERACTIONS_TESTS.md](TOPPING_INTERACTIONS_TESTS.md) — nuova fase 3D: transazioni condimenti solidi, rimozione LIFO, restituzione e test dei quattro quarti.\n- [RAW_PIZZA_ITEM_TESTS.md](RAW_PIZZA_ITEM_TESTS.md) — test item pizza cruda, conservazione dei dati tra blocco e inventario, Q, rientro nel mondo e regressioni.
