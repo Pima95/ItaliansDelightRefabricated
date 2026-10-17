@@ -20,6 +20,18 @@
 - **Regressione D:** controllare di nuovo hopper e ciotole: il cambio è **solo di menu/schermata**, non deve influire sul ticker o sui rimborsi.
 - **Compatibilità:** la registrazione dei menu cambia da vanilla `furnace` a `italiansdelight:pizza_oven`; occorre aggiornare **client e server insieme**. Un menu già aperto durante un aggiornamento della mod va chiuso e riaperto.
 
+## Animazione esterna del forno come vanilla — aggiunta 17 ottobre, test pendenti
+
+La grafica del Pizza Oven acceso era già legata a `lit=true` e al modello con `wood_oven_face_on`. Mancavano le **particelle e il suono**, che una fornace di Minecraft emette tramite `animateTick`. Ora `PizzaOvenBlock.animateTick` usa esattamente le particelle vanilla `minecraft:flame` e `minecraft:smoke`, con il suono casuale `block.furnace.fire_crackle` (probabilità 10% per chiamata), **solo durante `lit=true`**.
+
+- **Test 1 — accensione:** posizionare il Pizza Oven, inserire pizza cruda e carbone. Devono comparire fumo e fiammelle davanti all'apertura, oltre al modello acceso e al crepitio intermittente.
+- **Test 2 — orientamenti:** ripetere rivolto a Nord, Est, Sud e Ovest; particelle soltanto davanti all'apertura, mai sui lati o dietro.
+- **Test 3 — combustibile residuo:** al termine della cottura, mentre il carbone ha ancora burn time, particelle e crepitio devono **continuare** come nella fornace vanilla, anche con output occupato o pizza estratta.
+- **Test 4 — spegnimento:** quando il combustibile arriva a zero e lo stato torna `lit=false`, nessuna nuova particella o suono deve essere generata.
+- **Test 5 — regressione:** riaprire la GUI, estrarre una pizza a metà cottura, verificare il reset del progresso; controllare ancora hopper e ciotole. `animateTick` non modifica inventario, fuel, ingredienti né salvataggi.
+
+**Non sono state modificate le PNG `wood_oven_*` già approvate** e non è stata introdotta alcuna sprite sheet `.png.mcmeta`: la fornace vanilla utilizza particelle/suoni per l'animazione esterna, non un cambio di texture a frame.
+
 ## Compilazione
 
 ```powershell
