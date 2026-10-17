@@ -18,6 +18,7 @@ import dev.italiansdelight.common.aging.AgingCheeseType;
 import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.item.AgingCheeseItem;
+import dev.italiansdelight.common.item.PizzaNamedItem;
 
 import vectorwing.farmersdelight.common.FoodValues;
 import vectorwing.farmersdelight.common.item.ConsumableItem;
@@ -55,6 +56,7 @@ public final class ModItems {
 
         public static final Item RAW_PIZZA = register(
                 RAW_PIZZA_KEY,
+                properties -> new PizzaNamedItem(properties, false),
                 new Item.Properties()
                         .stacksTo(1)
                         .component(ModDataComponents.PIZZA_CONTENTS, PizzaItemData.empty()));
@@ -69,6 +71,7 @@ public final class ModItems {
 
         public static final Item COOKED_PIZZA = register(
                 COOKED_PIZZA_KEY,
+                properties -> new PizzaNamedItem(properties, false),
                 new Item.Properties()
                         .stacksTo(1)
                         .component(ModDataComponents.PIZZA_CONTENTS, PizzaItemData.empty()));
@@ -76,7 +79,7 @@ public final class ModItems {
         /**
          * Edible quarter of a baked pizza. Food values are replaced on each
          * created stack by PizzaSliceFactory using that quarter's categories.
-         * The original ingredient data is persisted for naming/tooltips later.
+         * The original ingredient data is persisted for localized names/tooltips.
          */
         public static final ResourceKey<Item> PIZZA_SLICE_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
@@ -84,6 +87,7 @@ public final class ModItems {
 
         public static final Item PIZZA_SLICE = register(
                 PIZZA_SLICE_KEY,
+                properties -> new PizzaNamedItem(properties, true),
                 new Item.Properties()
                         .stacksTo(16)
                         .food(new FoodProperties.Builder()
