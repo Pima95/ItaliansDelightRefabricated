@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.pizza.PizzaItemData;
+import dev.italiansdelight.common.pizza.PizzaSliceData;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,6 +23,16 @@ public final class ModDataComponents {
                     ModRegistries.id("pizza_contents"),
                     DataComponentType.<PizzaItemData>builder()
                             .persistent(PizzaItemData.CODEC)
+                            .build()
+            );
+
+    /** A cooked slice holds ONLY its selected quarter's ingredients. */
+    public static final DataComponentType<PizzaSliceData> PIZZA_SLICE_CONTENTS =
+            Registry.register(
+                    BuiltInRegistries.DATA_COMPONENT_TYPE,
+                    ModRegistries.id("pizza_slice_contents"),
+                    DataComponentType.<PizzaSliceData>builder()
+                            .persistent(PizzaSliceData.CODEC)
                             .build()
             );
 
