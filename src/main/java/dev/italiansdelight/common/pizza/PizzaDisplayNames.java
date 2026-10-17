@@ -11,9 +11,11 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Names and descriptions derived from SAVED canonical ingredients, never
@@ -178,6 +180,20 @@ public final class PizzaDisplayNames {
             return Component.translatable(PREFIX + "named_slice", preset(id));
         }
         return Component.translatable(PREFIX + "with_slice", shortIngredients(types));
+    }
+
+    /**
+     * Minecraft 26.2 gives all stacks a built-in item_name component, so
+     * overriding Item.getName alone does not replace the inventory display.
+     * Write a TRANSLATABLE Component alongside the existing pizza payload.
+     * The pizza's canonical ingredients are never modified by naming.
+     */
+    public static void nameWholeStack(ItemStack stack, PizzaItemData data) {
+        stack.set(DataComponents.ITEM_NAME, wholeName(data));
+    }
+
+    public static void nameSliceStack(ItemStack stack, PizzaSliceData data) {
+        stack.set(DataComponents.ITEM_NAME, sliceName(data));
     }
 
     public static void appendWholeTooltip(PizzaItemData whole, Consumer<Component> lines) {
