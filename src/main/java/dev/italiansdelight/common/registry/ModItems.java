@@ -16,6 +16,7 @@ import net.minecraft.core.Registry;
 import dev.italiansdelight.ItaliansDelight;
 import dev.italiansdelight.common.aging.AgingCheeseType;
 import dev.italiansdelight.common.pizza.PizzaItemData;
+import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 
 import vectorwing.farmersdelight.common.FoodValues;
@@ -46,8 +47,8 @@ public final class ModItems {
                         .durability(ToolMaterial.IRON.durability())
                         .repairable(ToolMaterial.IRON.repairItems()));
 
-        // Formed raw pizza item: retains full composition and optional
-        // normalized baking progress until an oven finishes the transaction.
+        // Formed raw pizza item: retains only the full ingredient composition.
+        // Baking progress is held by the oven and never by this ItemStack.
         public static final ResourceKey<Item> RAW_PIZZA_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("raw_pizza"));
@@ -58,8 +59,8 @@ public final class ModItems {
                         .stacksTo(1)
                         .component(ModDataComponents.PIZZA_CONTENTS, PizzaItemData.empty()));
 
-        // Phase 4A: a complete pizza is still ONE non-edible item.
-        // Later it will be placeable in the world for serving four slices.
+        // Baked pizza stays non-edible AS A WHOLE. Place it in the world
+        // to retrieve four independent edible pizza_slice items.
         // The existing raw_pizza pixel art is reused temporarily; its redesign
         // and the baked-pizza art are still separate graphical TODOs.
         public static final ResourceKey<Item> COOKED_PIZZA_KEY = ResourceKey.create(
@@ -71,6 +72,23 @@ public final class ModItems {
                 new Item.Properties()
                         .stacksTo(1)
                         .component(ModDataComponents.PIZZA_CONTENTS, PizzaItemData.empty()));
+
+        /**
+         * Edible quarter of a baked pizza. Food values are replaced on each
+         * created stack by PizzaSliceFactory using that quarter's categories.
+         * The original ingredient data is persisted for naming/tooltips later.
+         */
+        public static final ResourceKey<Item> PIZZA_SLICE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("pizza_slice"));
+
+        public static final Item PIZZA_SLICE = register(
+                PIZZA_SLICE_KEY,
+                new Item.Properties()
+                        .stacksTo(16)
+                        .food(new FoodProperties.Builder()
+                                .nutrition(1).saturationModifier(0.5f).build())
+                        .component(ModDataComponents.PIZZA_SLICE_CONTENTS, PizzaSliceData.empty()));
 
         // Pizza 1.0.0: rolling pin, 64 uses like the vanilla brush.
         // Crafting recipe and a dedicated texture are intentionally deferred.
