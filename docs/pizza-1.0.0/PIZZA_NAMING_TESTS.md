@@ -1,6 +1,6 @@
 # Pizza 1.0.0 — Nomi riconosciuti, nomi dinamici e tooltip
 
-> **Fase nomi implementata nel ramo `feature/pizza-1.0.0`, DA COMPILARE E COLLAUDARE.** La fase precedente 4C (pizza cotta piazzabile, quattro spicchi e nutrizione) è già stata confermata funzionante dall'autore il 17 ottobre 2026. Questa modifica non tocca ingredienti, rendering, nutrizione, cottura o rimborsi.
+> **Nomi e tooltip CONFERMATI funzionanti dall'autore il 17 ottobre 2026.** La fase precedente 4C (pizza cotta piazzabile, quattro spicchi e nutrizione) è stata anch'essa confermata. I singoli test manuali qui sotto restano utili per regressioni; non sono automaticamente tutte prove completate.
 
 ## Implementazione
 
