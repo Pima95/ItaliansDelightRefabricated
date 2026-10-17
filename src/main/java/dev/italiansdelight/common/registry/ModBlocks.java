@@ -10,6 +10,7 @@ import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
+import dev.italiansdelight.common.block.PizzaOvenBlock;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -85,6 +86,14 @@ public final class ModBlocks {
         new PizzaDoughBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
             .setId(PIZZA_DOUGH_KEY).noCollision().noOcclusion().strength(0.2F))
     );
+
+    // One-block, pizza-only furnace. BlockItem is registered automatically.
+    public static final ResourceKey<Block> PIZZA_OVEN_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("pizza_oven"));
+    public static final Block PIZZA_OVEN = register(
+        PIZZA_OVEN_KEY,
+        new PizzaOvenBlock(Block.Properties.ofFullCopy(Blocks.FURNACE)
+            .setId(PIZZA_OVEN_KEY).strength(3.5F)));
 
     // Cheese Vat Block
     public static final ResourceKey<Block> CHEESE_VAT_KEY =
