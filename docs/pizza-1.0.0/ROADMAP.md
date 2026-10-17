@@ -6,6 +6,8 @@
 
 **AGGIORNAMENTO 17 ottobre 2026:** l'autore ha confermato funzionanti il Pizza Oven (inclusa l'animazione) e la **FASE 4C** di pizza cotta piazzabile con quattro spicchi. La **fase nomi/tooltip** è ora implementata nel branch: 17 gusti già realizzabili, nomi dinamici, assortita, spicchi indipendenti, tooltip IT/EN; **build e test in gioco pendenti**. [Guida dedicata](PIZZA_NAMING_TESTS.md). Il vecchio resoconto della fase 4C sopra si conserva come riferimento storico.
 
+**STATO aggiornato 17 ottobre 2026:** anche i **nomi e i tooltip** sono stati confermati funzionanti dall'autore. È ora pubblicata sul ramo di sviluppo la **FASE 4D pala pizza** (non impilabile, senza durabilità, carico persistente, trasporto e interazioni con forno), **DA COMPILARE/TESTARE** secondo [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). Non sono state introdotte una ricetta non approvata, un'arma o nuove texture. Il contatore di cottura continua a essere esclusivo del forno e si azzera estraendo la pizza cruda.
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
@@ -247,4 +249,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** compilare e collaudare la **fase nomi e tooltip** seguendo [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md). In code sono attivi i 17 gusti attualmente realizzabili, con Principessa sospesa e Patate e Speck in attesa del nuovo item. Il servizio delle quattro fette (FASE 4C) è già stato confermato. Dopo questo collaudo, procedere con la pala e con i forni vanilla/affumicatore, mantenendo aperti i TODO grafici. Le migliorie future al Cardoon e al Basilico sono registrate separatamente in [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md).
+**Prossimo passo:** compilare e verificare in gioco la **FASE 4D — Pala per pizza** seguendo [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). In particolare provare una pizza assortita, trasporto mondo → pala → Pizza Oven → pala → mondo, reset del tempo di cottura, due pale separate e rifiuto di un forno occupato. L'uso senza pala via GUI resta invariato. Ricetta della pala, aspetto occupato e futuro uso come arma restano da definire; successivamente procedere con fornace e affumicatore vanilla. Le migliorie al Cardoon/Basilico rimangono in [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md).
