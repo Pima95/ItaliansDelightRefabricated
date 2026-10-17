@@ -68,7 +68,7 @@ La GUI riprende **esattamente il layout standard della fornace vanilla**: tre sl
 | Clic destro sul forno con **pala vuota** (futuro) | Preleva cruda/parzialmente cotta/cotta, preserva ingredienti; **NON il progresso**: reset all'estrazione come vanilla |
 | Rottura del forno | Applicare le normali regole di recupero degli inventari del blocco, senza perdita o duplicazione di pizza e combustibile non consumato |
 
-La GUI dovra' rendere chiaramente leggibili **pizza presente, stato di cottura e combustibile residuo**. **CONFERMATO:** la GUI e' quella della **fornace vanilla con tre slot, fiamma e freccia**, senza interfaccia dedicata; la pala occupata inserisce direttamente la pizza e la pala vuota estrae direttamente la pizza **a qualunque stadio di cottura**, sempre senza GUI. **Ancora da implementare/verificare:** automazione hopper, sincronizzazione del progresso e compatibilita' della schermata vanilla con i dati persistenti delle pizze. Evitare di inventare un secondo item pizza dentro l'inventario durante un trasferimento con pala.
+La GUI vanilla mostra pizza, fiamma e freccia del contatore **interno del forno**. I normali hopper (sopra input, lati fuel, sotto output) e il trasferimento diretto delle ciotole all'hopper sotto sono implementati, da ritestare con la nuova build. **La pala non è ancora implementata**, dunque i clic diretti con pala restano specifiche future e il `CookTime` non potrà mai essere trasferito all'item.
 
 **Conservazione dei dati:** trasferimenti GUI e futuri trasferimenti con pala devono preservare composizione, quarti e ItemStack originali dei topping, ma **non** il `CookTime`: il progresso resta nel forno e si resetta quando la pizza è estratta. La pala deve essere svuotata soltanto a trasferimento riuscito e non duplicare il contenuto.
 
@@ -130,7 +130,7 @@ Il Pizza Oven supporta gli **hopper con le direzioni della fornace vanilla**, ri
 
 ### Pizza con cottura incompleta — chiarimento di gameplay
 
-La **cottura incompleta non e' un prodotto alimentare aggiuntivo previsto**: non e' stata introdotta una nuova pizza "mezza cotta" con ricetta, nutrizione o effetti particolari. E' semplicemente lo **stato temporaneo di una pizza ancora cruda** con una parte del progresso di cottura salvato.
+**Cottura incompleta:** non esiste un prodotto alimentare diverso dalla pizza cruda. Finché resta nell'ingresso del Pizza Oven, la pizza ha una percentuale di cottura **solo nel contatore del forno**. Se la si preleva, l'avanzamento viene azzerato e la `raw_pizza` non contiene alcun dato di progresso.
 
 Estrarla manualmente dalla GUI (o con pala vuota quando sarà implementata) serve a liberare il forno o recuperare una pizza cruda. **Il progresso di cottura viene perso all'estrazione.** La nuova cottura parte da zero all'inserimento, come in una fornace vanilla. L'hopper sotto non può prelevare pizza incompleta.
 
