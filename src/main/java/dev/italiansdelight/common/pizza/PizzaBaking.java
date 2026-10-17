@@ -3,7 +3,6 @@ package dev.italiansdelight.common.pizza;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModRegistries;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.resources.Identifier;
@@ -11,22 +10,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 /**
- * Shared, side-effect-free baking rules for the future Pizza Oven, vanilla
- * furnace and smoker integrations.
+ * Server-side helper for baking pizzas while preserving all topping data.
  *
- * <p>Progress is stored on the RAW_PIZZA's data component (and mirrored in
- * its placed PizzaDoughBlockEntity). It is NORMALIZED to 1200 units so the
- * initially agreed placeholder durations correspond to exact integer rates:
- * Pizza Oven: 400 working ticks; smoker: 600; furnace: 1200.
+ * <p>Cooking progress is now owned ONLY by the furnace BlockEntity, never
+ * by raw_pizza or by a placed pizza. Oven progress resets when the input is
+ * removed, just as in a vanilla furnace. The oven is responsible for fuel,
+ * ticking, inventory capacity and committing the result exactly once.
  *
- * <p>Only an active cooking machine may call advance() and only for ticks
- * during which it actually spent fuel. This class never consumes fuel.
- * The future machine must atomically consume ONE raw pizza before issuing
- * the result and container remainders returned from finish(). Never call
- * finish() twice for the same physical input. The baked output still
- * retains the source stacks for ingredient provenance and future per-slice
- * naming, but after cooking they are NOT refundable as whole source items:
- * their containers have already been accounted for at baking completion.
+ * <p>Bowls are counted from original deposited APPLICATIONS, not from the
+ * number of sauce kinds or the number of quarters. Thus tomato sauce on one
+ * half + cream on the other gives TWO bowls even though they occupy one
+ * pizza and may ultimately appear in one stacked ItemStack.
  */
 public final class PizzaBaking {
     public static final int MAX_PROGRESS = 1_200;
@@ -39,9 +33,9 @@ public final class PizzaBaking {
             ModRegistries.id("pizza_toppings/ricotta");
 
     public enum Oven {
-        PIZZA_OVEN(3), // 400 active ticks, ~20 sec placeholder
-        SMOKER(2),     // 600 active ticks, ~30 sec placeholder
-        FURNACE(1);    // 1200 active ticks, ~60 sec placeholder
+        PIZZA_OVEN(3), // 400 active ticks, 20 sec placeholder
+        SMOKER(2),     // 600 active ticks, 30 sec placeholder
+        FURNACE(1);    // 1200 active ticks, 60 sec placeholder
 
         private final int unitsPerTick;
 
@@ -58,58 +52,48 @@ public final class PizzaBaking {
     }
 
     /**
-     * Progress stays frozen when a machine is paused, empty or out of fuel:
-     * callers simply do not invoke this method for idle ticks.
-     * Switching between ovens preserves the same completion FRACTION.
+     * Progress calculation only. The caller stores the result in its OWN
+     * BlockEntity, never on an ItemStack. No fuel is spent by this helper.
      */
-    public static PizzaItemData advance(PizzaItemData data, Oven oven, int activeTicks) {
-        if (activeTicks < 0) {
-            throw new IllegalArgumentException("Cooking ticks cannot be negative");
+    public static int advance(int current, Oven oven, int activeTicks) {
+        if (current < 0 || activeTicks < 0) {
+            throw new IllegalArgumentException("Cooking progress/ticks cannot be negative");
         }
-        if (activeTicks == 0 || data.bakeProgress() == MAX_PROGRESS) {
-            return data;
-        }
-        long next = (long) data.bakeProgress()
-                + (long) oven.unitsPerTick() * activeTicks;
-        return data.withBakeProgress((int) Math.min(MAX_PROGRESS, next));
-    }
-
-    public static boolean isReady(PizzaItemData data) {
-        return data.bakeProgress() == MAX_PROGRESS;
+        long next = (long) current + (long) oven.unitsPerTick() * activeTicks;
+        return (int) Math.min(MAX_PROGRESS, next);
     }
 
     /**
-     * Prepare the immutable outcome of the baking transaction. An oven must
-     * check capacity, consume its ONE raw input, then commit both the cooked
-     * pizza and the returned bowls exactly once, with no exposed intermediate
-     * state or duplicate calls. This helper never modifies the input stack.
+     * An oven may finish ONLY once it has completed its internal cook time.
+     * Input remains untouched here; the oven performs the authoritative
+     * transaction of one raw pizza -> one cooked pizza + bowl remainders.
      */
-    public static Optional<BakingResult> finish(ItemStack rawPizza) {
-        if (!rawPizza.is(ModItems.RAW_PIZZA)) {
+    public static Optional<BakingResult> finish(ItemStack rawPizza, int ovenProgress) {
+        if (!rawPizza.is(ModItems.RAW_PIZZA) || ovenProgress < MAX_PROGRESS) {
             return Optional.empty();
         }
         PizzaItemData data = rawPizza.get(ModDataComponents.PIZZA_CONTENTS);
-        if (data == null || !isReady(data)) {
+        if (data == null) {
             return Optional.empty();
         }
 
         ItemStack cooked = new ItemStack(ModItems.COOKED_PIZZA);
         cooked.set(ModDataComponents.PIZZA_CONTENTS, data);
 
-        // Every original application consumed ONE source item, regardless of
-        // how many physical quarters it covered. Therefore one container
-        // belongs to one deposited application, NEVER one per quarter.
-        // A partially removed application still has its original bowl until
-        // the LAST quarter has been removed/refunded. Only non-empty saved
-        // applications remain in composition.applications().
-        List<ItemStack> returnedContainers = new ArrayList<>();
+        int bowls = 0;
         for (PizzaToppingApplication application : data.composition().applications()) {
             if (application.remainingMask() != 0
                     && isBowlBearing(application.canonicalId())) {
-                returnedContainers.add(new ItemStack(Items.BOWL));
+                bowls++;
             }
         }
-        return Optional.of(new BakingResult(cooked, returnedContainers));
+
+        // Consolidate into a stack with the CORRECT count; a single visible
+        // drop may represent multiple bowls, not just one item.
+        List<ItemStack> remainders = bowls > 0
+                ? List.of(new ItemStack(Items.BOWL, bowls))
+                : List.of();
+        return Optional.of(new BakingResult(cooked, remainders));
     }
 
     private static boolean isBowlBearing(Identifier canonical) {
@@ -118,7 +102,7 @@ public final class PizzaBaking {
                 || RICOTTA.equals(canonical);
     }
 
-    /** Defensive result; the future oven owns the atomic transfer. */
+    /** Immutable, defensive output prepared for one authoritative transaction. */
     public record BakingResult(ItemStack cookedPizza, List<ItemStack> containers) {
         public BakingResult {
             cookedPizza = cookedPizza.copy();
