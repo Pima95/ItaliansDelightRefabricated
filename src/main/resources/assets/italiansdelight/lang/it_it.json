@@ -173,5 +173,8 @@
   "pizza.italiansdelight.ingredient.potato_slice": "Patate a fette",
   "pizza.italiansdelight.ingredient.legacy_mozzarella": "Mozzarella intera (versione precedente)",
   "pizza.italiansdelight.slice_bianca": "Spicchio di pizza bianca",
-  "pizza.italiansdelight.slice_rossa": "Spicchio di pizza rossa"
+  "pizza.italiansdelight.slice_rossa": "Spicchio di pizza rossa",
+  "item.italiansdelight.pizza_peel": "Pala per pizza",
+  "item.italiansdelight.pizza_peel.empty": "Vuota",
+  "item.italiansdelight.pizza_peel.loaded": "Trasporta: %s"
 }
