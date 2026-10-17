@@ -253,6 +253,48 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
         return Container.stillValidBlockEntity(this, player);
     }
 
+    /**
+     * Direct peel insertion is an alternative to the GUI. One pizza total is
+     * allowed in INPUT + RESULT, and only a raw pizza can be baked.
+     */
+    public boolean insertFromPeel(ItemStack rawPizza) {
+        if (rawPizza.isEmpty() || rawPizza.getCount() != 1
+                || !rawPizza.is(ModItems.RAW_PIZZA)
+                || rawPizza.get(ModDataComponents.PIZZA_CONTENTS) == null
+                || !items.get(INPUT).isEmpty()
+                || !items.get(RESULT).isEmpty()) {
+            return false;
+        }
+        setItem(INPUT, rawPizza.copy());
+        setChanged();
+        return true;
+    }
+
+    /**
+     * Direct peel pickup prefers the finished pizza. Partially cooked input
+     * becomes raw again: progress is RESET on removal, like a vanilla furnace.
+     * Burning fuel is left untouched.
+     */
+    public ItemStack takeForPeel() {
+        int slot;
+        if (items.get(RESULT).is(ModItems.COOKED_PIZZA)) {
+            slot = RESULT;
+        } else if (items.get(INPUT).is(ModItems.RAW_PIZZA)) {
+            slot = INPUT;
+        } else {
+            return ItemStack.EMPTY;
+        }
+        if (items.get(slot).getCount() != 1
+                || items.get(slot).get(ModDataComponents.PIZZA_CONTENTS) == null) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack taken = removeItem(slot, 1);
+        if (!taken.isEmpty()) {
+            setChanged();
+        }
+        return taken;
+    }
+
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         return switch (slot) {
