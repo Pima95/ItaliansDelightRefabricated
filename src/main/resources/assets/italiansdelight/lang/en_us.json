@@ -171,5 +171,7 @@
   "pizza.italiansdelight.ingredient.tomato_sauce": "Tomato Sauce",
   "pizza.italiansdelight.ingredient.carrot_slice": "Carrot Slices",
   "pizza.italiansdelight.ingredient.potato_slice": "Potato Slices",
-  "pizza.italiansdelight.ingredient.legacy_mozzarella": "Whole Mozzarella (legacy)"
+  "pizza.italiansdelight.ingredient.legacy_mozzarella": "Whole Mozzarella (legacy)",
+  "pizza.italiansdelight.slice_bianca": "White Pizza Slice",
+  "pizza.italiansdelight.slice_rossa": "Red Pizza Slice"
 }
