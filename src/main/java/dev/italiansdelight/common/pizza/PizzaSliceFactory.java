@@ -23,6 +23,7 @@ public final class PizzaSliceFactory {
         PizzaSliceData slice = PizzaSliceData.fromPizza(pizza, quarter);
         ItemStack stack = new ItemStack(ModItems.PIZZA_SLICE);
         stack.set(ModDataComponents.PIZZA_SLICE_CONTENTS, slice);
+        PizzaDisplayNames.nameSliceStack(stack, slice);
         stack.set(DataComponents.FOOD, foodFor(slice));
         return stack;
     }
