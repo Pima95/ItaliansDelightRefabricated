@@ -171,5 +171,7 @@
   "pizza.italiansdelight.ingredient.tomato_sauce": "Salsa di pomodoro",
   "pizza.italiansdelight.ingredient.carrot_slice": "Carota a fette",
   "pizza.italiansdelight.ingredient.potato_slice": "Patate a fette",
-  "pizza.italiansdelight.ingredient.legacy_mozzarella": "Mozzarella intera (versione precedente)"
+  "pizza.italiansdelight.ingredient.legacy_mozzarella": "Mozzarella intera (versione precedente)",
+  "pizza.italiansdelight.slice_bianca": "Spicchio di pizza bianca",
+  "pizza.italiansdelight.slice_rossa": "Spicchio di pizza rossa"
 }
