@@ -3,37 +3,49 @@ package dev.italiansdelight.common.block.entity.container;
 import dev.italiansdelight.common.block.entity.PizzaOvenBlockEntity;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
+import dev.italiansdelight.common.registry.ModMenuTypes;
 import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * Server menu for the Pizza Oven. Intentionally advertises vanilla
- * MenuType.FURNACE, not a new menu type. On the client Minecraft constructs
- * its usual FurnaceMenu/FurnaceScreen: identical slot positions and 4 data
- * fields, with the standard fire and arrow sprites.
+ * Pizza-only menu, registered under ModMenuTypes.PIZZA_OVEN.
  *
- * <p>This server menu has custom input validation instead of vanilla's
- * smelting recipe lookup, so it never accidentally cooks pizza through the
- * ordinary vanilla recipe system (which would discard its components).
+ * <p>Uses the EXACT vanilla furnace slot positions and four data fields,
+ * but NOT vanilla MenuType.FURNACE: that type automatically opens a
+ * FurnaceScreen with its unrelated vanilla recipe book.
+ * The paired PizzaOvenScreen uses the original vanilla GUI resources with
+ * NO recipe-book panel or button.
+ *
+ * <p>Server validates every input and shift-click: no smelting recipe lookup
+ * can lose the pizza's composition data.
  */
 public final class PizzaOvenMenu extends AbstractContainerMenu {
     private static final int PLAYER_START = PizzaOvenBlockEntity.SIZE;
     private static final int PLAYER_END = PLAYER_START + Inventory.INVENTORY_SIZE;
     private final Container container;
+    private final ContainerData data;
+
+    /** Client-side constructor: vanilla menu synchronization fills slots/data. */
+    public PizzaOvenMenu(int id, Inventory inventory) {
+        this(id, inventory, new SimpleContainer(PizzaOvenBlockEntity.SIZE),
+                new SimpleContainerData(4));
+    }
 
     public PizzaOvenMenu(
             int id, Inventory inventory, Container container, ContainerData data
     ) {
-        super(MenuType.FURNACE, id);
+        super(ModMenuTypes.PIZZA_OVEN, id);
         checkContainerSize(container, PizzaOvenBlockEntity.SIZE);
         checkContainerDataCount(data, 4);
         this.container = container;
+        this.data = data;
         container.startOpen(inventory.player);
 
         addSlot(new Slot(container, PizzaOvenBlockEntity.INPUT, 56, 17) {
@@ -61,6 +73,26 @@ public final class PizzaOvenMenu extends AbstractContainerMenu {
 
         addStandardInventorySlots(inventory, 8, 84);
         addDataSlots(data);
+    }
+
+    /** Exact vanilla-furnace 24-pixel progress arrow. */
+    public int getCookProgressionScaled() {
+        int progress = data.get(2);
+        int total = data.get(3);
+        return progress > 0 && total > 0
+                ? Math.min(24, progress * 24 / total)
+                : 0;
+    }
+
+    /** Exact vanilla-furnace 14-pixel lit indicator. */
+    public int getBurnProgressionScaled() {
+        int burning = data.get(0);
+        int maximum = data.get(1);
+        if (burning <= 0) {
+            return 0;
+        }
+        int height = burning * 13 / (maximum > 0 ? maximum : 200);
+        return Math.min(13, Math.max(1, height));
     }
 
     @Override
