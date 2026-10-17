@@ -36,6 +36,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CHEESE_HOOK);
                 output.accept(ModItems.CHEESE_GRATER);
                 output.accept(ModItems.ROLLING_PIN);
+                output.accept(ModItems.PIZZA_PEEL);
                 // Visible for creative testing; normally collected from a formed pizza.
                 output.accept(ModItems.RAW_PIZZA);
                 output.accept(ModItems.COOKED_PIZZA);
