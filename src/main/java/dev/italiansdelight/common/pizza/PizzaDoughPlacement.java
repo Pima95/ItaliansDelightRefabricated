@@ -2,7 +2,9 @@ package dev.italiansdelight.common.pizza;
 
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
+import dev.italiansdelight.common.block.CookedPizzaBlock;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
+import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import net.minecraft.world.level.block.Blocks;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -174,6 +176,57 @@ public final class PizzaDoughPlacement {
 
                 server.playSound(null, clickedPos, SoundEvents.WOOL_PLACE,
                         SoundSource.BLOCKS, 0.55F, rollingPin ? 0.9F : 0.95F);
+                return InteractionResult.SUCCESS;
+            }
+
+            // Place ONE fully baked pizza for serving four physical quarters.
+            // The item remains non-edible; taking its slices is a completely
+            // separate empty-hand block interaction on CookedPizzaBlock.
+            // The original ingredient applications and legacy mozzarella
+            // flag are persisted in the BlockEntity, not copied or refunded.
+            if (held.is(dev.italiansdelight.common.registry.ModItems.COOKED_PIZZA)) {
+                if (hit.getDirection() != Direction.UP) {
+                    return InteractionResult.PASS;
+                }
+                PizzaItemData baked = held.get(ModDataComponents.PIZZA_CONTENTS);
+                if (baked == null) {
+                    return InteractionResult.FAIL;
+                }
+                BlockPos target = clickedPos.above();
+                Direction facing = switch (baked.composition().orientation()) {
+                    case "north" -> Direction.NORTH;
+                    case "east" -> Direction.EAST;
+                    case "south" -> Direction.SOUTH;
+                    case "west" -> Direction.WEST;
+                    default -> Direction.NORTH;
+                };
+                BlockState placed = ModBlocks.COOKED_PIZZA.defaultBlockState()
+                        .setValue(CookedPizzaBlock.FACING, facing);
+                if (!level.getBlockState(target).isAir() || !placed.canSurvive(level, target)) {
+                    return InteractionResult.PASS;
+                }
+                if (!player.mayUseItemAt(target, Direction.UP, held)
+                        || !level.isUnobstructed(placed, target, CollisionContext.empty())) {
+                    return InteractionResult.FAIL;
+                }
+                if (level.isClientSide()) {
+                    return InteractionResult.SUCCESS;
+                }
+                if (!(level instanceof ServerLevel server)
+                        || !server.setBlock(target, placed, Block.UPDATE_ALL)) {
+                    return InteractionResult.FAIL;
+                }
+                if (!(server.getBlockEntity(target) instanceof CookedPizzaBlockEntity cooked)) {
+                    server.setBlock(target, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+                    return InteractionResult.FAIL;
+                }
+                cooked.setPizza(baked);
+                if (!player.getAbilities().instabuild) {
+                    held.shrink(1);
+                }
+                server.playSound(null, target, SoundEvents.WOOL_PLACE,
+                        SoundSource.BLOCKS, 0.7F, 1.0F);
+                server.gameEvent(player, GameEvent.BLOCK_PLACE, target);
                 return InteractionResult.SUCCESS;
             }
 
