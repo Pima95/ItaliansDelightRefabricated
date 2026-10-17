@@ -1,6 +1,6 @@
 # Pizza 1.0.0 — Fase 4C: pizza cotta piazzabile e quattro fette
 
-> **Implementata sul branch `feature/pizza-1.0.0` (17 ottobre 2026), MA NON ANCORA COMPILATA O TESTATA IN MINECRAFT 26.2.** La cottura nel Pizza Oven, il reset del progresso vanilla, la raccolta di ciotole e la GUI senza ricettario sono fasi separate. Le texture dei topping e dell'item `raw_pizza` rimangono placeholder.
+> **Fase 4C confermata funzionante in Minecraft dall'autore il 17 ottobre 2026.** La cottura nel Pizza Oven, il reset del progresso vanilla, la raccolta di ciotole e la GUI senza ricettario sono fasi separate. Le texture dei topping e dell'item `raw_pizza` rimangono placeholder.
 
 ## Funzionamento
 
@@ -38,8 +38,8 @@ La build non è stata eseguita nell'ambiente GitHub: segnalare il primo errore c
 
 1. Preparare una pizza con quattro quarti differenti: primo pomodoro + mozzarella; secondo panna + speck; terzo ricotta + basilico; quarto nessuna salsa + mozzarella.
 2. Cotta e piazzata, puntare e prelevare le quattro fette in un ordine variabile.
-3. Atteso: ciascuna fetta riceve `pizza_slice_contents` **solo degli ingredienti presenti in quel quarto**, non quelli vicini. Verificarlo tramite componenti/item data in debug o quando verrà implementato il tooltip.
-4. Per ora i **nomi fissi dei gusti**, come «Fetta di Margherita», e le descrizioni dei condimenti sul tooltip restano una fase successiva: le fette usano il nome generico localizzato «Spicchio di pizza». Non confondere questo limite con un'eventuale perdita dei dati.
+3. Atteso: ciascuna fetta riceve `pizza_slice_contents` **solo degli ingredienti presenti in quel quarto**, non quelli vicini. Il nuovo tooltip della fase nomi (da testare separatamente) fornisce una verifica leggibile.
+4. **Aggiornamento dopo il collaudo 4C:** la successiva fase nomi ha aggiunto i nomi riconosciuti/dinamici (per esempio «Spicchio di Margherita») e i tooltip: sono ancora da compilare e testare come indicato in [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md).
 
 ## Test C — Rottura e recupero sicuro
 
@@ -57,6 +57,6 @@ La build non è stata eseguita nell'ambiente GitHub: segnalare il primo errore c
 
 ## Da sviluppare in seguito
 
-- **Nomi dinamici e fissi per pizza/fetta**, inclusa l'esatta «Fetta di Margherita» se il singolo quarto corrisponde ai suoi ingredienti; composizione visibile sul tooltip senza alterare il dato originale.
+- **Nomi dinamici e fissi per pizza/fetta:** ora implementati nel branch; collaudo della nuova fase ancora da completare in [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md).
 - Pixel art definitiva per `raw_pizza`, `cooked_pizza` e `pizza_slice` e topping 2.5D non più simili a item frame.
 - Pala per trasporto, cottura in forno vanilla/affumicatore e ulteriori interazioni server.
