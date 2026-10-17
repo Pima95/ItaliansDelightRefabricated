@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (17 ottobre 2026, correzioni post-collaudo):** l'autore ha confermato che il Pizza Oven si avvia e cuoce. **Nuova revisione pubblicata, DA COMPILARE/TESTARE:** cottura con contatore interno nel forno (NON su `raw_pizza`/blocco pizza), azzerato quando si estrae l'input; la fiamma decrementa sempre dopo l'accensione come una fornace vanilla; una ciotola per applicazione originale (2 salse su due metà = **2 ciotole**); se è presente un hopper sotto, ciotole inserite nel suo inventario insieme alla pizza cotta che viene estratta dall'output; overflow espulso come Cooking Pot. **Non esistono ancora pizza cotta piazzabile né tooltip per verificare visivamente i topping:** non richiedere test impossibili. Pala e grafica restano future. [Test aggiornati](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
+**Stato implementazione pizza (17 ottobre 2026, fase pizza cotta piazzabile):** l'autore ha confermato funzionanti cottura, fuoco, hopper e ciotole del Pizza Oven. **Fase 4C pubblicata, DA COMPILARE/TESTARE:** `cooked_pizza` non commestibile intera ma piazzabile, `CookedPizzaBlock` + BlockEntity salva composizione, orientamento e maschera dei quattro quarti; mano principale vuota preleva lo **Spicchio di pizza** del quarto scelto con il nuovo componente `pizza_slice_contents`, fame/saturazione calcolate per categoria. Quando l'inventario non ha spazio non avviene alcun prelievo o drop. Rottura integra -> item cotto intero; rottura parziale -> soltanto gli spicchi restanti. Rendering dei quarti e condimenti provvisorio. **Nomi fissi/dinamici, tooltip ingredienti e texture definitive ancora TODO.** [Test](COOKED_PIZZA_SLICES_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -120,18 +120,18 @@
 - [x] **Effetti alimentari CONFERMATI per ora:** **nessun effetto speciale o status effect** al consumo delle fette nella Pizza Update 1.0.0; solo fame e saturazione. Possibile riesame in versioni future, non implementare effetti anticipatamente.
 - [ ] Definire la mappatura iniziale cross-mod e verificare la conversione tecnica dei punti di saturazione nei campi di FoodComponent/FoodData per la versione target, senza scambiarli per un `saturationModifier` vanilla.
 - [ ] **Testare** che le fette con condimenti diversi ripristinino soltanto fame e saturazione e non aggiungano effetti di stato al consumo.
-- [ ] **Implementare/testare la saturazione dinamica con coefficienti APPROVATI**: quarti diversi, categorie ripetute, bianca (1), Margherita (3), salame+salsa+formaggio (5,5), cap a 6, due fette con fame uguale ma saturazione differente e compatibilita' di ingredienti esterni.
+- [ ] **SATURAZIONE dinamica — implementata, test pendenti:** base +1, latticini +1,5, proteine +2,5, verdure +0,5, salsa +0,5, erbe +0, oli +1; cap 6 punti, conversione al modificatore vanilla. [Test](COOKED_PIZZA_SLICES_TESTS.md).
 - [x] **Panna: nutrizione Latticini, ruolo CREAMY, ma un solo spazio salsa — DECISIONE AGGIORNATA 15 ottobre:** non può essere applicata sullo stesso quarto di pomodoro o ricotta; può stare solo in quarti diversi. Conserva +1 fame/+1,5 saturazione come bonus Latticini una sola volta per categoria, non conferisce il bonus Salse.
 - [x] **Ricotta: nutrizione Latticini, ruolo CREAMY, ma un solo spazio salsa — DECISIONE AGGIORNATA 15 ottobre:** non può essere applicata sullo stesso quarto di pomodoro o panna. Resta un tipo canonico distinto e un latticino; altri formaggi e mozzarella a fette possono coesistere con essa.
 - [ ] **TEST REGRESSIONE sostituito 15 ottobre:** pomodoro, panna e ricotta non possono più essere aggiunti allo stesso quarto (prima era ammesso); provare le tre combinazioni a coppie: tutte vietate senza consumo. Mozzarella a fette + una qualsiasi delle tre rimane consentita. [Test](CONTAINER_TOPPING_TESTS.md).
 - [ ] **TEST di salsa esclusiva e compatibilità cross-mod:** panna + pomodoro nello stesso quarto deve essere rifiutata integralmente, anche se la zona selezionata contiene quarti parzialmente liberi; diverse salse su quarti diversi devono funzionare. Impedire sovrapposizioni da ID esterni mappati allo stesso tipo canonico e conservare item originale ai rimborsi.
-- [ ] **Implementare/testare la fame dinamica** delle singole fette (4 quarti con topping diversi, categoria ripetuta, pizza bianca, cap 6, ingredienti equivalenti di altre mod), senza dare proprieta' commestibili alla pizza intera.
+- [ ] **FAME DINAMICA delle singole fette — implementata, test pendenti:** `PizzaSliceFactory.foodFor` calcola bonus per categoria distinta soltanto sul quarto selezionato e applica cap 6 fame; la pizza intera non è commestibile. Testare bianca, Margherita, proteine, categorie ripetute, equivalenze. [Test](COOKED_PIZZA_SLICES_TESTS.md).
 - [x] **Raccolta fette SENZA taglio — CONFERMATA:** clic destro a mano vuota su un quarto ancora presente della pizza cotta piazzata -> una sola fetta corrispondente nell'inventario; il quarto scompare dalla pizza. Mano occupata non raccoglie nulla. La pizza integra come item non viene raccolta con clic destro.
 - [x] **Drop alla rottura — CONFERMATO:** pizza cotta **ancora integra (4/4) -> item pizza intera**, mentre una pizza da cui e' stata gia' raccolta almeno una fetta (3/2/1 quarti restanti) -> **soltanto gli item delle fette rimanenti**, con topping del proprio quarto. Mai rimborsi extra o fette duplicate.
 - [x] **Decisione sui coltelli SUPERATA:** nessun coltello, tag/API di coltelli o Cutting Board e' richiesto per ottenere una fetta. Prendere le porzioni direttamente dalla pizza cotta posizionata, ispirandosi ai cibi piazzabili di Farmer's Delight Refabricated.
 - [x] **Inventario pieno — CONFERMATO:** clic destro a mano vuota con inventario senza spazio non rimuove la fetta dalla pizza e **non la droppa a terra**; nessuna perdita o duplicazione.
 - [ ] **Implementare/testare** presa diretta senza coltello da pizza cotta integra, con mano vuota e spazio nell'inventario, mask dei quarti, scomparsa del blocco dopo l'ultima fetta, nessun effetto con mano occupata/inventario pieno, multiplayer, salvataggi e assenza di duplicazioni.
-- [ ] **Test rottura pizza cotta parzialmente consumata e integra:** intatta (4/4) -> item pizza completo; 3/2/1 fette residue -> solo le fette corrispondenti. Provare anche rottura del supporto, multiplayer e salvataggi, senza dupe.
+- [ ] **Rottura pizza cotta — implementata, test pendenti:** intatta = una pizza cotta con composizione; una/due/tre fette già prelevate = soltanto gli spicchi rimasti. Verificare rotazioni, multiplayer, salvataggi, drop vanilla e nessuna duplicazione, compreso supporto rimosso. [Test](COOKED_PIZZA_SLICES_TESTS.md).
 - [ ] Test visivo delle nuove forme e hitbox dell'impasto nei cinque stadi (vedi [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md)).
 - [ ] Gestione delle collisioni, del posizionamento e rendering di dettaglio.
 - [ ] API effettive per mantenere data component nelle fornaci vanilla.
@@ -215,6 +215,8 @@
 - [ ] **Implementare e testare l'automazione hopper gia' confermata** (sopra pizze crude, lati combustibile, sotto solo pizze cotte). Verificare che non estragga una pizza in ingresso con progresso parziale e che non si duplichi l'output.
 - [ ] Modelli, animazioni, traduzioni e **implementazione della ricetta gia' approvata** (BSB / SFS / BSB).
 
+- [ ] **FASE 4C — piazzamento pizza cotta, QUATTRO SPICCHI, DATI QUARTO implementati / DA TESTARE:** nuovo blocco interno `cooked_pizza`, BE persistente, blocco rotabile con maschera `remaining` 0..15, quattro modelli placeholder + `CookedPizzaRenderer`, clic a mano vuota server-side, `pizza_slice` commestibile e componente `pizza_slice_contents` solo con i propri topping, valori fame/saturazione per categorie; inventario pieno -> no pickup/no drop. Rottura integra e rottura parziale danno output corretto. **Nomi gusti e tooltip NON IMPLEMENTATI.** [Test](COOKED_PIZZA_SLICES_TESTS.md).
+
 ### Fase 5: forno vanilla e crafting
 
 - [ ] Prototipo conservazione componenti passando da **fornace e affumicatore vanilla**.
@@ -241,4 +243,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** verificare che la nuova GUI del Pizza Oven non presenti più **alcun ricettario**, conservando slot, progressi, fiamma, ciotole e hopper; test in [PIZZA_OVEN_IMPLEMENTATION_TESTS.md](PIZZA_OVEN_IMPLEMENTATION_TESTS.md). Dopo la conferma, continuare con **pizza cotta piazzabile / fette per quarto** e tooltip degli ingredienti, così da poter finalmente verificare la composizione dopo la cottura. Pala e compatibilità fornace/affumicatore restano fasi successive; le attività grafiche `raw_pizza` e topping 2.5D rimangono aperte.
+**Prossimo passo:** compilare, avviare e collaudare la **FASE 4C** seguendo [COOKED_PIZZA_SLICES_TESTS.md](COOKED_PIZZA_SLICES_TESTS.md), inclusi orientamento, fette/nutrizione, drop, inventario pieno e multiplayer. Dopo conferma, implementare riconoscimento dei 19 gusti storici compatibili (Principessa ancora sospesa) e **nomi/tooltip ingredienti per pizza cotta e spicchi**, poi pala e fornace/affumicatore vanilla. I TODO grafici `raw_pizza`, `cooked_pizza`, `pizza_slice` e topping 2.5D restano.
