@@ -3,6 +3,7 @@ package dev.italiansdelight.common.registry;
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaOvenBlockEntity;
+import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
 import dev.italiansdelight.common.block.entity.CheeseAgingRackBlockEntity;
 import dev.italiansdelight.common.block.entity.CheeseHookBlockEntity;
 import dev.italiansdelight.common.block.entity.AgingCheeseBlockEntity;
@@ -24,6 +25,9 @@ public final class ModBlockEntities {
     // Separate persistent data for the four physical quarters of a dough pizza.
     public static final BlockEntityType<PizzaDoughBlockEntity> PIZZA_DOUGH =
         register("pizza_dough", PizzaDoughBlockEntity::new, ModBlocks.PIZZA_DOUGH);
+
+    public static final BlockEntityType<CookedPizzaBlockEntity> COOKED_PIZZA =
+        register("cooked_pizza", CookedPizzaBlockEntity::new, ModBlocks.COOKED_PIZZA);
 
     public static final BlockEntityType<PizzaOvenBlockEntity> PIZZA_OVEN =
         register("pizza_oven", PizzaOvenBlockEntity::new, ModBlocks.PIZZA_OVEN);
