@@ -20,7 +20,7 @@
 - **Regressione D:** controllare di nuovo hopper e ciotole: il cambio è **solo di menu/schermata**, non deve influire sul ticker o sui rimborsi.
 - **Compatibilità:** la registrazione dei menu cambia da vanilla `furnace` a `italiansdelight:pizza_oven`; occorre aggiornare **client e server insieme**. Un menu già aperto durante un aggiornamento della mod va chiuso e riaperto.
 
-## Animazione esterna del forno come vanilla — aggiunta 17 ottobre, test pendenti
+## Animazione esterna del forno come vanilla — test funzionale confermato il 17 ottobre
 
 La grafica del Pizza Oven acceso era già legata a `lit=true` e al modello con `wood_oven_face_on`. Mancavano le **particelle e il suono**, che una fornace di Minecraft emette tramite `animateTick`. Ora `PizzaOvenBlock.animateTick` usa esattamente le particelle vanilla `minecraft:flame` e `minecraft:smoke`, con il suono casuale `block.furnace.fire_crackle` (probabilità 10% per chiamata), **solo durante `lit=true`**.
 
