@@ -5,6 +5,8 @@
 > **AGGIORNAMENTO DI GAMEPLAY — 15 ottobre 2026, prioritario sulle decisioni precedenti:** ogni quarto può contenere **una sola scelta fra salsa di pomodoro, panna e ricotta**. La ricetta «Principessa» approvata il 13 ottobre (pomodoro + panna) è ora **INCOMPATIBILE/SOSPESA**: non è più componibile come nuova pizza. La lista dei **19 nomi storicamente approvati** e i conteggi SÌ/NO rimangono documentati, ma «Principessa» **non va implementata come preset attivo** finché l'autore non decide gli ingredienti della variante compatibile. Non inventare automaticamente una ricetta sostitutiva e non eliminare i dati delle pizze già salvate. Le altre combinazioni prive di sovrapposizioni continuano a seguire le regole previste.
 
 
+**Stato codice 17 ottobre 2026:** il riconoscimento è stato aggiunto su `feature/pizza-1.0.0` per i **17 gusti attualmente componibili**, insieme a nomi dinamici, Pizza assortita, singoli spicchi e tooltip IT/EN. **Da compilare/testare:** [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md). La Principessa resta sospesa; il preset Patate e Speck verrà abilitato soltanto dopo l'item approvato. Le note sottostanti sulla mancanza di codice descrivono lo stato storico della selezione del 13 ottobre.
+
 ## Numeri e stati
 
 - **Gruppo A — 56 combinazioni con item già registrati (inclusa Principessa):** **18 con nome fisso approvato e 38 con nome dinamico**. Il riconoscimento dei nomi non è ancora implementato.
