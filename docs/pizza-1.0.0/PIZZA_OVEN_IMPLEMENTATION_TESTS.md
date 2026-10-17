@@ -10,6 +10,16 @@
 - **Hopper sottostante:** continua a estrarre la `cooked_pizza` tramite lo slot output. Le ciotole create al completamento entrano **direttamente nel medesimo hopper posto esattamente sotto il forno**, finché ha spazio. Se non è presente o è pieno, l'eventuale residuo viene espulso a terra come contenitore del Cooking Pot. Lo slot di output del forno non riceve mai ciotole e continua ad accettare una sola pizza cotta. Il secchio vuoto della lava può essere estratto dal basso come nelle fornaci vanilla.
 - **Test degli ingredienti limitati:** la pizza cotta **non è ancora piazzabile** e i tooltip dei condimenti **non sono ancora implementati**. Non chiedere di verificare in gioco che gli ingredienti siano preservati visivamente o attraverso tooltip inesistenti. Il codice usa lo stesso `pizza_contents` in input e output; il collaudo visivo dei condimenti è rimandato alla fase di pizza cotta piazzabile/tooltip.
 
+## Modifica del 17 ottobre — ricettario vanilla rimosso (da testare)
+
+- **Perché:** il menu precedente si presentava come `MenuType.FURNACE`: Minecraft apriva il suo `FurnaceScreen` con il ricettario vanilla e relative categorie non pertinenti.
+- **Implementazione:** nuovo `ModMenuTypes.PIZZA_OVEN`; `PizzaOvenMenu` ha un costruttore client con `SimpleContainer(3)` e `SimpleContainerData(4)`; `PizzaOvenScreen` estende `AbstractContainerScreen` e disegna direttamente **la texture vanilla della fornace e gli sprite GUI vanilla della fiamma/freccia**, **senza istanziare il pannello ricette**.
+- **Regressione A:** aprire il Pizza Oven vuoto: **nessun pulsante ricettario e nessun pannello laterale**, anche con la scorciatoia del libro o dopo aver aperto una fornace vanilla.
+- **Regressione B:** verificare **i tre slot nelle posizioni precedenti**, trasferimento con shift, inventario giocatore e GUI con titolo «Forno per pizza».
+- **Regressione C:** durante 20 secondi di cottura controllare la freccia progressiva e la fiamma che cala dopo la fine, senza flicker né deformazioni della texture.
+- **Regressione D:** controllare di nuovo hopper e ciotole: il cambio è **solo di menu/schermata**, non deve influire sul ticker o sui rimborsi.
+- **Compatibilità:** la registrazione dei menu cambia da vanilla `furnace` a `italiansdelight:pizza_oven`; occorre aggiornare **client e server insieme**. Un menu già aperto durante un aggiornamento della mod va chiuso e riaperto.
+
 ## Compilazione
 
 ```powershell
