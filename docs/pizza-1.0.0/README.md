@@ -4,6 +4,10 @@
 >
 > **Principio guida CONFERMATO:** i comportamenti basilari seguono **Minecraft vanilla** come default (drop, pickup, despawn, danni ambientali e altre interazioni standard). Non richiedere approvazioni ripetute per queste regole ordinarie; rispettare le eccezioni personalizzate gia' concordate e discutere solo le nuove meccaniche significative.
 
+**Test del Pizza Oven:** il 17 ottobre 2026 l'autore ha confermato che il forno funziona dopo l'aggiunta delle particelle di fiamma/fumo e del crepitio vanilla. La FASE 4C (pizza cotta piazzabile e spicchi) resta da collaudare separatamente. [Test forno](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
+
+**Miglioramenti futuri non inclusi in questa fase:** frequenza di generazione e coltivazione del Cardoon, piu' biomi per Cardoon e Basilico selvatico: [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md).
+
 **Nuovi test disponibili:** [CONTAINER_TOPPING_TESTS.md](CONTAINER_TOPPING_TESTS.md) — Fase 3G, posizionamento di salsa/panna/ricotta, rimborsi anti-dupe e multiplayer.
 
 **Nuova regola confermata (15 ottobre):** è possibile usare **una sola salsa a scelta tra pomodoro, panna e ricotta** su una pizza intera, una metà o uno spicchio. Con i quarti separati puoi applicare salse differenti a quarti diversi, ma mai sovrapposte. [Test aggiornati](CONTAINER_TOPPING_TESTS.md). La ricetta storica «Principessa» con pomodoro e panna contemporanei è incompatibile e rimane **sospesa in attesa di una variante approvata dall'autore**, senza modificarla automaticamente.
