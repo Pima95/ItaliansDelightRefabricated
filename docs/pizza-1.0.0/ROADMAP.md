@@ -2,7 +2,7 @@
 
 ## Stato
 
-**Stato implementazione pizza (15 ottobre 2026):** stesura, quarti, topping solidi e cremosi, esclusività salse e rendering placeholder confermati funzionanti dall'autore. **FASE 4A pubblicata, build/test da eseguire:** `PizzaItemData.bake_progress` opzionale e retrocompatibile (0..1200), trasferimento progresso in `PizzaDoughBlockEntity`/item/world, `PizzaBaking` con durate placeholder 20/30/60 s per Pizza Oven/smoker/furnace, preparazione di una ciotola per applicazione originale solo al completamento; `cooked_pizza` registrato, ancora non commestibile, non piazzabile e senza ricetta. **Nessun forno funzionante ancora implementato.** La texture cooked usa provvisoriamente la raw; gli altri TODO grafici e la Principessa sospesa restano. [Test](PIZZA_BAKING_FOUNDATION_TESTS.md).
+**Stato implementazione pizza (17 ottobre 2026):** gli interventi fino alla **FASE 4A** sono stati confermati funzionanti dall'autore. **FASE 4B implementata e pubblicata, MA NON ANCORA COMPILATA/TESTATA:** Pizza Oven orientabile 1×1, menu con `MenuType.FURNACE` e schermata vanilla, input solo `raw_pizza`, combustibili da registry, output singolo `cooked_pizza`, cottura 400 tick attivi, pausa senza fuel, energia residua non consumata a forno inattivo, salvataggio NBT, hopper (sopra input, lati combustibile, sotto output), ciotole una volta per applicazione originale. Modello del blocco è **placeholder vanilla furnace**. La pala e la pizza cotta servibile non sono implementate. [Test](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
 
 ## Checklist decisioni già CONFERMATE
 
@@ -204,7 +204,7 @@
 ### Fase 4: Pizza Oven
 
 - [ ] **FASE 4A — base dati di cottura pubblicata, build/test pendenti:** normalizzazione progresso 1200 unità con codec opzionale e default 0, conservazione del progresso in raw pizza ↔ blocco, registrazione item `cooked_pizza` non commestibile, utilità `PizzaBaking.advance/finish` (risultato e ciotole calcolate una volta per applicazione originale). Il completamento esiste come funzione pura, **non è ancora chiamato in gioco da un forno**. [Test 4A](PIZZA_BAKING_FOUNDATION_TESTS.md).
-- [ ] **FASE 4B — Pizza Oven funzionante:** implementare blocco, BE, menu/GUI vanilla, combustibile, progressi, output, hopper e contenitori come trasferimento atomico server. L'assenza di combustibile mette in pausa e il forno vuoto non spreca energia.
+- [ ] **FASE 4B — Pizza Oven implementata, build/test pendenti:** blocco orientabile, BlockEntity con 3 slot e progress/energia salvati, menu server `MenuType.FURNACE` e GUI standard lato client, consumo fuel solamente a tick di lavoro, conversione/composizione + ciotole, hopper direzionali, crafting/loot/lingue. **Pala, grafica dedicata e compatibilità con fornace/affumicatore vanilla rimangono future.** [Piano test](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
 
 - [ ] Forno compatto orientabile con una pizza alla volta, **utilizzabile con o senza pala** (la pala non e' obbligatoria).
 - [ ] BlockEntity persistente, **GUI VANILLA della fornace** (input pizza, fuel, output pizza, fiamma/freccia standard) e inserimento/estrazione diretti con pala, senza bruciatura. Capienza massima una pizza totale in input/output.
@@ -240,4 +240,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** compilare e verificare la **FASE 4A** con [PIZZA_BAKING_FOUNDATION_TESTS.md](PIZZA_BAKING_FOUNDATION_TESTS.md) (retrocompatibilità, item cotto di debug, regressioni su `raw_pizza`). Dopo la conferma costruire **FASE 4B**: Pizza Oven orientabile 1×1 con GUI della fornace vanilla, combustibili, inventario e avanzamento persistenti, trasferimenti atomici di pizza e ciotole. In seguito supporto fornace/affumicatore vanilla, pizza cotta piazzabile e fette. Restano la texture `raw_pizza` e il renderer dei topping da rifinire.
+**Prossimo passo:** **compilare e collaudare la FASE 4B** seguendo [PIZZA_OVEN_IMPLEMENTATION_TESTS.md](PIZZA_OVEN_IMPLEMENTATION_TESTS.md); correggere eventuali incompatibilità delle API Minecraft 26.2/GUI. Poi integrare pala per pizza, fornace/affumicatore vanilla e pizza cotta servibile con 4 fette. La texture del forno è provvisoria, e i TODO artistici già concordati `raw_pizza` e topping “item frame” rimangono aperti.
