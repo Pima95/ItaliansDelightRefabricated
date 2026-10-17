@@ -176,6 +176,12 @@ public final class PizzaDisplayNames {
     public static Component sliceName(PizzaSliceData slice) {
         Set<Identifier> types = quarter(slice);
         String id = PRESETS.get(types);
+        if ("bianca".equals(id)) {
+            return Component.translatable(PREFIX + "slice_bianca");
+        }
+        if ("rossa".equals(id)) {
+            return Component.translatable(PREFIX + "slice_rossa");
+        }
         if (id != null) {
             return Component.translatable(PREFIX + "named_slice", preset(id));
         }
