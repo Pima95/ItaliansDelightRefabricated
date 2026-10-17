@@ -5,6 +5,7 @@ import dev.italiansdelight.common.pizza.PizzaDoughSupport;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import dev.italiansdelight.common.pizza.PizzaComposition;
 import dev.italiansdelight.common.pizza.PizzaItemData;
+import dev.italiansdelight.common.pizza.PizzaDisplayNames;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import java.util.List;
@@ -184,8 +185,9 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
         PizzaComposition composition =
                 entity == null ? PizzaComposition.empty() : entity.composition();
         ItemStack stack = new ItemStack(ModItems.RAW_PIZZA);
-        stack.set(ModDataComponents.PIZZA_CONTENTS,
-                new PizzaItemData(composition, state.getValue(MOZZARELLA)));
+        PizzaItemData data = new PizzaItemData(composition, state.getValue(MOZZARELLA));
+        stack.set(ModDataComponents.PIZZA_CONTENTS, data);
+        PizzaDisplayNames.nameWholeStack(stack, data);
         return stack;
     }
 
