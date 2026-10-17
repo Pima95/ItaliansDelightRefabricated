@@ -3,7 +3,6 @@ package dev.italiansdelight.common.block.entity;
 import dev.italiansdelight.common.block.PizzaOvenBlock;
 import dev.italiansdelight.common.block.entity.container.PizzaOvenMenu;
 import dev.italiansdelight.common.pizza.PizzaBaking;
-import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
@@ -24,20 +23,28 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 /**
- * Single-pizza, server-authoritative oven.
+ * Pizza-only furnace with vanilla furnace cooking and fuel behavior.
  *
- * <p>Uses furnace's three physical slots and four GUI data values. It owns
- * fuel/progress independently of vanilla cooking recipes so no data component
- * can be lost. A full output blocks ALL new input, including hopper attempts.
+ * <p>As with a vanilla furnace, cooking progress belongs to THIS machine,
+ * never the raw pizza ItemStack. Removing/replacing the input resets it.
+ * The machine saves its in-flight progress across chunk/world saves, but
+ * the pizza carried in a player's inventory has no baking progress.
  *
- * <p>Burn energy is frozen while idle or when the output is occupied. The
- * player can remove partly baked raw pizza directly from the input slot and
- * reinsert it without resetting progress (which is stored on that ItemStack).
+ * <p>After a fuel is ignited its remaining burn time always decreases,
+ * even when idle/blocked. The GUI's fire gauge therefore diminishes just
+ * like the vanilla furnace. The oven never starts a NEW fuel while idle.
+ *
+ * <p>Completion consumes one raw pizza and creates one cooked pizza. Bowl
+ * remainders are counted per ORIGINAL sauce/cream application. If a hopper
+ * sits directly below the oven, bowls are inserted into it first; otherwise
+ * or when full, they are dropped like a Cooking Pot remainder. The hopper
+ * also extracts the cooked pizza via the standard output slot.
  */
 public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
         implements WorldlyContainer {
@@ -48,12 +55,14 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
 
     private static final int[] FROM_TOP = {INPUT};
     private static final int[] FROM_SIDES = {FUEL};
-    private static final int[] FROM_BOTTOM = {RESULT};
+    // Vanilla furnace can also extract the empty lava bucket from underneath.
+    private static final int[] FROM_BOTTOM = {RESULT, FUEL};
 
     private NonNullList<ItemStack> items =
             NonNullList.withSize(SIZE, ItemStack.EMPTY);
     private int energyRemaining;
     private int fuelTotal;
+    private int cookingProgress;
 
     private final ContainerData data = new ContainerData() {
         @Override
@@ -61,7 +70,7 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
             return switch (index) {
                 case 0 -> energyRemaining;
                 case 1 -> fuelTotal;
-                case 2 -> cookingProgress();
+                case 2 -> cookingProgress;
                 case 3 -> PizzaBaking.MAX_PROGRESS;
                 default -> 0;
             };
@@ -69,10 +78,10 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
 
         @Override
         public void set(int index, int value) {
-            // Client receives its own vanilla FurnaceMenu and syncs four
-            // values via the usual slot/data packets. Server is authoritative.
             if (index == 0) energyRemaining = Math.max(0, value);
             if (index == 1) fuelTotal = Math.max(0, value);
+            if (index == 2) cookingProgress = Math.clamp(
+                    value, 0, PizzaBaking.MAX_PROGRESS);
         }
 
         @Override
@@ -85,88 +94,131 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
         super(ModBlockEntities.PIZZA_OVEN, pos, state);
     }
 
-    private int cookingProgress() {
-        PizzaItemData pizza = items.get(INPUT).get(ModDataComponents.PIZZA_CONTENTS);
-        return pizza == null ? 0 : pizza.bakeProgress();
-    }
-
     /**
-     * Called only by the server ticker while this chunk is ticking.
-     * The completed pizza and all bowl remainders are committed in one tick,
-     * never by the client or by a menu preview.
+     * Tick server-side only. Fuel burns continuously after ignition, exactly
+     * as in a normal furnace. The raw input is NEVER mutated for progress.
      */
     public static void serverTick(
             ServerLevel level, BlockPos pos, BlockState state,
             PizzaOvenBlockEntity oven
     ) {
+        boolean wasBurning = oven.energyRemaining > 0;
+        if (oven.energyRemaining > 0) {
+            oven.energyRemaining--; // Fire gauge decays EVEN without a pizza.
+            oven.setChanged();
+        }
+
         ItemStack input = oven.items.get(INPUT);
-        PizzaItemData data = input.get(ModDataComponents.PIZZA_CONTENTS);
         boolean canCook = input.is(ModItems.RAW_PIZZA)
                 && input.getCount() == 1
-                && data != null
-                && !PizzaBaking.isReady(data)
+                && input.get(ModDataComponents.PIZZA_CONTENTS) != null
                 && oven.items.get(RESULT).isEmpty();
 
-        if (!canCook) {
-            oven.setVisualBurning(level, pos, state, false);
-            return; // Do not spend existing energy; no idle burn or fuel use.
-        }
-
-        if (oven.energyRemaining <= 0) {
+        if (canCook && oven.energyRemaining == 0) {
             ItemStack fuel = oven.items.get(FUEL);
             int duration = level.fuelValues().burnDuration(fuel);
-            if (duration <= 0) {
-                oven.setVisualBurning(level, pos, state, false);
-                return; // Preserve partially completed progress.
+            if (duration > 0) {
+                oven.energyRemaining = duration;
+                oven.fuelTotal = duration;
+                if (fuel.is(Items.LAVA_BUCKET)) {
+                    oven.items.set(FUEL, new ItemStack(Items.BUCKET));
+                } else {
+                    fuel.shrink(1);
+                    if (fuel.isEmpty()) {
+                        oven.items.set(FUEL, ItemStack.EMPTY);
+                    }
+                }
+                oven.setChanged();
             }
+        }
 
-            // Fuel charging is coupled to a real tick of work. The empty
-            // lava bucket stays in the fuel slot as with vanilla furnaces.
-            oven.energyRemaining = duration;
-            oven.fuelTotal = duration;
-            if (fuel.is(Items.LAVA_BUCKET)) {
-                oven.items.set(FUEL, new ItemStack(Items.BUCKET));
-            } else {
-                fuel.shrink(1);
-                if (fuel.isEmpty()) {
-                    oven.items.set(FUEL, ItemStack.EMPTY);
+        if (canCook && oven.energyRemaining > 0) {
+            oven.cookingProgress = PizzaBaking.advance(
+                    oven.cookingProgress, PizzaBaking.Oven.PIZZA_OVEN, 1);
+            oven.setChanged();
+
+            if (oven.cookingProgress >= PizzaBaking.MAX_PROGRESS) {
+                PizzaBaking.BakingResult result =
+                        PizzaBaking.finish(input, oven.cookingProgress)
+                                .orElseThrow(() -> new IllegalStateException(
+                                        "Unable to finish a completed raw pizza"));
+
+                // Commit exactly once. The raw input is removed before any
+                // remainders are delivered, and no progress is on the result.
+                oven.items.set(RESULT, result.cookedPizza());
+                oven.items.set(INPUT, ItemStack.EMPTY);
+                oven.cookingProgress = 0;
+                oven.setChanged();
+
+                for (ItemStack bowls : result.containers()) {
+                    deliverRemainder(level, pos, bowls);
                 }
             }
+        } else if (!canCook) {
+            // Vanilla resets when input changes or output blocks a recipe.
+            if (oven.cookingProgress != 0) {
+                oven.cookingProgress = 0;
+                oven.setChanged();
+            }
+        } else if (oven.cookingProgress > 0) {
+            // Vanilla furnaces gradually lose cooking progress while unlit.
+            oven.cookingProgress = Math.max(0, oven.cookingProgress - 2);
+            oven.setChanged();
         }
 
-        // One server tick of cooking always spends exactly one fuel tick.
-        oven.energyRemaining--;
-        PizzaItemData advanced = PizzaBaking.advance(data, PizzaBaking.Oven.PIZZA_OVEN, 1);
-        input.set(ModDataComponents.PIZZA_CONTENTS, advanced);
+        boolean burning = oven.energyRemaining > 0;
+        if (wasBurning != burning || state.getValue(PizzaOvenBlock.LIT) != burning) {
+            oven.setVisualBurning(level, pos, state, burning);
+        }
+    }
 
-        if (PizzaBaking.isReady(advanced)) {
-            PizzaBaking.BakingResult baked = PizzaBaking.finish(input)
-                    .orElseThrow(() -> new IllegalStateException(
-                            "Fully baked pizza could not be converted"));
-
-            // One input -> one result. No residual original input may survive.
-            oven.items.set(RESULT, baked.cookedPizza());
-            oven.items.set(INPUT, ItemStack.EMPTY);
-            // There is no fourth inventory slot: bowls are released as
-            // ordinary drops once, at successful final conversion. Their
-            // number is per original application, never per physical quarter.
-            for (ItemStack bowl : baked.containers()) {
-                Containers.dropItemStack(
-                        level, pos.getX() + 0.5, pos.getY() + 1.0,
-                        pos.getZ() + 0.5, bowl);
+    /**
+     * Move bowl remainders to the BELOW hopper, not into the oven's output
+     * slot (which must contain only cooked pizzas). If absent/full, eject
+     * remaining bowls to the world, with no loss or extra copies.
+     */
+    private static void deliverRemainder(
+            ServerLevel level, BlockPos ovenPos, ItemStack remainder
+    ) {
+        ItemStack left = remainder.copy();
+        if (level.getBlockEntity(ovenPos.below()) instanceof HopperBlockEntity hopper) {
+            for (int i = 0; i < hopper.getContainerSize() && !left.isEmpty(); i++) {
+                ItemStack existing = hopper.getItem(i);
+                if (!existing.isEmpty() && !existing.is(Items.BOWL)) {
+                    continue;
+                }
+                int max = existing.isEmpty()
+                        ? left.getMaxStackSize()
+                        : existing.getMaxStackSize();
+                int free = max - existing.getCount();
+                int moved = Math.min(left.getCount(), free);
+                if (moved <= 0) {
+                    continue;
+                }
+                if (existing.isEmpty()) {
+                    hopper.setItem(i, left.copyWithCount(moved));
+                } else {
+                    existing.grow(moved);
+                    hopper.setChanged();
+                }
+                left.shrink(moved);
             }
         }
-
-        oven.setChanged();
-        oven.setVisualBurning(level, pos, state,
-                !oven.items.get(INPUT).isEmpty() && oven.energyRemaining > 0);
+        if (!left.isEmpty()) {
+            Containers.dropItemStack(
+                    level,
+                    ovenPos.getX() + 0.5,
+                    ovenPos.getY() + 1.0,
+                    ovenPos.getZ() + 0.5,
+                    left);
+        }
     }
 
     private void setVisualBurning(
-            ServerLevel level, BlockPos pos, BlockState oldState, boolean burning
+            ServerLevel level, BlockPos pos, BlockState current, boolean burning
     ) {
-        if (oldState.getValue(PizzaOvenBlock.LIT) != burning) {
-            level.setBlock(pos, oldState.setValue(PizzaOvenBlock.LIT, burning),
+        if (current.getValue(PizzaOvenBlock.LIT) != burning) {
+            level.setBlock(pos, current.setValue(PizzaOvenBlock.LIT, burning),
                     Block.UPDATE_ALL);
         }
     }
@@ -178,14 +230,11 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
 
     @Override
     protected AbstractContainerMenu createMenu(int id, Inventory inv) {
-        // The server menu advertises MenuType.FURNACE. Client builds the
-        // unmodified FurnaceMenu + FurnaceScreen with vanilla GUI sprites.
         return new PizzaOvenMenu(id, inv, this, data);
     }
 
     @Override
     public int getContainerSize() {
-        // Must match the input, fuel and output slots used by FurnaceMenu.
         return SIZE;
     }
 
@@ -209,7 +258,6 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
         return switch (slot) {
             case INPUT -> stack.is(ModItems.RAW_PIZZA)
                     && stack.get(ModDataComponents.PIZZA_CONTENTS) != null
-                    && !PizzaBaking.isReady(stack.get(ModDataComponents.PIZZA_CONTENTS))
                     && items.get(RESULT).isEmpty();
             case FUEL -> level != null && level.fuelValues().isFuel(stack);
             default -> false;
@@ -218,8 +266,39 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
 
     @Override
     public void setItem(int slot, ItemStack stack) {
+        if (slot == INPUT) {
+            // Every manual/hopper replacement starts an entirely NEW cooking
+            // cycle. Source ItemStack never retains the previous progress.
+            cookingProgress = 0;
+        }
         super.setItem(slot, stack);
-        // Raw progress is stored on input, not on the oven itself.
+    }
+
+    @Override
+    public ItemStack removeItem(int slot, int amount) {
+        ItemStack taken = super.removeItem(slot, amount);
+        if (slot == INPUT && !taken.isEmpty()) {
+            cookingProgress = 0;
+            setChanged();
+        }
+        return taken;
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        ItemStack taken = super.removeItemNoUpdate(slot);
+        if (slot == INPUT && !taken.isEmpty()) {
+            cookingProgress = 0;
+            setChanged();
+        }
+        return taken;
+    }
+
+    @Override
+    public void clearContent() {
+        super.clearContent();
+        cookingProgress = 0;
+        setChanged();
     }
 
     @Override
@@ -242,8 +321,9 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
     public boolean canTakeItemThroughFace(
             int slot, ItemStack stack, Direction side
     ) {
-        return side == Direction.DOWN && slot == RESULT
-                && stack.is(ModItems.COOKED_PIZZA);
+        return side == Direction.DOWN
+                && (slot == RESULT && stack.is(ModItems.COOKED_PIZZA)
+                    || slot == FUEL && stack.is(Items.BUCKET));
     }
 
     @Override
@@ -253,6 +333,10 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
         ContainerHelper.loadAllItems(input, items);
         energyRemaining = Math.max(0, input.getIntOr("EnergyRemaining", 0));
         fuelTotal = Math.max(0, input.getIntOr("FuelTotal", 0));
+        cookingProgress = Math.clamp(
+                input.getIntOr("CookTime", 0), 0, PizzaBaking.MAX_PROGRESS);
+        // Older oven saves placed progress on the raw pizza, not in the oven:
+        // their missing CookTime correctly defaults to 0, just as a new input.
     }
 
     @Override
@@ -260,13 +344,12 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
         ContainerHelper.saveAllItems(output, items);
         output.putInt("EnergyRemaining", energyRemaining);
         output.putInt("FuelTotal", fuelTotal);
+        output.putInt("CookTime", cookingProgress);
         super.saveAdditional(output);
     }
 
     @Override
     public void preRemoveSideEffects(BlockPos pos, BlockState state) {
-        // Called when the actual block is replaced, not when LIT toggles.
-        // Vanilla-style inventory drops; no extra result or bowl synthesis.
         if (level != null && !level.isClientSide()) {
             Containers.dropContents(level, pos, this);
         }
