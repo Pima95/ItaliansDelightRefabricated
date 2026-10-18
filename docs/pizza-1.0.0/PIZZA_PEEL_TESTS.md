@@ -244,6 +244,29 @@ La traslazione orizzontale viene quindi **invertita**, senza aggiungere altri ca
 
 **Stato:** modifica pubblicata su GitHub, resa visiva da confermare in Minecraft prima di chiudere il difetto.
 
+## Correzione ispirata alla lancia vanilla di Minecraft 26.2 — 18 ottobre 2026
+
+**Problema osservato:** traslando la pala carica di +3 o -3 pixel in terza persona, il manico passava alternativamente a destra o a sinistra del pugno, senza venir impugnato; la pizza invece era già visibile sulla lamina. Questo dimostra che il difetto NON era semplicemente un offset orizzontale.
+
+**Riferimenti vanilla analizzati:**
+- `assets/minecraft/models/item/spear_in_hand.json` (26.2): la lancia usa una posa dedicata, con rotazione e traslazione per il contesto in mano; in terza persona `translation [0,2,2]`. Fonte: https://mcasset.cloud/26.2-snapshot-4/assets/minecraft/models/item/spear_in_hand.json .
+- Il renderer dell'item in terza persona, `ItemInHandLayer`, **prima di disegnare l'item** chiama `translateToHand`, ruota X di -90° e Y di 180° e applica una traslazione relativa alla mano. Quindi le rotazioni del modello NON partono da assi del mondo. Fonte codice Mojang decompilato 1.21.11 (stessa convenzione di rendering): https://github.com/H1lkaaaGD/Minecraft_1.21.11_Source/blob/main/net/minecraft/client/renderer/entity/layers/ItemInHandLayer.java .
+
+**Correzione implementata:** la pala carica ha già la lamina in piano XZ nel `pizza_peel_loaded.json` (tre cuboidi ruotati attorno al manico): un display con rotazione `[0,0,0]` la fa sembrare puntata verso il terreno, perché il renderer del braccio l'ha già ruotata di X=-90°. Un ulteriore display **X=-90°** fa puntare l'asse longitudinale della lama orizzontalmente in avanti, e orienta la normale superiore +Y verso l'alto dopo le trasformazioni del braccio. Queste conclusioni sono state verificate con matrici di rotazione 3D, non scelte a occhio.
+
+- **Terza persona destra/sinistra:** `rotation [-90,0,0]`, `translation [0,2,2]` come ancoraggio di presa della lancia (nessuna traslazione ±3 sull'asse X), `scale [0.8,0.8,0.8]` conservata poiché la nostra pala è un modello 3D già di dimensione reale, non il grande sprite della lancia.
+- `PizzaPeelItemModel.java`: utilizza esattamente la stessa `ItemTransform` per lo strato della pizza autentica. Nessuna modifica alle coordinate `CARGO_X/Y/Z`, alla sua scala o alla geometria della pala.
+- **Prima persona, pala vuota, inventario e gioco:** del tutto invariati. Nessuna modifica a `peel_cargo`, cucina, drop, crafting o texture.
+
+**Test non ancora eseguiti nel gioco:**
+- [ ] `.\\gradlew.bat clean build` senza errori.
+- [ ] Pala carica terza persona frontale/laterale/posteriore: manico nel pugno, testa metallica in avanti e parallela al suolo.
+- [ ] Pizza ancora sopra la testa metallica (non ai piedi, non sopra il corpo).
+- [ ] Mano sinistra e destra con impugnatura simmetrica.
+- [ ] Prima persona e pala vuota identiche all'ultima versione approvata.
+
+**Stato:** modifiche pubblicate, con verifiche matematiche e statiche; il test visivo deve essere confermato prima di considerare completata questa correzione. Questa sezione prevale sulle precedenti modifiche laterali ±3.
+
 ## Compilazione
 
 ```powershell
