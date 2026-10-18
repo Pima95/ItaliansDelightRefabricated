@@ -29,18 +29,38 @@ public final class PizzaDoughPlacement {
 
     public static void register() {
         UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
-            if (hand != InteractionHand.MAIN_HAND || player.isSpectator()) {
+            if (player.isSpectator()) {
                 return InteractionResult.PASS;
             }
             ItemStack held = player.getItemInHand(hand);
             BlockPos clickedPos = hit.getBlockPos();
             BlockState clickedState = level.getBlockState(clickedPos);
 
-            // The peel is the only exception to ordinary pizza interactions.
-            // Its pickup/placement and Pizza Oven transfers have their own
-            // server-authoritative transaction, ahead of any GUI or topping.
+            // The peel may be used in EITHER hand. Main-hand pizza tools,
+            // toppings and other item interactions keep normal precedence.
+            // A genuinely empty main hand delegates a click on an existing
+            // pizza/oven to the offhand peel BEFORE empty-hand slicing or
+            // stretching intercepts it. This avoids collecting a slice when
+            // trying to lift an intact pizza with the offhand peel.
+            if (hand == InteractionHand.MAIN_HAND && held.isEmpty()) {
+                ItemStack offhandPeel = player.getItemInHand(InteractionHand.OFF_HAND);
+                if (offhandPeel.is(dev.italiansdelight.common.registry.ModItems.PIZZA_PEEL)
+                        && (clickedState.is(ModBlocks.PIZZA_DOUGH)
+                            || clickedState.is(ModBlocks.COOKED_PIZZA)
+                            || clickedState.is(ModBlocks.PIZZA_OVEN))) {
+                    InteractionResult peelResult = PizzaPeelInteractions.use(
+                            player, level, hit, offhandPeel);
+                    if (peelResult != InteractionResult.PASS) {
+                        return peelResult;
+                    }
+                }
+            }
+
             if (held.is(dev.italiansdelight.common.registry.ModItems.PIZZA_PEEL)) {
                 return PizzaPeelInteractions.use(player, level, hit, held);
+            }
+            if (hand != InteractionHand.MAIN_HAND) {
+                return InteractionResult.PASS;
             }
 
             // Handle BOTH empty-handed stretching and the rolling pin here.
