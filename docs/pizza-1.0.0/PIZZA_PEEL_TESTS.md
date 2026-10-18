@@ -284,6 +284,38 @@ La traslazione orizzontale viene quindi **invertita**, senza aggiungere altri ca
 
 **Stato:** pubblicato su GitHub; allineamento finale da confermare con screenshot in Minecraft. L'offset usa gli assi effettivi del renderer anziché il solo nome Y/Z dei campi JSON.
 
+## Correzione posa carica in terza persona — 18 ottobre 2026 (DA VERIFICARE IN GIOCO)
+
+**Screenshot dell'autore (ripresa dal basso):** il manico attraversa la parte alta del braccio puntando verso la spalla del personaggio; la testa metallica rimane dal lato opposto del pugno, sotto e dietro di esso. La pizza è visibile sulla lamina, ma la pala intera è rivolta nella direzione sbagliata. L'autore chiede **rotazione di 180° e abbassamento esclusivamente in terza persona**.
+
+### Correzione pubblicata
+
+In `models/item/pizza_peel_loaded.json` sono state aggiornate **soltanto** le pose `thirdperson_righthand` e `thirdperson_lefthand`:
+
+| Attributo | Prima | Dopo |
+| --- | --- | --- |
+| `rotation` | `[-90,0,0]` | `[-90,180,0]` |
+| `translation` | `[0,2,5]` | `[0,2,8]` |
+| `scale` | `[0.8,0.8,0.8]` | invariata |
+
+- La rotazione **Y=180°** ribalta la direzione longitudinale della testa metallica e del manico **senza capovolgere la faccia superiore** sulla quale si trova la pizza. Si tratta della **posa JSON**, non di una rotazione aggiuntiva della geometria: il pivot dell'item passa sull'asse centrale X=8/Z=8 del manico.
+- Dopo la trasformazione del braccio di Minecraft, aumentare la traslazione locale **Z da 5 a 8** abbassa l'intera pala di altri **3 pixel di modello** (circa `0.1875` unità prima di considerare lo scaling della posa). Non sono stati aggiunti offset laterali.
+- `PizzaPeelItemModel.java` usa **le stesse due pose aggiornate**, perché il modello della pala e la pizza sono livelli renderizzati separatamente: senza sincronizzazione la pizza si separerebbe dalla lamina.
+- Il riferimento della pizza `CARGO_X=8/16`, `CARGO_Y=7.75/16`, `CARGO_Z=-5.5/16` e la sua scala `0.40` **non cambiano**. Anche la geometria e le texture approvate, la prima persona, il modello vuoto, l'inventario e il gameplay restano intatti.
+
+**Verifiche analitiche eseguite:** nella composizione delle rotazioni della mano e del modello (`ItemInHandLayer` e `rotationXYZ`) la direzione della lama passa da `[0,0,+1]` a `[0,0,-1]`; la normale della faccia superiore della pizza resta `[0,+1,0]`. La traslazione `+3px` sull'asse Z del display produce una componente verticale verso il basso. JSON e Java sono stati letti nuovamente dopo il commit e confrontati: corrispondono.
+
+**Verifica finale richiesta:**
+- [ ] Terza persona frontale, di lato e da dietro: la testa metallica si trova **davanti al pugno**, non all'indietro verso la spalla o sotto il braccio.
+- [ ] Il manico attraversa il pugno, non il braccio o il torso.
+- [ ] La pala si trova più in basso, ma non tocca terra.
+- [ ] La pizza resta sulla faccia superiore della testa metallica, senza duplicazioni.
+- [ ] Mano secondaria: stesso comportamento speculare.
+- [ ] Prima persona e pala vuota: resa invariata.
+- [ ] Compilazione `.\\gradlew.bat clean build` e avvio `.\\gradlew.bat runClient` completati.
+
+**Stato:** codice pubblicato; controlli statici superati. La resa in Minecraft deve ancora essere confermata dall'autore.
+
 ## Compilazione
 
 ```powershell
