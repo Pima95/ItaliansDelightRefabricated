@@ -30,6 +30,8 @@
 
 **PEEL — FIX GEOMETRICO/RENDERING 18 ottobre 2026 (DA TESTARE):** individuata la conversione errata nelle coordinate del renderer speciale della pizza: sottrazione di 8 pixel extra agli assi (pizza distante dal piatto e quasi invisibile), aggravata da extents nello spazio sbagliato. Corretto il centro reale del contenuto della pala carica in `(0.5,0.484375,-0.34375)` e aggiornati gli extents. La geometria della pala carica rimane la stessa, ruotata attorno al manico; i display in mano ora puntano in avanti (yaw 0 in terza persona, ±15 in prima), mantenendo il grip e il resto del gameplay invariati. Nuovi screenshot e build necessari: [test dettagliati](PIZZA_PEEL_TESTS.md).
 
+**PEEL — ultimo collaudo 18 ottobre 2026:** la pizza si vede **correttamente** sulla pala (conferma esplicita dell'autore). Rimane soltanto l'aderenza della mano in terza persona. Pubblicata correzione laterale isolata di 3px, speculare per entrambe le mani, sincronizzata fra display JSON e renderer Java. Prima persona, mesh, texture e posizione relativa della pizza inalterate. **Verifica della presa da completare**; vedi [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
