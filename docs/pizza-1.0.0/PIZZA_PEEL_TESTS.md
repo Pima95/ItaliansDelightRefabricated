@@ -60,6 +60,27 @@ La scelta dell'autore è di **mostrare l'item effettivo della pizza**, non un ge
 - [ ] Pizza cotta e futuri item pizza diversi da `raw_pizza`: si vede il loro vero modello senza modificare il renderer.
 - [ ] Compilazione Java 25 (`gradlew.bat clean build`) e prova client (`gradlew.bat runClient`) completate.
 
+## Pala orizzontale quando occupata — 18 ottobre 2026 (DA VERIFICARE IN GIOCO)
+
+**Problema osservato:** nello screenshot dell'autore la pala con una pizza è ancora eretta/diagonale e la testa metallica non è parallela al terreno. Richiesta: ruotare la pala **solo quando contiene una pizza**, per appoggiare in piano l'item pizza sulla superficie metallica.
+
+**Correzione pubblicata:**
+
+- `assets/italiansdelight/models/item/pizza_peel_loaded.json`: nuovo modello figlio di `pizza_peel.json`, **senza duplicare elementi, texture o UV**. Cambia soltanto le trasformazioni **delle quattro visuali in mano**: rotazione X **-90°**, con piccoli angoli di impugnatura Z per prima persona. Il lato frontale originale (+Z) punta così verso l'alto (+Y) e il piano XY della lama diventa parallelo al terreno (XZ).
+- `assets/italiansdelight/items/pizza_peel.json`: selettore `minecraft:display_context` limitato alle mani con condizione `minecraft:has_component` su `italiansdelight:peel_cargo`. **Pala vuota** → modello originale; **pala piena in mano** → modello orizzontale. Inventario, hotbar, item a terra, cornice e altri contesti usano sempre la posa originale, senza pizza extra.
+- `client/render/PizzaPeelItemModel.java`: aggiornati gli `ItemTransform` del render dinamico perché il **vero ItemStack pizza** condivida la posa del modello carico. Si mantengono offset sulla lama e scala precedentemente definiti; nessuna modifica al trasporto, salvataggio, compatibilità futura con altri item pizza o modello 3D approvato.
+- **Controlli statici:** selezione carico/contesto, riferimenti modelli, corrispondenza rotazioni Java/JSON, assenza modifiche alla texture e geometria superati. Non equivale a test in Minecraft.
+
+**Test specifici:**
+
+- [ ] Mano principale, terza persona: pala **vuota** identica a prima; caricandola la lamina passa in orizzontale, come un vassoio, senza abbandonare l'impugnatura.
+- [ ] Mano principale, prima persona: stessa rotazione, con pizza sopra la lamina e non sotto né vicino alla testa del giocatore.
+- [ ] Seconda mano, prima/terza persona: posa equivalente; verificare che la mano tenga il manico.
+- [ ] Pala con pizza cruda e pala con pizza cotta: entrambi gli item reali rimangono centrati sulla superficie superiore; controllare assenza clipping.
+- [ ] Pala caricata in inventario/hotbar, droppata o in cornice: soltanto pala originale, **nessuna pizza renderizzata fuori dalle mani**.
+- [ ] Dopo deposito nel mondo o trasferimento nel Pizza Oven, la pala torna immediatamente all'orientamento originale; salvataggio e multiplayer invariati.
+- [ ] `.\\gradlew.bat clean build` e `.\\gradlew.bat runClient` terminano senza errori.
+
 ## Compilazione
 
 ```powershell
