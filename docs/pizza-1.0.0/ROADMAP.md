@@ -10,6 +10,8 @@
 
 **FIX GRAFICO AGGIORNATO 18 ottobre 2026:** l'autore ha collaudato e segnalato problemi al modello a **7 elementi** (texture applicata male, impugnatura fuori mano). È stato quindi **rimpiazzato** con un modello 3D a **3 elementi**, ricostruito direttamente dai pixel dell'atlas 64×64 e con rotazioni mano ispirate al tridente vanilla, ma traslazioni/scaling specifici per la pala. **Da verificare ancora in gioco**; [test dedicati](PIZZA_PEEL_TESTS.md). Nessun cambio di PNG o meccaniche.
 
+**REVISIONE UV 18 ottobre 2026 (da testare in gioco):** corrette le proporzioni dei pixel del Pizza Peel confrontando le dimensioni di tutte le 18 facce dei tre cuboidi con le UV del PNG 64×64: peggiore distorsione 4,81→1,13. Pixel campionati opachi; geometria, posizione nella mano, texture e logica invariati. [Checklist](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
