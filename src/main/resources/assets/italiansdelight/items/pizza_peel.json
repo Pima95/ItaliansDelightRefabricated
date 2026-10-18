@@ -1,6 +1,33 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "italiansdelight:item/pizza_peel"
+    "type": "minecraft:select",
+    "property": "minecraft:display_context",
+    "cases": [
+      {
+        "when": [
+          "thirdperson_righthand",
+          "thirdperson_lefthand",
+          "firstperson_righthand",
+          "firstperson_lefthand"
+        ],
+        "model": {
+          "type": "minecraft:condition",
+          "property": "minecraft:has_component",
+          "component": "italiansdelight:peel_cargo",
+          "on_true": {
+            "type": "minecraft:model",
+            "model": "italiansdelight:item/pizza_peel_loaded"
+          },
+          "on_false": {
+            "type": "minecraft:model",
+            "model": "italiansdelight:item/pizza_peel"
+          }
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "italiansdelight:item/pizza_peel"
+    }
   }
 }
