@@ -32,6 +32,8 @@
 
 **PEEL — ultimo collaudo 18 ottobre 2026:** la pizza si vede **correttamente** sulla pala (conferma esplicita dell'autore). Rimane soltanto l'aderenza della mano in terza persona. Pubblicata correzione laterale isolata di 3px, speculare per entrambe le mani, sincronizzata fra display JSON e renderer Java. Prima persona, mesh, texture e posizione relativa della pizza inalterate. **Verifica della presa da completare**; vedi [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
 
+**PEEL — CORREZIONE VERSO DELL'IMPUGNATURA, 18 ottobre 2026:** nuovo screenshot dell'autore: la precedente traslazione di +3px ha **allontanato ulteriormente** il manico dalla mano. Invertito il solo offset orizzontale terza persona: mano destra -3px, sinistra +3px, sincronizzando JSON e layer Java. Il rendering pizza resta approvato. Nuova verifica visiva richiesta; [test](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
