@@ -267,6 +267,23 @@ La traslazione orizzontale viene quindi **invertita**, senza aggiungere altri ca
 
 **Stato:** modifiche pubblicate, con verifiche matematiche e statiche; il test visivo deve essere confermato prima di considerare completata questa correzione. Questa sezione prevale sulle precedenti modifiche laterali ±3.
 
+## Ultima regolazione presa: asse locale del renderer (18 ottobre 2026) — DA VERIFICARE
+
+**Conferma autore:** il rendering della pizza è corretto e l'orientamento in terza persona è molto più vicino a quello desiderato. Il manico è tuttavia visibilmente **sopra il centro del pugno**, attraversando l'avambraccio. La pala deve essere abbassata senza riaprire la regolazione orizzontale né modificare l'item pizza.
+
+**Diagnosi verificata con la matrice vanilla:** prima del modello, `ItemInHandLayer` applica `X=-90°` e `Y=180°`. Il risultato per gli assi locali del display è `+X → -X mondo`, `+Y → -Z mondo`, **`+Z → -Y mondo`**. Pertanto, per abbassare il modello di 3 pixel locali in terza persona non bisogna diminuire la componente Y della traslazione: bisogna **aumentare Z di 3**. Questo evita il ciclo di tentativi che spostava la pala davanti/dietro o a destra/sinistra.
+
+**Intervento limitato e sincronizzato:** posa loaded terza persona destra/sinistra `rotation [-90,0,0]`, `translation [0,2,5]` (da `[0,2,2]`), `scale [0.8,0.8,0.8]`. Stessa `ItemTransform` in `PizzaPeelItemModel.java`. Sono invariati: posizione X=0, Y=2, rotazione, scala, prima persona, modello e UV della pala vuota, geometria loaded, coordinate relative e scala dell'item pizza, inventario e gameplay.
+
+**Verifiche:**
+- [ ] Mano destra in terza persona: il legno attraversa il **pugno**, non l'avambraccio.
+- [ ] Mano sinistra in terza persona: stessa quota corretta, effetto speculare.
+- [ ] Lama ancora orizzontale e pizza visibile **sulla testa metallica**.
+- [ ] Prima persona, hotbar e pala vuota immutate.
+- [ ] Compilazione Java e test in gioco senza regressioni.
+
+**Stato:** pubblicato su GitHub; allineamento finale da confermare con screenshot in Minecraft. L'offset usa gli assi effettivi del renderer anziché il solo nome Y/Z dei campi JSON.
+
 ## Compilazione
 
 ```powershell
