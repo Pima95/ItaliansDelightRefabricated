@@ -80,13 +80,13 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
     // the baked peel model and the cargo layer are separate render layers.
     // Never change the approved FIRST_PERSON transforms below.
     private static final ItemTransform THIRD_PERSON_RIGHT =
-            transform(-90, 180, 0, 0, 2, 8, 0.8F);
+            transform(-90, -180, 0, 0, 2, 2, 0.8F);
     private static final ItemTransform THIRD_PERSON_LEFT =
-            transform(-90, 180, 0, 0, 2, 8, 0.8F);
+            transform(-90, -180, 0, 0, 2, 2, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
             transform(0, -15, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
-            transform(0, 15, -25, 0, 3, 1, 0.7F);
+            transform(0, -15, 25, 0, 3, 1, 0.7F);
 
     private static ItemTransform transform(
             float rx, float ry, float rz,
