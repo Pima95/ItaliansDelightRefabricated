@@ -214,6 +214,21 @@ Questa implementazione prende come riferimento il sistema di composizione di ite
 
 **Stato:** pubblicato nel ramo di sviluppo, verifiche statiche da completare. Non segnare «risolto» prima dell'esito della build e del test in Minecraft.
 
+## Microcorrezione impugnatura in terza persona — 18 ottobre 2026
+
+**Risultato dell'ultimo collaudo dell'autore:** la **pizza è finalmente visibile e correttamente posizionata sulla testa metallica**. L'unico difetto visivo rimasto nello screenshot è che il manico della pala carica passa **a lato del pugno** in terza persona.
+
+**Modifica limitata:** traslazione orizzontale della pala **carica** di **3 pixel di modello**: `thirdperson_righthand.translation [0,3,0] → [3,3,0]` e `thirdperson_lefthand.translation [0,3,0] → [-3,3,0]` (speculare). Aggiornati i corrispondenti `ItemTransform` di `PizzaPeelItemModel.java`: pala e pizza conservano **esattamente la stessa trasformazione**, quindi il contenuto non si disallinea dalla lamina.
+
+**Invariati:** rotazioni, scala, traslazioni in prima persona, geometria/UV/texture della pala, dimensione e posizione relativa della pizza, render in hotbar/inventario, trasporto e forno. Non dichiarare risolta la presa finché l'autore non conferma visivamente.
+
+**Test ristretto richiesto:**
+- [ ] In terza persona, mano destra: il manico attraversa il pugno e non si trova a lato.
+- [ ] In terza persona, mano sinistra: traslazione speculare, manico nel pugno.
+- [ ] Prima persona: aspetto invariato.
+- [ ] Pizza ancora visibile e appoggiata alla superficie metallica in entrambe le mani.
+- [ ] Nessuna regressione nei nomi/tooltip o nella pala vuota.
+
 ## Compilazione
 
 ```powershell
