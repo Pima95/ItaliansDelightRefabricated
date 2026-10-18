@@ -131,6 +131,26 @@ La scelta dell'autore è di **mostrare l'item effettivo della pizza**, non un ge
 - [ ] Inventario, hotbar, cornice e item droppato: soltanto pala, senza icona pizza aggiunta.
 - [ ] Trasporto, deposito sul terreno, forno e riavvio senza duplicazioni.
 
+## Posizionamento finale pala carica — iterazione 18 ottobre 2026 (DA TESTARE)
+
+**Nuovo riscontro dell'autore:** la pala è tornata visibile in prima persona, **ma la pizza rimane invisibile**; in terza persona l'**impugnatura non è centrata nella mano** e l'item pizza sembra sotto la testa metallica o davanti al ventre.
+
+**Correzioni limitate pubblicate nel ramo:**
+
+- `models/item/pizza_peel_loaded.json`: posa mano terza persona con `translation [0,3,-8]` al posto di `[0,2,-4]`; rotazione X=-90° e scala originale della posa carica invariate. Questo compensa la rotazione del manico portando il punto di presa più vicino alla mano, senza modificare il modello 3D.
+- `PizzaPeelItemModel.java`: identico `ItemTransform` Java della terza persona (`pose(-90,0,0,0,3,-8,0.8)`), per non disallineare lo strato dell'item pizza. **Overlay pizza spostato sull'altro lato della lamina**: `BLADE_FACE_Z: +0.075 → -0.075`, perché l'item poteva risultare coperto dal metallo nella vista corrente. Scala visiva da `0.34` a `0.44` per facilitarne la lettura.
+- Nessuna modifica al modello o alla posa della pala **vuota**, alle UV, alla texture, ai dati `peel_cargo` o alle interazioni col forno.
+
+**Test da eseguire:**
+- [ ] Prima persona, pizza cruda/carica: logo/item visibile e non nascosto dal metallo. Provare guardando da sopra e di lato.
+- [ ] Terza persona, angolazioni frontale, posteriore e laterali: manico passa per il pugno; pala parallela al terreno.
+- [ ] La pizza non rimane davanti al corpo, sotto la lamina o vicino alla mano; deve essere centrata nella testa metallica.
+- [ ] Mano secondaria e pala vuota restano corrette.
+- [ ] Inventario e hotbar continuano a mostrare soltanto la pala.
+- [ ] Compilazione e gioco senza regressioni.
+
+**Stato:** nuove UV di visualizzazione/offset nel renderer carico pubblicati, **NON verificati** con build Java 25 o screenshot aggiornati. Non indicare risolto fino alla conferma dell'autore.
+
 ## Compilazione
 
 ```powershell
