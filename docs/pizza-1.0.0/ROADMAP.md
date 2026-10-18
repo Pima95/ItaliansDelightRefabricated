@@ -2,6 +2,10 @@
 
 ## Stato
 
+**PIZZA PEEL — CORREZIONE TERZA PERSONA, 18 ottobre 2026 (DA COLLAUDARE):** dallo screenshot ravvicinato dal basso, la testa metallica della pala carica sporge dietro il pugno e il manico si estende verso la spalla. L'autore ha chiesto di abbassare la pala e ruotarla di 180° SOLO in terza persona. Modificati `pizza_peel_loaded.json` e `PizzaPeelItemModel.java`: `rotation [-90,180,0]` da `[-90,0,0]` e `translation [0,2,8]` da `[0,2,5]`, sia a destra sia a sinistra. Verificato tramite matrice che la lama cambi direzione e che la pizza resti rivolta verso l'alto; i due livelli di render rimangono sincronizzati. Prima persona, pala vuota, mesh, texture e coordinate della pizza preservate. **Test visivo ancora pendente.** [Dettagli](PIZZA_PEEL_TESTS.md).
+
+## Stato
+
 **NAMING / LOCALIZZAZIONE, 18 ottobre 2026:** rilevato e corretto il contrasto in inglese fra `Bianca Pizza` / `White Pizza Slice` e fra `Rossa Pizza` / `Red Pizza Slice`. La traduzione inglese del gusto base è ora **White** / **Red**: raw/cooked `White Pizza` / `Red Pizza`, spicchio `White Pizza Slice` / `Red Pizza Slice`; IT resta `Pizza Bianca` / `Pizza Rossa` e `Spicchio di pizza bianca` / `Spicchio di pizza rossa`. Verificati staticamente tutti i **17 gusti × 2 lingue × 3 item (102 nomi)**; aggiunto test automatico `python scripts/check_pizza_names.py`, da ripetere in seguito a cambiamenti delle traduzioni. Nessun cambio al riconoscimento dei topping o al salvataggio dei nomi. [Dettagli e regressioni](PIZZA_NAMING_TESTS.md).
 
 
