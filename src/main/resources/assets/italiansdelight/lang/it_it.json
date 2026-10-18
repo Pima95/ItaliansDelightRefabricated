@@ -176,5 +176,9 @@
   "pizza.italiansdelight.slice_rossa": "Spicchio di pizza rossa",
   "item.italiansdelight.pizza_peel": "Pala per pizza",
   "item.italiansdelight.pizza_peel.empty": "Vuota",
-  "item.italiansdelight.pizza_peel.loaded": "Trasporta: %s"
+  "item.italiansdelight.pizza_peel.loaded": "Trasporta: %s",
+  "item.italiansdelight.pizza_peel.already_loaded": "La pala trasporta già una pizza",
+  "item.italiansdelight.pizza_peel.already_cooked": "La pizza è già cotta: non può essere inserita nel forno",
+  "item.italiansdelight.pizza_peel.oven_occupied": "Il forno non può accettare questa pizza",
+  "item.italiansdelight.pizza_peel.oven_empty": "Non c'è nessuna pizza da prelevare"
 }
