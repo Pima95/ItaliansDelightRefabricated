@@ -176,5 +176,9 @@
   "pizza.italiansdelight.slice_rossa": "Red Pizza Slice",
   "item.italiansdelight.pizza_peel": "Pizza Peel",
   "item.italiansdelight.pizza_peel.empty": "Empty",
-  "item.italiansdelight.pizza_peel.loaded": "Carrying: %s"
+  "item.italiansdelight.pizza_peel.loaded": "Carrying: %s",
+  "item.italiansdelight.pizza_peel.already_loaded": "The peel is already carrying a pizza",
+  "item.italiansdelight.pizza_peel.already_cooked": "This pizza is already cooked and cannot be inserted into the oven",
+  "item.italiansdelight.pizza_peel.oven_occupied": "The oven cannot accept this pizza",
+  "item.italiansdelight.pizza_peel.oven_empty": "There is no pizza to retrieve"
 }
