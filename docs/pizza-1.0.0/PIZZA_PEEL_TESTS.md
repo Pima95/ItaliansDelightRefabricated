@@ -6,7 +6,7 @@
 ## Implementazione e decisioni già rispettate
 
 - Nuovo item `italiansdelight:pizza_peel` in `ModItems`, nello stesso creative tab dei tool, **stack massimo 1 e nessuna durabilità**.
-- Modello item collegato all'asset **già presente** `textures/item/pizza_peel.png`; non sono state modificate texture approvate. Asset `peel_pizza_2.png` conservato e non riutilizzato automaticamente per una resa occupata non ancora definita.
+- **Correzione grafica del 18 ottobre 2026 — DA VERIFICARE VISIVAMENTE:** il precedente modello piatto `minecraft:item/handheld` era inadatto al PNG 64×64, perché il file è una piccola texture atlas per un oggetto 3D (metallo a sinistra, legno e bordi in regioni separate). `models/item/pizza_peel.json` contiene ora **7 elementi tridimensionali** (piastra metallica con sagoma a gradini, raccordo, manico in legno), UV su zone opache dell'**identica texture originale**. Nessuna PNG sovrascritta. `peel_pizza_2.png` è conservata per un eventuale modello carico distinto, NON aggiunto automaticamente.
 - Data component `italiansdelight:peel_cargo`, assente per pala vuota. Per pala occupata conserva **esattamente un ItemStack pizza cruda o cotta** con i suoi componenti originali (composizione, ID canonici, ingredienti, applicazioni, maschere, divisioni, orientamento, seed grafico, eventuale nome custom). Una pala occupata rimane un unico item nell'inventario.
 - Clic destro con pala **vuota** su una pizza cruda *interamente stesa* prende la pizza, con gli ingredienti e senza drop aggiuntivi; il blocco sparisce. La palla o base non ancora stesa resta nel mondo.
 - Clic destro con pala vuota su pizza cotta ancora **integra (4/4)** la raccoglie. Pizza con 1–3 spicchi già prelevati **non è caricabile** sulla pala: rimane servibile/rompibile secondo la fase 4C, senza ricreare i quarti consumati.
@@ -30,10 +30,12 @@ Nessuna build è stata eseguita nell'ambiente GitHub. Se la compilazione fallisc
 
 ## Test A — Oggetto e texture
 
-- [ ] La pala compare nella categoria creativa con la texture `pizza_peel.png` approvata e con tooltip `Vuota`.
+- [ ] La pala compare nella categoria creativa come **modello 3D** (non come rettangolo piatto o texture atlas intera): metallo grigio in testa, manico di legno, bordi senza zone trasparenti; tooltip `Vuota`.
 - [ ] Due pale vuote **non** si impilano; con una pizza, resta una pala per slot; nessuna barra di durabilità.
 - [ ] La pala occupata mostra nel tooltip il nome dinamico/fisso della pizza trasportata, senza perdere la traduzione in EN/IT.
-- [ ] La pala non causa nuovi errori di texture, modelli mancanti o ricettari.
+- [ ] Il modello 3D è visibile in inventario, prima/terza persona, mani destra/sinistra, item a terra, cornice; nessun errore di texture/modelli mancanti. Controllare proporzioni e orientamento della pala, in particolare di profilo.
+- [ ] La pala conserva **lo stesso modello tridimensionale anche da carica** (lo stato visuale separato della pala carica non è ancora stato progettato); la texture atlas rimane invariata.
+- [ ] La pala non causa nuovi errori di ricettari o altri asset.
 
 ## Test B — Raccogliere e depositare a terra
 
