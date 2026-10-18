@@ -29,6 +29,22 @@ git pull
 
 Nessuna build è stata eseguita nell'ambiente GitHub. Se la compilazione fallisce, salvare il **primo errore completo**, con classe e numero di riga.
 
+## Raffinamento interazioni — 18 ottobre 2026 (DA TESTARE)
+
+La resa grafica del modello 3D e delle UV è stata confermata soddisfacente dall'autore. Il codice di trasporto era già funzionante; questa fase aggiunge piccole rifiniture senza modificare i dati della pizza o il modello:
+
+- **Seconda mano:** usare una pala anche in offhand. Con mano principale vuota, il clic su pizza o Pizza Oven è delegato alla pala in offhand prima del servizio a mano vuota. Se la mano principale contiene già un ingrediente o un utensile, le sue azioni continuano ad avere precedenza. Una pizza non ancora completamente stesa rimane estendibile a mano.
+- **Feedback di rifiuto:** testo in action bar quando si clicca su una seconda pizza con pala carica, si tenta di inserire pizza cotta nel Pizza Oven, il forno non può accettare il carico, o si tenta di estrarre da forno vuoto. Messaggi disponibili in italiano e inglese, prodotti dal server.
+- **Invariati:** modello UV e impugnatura approvati, un solo carico per pala, componenti di condimento, forno e tempi di cottura, nessun consumo dello strumento.
+
+**Verifiche aggiuntive:**
+- [ ] Pala in offhand + mano principale vuota: prelevare e depositare una pizza cruda e una pizza cotta intatta.
+- [ ] Pala in offhand + mano principale vuota: inserire ed estrarre dal Pizza Oven senza aprire la GUI.
+- [ ] Pala in offhand + mano principale vuota davanti a impasto incompleto: la stesura a mano continua come prima.
+- [ ] Pala in offhand + ingrediente/mattarello in main hand: si applica la consueta priorità della mano principale.
+- [ ] Messaggi IT/EN leggibili quando il forno è occupato, vuoto o contiene una pizza incompatibile; la pizza resta conservata sullo strumento dopo un rifiuto.
+- [ ] Provare le stesse interazioni su server dedicato e con due giocatori; niente duplicazioni, cambi di orientamento o perdita di ingredienti.
+
 ## Test A — Oggetto e texture
 
 - [ ] **Collaudo nuova UV:** in terza persona verificare che le venature del manico non siano stirate, il raccordo non mostri righe metalliche enormi e sui lati inferiore/superiore della pala non compaiano pixel allungati; verificare anche prima persona, inventario e icona a terra.
