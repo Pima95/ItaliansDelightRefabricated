@@ -22,6 +22,8 @@
 
 **FIX PEEL, 18 ottobre 2026 — renderer condiviso (DA TESTARE):** tre screenshot hanno confermato pizza invisibile in prima persona e separata dalla pala in terza persona, con impugnatura errata. Sostituiti i due layer indipendenti con un renderer unico client-side per la pala carica: stessa trasformazione per pala e vera pizza; correzione grip in terza persona e extents espliciti per la visibilità; posa vuota invariata. Eliminato il vecchio selettore JSON della pala carica per evitare doppia trasformazione. Da compilare e verificare in gioco; [test mirati](PIZZA_PEEL_TESTS.md).
 
+**REVISIONE PEEL (18 ottobre 2026) — DA TESTARE:** l'ultimo screenshot mostra un problema di regressione: rendering speciale dell'intera pala carica dietro al personaggio in terza persona e oggetto assente in prima persona. Risoluzione pubblicata: nuovamente rendering standard Minecraft della **pala baked** in tutti i contesti; selezione tramite componente del modello orizzontale soltanto nelle mani e render speciale solo per l'item pizza. Corrette le posizioni della presa in terza persona e gli extents. **Non dichiarare funzionante prima del test dell'autore**. [Guida](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
