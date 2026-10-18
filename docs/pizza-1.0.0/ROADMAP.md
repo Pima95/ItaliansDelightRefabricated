@@ -24,6 +24,8 @@
 
 **REVISIONE PEEL (18 ottobre 2026) — DA TESTARE:** l'ultimo screenshot mostra un problema di regressione: rendering speciale dell'intera pala carica dietro al personaggio in terza persona e oggetto assente in prima persona. Risoluzione pubblicata: nuovamente rendering standard Minecraft della **pala baked** in tutti i contesti; selezione tramite componente del modello orizzontale soltanto nelle mani e render speciale solo per l'item pizza. Corrette le posizioni della presa in terza persona e gli extents. **Non dichiarare funzionante prima del test dell'autore**. [Guida](PIZZA_PEEL_TESTS.md).
 
+**PEEL — affinamento dopo test 18 ottobre 2026, DA VERIFICARE:** l'autore vede correttamente la pala in prima persona, ma **non la pizza**; in terza il manico non attraversa la mano e il contenuto resta fuori dalla lamina. Regolati soltanto (1) grip loaded terza persona da [0,2,-4] a [0,3,-8], (2) verso della faccia dell'item pizza da +Z a -Z per evitare occultamento dietro il metallo, (3) scala pizza 0.34→0.44. La pala vuota e i dati sono invariati. Nuovo test visivo richiesto. [Guida](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
