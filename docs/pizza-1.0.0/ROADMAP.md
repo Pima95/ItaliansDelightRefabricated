@@ -18,6 +18,8 @@
 
 **CORREZIONE RENDER PALA — 18 ottobre 2026:** l'autore ha inviato uno screenshot: la pizza compariva in hotbar e fluttuava vicino al manico, invece che sulla piastra metallica. Pubblicata la revisione di `PizzaPeelItemModel.java`: la pizza reale è renderizzata **solo nelle mani, in prima/terza persona**, su un livello speciale con la stessa trasformazione della pala; traslazione dalla geometria della testa `[8,20.25,8]`, scala ridotta. **Build e verifica visiva ancora pendenti**; [test dedicati](PIZZA_PEEL_TESTS.md). Geometria e texture approvate inalterate.
 
+**AGGIORNAMENTO VISIVO PEEL — 18 ottobre 2026:** lo screenshot dell'autore mostrava la pala occupata rivolta verso l'alto; approvata la nuova regola «pala parallela al terreno quando trasporta una pizza». Pubblicati `pizza_peel_loaded.json` (figlio del modello approvato), la selezione `has_component: italiansdelight:peel_cargo` solo per contesti nelle mani e trasformazioni Java coerenti per l'item trasportato. **Pala vuota invariata**. [Checklist di test](PIZZA_PEEL_TESTS.md); compilazione e verifica visuale pendenti.
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
