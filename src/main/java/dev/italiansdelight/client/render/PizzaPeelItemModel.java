@@ -32,21 +32,25 @@ import org.jspecify.annotations.Nullable;
 public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
     /*
      * Blade cuboid: from [4,13.75,7.5] to [12,26.75,8.5], relative origin
-     * [8,8,8]. The carried item center is on the front (+Z) surface.
+     * [8,8,8]. The held model's visible steel face is the -Z side;
+     * the +Z side put the pizza BEHIND the opaque metal (invisible in
+     * first person and visible underneath/through the avatar in third).
      */
     private static final float BLADE_CENTER_Y = (20.25F - 8.0F) / 16.0F;
-    private static final float BLADE_FACE_Z = 0.075F;
-    private static final float ITEM_SCALE = 0.34F;
+    private static final float BLADE_FACE_Z = -0.075F;
+    private static final float ITEM_SCALE = 0.44F;
     private static final float ITEM_DEPTH = 0.06F;
 
     /*
      * These transforms MUST mirror the corresponding entries in
      * models/item/pizza_peel_loaded.json. The wooden handle's grip point
      * stays near the player's hand when the plate rotates horizontally.
+     * The +Y adjustment fixes the prior lowered grip, while Z=-8px
+     * compensates for the 90-degree swing of the shaft around item origin.
      * Minecraft JSON translations are model pixels: divide by 16.
      */
     private static final ItemTransform THIRD_PERSON =
-            pose(-90, 0, 0, 0, 2, -4, 0.8F);
+            pose(-90, 0, 0, 0, 3, -8, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
             pose(-90, 0, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
@@ -132,6 +136,8 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
             }
 
             poses.pushPose();
+            // Draw on the -Z face of the metal blade, not behind the
+            // opaque +Z face. Do not rotate the approved peel model.
             poses.translate(0.0F, BLADE_CENTER_Y, BLADE_FACE_Z);
             poses.scale(ITEM_SCALE, ITEM_SCALE, ITEM_DEPTH);
             contents.submit(poses, queue, light, overlay, outline);
