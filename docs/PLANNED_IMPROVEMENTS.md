@@ -35,6 +35,16 @@ Le voci sono impegni da pianificare: **non indicano codice gia' implementato**. 
 - **Vincoli:** espansione dei biomi del basilico **senza modificare** la sua coltivazione gia' implementata e **senza alterare intenzionalmente la sua frequenza per biome**; applicare il riequilibrio di IMP-001 esclusivamente al Cardoon.
 - **Verifica:** generazione in nuovi chunk in ciascun bioma aggiunto; confermare assenza di sostituzioni indesiderate e preservazione dei biomi originari.
 
+### IMP-004 — Rivedere i suoni dell'Hanging Hook
+
+- **Stato:** da progettare — segnalato dall'autore il 18 ottobre 2026.
+- **Elemento interessato:** Hanging Hook (uncino utilizzato per appendere i prodotti).
+- **Obiettivo:** modificare gli effetti sonori associati al blocco e alle sue interazioni.
+- **Da verificare prima dell'implementazione:** quali suoni vengono attualmente riprodotti durante posizionamento, aggancio/rimozione dei prodotti, interazione e rottura; individuare quelli da sostituire o regolare.
+- **Da definire:** suoni desiderati, eventuale riutilizzo dei suoni vanilla o audio personalizzati, volume e tonalita'. Nessun suono specifico e' stato ancora approvato.
+- **Vincoli:** intervenire soltanto sull'audio, senza alterare funzionamento dell'Hanging Hook, contenuti appesi, hitbox, orientamento o compatibilita' con i mondi esistenti.
+- **Verifica:** ascoltare i suoni nelle diverse interazioni, anche in multiplayer, e assicurarsi che non ci siano riproduzioni duplicate o rumori non previsti.
+
 ## Convenzioni
 
 - **Da progettare:** obiettivo confermato ma dettagli o valori ancora da definire.
