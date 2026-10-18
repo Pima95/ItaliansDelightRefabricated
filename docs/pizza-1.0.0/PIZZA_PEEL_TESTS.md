@@ -18,6 +18,27 @@
 - Nessuna ricetta di crafting aggiunta: **costo e schema della pala ancora da definire con l'autore**. Per ora ottenere la pala dal creative tab o con `/give @s italiansdelight:pizza_peel`. Nessun bonus da arma: è una funzionalità futura da definire.
 - Drop con Q, raccolta da un altro giocatore, despawn, lava/fuoco/cactus/esplosioni restano **comportamenti vanilla**. Se la pala come item viene distrutta/despawna, anche la pizza al suo interno viene persa, senza rimborsi.
 
+## Fase 4D — Render dell'item trasportato (18 ottobre 2026, DA TESTARE)
+
+La scelta dell'autore è di **mostrare l'item effettivo della pizza**, non un generico disco con texture fissa. Al momento la mod possiede soltanto gli item `raw_pizza` e `cooked_pizza`, ma il sistema deve accogliere in futuro altri item pizza, ognuno con il proprio modello.
+
+- **Implementazione client:** `PizzaPeelItemModel.java` implementa `ItemModel` come involucro del **modello 3D già approvato** della pala. Ad ogni estrazione del render state, disegna prima la pala e, se il componente `peel_cargo` è presente, aggiunge i layer dell'**ItemStack autentico** tramite `ItemModelResolver.appendItemLayers`.
+- **Registrazione:** `ItaliansDelightClient` usa `ModelLoadingPlugin.modifyItemModelAfterBake`, limitato all'ID `italiansdelight:pizza_peel`. La stessa registrazione continua a funzionare con resource pack e nuove varianti di item registrate.
+- **Dati preservati:** non si crea una copia nella logica server, non si memorizza un secondo item e non si introducono texture nuove. L'overlay è soltanto grafico e usa l'item originale che la pala trasporta.
+- **Compatibilità:** eventuali nuovi item pizza saranno visualizzati attraverso il loro componente `ITEM_MODEL`, senza aggiungere il loro ID al renderer. Un eventuale cargo malformato contenente un'altra pala è ignorato per prevenire ricorsione.
+- **Nota grafica:** scala, profondità e allineamento dell'item sopra la pala richiedono **test visivo**; il modello del manico e le UV approvati **non sono stati modificati**.
+
+**Correzione compilazione:** sostituita la chiamata rimossa `Player.displayClientMessage(Component, boolean)` con l'invio lato server di `ClientboundSetActionBarTextPacket(Component)`. Errore riportato dall'autore in `PizzaPeelInteractions.java:219` il 18 ottobre 2026; **fix pubblicato su GitHub, build da riprovare**.
+
+**Nuovi test:**
+- [ ] `.\\gradlew.bat clean build` completa con Java 25 senza l'errore `displayClientMessage`.
+- [ ] Pala vuota: soltanto il modello 3D della pala (già approvato); niente immagine della pizza fantasma.
+- [ ] Pala con `raw_pizza`: compare il modello dell'item trasportato in prima/terza persona e in inventario.
+- [ ] Pala con `cooked_pizza`: compare il relativo item cotto, distinto da quello crudo, senza alterarne la composizione.
+- [ ] Pala con pizza salvata, lasciata con Q e poi raccolta: item corretto sempre visibile.
+- [ ] Testare orientamento, scala e contatto tra pizza visualizzata e superficie della pala: nessun clipping o sovrapposizione invadente.
+- [ ] Confermare funzionamento del sistema anche con un futuro item pizza aggiuntivo o un modello sostituito da resource pack.
+
 ## Compilazione
 
 ```powershell
