@@ -10,6 +10,7 @@ import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -102,6 +103,9 @@ public final class PizzaPeelInteractions {
         // An occupied peel cannot take a second pizza. On a non-oven
         // surface its loaded pizza is placed ABOVE the clicked support.
         if (state.is(ModBlocks.PIZZA_DOUGH) || state.is(ModBlocks.COOKED_PIZZA)) {
+            // Do not take, replace or damage an existing pizza with a full
+            // peel. The player keeps both preparations intact.
+            notifyOnServer(player, level, "item.italiansdelight.pizza_peel.already_loaded");
             return InteractionResult.SUCCESS;
         }
         if (hit.getDirection() != Direction.UP) {
@@ -186,6 +190,9 @@ public final class PizzaPeelInteractions {
             // cannot be overwritten. Keep the peel unchanged on failure.
             ItemStack pizza = cargo.pizza();
             if (!oven.insertFromPeel(pizza)) {
+                notifyOnServer(player, level, pizza.is(ModItems.COOKED_PIZZA)
+                        ? "item.italiansdelight.pizza_peel.already_cooked"
+                        : "item.italiansdelight.pizza_peel.oven_occupied");
                 return InteractionResult.SUCCESS;
             }
             peel.remove(ModDataComponents.PEEL_CARGO);
@@ -194,6 +201,7 @@ public final class PizzaPeelInteractions {
             // Cook progress belongs to the oven and resets upon removal.
             ItemStack taken = oven.takeForPeel();
             if (taken.isEmpty()) {
+                notifyOnServer(player, level, "item.italiansdelight.pizza_peel.oven_empty");
                 return InteractionResult.SUCCESS;
             }
             peel.set(ModDataComponents.PEEL_CARGO, new PizzaPeelCargo(taken));
@@ -203,5 +211,12 @@ public final class PizzaPeelInteractions {
                     SoundSource.BLOCKS, 0.7F, 1.05F);
         }
         return InteractionResult.SUCCESS;
+    }
+
+    /** Status text is server-authoritative and respects each client's locale. */
+    private static void notifyOnServer(Player player, Level level, String key) {
+        if (!level.isClientSide()) {
+            player.displayClientMessage(Component.translatable(key), true);
+        }
     }
 }
