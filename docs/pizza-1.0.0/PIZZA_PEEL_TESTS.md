@@ -151,6 +151,39 @@ La scelta dell'autore è di **mostrare l'item effettivo della pizza**, non un ge
 
 **Stato:** nuove UV di visualizzazione/offset nel renderer carico pubblicati, **NON verificati** con build Java 25 o screenshot aggiornati. Non indicare risolto fino alla conferma dell'autore.
 
+## Correzione strutturale della pala carica — 18 ottobre 2026 (DA COMPILARE E VERIFICARE VISIVAMENTE)
+
+**Segnalazione dell'autore:** dopo varie modifiche ai soli display transform, la pizza e la testa della pala restavano vicino ai piedi. L'autore ha richiesto esplicitamente di non procedere con altri tentativi di offset arbitrari.
+
+### Diagnosi
+
+Il modello approvato della pala vuota usa cuboidi **lungo Y** (`handle` y=0..13.5; `blade` y=13.75..26.75), ma le sue pose in mano funzionano già. Le versioni precedenti del modello carico applicavano una nuova rotazione X=-90° all'**intero item attorno all'origine Minecraft [8,8,8]**, poi tentavano di riportare il manico nella mano tramite traduzioni. Questo modifica contemporaneamente punto di presa, direzione della testa e posizione della pizza: correggere un offset ne spostava altri.
+
+### Soluzione geometrica pubblicata (non solo offset)
+
+1. **Punto di rotazione individuato nella geometria:** centro del manico `G=[8,6.75,8]` in pixel di modello. La pala **carica** usa tre cuboidi ruotati rigidamente di **-90° su X attorno a G**, tramite nuovi vertici nel file `models/item/pizza_peel_loaded.json`. Il punto G resta matematicamente invariato dopo la rotazione.
+2. **Trasformazioni in mano identiche alla pala vuota approvata.** `pizza_peel_loaded.json` eredita `display`, `textures` e `gui_light` da `pizza_peel.json` senza override; il modello approvato della pala vuota non viene modificato. In tal modo l'impugnatura conserva l'ancoraggio già collaudato.
+3. **Coordinate esatte della lama carica:** x=4..12, y=6.25..7.25, z=-12..1 (pixel di modello). Il lato superiore è y=7.25 e il centro della lama è `[8,7.25,-5.5]`. La pizza viene renderizzata con centro leggermente sopra la superficie a `[8,8,-5.5]`, equivalente a `(0,0,-0.84375)` in coordinate render item.
+4. **Un solo allineamento condiviso:** `PizzaPeelItemModel.java` lascia il rendering della pala al normale modello Minecraft. Il livello della pizza usa **gli stessi display transform del modello vuoto**, perché ora sono gli stessi ereditati dalla pala carica. L'item pizza originale viene ruotato -90° su X per distenderlo sulla lamina orizzontale; scala 0.40, spessore visivo 0.055. Non applica nuove pose globali alla pala.
+5. **Texture e identità preservate:** nessun nuovo asset PNG, il modello della pala vuota e le sue UV rimangono identici. Le sei facce di ogni cuboide sono riassegnate secondo la rotazione (sud → su, nord → giù, su → nord, giù → sud), con rotazione UV 90° sui due lati per preservare la densità dei texel. La pizza rimane l'**ItemStack completo** di `peel_cargo`, compatibile con futuri item pizza. GUI e hotbar mostrano sempre soltanto la pala.
+
+**Verifiche geometriche eseguite senza Minecraft:** tutti e tre i cuboidi corrispondono esattamente alla trasformazione rigida; coordinate dentro l'intervallo ammesso [-16,32], normali delle facce riassegnate correttamente, selettore `has_component` valido, geometria della pala vuota invariata, centro dell'overlay calcolato dal modello carico.
+
+### Checklist di accettazione
+
+- [ ] `.\\gradlew.bat clean build` completa senza errori usando Java 25.
+- [ ] Pala vuota: stessa posa, scala e impugnatura approvate, in prima e terza persona.
+- [ ] Pala carica: manico attraversa la mano anche in terza persona, non è dietro il corpo né vicino ai piedi.
+- [ ] Pala carica: testa metallica parallela al terreno, estesa in avanti e visibile sopra la cintura.
+- [ ] Pizza **visibile in prima persona** e appoggiata sulla **faccia superiore** della testa metallica.
+- [ ] Pizza **visibile in terza persona**, centrata sulla lama (non davanti al ventre, ai piedi o separata dalla pala).
+- [ ] Verificare tutte e quattro le combinazioni prima/terza persona e mano destra/sinistra.
+- [ ] Inventario, hotbar, item a terra e cornice mostrano solo la pala, senza pizza sovrapposta.
+- [ ] Inserimento nel Pizza Oven, estrazione, recupero da terra, drop con Q e salvataggio mantengono il vero `ItemStack` pizza.
+- [ ] Aspetto della pala con item `raw_pizza` e `cooked_pizza`, compresi futuri modelli alternativi.
+
+**Stato:** codice e documentazione pubblicati; **build Java 25 e collaudo del modello in Minecraft non effettuabili nell'ambiente di lavoro attuale**. Non indicare come risolta la resa prima della conferma dell'autore. Questa sezione supera le note sulle vecchie pose X=-90 e sulle traduzioni arbitrarie precedenti.
+
 ## Compilazione
 
 ```powershell
