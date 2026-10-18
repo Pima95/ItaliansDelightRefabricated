@@ -16,6 +16,8 @@
 
 **PEEL 18 ottobre 2026 — scelta grafica e compatibilità Minecraft 26.2:** l'autore ha approvato il modello 3D della pala e deciso che su una pala occupata dev'essere visibile **il vero item pizza trasportato**, non una pizza generica. È stato aggiunto il render dinamico client-side con `ItemModelResolver` e componente `peel_cargo`, senza una lista statica di gusti o texture nuove; resta da verificare **resa visiva, scala e posizione**. Corretto inoltre l'errore di compilazione 26.2: `Player.displayClientMessage` rimosso, sostituito da pacchetto action bar server `ClientboundSetActionBarTextPacket`. **Nuova build/test ancora pendenti**. [Prove dettagliate](PIZZA_PEEL_TESTS.md).
 
+**CORREZIONE RENDER PALA — 18 ottobre 2026:** l'autore ha inviato uno screenshot: la pizza compariva in hotbar e fluttuava vicino al manico, invece che sulla piastra metallica. Pubblicata la revisione di `PizzaPeelItemModel.java`: la pizza reale è renderizzata **solo nelle mani, in prima/terza persona**, su un livello speciale con la stessa trasformazione della pala; traslazione dalla geometria della testa `[8,20.25,8]`, scala ridotta. **Build e verifica visiva ancora pendenti**; [test dedicati](PIZZA_PEEL_TESTS.md). Geometria e texture approvate inalterate.
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
