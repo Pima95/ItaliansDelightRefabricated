@@ -14,6 +14,8 @@
 
 **Stato aggiornato 17 ottobre 2026:** la fase 4C e il sistema di **nomi riconosciuti/dinamici con tooltip IT/EN** sono stati confermati funzionanti dall'autore. È ora pubblicata la **pala per pizza**, con un componente persistente per trasportare una sola pizza e integrazione diretta nel Pizza Oven; **build e test in gioco ancora da eseguire**: [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
 
+**Modello pala corretto (18 ottobre 2026):** pubblicato un nuovo modello JSON 3D a 7 elementi per la pala, usando esclusivamente le UV della texture atlas 64×64 già esistente `pizza_peel.png` (senza alterarla). **Da testare visivamente** in inventario e nelle mani; vedi [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). La resa futura della pala occupata con un modello separato rimane da definire.
+
 ## Attività grafiche da completare prima della 1.0.0
 
 - [ ] Aggiornare la **texture dell'item `raw_pizza`**: PNG 16×16 RGBA; pixel dell'oggetto interamente opachi, sfondo trasparente e nessuna semitrasparenza ai bordi.
