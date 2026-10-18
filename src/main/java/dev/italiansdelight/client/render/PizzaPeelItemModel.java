@@ -60,8 +60,12 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
      * place as the empty peel: only yaw changes to point the horizontal
      * loaded blade forward rather than sideways like a guitar.
      */
-    private static final ItemTransform THIRD_PERSON =
-            transform(0, 0, 0, 0, 3, 0, 0.8F);
+    // Lateral fist alignment only, with mirrored positions for right
+    // and left hands. Pizza and metal blade share the same transform.
+    private static final ItemTransform THIRD_PERSON_RIGHT =
+            transform(0, 0, 0, 3, 3, 0, 0.8F);
+    private static final ItemTransform THIRD_PERSON_LEFT =
+            transform(0, 0, 0, -3, 3, 0, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
             transform(0, -15, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
@@ -79,7 +83,8 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
 
     private static @Nullable ItemTransform handTransform(ItemDisplayContext context) {
         return switch (context) {
-            case THIRD_PERSON_RIGHT_HAND, THIRD_PERSON_LEFT_HAND -> THIRD_PERSON;
+            case THIRD_PERSON_RIGHT_HAND -> THIRD_PERSON_RIGHT;
+            case THIRD_PERSON_LEFT_HAND -> THIRD_PERSON_LEFT;
             case FIRST_PERSON_RIGHT_HAND -> FIRST_PERSON_RIGHT;
             case FIRST_PERSON_LEFT_HAND -> FIRST_PERSON_LEFT;
             default -> null;
