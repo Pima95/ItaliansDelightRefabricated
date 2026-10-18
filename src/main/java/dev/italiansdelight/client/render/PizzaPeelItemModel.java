@@ -66,14 +66,16 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
     // Another X=-90 here sends its front -Z out in front and its top +Y
     // upwards in world space. This is derived from the vanilla spear's
     // in-hand grip convention, not from screen-space pixel guessing.
-    // The spear uses 0,2,2 for its third-person translation; we use that
-    // anchor but retain the approved 0.8 scale for the larger 3D peel.
-    // Both the baked peel mesh and its cargo layer use this SAME transform.
-    // No lateral offset, so the grip stays centered in the player's fist.
+    // The spear establishes the hand-axis reference (no lateral shift).
+    // The approved 3D peel handle, however, sits 3 model pixels too HIGH
+    // at Y=2 in the player's hand: it overlaps the forearm in the screenshot.
+    // Shift the COMPLETE loaded peel down to Y=-1 in third person, keeping
+    // X=0, Z=2, X=-90 rotation and 0.8 scale untouched. Both its baked mesh
+    // and real pizza layer share this exact pose, with no independent offset.
     private static final ItemTransform THIRD_PERSON_RIGHT =
-            transform(-90, 0, 0, 0, 2, 2, 0.8F);
+            transform(-90, 0, 0, 0, -1, 2, 0.8F);
     private static final ItemTransform THIRD_PERSON_LEFT =
-            transform(-90, 0, 0, 0, 2, 2, 0.8F);
+            transform(-90, 0, 0, 0, -1, 2, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
             transform(0, -15, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
