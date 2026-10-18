@@ -14,6 +14,8 @@
 
 **PEEL — RIFINITURE DEL 18 OTTOBRE 2026:** confermato visivamente dall'autore il modello/UV della pala; completato il supporto all'interazione con la pala in entrambe le mani (senza modificare la priorità degli strumenti nella mano principale) e aggiunti avvisi localizzati per forno vuoto/pieno, pizza cotta non inseribile, pala già occupata. Nuovi test in gioco **pendenti**, vedere [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). Da decidere ancora: ricetta/sblocco, resa della pala occupata, utilizzo come arma solo a pala vuota.
 
+**PEEL 18 ottobre 2026 — scelta grafica e compatibilità Minecraft 26.2:** l'autore ha approvato il modello 3D della pala e deciso che su una pala occupata dev'essere visibile **il vero item pizza trasportato**, non una pizza generica. È stato aggiunto il render dinamico client-side con `ItemModelResolver` e componente `peel_cargo`, senza una lista statica di gusti o texture nuove; resta da verificare **resa visiva, scala e posizione**. Corretto inoltre l'errore di compilazione 26.2: `Player.displayClientMessage` rimosso, sostituito da pacchetto action bar server `ClientboundSetActionBarTextPacket`. **Nuova build/test ancora pendenti**. [Prove dettagliate](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
