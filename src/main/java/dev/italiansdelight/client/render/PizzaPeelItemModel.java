@@ -66,17 +66,23 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
     // Another X=-90 here sends its front -Z out in front and its top +Y
     // upwards in world space. This is derived from the vanilla spear's
     // in-hand grip convention, not from screen-space pixel guessing.
-    // In ItemInHandLayer, X=-90 then Y=180 is applied BEFORE display
-    // transforms. Consequently item-local +Z points world-DOWN, while
-    // item-local +Y points backward: changing display Y does NOT lower
-    // the grip. Shift Z from 2 to 5 (3 model pixels down) so the wooden
-    // shaft passes through the fist instead of the upper forearm.
-    // Keep X/Y, rotation, 0.8 scale, first-person poses and cargo layout.
-    // The baked peel and actual pizza item use the exact same transform.
+    // THIRD PERSON ONLY: the previous X=-90 pose pointed the loaded
+    // blade back towards/under the player while the handle crossed the
+    // chest. Y=180 turns the blade to the opposite horizontal direction
+    // without flipping its upper (+Y) face: the real pizza stays on top.
+    // The 180-degree turn is around the item's center; the wooden grip
+    // lies on x=8/z=8 so it remains on the pivot line.
+    //
+    // ItemInHandLayer applies an arm transform before display transforms:
+    // positive local Z translation lowers this pose. Move Z 5 -> 8
+    // (3 model pixels down) without introducing any lateral adjustment.
+    // These transforms MUST match pizza_peel_loaded.json exactly, because
+    // the baked peel model and the cargo layer are separate render layers.
+    // Never change the approved FIRST_PERSON transforms below.
     private static final ItemTransform THIRD_PERSON_RIGHT =
-            transform(-90, 0, 0, 0, 2, 5, 0.8F);
+            transform(-90, 180, 0, 0, 2, 8, 0.8F);
     private static final ItemTransform THIRD_PERSON_LEFT =
-            transform(-90, 0, 0, 0, 2, 5, 0.8F);
+            transform(-90, 180, 0, 0, 2, 8, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
             transform(0, -15, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
