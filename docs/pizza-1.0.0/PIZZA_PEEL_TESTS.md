@@ -229,6 +229,21 @@ Questa implementazione prende come riferimento il sistema di composizione di ite
 - [ ] Pizza ancora visibile e appoggiata alla superficie metallica in entrambe le mani.
 - [ ] Nessuna regressione nei nomi/tooltip o nella pala vuota.
 
+## Correzione direzione impugnatura — 18 ottobre 2026 (NUOVA PROVA PENDENTE)
+
+L'autore ha verificato che lo spostamento precedente di **+3 pixel in terza persona per la mano destra** ha aumentato la distanza tra il pugno e il manico (screenshot frontali aggiornati). **Non è un difetto della pizza:** l'item si vede correttamente sulla pala.
+
+La traslazione orizzontale viene quindi **invertita**, senza aggiungere altri cambiamenti: `thirdperson_righthand.translation [-3,3,0]`, `thirdperson_lefthand.translation [3,3,0]`. Le stesse trasformazioni sono state applicate ai layer del vero item pizza in `PizzaPeelItemModel.java`. Rispetto alla versione precedente la posizione cambia di 6 pixel di modello in direzione **opposta** all'ultimo errore.
+
+**Vincoli verificati:** nessun cambio a coordinate e scala della pizza, mesh e texture, rotazione, quota verticale, prima persona, pala vuota, rendering inventario, dati e gameplay.
+
+- [ ] Mano destra, terza persona frontale e laterale: il manico attraversa visivamente il pugno.
+- [ ] Mano sinistra, terza persona: effetto speculare corretto.
+- [ ] Pizza sulla superficie metallica come nella versione già approvata.
+- [ ] Prima persona e pala vuota invariati.
+
+**Stato:** modifica pubblicata su GitHub, resa visiva da confermare in Minecraft prima di chiudere il difetto.
+
 ## Compilazione
 
 ```powershell
