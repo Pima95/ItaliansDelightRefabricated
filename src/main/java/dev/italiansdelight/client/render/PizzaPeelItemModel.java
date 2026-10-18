@@ -55,10 +55,11 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
     private static final CargoRenderer CARGO_RENDERER = new CargoRenderer();
 
     /*
-     * These MUST exactly match the loaded-model hand display transforms
-     * from models/item/pizza_peel_loaded.json. The grip stays at the same
-     * place as the empty peel: only yaw changes to point the horizontal
-     * loaded blade forward rather than sideways like a guitar.
+     * Keep these transforms identical to the corresponding entries in
+     * models/item/pizza_peel_loaded.json. The 3D geometry and pizza position
+     * are already approved. Only third-person X translation is adjusted to
+     * put the wooden shaft through the player's fist. Both layers share it.
+     * First-person transforms stay untouched.
      */
     // Lateral fist alignment only, with mirrored positions for right
     // and left hands. Pizza and metal blade share the same transform.
