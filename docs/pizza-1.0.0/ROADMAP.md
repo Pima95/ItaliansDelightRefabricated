@@ -20,6 +20,8 @@
 
 **AGGIORNAMENTO VISIVO PEEL — 18 ottobre 2026:** lo screenshot dell'autore mostrava la pala occupata rivolta verso l'alto; approvata la nuova regola «pala parallela al terreno quando trasporta una pizza». Pubblicati `pizza_peel_loaded.json` (figlio del modello approvato), la selezione `has_component: italiansdelight:peel_cargo` solo per contesti nelle mani e trasformazioni Java coerenti per l'item trasportato. **Pala vuota invariata**. [Checklist di test](PIZZA_PEEL_TESTS.md); compilazione e verifica visuale pendenti.
 
+**FIX PEEL, 18 ottobre 2026 — renderer condiviso (DA TESTARE):** tre screenshot hanno confermato pizza invisibile in prima persona e separata dalla pala in terza persona, con impugnatura errata. Sostituiti i due layer indipendenti con un renderer unico client-side per la pala carica: stessa trasformazione per pala e vera pizza; correzione grip in terza persona e extents espliciti per la visibilità; posa vuota invariata. Eliminato il vecchio selettore JSON della pala carica per evitare doppia trasformazione. Da compilare e verificare in gioco; [test mirati](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
