@@ -81,6 +81,34 @@ La scelta dell'autore è di **mostrare l'item effettivo della pizza**, non un ge
 - [ ] Dopo deposito nel mondo o trasferimento nel Pizza Oven, la pala torna immediatamente all'orientamento originale; salvataggio e multiplayer invariati.
 - [ ] `.\\gradlew.bat clean build` e `.\\gradlew.bat runClient` terminano senza errori.
 
+## Revisione rendering condiviso — 18 ottobre 2026 (DA COLLAUDARE)
+
+**Problemi rilevati dagli screenshot dell'autore:** vista in prima persona con pala in posizione corretta ma pizza invisibile; in terza persona lama e manico lontani dalla mano e pizza flottante davanti al ventre o sotto la pala.
+
+**Causa tecnica eliminata:** prima la pala originale e l'item trasportato venivano aggiunti a `ItemStackRenderState` come **layer indipendenti**, con trasformazioni potenzialmente divergenti. La posa carica era selezionata anche da un file JSON dedicato, mentre la pizza aveva un secondo `ItemTransform`; questa duplicazione era difficile da sincronizzare.
+
+**Nuova soluzione pubblicata:**
+
+- `PizzaPeelItemModel.java` crea due render state neutri (pala base e vero `ItemStack` pizza) e li rende **con lo stesso `PoseStack` dentro un unico `SpecialModelRenderer`** e un solo `ItemTransform`. Il render della pala precede quello della pizza. La pizza è centrata sul piatto metallico (x=0; y=0.765625; z=0.0725, appena sopra la faccia positiva), scala 0.34; il piano del modello viene ruotato di -90° su X per far apparire la pizza verso l'alto.
+- **Impugnatura terza persona:** la pala carica applica un compenso di -5 pixel su Y e -8 pixel su Z per mantenere il manico vicino alla mano dopo la rotazione di -90°; la mano destra e sinistra sono supportate.
+- **Prima persona:** conservate le trasformazioni cariche già approvate (rotazione X -90°, prima persona Z ±25°, posizione 0,3,1), ma pala e pizza ora condividono la posa. Gli extents del renderer comprendono manico, lama e pizza: non rimangono vuoti e non dovrebbero escludere il livello dalla visibilità.
+- `assets/italiansdelight/items/pizza_peel.json` torna a riferire solo il modello originale; il file `pizza_peel_loaded.json` non più utilizzato è stato eliminato. La **posa carica è definita soltanto nel renderer client Java**, non è duplicata nei modelli JSON.
+- **Pala vuota / GUI / hotbar / terra / cornice:** passa direttamente all'item model originale, senza modifiche. Nessun cambiamento a texture, cuboidi, UV, gameplay, dati dei condimenti e forno.
+- **Compatibilità futura:** la pizza visualizzata è sempre l'item vero recuperato da `peel_cargo`. Il renderer evita ID specifici e supporta nuovi tipi di item pizza.
+
+**Controlli indispensabili da parte dell'autore:**
+
+- [ ] Compilazione `.\\gradlew.bat clean build` senza errori Java 25.
+- [ ] Prima persona, pala carica: pizza visibile sulla faccia superiore del metallo, non invisibile né sotto.
+- [ ] Terza persona da davanti, retro e fianco: il fondo del manico è afferrato dalla mano; la testa non pende in basso, ma è orizzontale.
+- [ ] Terza persona: la pizza appare esattamente sopra la testa metallica e non davanti al ventre; nessun clipping tra materiali.
+- [ ] Mani destra e sinistra: stesso comportamento.
+- [ ] Pala vuota identica al precedente modello visivamente approvato.
+- [ ] Inventario, hotbar, oggetto droppato e cornice senza pizza aggiuntiva.
+- [ ] Pizza cruda e cotta, Q/drop/ricarica dopo salvataggio, item personalizzati e trasferimento al forno non alterati.
+
+**Stato:** codice pubblicato, build e prova grafica in Minecraft ancora pendenti. Le sezioni storiche sopra descrivono le precedenti iterazioni e non prevalgono su questa correzione.
+
 ## Compilazione
 
 ```powershell
