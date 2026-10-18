@@ -11,6 +11,8 @@ import dev.italiansdelight.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -215,8 +217,9 @@ public final class PizzaPeelInteractions {
 
     /** Status text is server-authoritative and respects each client's locale. */
     private static void notifyOnServer(Player player, Level level, String key) {
-        if (!level.isClientSide()) {
-            player.displayClientMessage(Component.translatable(key), true);
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.connection.send(
+                    new ClientboundSetActionBarTextPacket(Component.translatable(key)));
         }
     }
 }
