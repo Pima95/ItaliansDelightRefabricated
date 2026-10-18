@@ -34,6 +34,8 @@
 
 **PEEL — CORREZIONE VERSO DELL'IMPUGNATURA, 18 ottobre 2026:** nuovo screenshot dell'autore: la precedente traslazione di +3px ha **allontanato ulteriormente** il manico dalla mano. Invertito il solo offset orizzontale terza persona: mano destra -3px, sinistra +3px, sincronizzando JSON e layer Java. Il rendering pizza resta approvato. Nuova verifica visiva richiesta; [test](PIZZA_PEEL_TESTS.md).
 
+**PEEL — STUDIO DELLA LANCIA VANILLA, 18 ottobre 2026:** dopo che i tentativi di ±3 pixel hanno spostato il manico da un lato all'altro del pugno, analizzati `spear_in_hand.json` vanilla (26.2) e la trasformazione di `ItemInHandLayer`. La causa non era il solo offset laterale: il braccio ruota già l'item -90° su X. La pala carica in piano XZ richiede un display aggiuntivo X=-90° per presentare la lama in avanti e la superficie superiore verso l'alto. Posizione terza persona ora `rotation [-90,0,0]`, `translation [0,2,2]` (ancoraggio dalla lancia), `scale 0.8`, identica in JSON e Java; rimossi offset ±3. Prima persona, pizza rispetto alla lama e modello vuoto invariati. **Verifica in Minecraft pendente**, vedere [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
