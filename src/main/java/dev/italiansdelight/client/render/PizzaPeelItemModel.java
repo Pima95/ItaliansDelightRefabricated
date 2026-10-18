@@ -1,6 +1,7 @@
 package dev.italiansdelight.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import dev.italiansdelight.common.pizza.PizzaPeelCargo;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
@@ -21,53 +22,55 @@ import org.joml.Vector3fc;
 import org.jspecify.annotations.Nullable;
 
 /**
- * A loaded peel uses the NORMAL baked Minecraft item model for its 3D mesh.
- * The extra client layer draws ONLY the real carried item on its blade.
+ * Displays the real ItemStack from peel_cargo on the blade, only while held.
  *
- * <p>Do not replace the entire peel model with a special renderer: doing so
- * made it disappear in first person and detached the mesh from the hand.
- * The item JSON handles the loaded-vs-empty baked mesh selection and ALL
- * non-hand contexts always use the approved empty-pose model.
+ * <p>Crucial: a LOADED peel has the exact same vanilla hand transformations
+ * as the approved EMPTY peel. Only its JSON cuboids are rotated by -90 degrees
+ * about the handle grip (see pizza_peel_loaded.json). Therefore its grip
+ * stays attached to the character's hand in all contexts; there is no second
+ * global hand pose to compensate or accidentally apply twice.
+ *
+ * <p>All geometry is still rendered by Minecraft's normal baked item model.
+ * Only the real pizza item receives a small additional overlay layer.
  */
 public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
     /*
-     * Blade cuboid: from [4,13.75,7.5] to [12,26.75,8.5], relative origin
-     * [8,8,8]. The held model's visible steel face is the -Z side;
-     * the +Z side put the pizza BEHIND the opaque metal (invisible in
-     * first person and visible underneath/through the avatar in third).
+     * Loaded blade after X=-90 around model grip [8,6.75,8]:
+     *   x 4..12, y 6.25..7.25, z -12..1 (in model pixels).
+     * Center on top of blade is [8,7.25,-5.5].
+     * Offset +0.75 model pixels above the blade gives Y=8 in model space,
+     * i.e. Y=0 after conversion to item coordinates (model origin [8,8,8]).
      */
-    private static final float BLADE_CENTER_Y = (20.25F - 8.0F) / 16.0F;
-    private static final float BLADE_FACE_Z = -0.075F;
-    private static final float ITEM_SCALE = 0.44F;
-    private static final float ITEM_DEPTH = 0.06F;
+    private static final float CARGO_X = 0.0F;
+    private static final float CARGO_Y = 0.0F;
+    private static final float CARGO_Z = (-5.5F - 8.0F) / 16.0F;
+    private static final float PIZZA_SCALE = 0.40F;
+    private static final float PIZZA_DEPTH = 0.055F;
+    private static final CargoRenderer CARGO_RENDERER = new CargoRenderer();
 
     /*
-     * These transforms MUST mirror the corresponding entries in
-     * models/item/pizza_peel_loaded.json. The wooden handle's grip point
-     * stays near the player's hand when the plate rotates horizontally.
-     * The +Y adjustment fixes the prior lowered grip, while Z=-8px
-     * compensates for the 90-degree swing of the shaft around item origin.
-     * Minecraft JSON translations are model pixels: divide by 16.
+     * These are the ORIGINAL and already approved empty peel display values
+     * from models/item/pizza_peel.json. The loaded model inherits them.
+     * Minecraft's model display translations are in 1/16 block units.
      */
     private static final ItemTransform THIRD_PERSON =
-            pose(-90, 0, 0, 0, 3, -8, 0.8F);
+            transform(0, 60, 0, 0, 3, 0, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
-            pose(-90, 0, 25, 0, 3, 1, 0.7F);
+            transform(0, -90, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
-            pose(-90, 0, -25, 0, 3, 1, 0.7F);
-    private static final PizzaOnBladeRenderer CARGO_RENDERER = new PizzaOnBladeRenderer();
+            transform(0, 90, -25, 0, 3, 1, 0.7F);
 
-    private static ItemTransform pose(
+    private static ItemTransform transform(
             float rx, float ry, float rz,
-            float tx, float ty, float tz, float s
+            float tx, float ty, float tz, float scale
     ) {
         return new ItemTransform(
                 new Vector3f(rx, ry, rz),
                 new Vector3f(tx / 16.0F, ty / 16.0F, tz / 16.0F),
-                new Vector3f(s, s, s));
+                new Vector3f(scale, scale, scale));
     }
 
-    private static @Nullable ItemTransform loadedTransform(ItemDisplayContext context) {
+    private static @Nullable ItemTransform handTransform(ItemDisplayContext context) {
         return switch (context) {
             case THIRD_PERSON_RIGHT_HAND, THIRD_PERSON_LEFT_HAND -> THIRD_PERSON;
             case FIRST_PERSON_RIGHT_HAND -> FIRST_PERSON_RIGHT;
@@ -82,15 +85,14 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
             ItemDisplayContext context, @Nullable ClientLevel level,
             @Nullable ItemOwner owner, int seed
     ) {
-        // Essential: vanilla's baked model handles pose, hands, GUI, lighting,
-        // resource packs and bounds. This path is ALWAYS used, including
-        // when the peel has a cargo component.
+        // Minecraft selects baked pizza_peel_loaded cuboids only for a loaded
+        // hand-held peel; GUI, hotbar, frames and drops use the approved model.
+        // Always use standard item rendering for the peel itself.
         peelModel.update(output, peel, resolver, context, level, owner, seed);
 
-        ItemTransform heldPose = loadedTransform(context);
-        if (heldPose == null) {
-            // No pizza over the peel in inventory, hotbar, frame or as drop.
-            return;
+        ItemTransform transform = handTransform(context);
+        if (transform == null) {
+            return; // no extra pizza image in GUI, hotbar, frames or drops
         }
 
         PizzaPeelCargo cargo = peel.get(ModDataComponents.PEEL_CARGO);
@@ -98,59 +100,60 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
             return;
         }
 
-        ItemStack carried = cargo.pizza();
-        if (carried.isEmpty() || carried.is(ModItems.PIZZA_PEEL)) {
+        ItemStack pizza = cargo.pizza();
+        if (pizza.isEmpty() || pizza.is(ModItems.PIZZA_PEEL)) {
             return;
         }
 
-        // This remains the actual ItemStack; new pizza item models are
-        // resolved automatically, without a texture/id whitelist.
-        TrackingItemStackRenderState itemState = new TrackingItemStackRenderState();
+        // Always resolve the *real* carried item so future pizzas with other
+        // item models work automatically. NONE prevents the pizza's own hand
+        // transformations from being applied on top of the peel transforms.
+        TrackingItemStackRenderState child = new TrackingItemStackRenderState();
         resolver.updateForTopItem(
-                itemState, carried, ItemDisplayContext.NONE, level, owner, seed);
-        if (itemState.isEmpty()) {
+                child, pizza, ItemDisplayContext.NONE, level, owner, seed);
+        if (child.isEmpty()) {
             return;
         }
 
         output.appendModelIdentityElement(this);
-        output.appendModelIdentityElement(itemState.getModelIdentity());
+        output.appendModelIdentityElement(child.getModelIdentity());
+
+        // Both baked peel and cargo layer use the SAME approved hand pose.
+        // Cargo local placement is computed from the rotated blade geometry.
         ItemStackRenderState.LayerRenderState layer = output.newLayer();
-        layer.setItemTransform(heldPose);
-        layer.setupSpecialModel(CARGO_RENDERER, itemState);
+        layer.setItemTransform(transform);
+        layer.setupSpecialModel(CARGO_RENDERER, child);
     }
 
-    /**
-     * One optional pizza layer. It never draws or transforms the peel mesh;
-     * the latter is drawn by Minecraft's standard baked model above.
-     */
-    private static final class PizzaOnBladeRenderer
+    private static final class CargoRenderer
             implements SpecialModelRenderer<ItemStackRenderState> {
         @Override
         public void submit(
-                @Nullable ItemStackRenderState contents, PoseStack poses,
+                @Nullable ItemStackRenderState state, PoseStack poseStack,
                 SubmitNodeCollector queue, int light, int overlay,
                 boolean foil, int outline
         ) {
-            if (contents == null || contents.isEmpty()) {
+            if (state == null || state.isEmpty()) {
                 return;
             }
 
-            poses.pushPose();
-            // Draw on the -Z face of the metal blade, not behind the
-            // opaque +Z face. Do not rotate the approved peel model.
-            poses.translate(0.0F, BLADE_CENTER_Y, BLADE_FACE_Z);
-            poses.scale(ITEM_SCALE, ITEM_SCALE, ITEM_DEPTH);
-            contents.submit(poses, queue, light, overlay, outline);
-            poses.popPose();
+            poseStack.pushPose();
+            poseStack.translate(CARGO_X, CARGO_Y, CARGO_Z);
+            // Real pizza item art lies in XY. Turn its front (+Z) upward (+Y)
+            // so it rests horizontally on top of the loaded metal paddle.
+            poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
+            poseStack.scale(PIZZA_SCALE, PIZZA_SCALE, PIZZA_DEPTH);
+            state.submit(poseStack, queue, light, overlay, outline);
+            poseStack.popPose();
         }
 
         @Override
         public void getExtents(Consumer<Vector3fc> consumer) {
-            // All eight corners, not two diagonal points. This covers the
-            // plate and the emblem after the loaded X=-90 degree rotation.
-            for (float x : new float[] {-0.65F, 0.65F}) {
-                for (float y : new float[] {-0.75F, 1.75F}) {
-                    for (float z : new float[] {-0.65F, 0.65F}) {
+            // Bounding cuboid around the pizza on the loaded paddle.
+            // Provide all eight vertices to avoid first-person culling.
+            for (float x : new float[] {-0.35F, 0.35F}) {
+                for (float y : new float[] {-0.35F, 0.35F}) {
+                    for (float z : new float[] {-1.15F, -0.55F}) {
                         consumer.accept(new Vector3f(x, y, z));
                     }
                 }
@@ -159,7 +162,7 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
 
         @Override
         public @Nullable ItemStackRenderState extractArgument(ItemStack stack) {
-            // The actual render-state payload is supplied by update().
+            // update() supplies the resolved render-state directly.
             return null;
         }
     }
