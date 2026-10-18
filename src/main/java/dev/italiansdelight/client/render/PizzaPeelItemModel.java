@@ -61,12 +61,15 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
      * put the wooden shaft through the player's fist. Both layers share it.
      * First-person transforms stay untouched.
      */
-    // Lateral fist alignment only, with mirrored positions for right
-    // and left hands. Pizza and metal blade share the same transform.
+    // The previous (+3 right / -3 left) translation demonstrably moved
+    // the shaft farther from the fist in the user's screenshots. Reversing
+    // its sign corrects the *direction* without touching the approved
+    // pizza/blade alignment, scale, rotation, or first-person poses.
+    // Keep this mirrored transform exactly in sync with the loaded JSON.
     private static final ItemTransform THIRD_PERSON_RIGHT =
-            transform(0, 0, 0, 3, 3, 0, 0.8F);
-    private static final ItemTransform THIRD_PERSON_LEFT =
             transform(0, 0, 0, -3, 3, 0, 0.8F);
+    private static final ItemTransform THIRD_PERSON_LEFT =
+            transform(0, 0, 0, 3, 3, 0, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
             transform(0, -15, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
