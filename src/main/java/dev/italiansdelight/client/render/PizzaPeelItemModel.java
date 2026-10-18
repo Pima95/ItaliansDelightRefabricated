@@ -24,8 +24,14 @@ import org.jspecify.annotations.Nullable;
  * A loaded peel displays the REAL carried ItemStack on its metal blade, but
  * only while held in first or third person.
  *
+ * <p>The client item definition selects pizza_peel_loaded (a child of the
+ * approved mesh with ONLY hand transforms overridden) when peel_cargo is
+ * present and the item is held. That loaded pose lays the blade parallel
+ * to the ground. The pizza layer MUST use the SAME loaded hand transforms;
+ * otherwise it will float next to the handle.
+ *
  * <p>Never append cargo layers in GUI, hotbar, ground or item frame contexts.
- * The approved peel model and its UVs are left entirely unchanged.
+ * The approved peel geometry, UVs and EMPTY display transforms are unchanged.
  * Future pizza item types are rendered by the usual Minecraft item model
  * resolver, so they need no hard-coded special cases here.
  */
@@ -49,20 +55,21 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
     private static final BladeCargoRenderer CARGO_RENDERER = new BladeCargoRenderer();
 
     /*
-     * The extra render-state layer needs the SAME display transformation as
-     * the approved peel's baked JSON. Otherwise it is rendered around the
-     * player's hand/origin instead of following the blade.
+     * The extra layer follows the LOADED display transforms, not the empty
+     * peel. The metal plate lives in the model XY plane (normal +Z), so a
+     * -90 degree X rotation lays it in the world XZ plane, facing upward.
+     * This also carries the pizza emblem to the top of the metal blade.
      *
-     * JSON translations are in 1/16 units; ItemTransform takes block units.
-     * The three values are copied from models/item/pizza_peel.json and must
-     * be kept in sync if that approved model is changed in the future.
+     * Translations from JSON are converted from 1/16 units into blocks.
+     * Mirror any future edits to models/item/pizza_peel_loaded.json here.
+     * The original empty-peel item transform is NOT changed.
      */
     private static final ItemTransform THIRD_PERSON =
-            transform(0, 60, 0, 0, 3, 0, 0.8F);
+            transform(-90, 0, 0, 0, 3, 0, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
-            transform(0, -90, 25, 0, 3, 1, 0.7F);
+            transform(-90, 0, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
-            transform(0, 90, -25, 0, 3, 1, 0.7F);
+            transform(-90, 0, -25, 0, 3, 1, 0.7F);
 
     private static ItemTransform transform(
             float rx, float ry, float rz,
@@ -89,7 +96,8 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
             ItemDisplayContext context, @Nullable ClientLevel level,
             @Nullable ItemOwner owner, int seed
     ) {
-        // Always draw the approved 3D peel first, in every display context.
+        // The model's baked component-aware selector chooses the empty mesh
+        // or the horizontal loaded pose in each display context.
         peelModel.update(output, peel, resolver, context, level, owner, seed);
 
         ItemTransform hand = handTransform(context);
@@ -109,9 +117,9 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
             return;
         }
 
-        // Resolve the ACTUAL item, with its own ITEM_MODEL/data components.
-        // NONE avoids inheriting unrelated item-in-hand display rotations.
-        // Tracking state keeps icon/model caching coherent on stack changes.
+        // Render the ACTUAL stored item model. NONE avoids applying its own
+        // first-person rotation in addition to the loaded peel's transform.
+        // Both layers stay aligned when the character turns.
         TrackingItemStackRenderState child = new TrackingItemStackRenderState();
         resolver.updateForTopItem(
                 child, carried, ItemDisplayContext.NONE, level, owner, seed);
