@@ -8,7 +8,7 @@
 
 **STATO aggiornato 17 ottobre 2026:** anche i **nomi e i tooltip** sono stati confermati funzionanti dall'autore. È ora pubblicata sul ramo di sviluppo la **FASE 4D pala pizza** (non impilabile, senza durabilità, carico persistente, trasporto e interazioni con forno), **DA COMPILARE/TESTARE** secondo [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). Non sono state introdotte una ricetta non approvata, un'arma o nuove texture. Il contatore di cottura continua a essere esclusivo del forno e si azzera estraendo la pizza cruda.
 
-**FIX GRAFICO 18 ottobre 2026:** implementato e pubblicato il modello 3D del `pizza_peel`: 7 elementi (testa metallica, spalle, raccordo, manico) e coordinate UV basate sul PNG 64×64 esistente. Sostituisce il modello piatto precedente, senza cambiare la texture né il comportamento della pala. **Test visivo in Minecraft pendente**, da eseguire secondo [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
+**FIX GRAFICO AGGIORNATO 18 ottobre 2026:** l'autore ha collaudato e segnalato problemi al modello a **7 elementi** (texture applicata male, impugnatura fuori mano). È stato quindi **rimpiazzato** con un modello 3D a **3 elementi**, ricostruito direttamente dai pixel dell'atlas 64×64 e con rotazioni mano ispirate al tridente vanilla, ma traslazioni/scaling specifici per la pala. **Da verificare ancora in gioco**; [test dedicati](PIZZA_PEEL_TESTS.md). Nessun cambio di PNG o meccaniche.
 
 ## Checklist decisioni già CONFERMATE
 
