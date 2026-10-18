@@ -28,6 +28,8 @@
 
 **CORREZIONE PALA CARICA — 18 ottobre 2026 (DA COLLAUDARE):** dopo ripetuti screenshot con la testa della pala e la pizza vicino ai piedi, implementato un cambiamento **geometrico** anziché ulteriori offset: rotazione -90° dei tre cuboidi del modello carico **attorno all'impugnatura [8,6.75,8]**, con `display` ereditato dall'originale già approvato. Il centro pizza è stato calcolato dal nuovo piano metallico `[8,7.25,-5.5]`; l'item completo del cargo si dispone sopra la lamina usando la stessa posa della pala e una rotazione locale. Nessuna modifica al modello/PNG vuoto o al gameplay. Verifiche matematiche e statiche superate, compilazione e test in gioco ancora necessari: [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
 
+**PEEL — FIX GEOMETRICO/RENDERING 18 ottobre 2026 (DA TESTARE):** individuata la conversione errata nelle coordinate del renderer speciale della pizza: sottrazione di 8 pixel extra agli assi (pizza distante dal piatto e quasi invisibile), aggravata da extents nello spazio sbagliato. Corretto il centro reale del contenuto della pala carica in `(0.5,0.484375,-0.34375)` e aggiornati gli extents. La geometria della pala carica rimane la stessa, ruotata attorno al manico; i display in mano ora puntano in avanti (yaw 0 in terza persona, ±15 in prima), mantenendo il grip e il resto del gameplay invariati. Nuovi screenshot e build necessari: [test dettagliati](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
