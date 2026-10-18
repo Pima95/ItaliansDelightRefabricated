@@ -35,30 +35,37 @@ import org.jspecify.annotations.Nullable;
  */
 public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
     /*
-     * Loaded blade after X=-90 around model grip [8,6.75,8]:
-     *   x 4..12, y 6.25..7.25, z -12..1 (in model pixels).
-     * Center on top of blade is [8,7.25,-5.5].
-     * Offset +0.75 model pixels above the blade gives Y=8 in model space,
-     * i.e. Y=0 after conversion to item coordinates (model origin [8,8,8]).
+     * Loaded blade is x=4..12, y=6.25..7.25, z=-12..1,
+     * and its top face is y=7.25 (model pixels). ItemStackRenderState is
+     * submitted in MODEL SPACE (vertices in pixels/16). Do NOT subtract 8:
+     * the item render pipeline already applies its own centering.
+     *
+     * This was the source of the persistent "pizza at the feet" glitch:
+     * the old code subtracted 8 from each blade coordinate, shifting the
+     * child model by half a block from the actual peel!
+     *
+     * Center is (8, 7.25 + 0.5, -5.5) pixels. +0.5px lifts pizza just
+     * above the steel. The pizza's model uses its actual registered item.
      */
-    private static final float CARGO_X = 0.0F;
-    private static final float CARGO_Y = 0.0F;
-    private static final float CARGO_Z = (-5.5F - 8.0F) / 16.0F;
+    private static final float CARGO_X = 8.0F / 16.0F;
+    private static final float CARGO_Y = 7.75F / 16.0F;
+    private static final float CARGO_Z = -5.5F / 16.0F;
     private static final float PIZZA_SCALE = 0.40F;
     private static final float PIZZA_DEPTH = 0.055F;
     private static final CargoRenderer CARGO_RENDERER = new CargoRenderer();
 
     /*
-     * These are the ORIGINAL and already approved empty peel display values
-     * from models/item/pizza_peel.json. The loaded model inherits them.
-     * Minecraft's model display translations are in 1/16 block units.
+     * These MUST exactly match the loaded-model hand display transforms
+     * from models/item/pizza_peel_loaded.json. The grip stays at the same
+     * place as the empty peel: only yaw changes to point the horizontal
+     * loaded blade forward rather than sideways like a guitar.
      */
     private static final ItemTransform THIRD_PERSON =
-            transform(0, 60, 0, 0, 3, 0, 0.8F);
+            transform(0, 0, 0, 0, 3, 0, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
-            transform(0, -90, 25, 0, 3, 1, 0.7F);
+            transform(0, -15, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
-            transform(0, 90, -25, 0, 3, 1, 0.7F);
+            transform(0, 15, -25, 0, 3, 1, 0.7F);
 
     private static ItemTransform transform(
             float rx, float ry, float rz,
@@ -117,6 +124,7 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
 
         output.appendModelIdentityElement(this);
         output.appendModelIdentityElement(child.getModelIdentity());
+        output.appendModelIdentityElement(transform);
 
         // Both baked peel and cargo layer use the SAME approved hand pose.
         // Cargo local placement is computed from the rotated blade geometry.
@@ -149,11 +157,12 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
 
         @Override
         public void getExtents(Consumer<Vector3fc> consumer) {
-            // Bounding cuboid around the pizza on the loaded paddle.
-            // Provide all eight vertices to avoid first-person culling.
-            for (float x : new float[] {-0.35F, 0.35F}) {
-                for (float y : new float[] {-0.35F, 0.35F}) {
-                    for (float z : new float[] {-1.15F, -0.55F}) {
+            // Renderer extents use the same model-space coordinates as the
+            // submitted pizza, not the old center-relative (-0.5) offsets.
+            // Include all eight corners of the rotated, scaled child item.
+            for (float x : new float[] {CARGO_X - 0.24F, CARGO_X + 0.24F}) {
+                for (float y : new float[] {CARGO_Y - 0.05F, CARGO_Y + 0.05F}) {
+                    for (float z : new float[] {CARGO_Z - 0.24F, CARGO_Z + 0.24F}) {
                         consumer.accept(new Vector3f(x, y, z));
                     }
                 }
