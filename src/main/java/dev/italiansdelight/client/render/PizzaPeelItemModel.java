@@ -61,15 +61,19 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
      * put the wooden shaft through the player's fist. Both layers share it.
      * First-person transforms stay untouched.
      */
-    // The previous (+3 right / -3 left) translation demonstrably moved
-    // the shaft farther from the fist in the user's screenshots. Reversing
-    // its sign corrects the *direction* without touching the approved
-    // pizza/blade alignment, scale, rotation, or first-person poses.
-    // Keep this mirrored transform exactly in sync with the loaded JSON.
+    // Vanilla ItemInHandLayer FIRST applies X=-90 and Y=180 before the
+    // baked item transform. Our loaded blade is ALREADY horizontal (XZ).
+    // Another X=-90 here sends its front -Z out in front and its top +Y
+    // upwards in world space. This is derived from the vanilla spear's
+    // in-hand grip convention, not from screen-space pixel guessing.
+    // The spear uses 0,2,2 for its third-person translation; we use that
+    // anchor but retain the approved 0.8 scale for the larger 3D peel.
+    // Both the baked peel mesh and its cargo layer use this SAME transform.
+    // No lateral offset, so the grip stays centered in the player's fist.
     private static final ItemTransform THIRD_PERSON_RIGHT =
-            transform(0, 0, 0, -3, 3, 0, 0.8F);
+            transform(-90, 0, 0, 0, 2, 2, 0.8F);
     private static final ItemTransform THIRD_PERSON_LEFT =
-            transform(0, 0, 0, 3, 3, 0, 0.8F);
+            transform(-90, 0, 0, 0, 2, 2, 0.8F);
     private static final ItemTransform FIRST_PERSON_RIGHT =
             transform(0, -15, 25, 0, 3, 1, 0.7F);
     private static final ItemTransform FIRST_PERSON_LEFT =
