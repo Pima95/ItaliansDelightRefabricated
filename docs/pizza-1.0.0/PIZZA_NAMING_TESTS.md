@@ -12,6 +12,32 @@
 - Per i gusti non riconosciuti con **più di tre tipi** viene mostrato un nome breve con due ingredienti e il numero degli altri; tooltip completo senza abbreviazioni. Ordine degli ingredienti deterministico per ID canonico (non per ordine di posa o lingua).
 - Testi in `it_it.json` e `en_us.json`; gli ID, non le stringhe tradotte, sono persistenti. Un ID sconosciuto di vecchi datapack appare come identificativo tecnico, senza perdita di item.
 
+## Verifica coerenza nomi — 18 ottobre 2026
+
+**Problema segnalato:** con la lingua inglese, `raw_pizza` e `cooked_pizza` riconosciute come Bianca erano chiamate `Bianca Pizza`, mentre `pizza_slice` veniva chiamata `White Pizza Slice`. La stessa incongruenza valeva per Rossa (`Rossa Pizza` / `Red Pizza Slice`).
+
+**Correzione:** in `en_us.json` i gusti base `bianca` e `rossa` sono ora localizzati rispettivamente **White** e **Red**. Le traduzioni specifiche degli spicchi, già presenti, utilizzano gli stessi termini. **Tutte le altre 15 ricette mantengono le loro traduzioni approvate.** `it_it.json` resta invariato.
+
+| Gusto | Nome pizza IT (cruda e cotta) | Spicchio IT | Nome pizza EN (cruda e cotta) | Spicchio EN |
+| --- | --- | --- | --- | --- |
+| Bianca | Pizza Bianca | Spicchio di pizza bianca | White Pizza | White Pizza Slice |
+| Rossa | Pizza Rossa | Spicchio di pizza rossa | Red Pizza | Red Pizza Slice |
+| Margherita | Pizza Margherita | Spicchio di Margherita | Margherita Pizza | Margherita Pizza Slice |
+
+**Regola comune per i 17 gusti:** gli item `raw_pizza` e `cooked_pizza` rappresentano due fasi fisiche differenti, ma **mantengono volutamente lo stesso nome di gusto** (per esempio `Pizza Margherita`). Il singolo spicchio si chiama con la stessa identità di gusto tradotta nella lingua attiva. I nomi generici senza dati di composizione restano `Pizza cruda`, `Pizza cotta`, `Spicchio di pizza` (e le relative traduzioni inglesi). Il tooltip mostra gli ingredienti; lo stato di cottura resta nell'item e non modifica l'identità del gusto.
+
+**Nomi liberi / assortiti:** nessuna modifica alle formule `Pizza con ...`, `Spicchio con ...`, `Pizza assortita` o alle equivalenti inglesi, né alle regole di corrispondenza esatta dei quattro quarti.
+
+### Controllo automatico delle traduzioni
+
+Il nuovo script senza dipendenze `scripts/check_pizza_names.py` verifica i **17 preset attivi in entrambe le lingue**, generando e confrontando **102 nomi** (pizza cruda, cotta e spicchio), i nomi dinamici, le chiavi di traduzione e le etichette generiche:
+
+```powershell
+python scripts/check_pizza_names.py
+```
+
+La verifica statica sulla versione pubblicata ha superato tutti i 102 confronti. L'effettivo cambio della lingua del client e l'aggiornamento delle etichette in Minecraft vanno comunque collaudati in gioco.
+
 ## Compilazione
 
 ```powershell
