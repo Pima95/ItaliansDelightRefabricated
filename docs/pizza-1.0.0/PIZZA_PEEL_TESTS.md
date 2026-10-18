@@ -109,6 +109,28 @@ La scelta dell'autore è di **mostrare l'item effettivo della pizza**, non un ge
 
 **Stato:** codice pubblicato, build e prova grafica in Minecraft ancora pendenti. Le sezioni storiche sopra descrivono le precedenti iterazioni e non prevalgono su questa correzione.
 
+## Revisione 18 ottobre 2026 — ripristino rendering vanilla (DA COMPILARE / TESTARE)
+
+**Segnalazione dell'autore:** con la versione del renderer condiviso la pala carica è apparsa dietro il personaggio, vicina ai piedi, e non è stata più visibile in prima persona. Correggere **la posa dell'intero oggetto**, non spostare soltanto l'icona pizza.
+
+**Nuova soluzione (sostituisce le iterazioni sopra):**
+
+- Ripristinato **`peelModel.update(output, peel, resolver, context, ...)` in tutte le situazioni**, lasciando a Minecraft il rendering completo della geometria 3D del modello baked. Non viene più renderizzata l'intera pala tramite `SpecialModelRenderer`, che risultava invisibile in prima persona.
+- `models/item/pizza_peel_loaded.json`: deriva via `parent` dal **modello 3D approvato**; modifica solo le trasformazioni delle quattro mani. Rotazione X=-90°, per pala orizzontale. In terza persona il punto di presa viene riportato verso la mano con translation `[0,2,-4]` (prima era erroneamente `[0,-5,-8]`, con la pala arretrata e abbassata). Posa prima persona `[-90,0,±25]`, traslazione `[0,3,1]`.
+- `items/pizza_peel.json`: utilizza la condizione `minecraft:has_component` sul componente `italiansdelight:peel_cargo` e il selettore `minecraft:display_context` per usare il modello orizzontale **soltanto quando il peel è carico e tenuto in una delle quattro mani**. In ogni altro caso viene usato il modello vuoto originale.
+- `PizzaPeelItemModel.java`: conserva il modello baked standard come strato primario, aggiungendo **soltanto la pizza** come layer speciale quando il peel è carico e in mano. Questo layer condivide la stessa trasformazione di mano definita nel modello carico; il suo centro è sul lato frontale della lamina (`y=(20.25-8)/16`, `z=0.075`). La pizza conserva l'item modello effettivo, senza ID hardcoded.
+- Corretti gli `extents` del renderer pizza con gli **otto vertici** del box, anziché due soli vertici diagonali, per ridurre il rischio di culling erroneo.
+- **Non modificati**: texture e cuboidi dell'item approvato, comportamenti server, utilizzo con forno, contenuto `peel_cargo`, dati degli ingredienti, item pizza futuri e inventario.
+
+**Verifiche richieste in gioco, NON ancora confermate:**
+- [ ] Client compila con `.\\gradlew.bat clean build`.
+- [ ] Prima persona: pala carica e pala vuota **entrambe visibili** (niente scomparsa totale).
+- [ ] Terza persona, visuale frontale/laterale/posteriore: **impugnatura nella mano**, non dietro al corpo o ai piedi.
+- [ ] La pala occupata è orizzontale e la pizza appare sopra la lamina, non al fianco del busto.
+- [ ] Mano sinistra e destra, stato vuoto e pieno, entrambi con pose corrette.
+- [ ] Inventario, hotbar, cornice e item droppato: soltanto pala, senza icona pizza aggiunta.
+- [ ] Trasporto, deposito sul terreno, forno e riavvio senza duplicazioni.
+
 ## Compilazione
 
 ```powershell
