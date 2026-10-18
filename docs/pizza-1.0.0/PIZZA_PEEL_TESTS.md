@@ -39,6 +39,27 @@ La scelta dell'autore è di **mostrare l'item effettivo della pizza**, non un ge
 - [ ] Testare orientamento, scala e contatto tra pizza visualizzata e superficie della pala: nessun clipping o sovrapposizione invadente.
 - [ ] Confermare funzionamento del sistema anche con un futuro item pizza aggiuntivo o un modello sostituito da resource pack.
 
+## Correzione render in mano — 18 ottobre 2026 (DA TESTARE)
+
+**Problema osservato e documentato dall'autore:** l'item pizza appare anche nella hotbar/inventario e in terza persona viene mostrato vicino alla mano, mentre la testa metallica della pala rimane vuota. L'autore ha indicato in uno screenshot il centro desiderato della pizza **sulla piastra grigia**.
+
+**Fix pubblicato:** `client/render/PizzaPeelItemModel.java`
+
+- **Inventario, hotbar, drop a terra, item frame:** il renderer ora mostra **soltanto il modello 3D della pala**, anche quando `peel_cargo` contiene una pizza. Il tooltip continua a riportare il contenuto.
+- **Prima e terza persona, entrambe le mani:** la pala mostra il modello dell'**ItemStack reale trasportato** risolto tramite `ItemModelResolver` in un layer `SpecialModelRenderer` separato. Non viene introdotta alcuna pizza generica né una whitelist di tipi di pizza.
+- **Posizione derivata dalla geometria:** la testa metallica del modello approvato è compresa tra `[4,13.75,7.5]` e `[12,26.75,8.5]`; centro `[8,20.25,8]`. Con origine del modello `[8,8,8]` la quota del nuovo layer è `(20.25-8)/16 = 0.765625`, centrata lateralmente (`x=0`) e appena davanti alla superficie metallica (`z=0.070`). Scala item `0.34`, profondità `0.04`, regolabili dopo il test visivo.
+- **Trasformazioni in mano:** la nuova layer ripete gli `ItemTransform` del JSON approvato per entrambe le mani e per entrambe le visuali, evitando che il centro dell'item finisca accanto all'impugnatura. La conversione delle traslazioni è 1/16 come per il modello Minecraft.
+- **Invariati:** `models/item/pizza_peel.json`, texture, modello geometrico, meccaniche d'uso, ingredienti, salvataggi e tempi di cottura.
+
+**Casi da provare in Minecraft:**
+- [ ] Hotbar, inventario, item a terra e cornice: nessuna pizza aggiuntiva sul modello della pala.
+- [ ] Terza persona, pala con pizza cruda: la pizza è centrata **sulla zona metallica segnata nello screenshot**, non vicino alla mano.
+- [ ] Prima persona e seconda mano: stesso allineamento, scala coerente e nessuna compenetrazione evidente con la lamina.
+- [ ] Pala vuota: nessuna sovrapposizione; esattamente il modello originale.
+- [ ] Passaggio vuota → occupata → vuota e caricamento dopo riavvio: la pizza appare/scompare solo nel mondo e resta un unico ItemStack nella pala.
+- [ ] Pizza cotta e futuri item pizza diversi da `raw_pizza`: si vede il loro vero modello senza modificare il renderer.
+- [ ] Compilazione Java 25 (`gradlew.bat clean build`) e prova client (`gradlew.bat runClient`) completate.
+
 ## Compilazione
 
 ```powershell
