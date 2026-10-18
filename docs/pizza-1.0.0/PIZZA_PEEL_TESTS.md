@@ -184,6 +184,36 @@ Il modello approvato della pala vuota usa cuboidi **lungo Y** (`handle` y=0..13.
 
 **Stato:** codice e documentazione pubblicati; **build Java 25 e collaudo del modello in Minecraft non effettuabili nell'ambiente di lavoro attuale**. Non indicare come risolta la resa prima della conferma dell'autore. Questa sezione supera le note sulle vecchie pose X=-90 e sulle traduzioni arbitrarie precedenti.
 
+## Correzione delle coordinate del rendering della pala carica — 18 ottobre 2026
+
+**Difetto rilevato:** la pala veniva impugnata lateralmente («come una chitarra») e la pizza rimaneva invisibile o in una posizione distante. Le precedenti correzioni modificavano continuamente il pivot e gli offset, senza distinguere lo **spazio del modello** dallo **spazio centrato sull'item**.
+
+### Analisi della causa
+
+La mesh caricata (`pizza_peel_loaded.json`) ha il piatto metallico da `[4, 6.25, -12]` a `[12, 7.25, 1]`, in **pixel di modello Minecraft**. Il suo centro superiore, dopo un piccolo distacco di 0.5 pixel, è `[8, 7.75, -5.5]`. Il `SpecialModelRenderer` riceve una `PoseStack` da cui è già possibile disegnare nel sistema di coordinate **pixel/16** usato dai modelli baked; **non si deve sottrarre 8 a ciascuna coordinata**. Il codice precedente sottraeva 8 a Z e usava X=0 anziché X=8/16, spostando la pizza fuori dalla pala. Gli extents erano anch'essi espressi nel sistema errato.
+
+Questa implementazione prende come riferimento il sistema di composizione di item reali di **CC: Tweaked per Minecraft 26.2**: `TrackingItemStackRenderState`, `ItemModelResolver.updateForTopItem(..., ItemDisplayContext.NONE)`, `LayerRenderState.setItemTransform`, `setupSpecialModel`, `ItemStackRenderState.submit`. Non introduce sprite fissi o copie dell'item.
+
+### Modifica applicata su GitHub
+
+- `PizzaPeelItemModel.java`: posizione reale dell'item pizza `(0.5, 0.484375, -0.34375)` invece di `(0, 0, -0.84375)`; scala `0.40`, orientamento locale X=-90° affinché la faccia della pizza guardi verso l'alto. I limiti del renderer speciale ora racchiudono il contenuto **nelle medesime coordinate di modello**.
+- `pizza_peel_loaded.json`: la geometria 3D della pala carica rimane intatta e già ruotata attorno al manico. Viene modificato **soltanto il display in mano**: terza persona con yaw 0° anziché 60° e prima persona con yaw ±15° anziché ±90°, mantenendo identiche traslazione e scala alla pala vuota già approvata. La lamina carica punta verso l'avanti, non di traverso.
+- La medesima rotazione di mano è rappresentata in `PizzaPeelItemModel.java` per il secondo livello renderizzato, così pala e vera pizza subiscono gli **stessi display transform**. Non viene cambiato alcun dato di salvataggio o meccanica.
+- `pizza_peel.json`, le texture approvate e i modelli delle pizze **non vengono modificati**. Il selettore continua a usare la posa caricata soltanto se presente `peel_cargo` e soltanto nei quattro contesti in mano. L'hotbar e l'inventario mostrano sempre solo la pala.
+
+### Test di accettazione (NUOVA VERSIONE, NON ANCORA COLLAUDATA)
+
+- [ ] `.\\gradlew.bat clean build` completa con Java 25.
+- [ ] In prima persona, pala **vuota** invariata e pala **carica** visibile con pizza appoggiata sul metallo.
+- [ ] In terza persona frontale, posteriore e laterale, il **manico passa nella mano**, senza posa «a chitarra» o testa vicina ai piedi.
+- [ ] In tutte e quattro le combinazioni delle mani, la pala carica punta in avanti ed è **parallela al terreno**.
+- [ ] La pizza cruda **e** cotta resta centrata sopra la testa metallica, **non** sul personaggio o sotto la lamina.
+- [ ] La pizza aggiuntiva **non** viene visualizzata in inventario, hotbar, oggetti droppati e cornici.
+- [ ] Dopo Q/raccolta, salvataggio, trasferimento Pizza Oven e ritorno a pala vuota, non compaiono perdite di dati, duplicazioni o cambiamenti di modello involontari.
+- [ ] Verificare anche il modello di un futuro item pizza aggiuntivo; nessuna whitelist di item.
+
+**Stato:** pubblicato nel ramo di sviluppo, verifiche statiche da completare. Non segnare «risolto» prima dell'esito della build e del test in Minecraft.
+
 ## Compilazione
 
 ```powershell
