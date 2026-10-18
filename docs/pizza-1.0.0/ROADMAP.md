@@ -26,6 +26,8 @@
 
 **PEEL — affinamento dopo test 18 ottobre 2026, DA VERIFICARE:** l'autore vede correttamente la pala in prima persona, ma **non la pizza**; in terza il manico non attraversa la mano e il contenuto resta fuori dalla lamina. Regolati soltanto (1) grip loaded terza persona da [0,2,-4] a [0,3,-8], (2) verso della faccia dell'item pizza da +Z a -Z per evitare occultamento dietro il metallo, (3) scala pizza 0.34→0.44. La pala vuota e i dati sono invariati. Nuovo test visivo richiesto. [Guida](PIZZA_PEEL_TESTS.md).
 
+**CORREZIONE PALA CARICA — 18 ottobre 2026 (DA COLLAUDARE):** dopo ripetuti screenshot con la testa della pala e la pizza vicino ai piedi, implementato un cambiamento **geometrico** anziché ulteriori offset: rotazione -90° dei tre cuboidi del modello carico **attorno all'impugnatura [8,6.75,8]**, con `display` ereditato dall'originale già approvato. Il centro pizza è stato calcolato dal nuovo piano metallico `[8,7.25,-5.5]`; l'item completo del cargo si dispone sopra la lamina usando la stessa posa della pala e una rotazione locale. Nessuna modifica al modello/PNG vuoto o al gameplay. Verifiche matematiche e statiche superate, compilazione e test in gioco ancora necessari: [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
