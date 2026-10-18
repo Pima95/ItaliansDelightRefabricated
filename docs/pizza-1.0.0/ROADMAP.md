@@ -12,6 +12,8 @@
 
 **REVISIONE UV 18 ottobre 2026 (da testare in gioco):** corrette le proporzioni dei pixel del Pizza Peel confrontando le dimensioni di tutte le 18 facce dei tre cuboidi con le UV del PNG 64×64: peggiore distorsione 4,81→1,13. Pixel campionati opachi; geometria, posizione nella mano, texture e logica invariati. [Checklist](PIZZA_PEEL_TESTS.md).
 
+**PEEL — RIFINITURE DEL 18 OTTOBRE 2026:** confermato visivamente dall'autore il modello/UV della pala; completato il supporto all'interazione con la pala in entrambe le mani (senza modificare la priorità degli strumenti nella mano principale) e aggiunti avvisi localizzati per forno vuoto/pieno, pizza cotta non inseribile, pala già occupata. Nuovi test in gioco **pendenti**, vedere [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). Da decidere ancora: ricetta/sblocco, resa della pala occupata, utilizzo come arma solo a pala vuota.
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
