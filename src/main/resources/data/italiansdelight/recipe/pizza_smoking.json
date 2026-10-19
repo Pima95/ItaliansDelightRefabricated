@@ -1,0 +1,10 @@
+{
+  "type": "italiansdelight:pizza_smoking",
+  "category": "food",
+  "cookingtime": 600,
+  "experience": 0,
+  "ingredient": "italiansdelight:raw_pizza",
+  "result": {
+    "id": "italiansdelight:cooked_pizza"
+  }
+}
