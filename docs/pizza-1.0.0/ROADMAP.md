@@ -47,6 +47,8 @@
 
 **PEEL 19 OTTOBRE 2026 — ARMA SOLO QUANDO VUOTA (CODICE PUBBLICATO, DA TESTARE):** dopo il collaudo dell'autore, la pala vuota usa **esattamente** `SkilletItem.createAttributes(SkilletItem.SKILLET_MATERIAL,5.0F,-3.1F)` di Farmer's Delight Refabricated 26.2 (danno della padella comprensivo del bonus del ferro, velocità -3.1, contraccolpo +1). Quando `peel_cargo` è presente, `DataComponents.ATTRIBUTE_MODIFIERS` è impostato a `ItemAttributeModifiers.EMPTY`; quando la pizza viene depositata gli attributi vengono ripristinati. Prelievo/deposito/forno/rollback aggiornano i due componenti insieme e `inventoryTick` ripara i vecchi salvataggi. **Nessuna durabilità né speciale cottura/suoni della padella**, geometria, UV, posizioni dell'autore e trasporto invariati. Ricetta crafting ancora da definire prima di implementarla. [Checklist prove](PIZZA_PEEL_TESTS.md).
 
+**RICETTA PIZZA PEEL — 19 ottobre 2026 (CODICE PUBBLICATO, DA PROVARE):** l'autore ha approvato il crafting sagomato diagonale con 3 lingotti di ferro e 2 bastoni: `" II" / " SI" / "S  "`, con variante speculare `"II " / "IS " / "  S"`. Pubblicata una sola ricetta `data/italiansdelight/recipe/pizza_peel.json`, che utilizza il riconoscimento speculare nativo delle shaped recipes Java; aggiunto advancement `data/italiansdelight/advancement/recipes/tools/pizza_peel.json` per lo sblocco quando si ottiene un lingotto di ferro. Output 1 pala, senza cambiare attributi, durabilità, trasporto e modelli. Test in gioco e visualizzazione JEI da eseguire. [Test della pala](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
@@ -115,7 +117,7 @@
 - [x] **Confermati linea parallela alla direzione cardinale piu' vicina allo sguardo e orientamento a scatti** N/S/E/O, per due meta' sinistra/destra. Non viene usata una rotazione libera per le diagonali.
 - [x] **Selezione delle zone tramite posizione effettiva del clic**; sui confini e sulle intersezioni una sola zona in modo deterministico, senza selezioni doppie.
 - [x] **Spareggi confini e diagonali APPROVATI (13 ottobre 2026):** prevalgono destra sui confini delle meta', davanti sui confini dei quarti, davanti-destra al centro. In caso di visuale equidistante fra cardinali, prevale il successivo in senso orario (N/E -> E, E/S -> S, S/O -> O, O/N -> N). Nessuna hitbox separata per le linee. Tolleranza numerica iniziale `1/1024` di blocco, **da validare in test**. [Dettagli](QUARTERS_AND_PEEL.md).
-- [ ] Pala: definire ricetta, tooltip, resa grafica, e dettagli di integrazione **facoltativa** con il forno (**trasporto, drop/pickup, despawn e distruzione ambientale vanilla gia' confermati**, cosi' come assenza di durabilita' e stack massimo 1).
+- [x] Pala: ricetta diagonale **APPROVATA E PUBBLICATA** (3 lingotti di ferro e 2 bastoni; versione speculare valida); tooltip, resa grafica e dettagli di integrazione **facoltativa** con il forno (**trasporto, drop/pickup, despawn e distruzione ambientale vanilla gia' confermati**, cosi' come assenza di durabilita' e stack massimo 1).
 - [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
 - [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
 - [ ] Verificare in gioco che la Soul Sand sia vietata e che slab superiori/doppie, scale capovolte, botole superiori chiuse e incudini funzionino ancora; verificare anche recupero se il supporto viene rotto.
@@ -125,7 +127,7 @@
 - [x] **Automazione hopper approvata**: **sopra** inserimento pizze crude, **lati** inserimento combustibile, **sotto** estrazione esclusiva delle pizze completamente cotte dallo slot output, come nella fornace vanilla. La GUI e la pala restano metodi manuali.
 - [ ] **Implementare e testare gli hopper** rispettando il vincolo di una pizza totale, l'assenza di estrazione automatica a cottura incompleta, le rimanenze del combustibile, i salvataggi e il multiplayer.
 - [x] **Ricetta Pizza Oven concordata**: fornace centrale + 4 blocchi di mattoni + 4 blocchi di mattoni di pietra; schema **BSB / SFS / BSB** (B = bricks, S = stone bricks, F = furnace).
-- [ ] **Implementare e testare** la ricetta shaped 3x3, il relativo sblocco nel ricettario e la visualizzazione in JEI.
+- [ ] **TESTARE IN GIOCO** la ricetta sagomata 3×3 della pala e il suo riflesso speculare, sblocco nel ricettario e visualizzazione JEI. Implementazione JSON della ricetta e advancement già pubblicata.
 - [ ] Implementare e testare la **pizza-item ottenuta rompendo la pizza formata nel mondo**, con stato di cottura, divisioni, applicazioni e rendering conservati; verificare nessun drop separato di dough/topping e trasferimento corretto al Pizza Oven.
 - [x] **Percorso senza pala dal mondo al Pizza Oven — CONFERMATO:** rompere la pizza gia' formata a terra per ottenere la **pizza-item integra**, quindi inserirla nel forno direttamente. Nessun clic destro a mano vuota raccoglie la pizza da terra.
 - [x] **Pizza-item nel forno tramite GUI**: la pizza ottenuta rompendo una pizza formata a terra (o da crafting) e' inseribile senza pala tramite la GUI; estrazione tramite GUI disponibile.
@@ -288,4 +290,4 @@
 
 ## Prossimo tema da concordare
 
-**Prossimo passo:** compilare e verificare in gioco la **FASE 4D — Pala per pizza** seguendo [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). In particolare provare una pizza assortita, trasporto mondo → pala → Pizza Oven → pala → mondo, reset del tempo di cottura, due pale separate e rifiuto di un forno occupato. L'uso senza pala via GUI resta invariato. Ricetta della pala, aspetto occupato e futuro uso come arma restano da definire; successivamente procedere con fornace e affumicatore vanilla. Le migliorie al Cardoon/Basilico rimangono in [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md).
+**Prossimo passo:** compilare e verificare in gioco la **FASE 4D — Pala per pizza e nuova ricetta speculare** seguendo [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). In particolare provare una pizza assortita, trasporto mondo → pala → Pizza Oven → pala → mondo, reset del tempo di cottura, due pale separate e rifiuto di un forno occupato. L'uso senza pala via GUI resta invariato. Ricetta della pala, aspetto occupato e futuro uso come arma restano da definire; successivamente procedere con fornace e affumicatore vanilla. Le migliorie al Cardoon/Basilico rimangono in [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md).
