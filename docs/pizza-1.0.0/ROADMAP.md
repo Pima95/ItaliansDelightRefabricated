@@ -275,8 +275,8 @@
 ### Fase 5: forno vanilla e crafting
 
 - [x] **Cottura in fornace e affumicatore vanilla funzionante in gioco**, confermata dall'autore il 19 ottobre 2026. **Da confermare separatamente:** dati componenti delle pizze miste, rimborsi contenitori, hopper, JEI e multiplayer; [checklist](VANILLA_FURNACES_TESTS.md).
-- [ ] Ricetta speciale di crafting per pizze libere.
-- [ ] JEI: esempi di pizze riconosciute, condimenti, lavorazioni e forni.
+- [x] **Crafting shapeless delle pizze uniformi implementato** (19 ottobre 2026): un `farmersdelight:wheat_dough` e da 1 a 6 topping distinti approvati, stessa composizione sui quattro quarti, salsa facoltativa e non sovrapponibile, output `raw_pizza` con nome e dati dinamici. **DA COMPILARE E TESTARE**. Pizze assortite continuano a richiedere la preparazione nel mondo. [Test dettagliati](PIZZA_CRAFTING_TESTS.md).
+- [ ] JEI: esempi di pizze riconosciute, condimenti, lavorazioni e forni. **Nota:** `PizzaCraftingRecipe` è speciale/dinamica e non viene mostrata automaticamente nella lista di ricette; serve una visualizzazione esplicita in un passaggio successivo.
 - [ ] Implementare il sistema di **servizio diretto**: pizza cotta piazzata -> clic destro a mano vuota sul quarto -> un item fetta nell'inventario se c'e' spazio, altrimenti nessuna modifica. Nessun taglio preliminare/utensile. La pizza intera non e' commestibile; ogni fetta contiene i condimenti del quarto fisico. Quarto mancante visibile in-world; l'ultima raccolta elimina il blocco.
 
 ### Fase 6: test e pubblicazione
