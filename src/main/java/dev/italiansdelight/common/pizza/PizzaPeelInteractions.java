@@ -5,6 +5,7 @@ import dev.italiansdelight.common.block.PizzaDoughBlock;
 import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaOvenBlockEntity;
+import dev.italiansdelight.common.item.PizzaPeelItem;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
@@ -92,9 +93,9 @@ public final class PizzaPeelInteractions {
 
             // Prepare the sole cargo before deleting the source; revert if
             // Minecraft refuses removal. Do NOT trigger the block loot table.
-            peel.set(ModDataComponents.PEEL_CARGO, new PizzaPeelCargo(pizza));
+            PizzaPeelItem.setCargo(peel, new PizzaPeelCargo(pizza));
             if (!server.removeBlock(clicked, false)) {
-                peel.remove(ModDataComponents.PEEL_CARGO);
+                PizzaPeelItem.setCargo(peel, null);
                 return InteractionResult.FAIL;
             }
             server.playSound(null, clicked, SoundEvents.WOOL_PLACE,
@@ -165,7 +166,7 @@ public final class PizzaPeelInteractions {
         }
 
         // Commit the release only AFTER the target has its BlockEntity data.
-        peel.remove(ModDataComponents.PEEL_CARGO);
+        PizzaPeelItem.setCargo(peel, null);
         server.playSound(null, target, SoundEvents.WOOL_PLACE,
                 SoundSource.BLOCKS, 0.7F, 1.0F);
         server.gameEvent(player, GameEvent.BLOCK_PLACE, target);
@@ -197,7 +198,7 @@ public final class PizzaPeelInteractions {
                         : "item.italiansdelight.pizza_peel.oven_occupied");
                 return InteractionResult.SUCCESS;
             }
-            peel.remove(ModDataComponents.PEEL_CARGO);
+            PizzaPeelItem.setCargo(peel, null);
         } else {
             // Finished output first; otherwise a raw/part-cooked input.
             // Cook progress belongs to the oven and resets upon removal.
@@ -206,7 +207,7 @@ public final class PizzaPeelInteractions {
                 notifyOnServer(player, level, "item.italiansdelight.pizza_peel.oven_empty");
                 return InteractionResult.SUCCESS;
             }
-            peel.set(ModDataComponents.PEEL_CARGO, new PizzaPeelCargo(taken));
+            PizzaPeelItem.setCargo(peel, new PizzaPeelCargo(taken));
         }
         if (level instanceof ServerLevel server) {
             server.playSound(null, pos, SoundEvents.WOOL_PLACE,
