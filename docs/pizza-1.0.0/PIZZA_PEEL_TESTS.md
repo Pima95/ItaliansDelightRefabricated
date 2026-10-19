@@ -371,6 +371,30 @@ La resa grafica del modello 3D e delle UV è stata confermata soddisfacente dall
 
 **Stato:** codice pubblicato, verifica delle sorgenti e dei percorsi di transizione eseguita. **Non ancora compilato o collaudato in Minecraft 26.2**; da testare prima di dichiarare conclusa la funzione.
 
+## Ricetta definitiva Pizza Peel — 19 ottobre 2026 (DA TESTARE)
+
+L'autore ha scelto **esattamente due versioni speculari** dello stesso crafting diagonale 3×3, con **tre lingotti di ferro** (`I`) e **due bastoni** (`S`), e nessun altro ingrediente:
+
+```text
+Originale       Speculare
+· I I           I I ·
+· S I           I S ·
+S · ·           · · S
+```
+
+- File: `data/italiansdelight/recipe/pizza_peel.json` (`minecraft:crafting_shaped`, `category: equipment`, `result: 1 italiansdelight:pizza_peel`).
+- Pattern nel file: `[" II"," SI","S  "]`. La sua forma riflessa `["II ","IS ","  S"]` è supportata dal riconoscimento speculare vanilla delle ricette sagomate Java. **Non** definire un secondo JSON: introdurrebbe una seconda voce identica nel ricettario.
+- Advancement: `data/italiansdelight/advancement/recipes/tools/pizza_peel.json` con criterio di possesso di un lingotto di ferro e ricetta sbloccata, secondo lo standard usato da `cheese_grater` e `rolling_pin`.
+- L'output è una pala vuota, non impilabile, priva di durabilità, con attributi da arma come la padella di FDR. La ricetta non altera il componente del cargo, i modelli, la visualizzazione in mano o le funzioni di trasporto.
+
+**Prove richieste nel client:**
+- [ ] Crafting completo `· I I / · S I / S · ·` produce 1 Pizza Peel.
+- [ ] Crafting speculare `I I · / I S · / · · S` produce 1 Pizza Peel.
+- [ ] Entrambe le versioni consumano esattamente 3 lingotti di ferro e 2 bastoni, e **nessun materiale aggiuntivo**.
+- [ ] Lo sblocco ricetta funziona ottenendo lingotti di ferro; nessuna voce duplicata nel libro delle ricette.
+- [ ] La ricetta compare correttamente in JEI (se la mod è installata).
+- [ ] La pala ottenuta è vuota, non impilabile, con attributi di combattimento della padella; trasporto e forno funzionano senza regressioni.
+
 ## Test A — Oggetto e texture
 
 - [ ] **Collaudo nuova UV:** in terza persona verificare che le venature del manico non siano stirate, il raccordo non mostri righe metalliche enormi e sui lati inferiore/superiore della pala non compaiano pixel allungati; verificare anche prima persona, inventario e icona a terra.
@@ -413,7 +437,7 @@ La resa grafica del modello 3D e delle UV è stata confermata soddisfacente dall
 
 ## Da definire successivamente
 
-- [ ] Ricetta/materiali e sblocco nel recipe book, previa decisione dell'autore.
+- [x] Ricetta diagonale e speculare approvata, definita e pubblicata; **test in-game dello sblocco e di JEI ancora pendenti**.
 - [ ] Aspetto grafico **specifico della pala occupata**: mantenere per ora la texture già presente; non alterare gli asset senza autorizzazione.
 - [ ] Possibile pala come arma **solo quando vuota**: danni e velocità non definiti, nessun codice da arma aggiunto.
 - [ ] Prestazioni, resilienza delle modifiche in multiplayer e compatibilità dei modpack secondo la checklist generale.
