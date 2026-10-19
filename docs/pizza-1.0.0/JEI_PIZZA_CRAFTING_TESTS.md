@@ -2,7 +2,7 @@
 
 **Data:** 19 ottobre 2026  
 **Ramo:** `feature/pizza-1.0.0`  
-**Stato:** codice pubblicato, **BUILD JAVA 25 SUPERATA SU GITHUB ACTIONS; TEST NEL CLIENT ANCORA PENDENTI**.
+**Stato (19 ottobre 2026):** codice compilato su GitHub Actions; **l'autore ha confermato il funzionamento in Minecraft delle cinque anteprime JEI**. Restano aperti test di regressione, casi limite, multiplayer e server dedicato.
 
 ## Scopo
 
@@ -45,8 +45,8 @@ Tutti gli item sono già presenti in Italian's Delight / Farmer's Delight Refabr
 ## Checklist di collaudo
 
 - [x] Build Java 25 senza errori di compilazione JEI, registri e classe `GuiGraphicsExtractor` (`gradlew clean build`). **Superata in GitHub Actions il 19 ottobre 2026** sul commit `394a42abeded0adf34416041c86a486f88cbe904`: [log della build](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/39321402134).
-- [ ] `runClient`: nessun crash durante caricamento/modlist/JEI o ingresso in mondo.
-- [ ] Nel JEI aprire la categoria «Pizze personalizzabili (esempi)», con icona del banco da lavoro: **cinque esempi**, ciascuno con gli ingredienti reali in griglia 3×3, output di pizza cruda con nome corretto.
+- [x] `runClient`: nessun crash durante caricamento/modlist/JEI o ingresso in mondo.
+- [x] Nel JEI aprire la categoria «Pizze personalizzabili (esempi)», con icona del banco da lavoro: **cinque esempi**, ciascuno con gli ingredienti reali in griglia 3×3, output di pizza cruda con nome corretto.
 - [ ] JEI `R` su `raw_pizza` o `U` su `wheat_dough`, tomato sauce, mozzarella: controllare che la categoria compaia e non venga nascosta come ricetta speciale vanilla.
 - [ ] L'output della Margherita mantiene `pizza_contents` e il suo nome **Pizza Margherita**; l'esempio da sei ingredienti mostra il suo nome dinamico, non un nome fisso inesistente.
 - [ ] Le descrizioni sono traducibili IT/EN e indicano che **sono esempi**, non il set completo; nessun tooltip ingannevole sull'obbligatorietà della salsa.
@@ -60,6 +60,10 @@ Tutti gli item sono già presenti in Italian's Delight / Farmer's Delight Refabr
 ## Build automatizzata
 
 La compilazione viene verificata automaticamente per ogni push sul ramo `feature/pizza-1.0.0` dal workflow [Pizza 1.0.0 - Build](../../.github/workflows/pizza-build.yml). Esegue `bash ./gradlew clean build --no-daemon --stacktrace` con JDK 25. La build verifica la compilazione e i controlli Gradle configurati, **non** prova avvio client, caricamento JEI, GUI o gameplay: le checklist runtime restano aperte.
+
+## Passo successivo
+
+La guida alle **tre modalità di cottura** è ora implementata; i test separati si trovano in [JEI_PIZZA_BAKING_TESTS.md](JEI_PIZZA_BAKING_TESTS.md).
 
 ## Limite di verifica
 
