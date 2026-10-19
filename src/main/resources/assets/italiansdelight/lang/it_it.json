@@ -183,5 +183,13 @@
   "item.italiansdelight.pizza_peel.oven_empty": "Non c'è nessuna pizza da prelevare",
   "gui.italiansdelight.jei.pizza_crafting_examples": "Pizze personalizzabili (esempi)",
   "gui.italiansdelight.jei.pizza_crafting_examples.description": "Esempi: puoi combinare liberamente da 1 a 6 condimenti approvati.",
-  "gui.italiansdelight.jei.pizza_crafting_examples.rule": "Un solo impasto, massimo una salsa; tutti i quarti sono uguali."
+  "gui.italiansdelight.jei.pizza_crafting_examples.rule": "Un solo impasto, massimo una salsa; tutti i quarti sono uguali.",
+  "gui.italiansdelight.jei.pizza_baking": "Cottura delle pizze (guida)",
+  "gui.italiansdelight.jei.pizza_baking.method.oven": "Pizza Oven: 20 secondi",
+  "gui.italiansdelight.jei.pizza_baking.method.smoker": "Affumicatore: 30 secondi",
+  "gui.italiansdelight.jei.pizza_baking.method.furnace": "Fornace: 60 secondi",
+  "gui.italiansdelight.jei.pizza_baking.time": "Tempo di cottura: %s secondi",
+  "gui.italiansdelight.jei.pizza_baking.fuel": "Carbone d'esempio: puoi usare qualsiasi combustibile vanilla valido.",
+  "gui.italiansdelight.jei.pizza_baking.note": "Guida: qualsiasi pizza cruda con condimenti si cuoce allo stesso modo; non può bruciare.",
+  "gui.italiansdelight.jei.pizza_baking.bowls": "Ciotole delle salse restituite alla cottura, una per applicazione originale."
 }
