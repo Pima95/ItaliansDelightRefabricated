@@ -103,7 +103,12 @@ public final class ModItems {
 
         public static final Item PIZZA_PEEL = register(
                 PIZZA_PEEL_KEY, PizzaPeelItem::new,
-                new Item.Properties().stacksTo(1));
+                // Same damage, speed and knockback as the FDR 26.2 skillet,
+                // but only when the peel is EMPTY. A loaded stack overrides
+                // ATTRIBUTE_MODIFIERS with EMPTY; PizzaPeelItem restores them.
+                // No durability: the peel remains endlessly reusable.
+                new Item.Properties().stacksTo(1)
+                        .attributes(PizzaPeelItem.EMPTY_PEEL_WEAPON_ATTRIBUTES));
 
         // Pizza 1.0.0: rolling pin, 64 uses like the vanilla brush.
         // Crafting recipe and a dedicated texture are intentionally deferred.
