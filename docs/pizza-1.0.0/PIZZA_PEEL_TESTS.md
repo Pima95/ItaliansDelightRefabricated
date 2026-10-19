@@ -343,6 +343,34 @@ La resa grafica del modello 3D e delle UV è stata confermata soddisfacente dall
 - [ ] Messaggi IT/EN leggibili quando il forno è occupato, vuoto o contiene una pizza incompatibile; la pizza resta conservata sullo strumento dopo un rifiuto.
 - [ ] Provare le stesse interazioni su server dedicato e con due giocatori; niente duplicazioni, cambi di orientamento o perdita di ingredienti.
 
+## Fase 4D — Pala vuota come arma (19 ottobre 2026; DA COMPILARE E COLLAUDARE)
+
+**Decisione dell'autore:** dopo il collaudo del trasporto, quando **non** contiene una pizza la pala per pizza deve essere un'arma con gli **identici attributi di combattimento** della padella di *Farmer's Delight Refabricated 26.2-3.6.28*. Quando contiene una pizza non deve aggiungere danno, velocità o contraccolpo da arma. La pala resta senza durabilità e non acquisisce la cottura manuale, i lanci o i suoni speciali della padella.
+
+**Riferimento sorgente esatto:**
+- [SkilletItem.java, ramo fabric/latest/26.2](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/item/SkilletItem.java): `SkilletItem.createAttributes(SKILLET_MATERIAL, 5.0F, -3.1F)` produce **danno +5.0 più bonus del materiale ferro**, **velocità -3.1**, **contraccolpo +1.0**, tutti limitati alla **main hand**.
+- [ModItems.java di FDR 26.2](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.2/src/main/java/vectorwing/farmersdelight/common/registry/ModItems.java): registra la padella con gli stessi parametri. Il riferimento è **la dipendenza già presente nel progetto**, non valori duplicati e indipendenti.
+
+**Implementazione:**
+1. `PizzaPeelItem.EMPTY_PEEL_WEAPON_ATTRIBUTES` delega direttamente a `SkilletItem.createAttributes`. `ModItems.PIZZA_PEEL` li registra tramite `.attributes(...)` con `.stacksTo(1)` e senza `.durability(...)`.
+2. Il componente vanilla `DataComponents.ATTRIBUTE_MODIFIERS` viene **impostato esplicitamente a `ItemAttributeModifiers.EMPTY` quando `PEEL_CARGO` è presente**, rimuovendo **tutti** i bonus da arma della pala; quando il cargo viene tolto è **ripristinata** l'istanza originale degli attributi della padella.
+3. `PizzaPeelInteractions` usa `PizzaPeelItem.setCargo` in ogni operazione di prelievo, posa, trasferimento al forno, estrazione e rollback dopo un fallimento. Attributi e componente pizza si aggiornano sulla **stessa ItemStack**, senza sostituirla o duplicarla.
+4. `PizzaPeelItem.inventoryTick` verifica e riallinea la componente **solo se necessario** lato server. Copre i vecchi salvataggi, comandi, copie o trasferimenti tramite altri inventari: una pala già carica all'accesso riceve `EMPTY`, una vuota riceve i bonus della padella. Non resetta continuamente il componente a ogni tick.
+5. La pesca, la posa, la cottura e la resa grafica della pala **non vengono toccate**. Ricetta crafting ancora **da decidere**.
+
+**Test di regressione (in survival e server dedicato):**
+- [ ] Pala vuota in MAIN HAND: tooltip e colpi mostrano **gli stessi tre modificatori** della padella della versione FDR installata; velocità e contraccolpo uguali; non si consuma né si rompe colpendo.
+- [ ] Pala carica in MAIN HAND: tutti i modificatori da arma **assenti**, attacco equivalente a un normale colpo a mani nude (al netto di effetti/enchants esterni); pizza invariata anche dopo ripetuti attacchi.
+- [ ] Pala carica in OFF HAND: non trasferisce i bonus da arma; deve ancora trasportare/inserire/estrarre pizze rispettando la priorità delle mani.
+- [ ] Prelevare pizza cruda/cotta da terra e dal Pizza Oven: bonus **disattivati immediatamente**, senza duplicazioni.
+- [ ] Posare la pizza o inserirla nel Pizza Oven: bonus **ripristinati immediatamente**.
+- [ ] Operazione fallita (supporto non valido / forno pieno / rollback del prelievo): cargo e modificatori rimangono sincronizzati.
+- [ ] Salvare con pala carica e ricaricare un mondo precedente all'aggiornamento: bonus disattivati dopo il caricamento nell'inventario, il componente pizza resta identico.
+- [ ] Drop con Q, trasferimento in cassa, recupero da altro giocatore: la pala resta dello stato previsto, senza duplicazione e con attributi coerenti.
+- [ ] Il rendering della pizza sulla lama, le trasformazioni personalizzate dall'autore, l'inventario/hotbar e la pala vuota rimangono invariati.
+
+**Stato:** codice pubblicato, verifica delle sorgenti e dei percorsi di transizione eseguita. **Non ancora compilato o collaudato in Minecraft 26.2**; da testare prima di dichiarare conclusa la funzione.
+
 ## Test A — Oggetto e texture
 
 - [ ] **Collaudo nuova UV:** in terza persona verificare che le venature del manico non siano stirate, il raccordo non mostri righe metalliche enormi e sui lati inferiore/superiore della pala non compaiano pixel allungati; verificare anche prima persona, inventario e icona a terra.
