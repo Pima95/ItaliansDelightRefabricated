@@ -2,6 +2,7 @@ package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.ItaliansDelight;
 import dev.italiansdelight.client.gui.CheeseVatScreen;
+import dev.italiansdelight.client.gui.PizzaOvenScreen;
 import dev.italiansdelight.common.registry.ModBlocks;
 
 import mezz.jei.api.IModPlugin;
@@ -50,6 +51,9 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
                 registration.getJeiHelpers().getGuiHelper()
             ),
             new PizzaCraftingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
+            new PizzaBakingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             )
         );
@@ -117,6 +121,12 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
             PizzaCraftingJeiRecipes.createExamples()
         );
+
+        // Three educational examples of existing baking methods; no new gameplay recipes.
+        registration.addRecipes(
+            PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
+            PizzaBakingJeiRecipes.createExamples()
+        );
     }
 
     @Override
@@ -149,6 +159,12 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
             new ItemStack(net.minecraft.world.level.block.Blocks.CRAFTING_TABLE)
         );
+
+        // The pizza oven opens a guide comparing all three supported machines.
+        registration.addCraftingStation(
+            PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
+            new ItemStack(ModBlocks.PIZZA_OVEN)
+        );
     }
 
     @Override
@@ -165,6 +181,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             17,
 
             CheeseVatJeiRecipeTypes.CHEESE_VAT
+        );
+
+        // Vanilla-layout arrow in our dedicated pizza furnace screen.
+        registration.addRecipeClickArea(
+            PizzaOvenScreen.class,
+            79, 34, 24, 16,
+            PizzaBakingJeiRecipeTypes.PIZZA_BAKING
         );
     }
 }
