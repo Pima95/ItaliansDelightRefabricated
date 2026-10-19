@@ -180,5 +180,8 @@
   "item.italiansdelight.pizza_peel.already_loaded": "La pala trasporta già una pizza",
   "item.italiansdelight.pizza_peel.already_cooked": "La pizza è già cotta: non può essere inserita nel forno",
   "item.italiansdelight.pizza_peel.oven_occupied": "Il forno non può accettare questa pizza",
-  "item.italiansdelight.pizza_peel.oven_empty": "Non c'è nessuna pizza da prelevare"
+  "item.italiansdelight.pizza_peel.oven_empty": "Non c'è nessuna pizza da prelevare",
+  "gui.italiansdelight.jei.pizza_crafting_examples": "Pizze personalizzabili (esempi)",
+  "gui.italiansdelight.jei.pizza_crafting_examples.description": "Esempi: puoi combinare liberamente da 1 a 6 condimenti approvati.",
+  "gui.italiansdelight.jei.pizza_crafting_examples.rule": "Un solo impasto, massimo una salsa; tutti i quarti sono uguali."
 }
