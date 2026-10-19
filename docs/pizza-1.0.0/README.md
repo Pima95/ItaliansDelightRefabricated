@@ -16,6 +16,8 @@
 
 **Modello pala rivisto (18 ottobre 2026):** dopo un test che ha rilevato UV errate e impugnatura fuori mano, il precedente modello a 7 elementi è stato **sostituito** con un modello 3D a **3 cuboidi progettati dalle isole UV del PNG originale 64×64**. Facce in legno esclusivamente dal materiale ligneo, lama in metallo da una sola regione e impugnatura ispirata al tridente vanilla ma riadattata al nostro JSON. **Nuovo collaudo visivo pendente**; vedi [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). La texture originale e la logica di gioco sono inalterate.
 
+**Crafting libero — 19 ottobre 2026 (CODICE PUBBLICATO, DA TESTARE):** approvata e implementata una **ricetta shapeless dinamica** con **1 Farmer's Delight wheat dough + 1–6 topping distinti**, tutti applicati ai quattro quarti della pizza cruda. Usa la stessa whitelist/equivalenze, l'esclusività delle salse e il naming della preparazione nel mondo. Le pizze assortite si preparano ancora nel mondo; il crafting produce soltanto pizze uniformi. **La ricetta speciale potrebbe non apparire automaticamente in JEI/ricettario:** esempi JEI sono ancora in roadmap. [Specifiche e test](PIZZA_CRAFTING_TESTS.md). Le ottimizzazioni restano solo proposte documentate e non sono state applicate.
+
 ## Attività grafiche da completare prima della 1.0.0
 
 - [ ] Aggiornare la **texture dell'item `raw_pizza`**: PNG 16×16 RGBA; pixel dell'oggetto interamente opachi, sfondo trasparente e nessuna semitrasparenza ai bordi.
