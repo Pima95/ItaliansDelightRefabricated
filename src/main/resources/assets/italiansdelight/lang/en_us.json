@@ -183,5 +183,13 @@
   "item.italiansdelight.pizza_peel.oven_empty": "There is no pizza to retrieve",
   "gui.italiansdelight.jei.pizza_crafting_examples": "Customizable Pizzas (Examples)",
   "gui.italiansdelight.jei.pizza_crafting_examples.description": "Examples: freely combine 1 to 6 approved toppings.",
-  "gui.italiansdelight.jei.pizza_crafting_examples.rule": "One dough, at most one sauce; all four quarters match."
+  "gui.italiansdelight.jei.pizza_crafting_examples.rule": "One dough, at most one sauce; all four quarters match.",
+  "gui.italiansdelight.jei.pizza_baking": "Pizza Baking (Guide)",
+  "gui.italiansdelight.jei.pizza_baking.method.oven": "Pizza Oven: 20 seconds",
+  "gui.italiansdelight.jei.pizza_baking.method.smoker": "Smoker: 30 seconds",
+  "gui.italiansdelight.jei.pizza_baking.method.furnace": "Furnace: 60 seconds",
+  "gui.italiansdelight.jei.pizza_baking.time": "Cooking time: %s seconds",
+  "gui.italiansdelight.jei.pizza_baking.fuel": "Coal is only an example; any valid vanilla fuel works.",
+  "gui.italiansdelight.jei.pizza_baking.note": "Guide: all topped raw pizzas cook the same way and never burn.",
+  "gui.italiansdelight.jei.pizza_baking.bowls": "Sauce bowls are returned after cooking, one per original application."
 }
