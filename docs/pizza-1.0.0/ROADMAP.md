@@ -264,6 +264,14 @@
 
 - [x] **FASE 4C — piazzamento pizza cotta, QUATTRO SPICCHI, DATI QUARTO confermati funzionanti dall'autore (17 ottobre 2026):** nuovo blocco interno `cooked_pizza`, BE persistente, blocco rotabile con maschera `remaining` 0..15, quattro modelli placeholder + `CookedPizzaRenderer`, clic a mano vuota server-side, `pizza_slice` commestibile e componente `pizza_slice_contents` solo con i propri topping, valori fame/saturazione per categorie; inventario pieno -> no pickup/no drop. Rottura integra e rottura parziale danno output corretto. **Nomi gusti e tooltip NON IMPLEMENTATI.** [Test](COOKED_PIZZA_SLICES_TESTS.md).
 
+### Fase 5 — Cottura nelle fornaci vanilla (19 ottobre 2026; PUBBLICATA, DA COMPILARE/TESTARE)
+
+**Funzione appena sviluppata:** `raw_pizza` → `cooked_pizza` anche nella fornace vanilla (**1200 tick / 60 s**) e nell'affumicatore (**600 tick / 30 s**), senza creare un secondo item per ogni gusto. Sono stati aggiunti due serializer `italiansdelight:pizza_smelting` e `italiansdelight:pizza_smoking` che utilizzano i **tipi vanilla** `RecipeType.SMELTING`/`RecipeType.SMOKING`, con output calcolato da `PizzaBaking.finish()`. Gli item conservano i dati dei condimenti, i quarti e il nome tradotto, mentre il timer risiede esclusivamente nel forno. Il nuovo mixin su `AbstractFurnaceBlockEntity.serverTick` interviene soltanto al `burn` completato per consegnare **una ciotola per ogni applicazione originale** di salsa/panna/ricotta, all'hopper sottostante oppure in drop. Nessuna alterazione ad altri cibi, carburanti o al Pizza Oven.
+
+**Limiti di verifica:** riscontro API effettuato contro sorgenti decompilati **26.2 snapshot 2**, non contro una compilazione del progetto; il runtime dell'assistente non dispone del toolchain Java 25. **Verificare build, ricette caricate, JEI e gameplay prima di dichiarare la fase completata.** Non sono stati aggiunti ancora crafting delle pizze libere o modifiche ai modelli.
+
+**Documentazione del nuovo test:** [VANILLA_FURNACES_TESTS.md](VANILLA_FURNACES_TESTS.md).
+
 ### Fase 5: forno vanilla e crafting
 
 - [ ] Prototipo conservazione componenti passando da **fornace e affumicatore vanilla**.
