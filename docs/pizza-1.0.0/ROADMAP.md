@@ -45,6 +45,8 @@
 
 **PEEL — presa in terza persona, 18 ottobre 2026 (DA TESTARE):** il nuovo screenshot mostra un risultato quasi corretto; la pizza resta sulla lama, ma il manico attraversa l'avambraccio, sopra il pugno. Dal prodotto delle rotazioni vanilla `ItemInHandLayer` (X=-90°, Y=180°), il **+Z locale punta in basso** nello spazio mondo. Corretto dunque soltanto il display Z da **2 a 5**, per abbassare la pala carica di 3 pixel di modello; X=0, Y=2, rotazione X=-90° e scala 0.8 inalterate. Applicato identicamente al livello pizza Java e al modello JSON, prima persona e pala vuota invariati. [Test](PIZZA_PEEL_TESTS.md).
 
+**PEEL 19 OTTOBRE 2026 — ARMA SOLO QUANDO VUOTA (CODICE PUBBLICATO, DA TESTARE):** dopo il collaudo dell'autore, la pala vuota usa **esattamente** `SkilletItem.createAttributes(SkilletItem.SKILLET_MATERIAL,5.0F,-3.1F)` di Farmer's Delight Refabricated 26.2 (danno della padella comprensivo del bonus del ferro, velocità -3.1, contraccolpo +1). Quando `peel_cargo` è presente, `DataComponents.ATTRIBUTE_MODIFIERS` è impostato a `ItemAttributeModifiers.EMPTY`; quando la pizza viene depositata gli attributi vengono ripristinati. Prelievo/deposito/forno/rollback aggiornano i due componenti insieme e `inventoryTick` ripara i vecchi salvataggi. **Nessuna durabilità né speciale cottura/suoni della padella**, geometria, UV, posizioni dell'autore e trasporto invariati. Ricetta crafting ancora da definire prima di implementarla. [Checklist prove](PIZZA_PEEL_TESTS.md).
+
 ## Checklist decisioni già CONFERMATE
 
 - [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
@@ -225,11 +227,11 @@
 
 ### Estensione successiva: pala usabile anche come arma (pianificata)
 
-- [ ] Studiare il comportamento effettivo della **padella di Farmer's Delight Refabricated** come riferimento per la pala.
-- [ ] Concordare danni, velocita' d'attacco, animazioni ed effetti **della sola pala vuota**, e regole di priorita' con raccolta/posizionamento. **Pala occupata: funzionalita' speciali da arma disabilitate** (decisione confermata).
+- [x] Studiare il comportamento effettivo della **padella di Farmer's Delight Refabricated 26.2** come riferimento per la pala: attributi di danno, velocita' e knockback riprodotti tramite la funzione originale.
+- [x] Danni/velocita'/knockback della pala vuota: **stessi tre modificatori della padella FDR 26.2**. Pala occupata: nessun bonus da arma. La pala resta indistruttibile; non copia suoni speciali e funzioni di cottura della padella. **Da testare**.
 - [x] **Confermato** che la pala con pizza non funge da arma e non conferisce effetti/bonus speciali da combattimento.
-- [ ] Verificare che lo stato vuota/occupata disattivi e riattivi correttamente gli attributi speciali da arma; gli attacchi base di Minecraft non devono alterare, perdere o duplicare la pizza trasportata.
-- [ ] Aggiungere e testare la funzionalita' **solo dopo** averne definito le regole; non e' richiesta per considerare concluso il sistema base di trasporto.
+- [ ] **Test in Minecraft** che lo stato vuota/occupata disattivi e riattivi correttamente gli attributi della padella; gli attacchi base non alterino, perdano o duplichino la pizza trasportata. **Codice implementato.**
+- [ ] Testare la funzionalita' di arma della pala vuota e le regressioni su server dedicato, prima di dichiarare completata l'estensione.
 
 ### Fase 3: rendering 2.5D
 
