@@ -2,7 +2,7 @@
 
 **Data:** 19 ottobre 2026  
 **Ramo:** `feature/pizza-1.0.0`  
-**Stato:** codice pubblicato, **DA COMPILARE E TESTARE NEL CLIENT**.
+**Stato:** codice pubblicato, **BUILD JAVA 25 SUPERATA SU GITHUB ACTIONS; TEST NEL CLIENT ANCORA PENDENTI**.
 
 ## Scopo
 
@@ -44,7 +44,7 @@ Tutti gli item sono già presenti in Italian's Delight / Farmer's Delight Refabr
 
 ## Checklist di collaudo
 
-- [ ] Build Java 25 senza errori di compilazione JEI, registri e classe `GuiGraphicsExtractor` (`gradlew clean build`).
+- [x] Build Java 25 senza errori di compilazione JEI, registri e classe `GuiGraphicsExtractor` (`gradlew clean build`). **Superata in GitHub Actions il 19 ottobre 2026** sul commit `394a42abeded0adf34416041c86a486f88cbe904`: [log della build](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/39321402134).
 - [ ] `runClient`: nessun crash durante caricamento/modlist/JEI o ingresso in mondo.
 - [ ] Nel JEI aprire la categoria «Pizze personalizzabili (esempi)», con icona del banco da lavoro: **cinque esempi**, ciascuno con gli ingredienti reali in griglia 3×3, output di pizza cruda con nome corretto.
 - [ ] JEI `R` su `raw_pizza` o `U` su `wheat_dough`, tomato sauce, mozzarella: controllare che la categoria compaia e non venga nascosta come ricetta speciale vanilla.
@@ -57,6 +57,10 @@ Tutti gli item sono già presenti in Italian's Delight / Farmer's Delight Refabr
 - [ ] Test su server dedicato con e senza equivalenze datapack: nessun crash del client, gli esempi funzionano e le regole gameplay restano gestite dal server.
 - [ ] JEI non modifica modelli, texture o la posa della pizza peel già approvati.
 
+## Build automatizzata
+
+La compilazione viene verificata automaticamente per ogni push sul ramo `feature/pizza-1.0.0` dal workflow [Pizza 1.0.0 - Build](../../.github/workflows/pizza-build.yml). Esegue `bash ./gradlew clean build --no-daemon --stacktrace` con JDK 25. La build verifica la compilazione e i controlli Gradle configurati, **non** prova avvio client, caricamento JEI, GUI o gameplay: le checklist runtime restano aperte.
+
 ## Limite di verifica
 
-La revisione statica confronta le firme con l'API JEI 26.2 in uso nelle altre categorie del repository; **non è stata eseguita una compilazione o una prova GUI reale da parte dell'assistente**. La nuova categoria è pronta per il collaudo dell'autore. Nella fase 6 rimane da completare la documentazione generale di lavorazioni, forni e condimenti (anche oltre i cinque esempi illustrativi).
+La revisione statica confronta le firme con l'API JEI 26.2 in uso nelle altre categorie del repository; **la compilazione automatica su GitHub Actions è riuscita, ma non è stata eseguita una prova GUI reale nel client Minecraft**. La nuova categoria è pronta per il collaudo dell'autore. Nella fase 6 rimane da completare la documentazione generale di lavorazioni, forni e condimenti (anche oltre i cinque esempi illustrativi).
