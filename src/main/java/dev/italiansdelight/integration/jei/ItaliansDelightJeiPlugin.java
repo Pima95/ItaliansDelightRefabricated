@@ -48,6 +48,9 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             ),
             new SaltEvaporationRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
+            ),
+            new PizzaCraftingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
             )
         );
     }
@@ -107,6 +110,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
                 SaltEvaporationJeiRecipe.createDefault()
             )
         );
+
+        // Illustrative valid configurations for the dynamic crafting recipe.
+        // These do NOT introduce five distinct gameplay recipes.
+        registration.addRecipes(
+            PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
+            PizzaCraftingJeiRecipes.createExamples()
+        );
     }
 
     @Override
@@ -133,6 +143,11 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addCraftingStation(
             SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
             new ItemStack(net.minecraft.world.level.block.Blocks.CAULDRON)
+        );
+
+        registration.addCraftingStation(
+            PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
+            new ItemStack(net.minecraft.world.level.block.Blocks.CRAFTING_TABLE)
         );
     }
 
