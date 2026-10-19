@@ -274,7 +274,7 @@
 
 ### Fase 5: forno vanilla e crafting
 
-- [ ] Prototipo conservazione componenti passando da **fornace e affumicatore vanilla**.
+- [x] **Cottura in fornace e affumicatore vanilla funzionante in gioco**, confermata dall'autore il 19 ottobre 2026. **Da confermare separatamente:** dati componenti delle pizze miste, rimborsi contenitori, hopper, JEI e multiplayer; [checklist](VANILLA_FURNACES_TESTS.md).
 - [ ] Ricetta speciale di crafting per pizze libere.
 - [ ] JEI: esempi di pizze riconosciute, condimenti, lavorazioni e forni.
 - [ ] Implementare il sistema di **servizio diretto**: pizza cotta piazzata -> clic destro a mano vuota sul quarto -> un item fetta nell'inventario se c'e' spazio, altrimenti nessuna modifica. Nessun taglio preliminare/utensile. La pizza intera non e' commestibile; ogni fetta contiene i condimenti del quarto fisico. Quarto mancante visibile in-world; l'ultima raccolta elimina il blocco.
