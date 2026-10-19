@@ -1,6 +1,6 @@
 # Pizza Update 1.0.0 — Fase 5: fornace e affumicatore vanilla
 
-**Stato 19 ottobre 2026:** codice pubblicato su `feature/pizza-1.0.0`. **DA COMPILARE E TESTARE IN MINECRAFT 26.2**, Java 25. Pizza Oven approvato in precedenza: **non modificato**.
+**Stato aggiornato 19 ottobre 2026 (conferma dell'autore):** **cottura nella fornace vanilla e nell'affumicatore confermata funzionante in gioco**. Codice pubblicato su `feature/pizza-1.0.0`. La conferma riguarda il funzionamento delle due postazioni; **non dimostra automaticamente** l'esito di tutti i casi limite sotto elencati (hopper pieni, ciotole, JEI, dati di pizze assortite, server dedicato, crash su altri modpack). Non marcare come superate quelle prove senza test specifici. Pizza Oven approvato in precedenza: **non modificato**.
 
 ## Cosa è stato aggiunto
 
@@ -26,6 +26,11 @@ git pull
 ```
 
 Se il build fallisce, annotare il **primo errore Java o Mixin completo** con file e riga.
+
+## Conferma funzionale ricevuta
+
+- [x] L'autore conferma che le **due fornaci vanilla** (fornace e affumicatore) cuociono le pizze nel client in uso.
+- [ ] Collaudi approfonditi aggiuntivi elencati qui sotto, da chiudere singolarmente.
 
 ## Test manuali
 
