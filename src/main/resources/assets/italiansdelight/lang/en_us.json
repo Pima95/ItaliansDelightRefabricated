@@ -180,5 +180,8 @@
   "item.italiansdelight.pizza_peel.already_loaded": "The peel is already carrying a pizza",
   "item.italiansdelight.pizza_peel.already_cooked": "This pizza is already cooked and cannot be inserted into the oven",
   "item.italiansdelight.pizza_peel.oven_occupied": "The oven cannot accept this pizza",
-  "item.italiansdelight.pizza_peel.oven_empty": "There is no pizza to retrieve"
+  "item.italiansdelight.pizza_peel.oven_empty": "There is no pizza to retrieve",
+  "gui.italiansdelight.jei.pizza_crafting_examples": "Customizable Pizzas (Examples)",
+  "gui.italiansdelight.jei.pizza_crafting_examples.description": "Examples: freely combine 1 to 6 approved toppings.",
+  "gui.italiansdelight.jei.pizza_crafting_examples.rule": "One dough, at most one sauce; all four quarters match."
 }
