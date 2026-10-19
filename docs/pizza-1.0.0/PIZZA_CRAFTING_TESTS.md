@@ -2,7 +2,7 @@
 
 **Data:** 19 ottobre 2026  
 **Ramo:** `feature/pizza-1.0.0`  
-**Stato:** implementazione pubblicata, **DA COMPILARE E TESTARE IN GIOCO**.
+**Stato aggiornato 19 ottobre 2026:** l'autore **ha confermato funzionante il crafting shapeless in gioco**. Restano da eseguire/annotare separatamente i casi limite della checklist, il multiplayer, JEI e la verifica su server dedicato.
 
 ## Decisione approvata dall'autore
 
@@ -28,7 +28,7 @@ La preparazione nel mondo resta il sistema completo, che permette quattro quarti
 
 **Perché non una normale `minecraft:crafting_shapeless`?** In JSON una ricetta standard contiene un elenco **fisso** di ingredienti e un output senza i dati provenienti dagli slot. Qui la quantità e la combinazione sono variabili e l'output deve mantenere ID canonici, applicazioni originali (es. equivalenze crude/cotte) e nome.
 
-**Nota importante JEI/ricettario:** `CustomRecipe.isSpecial()` è `true` in Minecraft 26.2 e `display()` non definisce una preview standard. **Non è garantita la comparsa automatica della ricetta in JEI o nel ricettario vanilla**. Il crafting manuale e l'output nel banco da lavoro non dipendono dalla visibilità nella lista; gli esempi didattici dedicati JEI sono **una fase separata** ancora da sviluppare, da affrontare senza mostrare gusti fissi come se fossero le uniche combinazioni possibili.
+**Nota JEI/ricettario aggiornata:** `CustomRecipe.isSpecial()` è `true` in Minecraft 26.2. Per rendere consultabile la meccanica sono stati aggiunti **cinque esempi validi** nella categoria JEI «Pizze personalizzabili (esempi)», senza sostituire la ricetta dinamica, limitare combinazioni o creare altre ricette di gameplay. **Implementazione pubblicata ma visualizzazione JEI ancora da testare**. [Checklist JEI](JEI_PIZZA_CRAFTING_TESTS.md). Il libro ricette vanilla non mostra automaticamente tutte le combinazioni libere.
 
 **Nota multiplayer/equivalenze:** la validazione server utilizza le equivalenze lette dai datapack. Verificare separatamente la presenza della preview sul client multiplayer in combinazioni che usano mapping esterni: le mappe non sono ancora necessariamente sincronizzate al client. I topping **nativi** funzionano senza tale estensione.
 
