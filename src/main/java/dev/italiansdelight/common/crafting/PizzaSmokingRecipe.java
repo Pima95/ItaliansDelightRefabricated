@@ -11,10 +11,14 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
-import net.minecraft.world.item.crafting.SmokingRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeBookCategories;
 
 /** Smoker counterpart of PizzaSmeltingRecipe, with the same lossless result. */
-public final class PizzaSmokingRecipe extends SmokingRecipe {
+public final class PizzaSmokingRecipe extends AbstractCookingRecipe {
     public static final MapCodec<PizzaSmokingRecipe> CODEC =
             AbstractCookingRecipe.cookingMapCodec(PizzaSmokingRecipe::new, 600);
     public static final StreamCodec<RegistryFriendlyByteBuf, PizzaSmokingRecipe> STREAM_CODEC =
@@ -34,6 +38,21 @@ public final class PizzaSmokingRecipe extends SmokingRecipe {
         return PizzaBaking.finish(input.item(), PizzaBaking.MAX_PROGRESS)
                 .map(PizzaBaking.BakingResult::cookedPizza)
                 .orElse(ItemStack.EMPTY);
+    }
+
+    @Override
+    protected Item furnaceIcon() {
+        return Items.SMOKER;
+    }
+
+    @Override
+    public RecipeType<? extends AbstractCookingRecipe> getType() {
+        return RecipeType.SMOKING;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return RecipeBookCategories.SMOKER_FOOD;
     }
 
     @Override
