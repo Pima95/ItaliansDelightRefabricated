@@ -1,7 +1,7 @@
 # Pizza 1.0.0 — Carote e patate a fette: collaudo
 
 **Implementazione:** 20 ottobre 2026 — branch `feature/pizza-1.0.0`.  
-**Ambito:** due nuovi item, due ricette Cutting Board di Farmer's Delight Refabricated, texture e integrazione con la pizza. Creative tab e artwork delle pizze nominate **esclusi da questa modifica**.
+**Ambito:** due nuovi item, due ricette Cutting Board di Farmer's Delight Refabricated, texture e integrazione con la pizza. Solo l'inserimento dei due item nel tab Creativa esistente fa parte di questa correzione; il riordino completo e le texture delle pizze nominate rimangono esclusi.
 
 ## Comportamento approvato
 
@@ -35,6 +35,6 @@ Gli utensili hanno normale usura gestita dal tagliere. Gli ortaggi **interi** no
 - [ ] Cuocere la pizza e raccogliere le fette: sia carote sia patate sono riconosciute come Vegetali, senza conversione in un item "cotto". Nomi e tooltip IT/EN corretti.
 - [ ] Creare una pizza **con quattro quarti identici** di mozzarella a fette + patate a fette + speck a fette: il nome diventa **Patate e Speck**. Se soltanto un quarto ha quella combinazione, la pizza rimane assortita e la singola fetta è riconosciuta come Patate e Speck.
 - [ ] Su server dedicato e dopo reload/chunk unload, verificare che le composizioni persistano, che il nome e la grafica restino coerenti e che non compaiano duplicazioni.
-- [ ] In menu Creativa, valutare solo l'accessibilità via ricerca: **riordino e tab dedicato sono una fase futura**, non un difetto bloccante di questo sviluppo.
+- [ ] Aprire la scheda Creativa **Italian's Delight**: le carote a fette e le patate a fette devono comparire subito dopo il pomodoro a fette; verificare che siano selezionabili, che le icone 16×16 siano corrette e che i nomi siano tradotti. Il riordino generale delle categorie resta una fase futura.
 
 **Prima della fase successiva:** conferma visiva delle due icone e della grafica sulla pizza. Successivamente sistemare il menù Creativa e realizzare le icone specifiche delle pizze riconosciute, senza sostituire asset già approvati senza autorizzazione.
