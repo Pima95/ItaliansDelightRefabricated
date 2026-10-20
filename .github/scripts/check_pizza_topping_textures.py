@@ -70,6 +70,7 @@ def inspect(path: Path, is_sprite: bool = False) -> tuple[int, int]:
     visible = 0
     variants = [0] * 4
     small_variants = [0] * 4
+    variant_art = [bytearray() for _ in range(4)]
     for row in range(12):
         offset = row * 49
         if decoded[offset] != 0:
@@ -78,6 +79,10 @@ def inspect(path: Path, is_sprite: bool = False) -> tuple[int, int]:
             alpha = decoded[offset + 1 + pixel * 4 + 3]
             if alpha not in (0, 255):
                 raise ValueError(f"{path}: non-binary alpha at {pixel},{row}")
+            if is_sprite and 1 <= pixel % 6 <= 3 and 1 <= row % 6 <= 3:
+                index = (pixel // 6) + (row // 6) * 2
+                start = offset + 1 + pixel * 4
+                variant_art[index].extend(decoded[start:start + 4])
             if is_sprite and alpha == 255:
                 lx, ly = pixel % 6, row % 6
                 if not (1 <= lx <= 3 and 1 <= ly <= 3):
@@ -92,6 +97,8 @@ def inspect(path: Path, is_sprite: bool = False) -> tuple[int, int]:
     if is_sprite and (min(variants) == 0 or min(small_variants) == 0):
         raise ValueError(f"{path}: empty atlas variant for 3x3 or 2x2 crops, "
                          f"variants={variants}, small={small_variants}")
+    if is_sprite and len({bytes(art) for art in variant_art}) != 4:
+        raise ValueError(f"{path}: its four sprite variants are visually identical")
     return visible, 144 - visible
 
 
