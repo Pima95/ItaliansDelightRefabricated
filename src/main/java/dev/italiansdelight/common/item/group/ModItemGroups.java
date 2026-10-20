@@ -62,6 +62,11 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.WILD_BASIL);
                 output.accept(ModItems.SALT);
                 output.accept(ModItems.TOMATO_SLICE);
+                // Pizza 1.0.0: sliced vegetables are available for creative
+                // testing independently of the Cutting Board recipes.
+                // The full tab reorganization remains a separate task.
+                output.accept(ModItems.CARROT_SLICE);
+                output.accept(ModItems.POTATO_SLICE);
                 output.accept(ModItems.RENNET);
                 output.accept(ModItems.CURD);
                 output.accept(ModItems.CREAM_BOWL);
