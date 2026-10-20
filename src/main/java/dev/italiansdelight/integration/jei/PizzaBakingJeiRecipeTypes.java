@@ -3,7 +3,7 @@ package dev.italiansdelight.integration.jei;
 import dev.italiansdelight.ItaliansDelight;
 import mezz.jei.api.recipe.types.IRecipeType;
 
-/** JEI guides for the three already implemented pizza cooking methods. */
+/** JEI category for the custom Pizza Oven; vanilla furnaces use vanilla JEI tabs. */
 public final class PizzaBakingJeiRecipeTypes {
     private PizzaBakingJeiRecipeTypes() {
     }
