@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModRegistries;
+import dev.italiansdelight.common.pizza.PizzaDisplayNames;
+import dev.italiansdelight.common.pizza.PizzaCreativeSamples;
 
 /**
  * Dedicated Italian's Delight creative tab, separate from Farmer's Delight.
@@ -35,9 +37,9 @@ public final class ModItemGroups {
             .title(Component.translatable("itemGroup.italiansdelight.main"))
             .displayItems((params, output) -> {
                 // A single complete tab, ordered by gameplay progression.
-                // No internal-only blocks, duplicated stacks or new example
-                // pizzas are introduced here. Pizza variants use data-bearing
-                // items and will receive their artwork in a separate task.
+                // No internal-only blocks or new item registry entries.
+                // Distinct data-bearing pizza stacks intentionally reuse
+                // raw_pizza/cooked_pizza, not fake individual item IDs.
                 // Pizza equipment — keep workstations and tools at the top.
                 output.accept(ModBlocks.PIZZA_OVEN);
                 output.accept(ModItems.ROLLING_PIN);
@@ -146,10 +148,17 @@ public final class ModItemGroups {
                 output.accept(ModItems.SPECK);
                 output.accept(ModItems.SPECK_SLICE);
 
-                // Pizzas — immediately after cured meats, before ready meals.
+                // Pizzas — between salumi and ready meals, as approved.
+                // Generic stacks stay available. The next 36 stacks are real
+                // 4-quarter pizzas with genuine topping components: one raw
+                // and one cooked sample per each of the 18 active presets.
                 output.accept(ModItems.RAW_PIZZA);
                 output.accept(ModItems.COOKED_PIZZA);
                 output.accept(ModItems.PIZZA_SLICE);
+                for (var preset : PizzaDisplayNames.allPresets().entrySet()) {
+                    output.accept(PizzaCreativeSamples.create(preset.getKey(), false));
+                    output.accept(PizzaCreativeSamples.create(preset.getKey(), true));
+                }
 
                 // Prepared pasta dishes.
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
