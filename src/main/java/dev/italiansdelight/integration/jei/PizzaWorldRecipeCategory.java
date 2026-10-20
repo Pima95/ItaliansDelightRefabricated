@@ -1,6 +1,8 @@
 package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.common.registry.ModItems;
+import net.minecraft.ChatFormatting;
+import mezz.jei.api.gui.placement.HorizontalAlignment;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -20,7 +22,9 @@ import java.util.List;
 public final class PizzaWorldRecipeCategory
         extends AbstractRecipeCategory<PizzaWorldJeiRecipe> {
     private static final int WIDTH = 170;
-    private static final int HEIGHT = 100;
+    // Keep adequate room for four-to-five wrapped description lines and
+    // a separate two-to-three-line note, even with scaled fonts.
+    private static final int HEIGHT = 136;
 
     public PizzaWorldRecipeCategory(IGuiHelper helper) {
         super(
@@ -93,22 +97,27 @@ public final class PizzaWorldRecipeCategory
     @Override
     public void createRecipeExtras(IRecipeExtrasBuilder builder,
                                    PizzaWorldJeiRecipe recipe, IFocusGroup focuses) {
-        // The category is documentation, NOT an alternate crafting station.
-        // Rendering text from translations avoids separate images/assets and
-        // makes the explanation available to Italian and English clients.
+        // Use three distinct, non-overlapping areas. The previous 34-pixel
+        // description space truncated multi-line Italian/English translations,
+        // while the note began before the description had finished wrapping.
+        // No hardcoded line breaks: JEI handles word wrapping for both languages.
         builder.addText(
-                Component.translatable(recipe.step().titleKey()),
-                WIDTH - 12, 13
-        ).setPosition(6, 34);
+                Component.translatable(recipe.step().titleKey())
+                        .withStyle(ChatFormatting.BOLD),
+                WIDTH - 12, 18
+        )
+                .setPosition(6, 31)
+                .setTextAlignment(HorizontalAlignment.CENTER);
 
         builder.addText(
                 Component.translatable(recipe.step().descriptionKey()),
-                WIDTH - 12, 34
-        ).setPosition(6, 49);
+                WIDTH - 12, 51
+        ).setPosition(6, 53);
 
         builder.addText(
-                Component.translatable(recipe.step().noteKey()),
-                WIDTH - 12, 20
-        ).setPosition(6, 78);
+                Component.translatable(recipe.step().noteKey())
+                        .withStyle(ChatFormatting.DARK_GRAY),
+                WIDTH - 12, 24
+        ).setPosition(6, 110);
     }
 }
