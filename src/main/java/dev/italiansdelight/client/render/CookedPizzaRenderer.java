@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
@@ -20,11 +19,7 @@ import org.jspecify.annotations.Nullable;
  */
 public final class CookedPizzaRenderer
         implements BlockEntityRenderer<CookedPizzaBlockEntity, CookedPizzaRenderer.State> {
-    private static final float TOP_Y = 1F / 16F + 0.021F;
-    private final ItemModelResolver models;
-
     public CookedPizzaRenderer(BlockEntityRendererProvider.Context context) {
-        models = context.itemModelResolver();
     }
 
     @Override
@@ -42,8 +37,8 @@ public final class CookedPizzaRenderer
 
         int remaining = entity.getBlockState().getValue(CookedPizzaBlock.REMAINING);
         state.visuals = PizzaToppingVisuals.extract(
-                entity, entity.pizza().composition(),
-                entity.pizza().legacyMozzarella(), remaining, models, TOP_Y);
+                entity.pizza().composition(),
+                entity.pizza().legacyMozzarella(), remaining);
     }
 
     @Override
