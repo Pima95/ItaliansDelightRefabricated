@@ -4,8 +4,9 @@ import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModRegistries;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,7 @@ public final class PizzaDisplayNames {
     }
 
     private static Map<Set<Identifier>, String> buildPresets() {
-        Map<Set<Identifier>, String> presets = new HashMap<>();
+        Map<Set<Identifier>, String> presets = new LinkedHashMap<>();
         add(presets, "bianca");
         add(presets, "rossa", "tomato_sauce");
         add(presets, "margherita", "tomato_sauce", "mozzarella_slice", "basil");
@@ -79,7 +80,7 @@ public final class PizzaDisplayNames {
         if (presets.size() != 18) {
             throw new IllegalStateException("Unexpected count of active pizza presets");
         }
-        return Map.copyOf(presets);
+        return Collections.unmodifiableMap(presets);
     }
 
     private static Set<Identifier> quarter(PizzaItemData whole, int index) {
@@ -180,22 +181,27 @@ public final class PizzaDisplayNames {
     }
 
     /**
-     * First approved whole-pizza artwork batch. The remaining active named
-     * pizzas deliberately use the neutral fallback until their dedicated
-     * 16x16 assets are drawn and approved. Never lie with Margherita art.
+     * The only ordered, immutable canonical preset catalogue. Used for both
+     * naming and genuine Creative samples; never duplicate topping recipes.
      */
-    private static Identifier wholeItemModel(PizzaItemData whole) {
+    public static Map<Set<Identifier>, String> allPresets() {
+        return PRESETS;
+    }
+
+    /**
+     * Use the existing Margherita graphics for their original whole-item
+     * models, and independent raw/cooked 16x16 variants for all other tastes.
+     * Unknown or mixed compositions select perspective-correct neutral art.
+     * No new Item registry entries are necessary.
+     */
+    private static Identifier wholeItemModel(PizzaItemData whole, boolean cooked) {
+        String base = cooked ? "cooked_pizza" : "raw_pizza";
         String id = wholePresetId(whole);
-        if (id == null) {
-            return ModRegistries.id("pizza_custom");
+        if ("margherita".equals(id)) {
+            // Exactly the original raw_pizza.png / pizza_margherita.png.
+            return ModRegistries.id(base);
         }
-        return switch (id) {
-            case "bianca" -> ModRegistries.id("pizza_bianca");
-            case "rossa" -> ModRegistries.id("pizza_rossa");
-            case "margherita" -> ModRegistries.id("pizza_margherita");
-            case "patate_speck" -> ModRegistries.id("pizza_patate_speck");
-            default -> ModRegistries.id("pizza_custom");
-        };
+        return ModRegistries.id(base + "_" + (id == null ? "custom" : id));
     }
 
     public static Component wholeName(PizzaItemData whole) {
@@ -235,15 +241,12 @@ public final class PizzaDisplayNames {
      */
     public static void nameWholeStack(ItemStack stack, PizzaItemData data) {
         stack.set(DataComponents.ITEM_NAME, wholeName(data));
-        // Vanilla ITEM_MODEL is a synced/persisted Identifier. The model
-        // selection is server-authored from the SAME canonical saved topping
-        // data as the localized name. No new item registrations, item names
-        // stored as identifiers or client-only lookups are necessary.
-        //
-        // Raw pizza uses its existing own graphic; only BAKED whole pizzas
-        // gain per-preset art. This also works on pizza peel cargo stacks.
-        if (stack.is(ModItems.COOKED_PIZZA)) {
-            stack.set(DataComponents.ITEM_MODEL, wholeItemModel(data));
+        // Assign a synchronized model for BOTH raw and cooked variants;
+        // using the exact same 4-quarter canonical match as wholeName.
+        // Margherita keeps the original approved base models unchanged.
+        if (stack.is(ModItems.COOKED_PIZZA) || stack.is(ModItems.RAW_PIZZA)) {
+            stack.set(DataComponents.ITEM_MODEL,
+                    wholeItemModel(data, stack.is(ModItems.COOKED_PIZZA)));
         }
     }
 
