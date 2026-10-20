@@ -14,8 +14,15 @@ Entrambi i miglioramenti devono preservare gli invarianti già funzionanti: masc
 - [PizzaDoughBlockEntity.java](../../src/main/java/dev/italiansdelight/common/block/entity/PizzaDoughBlockEntity.java) implementa `getUpdateTag(HolderLookup.Provider)` e `getUpdatePacket()` usando il codec già esistente. Il server invia il pacchetto anche quando la composizione cambia senza mutare il `BlockState`. Il contenuto dell'item `raw_pizza` non è stato modificato.
 - [PizzaToppingRenderer.java](../../src/main/java/dev/italiansdelight/client/render/PizzaToppingRenderer.java) è un `BlockEntityRenderer` solo client, registrato in [ItaliansDelightClient.java](../../src/main/java/dev/italiansdelight/ItaliansDelightClient.java). Estrae dati e stati dei modelli **prima** della fase di disegno, poi disegna le immagini degli **ItemStack originali** degli ingredienti sulla superficie della pizza.
 - Il renderer conosce sempre **quattro quarti fisici**, anche se la pizza è ancora intera o le divisioni sono state riunite. L'orientamento usa il primo cardinale salvato. La disposizione è deterministica: fino a 6 rappresentazioni per quarto, sulla base delle maschere `remaining_mask`.
-- Le rappresentazioni usano i modelli item **già presenti** in Italian's Delight, Farmer's Delight ed eventuali mod equivalenti: **nessuna texture nuova** e nessuna modifica delle texture preesistenti. **BUG-002 aperto:** la vecchia mozzarella *intera* del prototipo è ancora accettata dal clic ma, secondo il test dell'autore, **non viene disegnata** sulla pizza. Non confonderla con la mozzarella a fette, che è il topping ufficialmente ammesso. [Bug noto](../KNOWN_BUGS.md#bug-002--mozzarella-intera-applicabile-alla-pizza-ma-invisibile).
+- Le rappresentazioni usano i modelli item **già presenti** in Italian's Delight, Farmer's Delight ed eventuali mod equivalenti: **nessuna texture nuova** e nessuna modifica delle texture preesistenti. **BUG-002 — patch implementata il 20 ottobre, da verificare in gioco:** la mozzarella *intera* non è più applicabile a una pizza nuova, e le vecchie pizze salvate con `mozzarella=true` sono disegnate sul blocco crudo tramite lo stesso renderer. La mozzarella a fette rimane il topping approvato. [Test regressione](LEGACY_MOZZARELLA_TESTS.md).
 - L'overlay nero delle divisioni continua a funzionare **solo impugnando il mattarello o un topping solido valido**; al contrario, i condimenti applicati devono essere **sempre visibili**.
+
+### Compatibilità con mozzarella intera prototipale — 20 ottobre 2026
+
+La correzione evita nuove applicazioni del vecchio flag `mozzarella=true`, senza cancellare quello presente nei salvataggi e nelle pizze-item vecchie. `PizzaToppingRenderer` usa ora lo stesso percorso di estrazione/posizionamento dei modelli item per disegnare anche questa mozzarella legacy sulla pizza cruda; la pizza cotta già aveva il relativo fallback. I quarti canonici e le texture approvate rimangono invariati. [Checklist approfondita](LEGACY_MOZZARELLA_TESTS.md).
+
+Questo è un **fix di compatibilità**; non va confuso con il successivo rendering grafico 2.5D definitivo di salse, formaggi ed erbe.
+
 
 ## 1. Build
 
