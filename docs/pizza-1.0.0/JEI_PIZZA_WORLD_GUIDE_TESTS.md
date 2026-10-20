@@ -2,7 +2,7 @@
 
 **Data:** 20 ottobre 2026  
 **Ramo:** `feature/pizza-1.0.0`  
-**Stato:** codice pubblicato, build GitHub Actions da confermare sul commit finale; test grafici e in gioco da eseguire.
+**Stato:** codice pubblicato, revisione della leggibilità in compilazione automatica; test grafici e in gioco da eseguire.
 
 ## Obiettivo
 
@@ -33,10 +33,21 @@ La guida riutilizza gli stack della Margherita da `PizzaCraftingJeiRecipes`, inc
 
 Non vengono toccate le meccaniche di Pizza Oven, altre fornaci, pala, divisioni, durabilità o whitelist dei topping. La ricetta shapeless uniforme e i suoi cinque esempi JEI restano separati.
 
+## Correzione leggibilità — 20 ottobre 2026
+
+L'autore ha riscontrato testo sovrapposto/tagliato nella guida JEI. La prima implementazione utilizzava un pannello `170×100`, con soltanto **34 pixel** disponibili per la descrizione e una nota che iniziava a `y=78`, prima che le descrizioni lunghe potessero andare completamente a capo.
+
+La categoria è stata modificata a **170×136 pixel**. Le tre aree sono ora separate:
+- **Titolo:** `y=31`, altezza 18, grassetto e centrato.
+- **Istruzioni:** `y=53`, altezza 51, testo normale con wrapping automatico di JEI.
+- **Nota:** `y=110`, altezza 24, colore grigio scuro per differenziarla dal testo principale.
+
+Le sette schede, i loro identificativi/segnalibri e gli item di esempio rimangono invariati. Non sono introdotti asset nuovi e il codice non altera le interazioni della pizza. Verificare in client IT/EN anche le descrizioni più lunghe (pagine 5 e 6), l'assenza di troncamenti/ellipsis e la navigazione di tutte le sette voci: JEI può usare pagine o scorrimento in base allo spazio disponibile e alle opzioni del client. Non assumere che il contatore di pagina debba mostrare sempre `1/7`.
+
 ## Checklist build e client
 
 - [ ] Build Java 25 GitHub Actions completa sul commit finale, senza errori di compilazione o caricamento.
-- [ ] `runClient` con JEI: la categoria «Preparazione delle pizze (nel mondo)» compare con il **mattarello come icona** e **7 pagine (1/7 ... 7/7)**.
+- [ ] `runClient` con JEI: la categoria «Preparazione delle pizze (nel mondo)» compare con il **mattarello come icona**, e si possono raggiungere **tutte e 7 le schede** (pagine o scorrimento secondo il layout JEI).
 - [ ] Pagine 1–7 ordinate correttamente, titoli e descrizioni leggibili e tradotti in **italiano e inglese**, senza sovrapposizioni o tagli.
 - [ ] Ogni pagina mostra l'**icona del segnalibro JEI**; salvare e riaprire almeno la pagina «Stendi a mano», «Dividi» e «Raccogli».
 - [ ] `U` su `wheat_dough` o sul mattarello mostra questa guida; le pagine dei topping sono reperibili anche dai relativi ingredienti.
