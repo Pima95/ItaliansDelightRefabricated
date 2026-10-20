@@ -6,6 +6,14 @@
 - [ ] **Scheda Creativa riorganizzata — PATCH PUBBLICATA, DA VERIFICARE VISIVAMENTE:** mantenuta una sola scheda Italian's Delight con gli stessi **97 elementi** (79 item + 18 blocchi), senza duplicati, suddivisi per vicinanza in pizza, attrezzature, rack, colture, risorse casearie, formaggi, salumi e piatti. Aggiunto controllo CI per la copertura completa degli item. [Checklist](CREATIVE_TAB_REORGANIZATION.md).
 - [ ] **Prossima fase: texture delle pizze riconosciute automaticamente:** creare asset 16×16 dei gusti effettivamente implementati senza sovrascrivere le texture approvate; conservare la gestione dinamica delle pizze assortite e degli spicchi. Non ancora avviata.
 
+## Aggiornamento 20 ottobre 2026 — Texture delle pizze riconosciute
+
+- [x] **REGOLA DOCUMENTAZIONE CONTINUA confermata dall'autore:** anche piccole discussioni, chiarimenti e scelte non direttamente legate al codice devono essere salvati su GitHub nel branch di lavoro. [Registro e inventario](NAMED_PIZZA_ARTWORK_PLAN.md).
+- [x] **Creativa approvata dall'autore:** pizze dopo salumi e prima dei piatti pronti, correttamente visibili in gioco.
+- [x] **Inventario reale dei gusti:** 18 preset implementati, Principessa sospesa; 1 texture Margherita già presente da conservare, 17 nuove texture di gusto previste.
+- [ ] **Texture pizze — PRIMO LOTTO PUBBLICATO, DA VALIDARE IN GAME:** create icone 16×16 per Bianca, Rossa e Patate e Speck; preservata la Margherita originale; creata icona `pizza_custom` per fallback. I primi quattro gusti usano `DataComponents.ITEM_MODEL` in base alla composizione; gli altri 14 restano su fallback neutro. Modello default cotto non mostra più erroneamente sempre Margherita. [Test e lista asset](NAMED_PIZZA_ARTWORK_PLAN.md).
+- [ ] **Texture rimanenti e spicchi:** realizzare le altre 14 texture delle pizze attive dopo approvazione visiva del primo lotto; pianificare le texture dedicate degli spicchi separatamente, senza cambiare i data component.
+
 ## Stato
 
 **PIZZA PEEL — CORREZIONE TERZA PERSONA, 18 ottobre 2026 (DA COLLAUDARE):** dallo screenshot ravvicinato dal basso, la testa metallica della pala carica sporge dietro il pugno e il manico si estende verso la spalla. L'autore ha chiesto di abbassare la pala e ruotarla di 180° SOLO in terza persona. Modificati `pizza_peel_loaded.json` e `PizzaPeelItemModel.java`: `rotation [-90,180,0]` da `[-90,0,0]` e `translation [0,2,8]` da `[0,2,5]`, sia a destra sia a sinistra. Verificato tramite matrice che la lama cambi direzione e che la pizza resti rivolta verso l'alto; i due livelli di render rimangono sincronizzati. Prima persona, pala vuota, mesh, texture e coordinate della pizza preservate. **Test visivo ancora pendente.** [Dettagli](PIZZA_PEEL_TESTS.md).
