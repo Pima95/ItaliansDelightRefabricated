@@ -9,7 +9,10 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
+import mezz.jei.common.gui.JeiGuiColors;
+import mezz.jei.common.gui.JeiGuiColors.GuiColor;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 /**
@@ -25,6 +28,10 @@ public final class PizzaBakingRecipeCategory
     private static final int WIDTH = 82;
     private static final int HEIGHT = 54;
 
+    /** Synthetic JEI display ID: enables the real recipe bookmark button. */
+    private static final Identifier EXAMPLE_ID = Identifier.fromNamespaceAndPath(
+            "italiansdelight", "/pizza_oven/margherita");
+
     public PizzaBakingRecipeCategory(IGuiHelper guiHelper) {
         super(
                 PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
@@ -32,6 +39,18 @@ public final class PizzaBakingRecipeCategory
                 guiHelper.createDrawableItemLike(ModBlocks.PIZZA_OVEN),
                 WIDTH, HEIGHT
         );
+    }
+
+    /**
+     * JEI requires a stable identifier for recipe bookmarks. Without it the
+     * bookmark button disappears and JEI may pack the sole example into the
+     * leftmost column instead of centering it on wide displays.
+     *
+     * This is a synthetic display, not a new Minecraft cooking recipe.
+     */
+    @Override
+    public Identifier getIdentifier(PizzaBakingJeiRecipe recipe) {
+        return EXAMPLE_ID;
     }
 
     @Override
@@ -72,6 +91,7 @@ public final class PizzaBakingRecipeCategory
                 .setPosition(0, 0, WIDTH, HEIGHT,
                         HorizontalAlignment.CENTER, VerticalAlignment.BOTTOM)
                 .setTextAlignment(HorizontalAlignment.CENTER)
-                .setTextAlignment(VerticalAlignment.BOTTOM);
+                .setTextAlignment(VerticalAlignment.BOTTOM)
+                .setColor(JeiGuiColors.getColor(GuiColor.RECIPE_COOKING_TIME_TEXT));
     }
 }
