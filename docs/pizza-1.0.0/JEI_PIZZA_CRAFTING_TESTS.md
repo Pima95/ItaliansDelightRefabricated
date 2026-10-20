@@ -57,6 +57,16 @@ Tutti gli item sono già presenti in Italian's Delight / Farmer's Delight Refabr
 - [ ] Test su server dedicato con e senza equivalenze datapack: nessun crash del client, gli esempi funzionano e le regole gameplay restano gestite dal server.
 - [ ] JEI non modifica modelli, texture o la posa della pizza peel già approvati.
 
+## Correzione grafica del 20 ottobre 2026
+
+In seguito al confronto con la categoria Crafting di JEI, il vecchio pannello personalizzato 141×67 è stato **sostituito dal layout nativo 116×54 della CraftingRecipeCategory di JEI 26.2**, usando l'API pubblica:
+- `IGuiHelper.createCraftingGridHelper()`, `ICraftingGridHelper.createAndSetInputs(..., 0, 0)` per posizionare gli ingredienti nella griglia 3×3 nativa.
+- `ICraftingGridHelper.createAndSetOutputs` per il risultato nel medesimo slot della crafting table vanilla.
+- `IRecipeExtrasBuilder.addRecipeArrowWidget()` e `builder.setShapeless()` per la freccia standard e l'indicatore shapeless.
+- `getIdentifier` sintetico e stabile per i segnalibri JEI senza aggiungere ricette effettive.
+
+**Stato:** implementazione sul branch di sviluppo; build CI della modifica superata. Il controllo visuale e funzionale del nuovo layout resta aperto: assicurarsi che lo stile corrisponda al crafting JEI normale, che compaiano tutti e cinque gli esempi e che la ricetta reale mantenga la libertà di composizione.
+
 ## Build automatizzata
 
 La compilazione viene verificata automaticamente per ogni push sul ramo `feature/pizza-1.0.0` dal workflow [Pizza 1.0.0 - Build](../../.github/workflows/pizza-build.yml). Esegue `bash ./gradlew clean build --no-daemon --stacktrace` con JDK 25. La build verifica la compilazione e i controlli Gradle configurati, **non** prova avvio client, caricamento JEI, GUI o gameplay: le checklist runtime restano aperte.
