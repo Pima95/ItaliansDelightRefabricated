@@ -1,3 +1,5 @@
+> **SUPERSISTO — 20 ottobre 2026:** dopo gli screenshot e la revisione dei requisiti, il renderer basato su chiazze geometriche e frammenti ItemStack **è stato sostituito** da texture originali 12×12 per salsa e topping, ritagliate in UV per ogni quarto e disegnate quasi alla stessa altezza della base. Per la specifica corrente e i test aggiornati usare **[TOPPING_TEXTURES_12X12.md](TOPPING_TEXTURES_12X12.md)**. Il resto del documento descrive la prima iterazione, ormai obsoleta, ed è mantenuto come storico della revisione.
+
 # Pizza 1.0.0 — Primo rendering 2.5D dei condimenti
 
 **Data:** 20 ottobre 2026  
