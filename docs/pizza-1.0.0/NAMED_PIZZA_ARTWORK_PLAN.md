@@ -1,5 +1,7 @@
 # Texture 1.0.0 — catalogo esatto delle pizze riconosciute e registro delle decisioni
 
+> **DOCUMENTO STORICO — SUPERATO IL 20 OTTOBRE 2026.** Questa era la prima proposta grafica (solo icone cotte, 4 modelli). L'autore ha esplicitamente rifiutato il nuovo stile rotondo dall'alto. Le texture originali di Margherita cruda e cotta sono ora riferimenti obbligatori e tutti i 18 gusti hanno una versione cruda e cotta. La specifica vigente, i test e lo stato effettivo sono in **[NAMED_PIZZA_TEXTURE_REWORK.md](NAMED_PIZZA_TEXTURE_REWORK.md)**. I nomi/associazioni per il primo lotto nelle sezioni inferiori sono conservati esclusivamente come cronologia, non sono istruzioni operative.
+
 **Data:** 20 ottobre 2026  
 **Branch:** `feature/pizza-1.0.0`  
 **Fase:** inventario delle texture delle pizze intere cotte e piano di collegamento grafico.
