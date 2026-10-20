@@ -9,6 +9,18 @@
 
 La nuova patch **impedisce ulteriori applicazioni legacy** e **mostra quelle già salvate** sulle pizze crude, usando solo gli asset esistenti. Il flag nel BlockState e nel componente `PizzaItemData` non viene rimosso o convertito: ciò impedisce perdite di ingredienti in vecchi mondi.
 
+## Correzioni di input e texture — secondo collaudo (20 ottobre 2026)
+
+La prima patch bloccava il consumo della mozzarella ma restituiva `InteractionResult.SUCCESS` dopo il clic: il client mostrava perciò **la falsa animazione di piazzamento**. Il nuovo codice passa il clic a Minecraft con `InteractionResult.PASS`, allo stesso modo di qualunque topping non approvato. Se il giocatore è affamato, l'item alimentare può mantenere il proprio comportamento vanilla (mangiare) senza applicarsi alla pizza.
+
+In parallelo, lo stato `mozzarella=true` rendeva ancora un vecchio secondo blocco tramite `assets/italiansdelight/blockstates/pizza_dough.json` e `pizza_topping_mozzarella`; tale overlay dava una **texture viola/nera**. È stato rimosso **il solo riferimento al modello multipart**, non il modello/texture sul disco. La mozzarella delle vecchie pizze resta visibile grazie a `PizzaToppingRenderer` con l'item `italiansdelight:mozzarella`, senza modificare il suo componente o i dati dei mondi salvati.
+
+- [ ] **Nuova pizza pulita, stage 4:** clic destro con mozzarella intera non consuma l'item, non cambia il blocco e **non provoca l'animazione di piazzamento**. Confrontare con un altro item alimentare escluso dalla whitelist.
+- [ ] **Pizza appena creata, stage 4, mozzarella=false:** Shift + clic destro a mano vuota **non restituisce una mozzarella**; ripetere per verificare che non sia possibile duplicarla.
+- [ ] **Vecchia pizza, stage 4, mozzarella=true** (ottenuta da salvataggio precedente o in test via comando): vedere le rappresentazioni della mozzarella senza texture viola/nera, poi Shift + clic destro a mano vuota deve restituire **una sola mozzarella**, impostare `mozzarella=false` e non restituirne altre ai clic successivi.
+- [ ] Test di salvataggio/riapertura, pizza da item e pala: `mozzarella=true` continua a essere persistente e visibile anche dopo il riposizionamento. Le nuove applicazioni continuano a usare solo `mozzarella_slice`.
+- [ ] Nessun difetto viola/nero sulla base, sui bordi o sulle altre texture approvate.
+
 ## Test essenziali
 
 - [ ] Avviare Minecraft in **Sopravvivenza** con JEI su questo branch, posizionare l'impasto di Farmer's Delight e stenderlo fino allo stadio 4. Prendere 2 moz­zarelle **intere**. Clic destro con una mozzarella intera sulla pizza: **nessun item consumato**, nessun cambio dello stato `mozzarella`, nessuna applicazione di topping; riprovare per confermare che non duplichi nulla.
