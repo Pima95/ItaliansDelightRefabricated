@@ -28,5 +28,7 @@ jobs:
         run: python3 .github/scripts/check_creative_tab.py
       - name: Verify 12x12 pizza textures (binary alpha, PNG CRC)
         run: python3 .github/scripts/check_pizza_topping_textures.py
+      - name: Verify named whole-pizza models and 16x16 textures
+        run: python3 .github/scripts/check_named_pizza_artwork.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace
