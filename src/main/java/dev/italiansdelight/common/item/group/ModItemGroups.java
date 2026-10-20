@@ -38,13 +38,10 @@ public final class ModItemGroups {
                 // No internal-only blocks, duplicated stacks or new example
                 // pizzas are introduced here. Pizza variants use data-bearing
                 // items and will receive their artwork in a separate task.
-                // Pizza — ovens, hand tools and example stacks.
+                // Pizza equipment — keep workstations and tools at the top.
                 output.accept(ModBlocks.PIZZA_OVEN);
                 output.accept(ModItems.ROLLING_PIN);
                 output.accept(ModItems.PIZZA_PEEL);
-                output.accept(ModItems.RAW_PIZZA);
-                output.accept(ModItems.COOKED_PIZZA);
-                output.accept(ModItems.PIZZA_SLICE);
 
                 // Cheese-making — workstations and hand tools.
                 output.accept(ModBlocks.CHEESE_VAT);
@@ -148,6 +145,11 @@ public final class ModItemGroups {
                 output.accept(ModItems.SMOKED_PREPARED_SPECK);
                 output.accept(ModItems.SPECK);
                 output.accept(ModItems.SPECK_SLICE);
+
+                // Pizzas — immediately after cured meats, before ready meals.
+                output.accept(ModItems.RAW_PIZZA);
+                output.accept(ModItems.COOKED_PIZZA);
+                output.accept(ModItems.PIZZA_SLICE);
 
                 // Prepared pasta dishes.
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
