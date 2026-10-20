@@ -3,6 +3,8 @@ package dev.italiansdelight.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
+import dev.italiansdelight.common.block.PizzaDoughBlock;
+import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.pizza.PizzaComposition;
 import dev.italiansdelight.common.pizza.PizzaToppingApplication;
 import java.util.ArrayList;
@@ -77,7 +79,9 @@ public final class PizzaToppingRenderer
                 entity, state, partialTicks, cameraPosition, breakProgress);
 
         PizzaComposition composition = entity.composition();
-        if (entity.getLevel() == null || composition.applications().isEmpty()) {
+        boolean legacyMozzarella = entity.getBlockState().getValue(PizzaDoughBlock.MOZZARELLA);
+        if (entity.getLevel() == null
+                || (composition.applications().isEmpty() && !legacyMozzarella)) {
             state.pieces = List.of();
             return;
         }
@@ -98,7 +102,7 @@ public final class PizzaToppingRenderer
         List<Piece> pieces = new ArrayList<>();
         int[] occupiedSlots = new int[PizzaComposition.QUARTER_COUNT];
 
-        // The order is always original application order (oldest at bottom).
+        // Keep each canonical ingredient in its original quarter and order.
         for (PizzaToppingApplication application : composition.applications()) {
             ItemStack original = application.originalStack();
             if (original.isEmpty()) {
@@ -110,34 +114,66 @@ public final class PizzaToppingRenderer
                 }
                 int slot = occupiedSlots[quarter]++;
                 if (slot >= SLOTS.length) {
-                    continue; // Defensive upper bound: saved codec validates 6.
+                    continue; // Valid compositions contain at most six toppings per quarter.
                 }
+                addPiece(pieces, entity, original, application.sequence(), quarter,
+                        slot, slot, rightX, rightZ, frontX, frontZ);
+            }
+        }
 
-                int rightSign = quarter >= 2 ? 1 : -1;
-                int frontSign = (quarter & 1) != 0 ? 1 : -1;
-                float u = (float) (rightSign * CENTER_OFFSET) + SLOTS[slot][0];
-                float v = (float) (frontSign * CENTER_OFFSET) + SLOTS[slot][1];
-                float x = 0.5F + rightX * u + frontX * v;
-                float z = 0.5F + rightZ * u + frontZ * v;
-
-                ItemStackRenderState itemState = new ItemStackRenderState();
-                this.models.updateForTopItem(
-                        itemState, original, ItemDisplayContext.FIXED,
-                        entity.getLevel(), null,
-                        (int) (application.sequence() ^ (quarter * 37L)));
-                if (itemState.isEmpty()) {
-                    continue;
-                }
-
-                // No ticking RNG: same pizza, same placement on every client.
-                float rotation = (float) ((application.sequence() * 41L
-                        + quarter * 47L) % 360L);
-                float y = SURFACE_Y + slot * 0.001F;
-                pieces.add(new Piece(x, y, z, rotation, itemState));
+        // Historical pizzas may have the old whole-mozzarella flag instead of
+        // an application in their composition. New clicks cannot set this
+        // flag anymore, but existing worlds and old pizza items still carry
+        // it through the saved BlockState / PizzaItemData. Show it instead of
+        // silently hiding a previously consumed item. The final index is
+        // clamped to a valid visual position if a legacy pizza already has
+        // six modern toppings; elevation still keeps this old piece visible.
+        if (legacyMozzarella) {
+            ItemStack oldCheese = new ItemStack(ModItems.MOZZARELLA);
+            for (int quarter = 0; quarter < PizzaComposition.QUARTER_COUNT; quarter++) {
+                int slot = occupiedSlots[quarter];
+                addPiece(pieces, entity, oldCheese, 1_000_000L, quarter,
+                        Math.min(slot, SLOTS.length - 1), slot,
+                        rightX, rightZ, frontX, frontZ);
             }
         }
 
         state.pieces = List.copyOf(pieces);
+    }
+
+    /**
+     * Single visual item placement path for both modern ingredients and old
+     * mozzarella, keeping all transformations isolated for the later 2.5D
+     * rendering work. Never changes the pizza's contents or BlockState.
+     *
+     * @param layoutSlot bounded [0..5] slot for horizontal placement
+     * @param depthSlot original layering count, including old-world extras
+     */
+    private void addPiece(
+            List<Piece> pieces, PizzaDoughBlockEntity entity,
+            ItemStack source, long sequence, int quarter,
+            int layoutSlot, int depthSlot,
+            int rightX, int rightZ, int frontX, int frontZ
+    ) {
+        int rightSign = quarter >= 2 ? 1 : -1;
+        int frontSign = (quarter & 1) != 0 ? 1 : -1;
+        float u = (float) (rightSign * CENTER_OFFSET) + SLOTS[layoutSlot][0];
+        float v = (float) (frontSign * CENTER_OFFSET) + SLOTS[layoutSlot][1];
+        float x = 0.5F + rightX * u + frontX * v;
+        float z = 0.5F + rightZ * u + frontZ * v;
+
+        ItemStackRenderState item = new ItemStackRenderState();
+        this.models.updateForTopItem(
+                item, source, ItemDisplayContext.FIXED,
+                entity.getLevel(), null,
+                (int) (sequence ^ (quarter * 37L)));
+        if (item.isEmpty()) {
+            return;
+        }
+
+        float rotation = (float) ((sequence * 41L + quarter * 47L) % 360L);
+        pieces.add(new Piece(
+                x, SURFACE_Y + depthSlot * 0.001F, z, rotation, item));
     }
 
     @Override
