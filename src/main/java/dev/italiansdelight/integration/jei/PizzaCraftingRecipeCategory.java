@@ -1,96 +1,89 @@
 package dev.italiansdelight.integration.jei;
 
+import java.util.List;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.placement.HorizontalAlignment;
+import mezz.jei.api.gui.placement.VerticalAlignment;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeType;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
-import java.util.List;
-
 /**
- * Representative examples of the shapeless 1-6 topping recipe.
+ * Representative examples of the dynamic shapeless pizza recipe.
  *
- * <p>This is NOT a second recipe matcher. Gameplay uses PizzaCraftingRecipe;
- * JEI examples show real output data and are intentionally labeled as samples.
- * No new GUI textures or approved item models are modified.
+ * <p>Render them with JEI's own vanilla crafting-grid helper and arrow widget
+ * instead of hand-positioned ingredient slots in a custom 141x67 panel.
+ * They are NOT new datapack recipes or a whitelist of five fixed pizzas.
  */
 public final class PizzaCraftingRecipeCategory
-        implements IRecipeCategory<PizzaCraftingJeiRecipe> {
-    private static final int WIDTH = 141;
-    private static final int HEIGHT = 67;
-    private static final int GRID_X = 7;
-    private static final int GRID_Y = 6;
-    private static final int SLOT_STEP = 18;
-    private static final int RESULT_X = 105;
-    private static final int RESULT_Y = 24;
+        extends AbstractRecipeCategory<PizzaCraftingJeiRecipe> {
+    // Exactly the dimensions JEI 26.2 uses for CraftingRecipeCategory.
+    private static final int WIDTH = 116;
+    private static final int HEIGHT = 54;
 
-    private final IDrawable icon;
+    private final ICraftingGridHelper craftingGrid;
 
     public PizzaCraftingRecipeCategory(IGuiHelper guiHelper) {
-        icon = guiHelper.createDrawableItemLike(Blocks.CRAFTING_TABLE);
+        super(
+                PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
+                Component.translatable("gui.italiansdelight.jei.pizza_crafting_examples"),
+                guiHelper.createDrawableItemLike(Blocks.CRAFTING_TABLE),
+                WIDTH, HEIGHT
+        );
+        craftingGrid = guiHelper.createCraftingGridHelper();
     }
 
     @Override
-    public IRecipeType<PizzaCraftingJeiRecipe> getRecipeType() {
-        return PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES;
-    }
-
-    @Override
-    public Component getTitle() {
-        return Component.translatable("gui.italiansdelight.jei.pizza_crafting_examples");
-    }
-
-    @Override
-    public int getWidth() {
-        return WIDTH;
-    }
-
-    @Override
-    public int getHeight() {
-        return HEIGHT;
-    }
-
-    @Override
-    public IDrawable getIcon() {
-        return icon;
+    public Identifier getIdentifier(PizzaCraftingJeiRecipe recipe) {
+        // Stable JEI-only identifier (no Minecraft crafting recipe is added).
+        // The list is validated as one dough followed by distinct toppings.
+        StringBuilder id = new StringBuilder("/pizza_crafting/");
+        List<ItemStack> ingredients = recipe.ingredients();
+        for (int i = 1; i < ingredients.size(); i++) {
+            if (i > 1) {
+                id.append('_');
+            }
+            id.append(net.minecraft.core.registries.BuiltInRegistries.ITEM
+                    .getKey(ingredients.get(i).getItem()).getPath());
+        }
+        return Identifier.fromNamespaceAndPath("italiansdelight", id.toString());
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, PizzaCraftingJeiRecipe recipe,
                           IFocusGroup focuses) {
-        List<ItemStack> ingredients = recipe.ingredients();
-        for (int i = 0; i < ingredients.size(); i++) {
-            // One dough plus 1-6 toppings: no more than seven visible slots.
-            builder.addInputSlot(
-                    GRID_X + (i % 3) * SLOT_STEP,
-                    GRID_Y + (i / 3) * SLOT_STEP
-            ).setStandardSlotBackground().add(ingredients.get(i));
-        }
-        builder.addOutputSlot(RESULT_X, RESULT_Y)
-                .setOutputSlotBackground().add(recipe.result());
+        // JEI-native centered 3x3 grid, output position and backgrounds.
+        List<List<ItemStack>> inputs = recipe.ingredients().stream()
+                .map(stack -> List.of(stack))
+                .toList();
+        craftingGrid.createAndSetInputs(builder, inputs, 0, 0);
+        craftingGrid.createAndSetOutputs(builder, List.of(recipe.result()));
+        builder.setShapeless();
     }
 
     @Override
-    public void draw(PizzaCraftingJeiRecipe recipe, IRecipeSlotsView slots,
-                     GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
-        // Standard JEI slot backgrounds make this 3x3 layout clear without
-        // adding an extra PNG or modifying existing Minecraft UI assets.
+    public void createRecipeExtras(IRecipeExtrasBuilder builder,
+                                   PizzaCraftingJeiRecipe recipe, IFocusGroup focuses) {
+        // Identical arrow widget position/alignment to JEI's CraftingRecipeCategory.
+        builder.addRecipeArrowWidget()
+                .setPosition(61, 0, WIDTH - 61, HEIGHT,
+                        HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
     }
 
     @Override
     public void getTooltip(ITooltipBuilder tooltip, PizzaCraftingJeiRecipe recipe,
                            IRecipeSlotsView slots, double mouseX, double mouseY) {
-        // Hover between the 3x3 ingredient grid and the output to explain that
-        // this is an example of a FREEFORM recipe, not its sole combination.
-        if (mouseX >= 65 && mouseX < 99 && mouseY >= 16 && mouseY < 49) {
+        // Only the blank area beside the vanilla arrow shows these freeform
+        // constraints; the JEI shapeless indicator keeps its native tooltip.
+        if (mouseX >= 84 && mouseX < 95 && mouseY >= 1 && mouseY < 17) {
             tooltip.add(Component.translatable(
                     "gui.italiansdelight.jei.pizza_crafting_examples.description"));
             tooltip.add(Component.translatable(
