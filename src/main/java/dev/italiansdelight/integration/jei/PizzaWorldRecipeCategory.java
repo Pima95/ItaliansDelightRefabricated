@@ -52,17 +52,22 @@ public final class PizzaWorldRecipeCategory
                 builder.addInputSlot(76, 7)
                         .setStandardSlotBackground().add(dough);
             case STRETCH_HAND ->
-                builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 76, 7)
+                builder.addInputSlot(76, 7)
                         .setStandardSlotBackground().add(dough);
             case STRETCH_PIN -> {
-                builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 46, 7)
+                builder.addInputSlot(46, 7)
                         .setStandardSlotBackground().add(dough);
                 builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 106, 7)
                         .setStandardSlotBackground().add(new ItemStack(ModItems.ROLLING_PIN));
             }
-            case DIVIDE ->
-                builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 76, 7)
+            case DIVIDE -> {
+                // Dough is a JEI visual reference for the placed base, not
+                // a second dough item consumed by dividing an existing pizza.
+                builder.addInputSlot(46, 7)
+                        .setStandardSlotBackground().add(dough);
+                builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 106, 7)
                         .setStandardSlotBackground().add(new ItemStack(ModItems.ROLLING_PIN));
+            }
             case TOPPINGS -> {
                 // Margherita is a SAMPLE of valid toppings, not a fixed
                 // recipe or a mandatory sauce order. Each application
@@ -75,8 +80,10 @@ public final class PizzaWorldRecipeCategory
                         .setStandardSlotBackground().add(basil);
             }
             case REMOVE ->
-                builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 76, 7)
-                        .setStandardSlotBackground().add(mozzarella);
+                // An original topping is refunded only once ALL its parts
+                // were removed; no output exists after a partial removal.
+                builder.addOutputSlot(76, 7)
+                        .setOutputSlotBackground().add(mozzarella);
             case COLLECT ->
                 builder.addOutputSlot(76, 7)
                         .setOutputSlotBackground().add(recipe.examplePizza());
@@ -101,7 +108,7 @@ public final class PizzaWorldRecipeCategory
 
         builder.addText(
                 Component.translatable(recipe.step().noteKey()),
-                WIDTH - 12, 24
+                WIDTH - 12, 20
         ).setPosition(6, 78);
     }
 }
