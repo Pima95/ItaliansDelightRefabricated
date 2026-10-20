@@ -1,11 +1,13 @@
 # Pizze riconoscibili — nomi approvati 1.0.0 e proposte future
 
+> **AGGIORNAMENTO 20 ottobre 2026:** `potato_slice` è ora registrata, con ricetta Cutting Board e resa 1→4. **Patate e Speck è diventata la diciottesima pizza riconosciuta attiva**, con mozzarella a fette + patate a fette + speck a fette. «Principessa» resta sospesa per la regola della salsa esclusiva; non ne è stata inventata una sostituzione. Il menù Creativa e le nuove texture delle pizze riconosciute sono attività successive.
+
 > **Decisione definitiva dell'autore del 13 ottobre 2026:** tra le 71 combinazioni per la release 1.0.0, **19 nomi fissi APPROVATI** (18 con item già registrati, 1 con patate a fette da creare) e **52 combinazioni a nome dinamico**. La whitelist rimane di 31 topping in [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md). Le 36 proposte future sono ancora **NON APPROVATE**. **Nessun codice, texture, ricetta o datapack eseguibile è stato modificato**.
 
 > **AGGIORNAMENTO DI GAMEPLAY — 15 ottobre 2026, prioritario sulle decisioni precedenti:** ogni quarto può contenere **una sola scelta fra salsa di pomodoro, panna e ricotta**. La ricetta «Principessa» approvata il 13 ottobre (pomodoro + panna) è ora **INCOMPATIBILE/SOSPESA**: non è più componibile come nuova pizza. La lista dei **19 nomi storicamente approvati** e i conteggi SÌ/NO rimangono documentati, ma «Principessa» **non va implementata come preset attivo** finché l'autore non decide gli ingredienti della variante compatibile. Non inventare automaticamente una ricetta sostitutiva e non eliminare i dati delle pizze già salvate. Le altre combinazioni prive di sovrapposizioni continuano a seguire le regole previste.
 
 
-**Stato codice 17 ottobre 2026:** il riconoscimento è stato aggiunto su `feature/pizza-1.0.0` per i **17 gusti attualmente componibili**, insieme a nomi dinamici, Pizza assortita, singoli spicchi e tooltip IT/EN. **Da compilare/testare:** [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md). La Principessa resta sospesa; il preset Patate e Speck verrà abilitato soltanto dopo l'item approvato. Le note sottostanti sulla mancanza di codice descrivono lo stato storico della selezione del 13 ottobre.
+**Stato storico codice 17 ottobre 2026 (superato dalla nota del 20 ottobre):** il riconoscimento è stato aggiunto su `feature/pizza-1.0.0` per i **17 gusti attualmente componibili**, insieme a nomi dinamici, Pizza assortita, singoli spicchi e tooltip IT/EN. **Da compilare/testare:** [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md). La Principessa resta sospesa; il preset Patate e Speck verrà abilitato soltanto dopo l'item approvato. Le note sottostanti sulla mancanza di codice descrivono lo stato storico della selezione del 13 ottobre.
 
 ## Numeri e stati
 

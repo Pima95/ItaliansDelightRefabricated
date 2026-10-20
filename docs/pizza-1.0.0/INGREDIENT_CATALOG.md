@@ -1,10 +1,12 @@
 # Catalogo ufficiale dei condimenti — Pizza Update 1.0.0
 
+> **AGGIORNAMENTO IMPLEMENTATIVO — 20 ottobre 2026:** carote e patate a fette sono state registrate come `italiansdelight:carrot_slice` e `italiansdelight:potato_slice`. Ora il catalogo conta **31 tipi attivi e 35 ID nativi**, senza tipi pianificati. Aggiunte ricette Cutting Board 1→4, texture item 16×16 e sprite pizza 12×12. Gli ortaggi interi restano vietati sulla pizza. **Build e test in gioco:** vedere [VEGETABLE_SLICES_TESTS.md](VEGETABLE_SLICES_TESTS.md). Il menù Creativa e le texture degli item delle pizze riconosciute appartengono alla fase successiva; le indicazioni «da creare» più sotto documentano lo stato precedente alla patch.
+
 **Decisione dell'autore: 13 ottobre 2026 — catalogo di 31 tipi approvato.** Il [registro canonico Java](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingCatalog.java) dei 33 item ufficiali è già testato dall'autore. [Loader JSON/cache](../../src/main/java/dev/italiansdelight/common/pizza/PizzaToppingMappings.java) aggiunto al branch ma **da testare**. L'applicazione dei topping sulle pizze e la persistenza dei quarti non sono ancora implementate.
 
-**Avanzamento implementazione (15 ottobre 2026):** fase 3G (posa di pomodoro, panna e ricotta) testata dall'autore. **Nuova FASE 3H (da compilare/testare): massimo UNA salsa/base cremosa fra i tre item per quarto fisico; se già presente una scelta diversa, l'intera posa sulla zona mirata viene respinta senza consumi.** Panna e ricotta mantengono categoria nutrizionale Latticini e ruolo tecnico CREAMY, ma occupano lo stesso spazio salsa del pomodoro. Gli item originali restano in deposito fino a rimozione o futura cottura. [Test](CONTAINER_TOPPING_TESTS.md). Due item vegetali (carota/patata a fette) ancora da creare.
+**Avanzamento implementazione (15 ottobre 2026):** fase 3G (posa di pomodoro, panna e ricotta) testata dall'autore. **Nuova FASE 3H (da compilare/testare): massimo UNA salsa/base cremosa fra i tre item per quarto fisico; se già presente una scelta diversa, l'intera posa sulla zona mirata viene respinta senza consumi.** Panna e ricotta mantengono categoria nutrizionale Latticini e ruolo tecnico CREAMY, ma occupano lo stesso spazio salsa del pomodoro. Gli item originali restano in deposito fino a rimozione o futura cottura. [Test](CONTAINER_TOPPING_TESTS.md). Le due fette vegetali ora hanno item registrati, ricette e texture; test in client pendenti.
 
-**29 scelte AMMESSE**, corrispondenti a **33 ID di item gia' registrati** (quattro coppie crudo/cotto equivalenti contano come una scelta ciascuna), piu' **2 nuove tipologie approvate ma ancora da creare** (carote a fette e patate a fette). **4 scelte esplicitamente escluse** dal modulo. Per tutte le altre tipologie **non incluse nell'elenco ufficiale**, il default della release e' **NON ammesso**: le esclusioni esplicite non sono l'unica blacklist.
+**31 scelte AMMESSE**, corrispondenti a **35 ID di item gia' registrati** (quattro coppie crudo/cotto equivalenti contano come una scelta ciascuna), comprendendo carote e patate a fette. **4 scelte esplicitamente escluse** dal modulo. Per tutte le altre tipologie **non incluse nell'elenco ufficiale**, il default della release e' **NON ammesso**: le esclusioni esplicite non sono l'unica blacklist.
 
 Sono approvati **tipi di condimento** di Italian's Delight Refabricated e Farmer's Delight Refabricated; altre mod forniscono **soltanto item effettivamente equivalenti a tali tipi**, tramite tag comuni specifici/definizioni verificate. Nessun nuovo tipo viene sbloccato da un tag alimentare generico.
 
@@ -61,14 +63,14 @@ Namespace degli ID sotto: `farmersdelight:`. I registri del ramo `fabric/latest/
 
 **Carne macinata:** `farmersdelight:minced_beef` e' stata **espressamente ammessa** dall'autore. E' una porzione preparata: l'esclusione di bistecche intere e `beef_patty` resta valida. Nessun ID inventato di carne cotta macinata.
 
-## 3. Carote e patate a fette — AMMESSE come nuova funzionalita', DA CREARE
+## 3. Carote e patate a fette — ITEM, RICETTE E TEXTURE IMPLEMENTATI
 
-L'autore ha approvato anche **carote a fette** e **patate a fette** come due ulteriori **tipi di topping** della release 1.0.0. **NON esistono ancora come item dedicati nei registri esaminati**. Non sono incluse nel conteggio dei 33 ID gia' esistenti; **catalogo finale pianificato = 31 tipologie**.
+Le due tipologie approvate sono ora **item dedicati**: `italiansdelight:carrot_slice` e `italiansdelight:potato_slice`. Il catalogo finale conta **31 tipi nativi, 35 ID item, nessun tipo pianificato**.
 
 | Nuovo condimento approvato | Ingrediente iniziale plausibile per la lavorazione | Output da creare | Categoria | Stato |
 | --- | --- | --- | --- | --- |
-| Carote a fette | `minecraft:carrot` | nuovo item Italian's Delight (ID finale **da scegliere**) | Vegetali | **AMMESSO; 1 carota + coltello/Cutting Board -> 4 fette; item + texture + ricetta da creare** |
-| Patate a fette | `minecraft:potato` | nuovo item Italian's Delight (ID finale **da scegliere**) | Vegetali | **AMMESSO; 1 patata + coltello/Cutting Board -> 4 fette; item + texture + ricetta da creare** |
+| Carote a fette | `minecraft:carrot` | item Italian's Delight registrato | Vegetali | **IMPLEMENTATO; 1 carota + coltello/Cutting Board -> 4 fette, texture e ricetta pubblicate** |
+| Patate a fette | `minecraft:potato` | item Italian's Delight registrato | Vegetali | **IMPLEMENTATO; 1 patata + coltello/Cutting Board -> 4 fette, texture e ricetta pubblicate** |
 
 **Ricette e resa Cutting Board — CONFERMATE (13 ottobre 2026):**
 - **1 `minecraft:carrot` + un coltello valido sulla Cutting Board di Farmer's Delight Refabricated -> 4 fette di carota**, ottenute come nuovo item Italian's Delight dedicato.
@@ -78,7 +80,7 @@ L'autore ha approvato anche **carote a fette** e **patate a fette** come due ult
 - Entrambe le fette appartengono alla categoria nutrizionale **Vegetali**: **+1 fame e +0,5 saturazione per fetta di pizza con quella categoria**, conteggiati **una sola volta per categoria sul quarto fisico** (non +1 per ogni fetta di carota/patata). Rimangono i massimali generali 6/6.
 - **`minecraft:carrot` e `minecraft:potato` interi NON sono topping validi** neppure se compaiono in un tag `c:` generico. Eventuali fette equivalenti di altre mod restano soggette alla whitelist canonica e ai tag specifici verificati.
 
-**Ancora da implementare/verificare:** ID definitivi dei due nuovi item, texture, modelli, ricette JSON e matching esatto con l'API della Cutting Board MC 26.2/FDR 3.6.28, risultati in Creative/Survival, coltelli supportati e consumo normale della loro durabilita'. **Le rese 1 -> 4, la Cutting Board con coltello, la cottura sulla pizza senza secondo item e la categoria vegetali sono decisioni chiuse**, non punti da ridiscutere. Nessuna ricetta/item e' ancora stato creato.
+**Implementato:** ID dei nuovi item, texture 16×16, modelli, ricette JSON Cutting Board, associazione alla whitelist e sprite pizza 12×12. **Da verificare in gioco:** caricamento ricette MC 26.2/FDR, usura vanilla del coltello, interazioni in Survival, nomi e nutrizione. La resa 1→4, assenza di una versione cotta separata e categoria vegetali restano decisioni definitive.
 
 **Compatibilita' cross-mod:** soltanto eventuali **fette di carota/patata equivalenti**, riconosciute tramite ID/tag semantici specifici e verificati, possono sostituire i nuovi item una volta creati. Una carota intera di un'altra mod resta vietata.
 
@@ -129,7 +131,7 @@ La categoria nutrizionale di olive e olio d'oliva e' gia' progettata, **ma nella
 
 ## 7. Attivita' di sviluppo ancora aperte
 
-1. Registrare i **due nuovi item** carota a fette e patata a fette; definire ID definitivi, texture e modelli e implementare le **due ricette Cutting Board gia' approvate: 1 carota -> 4 fette e 1 patata -> 4 fette, con coltello e sua usura normale**. Non aggiungere item cotti separati; entrambe le fette crude diventano condimento della pizza e cuociono con essa. **Nessuna risorsa e' stata creata in questa approvazione documentale.**
+1. **IMPLEMENTATO**: nuovi item carota/patata a fette, texture, modelli, ricette Cutting Board approvate (1 ortaggio → 4 fette), whitelist nativa; da testare nel client prima della release.
 2. **Registro whitelist dati GIA' CREATO** (`PizzaToppingCatalog.java`: 29 tipi attuali / 33 ID), ma deve ancora essere **collegato alla validazione delle applicazioni** nel blocco pizza, ai nuovi due item da registrare e agli eventuali mapping esterni; verificare in gioco che tutti gli item non inclusi siano respinti.
 3. Riconoscere `farmersdelight:fried_egg` ma non `minecraft:egg`; riconoscere `farmersdelight:minced_beef` ma non la bistecca intera o `beef_patty`.
 4. **Quattro coppie crudo/cotto GIA' UNIFICATE NEL REGISTRO** (`bacon`, `chicken_cuts`, `cod_slice`, `salmon_slice`); manca ancora usare queste identità nei clic effettivi, per prevenire doppioni, applicazioni e rimborsi. Ogni sostituto di altre mod richiederà ID puntuale verificato, senza autorizzazione automatica dai tag.
