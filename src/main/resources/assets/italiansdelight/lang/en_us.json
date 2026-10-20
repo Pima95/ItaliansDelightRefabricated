@@ -184,7 +184,7 @@
   "gui.italiansdelight.jei.pizza_crafting_examples": "Customizable Pizzas (Examples)",
   "gui.italiansdelight.jei.pizza_crafting_examples.description": "Examples: freely combine 1 to 6 approved toppings.",
   "gui.italiansdelight.jei.pizza_crafting_examples.rule": "One dough, at most one sauce; all four quarters match.",
-  "gui.italiansdelight.jei.pizza_baking": "Pizza Baking (Guide)",
+  "gui.italiansdelight.jei.pizza_baking": "Pizza Oven",
   "gui.italiansdelight.jei.pizza_baking.method.oven": "Pizza Oven: 20 seconds",
   "gui.italiansdelight.jei.pizza_baking.method.smoker": "Smoker: 30 seconds",
   "gui.italiansdelight.jei.pizza_baking.method.furnace": "Furnace: 60 seconds",
