@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.pizza;
 
+import dev.italiansdelight.common.registry.ModItems;
+import dev.italiansdelight.common.registry.ModRegistries;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -160,6 +162,42 @@ public final class PizzaDisplayNames {
         return id == null ? ingredients(types) : preset(id);
     }
 
+    /**
+     * Canonical whole-pizza preset shared by display names and ITEM_MODEL.
+     * The four saved physical quarters must match exactly, never by union,
+     * substring or translated inventory name.
+     *
+     * @return exact recognized preset ID, or null for mixed/freeform pizzas.
+     */
+    public static String wholePresetId(PizzaItemData whole) {
+        Set<Identifier> first = quarter(whole, 0);
+        for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
+            if (!first.equals(quarter(whole, q))) {
+                return null;
+            }
+        }
+        return PRESETS.get(first);
+    }
+
+    /**
+     * First approved whole-pizza artwork batch. The remaining active named
+     * pizzas deliberately use the neutral fallback until their dedicated
+     * 16x16 assets are drawn and approved. Never lie with Margherita art.
+     */
+    private static Identifier wholeItemModel(PizzaItemData whole) {
+        String id = wholePresetId(whole);
+        if (id == null) {
+            return ModRegistries.id("pizza_custom");
+        }
+        return switch (id) {
+            case "bianca" -> ModRegistries.id("pizza_bianca");
+            case "rossa" -> ModRegistries.id("pizza_rossa");
+            case "margherita" -> ModRegistries.id("pizza_margherita");
+            case "patate_speck" -> ModRegistries.id("pizza_patate_speck");
+            default -> ModRegistries.id("pizza_custom");
+        };
+    }
+
     public static Component wholeName(PizzaItemData whole) {
         Set<Identifier> first = quarter(whole, 0);
         for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
@@ -197,6 +235,16 @@ public final class PizzaDisplayNames {
      */
     public static void nameWholeStack(ItemStack stack, PizzaItemData data) {
         stack.set(DataComponents.ITEM_NAME, wholeName(data));
+        // Vanilla ITEM_MODEL is a synced/persisted Identifier. The model
+        // selection is server-authored from the SAME canonical saved topping
+        // data as the localized name. No new item registrations, item names
+        // stored as identifiers or client-only lookups are necessary.
+        //
+        // Raw pizza uses its existing own graphic; only BAKED whole pizzas
+        // gain per-preset art. This also works on pizza peel cargo stacks.
+        if (stack.is(ModItems.COOKED_PIZZA)) {
+            stack.set(DataComponents.ITEM_MODEL, wholeItemModel(data));
+        }
     }
 
     public static void nameSliceStack(ItemStack stack, PizzaSliceData data) {
