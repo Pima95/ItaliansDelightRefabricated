@@ -122,7 +122,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             PizzaCraftingJeiRecipes.createExamples()
         );
 
-        // Three educational examples of existing baking methods; no new gameplay recipes.
+        // Single Pizza Oven example; vanilla JEI already displays Smelting and Smoking.
         registration.addRecipes(
             PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
             PizzaBakingJeiRecipes.createExamples()
@@ -160,7 +160,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new ItemStack(net.minecraft.world.level.block.Blocks.CRAFTING_TABLE)
         );
 
-        // The pizza oven opens a guide comparing all three supported machines.
+        // Dedicated Pizza Oven catalyst for a vanilla-style 20-second cooking display.
         registration.addCraftingStation(
             PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
             new ItemStack(ModBlocks.PIZZA_OVEN)
