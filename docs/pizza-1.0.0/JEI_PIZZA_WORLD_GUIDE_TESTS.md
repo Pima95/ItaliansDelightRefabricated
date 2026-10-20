@@ -44,6 +44,25 @@ La categoria è stata modificata a **170×136 pixel**. Le tre aree sono ora sepa
 
 Le sette schede, i loro identificativi/segnalibri e gli item di esempio rimangono invariati. Non sono introdotti asset nuovi e il codice non altera le interazioni della pizza. Verificare in client IT/EN anche le descrizioni più lunghe (pagine 5 e 6), l'assenza di troncamenti/ellipsis e la navigazione di tutte le sette voci: JEI può usare pagine o scorrimento in base allo spazio disponibile e alle opzioni del client. Non assumere che il contatore di pagina debba mostrare sempre `1/7`.
 
+## Correzione navigazione — 20 ottobre 2026
+
+**Problema segnalato:** aprendo la categoria `Pizza Preparation (In World)` dalle ricette della pizza cruda, JEI mostrava **solo «7 · Collect the raw pizza» con contatore `1/1`**, non gli altri sei passaggi. Le sette schede erano già registrate, ma il filtro di ricerca JEI ammetteva soltanto la pagina 7 perché era l'unica ad avere la pizza cruda come ingrediente di **output** visibile.
+
+**Risoluzione:** `PizzaWorldRecipeCategory#setRecipe` usa ora `IRecipeLayoutBuilder.addInvisibleIngredients` con:
+- ruolo **OUTPUT**, la pizza cruda Margherita di esempio (navigazione della guida quando si preme **R** sulla pizza);
+- ruolo **INPUT**, l'impasto di Farmer's Delight e il mattarello (navigazione quando si preme **U** su impasto o mattarello).
+
+Questi riferimenti **sono solo per l'indice di ricerca JEI**: non disegnano slot extra, non dichiarano che tutti i passaggi producano una pizza e non registrano ricette gameplay aggiuntive. Ogni scheda mantiene i propri oggetti illustrativi, il titolo e le descrizioni.
+
+### Collaudo specifico
+
+- [ ] Aprire le ricette della pizza cruda con **R**, selezionare il tab del mattarello e confermare che **tutti e sette i passaggi** siano navigabili, non soltanto «Raccogli».
+- [ ] Premere **U** sul mattarello: la guida permette di raggiungere tutti e sette i passaggi, inclusi posizionamento e raccolta.
+- [ ] Premere **U** su `farmersdelight:wheat_dough`: stessa copertura di navigazione.
+- [ ] Navigare dall'inizio fino a «Raccogli»: nessuna pagina mancante o duplicata, sia in italiano sia in inglese.
+- [ ] Controllare che gli slot a schermo rimangano quelli corretti di ciascun passaggio: i riferimenti di ricerca **non devono comparire come input/output extra**.
+- [ ] Controllare che la consultazione tramite ingredienti topping, pizza e mattarello non modifichi le ricette di crafting o gli item reali.
+
 ## Checklist build e client
 
 - [ ] Build Java 25 GitHub Actions completa sul commit finale, senza errori di compilazione o caricamento.
