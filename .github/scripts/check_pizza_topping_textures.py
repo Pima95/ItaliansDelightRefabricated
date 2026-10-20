@@ -23,10 +23,13 @@ EXPECTED = {
     "fried_egg", "minced_beef", "cabbage_leaf", "pumpkin_slice",
     "carrot_slice", "potato_slice", "legacy_mozzarella", "unknown",
 }
+SPRITE_ROOT = ROOT.parent / "pizza_topping_sprites"
+SAUCES = {"tomato_sauce", "cream_bowl", "ricotta"}
+EXPECTED_SPRITES = EXPECTED - SAUCES
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
 
-def inspect(path: Path) -> tuple[int, int]:
+def inspect(path: Path, is_sprite: bool = False) -> tuple[int, int]:
     data = path.read_bytes()
     if not data.startswith(PNG_SIGNATURE):
         raise ValueError(f"{path}: invalid PNG signature")
@@ -65,6 +68,8 @@ def inspect(path: Path) -> tuple[int, int]:
     if len(decoded) != 12 * (1 + 12 * 4):
         raise ValueError(f"{path}: invalid pixel data length")
     visible = 0
+    variants = [0] * 4
+    small_variants = [0] * 4
     for row in range(12):
         offset = row * 49
         if decoded[offset] != 0:
@@ -73,9 +78,20 @@ def inspect(path: Path) -> tuple[int, int]:
             alpha = decoded[offset + 1 + pixel * 4 + 3]
             if alpha not in (0, 255):
                 raise ValueError(f"{path}: non-binary alpha at {pixel},{row}")
+            if is_sprite and alpha == 255:
+                lx, ly = pixel % 6, row % 6
+                if not (1 <= lx <= 3 and 1 <= ly <= 3):
+                    raise ValueError(f"{path}: pixel outside 3x3 sprite cell ({pixel}, {row})")
+                variant = (pixel // 6) + (row // 6) * 2
+                variants[variant] += 1
+                if lx <= 2 and ly <= 2:
+                    small_variants[variant] += 1
             visible += (alpha == 255)
     if visible == 0:
         raise ValueError(f"{path}: invisible/empty texture")
+    if is_sprite and (min(variants) == 0 or min(small_variants) == 0):
+        raise ValueError(f"{path}: empty atlas variant for 3x3 or 2x2 crops, "
+                         f"variants={variants}, small={small_variants}")
     return visible, 144 - visible
 
 
@@ -87,7 +103,18 @@ def main() -> None:
     for name in sorted(EXPECTED):
         filled, empty = inspect(ROOT / (name + ".png"))
         print(f"OK {name}.png: 12x12 RGBA, opaque {filled}, transparent {empty}")
-    print(f"Validated all {len(EXPECTED)} unique pizza topping textures")
+    print(f"Validated all {len(EXPECTED)} preserved 12x12 topping textures")
+
+    sprite_names = {p.stem for p in SPRITE_ROOT.glob("*.png")}
+    if sprite_names != EXPECTED_SPRITES:
+        raise ValueError(f"Missing sprites: {sorted(EXPECTED_SPRITES - sprite_names)}; "
+                         f"unexpected: {sorted(sprite_names - EXPECTED_SPRITES)}")
+    for name in sorted(EXPECTED_SPRITES):
+        filled, empty = inspect(SPRITE_ROOT / (name + ".png"), is_sprite=True)
+        print(f"OK sprite {name}.png: 4 nonempty variants, "
+              f"opaque {filled}, transparent {empty}")
+    print(f"Validated {len(EXPECTED_SPRITES)} sprite atlases, "
+          "all four quadrants, binary alpha and no altered original textures")
 
 
 if __name__ == "__main__":
