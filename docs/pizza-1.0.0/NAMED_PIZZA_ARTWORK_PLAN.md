@@ -65,6 +65,27 @@ Fonte di verità: `src/main/java/dev/italiansdelight/common/pizza/PizzaDisplayNa
 6. **Integrazione modello** — mantenere selezione per composizione e fallback; validare 18 gusti, pizza assortita, pizza non riconosciuta, pala, salvataggi e texture mancanti. Inserire almeno un test automatico di copertura fra preset, modelli e PNG.
 7. **Test in gioco** dell'autore prima di dichiarare approvato il risultato; soltanto dopo passare alle texture dedicate dei singoli spicchi riconosciuti, se confermate.
 
+## Stato implementazione — primo lotto (20 ottobre 2026)
+
+**Già pubblicato nel branch:** tre nuovi gusti con texture PNG originali 16×16: `pizza_bianca.png`, `pizza_rossa.png`, `pizza_patate_speck.png`. Creato inoltre `pizza_custom.png` (fallback neutro). La **Margherita** usa esattamente la vecchia `pizza_margherita.png`, senza modificarla. Registrati i relativi `assets/italiansdelight/models/item/pizza_*.json` e `assets/italiansdelight/items/pizza_*.json`. 
+
+Il selettore in `PizzaDisplayNames.nameWholeStack` applica `DataComponents.ITEM_MODEL` **solo agli item pizza cotta**, scegliendo **Bianca, Rossa, Margherita, Patate e Speck** dal medesimo algoritmo usato per il nome canonico. **Gli altri 14 gusti ufficiali**, fino al completamento delle loro texture, usano `pizza_custom`. Anche pizze assortite, libere o con ingredienti extra usano `pizza_custom` e **non più il disegno Margherita**; le pizze crude e gli spicchi restano invariati.
+
+**Verifica automatica:** lo script `.github/scripts/check_named_pizza_artwork.py` controlla le definizioni e i modelli, i PNG 16×16 RGBA, l'alpha binario dei nuovi asset, il fallback e le quattro mappature canoniche. È eseguito dalla workflow `pizza-build.yml` prima della compilazione Java 25.
+
+**Ancora da collaudare nel client:** resa visiva delle tre nuove texture, contrasto/dimensione rispetto all'asset Margherita esistente, scelta effettiva degli item model, comportamento della pala e dei salvataggi precedenti. Uno stack cotto preesistente privo di `ITEM_MODEL` riceve il modello base neutro; verificarne il comportamento dopo cottura/raccolta e decidere eventuale migrazione automatica dei vecchi stack solo dopo un test. **Non dichiarare la fase grafica conclusa**.
+
+### Checklist specifica del primo lotto
+
+- [ ] Cuocere una pizza intera **Bianca**, una **Rossa**, una **Margherita** e una **Patate e Speck**: quattro nomi e quattro icone esatte nella hotbar e inventario, mai la stessa icona per tutti.
+- [ ] Confrontare **Patate e Speck** in inventario e nel mondo: in inventario usare PNG 16×16 dedicato, nel mondo mantenere rendering con topping 2×2/3×3 già approvato.
+- [ ] Pizza con **speck extra** su una Margherita, pizza assortita e gusto ufficiale non ancora disegnato (es. Caprese rossa): tutti devono mostrare l'icona neutra senza perdersi ingredienti, nome o tooltip.
+- [ ] Verificare la pizza **cruda** con gli stessi topping: la sua icona originale non deve cambiare.
+- [ ] Verificare il **trasporto sulla pala** con pizza cotta riconosciuta e fallback (nessuna regressione ai modelli nelle mani).
+- [ ] Conservare, chiudere e riaprire un mondo con una pizza cotta nominata: modello e nome coerenti per i nuovi stack; provare anche vecchi stack senza componente modello.
+- [ ] Verificare che JEI, i 97 item della scheda Creativa e gli spicchi restino invariati.
+- [ ] Confermare qualità grafica e pixel nitidi degli asset prima di disegnare i restanti 14 gusti.
+
 ## Casi di accettazione
 
 - [ ] 18 gusti con quattro quarti identici e match esatto → nome e icona corrispondenti.
