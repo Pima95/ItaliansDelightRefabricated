@@ -2,94 +2,76 @@ package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.common.registry.ModBlocks;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.builder.ITooltipBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.placement.HorizontalAlignment;
+import mezz.jei.api.gui.placement.VerticalAlignment;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeType;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 /**
- * Visual guide only: one sample pizza, three existing ways of cooking it.
- * Machine and coal are render-only (not mandatory consumed ingredients).
- * The same pizza data and translated taste name survive all three methods.
+ * Pizza Oven JEI display using the same public slot positions and animated
+ * recipe widgets as JEI 26.2's vanilla smelting and smoking categories.
+ *
+ * <p>Smelting/smoking pizzas are already displayed by JEI's own vanilla
+ * categories; this category covers ONLY the custom 20-second Pizza Oven.
+ * It does not register additional gameplay recipes or require coal.
  */
 public final class PizzaBakingRecipeCategory
-        implements IRecipeCategory<PizzaBakingJeiRecipe> {
-    private static final int WIDTH = 141;
-    private static final int HEIGHT = 76;
-    private final IDrawable icon;
+        extends AbstractRecipeCategory<PizzaBakingJeiRecipe> {
+    private static final int WIDTH = 82;
+    private static final int HEIGHT = 54;
 
     public PizzaBakingRecipeCategory(IGuiHelper guiHelper) {
-        icon = guiHelper.createDrawableItemLike(ModBlocks.PIZZA_OVEN);
-    }
-
-    @Override
-    public IRecipeType<PizzaBakingJeiRecipe> getRecipeType() {
-        return PizzaBakingJeiRecipeTypes.PIZZA_BAKING;
-    }
-
-    @Override
-    public Component getTitle() {
-        return Component.translatable("gui.italiansdelight.jei.pizza_baking");
-    }
-
-    @Override
-    public int getWidth() {
-        return WIDTH;
-    }
-
-    @Override
-    public int getHeight() {
-        return HEIGHT;
-    }
-
-    @Override
-    public IDrawable getIcon() {
-        return icon;
+        super(
+                PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
+                Component.translatable("gui.italiansdelight.jei.pizza_baking"),
+                guiHelper.createDrawableItemLike(ModBlocks.PIZZA_OVEN),
+                WIDTH, HEIGHT
+        );
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, PizzaBakingJeiRecipe recipe,
                           IFocusGroup focuses) {
-        builder.addInputSlot(8, 20)
-                .setStandardSlotBackground().add(recipe.rawPizza());
-        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 8, 49)
-                .setStandardSlotBackground().add(new ItemStack(Items.COAL));
-        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 62, 20)
-                .setStandardSlotBackground().add(recipe.station());
-        builder.addOutputSlot(112, 20)
-                .setOutputSlotBackground().add(recipe.cookedPizza());
+        // Positions match JEI's AbstractCookingCategory: 82x54 with the
+        // ingredient above, rotating vanilla fuels below, output on the right.
+        builder.addInputSlot(1, 1)
+                .setStandardSlotBackground()
+                .add(recipe.rawPizza());
+
+        // AnyFuel is JEI's native, automatically cycling list of usable
+        // furnace fuels, NOT one mandatory coal stack or consumed material.
+        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 1, 37)
+                .setStandardSlotBackground()
+                .add(SlotDisplay.AnyFuel.INSTANCE);
+
+        builder.addOutputSlot(WIDTH - 21, 19)
+                .setOutputSlotBackground()
+                .add(recipe.cookedPizza());
     }
 
     @Override
-    public void draw(PizzaBakingJeiRecipe recipe, IRecipeSlotsView slots,
-                     GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
-        // The JEI-standard slots provide the display; no new texture is needed.
-    }
+    public void createRecipeExtras(IRecipeExtrasBuilder builder,
+                                   PizzaBakingJeiRecipe recipe, IFocusGroup focuses) {
+        // Reuse the very same JEI 26.2 widgets as vanilla Smelting / Smoking.
+        builder.addAnimatedRecipeArrowWidget(recipe.cookingTicks())
+                .setPosition(26, 17);
+        builder.addAnimatedRecipeFlameWidget(300)
+                .setPosition(1, 20);
 
-    @Override
-    public void getTooltip(ITooltipBuilder tooltip, PizzaBakingJeiRecipe recipe,
-                           IRecipeSlotsView slots, double mouseX, double mouseY) {
-        if (mouseX >= 59 && mouseX < 99 && mouseY >= 18 && mouseY < 46) {
-            tooltip.add(Component.translatable(recipe.methodKey()));
-            tooltip.add(Component.translatable(
-                    "gui.italiansdelight.jei.pizza_baking.time",
-                    recipe.cookingTicks() / 20));
-        } else if (mouseX >= 6 && mouseX < 35 && mouseY >= 45 && mouseY < 75) {
-            tooltip.add(Component.translatable(
-                    "gui.italiansdelight.jei.pizza_baking.fuel"));
-        } else if (mouseX >= 35 && mouseX < 110 && mouseY >= 47 && mouseY < 73) {
-            tooltip.add(Component.translatable(
-                    "gui.italiansdelight.jei.pizza_baking.note"));
-            tooltip.add(Component.translatable(
-                    "gui.italiansdelight.jei.pizza_baking.bowls"));
-        }
+        // Reuse the native translated duration label and its alignment.
+        builder.addText(
+                Component.translatable("gui.jei.category.smelting.time.seconds",
+                        recipe.cookingTicks() / 20),
+                WIDTH - 42, 10
+        )
+                .setPosition(0, 0, WIDTH, HEIGHT,
+                        HorizontalAlignment.CENTER, VerticalAlignment.BOTTOM)
+                .setTextAlignment(HorizontalAlignment.CENTER)
+                .setTextAlignment(VerticalAlignment.BOTTOM);
     }
 }
