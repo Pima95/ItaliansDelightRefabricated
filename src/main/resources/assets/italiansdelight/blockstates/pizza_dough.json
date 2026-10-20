@@ -39,15 +39,6 @@
       "apply": {
         "model": "italiansdelight:block/pizza_dough_stage4"
       }
-    },
-    {
-      "when": {
-        "stage": "4",
-        "mozzarella": "true"
-      },
-      "apply": {
-        "model": "italiansdelight:block/pizza_topping_mozzarella"
-      }
     }
   ]
 }
