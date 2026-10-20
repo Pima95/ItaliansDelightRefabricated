@@ -136,19 +136,14 @@ public final class PizzaDoughPlacement {
                     return InteractionResult.PASS;
                 }
 
-                // The whole mozzarella is deliberately NOT a pizza topping.
-                // The approved topping is mozzarella_slice (see the positive
-                // PizzaToppingCatalog whitelist). Older worlds may still have
-                // the mozzarella BlockState flag: their saved pizza is kept
-                // compatible and can be refunded with Shift + empty hand,
-                // but we must never consume another whole mozzarella or
-                // create new legacy flags. Consume this click without altering
-                // either the player's item stack or the pizza.
-                if (stage == PizzaDoughBlock.MAX_STAGE
-                        && held.is(dev.italiansdelight.common.registry.ModItems.MOZZARELLA)) {
-                    return InteractionResult.SUCCESS;
-                }
-
+                // An unapproved item (including the whole mozzarella) must
+                // behave exactly like any ordinary vanilla item: PASS the
+                // interaction instead of reporting SUCCESS. SUCCESS used to
+                // trigger the hand-swing/placement animation even when the
+                // pizza did not change. This path does not consume an item,
+                // alter the BlockState or create a legacy mozzarella flag.
+                // Existing flags on old-world pizzas remain refundable via
+                // Shift + empty hand above.
                 if (!rollingPin && !held.isEmpty()) {
                     return InteractionResult.PASS;
                 }
