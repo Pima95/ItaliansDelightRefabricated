@@ -16,8 +16,8 @@ import static dev.italiansdelight.common.pizza.PizzaToppingType.Role.*;
 /**
  * Authoritative, read-only 1.0.0 pizza topping catalogue.
  *
- * <p>31 canonical ingredient kinds: 29 currently backed by 33 registered item
- * IDs, plus two reserved future kinds (sliced carrot and potato). Only items
+ * <p>31 canonical ingredient kinds, backed by 35 native registered item
+ * IDs (including carrot and potato slices). Only items
  * listed here are native toppings. In particular, broad c: food tags NEVER
  * cause whole cheeses, whole meats or other unprepared items to be accepted.
  *
@@ -102,15 +102,15 @@ public final class PizzaToppingCatalog {
         add(types, nativeItems, "pumpkin_slice", VEGETABLE, SOLID, "farmersdelight", "pumpkin_slice");
         add(types, nativeItems, "tomato_sauce", SAUCES, SAUCE, "farmersdelight", "tomato_sauce");
 
-        // Approved future toppings: reserve canonical IDs ONLY. The item IDs
-        // and Cutting Board recipes are not registered in this step.
-        addPlanned(types, "carrot_slice", VEGETABLE, SOLID);
-        addPlanned(types, "potato_slice", VEGETABLE, SOLID);
+        // Prepared vegetable slices are approved. Whole carrots/potatoes
+        // remain in EXPLICIT_EXCLUSIONS and cannot be used as toppings.
+        add(types, nativeItems, "carrot_slice", VEGETABLE, SOLID, "italiansdelight", "carrot_slice");
+        add(types, nativeItems, "potato_slice", VEGETABLE, SOLID, "italiansdelight", "potato_slice");
 
         // Catch accidental omissions, aliases or newly added items before
         // anything relies on the canonical identity mapping.
-        if (types.size() != 31 || nativeItems.size() != 33
-                || types.values().stream().filter(PizzaToppingType::planned).count() != 2) {
+        if (types.size() != 31 || nativeItems.size() != 35
+                || types.values().stream().filter(PizzaToppingType::planned).count() != 0) {
             throw new IllegalStateException("Unexpected pizza topping catalogue size: "
                     + types.size() + " types, " + nativeItems.size() + " native item IDs");
         }
@@ -134,7 +134,7 @@ public final class PizzaToppingCatalog {
      */
     public static void register() {
         ItaliansDelight.LOGGER.info(
-                "[Italian's Delight] Pizza topping catalogue: {} canonical types, {} native item IDs (2 planned)",
+                "[Italian's Delight] Pizza topping catalogue: {} canonical types, {} native item IDs (0 planned)",
                 TYPES.size(), NATIVE_ITEMS.size());
     }
 
@@ -143,7 +143,7 @@ public final class PizzaToppingCatalog {
         return TYPES;
     }
 
-    /** Exactly the 33 approved native item IDs. Never mutable. */
+    /** Exactly the 35 approved native item IDs. Never mutable. */
     public static Map<Identifier, PizzaToppingType> nativeItems() {
         return NATIVE_ITEMS;
     }
@@ -156,7 +156,7 @@ public final class PizzaToppingCatalog {
         return Optional.ofNullable(NATIVE_ITEMS.get(Objects.requireNonNull(itemId, "itemId")));
     }
 
-    /** Planned-only kinds must not be enabled until their new items exist. */
+    /** Only live canonical topping types may be applied to a pizza. */
     public static boolean isActiveType(Identifier canonicalId) {
         PizzaToppingType topping = TYPES.get(Objects.requireNonNull(canonicalId, "canonicalId"));
         return topping != null && !topping.planned();

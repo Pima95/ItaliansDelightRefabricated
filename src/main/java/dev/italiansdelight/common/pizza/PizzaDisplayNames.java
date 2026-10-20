@@ -30,8 +30,8 @@ public final class PizzaDisplayNames {
     private static final String CANONICAL_PREFIX = "pizza_toppings/";
     private static final Identifier LEGACY_MOZZARELLA =
             Identifier.parse("italiansdelight:pizza_toppings/legacy_mozzarella");
-    // 17 currently possible recipes. Principessa is SUSPENDED (two spreads);
-    // Patate e Speck is FUTURE (no potato_slice item registered).
+    // 18 currently possible recipes. Principessa remains SUSPENDED
+    // because tomato sauce and cream cannot share a physical quarter.
     private static final Map<Set<Identifier>, String> PRESETS = buildPresets();
 
     private PizzaDisplayNames() {
@@ -71,9 +71,10 @@ public final class PizzaDisplayNames {
         add(presets, "salmone_scamorza", "mozzarella_slice", "salmon_slice", "smoked_scamorza_slice");
         add(presets, "carne_mozzarella", "tomato_sauce", "mozzarella_slice", "minced_beef");
         add(presets, "zucca_speck", "mozzarella_slice", "pumpkin_slice", "speck_slice");
+        add(presets, "patate_speck", "mozzarella_slice", "potato_slice", "speck_slice");
         add(presets, "orto_disponibile", "mozzarella_slice", "tomato_slice",
                 "cabbage_leaf", "pumpkin_slice", "basil");
-        if (presets.size() != 17) {
+        if (presets.size() != 18) {
             throw new IllegalStateException("Unexpected count of active pizza presets");
         }
         return Map.copyOf(presets);

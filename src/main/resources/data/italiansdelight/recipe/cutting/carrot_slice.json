@@ -1,0 +1,15 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    "minecraft:carrot"
+  ],
+  "tool": "#c:tools/knife",
+  "result": [
+    {
+      "item": {
+        "count": 4,
+        "id": "italiansdelight:carrot_slice"
+      }
+    }
+  ]
+}

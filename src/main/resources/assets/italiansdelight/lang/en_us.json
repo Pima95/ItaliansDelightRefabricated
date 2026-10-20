@@ -213,5 +213,8 @@
   "gui.italiansdelight.jei.pizza_world.remove.note": "Refund only when fully removed.",
   "gui.italiansdelight.jei.pizza_world.collect.title": "7 · Collect the raw pizza",
   "gui.italiansdelight.jei.pizza_world.collect.description": "Break a topped or divided pizza to collect the uncooked item for baking.",
-  "gui.italiansdelight.jei.pizza_world.collect.note": "Keeps toppings, quarters and name."
+  "gui.italiansdelight.jei.pizza_world.collect.note": "Keeps toppings, quarters and name.",
+  "item.italiansdelight.carrot_slice": "Carrot Slices",
+  "item.italiansdelight.potato_slice": "Potato Slices",
+  "pizza.italiansdelight.taste.patate_speck": "Potato and Speck"
 }

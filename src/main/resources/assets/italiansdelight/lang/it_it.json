@@ -213,5 +213,8 @@
   "gui.italiansdelight.jei.pizza_world.remove.note": "Rimborso solo a rimozione completa.",
   "gui.italiansdelight.jei.pizza_world.collect.title": "7 · Raccogli la pizza cruda",
   "gui.italiansdelight.jei.pizza_world.collect.description": "Rompi la pizza condita o divisa per recuperarla come oggetto da cuocere.",
-  "gui.italiansdelight.jei.pizza_world.collect.note": "Mantiene condimenti, quarti e nome."
+  "gui.italiansdelight.jei.pizza_world.collect.note": "Mantiene condimenti, quarti e nome.",
+  "item.italiansdelight.carrot_slice": "Carote a fette",
+  "item.italiansdelight.potato_slice": "Patate a fette",
+  "pizza.italiansdelight.taste.patate_speck": "Patate e Speck"
 }

@@ -313,6 +313,34 @@ public final class ModItems {
                                                         .saturationModifier(0.2f)
                                                         .build()));
         
+        // Pizza 1.0.0: prepared vegetable slices made on Farmer's Delight\'s
+        // Cutting Board (one whole vegetable -> four slices with a knife).
+        // These are the only approved carrot/potato pizza forms. Whole
+        // minecraft:carrot and minecraft:potato remain explicitly excluded.
+        public static final ResourceKey<Item> CARROT_SLICE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("carrot_slice"));
+
+        public static final Item CARROT_SLICE = register(
+                CARROT_SLICE_KEY,
+                new Item.Properties().food(
+                        new FoodProperties.Builder()
+                                .nutrition(1)
+                                .saturationModifier(0.2f)
+                                .build()));
+
+        public static final ResourceKey<Item> POTATO_SLICE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("potato_slice"));
+
+        public static final Item POTATO_SLICE = register(
+                POTATO_SLICE_KEY,
+                new Item.Properties().food(
+                        new FoodProperties.Builder()
+                                .nutrition(1)
+                                .saturationModifier(0.2f)
+                                .build()));
+
         // Rennet
         public static final ResourceKey<Item> RENNET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
