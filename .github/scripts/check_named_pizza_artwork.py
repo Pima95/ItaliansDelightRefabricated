@@ -1,115 +1,159 @@
 #!/usr/bin/env python3
-"""Sanity checks for the *first* named whole-pizza item-model artwork batch.
+"""Validate the 18 exact named raw/cooked pizza models and approved originals.
 
-This deliberately does not require the remaining 14 active named pizza icons:
-those are deferred until the first four are tested by the mod's author.
-No external Python libraries are needed in GitHub Actions.
+No third-party dependencies. The PNG decoder handles standard row filters,
+so both existing approved images and new 16x16 pixel art can be checked.
 """
 from __future__ import annotations
 
+import hashlib
 import json
+import re
 import struct
 import zlib
 from pathlib import Path
 
 ASSETS = Path("src/main/resources/assets/italiansdelight")
-IMPLEMENTED = (
-    "pizza_bianca",
-    "pizza_rossa",
-    "pizza_margherita",  # existing author texture, must not be overwritten
-    "pizza_patate_speck",
-    "pizza_custom",       # fallback for the other 14 flavors and mixed pizzas
-)
-NEW_TEXTURES = set(IMPLEMENTED) - {"pizza_margherita"}
-PREFIX = b"\x89PNG\r\n\x1a\n"
+JAVA = Path("src/main/java/dev/italiansdelight/common/pizza/PizzaDisplayNames.java")
+CREATIVE = Path("src/main/java/dev/italiansdelight/common/item/group/ModItemGroups.java")
+SAMPLES = Path("src/main/java/dev/italiansdelight/common/pizza/PizzaCreativeSamples.java")
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+ORIGINAL_HASHES = {
+    "raw_pizza": "38fdfd76ed7c30c287cafb5fee7461c6bdeb0399",
+    "pizza_margherita": "141f894f5776bc71f980657d3b1ed457072c2b39",
+}
 
 
-def inspect_png(path: Path, require_binary_alpha: bool) -> None:
-    content = path.read_bytes()
-    if not content.startswith(PREFIX):
-        raise ValueError(f"{path} is not a PNG")
-    pos = len(PREFIX)
-    chunks: list[bytes] = []
-    seen_end = False
-    while pos + 12 <= len(content):
-        (size,) = struct.unpack_from(">I", content, pos)
-        kind = content[pos + 4:pos + 8]
-        payload = content[pos + 8:pos + 8 + size]
-        checksum = struct.unpack_from(">I", content, pos + 8 + size)[0]
-        if len(payload) != size or zlib.crc32(kind + payload) != checksum:
-            raise ValueError(f"{path}: broken PNG chunk or CRC")
-        pos += size + 12
-        if kind == b"IHDR":
-            width, height, depth, color, compression, filtering, interlace = struct.unpack(
-                ">IIBBBBB", payload
-            )
-            if (width, height, depth, color, compression, filtering, interlace) != (
-                16, 16, 8, 6, 0, 0, 0
-            ):
-                raise ValueError(f"{path}: expected 16x16 8-bit noninterlaced RGBA")
-        elif kind == b"IDAT":
-            chunks.append(payload)
-        elif kind == b"IEND":
+def png_rgba(path: Path) -> bytes:
+    png = path.read_bytes()
+    if not png.startswith(PNG_SIGNATURE):
+        raise ValueError(f"Not a PNG: {path}")
+    offset, packed, seen_end, valid_header = 8, [], False, False
+    while offset + 12 <= len(png):
+        length = struct.unpack_from(">I", png, offset)[0]
+        tag = png[offset + 4:offset + 8]
+        chunk = png[offset + 8:offset + 8 + length]
+        checksum = struct.unpack_from(">I", png, offset + 8 + length)[0]
+        if len(chunk) != length or zlib.crc32(tag + chunk) != checksum:
+            raise ValueError(f"Broken PNG chunk/CRC: {path}")
+        offset += length + 12
+        if tag == b"IHDR":
+            fields = struct.unpack(">IIBBBBB", chunk)
+            if fields != (16, 16, 8, 6, 0, 0, 0):
+                raise ValueError(f"Expected 16x16 RGBA PNG: {path}")
+            valid_header = True
+        elif tag == b"IDAT":
+            packed.append(chunk)
+        elif tag == b"IEND":
             seen_end = True
             break
-    if not seen_end or pos != len(content):
-        raise ValueError(f"{path}: truncated PNG")
-    if not require_binary_alpha:
-        return  # Existing approved artwork is deliberately not reprocessed.
+    if not valid_header or not seen_end or offset != len(png):
+        raise ValueError(f"Incomplete PNG: {path}")
 
-    raw = zlib.decompress(b"".join(chunks))
-    if len(raw) != 16 * (1 + 16 * 4):
-        raise ValueError(f"{path}: invalid pixel length")
-    visible = 0
+    raw = zlib.decompress(b"".join(packed))
+    if len(raw) != 16 * 65:
+        raise ValueError(f"Invalid decoded RGBA length: {path}")
+    rgba, previous = bytearray(), bytearray(64)
     for y in range(16):
-        if raw[y * 65] != 0:
-            raise ValueError(f"{path}: newly generated images must use PNG filter 0")
-        for x in range(16):
-            alpha = raw[y * 65 + 1 + x * 4 + 3]
-            if alpha not in (0, 255):
-                raise ValueError(f"{path}: semitransparent pixel {x},{y}")
-            visible += int(alpha == 255)
-    if visible == 0:
-        raise ValueError(f"{path}: transparent blank texture")
+        filt = raw[y * 65]
+        scan = bytearray(raw[y * 65 + 1:y * 65 + 65])
+        for i in range(64):
+            left = scan[i - 4] if i >= 4 else 0
+            above = previous[i]
+            upper_left = previous[i - 4] if i >= 4 else 0
+            if filt == 1:
+                predictor = left
+            elif filt == 2:
+                predictor = above
+            elif filt == 3:
+                predictor = (left + above) // 2
+            elif filt == 4:
+                p = left + above - upper_left
+                distances = (abs(p - left), abs(p - above), abs(p - upper_left))
+                predictor = (left, above, upper_left)[distances.index(min(distances))]
+            elif filt == 0:
+                predictor = 0
+            else:
+                raise ValueError(f"Unsupported PNG filter {filt}: {path}")
+            scan[i] = (scan[i] + predictor) & 255
+        rgba.extend(scan)
+        previous = scan
+    alphas = rgba[3::4]
+    if not alphas or set(alphas) != {0, 255}:
+        raise ValueError(f"Empty image or semi-transparent pixel: {path}")
+    return bytes(rgba)
+
+
+def original_sha(path: Path) -> str:
+    binary = path.read_bytes()
+    return hashlib.sha1(b"blob " + str(len(binary)).encode() + b"\0" + binary).hexdigest()
+
+
+def assert_model(name: str, expected_texture: str) -> None:
+    model_path = ASSETS / "models/item" / (name + ".json")
+    definition_path = ASSETS / "items" / (name + ".json")
+    model = json.loads(model_path.read_text(encoding="utf-8"))
+    definition = json.loads(definition_path.read_text(encoding="utf-8"))
+    if model != {
+        "parent": "minecraft:item/generated",
+        "textures": {"layer0": "italiansdelight:item/" + expected_texture},
+    }:
+        raise ValueError(f"Unexpected model parent/layer: {model_path}")
+    if definition != {
+        "model": {"type": "minecraft:model", "model": "italiansdelight:item/" + name}
+    }:
+        raise ValueError(f"Unexpected item definition: {definition_path}")
 
 
 def main() -> None:
-    for key in IMPLEMENTED:
-        model_path = ASSETS / "models/item" / (key + ".json")
-        item_path = ASSETS / "items" / (key + ".json")
-        png_path = ASSETS / "textures/item" / (key + ".png")
-        model = json.loads(model_path.read_text(encoding="utf-8"))
-        item = json.loads(item_path.read_text(encoding="utf-8"))
-        if model != {
-            "parent": "minecraft:item/generated",
-            "textures": {"layer0": "italiansdelight:item/" + key},
-        }:
-            raise ValueError(f"{model_path}: wrong layer0 or parent")
-        if item != {
-            "model": {
-                "type": "minecraft:model",
-                "model": "italiansdelight:item/" + key,
-            },
-        }:
-            raise ValueError(f"{item_path}: wrong client item definition")
-        inspect_png(png_path, key in NEW_TEXTURES)
-        print(f"OK {key}: definition, model, 16x16 RGBA texture")
+    src = JAVA.read_text(encoding="utf-8")
+    presets = re.findall(r'add\(presets,\s*"([^"]+)"', src)
+    if len(presets) != 18 or len(set(presets)) != 18:
+        raise ValueError(f"Expected 18 distinct active pizza presets, got {presets}")
+    if "principessa" in presets:
+        raise ValueError("Suspended Principessa must not be enabled")
+    if 'return ModRegistries.id(base + "_" + (id == null ? "custom" : id))' not in src:
+        raise ValueError("Raw/cooked saved-component model selection is missing")
+    if "stack.set(DataComponents.ITEM_MODEL," not in src:
+        raise ValueError("Whole pizza model is not stored in the ItemStack")
 
-    default = json.loads(
-        (ASSETS / "models/item/cooked_pizza.json").read_text(encoding="utf-8")
-    )
-    if default["textures"]["layer0"] != "italiansdelight:item/pizza_custom":
-        raise ValueError("Default cooked pizza still misleadingly depicts Margherita")
+    for name, sha in ORIGINAL_HASHES.items():
+        path = ASSETS / "textures/item" / (name + ".png")
+        if original_sha(path) != sha:
+            raise ValueError(f"APPROVED original texture changed: {path}")
+    raw_ref = png_rgba(ASSETS / "textures/item/raw_pizza.png")
+    cooked_ref = png_rgba(ASSETS / "textures/item/pizza_margherita.png")
 
-    source = Path(
-        "src/main/java/dev/italiansdelight/common/pizza/PizzaDisplayNames.java"
-    ).read_text(encoding="utf-8")
-    for key in ("bianca", "rossa", "margherita", "patate_speck"):
-        if f'case "{key}" -> ModRegistries.id("pizza_{key}")' not in source:
-            raise ValueError(f"No model-selection branch for {key}")
-    if "stack.set(DataComponents.ITEM_MODEL, wholeItemModel(data));" not in source:
-        raise ValueError("Baked pizza model is not assigned to its ItemStack")
-    print("OK: 4 recognized cooked models, neutral fallback and data-driven selection")
+    for type_, ref in (("raw", raw_ref), ("cooked", cooked_ref)):
+        # The generic item icons in Creative must remain the original artwork.
+        base = "raw_pizza" if type_ == "raw" else "cooked_pizza"
+        expected = "raw_pizza" if type_ == "raw" else "pizza_margherita"
+        assert_model(base, expected)
+
+        for preset in presets + ["custom"]:
+            if preset == "margherita":
+                # Vanilla base item model is exactly the author's Margherita.
+                continue
+            name = f"{type_}_pizza_{preset}"
+            assert_model(name, name)
+            pixels = png_rgba(ASSETS / "textures/item" / (name + ".png"))
+            if pixels[3::4] != ref[3::4]:
+                raise ValueError(f"Incorrect silhouette/proportions: {name}")
+
+    creative = CREATIVE.read_text(encoding="utf-8")
+    if "PizzaDisplayNames.allPresets().entrySet()" not in creative:
+        raise ValueError("Named pizzas do not appear as 18 real Creative sample pairs")
+    if creative.count("PizzaCreativeSamples.create(preset.getKey(),") != 2:
+        raise ValueError("Creative requires one raw and one cooked sample per taste")
+    samples = SAMPLES.read_text(encoding="utf-8")
+    for marker in ("PizzaToppingApplication(", "PIZZA_CONTENTS", "nameWholeStack(stack, data)"):
+        if marker not in samples:
+            raise ValueError(f"Creative samples lack real persistent composition: {marker}")
+
+    print("OK: 18 active named pizzas x 2 perspectives (raw/cooked),"
+          " 36 new PNGs incl. 2 neutral fallback textures, all 16x16 RGBA")
+    print("OK: original Margherita assets unchanged, alpha silhouettes identical")
+    print("OK: all models, item definitions and real Creative variants registered")
 
 
 if __name__ == "__main__":
