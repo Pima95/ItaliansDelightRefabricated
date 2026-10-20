@@ -4,6 +4,7 @@ import dev.italiansdelight.ItaliansDelight;
 import dev.italiansdelight.client.gui.CheeseVatScreen;
 import dev.italiansdelight.client.gui.PizzaOvenScreen;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.registry.ModItems;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -54,6 +55,9 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
                 registration.getJeiHelpers().getGuiHelper()
             ),
             new PizzaBakingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
+            new PizzaWorldRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             )
         );
@@ -127,6 +131,14 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
             PizzaBakingJeiRecipes.createExamples()
         );
+
+        // Interactive in-world pizza handbook: placing/stretched dough,
+        // rolling pin, quarters, toppings and collecting the formed pizza.
+        // These are informational pages, not additional crafting recipes.
+        registration.addRecipes(
+            PizzaWorldJeiRecipeTypes.WORLD_PREPARATION,
+            PizzaWorldJeiRecipes.createExamples()
+        );
     }
 
     @Override
@@ -164,6 +176,11 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addCraftingStation(
             PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
             new ItemStack(ModBlocks.PIZZA_OVEN)
+        );
+
+        registration.addCraftingStation(
+            PizzaWorldJeiRecipeTypes.WORLD_PREPARATION,
+            new ItemStack(ModItems.ROLLING_PIN)
         );
     }
 
