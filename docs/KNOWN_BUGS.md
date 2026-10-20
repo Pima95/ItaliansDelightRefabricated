@@ -15,7 +15,7 @@ Questo documento raccoglie i problemi segnalati e ancora da risolvere nel proget
 
 ### BUG-002 — Mozzarella intera applicabile alla pizza, ma invisibile
 
-- **Stato:** da verificare in gioco — **correzione implementata il 20 ottobre 2026** nel branch `feature/pizza-1.0.0`.
+- **Stato:** **risolto e confermato funzionante dall'autore il 20 ottobre 2026** nel branch `feature/pizza-1.0.0`: mozzarella intera rifiutata senza falsa animazione, nessuna texture legacy viola/nera e rimborso singolo dello stato storico.
 - **Item interessato:** `italiansdelight:mozzarella` (mozzarella intera) vs `italiansdelight:mozzarella_slice` (fetta approvata).
 - **Causa accertata:** `PizzaToppingCatalog` esclude correttamente l'item intero, ma `PizzaDoughPlacement` aveva ancora il vecchio ramo prototipale che lo consumava e impostava `PizzaDoughBlock.MOZZARELLA=true`. Il renderer della pizza cruda usava solamente `PizzaComposition.applications()`, quindi **ignorava quel vecchio flag**.
 - **Correzione 1 (gameplay):** sulla base già stesa, il clic con mozzarella intera viene gestito senza modificare il blocco né consumare alcun item. Da questa versione **non si possono creare nuove applicazioni legacy**. Mozzarella a fette e altri topping approvati non vengono modificati.
