@@ -1,47 +1,36 @@
-# Pizza Update 1.0.0 — Guida JEI per la cottura
+# Pizza Update 1.0.0 — Layout JEI del Pizza Oven
 
-**Data:** 19 ottobre 2026  
-**Ramo:** `feature/pizza-1.0.0`  
-**Stato:** implementazione pubblicata; verificare la build CI più recente e il comportamento in Minecraft.
+**Aggiornato:** 20 ottobre 2026  
+**Branch:** `feature/pizza-1.0.0`  
+**Stato:** layout adattato alle categorie vanilla JEI, build e collaudo in Minecraft da registrare separatamente.
 
-## Obiettivo
+## Correzione del layout
 
-La categoria JEI **«Cottura delle pizze (guida)» / «Pizza Baking (Guide)»** documenta i **tre metodi già esistenti** per cuocere la stessa pizza, senza registrare nuove ricette effettive:
+Dopo gli screenshot del 20 ottobre, la vecchia categoria «Cottura delle pizze (guida)» mostrava un generico layout personalizzato 141×76, senza freccia o fiamma animate, con una pila di carbone fissa e tre anteprime già disponibili anche nelle categorie vanilla.
 
-| Stazione | Durata base | Fonte del gameplay |
-|---|---:|---|
-| Pizza Oven (`italiansdelight:pizza_oven`) | 400 tick = **20 secondi** | `PizzaOvenBlockEntity`, `PizzaBaking.Oven.PIZZA_OVEN` |
-| Affumicatore (`minecraft:smoker`) | 600 tick = **30 secondi** | `PizzaSmokingRecipe` |
-| Fornace (`minecraft:furnace`) | 1200 tick = **60 secondi** | `PizzaSmeltingRecipe` |
+Ora la categoria **«Forno per pizza» / «Pizza Oven»** usa **le stesse API e dimensioni di JEI 26.2** adottate da `AbstractCookingCategory` per Smelting e Smoking:
 
-Tutte le anteprime riutilizzano l'esempio di **Margherita** già presente in `PizzaCraftingJeiRecipes`; il risultato è ottenuto mediante `PizzaBaking.finish`, conservando componenti, quarti, condimenti e nome traducibile. Non si assume che tutte le pizze debbano essere Margherita: essa è **solo un esempio visuale**.
+- **82×54 pixel**, input a **(1,1)**, carburante a **(1,37)**, risultato a **(61,19)**, output evidenziato.
+- Alimentazione visualizzata tramite **`SlotDisplay.AnyFuel.INSTANCE`** con ruolo `RENDER_ONLY`, come JEI vanilla: combustibili validi a rotazione invece del carbone obbligatorio e nessuna falsa dipendenza di crafting.
+- `IRecipeCategory.createRecipeExtras` aggiunge **`addAnimatedRecipeArrowWidget(cookingTicks)`** a (26,17), **`addAnimatedRecipeFlameWidget(300)`** a (1,20) e testo dei secondi con la traduzione nativa `gui.jei.category.smelting.time.seconds`.
+- Una sola **Margherita** cruda/cotta come esempio per il **Pizza Oven**, 400 tick = **20 s**. Lo stack cotto è generato usando `PizzaBaking.finish` e conserva ingredienti, componenti e nome.
+- **Fornace** (1200 tick/60 s) e **affumicatore** (600 tick/30 s) continuano a comparire nelle categorie **Smelting** e **Smoking già gestite direttamente da JEI**, non sono duplicate nella categoria Pizza Oven.
+- Il blocco del **Pizza Oven** rimane l'icona/catalizzatore della categoria. La freccia della sua GUI rimane cliccabile per aprire questa pagina. La GUI reale del blocco e tutte le meccaniche di cottura restano inalterate.
 
-**Carbone e blocco della stazione** sono inseriti come slot **solo illustrativi** (`RecipeIngredientRole.RENDER_ONLY`). Il carbone **non è obbligatorio**: qualsiasi combustibile vanilla valido è accettato. La pala non è necessaria e non viene consumata. Nessuna cottura può bruciare la pizza; il timer rimane nel forno e si azzera con l'estrazione dell'input crudo. Le ciotole vengono restituite **solo a cottura terminata**, una per applicazione originale di salsa/panna/ricotta, non per quarto.
+**Implementazione:** si estende `AbstractRecipeCategory<PizzaBakingJeiRecipe>`, parte dell'API pubblica di JEI, **non** `mezz.jei.library.plugins.vanilla.cooking.AbstractCookingCategory`, che è una classe di implementazione interna con generici/estensioni legati a `RecipeHolder<AbstractCookingRecipe>`. Si riproducono soltanto le chiamate ai widget pubblici corrispondenti.
 
-La categoria usa come catalizzatore il Pizza Oven e contiene anche la comparazione con fornace e affumicatore; non sostituisce né altera le categorie vanilla di JEI. La freccia di progresso della GUI del Pizza Oven apre la guida tramite `addRecipeClickArea` (x=79, y=34, 24×16).
+## Checklist test Minecraft
 
-## File della modifica
+- [ ] `gradlew clean build` con Java 25 supera la compilazione.
+- [ ] Avvio client con JEI: nessun crash al caricamento delle categorie.
+- [ ] Premendo **R** su una pizza cotta, trovare le categorie **Smelting**, **Smoking** e **Forno per pizza**.
+- [ ] Nel **Forno per pizza** visualizzare **1/1** e il layout compatto identico a fornace/affumicatore: pizza cruda in alto a sinistra, carburante in basso, output a destra.
+- [ ] Verificare **rotazione automatica dei combustibili** (legna, carbone, secchio di lava ecc. come previsto da JEI), non solo il carbone.
+- [ ] Verificare **fiamma animata, freccia di progresso animata** e testo **20 s**.
+- [ ] Controllare che **Smelting mostri 60 s e Smoking 30 s**, senza introdurre doppioni nella categoria Pizza Oven.
+- [ ] Le informazioni sul nome e sui condimenti della Margherita rimangono nell'item di output.
+- [ ] Clic sulla **freccia della GUI** del Pizza Oven: accesso alla categoria corretta.
+- [ ] Le cinque anteprime di crafting shapeless, le categorie Cheese Vat, stagionatura, uncino e sale rimangono disponibili.
+- [ ] Test reale su macchina, ricette con pizza assortita, hopper, combustibili, multiplayer e server dedicato: no duplicazioni o perdite di ingredienti.
 
-- `PizzaBakingJeiRecipe.java` — dati immutabili/copied dei tre esempi
-- `PizzaBakingJeiRecipeTypes.java` — tipo dedicato alla guida
-- `PizzaBakingJeiRecipes.java` — creazione degli esempi tramite le meccaniche originali
-- `PizzaBakingRecipeCategory.java` — slot standard per pizza cruda, forno, carbone illustrativo e pizza cotta
-- `ItaliansDelightJeiPlugin.java` — registrazione categoria, ricette, catalizzatore e area cliccabile
-- `lang/it_it.json`, `lang/en_us.json` — intestazioni, tempi, combustibili e note
-
-## Checklist in gioco
-
-- [ ] `gradlew clean build` su JDK 25: nessun errore.
-- [ ] `runClient` con JEI: nessun crash e nessuna categoria precedente scomparsa.
-- [ ] `R` su `italiansdelight:cooked_pizza`: aprire «Cottura delle pizze (guida)»; trovare esattamente **tre esempi**.
-- [ ] Confrontare la stessa **Pizza Margherita** tra le tre anteprime: i nomi del prodotto crudo/cotto e i dati del tooltip rimangono uguali.
-- [ ] Passare il mouse sul blocco stazione: **Pizza Oven 20 s**, **Affumicatore 30 s**, **Fornace 60 s**; traduzioni IT/EN corrette.
-- [ ] Passare il mouse sul carbone: testo esplicito «solo un esempio; qualsiasi combustibile vanilla valido».
-- [ ] Fare clic sull'**indicatore a freccia** della GUI del Pizza Oven e controllare che JEI apra la guida.
-- [ ] La categoria deve essere disponibile anche tramite `U` su `raw_pizza` (item con condimenti) e tramite gli usi del Pizza Oven.
-- [ ] Nessun carburante o macchina viene consumato come ingrediente della «ricetta» JEI: sono dimostrativi.
-- [ ] Cuocere realmente una Margherita e una pizza assortita nei tre forni; verificarne composizione, nome, quarti e contenitori, senza duplicazioni.
-- [ ] Verificare che le precedenti cinque anteprime di crafting, le ricette Cheese Vat, stagionatura, uncino e sale rimangano consultabili.
-- [ ] Test multiplayer/server dedicato e assenza di codice client JEI lato server.
-
-**Nota:** una build riuscita dimostra soltanto la compilazione del codice. I controlli JEI visivi e di gameplay richiedono il client Minecraft e rimangono aperti finché l'autore non li conferma.
+**Limiti della verifica:** la build controlla compilazione e risorse; animazioni, rotazione combustibili e comportamento delle GUI devono essere confermati dall'autore con il client Minecraft.
