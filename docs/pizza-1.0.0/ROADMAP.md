@@ -1,18 +1,24 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Aggiornamento del 20 ottobre 2026 — ripristino e texture coerenti
+
+**Decisione correttiva dell'autore:** la pizza cotta generica torna a usare il PNG Margherita cotta approvato e tutte le texture dei gusti riconosciuti devono avere una coppia cruda/cotta costruita sulla stessa sagoma/prospettiva delle due vecchie Margherite. La prima serie con pizze rotonde dall'alto non rispettava il prompt 16×16 e non è più utilizzata. Il menù Creativa deve mostrare anche varianti dei gusti, non soltanto tre oggetti generici.
+
+**Implementato:** ripristino modello cotto; 36 nuove icone con sagoma alpha identica ai riferimenti, 72 definizioni e modelli item, selettore raw/cooked da dati canonici, 18 coppie di stack reali nella scheda Creativa dopo i salumi, fallback crudo/cotto per pizze personalizzate, test automatici più severi a tutela degli asset approvati. **Nessun nuovo ID item** e nessuna modifica alla logica delle fette. [Registro definitivo](NAMED_PIZZA_TEXTURE_REWORK.md).
+
 ## Aggiornamento 20 ottobre 2026 — Menù Creativa
 
 - [x] **Carote e patate a fette — test in gioco superato:** l'autore ha verificato il funzionamento di entrambe le aggiunte, comprese le relative texture.
-- [ ] **Scheda Creativa riorganizzata — PATCH PUBBLICATA, DA VERIFICARE VISIVAMENTE:** mantenuta una sola scheda Italian's Delight con gli stessi **97 elementi** (79 item + 18 blocchi), senza duplicati, suddivisi per vicinanza in pizza, attrezzature, rack, colture, risorse casearie, formaggi, salumi e piatti. Aggiunto controllo CI per la copertura completa degli item. [Checklist](CREATIVE_TAB_REORGANIZATION.md).
-- [ ] **Prossima fase: texture delle pizze riconosciute automaticamente:** creare asset 16×16 dei gusti effettivamente implementati senza sovrascrivere le texture approvate; conservare la gestione dinamica delle pizze assortite e degli spicchi. Non ancora avviata.
+- [x] **Scheda Creativa riorganizzata — FUNZIONANTE, CONFERMATA DALL'AUTORE:** mantenuta una sola scheda Italian's Delight con gli stessi **97 elementi** (79 item + 18 blocchi), senza duplicati, suddivisi per vicinanza in pizza, attrezzature, rack, colture, risorse casearie, formaggi, salumi e piatti. Aggiunto controllo CI per la copertura completa degli item. [Checklist](CREATIVE_TAB_REORGANIZATION.md).
+- [x] **Texture delle pizze riconosciute — 18 GUSTI IN DUE VERSIONI PUBBLICATI:** corretto lo stile secondo i riferimenti originali raw_pizza.png e pizza_margherita.png. Test client ancora pendenti. [Revisione dettagliata](NAMED_PIZZA_TEXTURE_REWORK.md).
 
 ## Aggiornamento 20 ottobre 2026 — Texture delle pizze riconosciute
 
 - [x] **REGOLA DOCUMENTAZIONE CONTINUA confermata dall'autore:** anche piccole discussioni, chiarimenti e scelte non direttamente legate al codice devono essere salvati su GitHub nel branch di lavoro. [Registro e inventario](NAMED_PIZZA_ARTWORK_PLAN.md).
 - [x] **Creativa approvata dall'autore:** pizze dopo salumi e prima dei piatti pronti, correttamente visibili in gioco.
 - [x] **Inventario reale dei gusti:** 18 preset implementati, Principessa sospesa; 1 texture Margherita già presente da conservare, 17 nuove texture di gusto previste.
-- [ ] **Texture pizze — PRIMO LOTTO PUBBLICATO, DA VALIDARE IN GAME:** create icone 16×16 per Bianca, Rossa e Patate e Speck; preservata la Margherita originale; creata icona `pizza_custom` per fallback. I primi quattro gusti usano `DataComponents.ITEM_MODEL` in base alla composizione; gli altri 14 restano su fallback neutro. Modello default cotto non mostra più erroneamente sempre Margherita. [Test e lista asset](NAMED_PIZZA_ARTWORK_PLAN.md).
-- [ ] **Texture rimanenti e spicchi:** realizzare le altre 14 texture delle pizze attive dopo approvazione visiva del primo lotto; pianificare le texture dedicate degli spicchi separatamente, senza cambiare i data component.
+- [x] **Texture pizze — PRIMA ITERAZIONE RIFIUTATA E SOSTITUITA:** i vecchi PNG rotondi dall'alto sono archiviati ma inutilizzati. Ripristinato il modello cotto Margherita originale e aggiunte 36 texture, 72 JSON e 36 stack Creativa reali, senza nuovi item. Build Java 25 e test asset superati; grafica e Creative da testare in gioco. [Revisione approvata](NAMED_PIZZA_TEXTURE_REWORK.md).
+- [ ] **Collaudo e spicchi:** tutte le 18 icone crude e 18 cotte sono implementate; verificare in gioco i modelli, la grafica, la Creativa, il fallback e i salvataggi. Le texture dedicate degli spicchi sono una fase distinta, non ancora autorizzata.
 
 ## Stato
 
