@@ -51,6 +51,22 @@ public final class PizzaWorldRecipeCategory
         ItemStack mozzarella = ingredients.get(2);
         ItemStack basil = ingredients.get(3);
 
+        // JEI indexes each instructional page by its displayed INPUT/OUTPUT
+        // ingredients. Without a shared lookup anchor, pressing R on a raw
+        // pizza selects ONLY COLLECT (the one page with a visible raw-pizza
+        // output), resulting in 1/1 despite all seven pages being registered.
+        //
+        // These are SEARCH-ONLY entries; they do not render extra slots or
+        // claim that every instruction crafts a raw pizza. They let players
+        // navigate the entire handbook starting from either the raw pizza,
+        // wheat dough, or rolling pin, while keeping the illustrations below
+        // accurate for each step.
+        builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT)
+                .add(recipe.examplePizza());
+        builder.addInvisibleIngredients(RecipeIngredientRole.INPUT)
+                .add(dough)
+                .add(new ItemStack(ModItems.ROLLING_PIN));
+
         switch (recipe.step()) {
             case PLACE ->
                 builder.addInputSlot(76, 7)
