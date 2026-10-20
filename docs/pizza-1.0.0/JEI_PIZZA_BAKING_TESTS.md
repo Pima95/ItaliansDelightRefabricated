@@ -2,7 +2,7 @@
 
 **Aggiornato:** 20 ottobre 2026  
 **Branch:** `feature/pizza-1.0.0`  
-**Stato:** layout adattato alle categorie vanilla JEI, build e collaudo in Minecraft da registrare separatamente.
+**Stato:** layout adattato alle categorie vanilla JEI, **build Java 25 superata**; collaudo visivo e funzionale in Minecraft ancora da eseguire.
 
 ## Correzione del layout
 
@@ -21,7 +21,7 @@ Ora la categoria **«Forno per pizza» / «Pizza Oven»** usa **le stesse API e 
 
 ## Checklist test Minecraft
 
-- [ ] `gradlew clean build` con Java 25 supera la compilazione.
+- [x] `gradlew clean build` con Java 25 supera la compilazione — [GitHub Actions, run 39428754122](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/39428754122), 20 ottobre 2026.
 - [ ] Avvio client con JEI: nessun crash al caricamento delle categorie.
 - [ ] Premendo **R** su una pizza cotta, trovare le categorie **Smelting**, **Smoking** e **Forno per pizza**.
 - [ ] Nel **Forno per pizza** visualizzare **1/1** e il layout compatto identico a fornace/affumicatore: pizza cruda in alto a sinistra, carburante in basso, output a destra.
