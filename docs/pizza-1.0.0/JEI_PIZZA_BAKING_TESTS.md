@@ -19,6 +19,19 @@ Ora la categoria **«Forno per pizza» / «Pizza Oven»** usa **le stesse API e 
 
 **Implementazione:** si estende `AbstractRecipeCategory<PizzaBakingJeiRecipe>`, parte dell'API pubblica di JEI, **non** `mezz.jei.library.plugins.vanilla.cooking.AbstractCookingCategory`, che è una classe di implementazione interna con generici/estensioni legati a `RecipeHolder<AbstractCookingRecipe>`. Si riproducono soltanto le chiamate ai widget pubblici corrispondenti.
 
+## Correzione UI / bookmarking del 20 ottobre 2026
+
+Gli screenshot di confronto con Smoking hanno mostrato tre difetti della categoria Pizza Oven: il pannello JEI risultava nella colonna sinistra, il testo `20s` era nero anziché grigio e mancava il pulsante per **aggiungere la ricetta ai segnalibri**.
+
+**Causa verificata nel codice JEI 26.2:** `RecipeBookmark.create` non crea il segnalibro se `IRecipeCategory.getIdentifier` restituisce `null`. In tal caso `RecipeBookmarkButtonController` nasconde il pulsante. Il `RecipeGuiGrid` sceglie le colonne in base all'ingombro di pannello e pulsanti: senza il pulsante, un solo esempio può essere collocato nella prima colonna anziché al centro della pagina. **Non è un pulsante di trasferimento del crafting**: registrare un `IRecipeTransferHandler` sarebbe un intervento non pertinente.
+
+**Correzioni applicate:**
+- `getIdentifier` restituisce l'identificativo sintetico stabile `italiansdelight:/pizza_oven/margherita`, usato esclusivamente per salvare/richiamare la preview tramite il segnalibro JEI. Non è una ricetta Minecraft vera.
+- `createRecipeExtras` usa `JeiGuiColors.getColor(GuiColor.RECIPE_COOKING_TIME_TEXT)`, cioè lo stesso colore del tempo utilizzato dalla categoria Smoking/Smelting. Rispetta eventuali colori/configurazioni JEI.
+- Non sono state cambiate dimensioni, slot, attrezzature, carburanti, animazioni o meccaniche della pizza.
+
+**Collaudo ancora necessario:** confrontare nuovamente i due screenshot; verificare che la guida Pizza Oven sia centrata e che il pulsante segnalibro possa salvare, rimuovere e richiamare la ricetta anche dopo il riavvio del gioco. Verificare il colore `20s` e l'assenza di un improprio pulsante di trasferimento ingredienti.
+
 ## Checklist test Minecraft
 
 - [x] `gradlew clean build` con Java 25 supera la compilazione — [GitHub Actions, run 39428754122](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/39428754122), 20 ottobre 2026.
