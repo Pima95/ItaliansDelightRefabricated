@@ -28,4 +28,14 @@
 - [ ] Confermare che `raw_pizza.png` e `pizza_margherita.png` siano identiche a prima della revisione e che `models/item/cooked_pizza.json` usi il riferimento storico.
 - [ ] Confermare spicchi, JEI e resa nel mondo non modificati.
 
-**Stato iniziale:** ripristino completato; implementazione delle altre texture e del menu Creativa in corso. La build e l'approvazione in gioco sono passaggi distinti.
+## Stato dell'implementazione sul branch (20 ottobre 2026)
+
+- **Fase 1: ripristino** del modello `cooked_pizza.json` alla texture Margherita cotta storica: commit `e4ac32da2913befebe6aee9d0030095d31662919`.
+- **Fase 2: texture**: tutte le 18 pizze riconosciute hanno adesso un modello crudo e uno cotto, con **36 nuovi PNG** (17 gusti × 2 + fallback crudo e cotto). **Margherita cruda e cotta riutilizzano i due PNG originali** senza duplicazioni o modifiche. Le varianti usano la stessa maschera RGBA/sagoma delle rispettive Margherite approvate; soltanto la superficie interna è modificata.
+- **Modelli:** 72 nuovi JSON (36 `models/item`, 36 `items`), con selezione `DataComponents.ITEM_MODEL` su stack sia crudi sia cotti in `PizzaDisplayNames.nameWholeStack`. Il modello base della pizza cotta resta quello originale.
+- **Creativa:** la scheda già approvata mantiene le voci fra Salumi e Piatti pronti; le 3 voci generiche restano e vengono seguite da **18 coppie di stack autentici** (crudo/cotto) derivati dalla mappa centrale dei preset, ognuno con `PizzaItemData` valido. Non vengono registrati nuovi `Item`; non si alterano meccaniche né spicchi.
+- **Archiviazione:** i vecchi PNG `pizza_bianca.png`, `pizza_rossa.png`, `pizza_patate_speck.png`, `pizza_custom.png` restano in GitHub per confronto, **ma non sono utilizzati** dai nuovi modelli selezionati dal codice.
+- **CI:** `check_named_pizza_artwork.py` valida per tutte le texture nuove formato 16×16 RGBA, opacità binaria, stessa sagoma in pixel delle Margherite originali, modelli e collegamento Creativa; impedisce inoltre la sostituzione accidentale dei PNG Margherita approvati verificandone gli hash Git. Il vecchio test basato su quattro gusti è stato sostituito.
+- **Build:** verificare l'esito dell'ultima GitHub Actions Java 25; la compilazione riuscita non sostituisce i test visivi dell'autore in Minecraft.
+
+**Fase successiva:** collaudo in gioco delle 18 coppie nella scheda Creativa, della pala, della pizza cotta/raccolta, dei nomi, fallback e salvataggi. La grafica degli spicchi sarà affrontata solo dopo conferma.
