@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.italiansdelight.common.pizza.PizzaComposition;
 import dev.italiansdelight.common.pizza.PizzaToppingApplication;
 import dev.italiansdelight.common.pizza.PizzaToppingCatalog;
+import dev.italiansdelight.common.pizza.PizzaToppingType;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -74,19 +75,28 @@ public final class PizzaToppingVisuals {
         int frontZ = facing.getStepZ();
 
         List<Layer> layers = new ArrayList<>();
-        for (PizzaToppingApplication application : composition.applications()) {
-            int covered = application.remainingMask() & mask;
-            if (covered == 0) {
-                continue;
+        // Always paint sauce/cream first. The player may legitimately add a
+        // solid topping before applying a sauce; chronological draw order
+        // would then hide that solid under an opaque sauce texture.
+        // Retain original order WITHIN each group for old-world compatibility.
+        for (boolean spreadPass : new boolean[] {true, false}) {
+            for (PizzaToppingApplication application : composition.applications()) {
+                int covered = application.remainingMask() & mask;
+                if (covered == 0) {
+                    continue;
+                }
+                PizzaToppingType type = PizzaToppingCatalog
+                        .findType(application.canonicalId()).orElse(null);
+                boolean spread = type != null && type.occupiesSauceSlot();
+                if (spread != spreadPass) {
+                    continue;
+                }
+                String name = type != null && !type.planned()
+                        ? type.id().getPath().substring(
+                                type.id().getPath().lastIndexOf('/') + 1)
+                        : "unknown";
+                layers.add(new Layer(texture(name), covered, layers.size()));
             }
-            String name = PizzaToppingCatalog.findType(application.canonicalId())
-                    .filter(type -> !type.planned())
-                    .map(type -> {
-                        String path = type.id().getPath();
-                        return path.substring(path.lastIndexOf('/') + 1);
-                    })
-                    .orElse("unknown");
-            layers.add(new Layer(texture(name), covered, layers.size()));
         }
 
         // A previously saved whole-mozzarella flag is still visible and
