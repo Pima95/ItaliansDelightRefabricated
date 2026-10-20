@@ -136,33 +136,16 @@ public final class PizzaDoughPlacement {
                     return InteractionResult.PASS;
                 }
 
-                // Temporary legacy proof of concept: WHOLE mozzarella toggles
-                // a BlockState overlay. New prepared approved toppings above use
-                // the canonical persistent quarter-based composition instead.
+                // The whole mozzarella is deliberately NOT a pizza topping.
+                // The approved topping is mozzarella_slice (see the positive
+                // PizzaToppingCatalog whitelist). Older worlds may still have
+                // the mozzarella BlockState flag: their saved pizza is kept
+                // compatible and can be refunded with Shift + empty hand,
+                // but we must never consume another whole mozzarella or
+                // create new legacy flags. Consume this click without altering
+                // either the player's item stack or the pizza.
                 if (stage == PizzaDoughBlock.MAX_STAGE
                         && held.is(dev.italiansdelight.common.registry.ModItems.MOZZARELLA)) {
-                    if (clickedState.getValue(PizzaDoughBlock.MOZZARELLA)) {
-                        return InteractionResult.SUCCESS;
-                    }
-                    if (!player.mayUseItemAt(clickedPos, hit.getDirection(), held)) {
-                        return InteractionResult.FAIL;
-                    }
-                    if (level.isClientSide()) {
-                        return InteractionResult.SUCCESS;
-                    }
-                    if (!(level instanceof ServerLevel server)) {
-                        return InteractionResult.PASS;
-                    }
-                    if (!server.setBlock(clickedPos,
-                            clickedState.setValue(PizzaDoughBlock.MOZZARELLA, true),
-                            Block.UPDATE_ALL)) {
-                        return InteractionResult.FAIL;
-                    }
-                    if (!player.getAbilities().instabuild) {
-                        held.shrink(1);
-                    }
-                    server.playSound(null, clickedPos, SoundEvents.WOOL_PLACE,
-                            SoundSource.BLOCKS, 0.65F, 1.1F);
                     return InteractionResult.SUCCESS;
                 }
 
