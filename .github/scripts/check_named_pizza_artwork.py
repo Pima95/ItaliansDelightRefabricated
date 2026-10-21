@@ -126,6 +126,10 @@ def main() -> None:
     # Do not rename the key: naming logic and existing data must stay unchanged.
     if 'Component.translatable(PREFIX + "assorted")' not in src:
         raise ValueError("Mixed pizza name must still use the stable translation key")
+    if '("margherita".equals(id) || (id == null && isMixed(whole)))' not in src:
+        raise ValueError("Mixed pizzas must share Margherita raw/cooked artwork")
+    if 'return isMixed(whole) ? null : PRESETS.get(quarter(whole, 0));' not in src:
+        raise ValueError("Uniform unknown pizzas must still use fallback artwork")
     for locale, expected in (("it_it", "Pizza mista"), ("en_us", "Mixed Pizza")):
         names = json.loads((ASSETS / "lang" / (locale + ".json")).read_text(encoding="utf-8"))
         if names.get("pizza.italiansdelight.assorted") != expected:

@@ -1,5 +1,12 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Rifinitura grafica Pizza mista (richiesta autore)
+
+- [x] **Pizza mista cruda e cotta**: usa esattamente i modelli originali della Margherita (`raw_pizza` e `cooked_pizza`), lasciando invariati nome, quattro quarti, componenti, nutrizione e tooltip. Nessun PNG modificato.
+- [x] **Fallback delle pizze uniformi non riconosciute**: mantiene il proprio modello `*_custom`; la sostituzione non cambia gli altri gusti o le texture degli spicchi.
+- [ ] **Collaudo client**: verificare item della Pizza mista cruda/cotta in inventario e Creativa, poi cuocere e ottenere quattro spicchi di gusto diverso; l'icona è Margherita, i dati rimangono misti.
+
+
 ## Pulizia regressioni pre-release — BUG-001 formaggi da uncino
 
 - [x] **Correzione conservativa del bug già segnalato:** Scamorza e Provolone, inclusi gli stadi freschi e la Scamorza affumicata, non possono più essere posizionati a terra tramite l'item. L'uncino è invariato e gli altri formaggi da superficie rimangono posizionabili.

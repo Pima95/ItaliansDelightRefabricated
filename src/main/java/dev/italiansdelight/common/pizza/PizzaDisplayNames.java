@@ -171,13 +171,18 @@ public final class PizzaDisplayNames {
      * @return exact recognized preset ID, or null for mixed/freeform pizzas.
      */
     public static String wholePresetId(PizzaItemData whole) {
+        return isMixed(whole) ? null : PRESETS.get(quarter(whole, 0));
+    }
+
+    /** Different physical quarters, independent of division lines and toppings order. */
+    private static boolean isMixed(PizzaItemData whole) {
         Set<Identifier> first = quarter(whole, 0);
         for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
             if (!first.equals(quarter(whole, q))) {
-                return null;
+                return true;
             }
         }
-        return PRESETS.get(first);
+        return false;
     }
 
     /**
@@ -191,27 +196,29 @@ public final class PizzaDisplayNames {
     /**
      * Use the existing Margherita graphics for their original whole-item
      * models, and independent raw/cooked 16x16 variants for all other tastes.
-     * Unknown or mixed compositions select perspective-correct neutral art.
-     * No new Item registry entries are necessary.
+     * Mixed pizzas use the approved original Margherita icon (both raw and
+     * baked perspectives), but keep their own name and four-quarter data.
+     * Uniform recipes without a preset retain the custom/fallback icon.
+     * No new Item registry entries or image edits are necessary.
      */
     private static Identifier wholeItemModel(PizzaItemData whole, boolean cooked) {
         String base = cooked ? "cooked_pizza" : "raw_pizza";
         String id = wholePresetId(whole);
-        if ("margherita".equals(id)) {
-            // Exactly the original raw_pizza.png / pizza_margherita.png.
+        if ("margherita".equals(id) || (id == null && isMixed(whole))) {
+            // Mixed and Margherita share ONLY the original approved icon.
+            // Raw: raw_pizza.png; cooked: pizza_margherita.png.
             return ModRegistries.id(base);
         }
         return ModRegistries.id(base + "_" + (id == null ? "custom" : id));
     }
 
     public static Component wholeName(PizzaItemData whole) {
-        Set<Identifier> first = quarter(whole, 0);
-        for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
-            if (!first.equals(quarter(whole, q))) {
-                return Component.translatable(PREFIX + "assorted");
-            }
+        if (isMixed(whole)) {
+            // Historical translation key intentionally preserved; IT=Pizza mista.
+            return Component.translatable(PREFIX + "assorted");
         }
-        String id = PRESETS.get(first);
+        String id = PRESETS.get(quarter(whole, 0));
+        Set<Identifier> first = quarter(whole, 0);
         if (id != null) {
             return Component.translatable(PREFIX + "named_whole", preset(id));
         }
