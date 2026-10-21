@@ -34,5 +34,7 @@ jobs:
         run: python3 .github/scripts/check_named_pizza_artwork.py
       - name: Verify named slice models and original slice crust
         run: python3 .github/scripts/check_named_pizza_slices.py
+      - name: Audit pizza nutrition and baking consistency
+        run: python3 .github/scripts/check_pizza_release_balance.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace
