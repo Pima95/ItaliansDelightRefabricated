@@ -18,6 +18,21 @@ JAVA = Path("src/main/java/dev/italiansdelight/common/pizza/PizzaDisplayNames.ja
 CREATIVE = Path("src/main/java/dev/italiansdelight/common/item/group/ModItemGroups.java")
 SAMPLES = Path("src/main/java/dev/italiansdelight/common/pizza/PizzaCreativeSamples.java")
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+# Exact crust pixels sampled from the 2 approved 16x16 Margherita images.
+# Protect RGB *and* alpha, not merely silhouette. A previous batch preserved
+# alpha but repainted the entire crust, resulting in noisy edges.
+PROTECTED_CRUST = {
+    "raw": {
+        bytes.fromhex(hex_rgb + "ff")
+        for hex_rgb in ("a6784d", "e0b777", "eccd95", "bb925f")
+    },
+    "cooked": {
+        bytes.fromhex(hex_rgb + "ff")
+        for hex_rgb in ("5c3018", "cd8338", "eaa64c", "914e23")
+    },
+}
+EXPECTED_PROTECTED_PIXELS = 62
+
 ORIGINAL_HASHES = {
     "raw_pizza": "38fdfd76ed7c30c287cafb5fee7461c6bdeb0399",
     "pizza_margherita": "141f894f5776bc71f980657d3b1ed457072c2b39",
@@ -125,6 +140,19 @@ def main() -> None:
     cooked_ref = png_rgba(ASSETS / "textures/item/pizza_margherita.png")
 
     for type_, ref in (("raw", raw_ref), ("cooked", cooked_ref)):
+        # Audit the *exact RGBA colors* of all approved crust pixels, too.
+        # These must be left byte-for-byte unchanged when recoloring toppings.
+        border = {
+            index: ref[index:index + 4]
+            for index in range(0, len(ref), 4)
+            if ref[index:index + 4] in PROTECTED_CRUST[type_]
+        }
+        if len(border) != EXPECTED_PROTECTED_PIXELS:
+            raise ValueError(
+                f"Reference {type_} crust palette changed; expected "
+                f"{EXPECTED_PROTECTED_PIXELS} protected pixels, found {len(border)}"
+            )
+
         # The generic item icons in Creative must remain the original artwork.
         base = "raw_pizza" if type_ == "raw" else "cooked_pizza"
         expected = "raw_pizza" if type_ == "raw" else "pizza_margherita"
@@ -139,6 +167,18 @@ def main() -> None:
             pixels = png_rgba(ASSETS / "textures/item" / (name + ".png"))
             if pixels[3::4] != ref[3::4]:
                 raise ValueError(f"Incorrect silhouette/proportions: {name}")
+            changed_crust = [
+                (index // 4 % 16, index // 64)
+                for index, rgba in border.items()
+                if pixels[index:index + 4] != rgba
+            ]
+            if changed_crust:
+                raise ValueError(
+                    f"{name} repaints {len(changed_crust)} original crust pixels: "
+                    f"{changed_crust[:8]}; only edit the TOPPINGS"
+                )
+            if pixels == ref:
+                raise ValueError(f"{name} must be a real variation, not a duplicate Margherita")
 
     creative = CREATIVE.read_text(encoding="utf-8")
     if "PizzaDisplayNames.allPresets().entrySet()" not in creative:
@@ -152,7 +192,7 @@ def main() -> None:
 
     print("OK: 18 active named pizzas x 2 perspectives (raw/cooked),"
           " 36 new PNGs incl. 2 neutral fallback textures, all 16x16 RGBA")
-    print("OK: original Margherita assets unchanged, alpha silhouettes identical")
+    print("OK: original Margherita assets unchanged, silhouettes and 62 crust RGB pixels preserved in every variant")
     print("OK: all models, item definitions and real Creative variants registered")
 
 
