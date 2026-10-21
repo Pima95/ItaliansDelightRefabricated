@@ -1,5 +1,13 @@
 # Roadmap — Pizza Update 1.0.0
 
+## 21 ottobre 2026 — Spicchi APPROVATI e audit pre-release avviato
+
+- [x] **CONFERMA DELL'AUTORE:** «Questi spicchi vanno bene, procediamo». Le texture leggibili degli spicchi sono ora **approvate in Minecraft**. Le texture delle pizze intere crude/cotte erano già approvate. **Non modificarle senza esplicita autorizzazione.**
+- [x] **Audit bilanciamento dei dati attuali, SENZA modifiche gameplay:** esaminati `PizzaSliceFactory`, i 18 preset, le 31 categorie canoniche e i tre metodi di cottura. Pubblicata tabella completa fame/saturazione e tempi placeholder (Pizza Oven 20 s, smoker 30 s, furnace 60 s) in [RELEASE_BALANCE_AUDIT.md](RELEASE_BALANCE_AUDIT.md).
+- [x] **Nuovo controllo statico CI:** `.github/scripts/check_pizza_release_balance.py` verifica formula nutrizionale, 18 combinazioni, caps, consistenza JSON/serializer di cottura e conservazione dei dati. Non è un test client.
+- [ ] **TEST DI INTEGRAZIONE SURVIVAL/MULTIPLAYER:** quattro quarti differenti, nutrizione/fame/saturazione, contenitori, forni, pallet/spade mattarello e pala, GUI/JEI, inventario pieno, chunk reload e anti-duplicazioni. [Checklist](RELEASE_BALANCE_AUDIT.md).
+- [ ] **PROSSIMA DECISIONE DELL'AUTORE:** scegliere come bilanciare Quattro Formaggi (attualmente soltanto 2 fame, perché tutti i formaggi sono categoria Latticini) e se mantenere 20/30/60 s come tempi definitivi. **Nessun valore è stato cambiato senza approvazione.**
+
 ## 21 ottobre 2026 — Revisione leggibilità delle texture degli spicchi
 
 - [x] **BUG VISIVO segnalato dall'autore:** gli spicchi erano visibili e il gioco compilava, ma molti gusti risultavano difficili da distinguere anche se tutti gli asset erano tecnicamente unici.
