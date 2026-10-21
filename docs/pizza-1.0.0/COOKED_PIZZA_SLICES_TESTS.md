@@ -11,7 +11,7 @@
 - La maschera ridotta e il modello multipart dei quarti sono sincronizzati da Minecraft tramite BlockState. **L'ultimo clic rimuove il blocco senza drop aggiuntivi.** Se due giocatori cliccano lo stesso quarto, la mutazione è server-side prima della consegna dell'item.
 - **Rompere la pizza ancora intera** = drop di **1 `cooked_pizza` completa** con lo stesso componente composizione. **Rompere una pizza parzialmente servita** = drop delle sole `pizza_slice` dei quarti ancora presenti (mai la pizza intera, mai le fette già servite e mai ingredienti/ciotole duplicati). Se l'inventario è pieno e non può accogliere una fetta, **nessuna fetta è consegnata o droppata e il quarto rimane sul blocco**. Una pila identica non ancora piena è comunque spazio disponibile.
 - Ogni `pizza_slice` contiene il nuovo componente persistente `pizza_slice_contents`, che include **solo le applicazioni che coprono quel quarto** (identità canonica e ItemStack di origine), più il vecchio flag mozzarella se esistente. Gli altri quarti non vengono copiati nel suo elenco. Il componente è dati descrittivi: gli ingredienti della fetta **non possono essere riscattati come item grezzi**.
-- Le fette sono **commestibili**, con valori per **categoria diversa presente nel quarto**: base crosta 1 fame/1 saturazione; pomodoro Salsa +1/+0,5; Latticini +1/+1,5; Proteine +2/+2,5; Verdure +1/+0,5; Erbe +0/+0; Oli/grassi +0/+1. Limiti **6 fame/6 punti di saturazione**, una sola contribuzione per categoria per fetta. In `FoodProperties` la saturazione è convertita a un modificatore vanilla.
+- Le fette sono **commestibili** e il loro valore dipende dal solo quarto fisico. Crosta +1 fame/+1 saturazione; per ogni ingrediente canonico diverso, fino a **due contributi per categoria**: Salse +1/+0,5, Latticini +1/+1,5, Proteine animali +2/+2,5, Vegetali +1/+0,5, Erbe +0/+0, Oli/grassi +0/+1. Limiti 6 fame/6 saturazione. Duplicati canonici (comprese varianti crude/cotte equivalenti) non producono bonus extra. In `FoodProperties`, la saturazione è convertita nel modificatore vanilla; il nome del gusto non modifica i valori.
 - La grafica del blocco ricicla **temporaneamente** `pizza_dough_top` e `pizza_dough_side` mediante 4 modelli separati, e il renderer usa ancora gli item sospesi come topping (placeholder `item frame`). L'icona della fetta riusa `raw_pizza` come **placeholder**. Nessuna PNG è stata modificata.
 
 ## Compilazione
@@ -60,3 +60,19 @@ La build non è stata eseguita nell'ambiente GitHub: segnalare il primo errore c
 - **Nomi dinamici e fissi per pizza/fetta:** ora implementati nel branch; collaudo della nuova fase ancora da completare in [PIZZA_NAMING_TESTS.md](PIZZA_NAMING_TESTS.md).
 - Pixel art definitiva per `raw_pizza`, `cooked_pizza` e `pizza_slice` e topping 2.5D non più simili a item frame.
 - Pala per trasporto, cottura in forno vanilla/affumicatore e ulteriori interazioni server.
+
+
+## Test E — stacking nutrizionale approvato (21 ottobre 2026)
+
+I valori si riferiscono a **nuovi spicchi** generati dopo l'aggiornamento, non a fette gia' salvate con un vecchio componente `FOOD`.
+
+1. **Bianca** (senza topping): **1 fame, 1 saturazione**. **Margherita** (salsa, mozzarella, basilico): **3 fame, 3 saturazione**.
+2. **Un latticino** (solo mozzarella): **2 fame, 2,5 saturazione**; **due latticini distinti** (mozzarella + gorgonzola): **3 fame, 4 saturazione**; **quattro latticini** (aggiungere provolone e parmigiano): ancora **3 fame, 4 saturazione**.
+3. **Quattro Formaggi** bianca: **3 fame, 4 saturazione**; rossa: **4 fame, 4,5 saturazione**. Nessun incremento determinato dal nome.
+4. **Due proteine diverse** (salame + speck, senza altri topping): **5 fame, 6 saturazione**, con il tetto sulla saturazione. Il terzo ingrediente Proteine animali non aumenta quei valori.
+5. **Due vegetali diversi** (carota + patata a fette, senza altri topping): **3 fame, 2 saturazione**. Il terzo vegetale non aggiunge punti.
+6. **Fetta mista con 2 proteine, mozzarella, salsa e vegetali**: limiti separati **6 fame, 6 saturazione**, nessun effetto di stato.
+7. Con `bacon` e `cooked_bacon` (o altra coppia canonica equivalente) riprovare la posa sul medesimo quarto: non deve duplicare lo stesso tipo; lo spicchio deve valere un singolo bonus proteine quando e' l'unico topping proteico.
+8. Con quattro quarti di composizione diversa, controllare che i quattro item ottenuti abbiano dati/nome/nutrizione indipendenti. Dopo salvataggio e riavvio non devono cambiare. Il valore di saturazione **non e' visibile direttamente** nella barra fame vanilla: verificarlo con strumenti/debug adeguati o test controllati, non soltanto contando i cosciotti.
+
+Questo e' un collaudo manuale in mondo reale, non un test gia' superato. La build automatica copre 18 preset e le combinazioni limite mediante lo script `.github/scripts/check_pizza_release_balance.py`.
