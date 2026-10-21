@@ -6,11 +6,18 @@ Questo documento raccoglie i problemi segnalati e ancora da risolvere nel proget
 
 ### BUG-001 — Scamorza e Provolone posizionabili a terra
 
-- **Stato:** aperto — segnalato dall'autore; correzione non ancora implementata.
-- **Elementi interessati:** Scamorza e Provolone.
-- **Descrizione:** è possibile posizionare Scamorza e Provolone direttamente a terra. Il posizionamento sul terreno è segnalato come comportamento indesiderato.
-- **Comportamento atteso:** impedire il posizionamento a terra non previsto, preservando le interazioni legittime già esistenti, incluse quelle con l'uncino per i formaggi.
-- **Da verificare prima della correzione:** quali varianti dei due formaggi siano coinvolte, se il problema si presenti su ogni superficie, e che l'eventuale correzione non interferisca con l'aggancio e con le meccaniche di stagionatura/affumicatura.
+- **Stato:** **correzione implementata su `feature/pizza-1.0.0`; da verificare in Minecraft**.
+- **Elementi interessati:** Scamorza fresca, Scamorza, Scamorza affumicata, Provolone fresco e Provolone stagionato.
+- **Causa verificata nel codice:** `AgingCheeseItem.useOn` creava il blocco di stagionatura su superfici solide per qualunque `AgingCheeseType`, senza controllare `agesOnSurface()`. Anche Provolone era incluso fra i tipi permessi da quel metodo.
+- **Correzione:** `agesOnSurface()` ora esclude esplicitamente Provolone e le due varianti di Scamorza. `AgingCheeseItem.useOn` rifiuta per questi tipi il posizionamento a terra con `InteractionResult.PASS`, **senza consumare l'item**. Tutte le interazioni dell'uncino sono lasciate intatte, perché sono gestite dal `CheeseHookBlock` prima dell'uso dell'item. Parmigiano Reggiano, Pecorino Romano e Gorgonzola mantengono la meccanica preesistente di posizionamento/stagionatura su superficie.
+- **Compatibilità:** i blocchi `aging_cheese` già presenti nei vecchi mondi non vengono cancellati o convertiti; cambiano solo i nuovi tentativi di posizionamento tramite item.
+- **Test Survival richiesti:**
+  1. Provare ciascuna delle cinque varianti di formaggio citate su un blocco pieno e su una slab superiore; non deve crearsi un blocco di formaggio né diminuire lo stack.
+  2. Provare tutti e cinque gli item su un uncino libero; devono agganciarsi normalmente. Rimuoverli con mano vuota e verificare il rimborso dell'item corretto.
+  3. Verificare che Scamorza fresca e Provolone fresco continuino a progredire sull'uncino, senza alterazioni dei tempi. La variante affumicata non deve acquisire un nuovo processo.
+  4. Come regressione, posizionare Parmigiano Reggiano, Pecorino Romano e Gorgonzola nelle varianti già consentite e verificare i normali blocchi di stagionatura.
+  5. Ripetere per quanto possibile su mondo riavviato e server; il test statico in CI non simula interazioni Minecraft.
+- **Chiusura:** segnare «risolto» solo dopo conferma del test nel client.
 
 
 ### BUG-002 — Mozzarella intera applicabile alla pizza, ma invisibile

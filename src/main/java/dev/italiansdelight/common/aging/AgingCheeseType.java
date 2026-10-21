@@ -62,9 +62,13 @@ public enum AgingCheeseType implements StringRepresentable {
         return new ItemStack(freshItem());
     }
 
-    /** Scamorza dries on the hook; these supports only display it. */
+    /**
+     * Only wheel cheeses belong on horizontal surfaces. Provolone and both
+     * Scamorza variants use the existing hanging-hook interactions instead.
+     * Keep this restriction separate from the rack eligibility below.
+     */
     public boolean agesOnSurface() {
-        return this != SCAMORZA && this != SMOKED_SCAMORZA;
+        return this != PROVOLONE && this != SCAMORZA && this != SMOKED_SCAMORZA;
     }
 
     public boolean fitsInRack() {

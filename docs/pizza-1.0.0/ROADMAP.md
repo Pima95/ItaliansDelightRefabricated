@@ -1,5 +1,13 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Pulizia regressioni pre-release — BUG-001 formaggi da uncino
+
+- [x] **Correzione conservativa del bug già segnalato:** Scamorza e Provolone, inclusi gli stadi freschi e la Scamorza affumicata, non possono più essere posizionati a terra tramite l'item. L'uncino è invariato e gli altri formaggi da superficie rimangono posizionabili.
+- [x] **Audit CI introdotto** per il guard `agesOnSurface()` e la copertura di tutti i formaggi agganciabili.
+- [ ] **Test runtime** su terreno, slab superiore, uncino, stagionatura/essiccazione e regressioni dei formaggi su superficie. [BUG-001](../KNOWN_BUGS.md).
+- [x] **Nome Pizza mista:** l'autore ha confermato in gioco il nuovo nome dopo la sostituzione di «Pizza assortita». Traduzioni e riconoscimento spicchi approvati; nessun ulteriore intervento necessario.
+
+
 ## Fase hopper e persistenza — hardening pre-release (21 ottobre 2026)
 
 - [x] **Hopper già implementati:** sopra input pizza cruda, lati combustibile, sotto output cotto + eventuale secchio di lava vuoto; la pizza cruda o incompleta non è estraibile dal basso.
