@@ -152,16 +152,17 @@ public final class ModItemGroups {
                 output.accept(ModItems.SPECK);
                 output.accept(ModItems.SPECK_SLICE);
 
-                // RAW PIZZAS: generic first, then all 18 named preparations
-                // and one genuine four-flavor Pizza mista sample.
-                output.accept(ModItems.RAW_PIZZA);
+                // RAW PIZZAS: one real example for every taste and one mista.
+                // Do not add bare RAW_PIZZA: its empty default payload is a
+                // second visible "Pizza Bianca", with the wrong generic art.
                 for (var preset : PizzaDisplayNames.allPresets().entrySet()) {
                     output.accept(PizzaCreativeSamples.create(preset.getKey(), false));
                 }
                 output.accept(PizzaCreativeSamples.createMixed(false));
 
                 // COOKED PIZZAS: same taste order, then cooked Pizza mista.
-                output.accept(ModItems.COOKED_PIZZA);
+                // The bare COOKED_PIZZA also appears as another Bianca;
+                // keep only the correctly named, data-bearing taste examples.
                 for (var preset : PizzaDisplayNames.allPresets().entrySet()) {
                     output.accept(PizzaCreativeSamples.create(preset.getKey(), true));
                 }
@@ -169,7 +170,7 @@ public final class ModItemGroups {
 
                 // EDIBLE SLICES: each sample carries its own quarter contents,
                 // correct name, nutrition, effect, and approved 16x16 sprite.
-                output.accept(ModItems.PIZZA_SLICE);
+                // Avoid the bare PIZZA_SLICE (duplicate unconfigured Bianca).
                 for (var preset : PizzaDisplayNames.allPresets().entrySet()) {
                     output.accept(PizzaCreativeSamples.createSlice(preset.getKey()));
                 }

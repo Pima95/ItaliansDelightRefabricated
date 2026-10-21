@@ -1,5 +1,13 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Rifinitura richiesta — spicchi 16/stack e Creativa senza doppioni
+
+- [x] **Stack di 16 già configurato, ora funzionante a livello dati:** gli spicchi dello stesso gusto confrontano ingredienti canonici + mozzarella legacy, non quarto d'origine, ordine o stack originale dei condimenti. Pizze diverse non si mescolano, nutrizione e texture non cambiano.
+- [x] **Creativa pulita:** rimossi soltanto i tre stack-base crudi/cotti/spicchi che duplicavano `Pizza Bianca`; rimangono tutti i 18 gusti reali per stadio più le due Pizze miste. Nessun Item ID deregistrato.
+- [x] Nuova regressione statica CI per confronto dei componenti e limite stack di 16, oltre al controllo Creativa contro i nuovi doppioni.
+- [ ] Verifica nel client, casse e multiplayer: 4/16, 16/16, 16+1, gusti differenti, origine quarto differente, Salame vs Margherita, inventario Creativa senza doppie Bianche. [Guida](CREATIVE_INVENTORY_ORDER.md).
+
+
 ## Pre-release — compatibilità delle vecchie fette nutrizionali
 
 - [x] Il nome e l'icona della scheda Creativa (Margherita cotta) sono stati verificati dall'autore in gioco; disposizione interna confermata funzionante.

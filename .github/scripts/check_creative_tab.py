@@ -15,6 +15,11 @@ ITEMS = ROOT / "registry/ModItems.java"
 BLOCKS = ROOT / "registry/ModBlocks.java"
 TAB = ROOT / "item/group/ModItemGroups.java"
 
+# These three item IDs are represented by the data-bearing samples below.
+# Bare default stacks have empty toppings, producing duplicate Pizza Bianca
+# entries (and wrong generic art). They MUST remain registered for gameplay.
+PIZZA_DATA_ITEMS = {"RAW_PIZZA", "COOKED_PIZZA", "PIZZA_SLICE"}
+
 # These represent stateful/technical blocks, not independent Creative items.
 INTERNAL_BLOCKS = {
     "POTTED_CARDOON",
@@ -48,8 +53,10 @@ def main() -> None:
 
     registered_items = declared(ITEMS, "Item")
     registered_blocks = declared(BLOCKS, "Block")
+    if not PIZZA_DATA_ITEMS.issubset(registered_items):
+        raise ValueError("Pizza item IDs must remain registered even when bare stacks are hidden")
     expected = {
-        ("Items", name) for name in registered_items
+        ("Items", name) for name in registered_items - PIZZA_DATA_ITEMS
     } | {
         ("Blocks", name) for name in registered_blocks - INTERNAL_BLOCKS
     }
@@ -60,6 +67,16 @@ def main() -> None:
             f"Missing: {sorted(expected - exposed)}; "
             f"unexpected: {sorted(exposed - expected)}"
         )
+
+    for name in PIZZA_DATA_ITEMS:
+        if f"output.accept(ModItems.{name});" in content:
+            raise ValueError(f"Bare pizza item {name} duplicates the genuine Bianca sample")
+    # All three IDs are exposed via registered, data-bearing preset stacks,
+    # not via bare Item defaults with an empty pizza composition.
+    if content.count("PizzaCreativeSamples.create(preset.getKey(),") != 2:
+        raise ValueError("Raw and cooked pizza item IDs must be exposed via preset stacks")
+    if content.count("PizzaCreativeSamples.createSlice(preset.getKey())") != 1:
+        raise ValueError("Slice item ID must be exposed via preset stacks")
 
     # Tab icon MUST reuse the existing approved cooked Margherita sprite.
     if ".icon(() -> new ItemStack(ModItems.COOKED_PIZZA))" not in content:
@@ -107,6 +124,7 @@ def main() -> None:
     )
     print("OK: production categories and raw/cooked/slice pizza groups ordered")
     print("OK: raw + cooked Pizza mista examples use original data-bearing stacks")
+    print("OK: no duplicate bare Pizza Bianca; 3 pizza item IDs remain registered")
 
 
 if __name__ == "__main__":

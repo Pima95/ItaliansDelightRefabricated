@@ -3,8 +3,10 @@ package dev.italiansdelight.common.pizza;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
@@ -31,6 +33,41 @@ public record PizzaSliceData(int quarter, List<Topping> toppings, boolean legacy
             throw new IllegalArgumentException("Invalid pizza slice quarter");
         }
         toppings = List.copyOf(Objects.requireNonNull(toppings, "toppings"));
+    }
+
+    /**
+     * Stacking identity is the actual flavor of this cooked slice, not the
+     * world quarter where it came from or the raw source item's identity.
+     * After baking, originalStack is historical provenance only: it can never
+     * be refunded and isn't used by texture, nutrition, name or tooltip.
+     *
+     * Keep the full legacy CODEC and saved fields for old-world compatibility.
+     * Vanilla's ItemStack.isSameItemSameComponents then sees identical
+     * PIZZA_SLICE_CONTENTS for equivalent canonical ingredient sets, even
+     * when the quarter, application order or raw/cooked/cross-mod origin differs.
+     * Different flavors and the old whole-mozzarella flag stay distinct.
+     */
+    private Set<Identifier> stackingIngredients() {
+        Set<Identifier> ids = new HashSet<>();
+        for (Topping topping : toppings) {
+            ids.add(topping.canonicalId());
+        }
+        return Set.copyOf(ids);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        return object instanceof PizzaSliceData other
+                && legacyMozzarella == other.legacyMozzarella
+                && stackingIngredients().equals(other.stackingIngredients());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(stackingIngredients(), legacyMozzarella);
     }
 
     public record Topping(Identifier canonicalId, ItemStack originalStack) {

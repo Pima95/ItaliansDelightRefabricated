@@ -34,6 +34,8 @@ jobs:
         run: python3 .github/scripts/check_named_pizza_artwork.py
       - name: Verify named slice models and original slice crust
         run: python3 .github/scripts/check_named_pizza_slices.py
+      - name: Verify same-flavor pizza slices stack to 16
+        run: python3 .github/scripts/check_pizza_slice_stacking.py
       - name: Audit pizza nutrition and baking consistency
         run: python3 .github/scripts/check_pizza_release_balance.py
       - name: Verify pizza support-loss drops preserve data
