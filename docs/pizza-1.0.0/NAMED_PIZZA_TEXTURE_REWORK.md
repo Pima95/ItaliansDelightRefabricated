@@ -1,5 +1,31 @@
 # Revisione vincolante delle texture per pizze riconosciute — 20 ottobre 2026
 
+## Revisione condimenti semanticamente riconoscibili — 21 ottobre 2026
+
+**Feedback dell'autore:** i cornicioni della revisione precedente sono approvati e non devono più cambiare, ma i condimenti degli **item** sembravano pixel messi a caso e non consentivano di riconoscere i gusti delle pizze. L'intervento è limitato esclusivamente ai pixel della farcitura delle texture degli item; non modificare texture del mondo, modelli, nomi, menu, ricette, dati delle pizze o spicchi.
+
+**Regole del prompt grafico da rispettare:**
+- PNG RGBA **esattamente 16×16**, alpha esclusivamente **0/255**; niente sfumature, antialiasing o downscale; stile vanilla Minecraft e Farmer's Delight Refabricated.
+- Partire **direttamente** dalla vecchia Margherita cruda `raw_pizza.png` o cotta `pizza_margherita.png` approvata, in base allo stato dell'item.
+- Copiare **identicamente tutti i 62 pixel RGBA del cornicione**, compreso ogni colore del bordo, posizione, luce e ombra; non riscrivere, attenuare o spostare alcun pixel esterno ai 48 pixel centrali.
+- Realizzare topping con **sagome contigue intenzionali**, palette coerenti con l'ingrediente e disposizione specifica per ciascun gusto, non campioni isolati o coordinate casuali.
+- La Margherita originale non si sovrascrive mai. Conservare le due varianti di ciascuno degli altri 17 preset più i due fallback; la Principessa resta esclusa perché sospesa.
+
+**Soluzione realizzata:** riprogettati tutti i **36 PNG** crudi/cotti del branch `feature/pizza-1.0.0` con micro-illustrazioni differenti per ogni ricetta. Esempi:
+- **Salame:** piccoli dischi rosso scuro con puntini chiari di grasso, su salsa rossa e mozzarella.
+- **Patate e Speck:** dischi di patata color crema con ombreggiatura della buccia, più strisce scure di speck con grasso chiaro.
+- **Prosciutto crudo, Guanciale e Speck:** nastri irregolari e venature chiare, differenti dalle rondelle dei salumi.
+- **Quattro formaggi:** superficie cremosa, pezzi di formaggio e venature blu-verdi del gorgonzola.
+- **Caprese:** mozzarella bianca, pomodoro rosso e basilico verde; varianti bianca/rossa distinte.
+- **Mortadella e Ricotta:** rondelle rosa con puntini di grasso e ricotta bianca.
+- **Salmone e Ricotta / Scamorza:** tranci di salmone rosati e formaggi distinguibili; basilico solo dove previsto.
+- **Zucca e Speck / Orto disponibile:** arancio intenso di zucca e verdi delle verdure.
+- **Bianca e Rossa:** superficie continua senza introdurre condimenti non previsti; i due fallback ora sono graficamente distinti dalla Bianca e dai gusti ufficiali.
+
+**Verifiche automatiche:** `.github/scripts/check_named_pizza_artwork.py` mantiene i controlli PNG 16×16 RGBA, alpha binario, hash dei due asset Margherita e colori identici per tutti i **62 pixel** di bordo; ora controlla anche che nessuna delle 18 icone del gusto/fallback sia una copia identica di un'altra nella stessa versione.
+
+**Test visivo in Minecraft ancora da confermare:** aprire il tab Creative, confrontare crude/cotte **Salame**, **Patate e Speck**, **Quattro Formaggi**, **Caprese** e **Salmone**, poi verificare che il bordo sia invariato, che i gusti siano riconoscibili nella hotbar a 16×16, che la Margherita sia intatta e che non si vedano PNG mancanti. Un test CI superato non equivale ad approvazione estetica.
+
 ## Correzione cornicione approvata come specifica — 21 ottobre 2026
 
 **Problema segnalato dall'autore:** le texture del precedente lotto, crude e cotte, contenevano pixel apparentemente casuali lungo il bordo. Erano state generate conservando soltanto sagoma/alpha, ma modificando anche i colori del cornicione. La richiesta è usare direttamente una copia del vero PNG Margherita 16×16, senza alcun downscale, mantenendo il cornicione pulito e chiaro e cambiando esclusivamente la superficie della pizza.
