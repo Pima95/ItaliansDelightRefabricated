@@ -84,3 +84,16 @@ git pull
 - **Interazione diretta con pala:** rimane futura; la GUI funziona anche senza pala.
 - **Cottura in fornace/affumicatore vanilla:** manca ancora la conversione dinamica dei componenti originali.
 - **Grafica definitiva:** restano da disegnare modello Pizza Oven, `raw_pizza`, pizza cotta e rendering realistico dei topping. I modelli attuali sono segnaposto.
+
+## Test 5 — Componenti degli item nelle ciotole e hopper (ottobre 2026)
+
+Questo test copre un rischio di perdita dei componenti introdotto quando un residuo viene inserito direttamente nell'hopper. La vecchia logica univa pile in base al semplice tipo `minecraft:bowl`, ignorando nome personalizzato e altri componenti.
+
+1. Posiziona un hopper sotto al Pizza Oven, riempi **tutti e cinque gli slot** con ciotole rinominate in incudine oppure con componenti personalizzati, lasciando uno stack non completo. Cuoci una pizza con salsa: la ciotola normale restituita **non deve unirsi** a uno stack personalizzato; se non esiste uno slot compatibile o libero, deve cadere a terra senza cancellare i componenti degli oggetti presenti.
+2. Libera uno slot dello stesso hopper e cuoci un'altra pizza con salsa: la ciotola deve entrare nello slot vuoto, senza modificare le ciotole rinominate.
+3. Ripeti con uno stack parziale di ciotole normali: il residuo deve unirsi soltanto a questo, conservando la quantità.
+4. Ripeti con due applicazioni originali di salsa su metà diverse (2 ciotole): la somma di elementi nell'hopper e dei drop a terra deve essere sempre **esattamente 2**.
+5. Con hopper superiore, laterale e inferiore: sopra solo pizza cruda, lati solo combustibile, sotto solo pizza cotta e l'eventuale secchio vuoto da lava. Niente estrazione automatica di pizze crude.
+6. Ricarica il mondo durante la cottura e con output occupato: non perdere i dati della pizza, non duplicare ciotole e non ricominciare la cottura dopo un semplice reload.
+
+**Il test statico `check_pizza_hopper_safety.py` controlla i percorsi e i vincoli nel codice.** La movimentazione reale degli item richiede verifica in Survival.

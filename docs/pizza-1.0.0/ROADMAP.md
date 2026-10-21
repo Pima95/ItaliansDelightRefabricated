@@ -1,5 +1,15 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Fase hopper e persistenza — hardening pre-release (21 ottobre 2026)
+
+- [x] **Hopper già implementati:** sopra input pizza cruda, lati combustibile, sotto output cotto + eventuale secchio di lava vuoto; la pizza cruda o incompleta non è estraibile dal basso.
+- [x] **Fix integrità ciotole:** Pizza Oven e fornace/affumicatore ora usano `ItemStack.isSameItemSameComponents` prima di unire un rimborso di ciotole a uno stack preesistente. Non alterare oggetti rinominati o con componenti diversi.
+- [x] **Nuovo controllo statico CI** per direzioni degli hopper, capienza, componenti delle ciotole, compatibilità con fornaci vanilla e salvataggio del progresso.
+- [ ] **Test Survival hopper e persistenza** (anche con ciotole rinominate, hopper pieni, salva/ricarica e due salse su metà differenti). [Checklist Pizza Oven](PIZZA_OVEN_IMPLEMENTATION_TESTS.md) e [fornaci vanilla](VANILLA_FURNACES_TESTS.md).
+- [x] **Test tooltip Nourishment** confermato dall'autore; durata 1 minuto e dati nutrizionali invariati.
+- [ ] **UX naming:** «Pizza assortita» indica quattro quarti non uniformi. «Pizza a gusti misti» è una proposta più immediata, ma il nome non è stato modificato senza approvazione dell'autore.
+
+
 ## Fase pre-release — salvataggio dei drop alla perdita del supporto
 
 - [x] **Fix GitHub implementato:** `PizzaDoughBlock` e `CookedPizzaBlock` pianificano un tick sul server quando il sostegno diventa invalido, al posto di sostituirsi immediatamente con aria. La distruzione vanilla recupera i componenti della BlockEntity.

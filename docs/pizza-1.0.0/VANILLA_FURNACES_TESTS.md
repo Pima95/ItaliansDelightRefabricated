@@ -53,3 +53,12 @@ Se il build fallisce, annotare il **primo errore Java o Mixin completo** con fil
 Le ricette JSON ordinarie `minecraft:smelting`/`minecraft:smoking` non possono ricostruire i componenti `PizzaItemData` da un risultato statico. La fase usa quindi serializer dedicati ma **tipi vanilla**, mantenendo la scoperta da parte di fornace/affumicatore e delle integrazioni JEI. La consegna dei contenitori avviene solo al commit della cottura, non durante il lookup della ricetta.
 
 **Non applicare modifiche alle texture o alla grafica approvata del Pizza Peel in questa fase.**
+
+## Regressione ciotole personalizzate (pre-release)
+
+- [ ] Con hopper sotto una fornace o affumicatore vanilla, lascia cinque stack di ciotole **rinominate** con spazio residuo ma nessuno slot vuoto. Cuoci una pizza con salsa: i contenitori restituiti devono cadere a terra, senza sommarsi agli stack personalizzati o modificarne i dati.
+- [ ] Con uno slot libero, le ciotole normali entrano nell'hopper; con stack già esistente di ciotole **identiche** vengono unite.
+- [ ] Ripetere con due applicazioni originarie di salsa e con hopper saturo: ottenere esattamente due ciotole complessive, senza duplicazioni, e una sola pizza cotta con tutti i componenti.
+- [ ] Confermare che non è cambiata la cottura dei cibi vanilla non appartenenti alla mod.
+
+Il percorso dell'affumicatore e della fornace vanilla utilizza la stessa correzione di identità completa degli ItemStack prevista per il Pizza Oven.

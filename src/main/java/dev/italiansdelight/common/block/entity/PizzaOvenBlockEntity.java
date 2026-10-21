@@ -184,7 +184,10 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
         if (level.getBlockEntity(ovenPos.below()) instanceof HopperBlockEntity hopper) {
             for (int i = 0; i < hopper.getContainerSize() && !left.isEmpty(); i++) {
                 ItemStack existing = hopper.getItem(i);
-                if (!existing.isEmpty() && !existing.is(Items.BOWL)) {
+                // A renamed/custom-component bowl is NOT equivalent to
+                // a plain returned bowl. Never merge away its component data.
+                if (!existing.isEmpty()
+                        && !ItemStack.isSameItemSameComponents(existing, left)) {
                     continue;
                 }
                 int max = existing.isEmpty()

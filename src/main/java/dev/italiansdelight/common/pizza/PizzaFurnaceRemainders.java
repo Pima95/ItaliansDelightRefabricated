@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 
 /**
@@ -27,7 +26,11 @@ public final class PizzaFurnaceRemainders {
         if (level.getBlockEntity(furnacePos.below()) instanceof HopperBlockEntity hopper) {
             for (int slot = 0; slot < hopper.getContainerSize() && !left.isEmpty(); slot++) {
                 ItemStack existing = hopper.getItem(slot);
-                if (!existing.isEmpty() && !existing.is(Items.BOWL)) {
+                // Respect the full component identity of a stored bowl.
+                // Merging with a renamed/custom bowl would silently discard
+                // the returned bowls' own stack identity.
+                if (!existing.isEmpty()
+                        && !ItemStack.isSameItemSameComponents(existing, left)) {
                     continue;
                 }
                 int max = existing.isEmpty() ? left.getMaxStackSize() : existing.getMaxStackSize();
