@@ -2,7 +2,7 @@
 
 **Data:** 21 ottobre 2026  
 **Branch:** `feature/pizza-1.0.0`  
-**Stato:** raccolta dei valori dal codice completata; **non sono stati modificati valori di gameplay**. Build Java 25 e prove in gioco sono passaggi indipendenti.
+**Stato:** valori nutrizionali aggiornati il 21 ottobre 2026 al massimo 2 ingredienti distinti per categoria; nessuna texture o durata di cottura modificata. Build e collaudo in gioco sono passaggi indipendenti.
 
 ## Decisioni e conferme dell'autore
 
@@ -10,6 +10,12 @@
 - L'autore ha ora confermato: **«Questi spicchi vanno bene, procediamo»**. Sono quindi approvate anche tutte le icone degli spicchi dopo la revisione di distinguibilità.
 - **Non modificare né sovrascrivere le texture approvate** (pizze crude, cotte, Margherita storica, spicchi, asset esistenti) senza una nuova richiesta.
 - Prossima fase: audit dei sistemi e confronto dei valori provvisori **prima** di autorizzare modifiche al bilanciamento. L'autore richiede di registrare su GitHub anche le discussioni e le piccole scelte.
+
+## Decisione successiva approvata — stacking dei bonus massimo 2
+
+L'autore ha scelto un compromesso generale, senza bonus per nomi di pizza: **ogni categoria nutrizionale conserva i bonus originali, ma può sommarli al massimo due volte per spicchio se gli ingredienti canonici sono diversi**. Una terza tipologia della stessa categoria non aggiunge bonus. I due tetti separati restano 6 fame e 6 punti saturazione. La scelta si applica anche alle pizze personalizzate e a ciascun quarto indipendentemente. Il problema della Quattro Formaggi è quindi risolto senza introdurre eccezioni nominative. Implementazione e checklist: [DYNAMIC_NUTRITION_STACKING.md](DYNAMIC_NUTRITION_STACKING.md).
+
+**Le note sottostanti sul conteggio una sola volta per categoria sono lo storico precedente alla decisione e non rappresentano più le regole attive.**
 
 ## Chiarimento richiesto dall'autore — 21 ottobre 2026
 
@@ -19,7 +25,7 @@ L'autore ha chiesto di controllare un accordo precedente: **«Voglio un sistema 
 
 **Conseguenza confermata:** una Quattro Formaggi bianca con quattro latticini conta `DAIRY` una volta e riceve 2 fame / 2,5 saturazione, mentre una Margherita riceve 3 fame / 3 saturazione perché include `SAUCES` e `DAIRY`. **Il bonus suggerito precedentemente per tre o più formaggi NON faceva parte dell'accordo e non è stato implementato.**
 
-**Decisione ancora da prendere con l'autore:** la nuova richiesta «vari in base agli ingredienti» intende confermare la logica dinamica *per categorie diverse* già approvata, oppure desidera esplicitamente una *revisione* per cui latticini/ingredienti diversi della stessa categoria contribuiscano individualmente? Non anticipare questa scelta: **nessuna modifica del sistema nutrizionale o delle texture autorizzata** in questo chiarimento.
+**Questo paragrafo descrive una domanda storica ora risolta:** l'autore ha approvato il 21 ottobre 2026 un massimo di 2 contributi per categoria, ciascuno da un ingrediente canonico differente. Vedere [DYNAMIC_NUTRITION_STACKING.md](DYNAMIC_NUTRITION_STACKING.md).
 
 ## 1. Valori di cottura ATTUALI (ancora placeholder)
 
@@ -44,23 +50,23 @@ Questi tempi sono **provvisori** dalla specifica originale, non sono già stati 
 | Margherita | 3 | 3 |
 | Caprese rossa | 4 | 3,5 |
 | Caprese bianca | 3 | 3 |
-| Quattro Formaggi bianca | 2 | 2,5 |
-| Quattro Formaggi rossa | 3 | 3 |
+| Quattro Formaggi bianca | 3 | 4 |
+| Quattro Formaggi rossa | 4 | 4,5 |
 | Prosciutto crudo | 5 | 5,5 |
 | Salame | 5 | 5,5 |
-| Mortadella e Ricotta | 4 | 5 |
+| Mortadella e Ricotta | 5 | 6 |
 | Guanciale e Pecorino rossa | 5 | 5,5 |
-| Speck e Gorgonzola | 4 | 5 |
-| Salmone e Ricotta | 4 | 5 |
-| Salmone e Scamorza affumicata | 4 | 5 |
+| Speck e Gorgonzola | 5 | 6 |
+| Salmone e Ricotta | 5 | 6 |
+| Salmone e Scamorza affumicata | 5 | 6 |
 | Carne macinata e Mozzarella | 5 | 5,5 |
 | Zucca e Speck | 5 | 5,5 |
 | Patate e Speck | 5 | 5,5 |
-| Orto disponibile | 3 | 3 |
+| Orto disponibile | 4 | 3,5 |
 
 Fonte del calcolo: `PizzaDisplayNames.buildPresets()` (ingredienti reali), `PizzaToppingCatalog` (categoria di ogni ingrediente), `PizzaSliceFactory.foodFor()` (bonus, caps e conversione a `FoodProperties`). **Non sono valori consigliati o stimati a occhio**: descrivono la formula implementata. I dati per combinazioni personalizzate dipendono dalle categorie effettivamente presenti nel quarto.
 
-Regole correnti, **una sola volta per categoria distinta**:
+Regole correnti, **massimo 2 contributi per categoria da ingredienti canonici differenti** (valori della singola categoria invariati):
 
 | Categoria | Fame bonus | Saturazione bonus |
 | --- | ---: | ---: |
@@ -72,14 +78,14 @@ Regole correnti, **una sola volta per categoria distinta**:
 | Erbe | +0 | +0 |
 | Oli/grassi | +0 | +1 |
 
-**Limiti:** massimo **6 fame** e **6 punti saturazione** per singolo spicchio. Il modificatore interno della saturazione vanilla è `saturazione / (2 × fame)`; non confondere modificatore e punti di saturazione. La vecchia mozzarella legacy conta come categoria Latticini una volta.
+**Limiti:** massimo **6 fame** e **6 punti saturazione** per singolo spicchio. Il modificatore interno della saturazione vanilla è `saturazione / (2 × fame)`; non confondere modificatore e punti di saturazione. La mozzarella legacy conta come un latticino ma non si duplica se è già presente la mozzarella a fette.
 
-## 3. Osservazioni per il futuro bilanciamento — NON applicate
+## 3. Osservazioni storiche prima della revisione del 21 ottobre 2026
 
-1. **Quattro Formaggi bianca: 2 fame / 2,5 saturazione**, perché quattro formaggi sono comunque **una sola categoria Latticini**. Un singolo spicchio Margherita vale più fame (3) pur usando meno formaggi. Questa è la principale anomalia di progressione nutrizionale da sottoporre all'autore, tenendo conto di ingredienti e costi di produzione.
+1. **Anomalia Quattro Formaggi risolta:** il vecchio valore (2 fame / 2,5 saturazione) era inferiore alla Margherita. Con la nuova regola generale a 2 contributi per categoria, Quattro Formaggi bianca passa a **3 fame / 4 saturazione**, senza eccezioni basate sul nome.
 2. Le pizze **Salame, Prosciutto, Guanciale, Carne, Zucca e Speck, Patate e Speck** arrivano spesso a **5 fame / 5,5 saturazione**, vicine al cap 6 anche con soli 3 ingredienti diversi: verificare se il costo degli ingredienti giustifica questa resa.
 3. Bianca (1) e Rossa (2) sono molto economiche; **la Rossa richiede salsa** e il costo reale deve tener conto dei recipienti recuperati in cottura.
-4. L'assenza di contributo nutrizionale aggiuntivo da erbe, o da latticini ripetuti, è coerente con la regola *categorie distinte*. Per cambiare tale regola occorre una nuova decisione dell'autore; **non aggiungere effetti di stato** senza approvazione.
+4. Erbe e spezie restano a zero. I latticini **differenti** ora possono contribuire due volte, non più di due; ingredienti canonici identici non si duplicano. Nessun effetto di stato aggiunto.
 5. Il Pizza Oven attualmente completa una pizza in **un terzo** del tempo della fornace vanilla. Decidere se mantenere questo vantaggio, valutandone costo del blocco, combustibile e facilità di realizzazione.
 
 ## 4. Verifiche automatiche introdotte
@@ -87,7 +93,7 @@ Regole correnti, **una sola volta per categoria distinta**:
 `.github/scripts/check_pizza_release_balance.py` è eseguito da `.github/workflows/pizza-build.yml` **prima di** `./gradlew clean build`.
 
 - Ricava tutti i 18 preset dal catalogo `PizzaDisplayNames` e le categorie dal `PizzaToppingCatalog`: fallisce per ID sconosciuti, duplicati o nuovi gusti non aggiornati.
-- Verifica espressioni della formula nutrizionale attuale (categoria distinta, bonus, caps, conversione a modificatore vanilla, supporto alla mozzarella legacy), e confronta i 18 output con questo snapshot.
+- Verifica formula nutrizionale attuale (max 2 tipi canonici distinti per categoria, bonus, caps, conversione a modificatore vanilla, mozzarella legacy), oltre a tutti i 18 preset e casi limite personalizzati.
 - Controlla durata forno + ricette JSON e codec affumicatore/fornace, ingrediente e output; testa staticamente che il baking usi `PizzaBaking.finish` e che le ciotole siano contate per applicazione.
 - **Limite:** queste sono verifiche strutturali e di dati, non test di un mondo Minecraft; i percorsi Java devono essere collaudati anche in Survival, su server e attraverso riavvio/reload. Se il rebalancing viene approvato, aggiornare deliberatamente lo snapshot.
 
@@ -106,4 +112,4 @@ Regole correnti, **una sola volta per categoria distinta**:
 
 ## 6. Prossima decisione
 
-Presentare all'autore una **proposta concreta di rebalancing**, partendo dalle anomalie nutrizionali e dai tempi placeholder. L'autore deve prima scegliere se mantenere la regola categorie distinte o prevedere un bonus moderato per ingredienti della stessa categoria (es. Quattro Formaggi). **Nessuna modifica al gameplay è stata autorizzata in questa fase.**
+La revisione nutrizionale generale è stata **approvata e implementata** il 21 ottobre 2026: bonus originali, massimo 2 ingredienti canonici diversi per categoria. Il passo successivo è provarla in Survival e decidere separatamente se mantenere i tempi placeholder di cottura 20/30/60 secondi. Le texture approvate restano inalterate.
