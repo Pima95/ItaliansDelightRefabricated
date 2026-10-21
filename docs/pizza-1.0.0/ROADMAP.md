@@ -1,5 +1,11 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Aggiornamento 21 ottobre 2026 — condimenti riconoscibili per gli item
+
+- [x] **Revisione condimenti delle 36 icone crude/cotte:** l'autore ha approvato il bordo della precedente versione ma rifiutato la farcitura (pixel casuali e gusti non identificabili). Il nuovo disegno utilizza motivi di ingredienti contigui e forme specifiche per ogni pizza: rondelle di salame, fettine di patata, nastri di speck e prosciutto, gorgonzola erborinato, foglie di basilico, salmone ecc. Nessun cornicione o texture Margherita modificato.
+- [x] **Controllo anti-duplicati:** aggiunto test pixel-per-pixel per garantire che gli item dei gusti attivi e il fallback non utilizzino icone identiche; restano i vincoli 16×16 RGBA e preservazione esatta dei 62 pixel del bordo.
+- [ ] **Approvazione nel client:** verificare soprattutto Salame, Patate e Speck, Caprese, Quattro Formaggi e Salmone sia crudi che cotti a dimensione hotbar. [Registro della correzione](NAMED_PIZZA_TEXTURE_REWORK.md).
+
 ## Aggiornamento 21 ottobre 2026 — cornicioni 16×16 definitivi (da collaudare)
 
 - [x] **Pixel art corretta direttamente dagli originali:** l'autore ha rifiutato il cornicione delle varianti crude/cotte per pixel casuali, segnalando che la sagoma alpha identica non è sufficiente. Tutti i 36 PNG sono stati rifatti *modificando direttamente* copie 16×16 di `raw_pizza.png` e `pizza_margherita.png`, senza downscale.
