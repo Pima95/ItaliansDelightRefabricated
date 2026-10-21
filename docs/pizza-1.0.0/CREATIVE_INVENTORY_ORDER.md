@@ -41,3 +41,11 @@ mantengono invece le proprie texture e proprietà specifiche.
 
 Lo script `.github/scripts/check_creative_tab.py` verifica presenza/ordine
 staticamente. Le texture 16×16 già approvate non sono state modificate.
+
+## Compatibilità delle vecchie Pizze miste
+
+Un item di Pizza mista salvato **prima** dell'aggiornamento poteva ancora conservare il valore `ITEM_MODEL=raw_pizza_custom`/`cooked_pizza_custom` nonostante la nuova regola di visualizzazione. Durante il normale tick dell'inventario il gioco corregge **solo** questi vecchi item misti portandoli al modello base Margherita. Vale anche per la pizza già caricata sulla pala: viene aggiornato il singolo `ItemStack` interno a `PEEL_CARGO`, senza cambiare attributi d'arma, ingredienti, stato crudo/cotto o consumare nulla. L'operazione non riscrive componenti ogni tick: dopo il primo aggiornamento diventa un controllo senza mutazioni.
+
+- [ ] Prelevare da una cassa una vecchia Pizza mista (item precedente al fix): icona Margherita dopo che entra nell'inventario.
+- [ ] Ripetere con una vecchia Pizza mista già caricata su una pala; trasporto e scarico preservano gli spicchi originali.
+- [ ] Verificare che una pizza uniforme personalizzata conservi `*_custom` e non venga trasformata in Margherita.

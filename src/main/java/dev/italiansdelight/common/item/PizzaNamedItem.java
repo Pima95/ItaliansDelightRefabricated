@@ -5,6 +5,10 @@ import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import java.util.function.Consumer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import org.jspecify.annotations.Nullable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +29,18 @@ public final class PizzaNamedItem extends Item {
     public PizzaNamedItem(Properties properties, boolean slice) {
         super(properties);
         this.slice = slice;
+    }
+
+    @Override
+    public void inventoryTick(
+            ItemStack stack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot
+    ) {
+        // Upgrade old mixed pizzas with a saved "*_custom" ITEM_MODEL.
+        // No changes are performed after the first correction or to slices.
+        if (!slice) {
+            PizzaDisplayNames.refreshMixedItemModel(stack);
+        }
+        super.inventoryTick(stack, level, owner, slot);
     }
 
     @Override

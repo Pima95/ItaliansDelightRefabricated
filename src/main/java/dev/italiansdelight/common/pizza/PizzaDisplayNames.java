@@ -262,6 +262,30 @@ public final class PizzaDisplayNames {
      * Write a TRANSLATABLE Component alongside the existing pizza payload.
      * The pizza's canonical ingredients are never modified by naming.
      */
+    /**
+     * Upgrade ONLY legacy mixed-pizza item models already saved in inventories
+     * or inside pizza peels. The method is idempotent and leaves all topping
+     * data, localized names and non-mixed pizza sprites untouched.
+     *
+     * @return whether an outdated mixed icon was actually changed.
+     */
+    public static boolean refreshMixedItemModel(ItemStack stack) {
+        if (!stack.is(ModItems.RAW_PIZZA) && !stack.is(ModItems.COOKED_PIZZA)) {
+            return false;
+        }
+        PizzaItemData data = stack.get(dev.italiansdelight.common.registry.ModDataComponents.PIZZA_CONTENTS);
+        if (data == null || !isMixed(data)) {
+            return false;
+        }
+        Identifier expected = ModRegistries.id(
+                stack.is(ModItems.COOKED_PIZZA) ? "cooked_pizza" : "raw_pizza");
+        if (expected.equals(stack.get(DataComponents.ITEM_MODEL))) {
+            return false;
+        }
+        stack.set(DataComponents.ITEM_MODEL, expected);
+        return true;
+    }
+
     public static void nameWholeStack(ItemStack stack, PizzaItemData data) {
         stack.set(DataComponents.ITEM_NAME, wholeName(data));
         // Assign a synchronized model for BOTH raw and cooked variants;

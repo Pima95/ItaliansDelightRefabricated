@@ -130,6 +130,14 @@ def main() -> None:
         raise ValueError("Mixed pizzas must share Margherita raw/cooked artwork")
     if 'return isMixed(whole) ? null : PRESETS.get(quarter(whole, 0));' not in src:
         raise ValueError("Uniform unknown pizzas must still use fallback artwork")
+    if "public static boolean refreshMixedItemModel(ItemStack stack)" not in src:
+        raise ValueError("Old stored mixed pizzas need an idempotent model repair")
+    named = Path("src/main/java/dev/italiansdelight/common/item/PizzaNamedItem.java").read_text(encoding="utf-8")
+    peel = Path("src/main/java/dev/italiansdelight/common/item/PizzaPeelItem.java").read_text(encoding="utf-8")
+    if "PizzaDisplayNames.refreshMixedItemModel(stack);" not in named:
+        raise ValueError("Legacy mixed stacks must be repaired on inventory load")
+    if "PizzaDisplayNames.refreshMixedItemModel(pizza)" not in peel:
+        raise ValueError("Legacy mixed pizzas carried on peels must also be repaired")
     for locale, expected in (("it_it", "Pizza mista"), ("en_us", "Mixed Pizza")):
         names = json.loads((ASSETS / "lang" / (locale + ".json")).read_text(encoding="utf-8"))
         if names.get("pizza.italiansdelight.assorted") != expected:
