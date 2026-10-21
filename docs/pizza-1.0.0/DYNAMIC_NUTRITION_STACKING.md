@@ -55,6 +55,8 @@ L'autore ha osservato che una pizza **non deve risultare più nutritiva solo per
 
 **Attenzione:** i test di GitHub Actions controllano il codice sorgente e le ricette e compilano la mod; la verifica in un mondo Survival, incluso il ripristino reale degli indicatori di fame/saturazione e lo stato di salvataggio, resta da effettuare.
 
+**Compatibilità salvataggi e test:** la proprietà nutrizionale `DataComponents.FOOD` viene salvata sullo stack quando `PizzaSliceFactory.create` produce un nuovo spicchio. Gli spicchi **già presenti in un vecchio inventario** possono quindi conservare i valori precedenti, anche dopo l'aggiornamento della mod. Per verificare il nuovo bilanciamento occorre preparare o ottenere **nuovi spicchi** dopo il pull; non è stata aggiunta una migrazione automatica degli oggetti esistenti senza un requisito esplicito. Le pizze intere già in inventario possono invece generare nuove fette con i valori aggiornati al momento del taglio.
+
 ## Collaudo suggerito
 
 - [ ] Pizza Bianca e Margherita: fame e saturazione uguali ai valori precedenti.
