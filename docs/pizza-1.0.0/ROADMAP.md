@@ -1,5 +1,13 @@
 # Roadmap — Pizza Update 1.0.0
 
+## 21 ottobre 2026 — Pizze intere approvate; texture spicchi implementate
+
+- [x] **CONFERMA ESPLICITA DELL'AUTORE:** le texture crude/cotte di tutte le 18 pizze riconosciute ora vanno bene, e tutte le varianti delle pizze intere sono visibili correttamente nel menu Creativa. **Questa fase grafica è approvata**: non modificare i PNG originali o i topping delle pizze intere senza nuova richiesta.
+- [x] **PROSSIMA FASE AUTORIZZATA: icone degli spicchi**. Realizzate le 17 varianti riconosciute diverse dalla Margherita + fallback (18 PNG 16×16), conservando `margherita_slice.png` originale. I 218 pixel di bordo/sagoma/ombre rimangono intatti; solamente 38 pixel interni rappresentano la farcitura.
+- [x] **Spicchi riconosciuti per singolo quarto:** `PizzaDisplayNames.nameSliceStack` ora usa `PRESETS.get(quarter(slice))` anche per scegliere il modello. Uno spicchio Margherita proveniente da una pizza assortita mantiene nome e immagine Margherita. `pizza_slice` resta l'unico Item e mantiene componenti, nutrizione e uso approvati.
+- [x] **Creative e test automatici:** aggiunti 18 stack spicchi autentici dopo le pizze intere; controllo `check_named_pizza_slices.py` su tutti i modelli, CRC PNG, sagoma/218 pixel del bordo, asset Margherita originale e assenza di duplicati. Due PNG inizialmente corrotti durante il trasferimento sono stati sostituiti con i file corretti identificati tramite hash Git.
+- [ ] **TEST CLIENT / APPROVAZIONE SPICCHI:** controllare spicchi Bianca, Rossa, Margherita, Salame, Patate e Speck e Caprese; pizza con quattro quarti diversi, salvataggi, fallback, fame/saturazione e presenza nel tab Creative. [Documentazione e checklist](NAMED_PIZZA_SLICES.md).
+
 ## 21 ottobre 2026 — Correzione crash all'avvio causato dal mattarello
 
 - [x] **BUG CRITICO identificato tramite log dell'autore:** durante `runClient` il gioco crashava su `ModItems.<clinit>(ModItems.java:126)` con `NullPointerException: Components not bound yet`, poiché il mattarello richiedeva `Items.WOODEN_SHOVEL.getDefaultInstance()` prima del bootstrap dei componenti. La build Java 25 precedente aveva compilato ma **non garantiva l'avvio del gioco**.
@@ -43,7 +51,7 @@
 - [x] **Creativa approvata dall'autore:** pizze dopo salumi e prima dei piatti pronti, correttamente visibili in gioco.
 - [x] **Inventario reale dei gusti:** 18 preset implementati, Principessa sospesa; 1 texture Margherita già presente da conservare, 17 nuove texture di gusto previste.
 - [x] **Texture pizze — PRIMA ITERAZIONE RIFIUTATA E SOSTITUITA:** i vecchi PNG rotondi dall'alto sono archiviati ma inutilizzati. Ripristinato il modello cotto Margherita originale e aggiunte 36 texture, 72 JSON e 36 stack Creativa reali, senza nuovi item. Build Java 25 e test asset superati; grafica e Creative da testare in gioco. [Revisione approvata](NAMED_PIZZA_TEXTURE_REWORK.md).
-- [ ] **Collaudo e spicchi:** tutte le 18 icone crude e 18 cotte sono implementate; verificare in gioco i modelli, la grafica, la Creativa, il fallback e i salvataggi. Le texture dedicate degli spicchi sono una fase distinta, non ancora autorizzata.
+- [x] **Pizze intere approvate dall'autore il 21 ottobre 2026; fase spicchi successivamente autorizzata:** la collezione crude/cotte è approvata e le texture dedicate degli spicchi sono ora implementate sul branch. Collaudo degli spicchi in gioco ancora da svolgere; vedere la sezione più recente e [NAMED_PIZZA_SLICES.md](NAMED_PIZZA_SLICES.md).
 
 ## Stato
 
