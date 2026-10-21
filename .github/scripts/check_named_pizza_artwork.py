@@ -140,6 +140,10 @@ def main() -> None:
     cooked_ref = png_rgba(ASSETS / "textures/item/pizza_margherita.png")
 
     for type_, ref in (("raw", raw_ref), ("cooked", cooked_ref)):
+        # Every recognized taste must have an independent item sprite.
+        # A generic fallback must not accidentally look exactly like Bianca,
+        # and no two named tastes may share the same pixel data.
+        appearance_to_name = {"margherita": ref}
         # Audit the *exact RGBA colors* of all approved crust pixels, too.
         # These must be left byte-for-byte unchanged when recoloring toppings.
         border = {
@@ -179,6 +183,16 @@ def main() -> None:
                 )
             if pixels == ref:
                 raise ValueError(f"{name} must be a real variation, not a duplicate Margherita")
+            duplicate_name = next(
+                (previous for previous, rgba in appearance_to_name.items()
+                 if rgba == pixels), None
+            )
+            if duplicate_name:
+                raise ValueError(
+                    f"{name} reuses the exact artwork of {duplicate_name}; "
+                    "each pizza must be visually unique"
+                )
+            appearance_to_name[preset] = pixels
 
     creative = CREATIVE.read_text(encoding="utf-8")
     if "PizzaDisplayNames.allPresets().entrySet()" not in creative:
@@ -193,6 +207,7 @@ def main() -> None:
     print("OK: 18 active named pizzas x 2 perspectives (raw/cooked),"
           " 36 new PNGs incl. 2 neutral fallback textures, all 16x16 RGBA")
     print("OK: original Margherita assets unchanged, silhouettes and 62 crust RGB pixels preserved in every variant")
+    print("OK: distinct per-preset raw/cooked pixel art, no duplicate named/fallback sprites")
     print("OK: all models, item definitions and real Creative variants registered")
 
 
