@@ -4,6 +4,10 @@ import java.util.function.Function;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -110,21 +114,36 @@ public final class ModItems {
                 new Item.Properties().stacksTo(1)
                         .attributes(PizzaPeelItem.EMPTY_PEEL_WEAPON_ATTRIBUTES));
 
-        // Pizza 1.0.0: 64 pizza-stretching uses, plus exactly the same
-        // attack damage and attack speed as a VANILLA wooden shovel.
-        // Copy its registered attribute component instead of hardcoding
-        // numbers or giving the pin a shovel's block-mining behavior.
-        // The pizza interactions (and their durability cost) are unchanged.
+        // Minecraft 26.2 binds vanilla item default components AFTER
+        // mod registration. Reading Items.WOODEN_SHOVEL.getDefaultInstance()
+        // here crashed during ModItems.<clinit> ("Components not bound yet").
+        // Instead use exactly the vanilla WOODEN_SHOVEL combat baselines,
+        // calculated without instantiating any vanilla ItemStack.
+        // The mattarello remains an ordinary Item, NOT a shovel: only combat
+        // attributes are copied, so mining and pizza interactions stay intact.
         public static final ResourceKey<Item> ROLLING_PIN_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("rolling_pin"));
+
+        private static final ItemAttributeModifiers ROLLING_PIN_COMBAT_ATTRIBUTES =
+                ItemAttributeModifiers.builder()
+                        .add(Attributes.ATTACK_DAMAGE,
+                                new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID,
+                                        1.5F + ToolMaterial.WOOD.attackDamageBonus(),
+                                        AttributeModifier.Operation.ADD_VALUE),
+                                EquipmentSlotGroup.MAINHAND)
+                        .add(Attributes.ATTACK_SPEED,
+                                new AttributeModifier(Item.BASE_ATTACK_SPEED_ID,
+                                        -3.0F,
+                                        AttributeModifier.Operation.ADD_VALUE),
+                                EquipmentSlotGroup.MAINHAND)
+                        .build();
 
         public static final Item ROLLING_PIN = register(
                 ROLLING_PIN_KEY,
                 new Item.Properties()
                         .durability(64)
-                        .attributes(Items.WOODEN_SHOVEL.getDefaultInstance()
-                                .get(DataComponents.ATTRIBUTE_MODIFIERS)));
+                        .attributes(ROLLING_PIN_COMBAT_ATTRIBUTES));
 
         // Pasta with tomato sauce
         public static final ResourceKey<Item> PASTA_WITH_TOMATO_SAUCE_KEY = ResourceKey.create(
