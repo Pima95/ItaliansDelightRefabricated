@@ -24,6 +24,8 @@ jobs:
           java-version: '25'
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
+      - name: Prevent rolling-pin bootstrap crash
+        run: python3 .github/scripts/check_rolling_pin_combat.py
       - name: Verify Creative tab registration (all items, no duplicates)
         run: python3 .github/scripts/check_creative_tab.py
       - name: Verify 12x12 pizza textures (binary alpha, PNG CRC)
