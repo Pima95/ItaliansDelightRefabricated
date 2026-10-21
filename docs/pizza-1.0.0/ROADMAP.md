@@ -1,5 +1,12 @@
 # Roadmap — Pizza Update 1.0.0
 
+## 21 ottobre 2026 — Correzione crash all'avvio causato dal mattarello
+
+- [x] **BUG CRITICO identificato tramite log dell'autore:** durante `runClient` il gioco crashava su `ModItems.<clinit>(ModItems.java:126)` con `NullPointerException: Components not bound yet`, poiché il mattarello richiedeva `Items.WOODEN_SHOVEL.getDefaultInstance()` prima del bootstrap dei componenti. La build Java 25 precedente aveva compilato ma **non garantiva l'avvio del gioco**.
+- [x] **Fix su GitHub:** rimossa la lettura prematura dello stack vanilla. Attributi d'attacco definiti con `ItemAttributeModifiers.builder()` usando i modificatori vanilla della pala di legno (bonus legno + 1.5 al danno, -3.0 velocità), senza modificare la durabilità originale (64) o conferire funzionalità di scavo.
+- [x] **CI rafforzata:** nuovo controllo `check_rolling_pin_combat.py` prima della compilazione; controlla la registrazione sicura e i valori degli attributi. [Diagnosi, codice e test](ROLLING_PIN_COMBAT.md).
+- [ ] **VERIFICA RUNTIME IN ATTESA:** nuova compilazione Java 25 e soprattutto avvio `gradlew.bat runClient` in Minecraft 26.2 dopo il fix. Il collaudo dell'autore resta obbligatorio; non proclamare runtime corretto in base soltanto al risultato di Gradle.
+
 ## Aggiornamento 21 ottobre 2026 — mattarello con attributi pala di legno
 
 - [x] **Mattarello come arma leggera:** su richiesta dell'autore, `italiansdelight:rolling_pin` ora copia direttamente gli attributi d'attacco della **pala di legno vanilla** (`Items.WOODEN_SHOVEL`, `DataComponents.ATTRIBUTE_MODIFIERS`) senza hardcoding. **Restano 64 utilizzi** e la stesura/divisione dell'impasto mantiene il comportamento originale.
