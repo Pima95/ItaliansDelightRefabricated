@@ -22,7 +22,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -169,11 +168,9 @@ public final class AgingCheeseBlock
                 pos
             )
         ) {
-            // Vanilla's normal block replacement/drop path handles the actual
-            // removal. getDrops() below intentionally returns an item with no
-            // aging progress.
-            return Blocks.AIR
-                .defaultBlockState();
+            // Deferring destruction preserves the BlockEntity through loot
+            // evaluation. Immediate AIR replacement can lose a cheese wheel.
+            ticks.scheduleTick(pos, this, 1);
         }
 
         return super.updateShape(
@@ -186,6 +183,15 @@ public final class AgingCheeseBlock
             neighbourState,
             random
         );
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!canSurvive(state, level, pos)) {
+            // Use the existing getDrops -> getPickupStack route; partial aging
+            // progress stays world-only, exactly as for manual block breaking.
+            level.destroyBlock(pos, true);
+        }
     }
 
     @Override

@@ -1,5 +1,12 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Correzione BUG-003 — drop formaggi e salumi quando si rompe il supporto
+
+- [x] Blocchi di stagionatura a terra e uncini da soffitto aggiornati a distruzione server differita con loot vanilla. L'uncino conserva il formaggio/salume appeso e libera lo spazio tecnico riservato.
+- [x] CI estesa con controllo statico anti-perdita dei drop.
+- [ ] Test Survival della rimozione supporti, oggetti recuperati, `doTileDrops` e assenza di blocchi tecnici invisibili. [Registro bug](../KNOWN_BUGS.md).
+
+
 ## Rifinitura grafica Pizza mista (richiesta autore)
 
 - [x] **Pizza mista cruda e cotta**: usa esattamente i modelli originali della Margherita (`raw_pizza` e `cooked_pizza`), lasciando invariati nome, quattro quarti, componenti, nutrizione e tooltip. Nessun PNG modificato.

@@ -42,5 +42,7 @@ jobs:
         run: python3 .github/scripts/check_pizza_hopper_safety.py
       - name: Verify hook-only cheese placement restrictions
         run: python3 .github/scripts/check_hook_cheese_placement.py
+      - name: Verify dropped cheese and hanging products survive support loss
+        run: python3 .github/scripts/check_cheese_support_drops.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace

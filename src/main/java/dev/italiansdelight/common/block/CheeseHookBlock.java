@@ -27,7 +27,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -361,8 +360,9 @@ public final class CheeseHookBlock extends BaseEntityBlock {
                 pos
             )
         ) {
-            return Blocks.AIR
-                .defaultBlockState();
+            // Keep the occupied hook and its BlockEntity until vanilla
+            // destruction collects the hanging product and the hook itself.
+            ticks.scheduleTick(pos, this, 1);
         }
 
         return super.updateShape(
@@ -375,6 +375,15 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             neighbourState,
             random
         );
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!canSurvive(state, level, pos)) {
+            // The existing loot method yields the hook + attached item.
+            // Its removal callback also clears the reserved space below.
+            level.destroyBlock(pos, true);
+        }
     }
 
     @Override
