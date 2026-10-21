@@ -1,12 +1,20 @@
 # Roadmap — Pizza Update 1.0.0
 
+## 21 ottobre 2026 — Bilanciamento nutrizionale: stacking max 2 per categoria APPROVATO
+
+- [x] **Nuova decisione dell'autore:** mantenere i bonus originali, ma contarli **fino a 2 volte per categoria** quando lo stesso quarto contiene due ingredienti canonici *differenti*. Dal terzo ingrediente della medesima categoria non si ricevono altri bonus. Stesso ID canonico ripetuto (incluse varianti cruda/cotta) conta una sola volta; supporto mozzarella legacy senza duplicarla.
+- [x] **Implementato in `PizzaSliceFactory.foodFor`:** le regole sono uguali per qualsiasi spicchio, pizza riconosciuta o personalizzata. Fame massima 6, saturazione massima 6; nessuna eccezione speciale per la Quattro Formaggi. Esempi: Margherita 3/3, Quattro Formaggi bianca 3/4, Rossa 4/4,5, Mortadella e Ricotta 5/6, Orto 4/3,5.
+- [x] **Audit CI aggiornato:** 18 preset + combinazioni con 1/2/3/4 latticini, ingredienti duplicati, due proteine, legacy e massimali. [Decisione e casi di test](DYNAMIC_NUTRITION_STACKING.md).
+- [ ] **Test in gioco:** verificare cibo effettivo per spicchio, equivalenze, cap, quattro quarti differenti, salvataggio/reload e multiplayer. Non cambiare asset già approvati.
+- [ ] **Decisione successiva:** tempi definitivi di cottura (attualmente 20/30/60 secondi) dopo test del nuovo bilanciamento.
+
 ## 21 ottobre 2026 — Spicchi APPROVATI e audit pre-release avviato
 
 - [x] **CONFERMA DELL'AUTORE:** «Questi spicchi vanno bene, procediamo». Le texture leggibili degli spicchi sono ora **approvate in Minecraft**. Le texture delle pizze intere crude/cotte erano già approvate. **Non modificarle senza esplicita autorizzazione.**
 - [x] **Audit bilanciamento dei dati attuali, SENZA modifiche gameplay:** esaminati `PizzaSliceFactory`, i 18 preset, le 31 categorie canoniche e i tre metodi di cottura. Pubblicata tabella completa fame/saturazione e tempi placeholder (Pizza Oven 20 s, smoker 30 s, furnace 60 s) in [RELEASE_BALANCE_AUDIT.md](RELEASE_BALANCE_AUDIT.md).
 - [x] **Nuovo controllo statico CI:** `.github/scripts/check_pizza_release_balance.py` verifica formula nutrizionale, 18 combinazioni, caps, consistenza JSON/serializer di cottura e conservazione dei dati. Non è un test client.
 - [ ] **TEST DI INTEGRAZIONE SURVIVAL/MULTIPLAYER:** quattro quarti differenti, nutrizione/fame/saturazione, contenitori, forni, pallet/spade mattarello e pala, GUI/JEI, inventario pieno, chunk reload e anti-duplicazioni. [Checklist](RELEASE_BALANCE_AUDIT.md).
-- [ ] **PROSSIMA DECISIONE DELL'AUTORE:** scegliere come bilanciare Quattro Formaggi (attualmente soltanto 2 fame, perché tutti i formaggi sono categoria Latticini) e se mantenere 20/30/60 s come tempi definitivi. **Nessun valore è stato cambiato senza approvazione.**
+- [x] **DECISIONE PRESA 21 ottobre 2026:** bonus originali ripetibili per un massimo di 2 ingredienti canonici distinti della stessa categoria. Quattro Formaggi ora usa la regola generale, senza bonus nominativi. Restano da scegliere i tempi di cottura 20/30/60 s.
 
 ## 21 ottobre 2026 — Revisione leggibilità delle texture degli spicchi
 
