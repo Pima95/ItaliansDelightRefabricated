@@ -11,6 +11,16 @@
 - **Non modificare né sovrascrivere le texture approvate** (pizze crude, cotte, Margherita storica, spicchi, asset esistenti) senza una nuova richiesta.
 - Prossima fase: audit dei sistemi e confronto dei valori provvisori **prima** di autorizzare modifiche al bilanciamento. L'autore richiede di registrare su GitHub anche le discussioni e le piccole scelte.
 
+## Chiarimento richiesto dall'autore — 21 ottobre 2026
+
+L'autore ha chiesto di controllare un accordo precedente: **«Voglio un sistema che vari in base agli ingredienti con cui è cucinata la pizza, se non sbaglio lo avevamo già deciso»**. È stato verificato il contenuto della roadmap originale e il metodo `PizzaSliceFactory.foodFor()`.
+
+**Accordo precedente verificato (12 ottobre 2026):** il sistema è già *dinamico per quarto e per composizione*, ma il contributo nutrizionale è determinato dalle **categorie distinte** presenti nel quarto (crosta + categorie di topping, una volta per categoria), **non dalla quantità o dal numero di ingredienti singoli**. Bonus: crosta +1 fame/+1 saturazione; salse +1/+0,5; latticini +1/+1,5; proteine animali +2/+2,5; verdure +1/+0,5; erbe +0/+0; oli e grassi +0/+1. Limiti 6 punti fame e 6 punti saturazione per spicchio. Variante cruda/cotta equivalente non si duplica; nessun effetto speciale.
+
+**Conseguenza confermata:** una Quattro Formaggi bianca con quattro latticini conta `DAIRY` una volta e riceve 2 fame / 2,5 saturazione, mentre una Margherita riceve 3 fame / 3 saturazione perché include `SAUCES` e `DAIRY`. **Il bonus suggerito precedentemente per tre o più formaggi NON faceva parte dell'accordo e non è stato implementato.**
+
+**Decisione ancora da prendere con l'autore:** la nuova richiesta «vari in base agli ingredienti» intende confermare la logica dinamica *per categorie diverse* già approvata, oppure desidera esplicitamente una *revisione* per cui latticini/ingredienti diversi della stessa categoria contribuiscano individualmente? Non anticipare questa scelta: **nessuna modifica del sistema nutrizionale o delle texture autorizzata** in questo chiarimento.
+
 ## 1. Valori di cottura ATTUALI (ancora placeholder)
 
 | Metodo | Durata a 20 TPS | Tick attivi | Origine |
