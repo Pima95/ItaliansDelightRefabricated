@@ -86,3 +86,14 @@ Usare **solo nuove fette cotte** create dopo il pull: gli ItemStack già salvati
 - [ ] Pizza personalizzata con **mozzarella + gorgonzola** (3 fame): Nourishment breve; un terzo latticino non incrementa il livello o la durata dell'effetto configurato.
 - [ ] Pizza assortita: ogni spicchio deve ricevere il suo risultato indipendentemente dagli altri quarti e dal nome.
 - [ ] Verificare valori fame/saturazione invariati (cap 6/6) e persistenza dopo riavvio, raccolta e trasferimento fra giocatori.
+
+## Test G — tooltip Nourishment (correzione del 21 ottobre 2026)
+
+Questo fix cambia **solo la visualizzazione** nell'inventario, non il consumo o il bilanciamento.
+
+- [ ] Inventario, `it_it`: fetta Margherita/Quattro Formaggi con effetto: compare **Nutrimento (1:00)** oltre agli ingredienti.
+- [ ] Inventario, `en_us`: stessa fetta, nome localizzato nella lingua inglese e **1:00**; nessuna chiave mancante.
+- [ ] Bianca/Rossa e altri spicchi sotto 3 punti fame non mostrano alcun effetto.
+- [ ] Su `raw_pizza` e `cooked_pizza` non viene mostrato il tooltip del cibo.
+- [ ] Disattivando il tooltip degli effetti in configurazione Farmer's Delight, la descrizione dell'effetto scompare ma restano ingredienti e nome della fetta.
+- [ ] Vecchie fette con `CONSUMABLE` Nourishment già salvato: tooltip visibile senza ricreare lo stack. Verificare dopo riavvio/salvataggio.

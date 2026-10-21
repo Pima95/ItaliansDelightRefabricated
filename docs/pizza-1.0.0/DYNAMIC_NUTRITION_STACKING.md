@@ -76,3 +76,11 @@ Al momento della creazione di una **nuova fetta cotta**, `PizzaSliceFactory.crea
 - **Compatibilità:** i vecchi `pizza_slice` già nell'inventario possono conservare il precedente `DataComponents.CONSUMABLE`; per il collaudo generare nuove fette dopo l'aggiornamento. `raw_pizza` e `cooked_pizza` rimangono non commestibili.
 
 **Test nuovo, ancora da superare:** in Survival mangiare fette nuove di Bianca/Rossa/Margherita/Quattro Formaggi, controllare la presenza o assenza dell'effetto e verificare che la durata sia quella breve della dipendenza. Verificare anche una fetta dinamica da 2 e una da 3 fame e una pizza con quattro quarti differenti. La build CI non simula il consumo in Minecraft.
+
+## Tooltip dell'effetto (fix 21 ottobre 2026)
+
+Le fette con Nourishment devono mostrare nel tooltip dell'inventario il **nome localizzato e la durata reale dell'effetto**, ad esempio **Nutrimento (1:00)** in italiano. La classe `PizzaNamedItem` mantiene nome, modello e lista ingredienti esistenti, poi chiama `TextUtils.addFoodEffectTooltip(stack, consumer, 1.0F, context.tickRate())` di Farmer's Delight Refabricated solo per gli item-spicchio.
+
+La libreria legge gli effetti presenti nel `DataComponents.CONSUMABLE` **dello stack stesso**, mostra nome/durata nella lingua del gioco, e rispetta `Configuration.ENABLE_FOOD_EFFECT_TOOLTIP` (se l'impostazione di Farmer's Delight è disabilitata, anche il tooltip viene nascosto). La durata breve ufficiale è `FoodValues.SHORT_DURATION = 1200` tick (60 secondi). Nessuna durata o stringa tradotta è duplicata nel codice Italian's Delight. `raw_pizza` e `cooked_pizza` non ricevono tooltip alimentari.
+
+**Verifiche manuali da effettuare:** passare il cursore su una fetta nuova di Margherita/Quattro Formaggi e vedere nome dell'effetto e `1:00` oltre agli ingredienti; su Bianca/Rossa non compare nulla. Ripetere con `it_it` e `en_us`, tooltip disabilitati nella configurazione di Farmer's Delight e fette con dati salvati dopo un riavvio. Non serve rifare le pizze già create in precedenza se le loro fette **hanno già** il componente `CONSUMABLE` con Nourishment; la visualizzazione viene calcolata dall'item all'apertura del tooltip.

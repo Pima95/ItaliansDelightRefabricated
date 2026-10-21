@@ -169,6 +169,30 @@ def audit_nourishment(recipes: dict[str, list[str]], catalogue: dict[str, str]) 
                 f"Wrong Nourishment threshold for {toppings}")
 
 
+def audit_nourishment_tooltip() -> None:
+    """The pizza item uses the dependency's tooltip formatter, not hard-coded time."""
+    item = Path("src/main/java/dev/italiansdelight/common/item/PizzaNamedItem.java").read_text(encoding="utf-8")
+    required = [
+        "import vectorwing.farmersdelight.common.Configuration;",
+        "import vectorwing.farmersdelight.common.utility.TextUtils;",
+        "if (slice) {",
+        "super.appendHoverText(stack, context, display, consumer, type);",
+        "PizzaDisplayNames.appendSliceTooltip(data, consumer);",
+        "if (Configuration.ENABLE_FOOD_EFFECT_TOOLTIP.get())",
+        "TextUtils.addFoodEffectTooltip(stack, consumer, 1.0F, context.tickRate());",
+    ]
+    for expression in required:
+        require(expression in item, f"Pizza slice tooltip no longer matches Farmer's Delight: {expression}")
+    # The formatter must be in the slice branch (not on raw/cooked whole pizza).
+    slice_branch = item.split("public void appendHoverText(", 1)[1]
+    require(slice_branch.index("TextUtils.addFoodEffectTooltip(")
+            < slice_branch.index("} else {"),
+            "Food effect tooltip must be scoped to edible pizza slices")
+    require("Component.literal(\"Nourishment" not in item
+            and "60 seconds" not in item,
+            "Effect names and durations must be read from actual Consumable")
+
+
 def audit_baking() -> None:
     source = (JAVA / "PizzaBaking.java").read_text(encoding="utf-8")
     require("MAX_PROGRESS = 1_200" in source, "Pizza baking maximum changed")
@@ -244,11 +268,13 @@ def main() -> None:
                          "tomato_sauce", "tomato_slice"], catalogue) == (6, 6.0),
             "Six-point caps must apply to mixed-category custom pizza")
     audit_nourishment(recipes, catalogue)
+    audit_nourishment_tooltip()
     audit_baking()
     print("OK: all 18 canonical pizza presets match updated per-slice nutrition")
     print("OK: max 2 DISTINCT canonical types per category, max 6 hunger/saturation")
     print("OK: duplicate types, old mozzarella and custom pizza categories checked")
     print("OK: short Nourishment on newly created slices >=3 hunger (16 of 18 named presets)")
+    print("OK: tooltip uses Farmer\'s Delight effect name/duration and respects its config")
     print("OK: pizza oven 400 ticks, smoker 600 ticks, furnace 1200 ticks")
     print("OK: smoker/furnace JSON & serializers match and retain pizza data")
     print("NOTE: static source/recipe verification; client/runtime tests still required")
