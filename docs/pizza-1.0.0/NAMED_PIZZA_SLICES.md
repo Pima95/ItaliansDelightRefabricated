@@ -4,6 +4,36 @@
 **Branch:** `feature/pizza-1.0.0`  
 **Stato:** implementato su GitHub; build automatica e collaudo client da verificare.
 
+## Revisione richiesta dall'autore: maggiore distinguibilità (21 ottobre 2026)
+
+**Feedback dopo test client:** la build e gli spicchi funzionano, ma molte icone della prima iterazione risultavano pressoché identiche, in particolare a dimensione inventario. Il confronto byte-per-byte già presente in CI dimostrava soltanto che i PNG fossero *diversi*, non che fossero **riconoscibili a 16×16 pixel**.
+
+**Modifica su GitHub:** sostituiti **tutti i 18 PNG variabili** (17 gusti riconosciuti + fallback), lavorando direttamente pixel per pixel senza ridimensionare alcuna immagine. Lo spicchio Margherita originale `margherita_slice.png` resta immutato e continua ad avere il modello originario. Per tutte le 18 varianti sono invariati, in RGBA, tutti i **218 pixel di bordo, silhouette e trasparenza**; solo 38 pixel interni vengono disegnati nuovamente.
+
+**Nuovo approccio grafico:** anziché distribuire 2–6 puntini sopra lo stesso impasto, ogni pizza presenta una grande silhouette di topping e una palette dominante caratteristica. Distinzioni deliberate:
+
+| Pizza | Motivo distintivo leggibile a 16×16 |
+| --- | --- |
+| Bianca / Rossa | Superficie crema-dorata senza topping / salsa rossa continua |
+| Caprese bianca / rossa | Mozzarella bianca con gruppi di pomodoro e grandi foglie verdi / stesso condimento su salsa rossa |
+| Quattro Formaggi bianca / rossa | Grandi zone giallo formaggio, crema e *venature blu-verdi* ben contrastanti / su salsa rossa |
+| Prosciutto crudo | Strisce e falde di prosciutto rosato, non rondelle |
+| Salame | Rondelle color bordeaux scuro e grasso bianco su mozzarella chiara |
+| Mortadella e Ricotta | Zona rosa predominante con piccoli accumuli bianchi di ricotta |
+| Guanciale e Pecorino | Fasce scure alternate a grasso chiaro, su salsa rossa |
+| Speck e Gorgonzola | Striature di speck scuro con ricche venature blu-verdi |
+| Salmone e Ricotta | Nastro di salmone arancio-rosato su crema chiara, basilico verde |
+| Salmone e Scamorza | Salmone arancione su scamorza affumicata ambrata |
+| Carne e Mozzarella | Grandi bocconi bruno scuro di carne su pomodoro con mozzarella chiara |
+| Zucca e Speck | Arancione di zucca predominante con striature scure e venature chiare |
+| Patate e Speck | Fondo patate giallo pallido con macchie di buccia brunita e strisce di speck |
+| Orto disponibile | Verde foglia predominante, tocchi rossi di pomodoro e arancioni di zucca |
+| Personalizzata | Motivo multicolore asimmetrico per un gusto non riconosciuto |
+
+**Nuova regressione automatica:** `.github/scripts/check_named_pizza_slices.py` ora esegue confronti su **ogni coppia delle 19 icone complessive**, includendo la Margherita originale e il fallback. Per ogni coppia sono richiesti **almeno 10 pixel di farcitura con differenza di colore RGB complessiva maggiore di 105**, su una superficie modificabile di 38 pixel. Questa verifica si aggiunge ai test di CRC, formato PNG 16×16, alpha binario, 218 pixel della sagoma intatti e nessuna texture identica.
+
+**Stato:** revisione pubblicata nel branch `feature/pizza-1.0.0`, compilazione Java 25 e nuova approvazione estetica dell'autore da verificare. Le meccaniche del taglio, le ricette, i dati salvati e le texture delle pizze intere già approvate non sono stati modificati.
+
 ## Conferme ricevute dall'autore
 
 L'autore ha confermato che **tutte le texture delle pizze intere sono approvate** e che **le 18 pizze riconosciute sono correttamente visibili nella scheda Creativa** dopo le revisioni dell'artwork 16×16. Non rielaborare ulteriormente texture crude e cotte approvate, bordi, salsa o condimenti senza una nuova richiesta.
