@@ -1,5 +1,17 @@
 # Revisione vincolante delle texture per pizze riconosciute — 20 ottobre 2026
 
+## Correzione cornicione approvata come specifica — 21 ottobre 2026
+
+**Problema segnalato dall'autore:** le texture del precedente lotto, crude e cotte, contenevano pixel apparentemente casuali lungo il bordo. Erano state generate conservando soltanto sagoma/alpha, ma modificando anche i colori del cornicione. La richiesta è usare direttamente una copia del vero PNG Margherita 16×16, senza alcun downscale, mantenendo il cornicione pulito e chiaro e cambiando esclusivamente la superficie della pizza.
+
+**Correzione eseguita direttamente sul branch:** sostituite tutte le **36 texture** `raw_pizza_<gusto>.png` / `cooked_pizza_<gusto>.png` per 17 gusti diversi dalla Margherita + 2 fallback. Sono realizzate modificando i **pixel nativi 16×16** delle due Margherite originali, senza interpolazioni o ridimensionamenti. I **62 pixel di cornicione per ogni texture** corrispondono *esattamente* ai rispettivi pixel originali RGBA, comprese ombre e luci. Gli altri 48 pixel opachi possono ricevere una base cromatica e piccoli gruppi contigui di topping, senza pattern casuali o simmetrie artificiali. Le texture Margherita approvate `raw_pizza.png` e `pizza_margherita.png` non sono state modificate. Le risorse `items/`, `models/item/`, i nomi e l'elenco Creativa restano invariati.
+
+**Test di regressione obbligatorio:** `.github/scripts/check_named_pizza_artwork.py` protegge già gli SHA Git dei PNG Margherita; ora confronta **RGB + alpha di tutti i 62 pixel del bordo**, in ogni versione cruda e cotta, contro l'immagine originale. Un cambiamento anche di un solo pixel del cornicione comporta errore CI. Il confronto della sola silhouette alpha, usato in precedenza, era insufficiente.
+
+**Verifica visuale dell'autore richiesta:** confrontare in Creativa Bianca e Rossa (nude/solo salsa), Margherita originale, Patate e Speck, Salame e Quattro Formaggi nelle versioni crude e cotte. Controllare il bordo anche in hotbar (dimensione effettiva, non solo zoom); confermare che non siano visibili pixel isolati o bordi sporcati. Non è stata cambiata la visualizzazione della pizza nel mondo né quella degli spicchi.
+
+**Regola permanente:** per ogni futura modifica ai PNG delle pizze, partire da `raw_pizza.png` o `pizza_margherita.png` originali ed editare solo i pixel della farcitura. Non basta conservare l'alpha: vanno conservati **tutti i pixel del cornicione byte-per-byte**. Nessun downscale di immagini più grandi.
+
 ## Decisioni approvate dall'autore
 1. **Prima ripristinare** il modello base `assets/italiansdelight/models/item/cooked_pizza.json` affinché punti nuovamente alla Margherita cotta originale `italiansdelight:item/pizza_margherita`. Eseguito in commit `e4ac32da2913befebe6aee9d0030095d31662919`.
 2. **Poi realizzare i 18 gusti attivi in DUE versioni**, cruda e cotta. I PNG `textures/item/raw_pizza.png` (Margherita cruda di riferimento) e `textures/item/pizza_margherita.png` (vecchia Margherita cotta approvata) **non possono essere sovrascritti**.
