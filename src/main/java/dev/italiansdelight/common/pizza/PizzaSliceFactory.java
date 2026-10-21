@@ -10,6 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
+import vectorwing.farmersdelight.common.FoodValues;
 
 /**
  * One edible slice for exactly one physical quarter of a baked pizza.
@@ -18,8 +19,14 @@ import net.minecraft.world.item.ItemStack;
  * from canonical ingredient types present on that same quarter. Each type
  * contributes once; each category may contribute at most twice (two different
  * ingredients). Nothing on the other three quarters affects this slice.
+ * Slices with at least 3 hunger grant the short Farmer's Delight Nourishment
+ * effect, independently of their recognized or dynamic pizza name.
  */
 public final class PizzaSliceFactory {
+    // A slice restores at most six hunger points, below a full Farmer's Delight meal.
+    // Bianca, Rossa and other minimally topped quarters must not grant Nourishment.
+    private static final int NOURISHMENT_MIN_HUNGER = 3;
+
     private PizzaSliceFactory() {
     }
 
@@ -28,7 +35,14 @@ public final class PizzaSliceFactory {
         ItemStack stack = new ItemStack(ModItems.PIZZA_SLICE);
         stack.set(ModDataComponents.PIZZA_SLICE_CONTENTS, slice);
         PizzaDisplayNames.nameSliceStack(stack, slice);
-        stack.set(DataComponents.FOOD, foodFor(slice));
+        FoodProperties food = foodFor(slice);
+        stack.set(DataComponents.FOOD, food);
+        // Same official Farmer's Delight consumable as our prepared pasta dishes.
+        // A separate effect is added only to substantial, freshly created slices.
+        if (food.nutrition() >= NOURISHMENT_MIN_HUNGER) {
+            stack.set(DataComponents.CONSUMABLE,
+                    FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        }
         return stack;
     }
 

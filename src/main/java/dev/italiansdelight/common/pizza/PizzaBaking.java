@@ -33,9 +33,9 @@ public final class PizzaBaking {
             ModRegistries.id("pizza_toppings/ricotta");
 
     public enum Oven {
-        PIZZA_OVEN(3), // 400 active ticks, 20 sec placeholder
-        SMOKER(2),     // 600 active ticks, 30 sec placeholder
-        FURNACE(1);    // 1200 active ticks, 60 sec placeholder
+        PIZZA_OVEN(3), // 400 active ticks, 20 sec FINAL
+        SMOKER(2),     // 600 active ticks, 30 sec FINAL
+        FURNACE(1);    // 1200 active ticks, 60 sec FINAL
 
         private final int unitsPerTick;
 

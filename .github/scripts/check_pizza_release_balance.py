@@ -134,6 +134,41 @@ def food_values(
     return min(6, hunger), min(6.0, sat)
 
 
+def audit_nourishment(recipes: dict[str, list[str]], catalogue: dict[str, str]) -> None:
+    """Dynamic short Nourishment belongs to substantial slices, not named recipes."""
+    source = (JAVA / "PizzaSliceFactory.java").read_text(encoding="utf-8")
+    requirements = [
+        "import vectorwing.farmersdelight.common.FoodValues;",
+        "private static final int NOURISHMENT_MIN_HUNGER = 3;",
+        "FoodProperties food = foodFor(slice);",
+        "stack.set(DataComponents.FOOD, food);",
+        "if (food.nutrition() >= NOURISHMENT_MIN_HUNGER)",
+        "stack.set(DataComponents.CONSUMABLE,",
+        "FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION",
+    ]
+    for expression in requirements:
+        require(expression in source, f"Pizza slice Nourishment changed: {expression}")
+    # Vanilla food component remains for generic bare pizza_slice stacks.
+    items = Path("src/main/java/dev/italiansdelight/common/registry/ModItems.java").read_text(encoding="utf-8")
+    require("PIZZA_SLICE = register(" in items and ".nutrition(1).saturationModifier(0.5f).build()" in items,
+            "Default pizza_slice must remain a plain edible item")
+    no_effect = {name for name, toppings in recipes.items()
+                 if food_values(toppings, catalogue)[0] < 3}
+    require(no_effect == {"bianca", "rossa"},
+            f"Incorrect Nourishment eligibility among 18 presets: {no_effect}")
+    for toppings, expected in [
+        ([], False),
+        (["tomato_sauce"], False),
+        (["mozzarella_slice"], False),
+        (["mozzarella_slice", "gorgonzola_wedge"], True),
+        (["mozzarella_slice", "gorgonzola_wedge", "provolone_slice"], True),
+        (["salame_slice"], True),
+        (["tomato_sauce", "mozzarella_slice", "basil"], True),
+    ]:
+        require((food_values(toppings, catalogue)[0] >= 3) is expected,
+                f"Wrong Nourishment threshold for {toppings}")
+
+
 def audit_baking() -> None:
     source = (JAVA / "PizzaBaking.java").read_text(encoding="utf-8")
     require("MAX_PROGRESS = 1_200" in source, "Pizza baking maximum changed")
@@ -208,10 +243,12 @@ def main() -> None:
     require(food_values(["mozzarella_slice", "salame_slice", "speck_slice",
                          "tomato_sauce", "tomato_slice"], catalogue) == (6, 6.0),
             "Six-point caps must apply to mixed-category custom pizza")
+    audit_nourishment(recipes, catalogue)
     audit_baking()
     print("OK: all 18 canonical pizza presets match updated per-slice nutrition")
     print("OK: max 2 DISTINCT canonical types per category, max 6 hunger/saturation")
     print("OK: duplicate types, old mozzarella and custom pizza categories checked")
+    print("OK: short Nourishment on newly created slices >=3 hunger (16 of 18 named presets)")
     print("OK: pizza oven 400 ticks, smoker 600 ticks, furnace 1200 ticks")
     print("OK: smoker/furnace JSON & serializers match and retain pizza data")
     print("NOTE: static source/recipe verification; client/runtime tests still required")
