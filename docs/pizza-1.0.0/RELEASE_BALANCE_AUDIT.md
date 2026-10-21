@@ -27,7 +27,7 @@ L'autore ha chiesto di controllare un accordo precedente: **«Voglio un sistema 
 
 **Questo paragrafo descrive una domanda storica ora risolta:** l'autore ha approvato il 21 ottobre 2026 un massimo di 2 contributi per categoria, ciascuno da un ingrediente canonico differente. Vedere [DYNAMIC_NUTRITION_STACKING.md](DYNAMIC_NUTRITION_STACKING.md).
 
-## 1. Valori di cottura ATTUALI (ancora placeholder)
+## 1. Valori di cottura DEFINITIVI (approvati il 21 ottobre 2026)
 
 | Metodo | Durata a 20 TPS | Tick attivi | Origine |
 | --- | ---: | ---: | --- |
@@ -37,7 +37,7 @@ L'autore ha chiesto di controllare un accordo precedente: **«Voglio un sistema 
 
 Il progresso è nella BlockEntity della macchina e **non nel singolo item pizza**. Estrarre una pizza cruda in corso di cottura azzera il progresso all'atto del successivo inserimento. La pizza cotta conserva il contenuto originale e i dati dei quarti; ciotole restitute per applicazione di topping cremoso/salsa originaria (se la relativa maschera è ancora attiva), **non per numero di quarti**. Il combustibile continua a consumarsi quando acceso, come vanilla.
 
-Questi tempi sono **provvisori** dalla specifica originale, non sono già stati accettati come tempi definitivi.
+**I tempi 20/30/60 secondi sono definitivi**, approvati il 21 ottobre 2026. Il codice era già coerente: nessuna modifica a velocità o durata è necessaria.
 
 ## 2. Nutrizione ATTUALE per uno spicchio cotto
 
@@ -85,7 +85,7 @@ Regole correnti, **massimo 2 contributi per categoria da ingredienti canonici di
 1. **Anomalia Quattro Formaggi risolta:** il vecchio valore (2 fame / 2,5 saturazione) era inferiore alla Margherita. Con la nuova regola generale a 2 contributi per categoria, Quattro Formaggi bianca passa a **3 fame / 4 saturazione**, senza eccezioni basate sul nome.
 2. Le pizze **Salame, Prosciutto, Guanciale, Carne, Zucca e Speck, Patate e Speck** arrivano spesso a **5 fame / 5,5 saturazione**, vicine al cap 6 anche con soli 3 ingredienti diversi: verificare se il costo degli ingredienti giustifica questa resa.
 3. Bianca (1) e Rossa (2) sono molto economiche; **la Rossa richiede salsa** e il costo reale deve tener conto dei recipienti recuperati in cottura.
-4. Erbe e spezie restano a zero. I latticini **differenti** ora possono contribuire due volte, non più di due; ingredienti canonici identici non si duplicano. Nessun effetto di stato aggiunto.
+4. Erbe e spezie non aumentano fame e saturazione. Latticini diversi possono contribuire fino a due volte. **Nourishment breve** si aggiunge solo agli spicchi con almeno 3 punti fame: non dipende dal nome del gusto, non modifica i limiti 6/6 e deve ancora essere collaudato in gioco.
 5. Il Pizza Oven attualmente completa una pizza in **un terzo** del tempo della fornace vanilla. Decidere se mantenere questo vantaggio, valutandone costo del blocco, combustibile e facilità di realizzazione.
 
 ## 4. Verifiche automatiche introdotte
@@ -100,7 +100,7 @@ Regole correnti, **massimo 2 contributi per categoria da ingredienti canonici di
 ## 5. Checklist Survival/multiplayer prima della release
 
 - [ ] **Pizze assortite:** quattro quarti con gusti differenti, compresa una Margherita. Cuocere con Pizza Oven e prelevare in ordine sparso: quattro spicchi diversi con contenuto, nome, modello e tooltip rispettivi.
-- [ ] **Nutrizione:** confrontare in Survival Bianca, Margherita, Quattro Formaggi, Salame e una pizza a quattro categorie; valori entro i cap e nessun effetto speciale.
+- [x] **Nutrizione:** l'autore ha confermato il superamento del collaudo di fame/saturazione e stacking il 21 ottobre 2026. Il nuovo effetto Nourishment è un test successivo ancora aperto.
 - [ ] **Tre forni:** input e risultato, tempi attivi reali, interruzione combustibile, reinserimento della pizza, ciotole restituite una volta, niente duplicazioni o alterazione della cottura vanilla di altri cibi.
 - [ ] **Pala per pizza:** piena/vuota, inserimento/estrazione rapida, `peel_cargo` e nomi/modelli conservati, nessuna perdita o duplicazione, posizionamento in prima e terza persona e attributi d'arma soltanto quando vuota.
 - [ ] **Mattarello:** verifica danno/velocità rispetto alla pala di legno, durabilità e stesura, e assenza del precedente crash `Components not bound yet`.
@@ -108,8 +108,8 @@ Regole correnti, **massimo 2 contributi per categoria da ingredienti canonici di
 - [ ] **Inventory pieno e rottura:** niente quinta fetta, conservazione delle quattro maschere, drop corretti se pizza cotta servita parzialmente.
 - [ ] **Persistenza/multiplayer:** salvataggio/rientro, chunk unload/reload, trasferimento item e pala tra giocatori, clic contemporanei sul medesimo quarto, gestione dei datapack esterni e ingredienti opzionali.
 - [ ] **Risorse e UX:** menù Creativa, JEI, le 18 icone intere e le 18 icone spicchi già approvate non devono cambiare.
-- [ ] **Bilanciamento:** discutere con l'autore valori definitivi di cottura, nutrizione e costo prima di toccare il gameplay.
+- [x] **Bilanciamento nutrizionale e tempi cottura:** formula dinamica testata dall'autore; 20/30/60 s dichiarati definitivi il 21 ottobre 2026. Altri costi/ricette rimangono separati.
 
 ## 6. Prossima decisione
 
-La revisione nutrizionale generale è stata **approvata e implementata** il 21 ottobre 2026: bonus originali, massimo 2 ingredienti canonici diversi per categoria. Il passo successivo è provarla in Survival e decidere separatamente se mantenere i tempi placeholder di cottura 20/30/60 secondi. Le texture approvate restano inalterate.
+La regola nutrizionale (massimo 2 tipi diversi per categoria, limiti 6/6) è stata approvata, implementata e verificata dall'autore il 21 ottobre 2026. I tempi di cottura 20/30/60 secondi sono definitivi. Il nuovo effetto Nourishment breve sulle fette con almeno 3 fame è stato pubblicato su GitHub ma attende il collaudo in-game. Texture e asset approvati restano invariati.

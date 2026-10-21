@@ -103,7 +103,7 @@ Il forno non deve continuare a cuocere una pizza dopo il 100%, perché **non dev
 - **GUI vanilla identica alla fornace:** tre slot, fiamma e freccia; quando la pizza parzialmente cotta è estratta la freccia si azzera, l'item resta crudo. Il risultato è una pizza cotta non ancora piazzabile, da testare visivamente quando esisterà il relativo blocco/tooltip.
 - GUI continua a funzionare per inserimento/estrazione senza pala; provare in multiplayer con piu' giocatori e nessuna duplicazione.
 
-## Durate di cottura — valori PLACEHOLDER
+## Durate di cottura — DEFINITIVE dal 21 ottobre 2026
 
 | Sistema | Tempo proposto |
 | --- | ---: |
@@ -111,7 +111,7 @@ Il forno non deve continuare a cuocere una pizza dopo il 100%, perché **non dev
 | Affumicatore vanilla | 30 secondi |
 | Fornace vanilla | 60 secondi |
 
-I **tempi 20/30/60 secondi sono placeholder**, non ancora bilanciati: i valori definitivi saranno decisi durante il rebalancing. **L'assenza di preriscaldamento e la gestione dell'energia del Pizza Oven sono invece confermate**, indipendentemente dai tempi.
+I tempi **20/30/60 secondi sono definitivi**, approvati dall'autore il 21 ottobre 2026. Restano confermati l'assenza di preriscaldamento e il comportamento del combustibile; non modificare questi valori senza nuovo accordo.
 
 ## Automazione hopper — CONFERMATA (12 ottobre 2026)
 

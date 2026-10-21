@@ -71,8 +71,18 @@ I valori si riferiscono a **nuovi spicchi** generati dopo l'aggiornamento, non a
 3. **Quattro Formaggi** bianca: **3 fame, 4 saturazione**; rossa: **4 fame, 4,5 saturazione**. Nessun incremento determinato dal nome.
 4. **Due proteine diverse** (salame + speck, senza altri topping): **5 fame, 6 saturazione**, con il tetto sulla saturazione. Il terzo ingrediente Proteine animali non aumenta quei valori.
 5. **Due vegetali diversi** (carota + patata a fette, senza altri topping): **3 fame, 2 saturazione**. Il terzo vegetale non aggiunge punti.
-6. **Fetta mista con 2 proteine, mozzarella, salsa e vegetali**: limiti separati **6 fame, 6 saturazione**, nessun effetto di stato.
+6. **Fetta mista con due proteine, mozzarella, salsa e vegetali:** cap **6 fame, 6 saturazione**. Dopo l'aggiunta Nourishment, lo spicchio con almeno 3 fame dovrà ricevere Nourishment breve, senza cambiare il valore nutritivo.
 7. Con `bacon` e `cooked_bacon` (o altra coppia canonica equivalente) riprovare la posa sul medesimo quarto: non deve duplicare lo stesso tipo; lo spicchio deve valere un singolo bonus proteine quando e' l'unico topping proteico.
 8. Con quattro quarti di composizione diversa, controllare che i quattro item ottenuti abbiano dati/nome/nutrizione indipendenti. Dopo salvataggio e riavvio non devono cambiare. Il valore di saturazione **non e' visibile direttamente** nella barra fame vanilla: verificarlo con strumenti/debug adeguati o test controllati, non soltanto contando i cosciotti.
 
 Questo e' un collaudo manuale in mondo reale, non un test gia' superato. La build automatica copre 18 preset e le combinazioni limite mediante lo script `.github/scripts/check_pizza_release_balance.py`.
+
+## Test F — Nourishment (nuovo test dopo il bilanciamento approvato)
+
+Usare **solo nuove fette cotte** create dopo il pull: gli ItemStack già salvati possono conservare il vecchio componente `CONSUMABLE`. Il precedente test dei punti fame/saturazione è superato; questo è un controllo aggiuntivo.
+
+- [ ] **Bianca** (1 fame), **Rossa** (2 fame) e **sola mozzarella** (2 fame): nessun effetto Nourishment.
+- [ ] **Margherita** (3 fame), **Quattro Formaggi bianca** (3 fame), **Salame** (5 fame): Nourishment di durata breve nella schermata effetti, nessun altro stato aggiunto.
+- [ ] Pizza personalizzata con **mozzarella + gorgonzola** (3 fame): Nourishment breve; un terzo latticino non incrementa il livello o la durata dell'effetto configurato.
+- [ ] Pizza assortita: ogni spicchio deve ricevere il suo risultato indipendentemente dagli altri quarti e dal nome.
+- [ ] Verificare valori fame/saturazione invariati (cap 6/6) e persistenza dopo riavvio, raccolta e trasferimento fra giocatori.
