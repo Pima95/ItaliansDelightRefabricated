@@ -33,7 +33,9 @@ public final class ModItemGroups {
             );
 
     public static final CreativeModeTab ITALIANS_DELIGHT_GROUP = FabricCreativeModeTab.builder()
-            .icon(() -> new ItemStack(ModItems.PASTA_WITH_TOMATO_SAUCE)) // Changes the creative tab icon
+            // The existing cooked_pizza model already uses the approved
+            // italiansdelight:item/pizza_margherita 16x16 sprite.
+            .icon(() -> new ItemStack(ModItems.COOKED_PIZZA))
             .title(Component.translatable("itemGroup.italiansdelight.main"))
             .displayItems((params, output) -> {
                 // A single complete tab, ordered by gameplay progression.

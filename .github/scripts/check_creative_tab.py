@@ -7,6 +7,7 @@ Technical block states without standalone item forms must stay hidden.
 from __future__ import annotations
 
 import re
+import json
 from pathlib import Path
 
 ROOT = Path("src/main/java/dev/italiansdelight/common")
@@ -59,6 +60,18 @@ def main() -> None:
             f"Missing: {sorted(expected - exposed)}; "
             f"unexpected: {sorted(exposed - expected)}"
         )
+
+    # Tab icon MUST reuse the existing approved cooked Margherita sprite.
+    if ".icon(() -> new ItemStack(ModItems.COOKED_PIZZA))" not in content:
+        raise ValueError("Creative tab icon must use cooked Margherita pizza")
+    model_path = Path("src/main/resources/assets/italiansdelight/models/item/cooked_pizza.json")
+    item_def_path = Path("src/main/resources/assets/italiansdelight/items/cooked_pizza.json")
+    model = json.loads(model_path.read_text(encoding="utf-8"))
+    definition = json.loads(item_def_path.read_text(encoding="utf-8"))
+    if model.get("textures", {}).get("layer0") != "italiansdelight:item/pizza_margherita":
+        raise ValueError("Creative icon no longer resolves to the approved Margherita texture")
+    if definition.get("model", {}).get("model") != "italiansdelight:item/cooked_pizza":
+        raise ValueError("Cooked pizza model binding changed unexpectedly")
 
     # Enforce stable browsing categories and three contiguous pizza families.
     # They intentionally reuse the same THREE registered Item IDs.

@@ -49,3 +49,18 @@ Un item di Pizza mista salvato **prima** dell'aggiornamento poteva ancora conser
 - [ ] Prelevare da una cassa una vecchia Pizza mista (item precedente al fix): icona Margherita dopo che entra nell'inventario.
 - [ ] Ripetere con una vecchia Pizza mista già caricata su una pala; trasporto e scarico preservano gli spicchi originali.
 - [ ] Verificare che una pizza uniforme personalizzata conservi `*_custom` e non venga trasformata in Margherita.
+
+
+## Icona della scheda (21 ottobre 2026)
+
+L'icona dell'unica scheda Creativa è ora **la Pizza Margherita cotta**.
+Il supplier di Fabric usa `new ItemStack(ModItems.COOKED_PIZZA)`, il cui
+modello originale `cooked_pizza` punta già alla texture approvata
+`italiansdelight:item/pizza_margherita` (16×16). Non sono stati introdotti
+nuovi item, copiati PNG o modificati nomi/ordine della scheda.
+
+Il controllo `.github/scripts/check_creative_tab.py` verifica sia il
+supplier dell'icona sia il collegamento JSON alla texture originale.
+
+- [ ] Verificare nel client che l'icona della scheda Italian's Delight sia
+  la Margherita cotta e che tutta la scheda resti invariata.
