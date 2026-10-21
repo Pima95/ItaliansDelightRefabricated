@@ -21,6 +21,19 @@ public final class PizzaCreativeSamples {
     private PizzaCreativeSamples() {
     }
 
+    /**
+     * One edible, fully data-bearing slice from an actual uniform pizza.
+     * The same recipe source is used for Creative whole and slice variants.
+     */
+    public static ItemStack createSlice(Set<Identifier> types) {
+        ItemStack whole = create(types, true);
+        PizzaItemData pizza = whole.get(ModDataComponents.PIZZA_CONTENTS);
+        if (pizza == null) {
+            throw new IllegalStateException("Missing pizza_contents on Creative example");
+        }
+        return PizzaSliceFactory.create(pizza, 0);
+    }
+
     public static ItemStack create(Set<Identifier> types, boolean cooked) {
         List<Identifier> sorted = types.stream()
                 .sorted(Comparator.comparing(Identifier::toString)).toList();
