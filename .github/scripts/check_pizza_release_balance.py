@@ -15,7 +15,7 @@ from pathlib import Path
 JAVA = Path("src/main/java/dev/italiansdelight/common/pizza")
 DATA = Path("src/main/resources/data/italiansdelight/recipe")
 
-# Approved CURRENT numerical snapshot, not a proposal for future balance.
+# Approved maximum 2 distinct ingredients per category (21 October 2026).
 # Form: pizza ID -> (hunger points per slice, saturation points per slice).
 EXPECTED = {
     "bianca": (1, 1.0),
@@ -23,19 +23,19 @@ EXPECTED = {
     "margherita": (3, 3.0),
     "caprese_rossa": (4, 3.5),
     "caprese_bianca": (3, 3.0),
-    "quattro_formaggi_bianca": (2, 2.5),
-    "quattro_formaggi_rossa": (3, 3.0),
+    "quattro_formaggi_bianca": (3, 4.0),
+    "quattro_formaggi_rossa": (4, 4.5),
     "prosciutto_crudo": (5, 5.5),
     "salame": (5, 5.5),
-    "mortadella_ricotta": (4, 5.0),
+    "mortadella_ricotta": (5, 6.0),
     "guanciale_pecorino_rossa": (5, 5.5),
-    "speck_gorgonzola": (4, 5.0),
-    "salmone_ricotta": (4, 5.0),
-    "salmone_scamorza": (4, 5.0),
+    "speck_gorgonzola": (5, 6.0),
+    "salmone_ricotta": (5, 6.0),
+    "salmone_scamorza": (5, 6.0),
     "carne_mozzarella": (5, 5.5),
     "zucca_speck": (5, 5.5),
     "patate_speck": (5, 5.5),
-    "orto_disponibile": (3, 3.0),
+    "orto_disponibile": (4, 3.5),
 }
 
 CATEGORY_BONUSES = {
@@ -88,7 +88,12 @@ def audit_food_algorithm() -> None:
     source = (JAVA / "PizzaSliceFactory.java").read_text(encoding="utf-8")
     # Guard the ACTUAL nutritional terms before deriving snapshot from category data.
     snippets = [
-        "EnumSet.noneOf(NutritionCategory.class)",
+        "EnumMap<NutritionCategory, Integer> counts = new EnumMap<>(NutritionCategory.class);",
+        "Set<Identifier> seenTypes = new HashSet<>();",
+        "if (!seenTypes.add(topping.canonicalId()))",
+        "counts.merge(type.nutritionCategory(), 1, Integer::sum)",
+        "int contributions = Math.min(2, counts.getOrDefault(category, 0));",
+        'Identifier.parse("italiansdelight:pizza_toppings/mozzarella_slice")',
         "int hunger = 1;",
         "float saturation = 1.0f;",
         "case DAIRY -> { hunger += 1; saturation += 1.5f; }",
@@ -100,18 +105,32 @@ def audit_food_algorithm() -> None:
         "hunger = Math.min(6, hunger);",
         "saturation = Math.min(6.0f, saturation);",
         ".saturationModifier(saturation / (2.0f * hunger))",
-        "categories.add(NutritionCategory.DAIRY);",
+        "counts.merge(NutritionCategory.DAIRY, 1, Integer::sum)",
     ]
     for snippet in snippets:
         require(snippet in source, f"Nutrition formula changed: {snippet!r}")
 
 
-def food_values(categories: set[str]) -> tuple[int, float]:
+def food_values(
+    canonical_items: list[str], catalogue: dict[str, str], legacy_mozzarella: bool = False
+) -> tuple[int, float]:
+    """Model Java semantics: distinct canonical item types, max two per category."""
+    counts: dict[str, int] = {}
+    seen_types = set(canonical_items)
+    for item in seen_types:
+        category = catalogue.get(item)
+        if category:
+            counts[category] = counts.get(category, 0) + 1
+
+    # Whole legacy mozzarella and modern mozzarella slice are the same cheese.
+    if legacy_mozzarella and "mozzarella_slice" not in seen_types:
+        counts["DAIRY"] = counts.get("DAIRY", 0) + 1
+
     hunger, sat = 1, 1.0  # Crust
-    for category in categories:
+    for category, number in counts.items():
         bonus_hunger, bonus_sat = CATEGORY_BONUSES[category]
-        hunger += bonus_hunger
-        sat += bonus_sat
+        hunger += min(2, number) * bonus_hunger
+        sat += min(2, number) * bonus_sat
     return min(6, hunger), min(6.0, sat)
 
 
@@ -164,17 +183,35 @@ def main() -> None:
     for name, items in recipes.items():
         missing = [item for item in items if item not in catalogue]
         require(not missing, f"{name} uses unknown topping types: {missing}")
-        categories = {catalogue[item] for item in items}
-        actual = food_values(categories)
+        actual = food_values(items, catalogue)
         require(actual == EXPECTED[name],
                 f"{name}: current snapshot {EXPECTED[name]}, got {actual}")
-    require(food_values(set(CATEGORY_BONUSES)) == (6, 6.0),
-            "Six-point caps are no longer applied")
-    require(food_values({"DAIRY"}) == (2, 2.5),
-            "Multiple cheeses should count as one dairy category")
+
+    # Identical or raw/cooked-alias canonical types never multiply the bonus.
+    mozzarella = ["mozzarella_slice"]
+    two_cheeses = ["mozzarella_slice", "gorgonzola_wedge"]
+    four_cheeses = ["mozzarella_slice", "gorgonzola_wedge",
+                    "provolone_slice", "grated_parmigiano_reggiano"]
+    require(food_values(mozzarella, catalogue) == (2, 2.5), "First dairy")
+    require(food_values(mozzarella + mozzarella, catalogue) == (2, 2.5),
+            "Duplicate canonical type must count once")
+    require(food_values(two_cheeses, catalogue) == (3, 4.0),
+            "Two distinct dairy types must stack")
+    require(food_values(four_cheeses, catalogue) == (3, 4.0),
+            "Third/fourth dairy must NOT stack")
+    require(food_values(["salame_slice", "speck_slice"], catalogue) == (5, 6.0),
+            "Two animal proteins must stack (with saturation cap)")
+    require(food_values(["mozzarella_slice"], catalogue, True) == (2, 2.5),
+            "Legacy plus same modern mozzarella must count once")
+    require(food_values(["gorgonzola_wedge"], catalogue, True) == (3, 4.0),
+            "Legacy whole mozzarella remains a distinct dairy contribution")
+    require(food_values(["mozzarella_slice", "salame_slice", "speck_slice",
+                         "tomato_sauce", "tomato_slice"], catalogue) == (6, 6.0),
+            "Six-point caps must apply to mixed-category custom pizza")
     audit_baking()
-    print("OK: all 18 canonical pizza presets have consistent current nutrition")
-    print("OK: categories counted once per slice; hunger/saturation capped at 6")
+    print("OK: all 18 canonical pizza presets match updated per-slice nutrition")
+    print("OK: max 2 DISTINCT canonical types per category, max 6 hunger/saturation")
+    print("OK: duplicate types, old mozzarella and custom pizza categories checked")
     print("OK: pizza oven 400 ticks, smoker 600 ticks, furnace 1200 ticks")
     print("OK: smoker/furnace JSON & serializers match and retain pizza data")
     print("NOTE: static source/recipe verification; client/runtime tests still required")
