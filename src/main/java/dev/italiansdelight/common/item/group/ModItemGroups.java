@@ -159,6 +159,11 @@ public final class ModItemGroups {
                     output.accept(PizzaCreativeSamples.create(preset.getKey(), false));
                     output.accept(PizzaCreativeSamples.create(preset.getKey(), true));
                 }
+                // Edible variants: each slice retains the topping component
+                // for that physical quarter, not the whole pizza's name.
+                for (var preset : PizzaDisplayNames.allPresets().entrySet()) {
+                    output.accept(PizzaCreativeSamples.createSlice(preset.getKey()));
+                }
 
                 // Prepared pasta dishes.
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
