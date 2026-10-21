@@ -2,7 +2,15 @@
 
 **Data decisione:** 21 ottobre 2026  
 **Branch:** `feature/pizza-1.0.0`  
-**Stato:** implementato su GitHub; build automatica e collaudo client da verificare.
+**Stato:** texture approvate dall'autore il 21 ottobre 2026; test funzionali estesi ancora da completare.
+
+## Approvazione finale delle texture — 21 ottobre 2026
+
+**Conferma dell'autore:** «Questi spicchi vanno bene, procediamo». La seconda serie delle **18 texture varianti degli spicchi** (17 gusti + fallback) è quindi **approvata in gioco per l'aspetto visivo e la distinguibilità**. La build funzionava già nei test precedenti. Anche le texture delle pizze intere erano già state approvate.
+
+**Vincolo permanente:** non sovrascrivere, ritoccare o rigenerare `margherita_slice.png`, gli altri `pizza_slice_*.png`, né le texture delle pizze intere crude/cotte approvate senza una nuova richiesta dell'autore. Le regole 16×16 RGBA, alpha binario, pixel di bordo conservati e modelli già assegnati restano operative.
+
+Questa conferma è *estetica*: non implica che siano già stati eseguiti tutti i test multiplayer, inventario pieno, persistenza, bilanciamento nutrizionale o compatibilità cross-mod della checklist sottostante. Si passa a **audit integrato e valutazione del bilanciamento per la Pizza 1.0.0** prima di modificare valori di gameplay. La regola di documentare su GitHub anche brevi decisioni rimane in vigore.
 
 ## Revisione richiesta dall'autore: maggiore distinguibilità (21 ottobre 2026)
 
