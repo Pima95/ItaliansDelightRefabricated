@@ -32,5 +32,7 @@ jobs:
         run: python3 .github/scripts/check_pizza_topping_textures.py
       - name: Verify named whole-pizza models and 16x16 textures
         run: python3 .github/scripts/check_named_pizza_artwork.py
+      - name: Verify named slice models and original slice crust
+        run: python3 .github/scripts/check_named_pizza_slices.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace
