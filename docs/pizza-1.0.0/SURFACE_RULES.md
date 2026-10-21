@@ -47,7 +47,7 @@ Le altre superfici particolari, incluse superfici parziali di mod esterne, non s
 - Il clic destro su una superficie approvata inserisce il `pizza_dough` nel blocco d'aria soprastante.
 - Il blocco impasto usa **lo stesso controllo** in `canSurvive`, quindi non può continuare a rimanere su un supporto che non è più consentito.
 - Non esistono più le varianti `lowered`: tutte le superfici permesse usano i modelli normali, senza spostamenti verticali.
-- La rottura del supporto sotto **palla/impasto non ancora steso completamente** puo' recuperare il Wheat Dough come nel prototipo; sotto una **pizza gia' formata** deve invece recuperare **l'item pizza integrale una sola volta**, con tutti i dati, senza ingredienti separati. Verificare in gioco.
+- **Recupero alla perdita del supporto — FIX PUBBLICATO, DA COLLAUDARE:** la pizza non viene più sostituita subito con aria. Il blocco programma un tick server che ricontrolla il sostegno e, se resta invalido, esegue la distruzione vanilla con loot della BlockEntity. La palla/base vuota restituisce Wheat Dough, la pizza cruda preparata restituisce un solo item completo; la pizza cotta intera restituisce la pizza, quella già servita soltanto gli spicchi rimasti. Nessun topping o recipiente extra. Verificare in Survival.
 - I cinque modelli 3D mantengono la geometria del prototipo e usano texture dedicate all'impasto crudo, documentate in [TEXTURES.md](TEXTURES.md).
 
 ## Checklist test manuale
@@ -63,3 +63,16 @@ Le altre superfici particolari, incluse superfici parziali di mod esterne, non s
 - [ ] La rottura del supporto non duplica ne' perde il Wheat Dough per l'impasto non ancora completamente steso e restituisce invece **un solo item pizza** completo quando la pizza e' gia' formata.
 
 I test qui sopra sono **ancora da svolgere dall'autore** sul client Minecraft 26.2 con la mod caricata.
+
+## Test mirato: rimozione del supporto (fix pre-release)
+
+Da eseguire in **Survival**, in un mondo di prova, con i drop vanilla abilitati.
+
+- [ ] Rompere il blocco sotto un impasto allo stadio 0–3 o una base stesa non divisa e senza condimenti: **esattamente un Wheat Dough**.
+- [ ] Rompere il supporto sotto una pizza cruda divisa o condita: **una raw_pizza** che mantiene composizione, maschere e orientamento, senza ingredienti separati.
+- [ ] Rompere il supporto sotto una pizza cotta ancora intera: **una cooked_pizza**, zero ciotole aggiuntive.
+- [ ] Dopo aver raccolto uno, due o tre spicchi, rompere il supporto: **solo** i tre, due o uno spicchi non ancora raccolti; nessun duplicato.
+- [ ] Ripetere su una botola superiore che passa da chiusa ad aperta e dopo un salvataggio/riavvio. Supporti nuovamente validi prima del tick programmato non devono provocare la rottura.
+- [ ] Verificare gli stessi dati dopo aver riposizionato la pizza; confrontare con la normale rottura del blocco pizza.
+
+Il test automatico `.github/scripts/check_pizza_support_drops.py` controlla gli invarianti nel codice, **non** simula eventi di Minecraft.

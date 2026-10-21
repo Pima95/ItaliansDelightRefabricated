@@ -97,3 +97,10 @@ Questo fix cambia **solo la visualizzazione** nell'inventario, non il consumo o 
 - [ ] Su `raw_pizza` e `cooked_pizza` non viene mostrato il tooltip del cibo.
 - [ ] Disattivando il tooltip degli effetti in configurazione Farmer's Delight, la descrizione dell'effetto scompare ma restano ingredienti e nome della fetta.
 - [ ] Vecchie fette con `CONSUMABLE` Nourishment già salvato: tooltip visibile senza ricreare lo stack. Verificare dopo riavvio/salvataggio.
+
+## Test H — rimozione del supporto (fix pre-release)
+
+- [ ] Pizza cotta intatta (4/4): rimuovere il blocco sottostante e raccogliere **una sola `cooked_pizza`** con i dati originali.
+- [ ] Pizza cotta parzialmente servita: dopo aver prelevato 1, 2 o 3 spicchi, togliere il supporto. Recuperare **solo** i 3/2/1 spicchi rimasti, ciascuno col proprio nome, condimenti, Food component e Nourishment.
+- [ ] Non deve cadere nessuna ciotola/ingrediente crudo in più, né ricomparire uno spicchio già raccolto.
+- [ ] Ripetere su un supporto speciale divenuto invalido (botola superiore aperta), con salvataggio/rientro e in multiplayer. I drop seguono le normali gamerule.

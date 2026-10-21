@@ -69,3 +69,11 @@ Testare in un **mondo di prova**, preferibilmente con backup, non su una partita
 ## Risultato atteso per questa fase
 
 **Un ciclo mondo → inventario → Q → inventario → mondo → salvataggio/caricamento che preserva la composizione quando la pizza e' ancora divisa o condita. Se la pizza torna intera e senza condimenti, il drop si converte in normale impasto.** Una volta verificato, si potrà collegare `PizzaCompositionOperations` ai clic con ingredienti approvati e implementare le regole di prelievo/rimborso senza rischiare di perdere ingredienti alla rottura del blocco.
+
+## Test supplementare — distruzione del supporto (fix pre-release)
+
+- [ ] Sotto impasto non ancora steso o base vuota riunita, rimuovere il sostegno: drop di un solo Wheat Dough.
+- [ ] Sotto pizza cruda con ingredienti/divisioni, rimuovere il sostegno: drop di un solo `raw_pizza` con componente `pizza_contents` completo, senza duplicazioni.
+- [ ] Riprovare il ciclo mondo → item → mondo e verificare che i quattro quarti e le applicazioni siano preservati.
+
+Questo intervento cambia solo il percorso di rottura per supporto diventato invalido: le esplosioni e i normali colpi sulla pizza mantengono le rispettive regole vanilla.

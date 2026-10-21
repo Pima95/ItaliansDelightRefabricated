@@ -113,3 +113,9 @@ Regole correnti, **massimo 2 contributi per categoria da ingredienti canonici di
 ## 6. Prossima decisione
 
 La regola nutrizionale (massimo 2 tipi diversi per categoria, limiti 6/6) è stata approvata, implementata e verificata dall'autore il 21 ottobre 2026. I tempi di cottura 20/30/60 secondi sono definitivi. Il nuovo effetto Nourishment breve sulle fette con almeno 3 fame è stato pubblicato su GitHub ma attende il collaudo in-game. Texture e asset approvati restano invariati.
+
+## Regressione pre-release: perdita del sostegno
+
+La rimozione di un supporto che rende invalido `pizza_dough` o `cooked_pizza` non deve eliminare il blocco direttamente con `Blocks.AIR`: tale percorso rischia di perdere i dati salvati nella BlockEntity. Il codice ora pianifica un tick server, verifica nuovamente `canSurvive` ed esegue `level.destroyBlock(pos, true)`, che usa il percorso vanilla dei drop.
+
+Risultati invariati: impasto senza condimenti → Wheat Dough; cruda preparata → `raw_pizza` completo; cotta intera → `cooked_pizza`; cotta già servita → solamente gli spicchi mancanti all'inventario. Verificare in Survival secondo [SURFACE_RULES.md](SURFACE_RULES.md). Nessun asset, effetto, tempo di cottura o ricetta modificati.

@@ -1,5 +1,13 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Fase pre-release — salvataggio dei drop alla perdita del supporto
+
+- [x] **Fix GitHub implementato:** `PizzaDoughBlock` e `CookedPizzaBlock` pianificano un tick sul server quando il sostegno diventa invalido, al posto di sostituirsi immediatamente con aria. La distruzione vanilla recupera i componenti della BlockEntity.
+- [x] **Controllo automatico introdotto** nella pipeline GitHub: `check_pizza_support_drops.py` verifica l'instradamento verso `destroyBlock` e i metodi di loot esistenti.
+- [ ] **Test Survival** ancora da effettuare: impasto, pizza cruda condìta o divisa, pizza cotta intera e residui degli spicchi. [Checklist](SURFACE_RULES.md).
+- [x] **Nourishment:** durata dell'effetto visibile nel tooltip, confermata dall'autore. Fame/saturazione e tempi di cottura restano invariati.
+
+
 ## 21 ottobre 2026 — Bilanciamento nutrizionale: stacking max 2 per categoria APPROVATO
 
 - [x] **Nuova decisione dell'autore:** mantenere i bonus originali, ma contarli **fino a 2 volte per categoria** quando lo stesso quarto contiene due ingredienti canonici *differenti*. Dal terzo ingrediente della medesima categoria non si ricevono altri bonus. Stesso ID canonico ripetuto (incluse varianti cruda/cotta) conta una sola volta; supporto mozzarella legacy senza duplicarla.
