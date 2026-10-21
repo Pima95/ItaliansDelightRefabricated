@@ -119,3 +119,15 @@ La regola nutrizionale (massimo 2 tipi diversi per categoria, limiti 6/6) è sta
 La rimozione di un supporto che rende invalido `pizza_dough` o `cooked_pizza` non deve eliminare il blocco direttamente con `Blocks.AIR`: tale percorso rischia di perdere i dati salvati nella BlockEntity. Il codice ora pianifica un tick server, verifica nuovamente `canSurvive` ed esegue `level.destroyBlock(pos, true)`, che usa il percorso vanilla dei drop.
 
 Risultati invariati: impasto senza condimenti → Wheat Dough; cruda preparata → `raw_pizza` completo; cotta intera → `cooked_pizza`; cotta già servita → solamente gli spicchi mancanti all'inventario. Verificare in Survival secondo [SURFACE_RULES.md](SURFACE_RULES.md). Nessun asset, effetto, tempo di cottura o ricetta modificati.
+
+## Compatibilità delle vecchie fette (pre-release 21 ottobre 2026)
+
+Gli spicchi già presenti nei salvataggi possono avere `DataComponents.FOOD` e `CONSUMABLE` precedenti al bilanciamento che conta **massimo due ingredienti canonici distinti per categoria**, fame/saturazione massime **6/6**, e Nourishment breve soltanto se fame **≥ 3**. Il nuovo `PizzaSliceFactory.refreshSavedSlice`, chiamato nel ticker di inventario di `PizzaNamedItem`, usa il **componente persistente del proprio quarto** per ripristinare le proprietà corrette:
+
+- Aggiorna FOOD soltanto se diverso dal valore calcolato oggi, senza ricreare l'item né alterare le applicazioni, il nome, il modello o il numero di fette.
+- Aggiunge Nourishment breve solo se la fetta attualmente ha almeno 3 fame; altrimenti rimuove l'eventuale vecchio Nourishment breve, ripristinando il consumabile vanilla dell'item.
+- Non tocca gli altri item né i dati della pizza intera; già al secondo inventario tick non scrive più componenti.
+
+**Verifica manuale:** conservare in una cassa (o in inventario) una fetta creata con una build precedente al bilanciamento, aggiornare la mod e prenderla nell'inventario; confrontare fame/effetto con una fetta appena generata dagli stessi ingredienti. Provare Bianca, Rossa, Margherita, Quattro Formaggi e una fetta personalizzata con tre latticini. Ripetere con due giocatori e dopo riavvio. Una fetta in una cassa non viene alterata fino al prelievo nel normale inventario, evitando scansioni di contenitori/chunk.
+
+Il controllo statico CI conferma il percorso di aggiornamento; il risultato in gioco rimane **da verificare**.

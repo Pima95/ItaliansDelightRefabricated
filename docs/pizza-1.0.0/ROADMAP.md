@@ -1,5 +1,13 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Pre-release — compatibilità delle vecchie fette nutrizionali
+
+- [x] Il nome e l'icona della scheda Creativa (Margherita cotta) sono stati verificati dall'autore in gioco; disposizione interna confermata funzionante.
+- [x] Le fette salvate prima del bilanciamento vengono aggiornate automaticamente, al primo tick nell'inventario, secondo le attuali regole fame/saturazione e Nourishment. Nessuna riscrittura continua degli stack o modifica agli ingredienti.
+- [x] Controllo statico CI sul percorso di migrazione del FOOD/CONSUMABLE e sulla separazione dagli aggiornamenti della Pizza mista.
+- [ ] Test in Survival con vecchi spicchi, reinserimento in inventario, Nourishment e rientro nel mondo. [Checklist](RELEASE_BALANCE_AUDIT.md).
+
+
 ## Scheda Creativa — riorganizzazione e Pizza mista
 
 - [x] Sempre **un'unica scheda** Italian's Delight, nessun nuovo ID item né blocco tecnico visibile. Categorie contigue: postazioni, 12 aging racks, strumenti, colture, ingredienti latticini, formaggi, salumi, pizze crude, pizze cotte, spicchi, piatti pronti.

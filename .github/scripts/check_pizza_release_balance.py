@@ -169,6 +169,30 @@ def audit_nourishment(recipes: dict[str, list[str]], catalogue: dict[str, str]) 
                 f"Wrong Nourishment threshold for {toppings}")
 
 
+def audit_saved_slice_compatibility() -> None:
+    """Old stack components must converge to the new dynamic rules without repeated writes."""
+    factory = (JAVA / "PizzaSliceFactory.java").read_text(encoding="utf-8")
+    named_item = Path("src/main/java/dev/italiansdelight/common/item/PizzaNamedItem.java").read_text(encoding="utf-8")
+    for expression in (
+        "public static boolean refreshSavedSlice(ItemStack stack)",
+        "if (!stack.is(ModItems.PIZZA_SLICE))",
+        "PizzaSliceData data = stack.get(ModDataComponents.PIZZA_SLICE_CONTENTS);",
+        "FoodProperties expectedFood = foodFor(data);",
+        "if (!expectedFood.equals(stack.get(DataComponents.FOOD)))",
+        "stack.set(DataComponents.FOOD, expectedFood);",
+        "if (expectedFood.nutrition() >= NOURISHMENT_MIN_HUNGER)",
+        "if (!nourishment.equals(currentConsumable))",
+        "stack.set(DataComponents.CONSUMABLE, nourishment);",
+        "else if (nourishment.equals(currentConsumable))",
+        "stack.remove(DataComponents.CONSUMABLE);",
+    ):
+        require(expression in factory, f"Legacy slice component migration changed: {expression}")
+    require("if (slice) {" in named_item
+            and "PizzaSliceFactory.refreshSavedSlice(stack);" in named_item
+            and "PizzaDisplayNames.refreshMixedItemModel(stack);" in named_item,
+            "Legacy slices and mixed whole pizzas must both be upgraded on inventory tick")
+
+
 def audit_nourishment_tooltip() -> None:
     """The pizza item uses the dependency's tooltip formatter, not hard-coded time."""
     item = Path("src/main/java/dev/italiansdelight/common/item/PizzaNamedItem.java").read_text(encoding="utf-8")
@@ -269,12 +293,14 @@ def main() -> None:
             "Six-point caps must apply to mixed-category custom pizza")
     audit_nourishment(recipes, catalogue)
     audit_nourishment_tooltip()
+    audit_saved_slice_compatibility()
     audit_baking()
     print("OK: all 18 canonical pizza presets match updated per-slice nutrition")
     print("OK: max 2 DISTINCT canonical types per category, max 6 hunger/saturation")
     print("OK: duplicate types, old mozzarella and custom pizza categories checked")
     print("OK: short Nourishment on newly created slices >=3 hunger (16 of 18 named presets)")
     print("OK: tooltip uses Farmer\'s Delight effect name/duration and respects its config")
+    print("OK: saved pizza slices refresh legacy food/consumable components idempotently")
     print("OK: pizza oven 400 ticks, smoker 600 ticks, furnace 1200 ticks")
     print("OK: smoker/furnace JSON & serializers match and retain pizza data")
     print("NOTE: static source/recipe verification; client/runtime tests still required")

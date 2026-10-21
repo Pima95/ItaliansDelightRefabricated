@@ -3,6 +3,7 @@ package dev.italiansdelight.common.item;
 import dev.italiansdelight.common.pizza.PizzaDisplayNames;
 import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.pizza.PizzaSliceData;
+import dev.italiansdelight.common.pizza.PizzaSliceFactory;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import java.util.function.Consumer;
 import net.minecraft.server.level.ServerLevel;
@@ -35,9 +36,12 @@ public final class PizzaNamedItem extends Item {
     public void inventoryTick(
             ItemStack stack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot
     ) {
-        // Upgrade old mixed pizzas with a saved "*_custom" ITEM_MODEL.
-        // No changes are performed after the first correction or to slices.
-        if (!slice) {
+        if (slice) {
+            // Saved pre-rebalance slices must use the SAME food stats and
+            // short Nourishment threshold as freshly served slices.
+            PizzaSliceFactory.refreshSavedSlice(stack);
+        } else {
+            // Upgrade old mixed pizzas with a saved "*_custom" ITEM_MODEL.
             PizzaDisplayNames.refreshMixedItemModel(stack);
         }
         super.inventoryTick(stack, level, owner, slot);

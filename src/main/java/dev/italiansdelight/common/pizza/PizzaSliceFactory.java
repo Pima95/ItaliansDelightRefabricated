@@ -46,6 +46,49 @@ public final class PizzaSliceFactory {
         return stack;
     }
 
+    /**
+     * Repair slices saved before the approved nutrition rebalance.
+     *
+     * The saved quarter data is authoritative, but old ItemStacks may still
+     * have older FOOD/CONSUMABLE components. Refresh them only when different;
+     * never replace the stack, its original toppings, name, count or model.
+     * Calling this on every player inventory tick is safe and idempotent.
+     *
+     * @return true only when an obsolete component was updated.
+     */
+    public static boolean refreshSavedSlice(ItemStack stack) {
+        if (!stack.is(ModItems.PIZZA_SLICE)) {
+            return false;
+        }
+        PizzaSliceData data = stack.get(ModDataComponents.PIZZA_SLICE_CONTENTS);
+        if (data == null) {
+            return false;
+        }
+
+        boolean changed = false;
+        FoodProperties expectedFood = foodFor(data);
+        if (!expectedFood.equals(stack.get(DataComponents.FOOD))) {
+            stack.set(DataComponents.FOOD, expectedFood);
+            changed = true;
+        }
+
+        var nourishment = FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION;
+        var currentConsumable = stack.get(DataComponents.CONSUMABLE);
+        if (expectedFood.nutrition() >= NOURISHMENT_MIN_HUNGER) {
+            if (!nourishment.equals(currentConsumable)) {
+                stack.set(DataComponents.CONSUMABLE, nourishment);
+                changed = true;
+            }
+        } else if (nourishment.equals(currentConsumable)) {
+            // An old slice may still carry Nourishment despite no longer
+            // reaching the hunger threshold. Restore the default vanilla
+            // edible-item consumable, rather than deleting eating behavior.
+            stack.remove(DataComponents.CONSUMABLE);
+            changed = true;
+        }
+        return changed;
+    }
+
     public static FoodProperties foodFor(PizzaSliceData slice) {
         // The user-approved balance (21 October 2026): use the existing
         // bonuses per category, but count up to TWO DIFFERENT canonical
