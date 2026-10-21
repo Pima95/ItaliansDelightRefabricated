@@ -1,5 +1,12 @@
 # Roadmap — Pizza Update 1.0.0
 
+## 21 ottobre 2026 — Revisione leggibilità delle texture degli spicchi
+
+- [x] **BUG VISIVO segnalato dall'autore:** gli spicchi erano visibili e il gioco compilava, ma molti gusti risultavano difficili da distinguere anche se tutti gli asset erano tecnicamente unici.
+- [x] **Ridisegno completo di 18 PNG spicchi (17 gusti + fallback):** palette dominanti e sagome dei condimenti realmente differenti (salame rotondo scuro, speck a strisce, salmone arancione, zucca arancione, orto verde, gorgonzola blu-verde, patate gialle, ecc.). La texture Margherita originale resta intatta e tutti i 218 pixel esterni alla farcitura sono preservati per ogni variante.
+- [x] **Regressione sulla percezione:** confronti di tutte le 171 coppie possibili fra 19 icone (inclusa Margherita); ogni coppia richiede almeno **10 pixel interni con differenza RGB significativa**, non solo byte diversi. Rimangono i controlli di CRC, alpha 0/255 e modello.
+- [ ] **COLLAUDO CLIENT:** confrontare le varianti nella hotbar a risoluzione nativa, prima di approvare la seconda iterazione delle texture. Nessuna modifica a food/data components, meccaniche, pizze intere o menù. [Specifiche e decisioni](NAMED_PIZZA_SLICES.md).
+
 ## 21 ottobre 2026 — Pizze intere approvate; texture spicchi implementate
 
 - [x] **CONFERMA ESPLICITA DELL'AUTORE:** le texture crude/cotte di tutte le 18 pizze riconosciute ora vanno bene, e tutte le varianti delle pizze intere sono visibili correttamente nel menu Creativa. **Questa fase grafica è approvata**: non modificare i PNG originali o i topping delle pizze intere senza nuova richiesta.
