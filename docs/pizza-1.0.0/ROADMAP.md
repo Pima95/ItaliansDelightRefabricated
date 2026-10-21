@@ -1,5 +1,11 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Aggiornamento 21 ottobre 2026 — mattarello con attributi pala di legno
+
+- [x] **Mattarello come arma leggera:** su richiesta dell'autore, `italiansdelight:rolling_pin` ora copia direttamente gli attributi d'attacco della **pala di legno vanilla** (`Items.WOODEN_SHOVEL`, `DataComponents.ATTRIBUTE_MODIFIERS`) senza hardcoding. **Restano 64 utilizzi** e la stesura/divisione dell'impasto mantiene il comportamento originale.
+- [ ] **Test in gioco:** verificare danno e velocità d'attacco nel tooltip rispetto alla pala di legno, consumo di durabilità quando si stende la pizza e comportamento invariato dei quarti; compilazione Java 25 da confermare sul nuovo commit. [Decisione e test](ROLLING_PIN_COMBAT.md).
+- [ ] **Texture pizza:** continua separatamente la verifica estetica delle icone crude/cotte; gli attributi del mattarello non modificano alcun PNG.
+
 ## Aggiornamento 21 ottobre 2026 — condimenti riconoscibili per gli item
 
 - [x] **Revisione condimenti delle 36 icone crude/cotte:** l'autore ha approvato il bordo della precedente versione ma rifiutato la farcitura (pixel casuali e gusti non identificabili). Il nuovo disegno utilizza motivi di ingredienti contigui e forme specifiche per ogni pizza: rondelle di salame, fettine di patata, nastri di speck e prosciutto, gorgonzola erborinato, foglie di basilico, salmone ecc. Nessun cornicione o texture Margherita modificato.
