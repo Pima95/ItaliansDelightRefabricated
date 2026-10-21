@@ -1,5 +1,11 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Aggiornamento 21 ottobre 2026 — cornicioni 16×16 definitivi (da collaudare)
+
+- [x] **Pixel art corretta direttamente dagli originali:** l'autore ha rifiutato il cornicione delle varianti crude/cotte per pixel casuali, segnalando che la sagoma alpha identica non è sufficiente. Tutti i 36 PNG sono stati rifatti *modificando direttamente* copie 16×16 di `raw_pizza.png` e `pizza_margherita.png`, senza downscale.
+- [x] **62 pixel di bordo per versione protetti:** ogni pixel RGBA che compone il cornicione corrisponde al PNG originale crudo o cotto; nessuna colorazione di fondo o topping può toccarli. Aggiunto test automatico che confronta esattamente tutti i pixel del bordo oltre alla maschera alpha. [Regola e checklist](NAMED_PIZZA_TEXTURE_REWORK.md).
+- [ ] **Validazione visiva dell'autore:** build CI da verificare sull'ultimo commit, poi confrontare in Creative/Hotbar il bordo della Margherita cruda/cotta con Bianca, Rossa, Patate e Speck e Quattro Formaggi. Finché non confermato, texture in revisione.
+
 ## Aggiornamento del 20 ottobre 2026 — ripristino e texture coerenti
 
 **Decisione correttiva dell'autore:** la pizza cotta generica torna a usare il PNG Margherita cotta approvato e tutte le texture dei gusti riconosciuti devono avere una coppia cruda/cotta costruita sulla stessa sagoma/prospettiva delle due vecchie Margherite. La prima serie con pizze rotonde dall'alto non rispettava il prompt 16×16 e non è più utilizzata. Il menù Creativa deve mostrare anche varianti dei gusti, non soltanto tre oggetti generici.
