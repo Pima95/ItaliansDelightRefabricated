@@ -26,7 +26,7 @@
 
 **Regola comune per i 17 gusti:** gli item `raw_pizza` e `cooked_pizza` rappresentano due fasi fisiche differenti, ma **mantengono volutamente lo stesso nome di gusto** (per esempio `Pizza Margherita`). Il singolo spicchio si chiama con la stessa identità di gusto tradotta nella lingua attiva. I nomi generici senza dati di composizione restano `Pizza cruda`, `Pizza cotta`, `Spicchio di pizza` (e le relative traduzioni inglesi). Il tooltip mostra gli ingredienti; lo stato di cottura resta nell'item e non modifica l'identità del gusto.
 
-**Nomi liberi / assortiti:** nessuna modifica alle formule `Pizza con ...`, `Spicchio con ...`, `Pizza assortita` o alle equivalenti inglesi, né alle regole di corrispondenza esatta dei quattro quarti.
+**Nomi liberi / misti:** nessuna modifica alle formule `Pizza con ...`, `Spicchio con ...`, `Pizza mista` o alle equivalenti inglesi, né alle regole di corrispondenza esatta dei quattro quarti.
 
 ### Controllo automatico delle traduzioni
 
@@ -57,10 +57,10 @@ Non è stato eseguito un build Java 25 nel runtime dell'assistente: segnalare il
 4. Per Bianca/Rossa le fette riportano `Spicchio di pizza bianca`/`Spicchio di pizza rossa`, con testi equivalenti in inglese.
 5. Aggiungere **un solo** speck a uno dei quarti della Margherita: la pizza intera **non** deve conservare il nome Margherita; i quarti senza speck possono invece continuare a generare `Spicchio di Margherita`.
 
-## Test 2 — Pizza assortita: ogni spicchio resta indipendente
+## Test 2 — Pizza mista: ogni spicchio resta indipendente
 
 1. Suddividere in quattro: quarto 1 Margherita, quarto 2 panna + speck, quarto 3 sola salsa di pomodoro, quarto 4 combinazione mozzarella + basilico.
-2. Nome pizza intera atteso **Pizza assortita**; nel tooltip devono comparire **Quarto 1: Margherita**, **Quarto 3: Rossa** e descrizioni complete per gli altri quarti.
+2. Nome pizza intera atteso **Pizza mista**; nel tooltip devono comparire **Quarto 1: Margherita**, **Quarto 3: Rossa** e descrizioni complete per gli altri quarti.
 3. Dopo la cottura, ottenere i quattro spicchi in ordine casuale: nomi `Spicchio di Margherita`, `Spicchio con Panna e Speck` (ordine degli ingredienti per ID), `Spicchio di pizza rossa`, `Spicchio con ...`. Nessun ingrediente dei quarti vicini nel tooltip.
 4. Rompere una pizza già servita per due quarti: soltanto le altre due fette sono droppate, ognuna con nome e composizione propri.
 
@@ -69,7 +69,7 @@ Non è stato eseguito un build Java 25 nel runtime dell'assistente: segnalare il
 1. Preparare una pizza uniforme con una **combinazione non approvata** (per esempio mozzarella e speck): nome `Pizza con ...`, non uno dei gusti NO della tabella trasformato in preset fisso.
 2. Preparare una pizza uniforme con **4–6 topping differenti** ammessi per quarto: nome abbreviato con **primi due ingredienti + conteggio degli altri**, tooltip `Ingredienti:` con **tutti** gli ingredienti.
 3. Variare l'ordine di inserimento, tagliare e riunire: nome e ordine della lista non devono cambiare a parità di composizione.
-4. Preparare una pizza con un quarto aggiuntivo differente: deve chiamarsi `Pizza assortita` anche se gli altri tre quarti sono un gusto riconosciuto.
+4. Preparare una pizza con un quarto aggiuntivo differente: deve chiamarsi `Pizza mista` anche se gli altri tre quarti sono un gusto riconosciuto.
 
 ## Test 4 — Equivalenze, esclusioni, compatibilità
 
@@ -91,7 +91,7 @@ Non è stato eseguito un build Java 25 nel runtime dell'assistente: segnalare il
 
 - [ ] `gradlew.bat clean build` passa su Java 25.
 - [ ] Nomi fissi solo per i gusti approvati e componibili.
-- [ ] Pizza assortita e spicchi indipendenti funzionano.
+- [ ] Pizza mista e spicchi indipendenti funzionano.
 - [ ] Nomi dinamici e tooltip completi funzionano.
 - [ ] Traduzioni IT/EN, equivalenze e salvataggi funzionano.
 - [ ] Nessuna regressione a rendering, fame, cottura e rimborsi.

@@ -122,6 +122,14 @@ def assert_model(name: str, expected_texture: str) -> None:
 
 def main() -> None:
     src = JAVA.read_text(encoding="utf-8")
+    # The stable internal translation key must resolve to the approved user-facing name.
+    # Do not rename the key: naming logic and existing data must stay unchanged.
+    if 'Component.translatable(PREFIX + "assorted")' not in src:
+        raise ValueError("Mixed pizza name must still use the stable translation key")
+    for locale, expected in (("it_it", "Pizza mista"), ("en_us", "Mixed Pizza")):
+        names = json.loads((ASSETS / "lang" / (locale + ".json")).read_text(encoding="utf-8"))
+        if names.get("pizza.italiansdelight.assorted") != expected:
+            raise ValueError(f"{locale}: mixed pizza name must be {expected!r}")
     presets = re.findall(r'add\(presets,\s*"([^"]+)"', src)
     if len(presets) != 18 or len(set(presets)) != 18:
         raise ValueError(f"Expected 18 distinct active pizza presets, got {presets}")
@@ -209,6 +217,7 @@ def main() -> None:
     print("OK: original Margherita assets unchanged, silhouettes and 62 crust RGB pixels preserved in every variant")
     print("OK: distinct per-preset raw/cooked pixel art, no duplicate named/fallback sprites")
     print("OK: all models, item definitions and real Creative variants registered")
+    print("OK: mixed-pizza inventory name translated as Pizza mista / Mixed Pizza")
 
 
 if __name__ == "__main__":

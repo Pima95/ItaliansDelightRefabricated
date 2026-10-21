@@ -220,7 +220,7 @@ public final class PizzaDisplayNames {
 
     /**
      * Match a slice using ONLY the saved ingredients from its own quarter.
-     * A Margherita quarter from an assorted pizza still gets Margherita art,
+     * A Margherita quarter from a mixed pizza still gets Margherita art,
      * independent of the names/models of the other three quarters.
      */
     public static String slicePresetId(PizzaSliceData slice) {
