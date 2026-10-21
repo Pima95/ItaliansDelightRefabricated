@@ -36,5 +36,7 @@ jobs:
         run: python3 .github/scripts/check_named_pizza_slices.py
       - name: Audit pizza nutrition and baking consistency
         run: python3 .github/scripts/check_pizza_release_balance.py
+      - name: Verify pizza support-loss drops preserve data
+        run: python3 .github/scripts/check_pizza_support_drops.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace

@@ -13,6 +13,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -119,9 +119,20 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
                                      BlockPos pos, Direction direction, BlockPos neighborPos,
                                      BlockState neighborState, RandomSource random) {
         if (direction == Direction.DOWN && !canSurvive(state, level, pos)) {
-            return Blocks.AIR.defaultBlockState();
+            // Replacing the block with AIR here would bypass getDrops and
+            // discard the BlockEntity containing the complete pizza recipe.
+            ticks.scheduleTick(pos, this, 1);
         }
         return super.updateShape(state, level, ticks, pos, direction, neighborPos, neighborState, random);
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!canSurvive(state, level, pos)) {
+            // Vanilla destruction invokes getDrops while the composition is
+            // still saved. It also respects the usual loot/game rules.
+            level.destroyBlock(pos, true);
+        }
     }
 
     /**

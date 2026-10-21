@@ -25,7 +25,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -143,10 +142,21 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
             BlockState neighborState, RandomSource random
     ) {
         if (direction == Direction.DOWN && !canSurvive(state, level, pos)) {
-            return Blocks.AIR.defaultBlockState();
+            // Avoid immediate AIR replacement, which loses saved quarters
+            // without going through this block's composition-aware getDrops.
+            ticks.scheduleTick(pos, this, 1);
         }
         return super.updateShape(
                 state, level, ticks, pos, direction, neighborPos, neighborState, random);
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!canSurvive(state, level, pos)) {
+            // A full pizza drops as one item; a served pizza drops only its
+            // remaining slices. The block entity is still present here.
+            level.destroyBlock(pos, true);
+        }
     }
 
     @Override
