@@ -218,9 +218,25 @@ public final class PizzaDisplayNames {
         return Component.translatable(PREFIX + "with_whole", shortIngredients(first));
     }
 
+    /**
+     * Match a slice using ONLY the saved ingredients from its own quarter.
+     * A Margherita quarter from an assorted pizza still gets Margherita art,
+     * independent of the names/models of the other three quarters.
+     */
+    public static String slicePresetId(PizzaSliceData slice) {
+        return PRESETS.get(quarter(slice));
+    }
+
+    private static Identifier sliceItemModel(PizzaSliceData slice) {
+        String id = slicePresetId(slice);
+        // Preserve the original approved 16x16 Margherita slice unchanged.
+        return ModRegistries.id("margherita".equals(id)
+                ? "pizza_slice" : "pizza_slice_" + (id == null ? "custom" : id));
+    }
+
     public static Component sliceName(PizzaSliceData slice) {
         Set<Identifier> types = quarter(slice);
-        String id = PRESETS.get(types);
+        String id = slicePresetId(slice);
         if ("bianca".equals(id)) {
             return Component.translatable(PREFIX + "slice_bianca");
         }
@@ -252,6 +268,11 @@ public final class PizzaDisplayNames {
 
     public static void nameSliceStack(ItemStack stack, PizzaSliceData data) {
         stack.set(DataComponents.ITEM_NAME, sliceName(data));
+        if (stack.is(ModItems.PIZZA_SLICE)) {
+            // ITEM_MODEL is saved and synchronized on the real ItemStack.
+            // Never derive it from localized names or from the whole pizza.
+            stack.set(DataComponents.ITEM_MODEL, sliceItemModel(data));
+        }
     }
 
     public static void appendWholeTooltip(PizzaItemData whole, Consumer<Component> lines) {
