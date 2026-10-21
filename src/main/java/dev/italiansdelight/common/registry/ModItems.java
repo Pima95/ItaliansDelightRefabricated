@@ -110,15 +110,21 @@ public final class ModItems {
                 new Item.Properties().stacksTo(1)
                         .attributes(PizzaPeelItem.EMPTY_PEEL_WEAPON_ATTRIBUTES));
 
-        // Pizza 1.0.0: rolling pin, 64 uses like the vanilla brush.
-        // Crafting recipe and a dedicated texture are intentionally deferred.
+        // Pizza 1.0.0: 64 pizza-stretching uses, plus exactly the same
+        // attack damage and attack speed as a VANILLA wooden shovel.
+        // Copy its registered attribute component instead of hardcoding
+        // numbers or giving the pin a shovel's block-mining behavior.
+        // The pizza interactions (and their durability cost) are unchanged.
         public static final ResourceKey<Item> ROLLING_PIN_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("rolling_pin"));
 
         public static final Item ROLLING_PIN = register(
                 ROLLING_PIN_KEY,
-                new Item.Properties().durability(64));
+                new Item.Properties()
+                        .durability(64)
+                        .attributes(Items.WOODEN_SHOVEL.getDefaultInstance()
+                                .get(DataComponents.ATTRIBUTE_MODIFIERS)));
 
         // Pasta with tomato sauce
         public static final ResourceKey<Item> PASTA_WITH_TOMATO_SAUCE_KEY = ResourceKey.create(
