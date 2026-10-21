@@ -34,6 +34,34 @@ public final class PizzaCreativeSamples {
         return PizzaSliceFactory.create(pizza, 0);
     }
 
+    /**
+     * Genuine four-flavor sample (Margherita, Salame, Rossa, Quattro Formaggi).
+     * Each original topping is stored on exactly one physical quarter, with
+     * valid sequence IDs and refund provenance. This showcases "Pizza mista"
+     * and its approved Margherita icon directly in Creative.
+     */
+    public static ItemStack createMixed(boolean cooked) {
+        String[] flavors = {"margherita", "salame", "rossa", "quattro_formaggi_bianca"};
+        List<PizzaToppingApplication> applications = new ArrayList<>();
+        long nextId = 1;
+        for (int quarter = 0; quarter < flavors.length; quarter++) {
+            final String flavor = flavors[quarter];
+            Set<Identifier> types = PizzaDisplayNames.allPresets().entrySet().stream()
+                    .filter(entry -> entry.getValue().equals(flavor))
+                    .map(java.util.Map.Entry::getKey)
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException(
+                            "Missing mixed pizza Creative preset: " + flavor));
+            for (Identifier canonicalId : types.stream()
+                    .sorted(Comparator.comparing(Identifier::toString)).toList()) {
+                int mask = 1 << quarter;
+                applications.add(new PizzaToppingApplication(
+                        nextId++, canonicalId, nativeSource(canonicalId), mask, mask));
+            }
+        }
+        return createStack(applications, nextId, cooked);
+    }
+
     public static ItemStack create(Set<Identifier> types, boolean cooked) {
         List<Identifier> sorted = types.stream()
                 .sorted(Comparator.comparing(Identifier::toString)).toList();
@@ -41,21 +69,26 @@ public final class PizzaCreativeSamples {
         long nextId = 1;
 
         for (Identifier canonicalId : sorted) {
-            Identifier nativeId = PizzaToppingCatalog.nativeItems().entrySet().stream()
-                    .filter(entry -> entry.getValue().id().equals(canonicalId))
-                    .map(java.util.Map.Entry::getKey)
-                    .sorted(Comparator.comparing(Identifier::toString))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalStateException(
-                            "No native pizza item for Creative sample: " + canonicalId));
-
-            // Source Stack must be the real topping item for the same
-            // exact LIFO refund behavior as a pizza made in survival.
-            ItemStack source = new ItemStack(BuiltInRegistries.ITEM.getValue(nativeId));
             applications.add(new PizzaToppingApplication(
-                    nextId++, canonicalId, source, 0b1111, 0b1111));
+                    nextId++, canonicalId, nativeSource(canonicalId), 0b1111, 0b1111));
         }
+        return createStack(applications, nextId, cooked);
+    }
 
+    private static ItemStack nativeSource(Identifier canonicalId) {
+        Identifier nativeId = PizzaToppingCatalog.nativeItems().entrySet().stream()
+                .filter(entry -> entry.getValue().id().equals(canonicalId))
+                .map(java.util.Map.Entry::getKey)
+                .sorted(Comparator.comparing(Identifier::toString))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException(
+                        "No native pizza item for Creative sample: " + canonicalId));
+        return new ItemStack(BuiltInRegistries.ITEM.getValue(nativeId));
+    }
+
+    private static ItemStack createStack(
+            List<PizzaToppingApplication> applications, long nextId, boolean cooked
+    ) {
         PizzaComposition composition = new PizzaComposition(
                 PizzaComposition.FORMAT_VERSION, 0, "north", nextId,
                 0x14A11A5L, applications);

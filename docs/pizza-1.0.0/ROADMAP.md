@@ -1,5 +1,13 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Scheda Creativa — riorganizzazione e Pizza mista
+
+- [x] Sempre **un'unica scheda** Italian's Delight, nessun nuovo ID item né blocco tecnico visibile. Categorie contigue: postazioni, 12 aging racks, strumenti, colture, ingredienti latticini, formaggi, salumi, pizze crude, pizze cotte, spicchi, piatti pronti.
+- [x] **Tutti i 18 gusti** conservati per ciascuna delle tre fasi (cruda/cotta/spicchio); aggiunti due veri ItemStack **Pizza mista cruda/cotta** con quattro quarti diversi e texture Margherita, senza alterare gli spicchi.
+- [x] Verifica automatica numero item registrati, assenza duplicati, categorie contigue, gruppi delle pizze e campioni misti.
+- [ ] Test visivo in Minecraft: ordine nella scheda, campioni Pizza mista con dati di quattro gusti reali, nessun elemento mancante o duplicato. [Guida](CREATIVE_INVENTORY_ORDER.md).
+
+
 ## Correzione BUG-003 — drop formaggi e salumi quando si rompe il supporto
 
 - [x] Blocchi di stagionatura a terra e uncini da soffitto aggiornati a distruzione server differita con loot vanilla. L'uncino conserva il formaggio/salume appeso e libera lo spazio tecnico riservato.

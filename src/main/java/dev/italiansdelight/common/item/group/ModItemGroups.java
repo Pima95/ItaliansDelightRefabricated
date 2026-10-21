@@ -40,17 +40,13 @@ public final class ModItemGroups {
                 // No internal-only blocks or new item registry entries.
                 // Distinct data-bearing pizza stacks intentionally reuse
                 // raw_pizza/cooked_pizza, not fake individual item IDs.
-                // Pizza equipment — keep workstations and tools at the top.
-                output.accept(ModBlocks.PIZZA_OVEN);
-                output.accept(ModItems.ROLLING_PIN);
-                output.accept(ModItems.PIZZA_PEEL);
-
-                // Cheese-making — workstations and hand tools.
+                // WORKSTATIONS: preparation blocks first, followed by all
+                // 12 wooden rack variants (no non-obtainable technical blocks).
                 output.accept(ModBlocks.CHEESE_VAT);
                 output.accept(ModBlocks.CHEESE_HOOK);
-                output.accept(ModItems.CHEESE_GRATER);
+                output.accept(ModBlocks.PIZZA_OVEN);
 
-                // Cheese aging racks — keep wood types together.
+                // Aging racks — all wood types stay together.
                 output.accept(ModBlocks.OAK_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.SPRUCE_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.BIRCH_CHEESE_AGING_RACK);
@@ -64,7 +60,12 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CRIMSON_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);
 
-                // Crops, herbs, salt and prepared vegetables.
+                // TOOLS: separate them from placeable machinery.
+                output.accept(ModItems.CHEESE_GRATER);
+                output.accept(ModItems.ROLLING_PIN);
+                output.accept(ModItems.PIZZA_PEEL);
+
+                // CROPS AND PREPARED VEGETABLES.
                 output.accept(ModBlocks.CARDOON);
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
@@ -73,7 +74,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.CARROT_SLICE);
                 output.accept(ModItems.POTATO_SLICE);
 
-                // Milk, whey and cheese-production ingredients.
+                // MILK, CULTURES AND CHEESE-PRODUCTION INGREDIENTS.
                 output.accept(ModItems.SHEEP_MILK_BUCKET);
                 output.accept(ModItems.SHEEP_MILK_BOTTLE);
                 output.accept(ModItems.WHEY_BUCKET);
@@ -84,7 +85,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.BLUE_MOLD_CULTURE);
                 output.accept(ModItems.APPLE_CIDER_VINEGAR);
 
-                // Fresh dairy products.
+                // CHEESES: fresh products followed by each family's stages.
                 output.accept(ModItems.MOZZARELLA);
                 output.accept(ModItems.MOZZARELLA_SLICE);
                 output.accept(ModItems.BOCCONCINO);
@@ -121,7 +122,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.SCAMORZA_SLICE);
                 output.accept(ModItems.SMOKED_SCAMORZA_SLICE);
 
-                // Cured meats — preparation stages stay beside finished slices.
+                // CURED MEATS: every preparation and its finished slices stay
+                // adjacent for quick Creative testing.
                 output.accept(ModItems.SALTED_HAM);
                 output.accept(ModItems.PROSCIUTTO_CRUDO);
                 output.accept(ModItems.PROSCIUTTO_CRUDO_SLICE);
@@ -148,31 +150,36 @@ public final class ModItemGroups {
                 output.accept(ModItems.SPECK);
                 output.accept(ModItems.SPECK_SLICE);
 
-                // Pizzas — between salumi and ready meals, as approved.
-                // Generic stacks stay available. The next 36 stacks are real
-                // 4-quarter pizzas with genuine topping components: one raw
-                // and one cooked sample per each of the 18 active presets.
+                // RAW PIZZAS: generic first, then all 18 named preparations
+                // and one genuine four-flavor Pizza mista sample.
                 output.accept(ModItems.RAW_PIZZA);
-                output.accept(ModItems.COOKED_PIZZA);
-                output.accept(ModItems.PIZZA_SLICE);
                 for (var preset : PizzaDisplayNames.allPresets().entrySet()) {
                     output.accept(PizzaCreativeSamples.create(preset.getKey(), false));
+                }
+                output.accept(PizzaCreativeSamples.createMixed(false));
+
+                // COOKED PIZZAS: same taste order, then cooked Pizza mista.
+                output.accept(ModItems.COOKED_PIZZA);
+                for (var preset : PizzaDisplayNames.allPresets().entrySet()) {
                     output.accept(PizzaCreativeSamples.create(preset.getKey(), true));
                 }
-                // Edible variants: each slice retains the topping component
-                // for that physical quarter, not the whole pizza's name.
+                output.accept(PizzaCreativeSamples.createMixed(true));
+
+                // EDIBLE SLICES: each sample carries its own quarter contents,
+                // correct name, nutrition, effect, and approved 16x16 sprite.
+                output.accept(ModItems.PIZZA_SLICE);
                 for (var preset : PizzaDisplayNames.allPresets().entrySet()) {
                     output.accept(PizzaCreativeSamples.createSlice(preset.getKey()));
                 }
 
-                // Prepared pasta dishes.
+                // PREPARED DISHES — pasta recipes first.
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.PASTA_ALLA_CARBONARA);
                 output.accept(ModItems.PASTA_ALLA_GRICIA);
                 output.accept(ModItems.PASTA_ALL_AMATRICIANA);
                 output.accept(ModItems.PASTA_WITH_SPECK_AND_GORGONZOLA);
 
-                // Prepared risottos and cold dishes.
+                // PREPARED DISHES — risottos and cold dishes.
                 output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.RISOTTO_WITH_MUSHROOM);
                 output.accept(ModItems.RISOTTO_WITH_PARMIGIANO);

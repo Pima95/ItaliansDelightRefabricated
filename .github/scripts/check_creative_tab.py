@@ -60,6 +60,29 @@ def main() -> None:
             f"unexpected: {sorted(exposed - expected)}"
         )
 
+    # Enforce stable browsing categories and three contiguous pizza families.
+    # They intentionally reuse the same THREE registered Item IDs.
+    markers = [
+        "// WORKSTATIONS:", "// TOOLS:", "// CROPS AND PREPARED VEGETABLES.",
+        "// MILK, CULTURES AND CHEESE-PRODUCTION INGREDIENTS.",
+        "// CHEESES:", "// CURED MEATS:", "// RAW PIZZAS:",
+        "// COOKED PIZZAS:", "// EDIBLE SLICES:", "// PREPARED DISHES",
+    ]
+    offsets = [content.find(marker) for marker in markers]
+    if min(offsets) < 0 or offsets != sorted(offsets) or len(set(offsets)) != len(offsets):
+        raise ValueError("Creative tab categories must stay contiguous and ordered")
+
+    for expected in (
+        "output.accept(PizzaCreativeSamples.createMixed(false));",
+        "output.accept(PizzaCreativeSamples.createMixed(true));",
+        "output.accept(PizzaCreativeSamples.create(preset.getKey(), false));",
+        "output.accept(PizzaCreativeSamples.create(preset.getKey(), true));",
+        "output.accept(PizzaCreativeSamples.createSlice(preset.getKey()));",
+    ):
+        if content.count(expected) != 1:
+            raise ValueError(f"Missing/duplicate Creative pizza family: {expected}")
+    if content.count("PizzaDisplayNames.allPresets().entrySet()") != 3:
+        raise ValueError("Creative must enumerate the same 18 presets for all 3 pizza stages")
     # Only a single tab is intended; splitting it should be an intentional,
     # separately reviewed design decision rather than a silent regression.
     if content.count(".displayItems(") != 1:
@@ -69,6 +92,8 @@ def main() -> None:
         f"{len(registered_items)} registered items and "
         f"{len(registered_blocks) - len(INTERNAL_BLOCKS)} public blocks"
     )
+    print("OK: production categories and raw/cooked/slice pizza groups ordered")
+    print("OK: raw + cooked Pizza mista examples use original data-bearing stacks")
 
 
 if __name__ == "__main__":
