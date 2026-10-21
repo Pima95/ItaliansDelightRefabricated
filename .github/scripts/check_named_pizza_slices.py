@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from itertools import combinations
 import struct
 import zlib
 from pathlib import Path
@@ -146,6 +147,7 @@ def main() -> None:
         raise ValueError("Expected 18 canonical presets, without Principessa")
     expected = [id for id in named if id != "margherita"] + ["custom"]
     hashes = {original}
+    appearances = {"margherita": original}
     for taste in expected:
         item = "pizza_slice_" + taste
         model(item, item)
@@ -161,8 +163,31 @@ def main() -> None:
         if texture in hashes:
             raise ValueError(f"Duplicate named slice artwork: {item}")
         hashes.add(texture)
+        appearances[taste] = texture
     if len(hashes) != 19:
         raise ValueError("Expected 18 named variants and a neutral fallback")
+
+    # Matching only byte-for-byte misses the actual defect reported in game:
+    # two slices may differ at three or four pixels but look identical in
+    # hotbar. Require a substantial, plainly visible color change on at
+    # least ten of the 38 editable surface pixels for EVERY pair.
+    minimum_visual_difference = 10
+    for (name_a, art_a), (name_b, art_b) in combinations(appearances.items(), 2):
+        changed = 0
+        for x, y in SURFACE:
+            pos = (y * 16 + x) * 4
+            separation = sum(
+                abs(art_a[pos + channel] - art_b[pos + channel])
+                for channel in (0, 1, 2)
+            )
+            if separation > 105:
+                changed += 1
+        if changed < minimum_visual_difference:
+            raise ValueError(
+                f"Slice sprites {name_a} / {name_b} too similar at 16x16: "
+                f"only {changed} strongly different topping pixels "
+                f"(minimum {minimum_visual_difference})"
+            )
 
     if "slicePresetId(PizzaSliceData slice)" not in names_src:
         raise ValueError("Slice must match only its own canonical quarter")
@@ -177,7 +202,8 @@ def main() -> None:
     if "PizzaCreativeSamples.createSlice(preset.getKey())" not in creative:
         raise ValueError("Named slices must be accessible in Creative")
 
-    print(f"OK: {len(expected)} unique 16x16 RGBA slices plus original Margherita")
+    print(f"OK: {len(expected)} distinctive 16x16 RGBA slices plus original Margherita")
+    print("OK: 19 sprites checked pairwise for at least 10 pronounced pixel differences")
     print("OK: 218 pixels (crust/background) immutable in every variant")
     print("OK: each quarter selects its own preset; examples are edible stacks")
 
