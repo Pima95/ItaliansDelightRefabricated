@@ -93,7 +93,7 @@ def audit_food_algorithm() -> None:
         "if (!seenTypes.add(topping.canonicalId()))",
         "counts.merge(type.nutritionCategory(), 1, Integer::sum)",
         "int contributions = Math.min(2, counts.getOrDefault(category, 0));",
-        'Identifier.parse("italiansdelight:pizza_toppings/mozzarella_slice")',
+        '"italiansdelight:pizza_toppings/mozzarella_slice"',
         "int hunger = 1;",
         "float saturation = 1.0f;",
         "case DAIRY -> { hunger += 1; saturation += 1.5f; }",
