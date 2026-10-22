@@ -16,22 +16,17 @@ import dev.italiansdelight.common.registry.ModRecipes;
 
 public class CheeseVatJeiRecipes {
 
-    private final SynchronizedRecipes synchronizedRecipes;
-
-    public CheeseVatJeiRecipes() {
-        Minecraft minecraft = Minecraft.getInstance();
-        ClientLevel level = minecraft.level;
-
-        if (level != null) {
-            this.synchronizedRecipes = level.recipeAccess().getSynchronizedRecipes();
-        } else {
-            throw new NullPointerException("Minecraft level must not be null.");
-        }
-    }
-
+    /**
+     * JEI may query us during client world unload/reload. Do not capture an
+     * old ClientLevel in the constructor or throw before the new one exists.
+     * JEI rebuilds the recipe list when the game joins the next world.
+     */
     public List<RecipeHolder<CheeseVatRecipe>> getRecipes() {
-        return List.copyOf(
-            synchronizedRecipes.getAllOfType(ModRecipes.CHEESE_VAT_TYPE)
-        );
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level == null) {
+            return List.of();
+        }
+        SynchronizedRecipes recipes = level.recipeAccess().getSynchronizedRecipes();
+        return List.copyOf(recipes.getAllOfType(ModRecipes.CHEESE_VAT_TYPE));
     }
 }

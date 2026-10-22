@@ -204,3 +204,5 @@ La voce **`OSSERVATO NEL CODICE`** indica un comportamento concretamente present
 - **AUD-002 — precedentemente corretto:** la mozzarella intera non è più un topping applicabile; il flag legacy sopravvive per i vecchi mondi.
 - **AUD-012 — parzialmente superato:** esiste già una workflow CI Java 25 con numerosi audit statici; manca ancora una vera suite di test Java runtime / server dedicato. Non considerare chiuso l'intero AUD-012.
 - **AUD-003, 004, 005, 006, 008–011, 013, 014:** restano da completare / verificare secondo priorità. I test di runtime non possono essere marcati superati dalla compilazione.
+
+- **AUD-014 — gestione difensiva implementata, test JEI pendente:** `CheeseVatJeiRecipes` e `CheeseAgingJeiRecipes` interrogano il `ClientLevel` nel metodo di registrazione e restituiscono una lista vuota quando il livello client è assente, al posto di lanciare `NullPointerException` o trattenere un vecchio `SynchronizedRecipes`. La registrazione dei piatti/categorie resta invariata; verificare uscita, cambio mondo, rejoin, `/reload` e apertura JEI.

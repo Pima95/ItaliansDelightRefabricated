@@ -26,27 +26,21 @@ import net.minecraft.world.item.crafting.RecipeHolder;
  */
 public final class CheeseAgingJeiRecipes {
 
-    private final SynchronizedRecipes synchronizedRecipes;
-
-    public CheeseAgingJeiRecipes() {
-        Minecraft minecraft =
-            Minecraft.getInstance();
-
-        ClientLevel level =
-            minecraft.level;
-
-        if (level == null) {
-            throw new NullPointerException(
-                "Minecraft level must not be null."
-            );
-        }
-
-        this.synchronizedRecipes =
-            level.recipeAccess()
-                .getSynchronizedRecipes();
+    /**
+     * Client worlds are replaced on logout/realm changes. Resolve the current
+     * recipes for each registration pass rather than retaining an outdated
+     * synchronized-recipe holder across world transitions.
+     */
+    private static SynchronizedRecipes currentRecipes() {
+        ClientLevel level = Minecraft.getInstance().level;
+        return level == null ? null : level.recipeAccess().getSynchronizedRecipes();
     }
 
     public List<CheeseAgingJeiRecipe> getRackAgingRecipes() {
+        SynchronizedRecipes synchronizedRecipes = currentRecipes();
+        if (synchronizedRecipes == null) {
+            return List.of();
+        }
         List<CheeseAgingJeiRecipe> recipes =
             new ArrayList<>();
 
@@ -83,6 +77,10 @@ public final class CheeseAgingJeiRecipes {
     }
 
     public List<CheeseAgingJeiRecipe> getHangingRecipes() {
+        SynchronizedRecipes synchronizedRecipes = currentRecipes();
+        if (synchronizedRecipes == null) {
+            return List.of();
+        }
         List<CheeseAgingJeiRecipe> recipes =
             new ArrayList<>();
 
