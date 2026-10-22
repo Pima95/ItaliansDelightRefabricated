@@ -48,7 +48,7 @@
 ## E. Server, persistenza e consegna
 
 - [ ] Avviare un **server Fabric dedicato senza renderer client** e con le stesse versioni delle dipendenze; nessun crash/mixin client-side sul server.
-- [ ] Due giocatori manipolano lo stesso quarto o la stessa pizza nello stesso tick: non vengono rilasciati due spicchi, recuperate due pizze con pala o rimborsati ingredienti due volte.
+- [ ] Test multiplayer: due giocatori manipolano lo stesso quarto o la stessa pizza nello stesso tick; non vengono rilasciati due spicchi, recuperate due pizze con pala o rimborsati ingredienti due volte.
 - [ ] Salvare e riaprire dopo una pizza a quattro quarti, pizza nel forno a metà, pala con cargo e formaggi/salumi in lavorazione; nessuna perdita, duplicazione o reset imprevisto.
 - [ ] Testare vari chunk caricati/scaricati, hopper pieni e ripetuti trasferimenti; controllare log, RAM e TPS senza creare cicli di duplicazione.
 - [ ] Raccogliere le verifiche e segnalazioni in `docs/KNOWN_BUGS.md`. Per ogni bug: riproduzione, versione, risultato atteso/ottenuto e riferimento al commit di fix.
