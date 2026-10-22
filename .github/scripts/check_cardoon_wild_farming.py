@@ -73,11 +73,25 @@ java=Path("src/main/java/dev/italiansdelight/common/block/CardoonBlock.java").re
 check("popResource(" not in java and "level.setBlock(candidate, state, 2)" in java,
       "Wild bonemeal must spread plants, not generate harvested items")
 reg=Path("src/main/java/dev/italiansdelight/common/registry/ModBlocks.java").read_text(encoding="utf-8")
-check(".sound(SoundType.CHAIN)" in reg,"Hanging hook lost vanilla chain sounds")
+check(".sound(SoundType.LANTERN)" in reg,"Hanging hook must use vanilla lantern block sounds")
 hook=Path("src/main/java/dev/italiansdelight/common/block/CheeseHookBlock.java").read_text(encoding="utf-8")
-check("SoundEvents.CHAIN_PLACE" in hook and "SoundEvents.CHAIN_HIT" in hook,
-      "Hanging product interactions lost chain sounds")
+check("SoundEvents.LANTERN_PLACE" in hook and "SoundEvents.LANTERN_HIT" in hook,
+      "Hanging product interactions must use vanilla lantern sounds")
+check("SoundEvents.CHAIN_" not in hook and ".sound(SoundType.CHAIN)" not in reg,
+      "Old chain sounds must not remain on the hanging hook")
+# Vanilla block/crop draws its texture on FOUR offset planes (x/z 4 and 12):
+# one purple flower sprite then looks like four flowers in world.
+# The final stage must use one centered crossed pair instead.
+mature=doc("assets/italiansdelight/models/block/cultivated_cardoon_stage3.json")
+check(mature.get("parent")=="minecraft:block/cross"
+      and mature.get("textures", {}).get("cross")=="italiansdelight:block/cultivated_cardoon_stage3",
+      "Mature cardoon must render one centered flower, not four separated crop quads")
+for i in range(3):
+    immature=doc(f"assets/italiansdelight/models/block/cultivated_cardoon_stage{i}.json")
+    check(immature.get("parent")=="minecraft:block/crop",
+          "Keep approved pre-flowering crop growth stages unchanged")
 print("OK: FDR wild carrot/onion rarity 1/120 and 64 attempts for both wild plants")
 print("OK: old wild Cardoon preserved, plantable crop, Fortune loot and compatible rennet")
 print("OK: 5 exact 16x16 RGBA PNGs, valid CRCs, only opaque/transparent pixels")
-print("OK: hook uses chain sounds")
+print("OK: one centered mature cardoon flower and unchanged 16x16 approved sprite")
+print("OK: hook uses lantern block and interaction sounds")

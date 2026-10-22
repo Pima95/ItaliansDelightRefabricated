@@ -25,7 +25,7 @@ Gli originari Plains/Sunflower Plains/Meadow restano. I nuovi chunk usano la nuo
 - La versione selvatica rilascia **1–2 cultivated_cardoon**. La bonemeal sul selvatico fa diffondere al massimo una pianta per uso riuscito, entro il limite locale di 10 piante; non produce direttamente item a ogni clic.
 - Il caglio della Cheese Vat usa ora **`#c:crops/cardoon`**, un tag con **entrambi** gli item vecchio e nuovo.
 - Aggiunte **cinque** nuove texture PNG RGBA **16×16**, alpha rigorosamente 0 o 255, senza antialiasing, senza modificare i PNG approvati.
-- Hanging Hook: `SoundType.CHAIN` per posa e rottura e `SoundEvents.CHAIN_PLACE`/`CHAIN_HIT` per aggancio/rimozione.
+- Hanging Hook: `SoundType.LANTERN` per posa e rottura e `SoundEvents.LANTERN_PLACE`/`LANTERN_HIT` per aggancio/rimozione (suoni vanilla delle lanterne, aggiornati su richiesta).
 
 ## Test Survival in attesa
 
@@ -35,9 +35,17 @@ Gli originari Plains/Sunflower Plains/Meadow restano. I nuovi chunk usano la nuo
 - [ ] Piantare su farmland, osservare tutti gli stadi (0–7), usare bone meal, raccogliere presto e a maturazione e confrontare rese/Fortune.
 - [ ] Verificare 5 sprite 16×16, tutte le texture ben distinguibili e niente pixel viola/nero.
 - [ ] Verificare incrocio delle due versioni dell'item nella ricetta del caglio.
-- [ ] Controllare suoni dell'uncino quando è vuoto/occupato, con formaggi e salumi, senza doppie riproduzioni.
+- [ ] Controllare suoni delle **lanterne** dell'uncino quando è vuoto/occupato, con formaggi e salumi, senza doppie riproduzioni.
 - [ ] Verificare tutte le voci nella scheda Creativa, le traduzioni e l'avvio di un server dedicato.
 
 ## Decisione confermata il 22 ottobre 2026
 
 L'autore ha **approvato tutti i nuovi biomi** per Cardoon e Basilico selvatico elencati sopra. Non effettuare ulteriori modifiche alla selezione senza una nuova richiesta.
+
+## Rifinitura visuale del Cardoon — 22 ottobre 2026
+
+Lo screenshot dell'autore mostrava **quattro fiori viola separati** sul Cardoon coltivabile. La texture `cultivated_cardoon_stage3.png` contiene **già un solo fiore**: il problema era il modello vanilla `minecraft:block/crop`, che disegna quattro piani distanziati alle coordinate X/Z 4 e 12 e ripete quindi il fiore quattro volte.
+
+Il solo modello della **fase matura** usa ora `minecraft:block/cross`: due piani centrati e incrociati, con la stessa identica texture (16×16 RGBA) già presente, percepiti come **una singola infiorescenza**. Restano invariati il modello delle tre fasi immature, la texture item, i drop, la crescita e le hitbox. Questo risolve la causa del problema **senza rigenerare alcun PNG**.
+
+**Collaudo:** su una pianta di Cardoon a età 7 verificare dai quattro lati e dall'alto che la corolla sia una sola e ben centrata, non quadruplicata; verificare che le prime età restino identiche e che break/place conservino i soliti oggetti.

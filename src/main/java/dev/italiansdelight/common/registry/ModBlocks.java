@@ -160,7 +160,7 @@ public final class ModBlocks {
                     .setId(CHEESE_HOOK_KEY)
                     .noOcclusion()
                     .noCollision()
-                    .sound(SoundType.CHAIN)
+                    .sound(SoundType.LANTERN)
                     .strength(3.0F, 6.0F)
             )
         );

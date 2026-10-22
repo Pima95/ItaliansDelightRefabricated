@@ -226,7 +226,7 @@ public final class CheeseHookBlock extends BaseEntityBlock {
                 ItemStack removed = hook.remove(serverLevel);
                 giveRemovedCheeseToInventory(removed, player);
                 if (!removed.isEmpty()) {
-                    serverLevel.playSound(null, pos, SoundEvents.CHAIN_HIT,
+                    serverLevel.playSound(null, pos, SoundEvents.LANTERN_HIT,
                             SoundSource.BLOCKS, 0.65F, 1.05F);
                 }
             }
@@ -253,7 +253,7 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
-            serverLevel.playSound(null, pos, SoundEvents.CHAIN_PLACE,
+            serverLevel.playSound(null, pos, SoundEvents.LANTERN_PLACE,
                     SoundSource.BLOCKS, 0.65F, 1.0F);
         }
 
@@ -287,7 +287,7 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             ItemStack removed = hook.remove(serverLevel);
             giveRemovedCheese(removed, player);
             if (!removed.isEmpty()) {
-                serverLevel.playSound(null, pos, SoundEvents.CHAIN_HIT,
+                serverLevel.playSound(null, pos, SoundEvents.LANTERN_HIT,
                         SoundSource.BLOCKS, 0.65F, 1.05F);
             }
         }
