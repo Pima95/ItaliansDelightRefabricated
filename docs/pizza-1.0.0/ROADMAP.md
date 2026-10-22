@@ -6,7 +6,8 @@
 - [x] **Hopper Pizza Oven:** non estrae pizze crude dallo slot di ingresso.
 - [x] **Salvataggio Pizza mista:** i quattro gusti rimangono distinti dopo uscita e rientro nel mondo.
 - [ ] Rimangono le regressioni non direttamente confermate (stack 17+, casse, hopper pieni/ciotole, server multiplayer dedicato, salvataggi pala/forno/formaggi). Vedi [RELEASE_READINESS.md](RELEASE_READINESS.md).
-- [ ] Miglioramenti **IMP-001–IMP-004** al Cardoon, biomi e suoni Hook: rimangono in [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md) e **non** sono parte delle modifiche pizza già consegnate.
+- [x] Miglioramenti **IMP-001–IMP-004** a Cardoon, biomi e suoni dell'uncino integrati dal branch Cardoon in `feature/pizza-1.0.0`, con conferma funzionale dell'autore il 22 ottobre 2026. [Registro](../PLANNED_IMPROVEMENTS.md).
+- [x] Fix crafting delle pizze: ciotola restituita subito nella griglia e flag persistente contro il secondo rimborso al forno; autore conferma il funzionamento.
 
 
 ## Blocco della pubblicazione — checklist release candidate

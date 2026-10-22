@@ -19,6 +19,8 @@ richiesti alla fine dell'ultima fase di sviluppo:
 - [x] Gli hopper **non estraggono la pizza cruda** dallo slot di ingresso del Pizza Oven.
 - [x] Dopo il salvataggio e la riapertura del mondo, una **Pizza mista mantiene i quattro gusti**.
 
+Il 22 ottobre 2026 l'autore ha inoltre confermato che **tutte le ultime modifiche al Cardoon, alla distribuzione delle piante, ai biomi, ai suoni dell'uncino e alla restituzione delle ciotole nel crafting funzionano**. I rispettivi test funzionali sono registrati in [CURRENT_STATUS.md](CURRENT_STATUS.md) e [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md); i test server e anti-duplicazione più approfonditi rimangono separati.
+
 La conferma riguarda questi comportamenti specifici: **non** equivale a dichiarare
 superate tutte le prove su hopper pieni, 17° spicchio, casse, multiplayer,
 pale cariche, forno a metà cottura o server dedicato. Le checklist dettagliate

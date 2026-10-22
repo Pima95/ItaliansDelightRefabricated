@@ -55,14 +55,17 @@
 - **Ancora da misurare o richiedono cautela:** OPT-001, OPT-003–006, OPT-008–009. Profilare prima con più pizze, vasche, calderoni e stagionature; non introdurre cache senza invalidazione rigorosa.
 - **Rifiniture opzionali:** OPT-004 renderer, OPT-011 nomi, OPT-013 grafica JEI. **OPT-015** è una linea guida: non rimuovere validazioni e copie difensive soltanto per risparmiare qualche operazione.
 
-## Migliorie future non ancora concordate
+## Migliorie IMP-001–IMP-004 integrate — 22 ottobre 2026
 
-- IMP-001: frequenza/densità del Cardoon selvatico.
-- IMP-002: crescita/raccolta del Cardoon coltivabile, eventuali texture per gli stadi.
-- IMP-003: elenco dei nuovi biomi per Cardoon e Basilico selvatico.
-- IMP-004: effetti sonori dell'uncino.
+- [x] Cardoon e basilico selvatici allineati alla rarità delle piante Farmer's Delight (1/120, 64 tentativi).
+- [x] Cardoon coltivabile con texture 16×16 e un unico fiore centrato nel modello adulto, vecchi item/ricette conservati.
+- [x] Nuovi biomi per entrambe le piante approvati dall'autore.
+- [x] Suoni di lanterna vanilla per Hanging Hook.
+- [x] Ciotole restituite nella crafting table delle pizze senza doppio rimborso al forno; test in-game confermato dall'autore.
 
-Queste voci sono volutamente rinviate: mancano parametri che cambierebbero il gameplay. Vanno sviluppate su un branch dedicato, non fuso nella pizza pre-release senza approvazione.
+L'autore ha confermato il funzionamento delle modifiche il 22 ottobre 2026. Il branch `feature/cardoon-farming-worldgen-sounds` è stato unito con **fast-forward** in questo branch, senza conflitti né nuovi branch. Vedi [registro delle migliorie](../PLANNED_IMPROVEMENTS.md) e [guida Cardoon](../CARDOON_FARMING_WORLDGEN.md).
+
+Il completamento di queste funzioni non costituisce conferma automatica dei test non ancora eseguiti su server dedicato, concorrenza, modpack esterni e vecchi salvataggi.
 
 ## Test di regressione per gli ultimi cambiamenti
 

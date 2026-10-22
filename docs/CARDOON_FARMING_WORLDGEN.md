@@ -1,5 +1,7 @@
 # Cardoon coltivabile, spawn selvatico e suoni dell'uncino
 
+**Stato 22 ottobre 2026:** implementazione confermata funzionante dall'autore e integrata con fast-forward in `feature/pizza-1.0.0`. I test specifici sottostanti restano checklist di approfondimento e non vanno segnati singolarmente senza evidenza.
+
 Branch: `feature/cardoon-farming-worldgen-sounds` (basato su Pizza 1.0.0).
 
 ## Riferimento Farmer's Delight Refabricated 26.2

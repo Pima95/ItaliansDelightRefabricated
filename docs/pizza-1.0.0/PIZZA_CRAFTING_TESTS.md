@@ -2,7 +2,7 @@
 
 **Data:** 19 ottobre 2026  
 **Ramo:** `feature/pizza-1.0.0`  
-**Stato aggiornato 19 ottobre 2026:** l'autore **ha confermato funzionante il crafting shapeless in gioco**. Restano da eseguire/annotare separatamente i casi limite della checklist, il multiplayer, JEI e la verifica su server dedicato.
+**Stato aggiornato 22 ottobre 2026:** l'autore ha confermato funzionanti il crafting shapeless e la successiva correzione del ritorno delle ciotole nel crafting. Le prove approfondite qui sotto restano non contrassegnate finché non vengono eseguite. Restano da eseguire/annotare separatamente i casi limite della checklist, il multiplayer, JEI e la verifica su server dedicato.
 
 ## Decisione approvata dall'autore
 
