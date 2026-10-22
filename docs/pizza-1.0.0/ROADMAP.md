@@ -1,5 +1,14 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Test recenti confermati dall'autore — 22 ottobre 2026
+
+- [x] **Stack degli spicchi identici fino a 16:** confermato funzionante.
+- [x] **Hopper Pizza Oven:** non estrae pizze crude dallo slot di ingresso.
+- [x] **Salvataggio Pizza mista:** i quattro gusti rimangono distinti dopo uscita e rientro nel mondo.
+- [ ] Rimangono le regressioni non direttamente confermate (stack 17+, casse, hopper pieni/ciotole, server multiplayer dedicato, salvataggi pala/forno/formaggi). Vedi [RELEASE_READINESS.md](RELEASE_READINESS.md).
+- [ ] Miglioramenti **IMP-001–IMP-004** al Cardoon, biomi e suoni Hook: rimangono in [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md) e **non** sono parte delle modifiche pizza già consegnate.
+
+
 ## Blocco della pubblicazione — checklist release candidate
 
 - [x] README e CHANGELOG distinguono **0.4.0 pubblicata** e **1.0.0 ancora in sviluppo**; nessuna modifica a `mod_version`, `main` o ai file PNG approvati.

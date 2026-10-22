@@ -10,6 +10,20 @@
 2. Sul branch `feature/pizza-1.0.0`, eseguire `git pull origin feature/pizza-1.0.0`, poi `.\\gradlew.bat clean build` e `.\\gradlew.bat runClient`. Su server dedicato usare la stessa build del JAR e le stesse dipendenze.
 3. Registrare data, commit SHA, ambiente (singleplayer / dedicated server), log e se il risultato è stato verificato in **Survival**. Una CI verde controlla la compilazione e le invarianti statiche, **non** tutte le interazioni in Minecraft.
 
+## Esiti recenti confermati dall'autore — 22 ottobre 2026
+
+L'autore ha confermato in gioco il funzionamento di questi **tre** casi,
+richiesti alla fine dell'ultima fase di sviluppo:
+
+- [x] Gli spicchi dello stesso gusto si impilano fino a **16**.
+- [x] Gli hopper **non estraggono la pizza cruda** dallo slot di ingresso del Pizza Oven.
+- [x] Dopo il salvataggio e la riapertura del mondo, una **Pizza mista mantiene i quattro gusti**.
+
+La conferma riguarda questi comportamenti specifici: **non** equivale a dichiarare
+superate tutte le prove su hopper pieni, 17° spicchio, casse, multiplayer,
+pale cariche, forno a metà cottura o server dedicato. Le checklist dettagliate
+sottostanti restano aperte per le parti non confermate.
+
 ## A. Interazioni e ricette base
 
 - [ ] Impasto Farmer's Delight: posa su superficie valida, stesura con mano/mattarello, divisione metà/quarti e riunione; i topping rimangono sullo stesso quarto fisico.
@@ -58,6 +72,6 @@
 
 Una compilazione verde non è sufficiente per rilasciare la 1.0.0. Bloccano la pubblicazione: crash, perdita/duplicazione di item, incompatibilità su server dedicato, dati di pizza non persistenti, hopper che estraggono input crudo, stack di spicchi che si uniscono a gusti diversi e assenza di elementi essenziali in Creativa/JEI.
 
-**Esito ultimo test:** da compilare dall'autore. Non segnare checkbox eseguite senza una conferma reale.
+**Esito ultimo test:** tre verifiche funzionali confermate dall'autore il 22 ottobre 2026 e registrate in apertura; tutte le altre prove restano da confermare. Non segnare nuove checkbox senza riscontro reale.
 
 Test di dettaglio: [PIZZA_OVEN_IMPLEMENTATION_TESTS.md](PIZZA_OVEN_IMPLEMENTATION_TESTS.md), [VANILLA_FURNACES_TESTS.md](VANILLA_FURNACES_TESTS.md), [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md), [CREATIVE_INVENTORY_ORDER.md](CREATIVE_INVENTORY_ORDER.md) e [RELEASE_BALANCE_AUDIT.md](RELEASE_BALANCE_AUDIT.md).

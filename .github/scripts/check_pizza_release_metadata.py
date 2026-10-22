@@ -39,7 +39,18 @@ for must_include in ("16", "multiplayer", "JEI", "Pizza mista",
     assert must_include.lower() in checklist.lower(), (
         f"Missing expected release test topic: {must_include}"
     )
-assert "- [x]" not in checklist, "Do not claim runtime acceptance without in-game tests"
+# Only these explicitly user-confirmed runtime results are currently marked
+# complete. Future confirmations must be added deliberately, not inferred from CI.
+confirmed = [
+    "- [x] Gli spicchi dello stesso gusto si impilano fino a **16**.",
+    "- [x] Gli hopper **non estraggono la pizza cruda** dallo slot di ingresso del Pizza Oven.",
+    "- [x] Dopo il salvataggio e la riapertura del mondo, una **Pizza mista mantiene i quattro gusti**.",
+]
+found = [line for line in checklist.splitlines() if line.startswith("- [x]")]
+assert found == confirmed, (
+    "Only the three author-confirmed Minecraft runtime tests should be "
+    "marked complete until further testing is explicitly reported"
+)
 print("OK: published 0.4.0 and development-only Pizza 1.0.0 are clearly separated")
 print("OK: README/CHANGELOG, mod metadata and release checklist are consistent")
 print("NOTE: version bump and releases require author approval and runtime testing")
