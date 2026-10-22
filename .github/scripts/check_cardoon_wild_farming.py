@@ -66,7 +66,9 @@ def check_png(path):
 for s in range(4):
     name=f"cultivated_cardoon_stage{s}"
     model=doc(f"assets/italiansdelight/models/block/{name}.json")
-    check(model["textures"]["crop"]==f"italiansdelight:block/{name}",f"{name} wrong texture")
+    texture_key = "cross" if s == 3 else "crop"
+    check(model["textures"][texture_key]==f"italiansdelight:block/{name}",
+          f"{name} wrong {texture_key} texture")
     check_png(ROOT/f"assets/italiansdelight/textures/block/{name}.png")
 check_png(ROOT/"assets/italiansdelight/textures/item/cultivated_cardoon.png")
 java=Path("src/main/java/dev/italiansdelight/common/block/CardoonBlock.java").read_text(encoding="utf-8")
