@@ -30,6 +30,10 @@ for field in ("FRESH_SCAMORZA", "SCAMORZA", "SMOKED_SCAMORZA",
 
 assert "HangingCheeseType.fromStack(" in block
 assert "hook.insert(" in block
+assert "return intended.canSurvive(context.getLevel(), context.getClickedPos())" in block, (
+    "Placing hook without a valid ceiling must reject initial placement"
+)
+assert "? intended : null;" in block, "Unsupported placement must not consume item"
 print("OK: only eligible wheel cheeses can enter surface aging placement")
 print("OK: both Provolone and all Scamorza stages retain hook compatibility")
 print("NOTE: must verify placement, hook pickup and aging in a real Survival world")

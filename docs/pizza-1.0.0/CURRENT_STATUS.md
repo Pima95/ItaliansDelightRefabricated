@@ -77,3 +77,14 @@ Il completamento di queste funzioni non costituisce conferma automatica dei test
 6. Pala: mantenere lo stesso modello e posizionamento 3D in entrambe le mani, vuota e carica. Non sono state alterate le texture.
 
 **Non sono state modificate texture approvate né i valori nutrizionali, i tempi di cottura, gli ID registrati o la versione del JAR.**
+
+## Correzioni BUG-001 e BUG-003 rafforzate — 22 ottobre 2026
+
+**Commit:** il ramo `feature/pizza-1.0.0` include salvaguardie contro drops persi e duplicazioni causate da stati incoerenti (supporto rimosso, BE assente, setBlock/removeBlock falliti). Il normale blocco di posizionamento a terra dei formaggi da uncino resta invariato.
+
+- `CheeseHookBlock`: rifiuta di piazzarsi senza soffitto; getDrops aggiunge il prodotto leggendo direttamente il suo BlockState, senza dipendere dalla BE opzionale.
+- `CheeseHookBlockEntity`: insert e remove effettuano il commit dello stato prima della transazione inventario; serverTick intercetta anche uncini senza supporto ricaricati in un chunk.
+- `AgingCheeseBlockEntity`: al caricamento e durante il tick recupera ruote senza pavimento attraverso il normale percorso di loot.
+- `AgingCheeseBlock`: prelievo manuale prima rimuove il blocco senza drop, poi consegna il singolo formaggio.
+
+**Stato reale:** implementato, soggetto a CI; l'autore deve ancora confermare le prove del [registro bug](../KNOWN_BUGS.md), soprattutto uncini con salumi/formaggi appesi, rottura del supporto, vecchi mondi, casi `doTileDrops=false` e multiplayer. Non indicare BUG-001/003 come confermati in-game prima delle prove.

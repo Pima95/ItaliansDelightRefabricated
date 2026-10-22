@@ -17,7 +17,8 @@ Questo documento raccoglie i problemi segnalati e ancora da risolvere nel proget
   3. Verificare che Scamorza fresca e Provolone fresco continuino a progredire sull'uncino, senza alterazioni dei tempi. La variante affumicata non deve acquisire un nuovo processo.
   4. Come regressione, posizionare Parmigiano Reggiano, Pecorino Romano e Gorgonzola nelle varianti già consentite e verificare i normali blocchi di stagionatura.
   5. Ripetere per quanto possibile su mondo riavviato e server; il test statico in CI non simula interazioni Minecraft.
-- **Chiusura:** segnare «risolto» solo dopo conferma del test nel client.
+- **Rafforzamento del 22 ottobre 2026:** oltre al blocco già esistente per tutti e cinque gli item da appendere, `CheeseHookBlock.getStateForPlacement` controlla il supporto superiore **prima** di piazzare e consumare l'uncino. `CheeseHookBlockEntity.insert/remove` verificano il successo delle modifiche di BlockState prima di consumare o rimborsare il prodotto: nessun prodotto regalato se l'operazione fallisce. L'ammissibilità sulla superficie di Scamorza/Provolone non è stata allargata.
+- **Chiusura:** correzione nel codice rafforzata e controlli statici aggiunti; segnare «risolto in gioco» solo dopo conferma delle prove Survival indicate.
 
 
 ### BUG-002 — Mozzarella intera applicabile alla pizza, ma invisibile
@@ -40,7 +41,8 @@ Questo documento raccoglie i problemi segnalati e ancora da risolvere nel proget
 - **Causa:** `AgingCheeseBlock.updateShape` e `CheeseHookBlock.updateShape` restituivano direttamente `Blocks.AIR` quando il blocco di supporto scompariva. Ciò poteva eludere il percorso `getDrops` e perdere il formaggio (o il prodotto appeso insieme all'uncino).
 - **Correzione:** i blocchi restano intatti per un tick programmato; se il supporto è ancora invalido, `level.destroyBlock(pos, true)` usa i drop vanilla e i rispettivi metodi `getDrops`. L'uncino elimina anche lo spazio tecnico riservato sotto. Progressi di stagionatura incompleti non vengono trasferiti all'item, come già previsto.
 - **Test Survival:** (1) rompere il soffitto sopra un uncino vuoto e sopra un uncino con Scamorza/Provolone o salume in lavorazione, controllando **un solo uncino e un solo prodotto**, nessun residuo di blocco invisibile; (2) rompere il supporto sotto Gorgonzola/Parmigiano/Pecorino fresco o stagionato: **un solo formaggio corretto**; (3) ripetere con il supporto reso invalido per cambio stato, `doTileDrops` disabilitato, salvataggio/ricarica e in multiplayer; (4) verificare che le normali interazioni di rimozione a mano e i tempi di lavorazione siano invariati.
-- **Chiusura:** solo dopo conferma runtime. Gli asset dei formaggi e dei salumi non sono stati modificati.
+- **Rafforzamento del 22 ottobre 2026:** `CheeseHookBlock.getDrops` legge l'oggetto appeso direttamente da `state.getValue(CHEESE).stack()`, fonte autorevole anche quando il contesto loot **non contiene la BlockEntity**; aggiunge una sola copia. `CheeseHookBlockEntity.serverTick` e `AgingCheeseBlockEntity.serverTick` distruggono con drop vanilla il blocco senza supporto al primo tick dopo il caricamento, senza attendere un aggiornamento dei vicini. Anche le forme già mature e gli uncini vuoti sono coperti. La rimozione manuale di un formaggio da superficie restituisce l'item **solo dopo** che `level.removeBlock(pos,false)` ha avuto successo: evita doppi prelievi.
+- **Chiusura:** il codice gestisce ora anche i casi di BlockEntity assente / blocco orfano dopo caricamento. Verifiche statiche CI estese; **non dichiarare testato in gioco** finché non arrivano i risultati Survival/server. Gli asset dei formaggi e dei salumi non sono stati modificati.
 
 ## Convenzioni
 
