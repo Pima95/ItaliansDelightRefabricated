@@ -37,3 +37,7 @@ Gli originari Plains/Sunflower Plains/Meadow restano. I nuovi chunk usano la nuo
 - [ ] Verificare incrocio delle due versioni dell'item nella ricetta del caglio.
 - [ ] Controllare suoni dell'uncino quando è vuoto/occupato, con formaggi e salumi, senza doppie riproduzioni.
 - [ ] Verificare tutte le voci nella scheda Creativa, le traduzioni e l'avvio di un server dedicato.
+
+## Decisione confermata il 22 ottobre 2026
+
+L'autore ha **approvato tutti i nuovi biomi** per Cardoon e Basilico selvatico elencati sopra. Non effettuare ulteriori modifiche alla selezione senza una nuova richiesta.
