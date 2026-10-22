@@ -8,7 +8,7 @@ Le voci sono impegni da pianificare: **non indicano codice gia' implementato**. 
 
 ### IMP-001 — Ridurre la frequenza del Cardoon selvatico
 
-- **Stato:** da implementare — segnalato dall'autore il 17 ottobre 2026.
+- **Stato:** implementato su `feature/cardoon-farming-worldgen-sounds`; **da testare in Minecraft** (22 ottobre 2026).
 - **Problema:** il Cardoon (cardo selvatico) appare troppo frequentemente nella generazione naturale.
 - **Obiettivo:** diminuire la sua frequenza e/o la densita' dei gruppi, mantenendo una presenza riconoscibile ma meno invasiva.
 - **Codice e dati da esaminare:** `src/main/resources/data/italiansdelight/worldgen/placed_feature/cardoon_patch.json`, `configured_feature/cardoon.json` e `ModWorldGeneration.java`.
@@ -18,7 +18,7 @@ Le voci sono impegni da pianificare: **non indicano codice gia' implementato**. 
 
 ### IMP-002 — Aggiungere una variante coltivabile del Cardoon
 
-- **Stato:** da progettare e implementare — richiesta dell'autore del 17 ottobre 2026.
+- **Stato:** implementato su `feature/cardoon-farming-worldgen-sounds`; **da testare in Minecraft** (22 ottobre 2026).
 - **Obiettivo:** affiancare al Cardoon selvatico una **coltura coltivabile**, seguendo dove opportuno il modello gia' funzionante del basilico: pianta selvatica come fonte iniziale, coltura in farmland con crescita e raccolta.
 - **Stato attuale:** `CardoonBlock.java` e' una `VegetationBlock` selvatico/ripiantabile, non una `CropBlock` con stadi di crescita; la bone meal produce un ulteriore item Cardoon. Il basilico dispone gia' di `WildBasilBlock` e `BasilCropBlock`.
 - **Da definire prima dell'implementazione:** item usato per piantare (eventuale assenza di semi separati), numero di stadi, velocita' di crescita, resa, loot, impiego della bone meal, texture per gli stadi e comportamento della versione selvatica dopo l'introduzione della coltura.
@@ -27,7 +27,7 @@ Le voci sono impegni da pianificare: **non indicano codice gia' implementato**. 
 
 ### IMP-003 — Ampliare i biomi naturali di Cardoon e Basilico selvatico
 
-- **Stato:** da progettare e implementare — richiesta dell'autore del 17 ottobre 2026.
+- **Stato:** implementato su `feature/cardoon-farming-worldgen-sounds`; **da testare in Minecraft** (22 ottobre 2026).
 - **Piante interessate:** `italiansdelight:cardoon` e `italiansdelight:wild_basil`. **Non e' richiesta alcuna variazione dello spawn rate del basilico**.
 - **Stato attuale:** in `ModWorldGeneration.java` entrambe le piante usano `BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS, Biomes.MEADOW)`.
 - **Obiettivo:** aggiungere biomi adatti a ciascuna pianta oltre ai tre attuali, valutando separatamente compatibilita' climatica, terreno e distribuzione.
@@ -37,7 +37,7 @@ Le voci sono impegni da pianificare: **non indicano codice gia' implementato**. 
 
 ### IMP-004 — Rivedere i suoni dell'Hanging Hook
 
-- **Stato:** da progettare — segnalato dall'autore il 18 ottobre 2026.
+- **Stato:** implementato su `feature/cardoon-farming-worldgen-sounds`; **da testare in Minecraft** (22 ottobre 2026).
 - **Elemento interessato:** Hanging Hook (uncino utilizzato per appendere i prodotti).
 - **Obiettivo:** modificare gli effetti sonori associati al blocco e alle sue interazioni.
 - **Da verificare prima dell'implementazione:** quali suoni vengono attualmente riprodotti durante posizionamento, aggancio/rimozione dei prodotti, interazione e rottura; individuare quelli da sostituire o regolare.
