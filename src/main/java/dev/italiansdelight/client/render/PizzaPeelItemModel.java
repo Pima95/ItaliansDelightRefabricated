@@ -182,9 +182,14 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
             // Renderer extents use the same model-space coordinates as the
             // submitted pizza, not the old center-relative (-0.5) offsets.
             // Include all eight corners of the rotated, scaled child item.
-            for (float x : new float[] {CARGO_X - 0.24F, CARGO_X + 0.24F}) {
-                for (float y : new float[] {CARGO_Y - 0.05F, CARGO_Y + 0.05F}) {
-                    for (float z : new float[] {CARGO_Z - 0.24F, CARGO_Z + 0.24F}) {
+            // Same eight corners as before, without allocating three float[]
+            // arrays for each extents query. The geometry is untouched.
+            for (int xi = 0; xi < 2; xi++) {
+                float x = CARGO_X + (xi == 0 ? -0.24F : 0.24F);
+                for (int yi = 0; yi < 2; yi++) {
+                    float y = CARGO_Y + (yi == 0 ? -0.05F : 0.05F);
+                    for (int zi = 0; zi < 2; zi++) {
+                        float z = CARGO_Z + (zi == 0 ? -0.24F : 0.24F);
                         consumer.accept(new Vector3f(x, y, z));
                     }
                 }

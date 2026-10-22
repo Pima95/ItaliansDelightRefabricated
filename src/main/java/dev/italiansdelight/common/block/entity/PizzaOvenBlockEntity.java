@@ -3,6 +3,7 @@ package dev.italiansdelight.common.block.entity;
 import dev.italiansdelight.common.block.PizzaOvenBlock;
 import dev.italiansdelight.common.block.entity.container.PizzaOvenMenu;
 import dev.italiansdelight.common.pizza.PizzaBaking;
+import dev.italiansdelight.common.pizza.PizzaFurnaceRemainders;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
@@ -23,7 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
-import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -151,7 +151,7 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
                 oven.setChanged();
 
                 for (ItemStack bowls : result.containers()) {
-                    deliverRemainder(level, pos, bowls);
+                    PizzaFurnaceRemainders.deliver(level, pos, bowls);
                 }
             }
         } else if (!canCook) {
@@ -169,51 +169,6 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
         boolean burning = oven.energyRemaining > 0;
         if (wasBurning != burning || state.getValue(PizzaOvenBlock.LIT) != burning) {
             oven.setVisualBurning(level, pos, state, burning);
-        }
-    }
-
-    /**
-     * Move bowl remainders to the BELOW hopper, not into the oven's output
-     * slot (which must contain only cooked pizzas). If absent/full, eject
-     * remaining bowls to the world, with no loss or extra copies.
-     */
-    private static void deliverRemainder(
-            ServerLevel level, BlockPos ovenPos, ItemStack remainder
-    ) {
-        ItemStack left = remainder.copy();
-        if (level.getBlockEntity(ovenPos.below()) instanceof HopperBlockEntity hopper) {
-            for (int i = 0; i < hopper.getContainerSize() && !left.isEmpty(); i++) {
-                ItemStack existing = hopper.getItem(i);
-                // A renamed/custom-component bowl is NOT equivalent to
-                // a plain returned bowl. Never merge away its component data.
-                if (!existing.isEmpty()
-                        && !ItemStack.isSameItemSameComponents(existing, left)) {
-                    continue;
-                }
-                int max = existing.isEmpty()
-                        ? left.getMaxStackSize()
-                        : existing.getMaxStackSize();
-                int free = max - existing.getCount();
-                int moved = Math.min(left.getCount(), free);
-                if (moved <= 0) {
-                    continue;
-                }
-                if (existing.isEmpty()) {
-                    hopper.setItem(i, left.copyWithCount(moved));
-                } else {
-                    existing.grow(moved);
-                    hopper.setChanged();
-                }
-                left.shrink(moved);
-            }
-        }
-        if (!left.isEmpty()) {
-            Containers.dropItemStack(
-                    level,
-                    ovenPos.getX() + 0.5,
-                    ovenPos.getY() + 1.0,
-                    ovenPos.getZ() + 0.5,
-                    left);
         }
     }
 

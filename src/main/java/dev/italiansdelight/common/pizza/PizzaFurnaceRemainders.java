@@ -9,8 +9,9 @@ import net.minecraft.world.level.block.entity.HopperBlockEntity;
 /**
  * Return emptied sauce/cream bowls from vanilla furnaces and smokers.
  *
- * <p>The pizza oven has its own proven implementation of this identical
- * policy. Keeping this utility separate avoids changing that working machine.
+ * <p>This is the single transfer policy used by Pizza Oven, Furnace and
+ * Smoker. Invoked ONLY at the corresponding oven's successful cooking commit
+ * (never during recipe previews or input changes).
  * One original bowl-bearing topping APPLICATION yields exactly one bowl,
  * irrespective of the number of quarters it covers.
  */

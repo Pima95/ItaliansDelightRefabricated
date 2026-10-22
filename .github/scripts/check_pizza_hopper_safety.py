@@ -12,15 +12,16 @@ def require(test: bool, message: str) -> None:
         raise AssertionError(message)
 
 
-for path, source in [("PizzaOvenBlockEntity", OVEN), ("PizzaFurnaceRemainders", VANILLA)]:
-    require("ItemStack.isSameItemSameComponents(existing, left)" in source,
-            path + ": cannot merge bowls by item type alone")
-    require("!existing.isEmpty()" in source and "hopper.setItem(" in source,
-            path + ": expected slot insertion with occupied-stack checks")
-    require("existing.grow(moved);" in source and "left.shrink(moved);" in source,
-            path + ": expected bounded remainder transfer")
-    require("if (!left.isEmpty())" in source and "Containers.dropItemStack(" in source,
-            path + ": overflow must be dropped rather than lost")
+require("PizzaFurnaceRemainders.deliver(level, pos, bowls);" in OVEN,
+        "Pizza Oven should share the component-safe remainder utility")
+require("ItemStack.isSameItemSameComponents(existing, left)" in VANILLA,
+        "Cannot merge bowls by item type alone")
+require("!existing.isEmpty()" in VANILLA and "hopper.setItem(" in VANILLA,
+        "Remainder insertion must handle occupied slots")
+require("existing.grow(moved);" in VANILLA and "left.shrink(moved);" in VANILLA,
+        "Remainder insertion must use bounded moves")
+require("if (!left.isEmpty())" in VANILLA and "Containers.dropItemStack(" in VANILLA,
+        "Remainder overflow must be dropped rather than lost")
 
 require("private static final int[] FROM_TOP = {INPUT};" in OVEN, "Top must be pizza input")
 require("private static final int[] FROM_SIDES = {FUEL};" in OVEN, "Sides must be fuel only")

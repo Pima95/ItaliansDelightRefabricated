@@ -42,6 +42,8 @@ jobs:
         run: python3 .github/scripts/check_pizza_support_drops.py
       - name: Audit pizza oven hopper directions and bowl component safety
         run: python3 .github/scripts/check_pizza_hopper_safety.py
+      - name: Verify optimized baking and component-preserving previews
+        run: python3 .github/scripts/check_pizza_baking_component_safety.py
       - name: Verify hook-only cheese placement restrictions
         run: python3 .github/scripts/check_hook_cheese_placement.py
       - name: Verify dropped cheese and hanging products survive support loss
