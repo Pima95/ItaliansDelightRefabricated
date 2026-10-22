@@ -98,19 +98,16 @@ public final class CheeseHookBlockEntity extends BlockEntity {
             return false;
         }
 
-        elapsedTicks = 0;
+        BlockState previousState = getBlockState();
 
-        BlockState previousState =
-            getBlockState();
-
-        level.setBlock(
-            worldPosition,
-            previousState.setValue(
-                CheeseHookBlock.CHEESE,
-                cheeseType
-            ),
-            Block.UPDATE_CLIENTS
-        );
+        // A failed blockstate update must never consume the held item or
+        // report insertion success. The product type lives in this state.
+        if (!level.setBlock(
+                worldPosition,
+                previousState.setValue(CheeseHookBlock.CHEESE, cheeseType),
+                Block.UPDATE_CLIENTS)) {
+            return false;
+        }
 
         if (!reserveHangingSpace(level)) {
             level.setBlock(
@@ -121,6 +118,7 @@ public final class CheeseHookBlockEntity extends BlockEntity {
             return false;
         }
 
+        elapsedTicks = 0;
         hangingSpaceSynchronized = true;
 
         setChanged();
@@ -140,29 +138,23 @@ public final class CheeseHookBlockEntity extends BlockEntity {
             return ItemStack.EMPTY;
         }
 
-        ItemStack result =
-            cheeseType.stack();
+        // Clear the blockstate FIRST. If this fails, the item must remain
+        // attached: giving it to the player beforehand would duplicate it
+        // when the hook is clicked again.
+        if (!level.setBlock(
+                worldPosition,
+                getBlockState().setValue(
+                        CheeseHookBlock.CHEESE, HangingCheeseType.EMPTY),
+                Block.UPDATE_CLIENTS)) {
+            return ItemStack.EMPTY;
+        }
 
         elapsedTicks = 0;
-
-        clearReservedHangingSpace(
-            level
-        );
-
+        clearReservedHangingSpace(level);
         hangingSpaceSynchronized = true;
 
-        level.setBlock(
-            worldPosition,
-            getBlockState()
-                .setValue(
-                    CheeseHookBlock.CHEESE,
-                    HangingCheeseType.EMPTY
-                ),
-            Block.UPDATE_CLIENTS
-        );
-
         setChanged();
-        return result;
+        return cheeseType.stack();
     }
 
     public ItemStack getCheeseDrop(
@@ -180,6 +172,14 @@ public final class CheeseHookBlockEntity extends BlockEntity {
         BlockState state,
         CheeseHookBlockEntity blockEntity
     ) {
+        // Loaded/saved unsupported hooks do not necessarily receive another
+        // neighbor update. Destroy through the normal loot path even when
+        // the hook is empty or already finished processing.
+        if (!state.canSurvive(level, pos)) {
+            level.destroyBlock(pos, true);
+            return;
+        }
+
         HangingCheeseType cheeseType =
             state.getValue(
                 CheeseHookBlock.CHEESE

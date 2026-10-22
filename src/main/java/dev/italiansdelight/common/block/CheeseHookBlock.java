@@ -39,7 +39,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -123,11 +122,13 @@ public final class CheeseHookBlock extends BaseEntityBlock {
     public BlockState getStateForPlacement(
         BlockPlaceContext context
     ) {
-        return defaultBlockState()
-            .setValue(
-                FACING,
-                context.getHorizontalDirection()
-            );
+        BlockState intended = defaultBlockState()
+            .setValue(FACING, context.getHorizontalDirection());
+        // A hanging hook needs an actual ceiling. Reject unsupported initial
+        // placement rather than briefly placing it, consuming an item, and
+        // depending on a later neighbor update to remove it.
+        return intended.canSurvive(context.getLevel(), context.getClickedPos())
+                ? intended : null;
     }
 
     @Override
@@ -431,19 +432,14 @@ public final class CheeseHookBlock extends BaseEntityBlock {
                 )
             );
 
-        if (
-            params.getOptionalParameter(
-                LootContextParams.BLOCK_ENTITY
-            ) instanceof CheeseHookBlockEntity hook
-        ) {
-            ItemStack cheese =
-                hook.getCheeseDrop(
-                    state
-                );
-
-            if (!cheese.isEmpty()) {
-                drops.add(cheese);
-            }
+        // The hanging product is stored in the BLOCKSTATE, not in
+        // BlockEntity NBT. The loot builder may omit BLOCK_ENTITY (e.g. some
+        // support-loss or command destruction paths). Reading the state
+        // directly ensures exactly one product is returned in all such cases,
+        // even if the BlockEntity was already discarded.
+        ItemStack hangingProduct = state.getValue(CHEESE).stack();
+        if (!hangingProduct.isEmpty()) {
+            drops.add(hangingProduct);
         }
 
         return drops;

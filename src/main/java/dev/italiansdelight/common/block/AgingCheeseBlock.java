@@ -217,19 +217,14 @@ public final class AgingCheeseBlock
                     state
                 );
 
-            if (!player.addItem(pickup)) {
-                player.drop(
-                    pickup,
-                    false
-                );
+            // Remove first with NO vanilla drop; only give the calculated
+            // pickup AFTER successful removal. If the block is already gone
+            // (e.g. another player's interaction), do not grant a second item.
+            if (level.removeBlock(pos, false)
+                    && !player.addItem(pickup)
+                    && !pickup.isEmpty()) {
+                player.drop(pickup, false);
             }
-
-            // No drop from block removal: the correct fresh/final item was
-            // handed out above. Any incomplete progress disappears here.
-            level.removeBlock(
-                pos,
-                false
-            );
         }
 
         return InteractionResult.SUCCESS;
