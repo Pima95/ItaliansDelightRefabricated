@@ -1,5 +1,14 @@
 # Roadmap — Pizza Update 1.0.0
 
+## Blocco della pubblicazione — checklist release candidate
+
+- [x] README e CHANGELOG distinguono **0.4.0 pubblicata** e **1.0.0 ancora in sviluppo**; nessuna modifica a `mod_version`, `main` o ai file PNG approvati.
+- [x] Una checklist centralizzata in [RELEASE_READINESS.md](RELEASE_READINESS.md) unifica survival, multiplayer, hopper, salvataggi, performance, JEI e integrità dei dati.
+- [x] Controllo CI sui metadati di rilascio e sui riferimenti della checklist.
+- [ ] **Conferma in-game dell'autore** su tutti gli scenari obbligatori, inclusi lo stacking di 16 spicchi e la scheda Creativa senza doppioni.
+- [ ] Solo dopo il via libera: aggiornare la versione a 1.0.0, changelog e README, creare PR verso `main` protetta e preparare le pubblicazioni.
+
+
 ## Rifinitura richiesta — spicchi 16/stack e Creativa senza doppioni
 
 - [x] **Stack di 16 già configurato, ora funzionante a livello dati:** gli spicchi dello stesso gusto confrontano ingredienti canonici + mozzarella legacy, non quarto d'origine, ordine o stack originale dei condimenti. Pizze diverse non si mescolano, nutrizione e texture non cambiano.

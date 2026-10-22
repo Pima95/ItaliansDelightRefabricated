@@ -26,11 +26,13 @@ Current features include:
 - **Nourishment** support for complete meals, balanced against Farmer's Delight Refabricated;
 - integration with **JEI** and Farmer's Delight systems, including Cheese Vat, aging/drying, and salt evaporation.
 
-More content is planned, including additional pasta dishes, olive trees, grapes and wine, pizza, and seasonal content.
+**Pizza Update 1.0.0 is in active development** on the [`feature/pizza-1.0.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/pizza-1.0.0). It is **not part of the published 0.4.0 release**. The in-development update adds interactive pizza preparation on placed dough, a reusable pizza peel, the Pizza Oven, vanilla furnace/smoker support, data-bearing topping combinations, independent pizza slices, JEI guides, and Creative examples. Its release is gated on the remaining multiplayer, automation, persistence and regression tests. See the [Pizza 1.0.0 release readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) for details.
+
+Additional pasta dishes, olive trees, grapes/wine and seasonal content remain future plans.
 
 ## Requirements
 
-Italian's Delight Refabricated **0.4.0** targets **Minecraft 26.2** and requires:
+The latest documented **published version is 0.4.0**, targeting **Minecraft 26.2**, and requires:
 
 - **Java 25**
 - **Fabric Loader 0.19.5 or newer**

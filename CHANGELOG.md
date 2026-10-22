@@ -2,6 +2,33 @@
 
 All notable changes to Italian's Delight Refabricated are documented here.
 
+## Unreleased — Pizza Update 1.0.0 (development branch; NOT published)
+
+This section describes changes currently implemented on `feature/pizza-1.0.0`, **not an available 1.0.0 download**. Version metadata and published downloads remain at 0.4.0 until the author signs off on release testing.
+
+### Interactive pizza system
+
+- Added placeable Farmer's Delight wheat dough, hand stretching and rolling-pin shaping, physical halves/quarters, ingredient placement and last-in-first-out removal.
+- Added a data-bearing pizza peel that transfers one raw or cooked pizza between the world and the Pizza Oven without discarding its saved toppings.
+- Added the Pizza Oven with a furnace-style GUI, vanilla fuel and hopper automation, and component-preserving baking; raw pizzas can also cook in vanilla furnaces and smokers.
+- Added dynamic shapeless crafting of uniform raw pizzas alongside freeform preparation in the world.
+- Added 18 recognized pizza flavors and Mixed Pizza with independent names, toppings and sprites for each of the four served quarters.
+- Added custom slice nutrition derived from the actual canonical topping categories; at most two distinct ingredients per category contribute, capped at six hunger and six saturation points.
+- Added short Farmer's Delight Nourishment for slices meeting the nutritional threshold; slices of the same flavor stack up to 16.
+- Added Pizza Oven, crafting and in-world preparation guides in JEI and organized Creative samples without duplicate empty Pizza Bianca entries.
+
+### Compatibility and pre-release fixes
+
+- Preserved pizza data through block breaking, loss of support, placement, ovens, slice serving and peel transfers.
+- Improved hopper bowl handling for custom-component items and limited bowl returns to original sauce/cream applications.
+- Updated old Mixed Pizza item icons and legacy saved slice food/effect components without changing their toppings.
+- Fixed hook-only Scamorza and Provolone placement and guarded hanging-cheese/wheel drops when their supports are removed.
+- Reused the original Margherita sprite as the Creative tab icon and Mixed Pizza whole-item illustration; approved textures are unchanged.
+
+### Release gate
+
+The Java 25 CI build and resource/static checks run on each branch push. **Runtime multiplayer, save/load, hopper, slice stacking, JEI and older-world compatibility checks still require in-game verification**; they are not implicitly passed by compilation. Follow [the 1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md). **Do not change `mod_version`, tag a release, upload to Modrinth/CurseForge, or merge to protected `main` until the author approves these checks.**
+
 ## 0.4.0
 
 ### Basil
