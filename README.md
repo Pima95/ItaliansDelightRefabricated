@@ -65,6 +65,7 @@ build/libs/
 
 For detailed technical requirements, design decisions, and the development roadmap:
 
+- [Current 1.0.0 implementation, tests and remaining audits](docs/pizza-1.0.0/CURRENT_STATUS.md)
 - [Requirements and Roadmap](docs/REQUIREMENTS.md)
 - [Requisiti e Roadmap — Italian version](docs/REQUISITI.md)
 

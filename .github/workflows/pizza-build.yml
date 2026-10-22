@@ -52,5 +52,7 @@ jobs:
         run: python3 .github/scripts/check_pizza_release_metadata.py
       - name: Verify JEI recipe access survives client world transitions
         run: python3 .github/scripts/check_jei_world_lifecycle.py
+      - name: Verify twelve aging-rack crafting recipe variants
+        run: python3 .github/scripts/generate_aging_rack_recipes.py --check
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace

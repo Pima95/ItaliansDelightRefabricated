@@ -242,3 +242,5 @@ _Questo audit integra, e non sostituisce, [CODE_AUDIT_2026-10-19.md](CODE_AUDIT_
 
 - **OPT-010 — implementato, da verificare in-game:** unificato il trasferimento dei contenitori in `PizzaFurnaceRemainders.deliver`, richiamato al commit dal Pizza Oven e dal mixin di fornace/smoker. Identici controlli `ItemStack.isSameItemSameComponents`, limiti stack, hopper sottostante e drop dell'overflow, senza cambiare i tre punti di commit.
 - **OPT-012 — implementato, piccolo guadagno non misurato:** `CargoRenderer.getExtents` evita tre array `float[]` temporanei, iterando sugli stessi otto vertici, senza modificare i limiti spaziali o la posa già approvata della pala. Confrontare visivamente la pala vuota/piena.
+
+- **OPT-014 — implementato come tool di sviluppo:** script `.github/scripts/generate_aging_rack_recipes.py`, con modalità `--check` in CI e `--write` manuale, produce le stesse dodici ricette vanilla fence–plank–fence in file separati, verificando anche gli ID e la presenza di tutte le varianti. **Nessun JSON originale modificato**, nessun cambiamento visivo o alle ricette distribuite.

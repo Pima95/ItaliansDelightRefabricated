@@ -206,3 +206,5 @@ La voce **`OSSERVATO NEL CODICE`** indica un comportamento concretamente present
 - **AUD-003, 004, 005, 006, 008–011, 013, 014:** restano da completare / verificare secondo priorità. I test di runtime non possono essere marcati superati dalla compilazione.
 
 - **AUD-014 — gestione difensiva implementata, test JEI pendente:** `CheeseVatJeiRecipes` e `CheeseAgingJeiRecipes` interrogano il `ClientLevel` nel metodo di registrazione e restituiscono una lista vuota quando il livello client è assente, al posto di lanciare `NullPointerException` o trattenere un vecchio `SynchronizedRecipes`. La registrazione dei piatti/categorie resta invariata; verificare uscita, cambio mondo, rejoin, `/reload` e apertura JEI.
+
+- **AUD-013 — mitigato:** `docs/pizza-1.0.0/CURRENT_STATUS.md` è la vista sintetica attuale con collegamenti a codice, test e backlog; i documenti precedenti restano cronologia e non vengono riscritti o cancellati.
