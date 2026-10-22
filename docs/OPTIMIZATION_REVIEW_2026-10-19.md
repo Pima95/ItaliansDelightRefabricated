@@ -233,3 +233,9 @@ Consolidamento helper dei contenitori e categorie JEI, pulizia generatori delle 
 **Nessuna ottimizzazione implementata.** L'ordine suggerito serve a identificare i guadagni reali tramite misure prima di intervenire. Il documento può essere usato come backlog: aggiornare la voce a **misurata**, **approvata**, **implementata** o **testata** soltanto dopo i passaggi effettivi.
 
 _Questo audit integra, e non sostituisce, [CODE_AUDIT_2026-10-19.md](CODE_AUDIT_2026-10-19.md), [KNOWN_BUGS.md](KNOWN_BUGS.md) e [PLANNED_IMPROVEMENTS.md](PLANNED_IMPROVEMENTS.md)._
+
+## Aggiornamento dopo la revisione (22 ottobre 2026)
+
+- **OPT-002 — implementato, da misurare:** `PizzaSmeltingRecipe.assemble` e `PizzaSmokingRecipe.assemble` chiamano `previewCookedPizza` senza enumerare/restituire ciotole. I rimborsi per applicazione vengono conteggiati soltanto al commit di `PizzaBaking.finish`. Niente cache cross-tick di ItemStack mutabili; prima/dopo per tempo di cottura, output e bowl invariati.
+- **OPT-007 — implementato, da verificare in multiplayer:** rimossi i due invii `server.sendBlockUpdated` ridondanti dagli handler di aggiunta/rimozione: `PizzaDoughBlockEntity.setComposition` resta il proprietario unico della sincronizzazione.
+- Le altre OPT richiedono profiling o collaudi mirati; **non** compromettere conservazione degli item, interazioni già approvate o tempi di cottura per miglioramenti non misurati.

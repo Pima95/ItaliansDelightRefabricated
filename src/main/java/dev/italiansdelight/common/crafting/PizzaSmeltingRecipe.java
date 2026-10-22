@@ -39,9 +39,7 @@ public final class PizzaSmeltingRecipe extends AbstractCookingRecipe {
 
     @Override
     public ItemStack assemble(SingleRecipeInput input) {
-        return PizzaBaking.finish(input.item(), PizzaBaking.MAX_PROGRESS)
-                .map(PizzaBaking.BakingResult::cookedPizza)
-                .orElse(ItemStack.EMPTY);
+        return PizzaBaking.previewCookedPizza(input.item());
     }
 
     @Override

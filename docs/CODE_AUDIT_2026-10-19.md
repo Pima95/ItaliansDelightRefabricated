@@ -197,3 +197,10 @@ La voce **`OSSERVATO NEL CODICE`** indica un comportamento concretamente present
 ---
 
 **Nota finale:** questo è un audit **statico** svolto a partire dallo snapshot di GitHub indicato. Le priorità sono valutazioni di rischio e non attestano che il gioco attuale sia difettoso. **Non è stata eseguita alcuna correzione, refactoring, ottimizzazione o modifica di ricette/texture in conseguenza di questo documento.**
+
+## Aggiornamento applicato dopo l'audit (22 ottobre 2026)
+
+- **AUD-001 — implementato, test in-game pendente:** `PizzaBaking.previewCookedPizza` copia i componenti **CUSTOM_NAME, LORE e CUSTOM_DATA** dall'item crudo al nuovo item cotto; ricrea invece `ITEM_NAME` e `ITEM_MODEL` dal gusto corretto, senza copiare componenti di gameplay del tipo crudo. Condiviso da Pizza Oven, Smoker e Furnace. Per eventuali componenti custom di altre mod diversi da questi tre occorre una policy specifica, non copiarli indiscriminatamente.
+- **AUD-002 — precedentemente corretto:** la mozzarella intera non è più un topping applicabile; il flag legacy sopravvive per i vecchi mondi.
+- **AUD-012 — parzialmente superato:** esiste già una workflow CI Java 25 con numerosi audit statici; manca ancora una vera suite di test Java runtime / server dedicato. Non considerare chiuso l'intero AUD-012.
+- **AUD-003, 004, 005, 006, 008–011, 013, 014:** restano da completare / verificare secondo priorità. I test di runtime non possono essere marcati superati dalla compilazione.

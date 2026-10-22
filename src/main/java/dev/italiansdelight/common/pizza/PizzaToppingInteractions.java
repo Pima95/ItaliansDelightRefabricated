@@ -13,7 +13,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
@@ -86,8 +85,7 @@ public final class PizzaToppingInteractions {
         if (!player.getAbilities().instabuild) {
             held.shrink(1);
         }
-        server.sendBlockUpdated(pos, server.getBlockState(pos),
-                server.getBlockState(pos), Block.UPDATE_CLIENTS);
+        // setComposition() already synchronizes the blockstate and BE packet.
         server.playSound(null, pos, SoundEvents.WOOL_PLACE,
                 SoundSource.BLOCKS, 0.55F, 1.05F);
         return InteractionResult.SUCCESS;
@@ -126,8 +124,7 @@ public final class PizzaToppingInteractions {
             if (!refund.isEmpty() && !player.addItem(refund) && !refund.isEmpty()) {
                 player.drop(refund, false);
             }
-            server.sendBlockUpdated(pos, server.getBlockState(pos),
-                    server.getBlockState(pos), Block.UPDATE_CLIENTS);
+            // BlockEntity.setComposition() already broadcasts once.
             server.playSound(null, pos, SoundEvents.WOOL_PLACE,
                     SoundSource.BLOCKS, 0.55F, 0.8F);
             return InteractionResult.SUCCESS;

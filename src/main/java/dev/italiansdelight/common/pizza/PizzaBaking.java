@@ -6,6 +6,7 @@ import dev.italiansdelight.common.registry.ModRegistries;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.resources.Identifier;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -64,23 +65,55 @@ public final class PizzaBaking {
     }
 
     /**
-     * An oven may finish ONLY once it has completed its internal cook time.
-     * Input remains untouched here; the oven performs the authoritative
-     * transaction of one raw pizza -> one cooked pizza + bowl remainders.
+     * Vanilla furnaces call assemble repeatedly while testing whether their
+     * output slot can receive a result. Do not count/create bowl remainders
+     * until a real cooking transaction finishes.
+     *
+     * Only cosmetic/custom metadata approved for transfer is copied, never
+     * RAW_PIZZA item-specific behavior, max stack size, food, or ITEM_MODEL.
      */
-    public static Optional<BakingResult> finish(ItemStack rawPizza, int ovenProgress) {
-        if (!rawPizza.is(ModItems.RAW_PIZZA) || ovenProgress < MAX_PROGRESS) {
-            return Optional.empty();
+    public static ItemStack previewCookedPizza(ItemStack rawPizza) {
+        if (!rawPizza.is(ModItems.RAW_PIZZA)) {
+            return ItemStack.EMPTY;
         }
         PizzaItemData data = rawPizza.get(ModDataComponents.PIZZA_CONTENTS);
         if (data == null) {
-            return Optional.empty();
+            return ItemStack.EMPTY;
         }
 
         ItemStack cooked = new ItemStack(ModItems.COOKED_PIZZA);
         cooked.set(ModDataComponents.PIZZA_CONTENTS, data);
         PizzaDisplayNames.nameWholeStack(cooked, data);
 
+        // ITEM_NAME remains derived from the four real quarters. An explicit
+        // anvil name takes precedence, and arbitrary mod/datapack annotations
+        // kept in CUSTOM_DATA or LORE must survive cooking all three ways.
+        if (rawPizza.has(DataComponents.CUSTOM_NAME)) {
+            cooked.set(DataComponents.CUSTOM_NAME, rawPizza.get(DataComponents.CUSTOM_NAME));
+        }
+        if (rawPizza.has(DataComponents.LORE)) {
+            cooked.set(DataComponents.LORE, rawPizza.get(DataComponents.LORE));
+        }
+        if (rawPizza.has(DataComponents.CUSTOM_DATA)) {
+            cooked.set(DataComponents.CUSTOM_DATA, rawPizza.get(DataComponents.CUSTOM_DATA));
+        }
+        return cooked;
+    }
+
+    /**
+     * An oven may finish ONLY once it has completed its internal cook time.
+     * Input remains untouched here; the oven performs the authoritative
+     * transaction of one raw pizza -> one cooked pizza + bowl remainders.
+     */
+    public static Optional<BakingResult> finish(ItemStack rawPizza, int ovenProgress) {
+        if (ovenProgress < MAX_PROGRESS) {
+            return Optional.empty();
+        }
+        ItemStack cooked = previewCookedPizza(rawPizza);
+        if (cooked.isEmpty()) {
+            return Optional.empty();
+        }
+        PizzaItemData data = rawPizza.get(ModDataComponents.PIZZA_CONTENTS);
         int bowls = 0;
         for (PizzaToppingApplication application : data.composition().applications()) {
             if (application.remainingMask() != 0

@@ -227,6 +227,16 @@ def audit_baking() -> None:
             "Bowl remainders must count active applications")
     require("new ItemStack(Items.BOWL, bowls)" in source,
             "Bowl count is not preserved")
+    require("public static ItemStack previewCookedPizza(ItemStack rawPizza)" in source
+            and "ItemStack cooked = previewCookedPizza(rawPizza);" in source,
+            "Preview must avoid creating bowl remainders until baking commits")
+    for component in ("CUSTOM_NAME", "LORE", "CUSTOM_DATA"):
+        require(f"cooked.set(DataComponents.{component}, rawPizza.get(DataComponents.{component}))" in source,
+                f"Baking discarded saved cosmetic component {component}")
+    topping = Path("src/main/java/dev/italiansdelight/common/pizza/PizzaToppingInteractions.java").read_text(encoding="utf-8")
+    require("server.sendBlockUpdated(" not in topping
+            and "pizza.setComposition(" in topping,
+            "Avoid duplicate sync packets; the BlockEntity is the sole broadcaster")
 
     for filename, recipe_type, ticks, java_file, codec_ticks in [
         ("pizza_smelting.json", "italiansdelight:pizza_smelting",
@@ -246,8 +256,8 @@ def audit_baking() -> None:
                 and re.search(r"cookingMapCodec\([^)]*,\s*"
                               + str(codec_ticks) + r"\)", serializer) is not None,
                 f"Serializer cooking time differs from datapack: {java_file}")
-        require("PizzaBaking.finish(input.item(), PizzaBaking.MAX_PROGRESS)"
-                in serializer, f"Component-preserving baking missing in {java_file}")
+        require("PizzaBaking.previewCookedPizza(input.item())"
+                in serializer, f"Component-preserving preview missing in {java_file}")
 
     oven = Path("src/main/java/dev/italiansdelight/common/block/entity/"
                 "PizzaOvenBlockEntity.java").read_text(encoding="utf-8")
