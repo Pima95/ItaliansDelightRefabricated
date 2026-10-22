@@ -6,6 +6,7 @@ import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
 import dev.italiansdelight.common.block.CheeseAgingRackBlock;
 import dev.italiansdelight.common.block.AgingCheeseBlock;
 import dev.italiansdelight.common.block.CardoonBlock;
+import dev.italiansdelight.common.block.CultivatedCardoonCropBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
@@ -21,6 +22,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.SoundType;
 
 /**
  * Central registry for mod blocks and their BlockItems when they need to be placeable from the inventory.
@@ -36,9 +38,21 @@ public final class ModBlocks {
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("cardoon")
     );
 
+    // Historical ID stays wild to preserve old worlds and flower pots.
     public static final Block CARDOON = register(
         CARDOON_KEY,
         new CardoonBlock(Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(CARDOON_KEY))
+    );
+
+    // New crop + BlockItem; harvested cardoon replants directly as with basil.
+    public static final ResourceKey<Block> CULTIVATED_CARDOON_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("cultivated_cardoon")
+    );
+    public static final Block CULTIVATED_CARDOON = register(
+        CULTIVATED_CARDOON_KEY,
+        new CultivatedCardoonCropBlock(
+            Block.Properties.ofFullCopy(Blocks.WHEAT).setId(CULTIVATED_CARDOON_KEY)
+        )
     );
 
     public static final ResourceKey<Block> POTTED_CARDOON_KEY = ResourceKey.create(
@@ -146,6 +160,7 @@ public final class ModBlocks {
                     .setId(CHEESE_HOOK_KEY)
                     .noOcclusion()
                     .noCollision()
+                    .sound(SoundType.CHAIN)
                     .strength(3.0F, 6.0F)
             )
         );

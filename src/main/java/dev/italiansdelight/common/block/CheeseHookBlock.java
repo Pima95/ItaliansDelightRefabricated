@@ -15,6 +15,8 @@ import dev.italiansdelight.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -221,10 +223,12 @@ public final class CheeseHookBlock extends BaseEntityBlock {
                 && level.getBlockEntity(pos)
                     instanceof CheeseHookBlockEntity hook
             ) {
-                giveRemovedCheeseToInventory(
-                    hook.remove(serverLevel),
-                    player
-                );
+                ItemStack removed = hook.remove(serverLevel);
+                giveRemovedCheeseToInventory(removed, player);
+                if (!removed.isEmpty()) {
+                    serverLevel.playSound(null, pos, SoundEvents.CHAIN_HIT,
+                            SoundSource.BLOCKS, 0.65F, 1.05F);
+                }
             }
 
             return InteractionResult.SUCCESS;
@@ -243,17 +247,14 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        if (
-            level instanceof ServerLevel serverLevel
-            && level.getBlockEntity(pos)
-                instanceof CheeseHookBlockEntity hook
-            && hook.insert(
-                serverLevel,
-                requested
-            )
-            && !player.getAbilities().instabuild
-        ) {
-            stack.shrink(1);
+        if (level instanceof ServerLevel serverLevel
+                && level.getBlockEntity(pos) instanceof CheeseHookBlockEntity hook
+                && hook.insert(serverLevel, requested)) {
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
+            serverLevel.playSound(null, pos, SoundEvents.CHAIN_PLACE,
+                    SoundSource.BLOCKS, 0.65F, 1.0F);
         }
 
         return InteractionResult.SUCCESS;
@@ -283,10 +284,12 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             && level.getBlockEntity(pos)
                 instanceof CheeseHookBlockEntity hook
         ) {
-            giveRemovedCheese(
-                hook.remove(serverLevel),
-                player
-            );
+            ItemStack removed = hook.remove(serverLevel);
+            giveRemovedCheese(removed, player);
+            if (!removed.isEmpty()) {
+                serverLevel.playSound(null, pos, SoundEvents.CHAIN_HIT,
+                        SoundSource.BLOCKS, 0.65F, 1.05F);
+            }
         }
 
         return InteractionResult.SUCCESS;

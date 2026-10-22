@@ -68,7 +68,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.PIZZA_PEEL);
 
                 // CROPS AND PREPARED VEGETABLES.
-                output.accept(ModBlocks.CARDOON);
+                output.accept(ModBlocks.CARDOON); // wild, historical ID
+                output.accept(ModBlocks.CULTIVATED_CARDOON); // harvested crop item
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
                 output.accept(ModItems.SALT);
