@@ -117,7 +117,10 @@ public final class PizzaCompositionOperations {
             ItemStack refund = ItemStack.EMPTY;
             if (newMask == 0) {
                 updated.remove(i);
-                refund = existing.originalStack();
+                // The crafted sauce already gave its bowl back. Refunding
+                // the original full sauce item now would duplicate it.
+                refund = existing.bowlReturnedOnCrafting()
+                        ? ItemStack.EMPTY : existing.originalStack();
             } else {
                 updated.set(i, existing.withRemainingMask(newMask));
             }

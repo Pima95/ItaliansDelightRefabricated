@@ -117,7 +117,8 @@ public final class PizzaBaking {
         int bowls = 0;
         for (PizzaToppingApplication application : data.composition().applications()) {
             if (application.remainingMask() != 0
-                    && isBowlBearing(application.canonicalId())) {
+                    && !application.bowlReturnedOnCrafting()
+                && isBowlBearing(application.canonicalId())) {
                 bowls++;
             }
         }
@@ -130,7 +131,8 @@ public final class PizzaBaking {
         return Optional.of(new BakingResult(cooked, remainders));
     }
 
-    private static boolean isBowlBearing(Identifier canonical) {
+    /** Same container classification for baking and shapeless crafting. */
+    public static boolean isBowlBearing(Identifier canonical) {
         return TOMATO_SAUCE.equals(canonical)
                 || CREAM_BOWL.equals(canonical)
                 || RICOTTA.equals(canonical);

@@ -19,7 +19,8 @@ public record PizzaToppingApplication(
         Identifier canonicalId,
         ItemStack originalStack,
         int originalMask,
-        int remainingMask
+        int remainingMask,
+        boolean bowlReturnedOnCrafting
 ) {
     public static final Codec<PizzaToppingApplication> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
@@ -27,9 +28,19 @@ public record PizzaToppingApplication(
                     Identifier.CODEC.fieldOf("canonical").forGetter(PizzaToppingApplication::canonicalId),
                     ItemStack.CODEC.fieldOf("original_stack").forGetter(PizzaToppingApplication::originalStack),
                     Codec.INT.fieldOf("original_mask").forGetter(PizzaToppingApplication::originalMask),
-                    Codec.INT.fieldOf("remaining_mask").forGetter(PizzaToppingApplication::remainingMask)
+                    Codec.INT.fieldOf("remaining_mask").forGetter(PizzaToppingApplication::remainingMask),
+                    Codec.BOOL.optionalFieldOf("bowl_returned_on_crafting", false)
+                            .forGetter(PizzaToppingApplication::bowlReturnedOnCrafting)
             ).apply(instance, PizzaToppingApplication::new)
     );
+
+    /** Source-compatible constructor for all pre-existing saved/placed toppings. */
+    public PizzaToppingApplication(
+            long sequence, Identifier canonicalId, ItemStack originalStack,
+            int originalMask, int remainingMask
+    ) {
+        this(sequence, canonicalId, originalStack, originalMask, remainingMask, false);
+    }
 
     public PizzaToppingApplication {
         Objects.requireNonNull(canonicalId, "canonicalId");
@@ -61,8 +72,18 @@ public record PizzaToppingApplication(
         return (remainingMask & (1 << quarterIndex)) != 0;
     }
 
-    /** Keep the application identity and refundable source when partly removed. */
+    /** A crafted sauce's empty bowl was already returned in the crafting grid. */
+    public PizzaToppingApplication withCraftingBowlReturned() {
+        if (!PizzaBaking.isBowlBearing(canonicalId)) {
+            throw new IllegalStateException("Cannot mark a non-bowl pizza topping");
+        }
+        return new PizzaToppingApplication(
+                sequence, canonicalId, originalStack, originalMask, remainingMask, true);
+    }
+
+    /** Preserve original coverage AND bowl refund state during partial removal. */
     public PizzaToppingApplication withRemainingMask(int mask) {
-        return new PizzaToppingApplication(sequence, canonicalId, originalStack, originalMask, mask);
+        return new PizzaToppingApplication(
+                sequence, canonicalId, originalStack, originalMask, mask, bowlReturnedOnCrafting);
     }
 }
