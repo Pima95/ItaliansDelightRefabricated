@@ -1,6 +1,6 @@
 # Inventario di corrispondenze binarie con Rustic
 
-**Data:** 23 ottobre 2026. **Base locale:** `feature/orchards-1.1.0`. **Fonte di confronto:** [Rustic / cadaverous-eris, branch master](https://github.com/cadaverous-eris/Rustic), autore CurseForge **cadaverous_queen**.
+**Data:** 23 ottobre 2026. **Base locale:** `feature/orchards-1.1.0`. **Fonte di confronto:** [Rustic / cadaverous-eris, sorgente master](https://github.com/cadaverous-eris/Rustic), **tree SHA fissato `f40bd6f7c6db3cb6441db78cc11f7e6df2d52bd0`** al momento dell'audit; autore CurseForge **cadaverous_queen**.
 
 Questo documento registra file con **lo stesso Git blob SHA-1** del repository pubblico Rustic. La corrispondenza dimostra identità binaria dei file; non dimostra da sola la catena storica di provenienza o che tutto il restante materiale venga necessariamente da Italian's Delight. L'abbinamento del file sorgente nelle righe `.mcmeta` è uno fra vari file identici, non necessariamente l'unico originale.
 
@@ -56,3 +56,7 @@ Questo documento registra file con **lo stesso Git blob SHA-1** del repository p
 - Non è stato trovato un blob identico in questa versione di Rustic per `block/olive_log.png`, `block/olive_leaves.png`, `block/olive_sapling.png`, `block/olive_planks.png`, `block/olive_log_top.png`, i legni scortecciati, la porta e la botola `olive_*`. **Nessun match non significa automaticamente origine Italian's Delight.** Questi file restano da attribuire.
 - Le versioni Rustic sono pubblicate con licenza dichiarata MIT su [CurseForge](https://www.curseforge.com/minecraft/mc-mods/rustic/license); consultare [i crediti e le licenze di terze parti](../../THIRD_PARTY_NOTICES.md). La copertura di eventuali asset importati da altri artisti va controllata caso per caso.
 - Non introdurre duplicati con nuovi identificatori di blocco e non sovrascrivere le risorse originali: scegliere l'asset definitivo solo dopo aver completato la verifica e l'approvazione artistica.
+
+## Provenienza dell'altro gruppo di asset
+
+Il [changelog storico Italian's Delight 2.0](https://www.curseforge.com/minecraft/mc-mods/italians-delight/files/5083290) riporta l'aggiunta di un **set completo di legno d'ulivo**. È un indizio documentale a favore della provenienza da Italian's Delight per alcune texture `olive_*` che non coincidono con Rustic. **Non è una verifica binaria** delle PNG originali: le attribuzioni file per file restano aperte finché non viene confrontato l'archivio originale o il codice sorgente dell'epoca.
