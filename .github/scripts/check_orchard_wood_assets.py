@@ -64,6 +64,16 @@ def main():
         actual = json.loads((BLOCKS / (name + ".json")).read_text(encoding="utf-8"))
         if len(actual.get("variants", {})) != count:
             raise ValueError(f"{name}: expected {count} vanilla variants")
+    # Match Minecraft's vanilla model rotations (not just JSON existence).
+    gate = json.loads((BLOCKS / "olive_fence_gate.json").read_text(encoding="utf-8"))["variants"]
+    for direction, expected_y in (("north", 180), ("east", 270), ("south", 0), ("west", 90)):
+        v = gate[f"facing={direction},in_wall=false,open=false"]
+        if v.get("y", 0) != expected_y or not v.get("uvlock"):
+            raise ValueError(f"Fence gate rotation mismatch: {direction}")
+    button = json.loads((BLOCKS / "olive_button.json").read_text(encoding="utf-8"))["variants"]
+    for direction in ("north", "east", "south", "west"):
+        if not button[f"face=wall,facing={direction},powered=false"].get("uvlock"):
+            raise ValueError(f"Wall button must lock UVs: {direction}")
     print("OK: eleven olive wood building blocks; models use only non-Rustic olive textures")
 
 if __name__ == "__main__":
