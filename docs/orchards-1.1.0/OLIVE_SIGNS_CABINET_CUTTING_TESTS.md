@@ -1,6 +1,6 @@
 # Orchard Update 1.1.0 — Cartelli, cabinet e Cutting Board
 
-**Branch:** `feature/orchards-1.1.0` · **Stato:** implementati nel branch; **collaudo in Minecraft ancora da eseguire**. La verifica della botola d'ulivo è indipendente.
+**Branch:** `feature/orchards-1.1.0` · **Stato:** implementati nel branch; **build Java 25 e controlli statici superati** ([CI 40042164597](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/40042164597)); **collaudo in Minecraft ancora da eseguire**. La verifica della botola d'ulivo è indipendente.
 
 ## Cosa è stato implementato
 
