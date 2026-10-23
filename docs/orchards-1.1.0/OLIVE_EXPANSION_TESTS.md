@@ -1,6 +1,6 @@
 # Orchard 1.1.0 — Porte, botole, aging rack e barche d'ulivo
 
-**Branch:** `feature/orchards-1.1.0`. **Stato:** implementati tecnicamente; **tutti i seguenti collaudi manuali sono ancora da confermare**. Registrare solo risultati dichiarati dall'autore.
+**Branch:** `feature/orchards-1.1.0`. **Stato:** l'autore segnala che gli altri contenuti sembrano funzionare, ma ha riscontrato un bug grafico dell'orientamento della botola; fix introdotto il 24/10 e **in attesa di ritest manuale**. La checklist dettagliata non è ancora stata confermata voce per voce: registrare solo esiti dichiarati dall'autore.
 
 **CI Java 25:** compilazione e controlli automatici **superati** su [GitHub Actions run 40040792134](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/40040792134). Questo esito **non** certifica i comportamenti runtime delle entità/barche e non sostituisce la checklist in-game.
 
@@ -8,7 +8,7 @@
 
 - [ ] **Creativa e aspetto**: porte, botole, scaffale, barca e barca con baule sono presenti una volta; nomi IT/EN e texture senza viola/nero.
 - [ ] **Porte**: entrambe le metà appaiono correttamente; prova tutte le direzioni, cerniera destra/sinistra, apertura a mano, leve/redstone, collisioni e suoni; rompendo la porta si recupera una sola porta.
-- [ ] **Botole**: orientamenti, posizioni alte e basse, apertura/chiusura a mano e con redstone; con acqua e dopo il riavvio del mondo; rottura restituisce un oggetto.
+- [ ] **Botole (regressione della texture direzionale)**: dopo il fix del 24/10, piazzare la botola a nord, est, sud e ovest, chiusa e aperta, sia alta sia bassa. Verificare che il disegno del legno segua l'orientamento e non rimanga sempre a nord. Ripetere con redstone e dopo un riavvio del mondo; controllare acqua, collisioni e drop. La correzione del blockstate ha superato solo i controlli statici finché l'autore non la ritesta.
 - [ ] **Ricette**: sei assi in due colonne → tre porte; sei assi su due righe → due botole. Verificare l'aging rack con **4 olive fence + 1 olive planks** nella disposizione degli altri rack.
 - [ ] **Aging rack, livello inferiore**: inserire un formaggio idoneo, verificare la resa grafica, farlo maturare e recuperarlo; nessuna duplicazione/perdita.
 - [ ] **Aging rack, livello superiore**: inserire un formaggio diverso; i due ripiani funzionano indipendentemente e non accelerano/alterano la stagionatura.

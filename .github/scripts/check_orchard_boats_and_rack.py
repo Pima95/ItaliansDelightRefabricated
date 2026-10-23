@@ -43,6 +43,20 @@ def main():
     rack = read_json(ASSETS / "blockstates/olive_cheese_aging_rack.json")
     assert len(door["variants"]) == 32
     assert len(trapdoor["variants"]) == 16
+    # Unlike vanilla oak, olive_trapdoor.png is asymmetrical: the horizontal
+    # texture must rotate with the facing even when the trapdoor is CLOSED.
+    # Open and closed states must agree on the north/east/south/west rotation.
+    for direction, rotation in (("north", 0), ("east", 90), ("south", 180), ("west", 270)):
+        for half in ("bottom", "top"):
+            for is_open in ("false", "true"):
+                state = f"facing={direction},half={half},open={is_open}"
+                definition = trapdoor["variants"][state]
+                expected_model = ("open" if is_open == "true" else half)
+                assert definition["model"] == f"italiansdelight:block/olive_trapdoor_{expected_model}", state
+                assert definition.get("y", 0) == rotation, (
+                    f"Olive trapdoor has wrong texture facing in {state}: "
+                    f"{definition.get('y', 0)} instead of {rotation}"
+                )
     assert len(rack["multipart"]) >= 10
     for half in ("bottom", "top"):
         for side in ("left", "right"):

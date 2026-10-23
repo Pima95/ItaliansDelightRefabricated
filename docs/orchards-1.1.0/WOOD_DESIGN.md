@@ -69,6 +69,12 @@ Le due texture verticali della porta, la botola e le relative icone sono già pr
 
 Tutto il codice, le ricette e le definizioni sono in fase di collaudo; vedi [OLIVE_EXPANSION_TESTS.md](OLIVE_EXPANSION_TESTS.md).
 
+### Fix orientamento della botola e ultimo blocco edilizio da progettare (24 ottobre 2026)
+
+Segnalata e corretta la texture della botola d'ulivo che da chiusa non seguiva la direzione di posa. Ogni variante nord/est/sud/ovest ora ruota il modello in modo coerente con la variante aperta, tanto in metà bassa quanto alta; **il PNG originale non è stato modificato**. CI: verifica dedicata sui 16 blockstate; collaudo finale in gioco ancora richiesto.
+
+**Ancora mancanti nella famiglia completa:** cartello d'ulivo `olive_sign` (a terra e a parete) e cartello appeso `olive_hanging_sign` (soffitto e parete), sfruttando le due texture di entità già presenti. `olive_cabinet_*` indica un possibile mobile aggiuntivo, facoltativo e non equivalente a un blocco di legno vanilla. Non confondere foglie/germogli con blocchi decorativi: sono previsti nella fase alberi e frutti.
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.

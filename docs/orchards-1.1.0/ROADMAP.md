@@ -113,6 +113,14 @@ Il branch contiene sei nuovi blocchi: `olive_stairs`, `olive_slab`, `olive_fence
 
 **Fase A implementata; restano i test manuali:** aggiungere prima i derivati delle assi (`olive_stairs`, `olive_slab`, `olive_fence`, `olive_fence_gate`, `olive_button`, `olive_pressure_plate`), poi porte e botole (`olive_door`, `olive_trapdoor`). Preferire l'uso delle texture `olive_*` esistenti, mai quelle Rustic, senza alterare i PNG. In seguito affrontare cartelli, cartelli appesi e barche. La crescita dell'ulivo e quella dell'ulivo secolare 2×2 resteranno una fase successiva. Ogni lotto necessita di una build e di un collaudo distinti. Vedi [test e criteri](OLIVE_WOOD_TESTS.md).
 
+### Feedback e correzione: orientamento della botola d'ulivo (24 ottobre 2026)
+
+**Segnalazione dell'autore:** la texture della botola rimaneva orientata come `facing=north` in tutte le direzioni di posa; l'autore ha comunicato che **il resto va bene**, senza fornire una checklist completa punto per punto.
+
+**Correzione:** in `assets/italiansdelight/blockstates/olive_trapdoor.json` applicate le rotazioni Y `north=0`, `east=90`, `south=180`, `west=270` **anche agli stati chiusi**, per entrambe le metà (`bottom`/`top`). Gli stati aperti avevano già la rotazione. La texture `olive_trapdoor.png` è immutata. Un controllo CI verifica **tutti i 16 stati**. **Da ricontrollare in gioco:** orientamento della texture della botola aperta e chiusa, metà alta e bassa; il fix non è ancora confermato dall'autore.
+
+**Prossimi blocchi mancanti per completare la famiglia di legno:** `olive_sign` (cartello in piedi/parete) e `olive_hanging_sign` (cartello appeso a soffitto/parete). Le relative texture entity `textures/entity/sign/olive.png` e `textures/entity/sign/hanging/olive.png` sono già presenti; servono registrazioni blocchi e block entity, modelli/renderer, crafting, tag e test. `olive_cabinet_*` è un **arredo opzionale** separato, non un blocco vanilla necessario. Foglie e germogli appartengono alla fase di arboricoltura, non al completamento edilizio.
+
 ### Fase B e scaffale di stagionatura d'ulivo (implementazione tecnica)
 
 - **Porta e botola d'ulivo**: blocchi vanilla-equivalenti, texture già esistenti `olive_door_bottom.png`, `olive_door_top.png`, `olive_door.png` e `olive_trapdoor.png`, senza modifiche PNG. Incluse ricette, proprietà del legno, redstone, loot (porta solo dal mezzo inferiore), modelli e traduzioni.
