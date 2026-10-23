@@ -126,7 +126,7 @@ public final class PizzaWorldRecipeCategory
         Component note = recipe.step() == PizzaWorldJeiRecipe.Step.TOPPINGS
                 ? Component.translatable("gui.italiansdelight.jei.pizza_world.named_toppings_note")
                 : Component.translatable(recipe.step().noteKey());
-        builder.addText(note.withStyle(ChatFormatting.DARK_GRAY), WIDTH - 12, 24)
+        builder.addText(note.copy().withStyle(ChatFormatting.DARK_GRAY), WIDTH - 12, 24)
                 .setPosition(6, 111);
     }
 }
