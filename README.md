@@ -28,6 +28,8 @@ Current features include:
 
 **Pizza Update 1.0.0 is in active development** on the [`feature/pizza-1.0.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/pizza-1.0.0). It is **not part of the published 0.4.0 release**. The in-development update adds interactive pizza preparation on placed dough, a reusable pizza peel, the Pizza Oven, vanilla furnace/smoker support, data-bearing topping combinations, independent pizza slices, JEI guides, and Creative examples. Its release is gated on the remaining multiplayer, automation, persistence and regression tests. See the [Pizza 1.0.0 release readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) for details.
 
+The [draft 1.0.0 release notes](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and [pre-release optimization decisions](docs/OPTIMIZATION_CLOSURE_2026-10-23.md) are available for review. The author reports the Cheese Vat test and final code audit complete; multiplayer is deferred and **not yet verified**. These documents do not change the published version or replace final release approval.
+
 Additional pasta dishes, olive trees, grapes/wine and seasonal content remain future plans.
 
 ## Requirements
