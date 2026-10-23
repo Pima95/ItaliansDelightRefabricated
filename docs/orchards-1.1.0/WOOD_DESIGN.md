@@ -7,7 +7,7 @@
 
 - **WD-001 (approvata):** l'ulivo, il mandorlo e il ciliegio fruttifero hanno **tre famiglie di legno originali**. Il ciliegio fruttifero **non** riutilizza il legno del ciliegio ornamentale vanilla.
 - **WD-002 (approvata):** l'ulivo secolare usa il legno dell'ulivo normale, è raro in natura, ha un tronco principale **2×2** ed è coltivabile con **quattro germogli di ulivo disposti in un quadrato 2×2**. Un germoglio isolato cresce in un ulivo normale.
-- **WD-003 (approvata):** mantenere gli asset di ulivo già presenti: nessuna texture preesistente viene sovrascritta o eliminata senza esplicita approvazione.
+- **WD-003 (approvata):** conservare gli asset di ulivo già presenti: nessuna texture preesistente viene sovrascritta o eliminata senza esplicita approvazione. Le coppie di texture alternative derivano da materiali delle mod storiche **Italian's Delight** e **Rustic**, non sono state concepite per distinguere l'ulivo comune da quello secolare. La provenienza esatta di ogni file non è ancora attribuita.
 - **WD-004 (approvata):** tutte le specie hanno foglie e germogli riconoscibili, fruttificazione raccolta con clic destro e ricrescita senza distruggere le foglie. Il ciliegio fruttifero ha foglie verdi e ciliegie rosse, ed è diverso da quello rosa vanilla.
 - **WD-005 (approvata):** le nuove ricette di pasta e i piatti secondari sono contenuti bonus graduali degli aggiornamenti, non il fulcro della 1.1.0.
 
@@ -30,6 +30,8 @@ Percorsi relativi a `src/main/resources/assets/italiansdelight/textures/`. **I P
 
 **Controllo struttura:** non risultano, nelle cartelle `blockstates/`, `models/block/` e `models/item/`, definizioni `olive_*` corrispondenti a una famiglia di blocchi giocabile. La registrazione e i modelli saranno da introdurre. Il colore dell'ulivo è ancorato agli asset presenti, **non** a una palette arbitraria nuova.
 
+**Chiarimento dell'autore (23 ottobre 2026):** la coesistenza di file alternativi di tronco, foglie e germoglio è dovuta al recupero di risorse dalle vecchie mod **Italian's Delight** e **Rustic**. Non è un progetto di differenziazione tra ulivo comune e ulivo secolare. **Non assegnare automaticamente le varianti a specie, stadi o alberi differenti.** Prima di riutilizzare o redistribuire singoli file, verificare **quale mod è la fonte di ciascun asset, la licenza e le condizioni d'uso**; i crediti nella descrizione non sostituiscono i permessi necessari. In assenza di una licenza compatibile o autorizzazione, prevedere una texture nuova e originale. Conservare i file attuali intatti durante la verifica.
+
 ## 3. Proposta di direzione estetica — NON ancora approvata
 
 | Famiglia | Tronco naturale suggerito | Legno lavorato suggerito | Foglie / frutto | Distinzione |
@@ -38,7 +40,7 @@ Percorsi relativi a `src/main/resources/assets/italiansdelight/textures/`. **I P
 | **Almond Wood** (`almond_*`) | Corteccia bruna calda, leggermente screpolata | **Nocciola caldo / beige rosato**, medio-chiaro, distinto dal miele dell'ulivo e dalla betulla vanilla | Verde naturale, con fioritura bianco-rosata come possibile variante; mandorle visibili | Identità neutra e calda, non copia di quercia/betulla |
 | **Fruit Cherry Wood** (`fruit_cherry_*`) | Corteccia bruno-rossastra, con striature orizzontali | **Rame rosato / castano rossiccio**, più saturo dell'ulivo/mandorlo ma non rosa pastello come il legno del ciliegio vanilla | Foglie verdi, ciliegie rosse mature | Riconoscibile anche quando i frutti non sono presenti, distinto dal ciliegio ornamentale vanilla |
 
-**Da approvare:** le direzioni cromatiche per mandorlo e ciliegio; per l'ulivo la scelta fra le coppie esistenti `olive_log/log_olive`, `olive_leaves/leaves_olive`, `olive_sapling/sapling_olive`. La seconda texture di foglie dell'ulivo potrebbe essere riservata a varianti di chioma **solo dopo** una decisione dell'autore, senza introdurre meccaniche/risorse supplementari per presunzione.
+**Da approvare:** le direzioni cromatiche per mandorlo e ciliegio; per l'ulivo la selezione di asset utilizzabili **solo dopo** la verifica della loro provenienza e dei diritti. Le texture alternative storiche **non** sono candidate automatiche per l'ulivo secolare. La differenza visiva dell'albero secolare dovrà derivare innanzitutto da dimensioni, tronco 2×2 e forma della chioma, salvo future decisioni esplicite.
 
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
@@ -53,7 +55,7 @@ Per ogni specie, perseguire progressivamente un set di costruzione coerente con 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.
 - [x] Registrare le decisioni approvate sulle tre famiglie di legno e sull'ulivo secolare 2×2.
 - [ ] **Approvazione della palette:** ulivo = asset attuali scelti; mandorlo = nocciola/beige caldo; ciliegio fruttifero = castano ramato/rossastro.
-- [ ] Confermare quali varianti ulivo usare come principale e se utilizzarne altre per l'ulivo secolare.
+- [ ] Ricostruire la provenienza **file per file** delle texture ereditate da Italian's Delight e Rustic; verificare licenze/permessi e attribuzioni, quindi scegliere quale asset usare per l'ulivo comune. **Nessuna assegnazione automatica di varianti all'ulivo secolare.**
 - [ ] Confermare dettaglio dell'insieme di blocchi extra (hanging signs, barche, mobili), senza confondere PNG esistenti con codice completato.
 - [ ] Passare alla prima implementazione soltanto dopo la decisione di design, iniziando da registrazione e blocchi semplici; poi vegetazione/worldgen, fruttificazione e raccolta.
 
