@@ -182,7 +182,7 @@
   "item.italiansdelight.pizza_peel.already_cooked": "This pizza is already cooked and cannot be inserted into the oven",
   "item.italiansdelight.pizza_peel.oven_occupied": "The oven cannot accept this pizza",
   "item.italiansdelight.pizza_peel.oven_empty": "There is no pizza to retrieve",
-  "gui.italiansdelight.jei.pizza_crafting_examples": "Customizable Pizzas (Examples)",
+  "gui.italiansdelight.jei.pizza_crafting_examples": "Pizza Recipes (Recognized Flavors and Examples)",
   "gui.italiansdelight.jei.pizza_crafting_examples.description": "Examples: freely combine 1 to 6 approved toppings.",
   "gui.italiansdelight.jei.pizza_crafting_examples.rule": "One dough, at most one sauce; all four quarters match.",
   "gui.italiansdelight.jei.pizza_baking": "Pizza Oven",
@@ -217,5 +217,7 @@
   "gui.italiansdelight.jei.pizza_world.collect.note": "Keeps toppings, quarters and name.",
   "item.italiansdelight.carrot_slice": "Carrot Slices",
   "item.italiansdelight.potato_slice": "Potato Slices",
-  "pizza.italiansdelight.taste.patate_speck": "Potato and Speck"
+  "pizza.italiansdelight.taste.patate_speck": "Potato and Speck",
+  "gui.italiansdelight.jei.pizza_cutting": "Pizza Slices (Cutting Board)",
+  "gui.italiansdelight.jei.pizza_cutting.note": "Cut a cooked pizza with any knife: all four quarters keep their own toppings."
 }

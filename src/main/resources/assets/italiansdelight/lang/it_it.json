@@ -182,7 +182,7 @@
   "item.italiansdelight.pizza_peel.already_cooked": "La pizza è già cotta: non può essere inserita nel forno",
   "item.italiansdelight.pizza_peel.oven_occupied": "Il forno non può accettare questa pizza",
   "item.italiansdelight.pizza_peel.oven_empty": "Non c'è nessuna pizza da prelevare",
-  "gui.italiansdelight.jei.pizza_crafting_examples": "Pizze personalizzabili (esempi)",
+  "gui.italiansdelight.jei.pizza_crafting_examples": "Ricette pizza (gusti riconosciuti ed esempi)",
   "gui.italiansdelight.jei.pizza_crafting_examples.description": "Esempi: puoi combinare liberamente da 1 a 6 condimenti approvati.",
   "gui.italiansdelight.jei.pizza_crafting_examples.rule": "Un solo impasto, massimo una salsa; tutti i quarti sono uguali.",
   "gui.italiansdelight.jei.pizza_baking": "Forno per pizza",
@@ -217,5 +217,7 @@
   "gui.italiansdelight.jei.pizza_world.collect.note": "Mantiene condimenti, quarti e nome.",
   "item.italiansdelight.carrot_slice": "Carote a fette",
   "item.italiansdelight.potato_slice": "Patate a fette",
-  "pizza.italiansdelight.taste.patate_speck": "Patate e Speck"
+  "pizza.italiansdelight.taste.patate_speck": "Patate e Speck",
+  "gui.italiansdelight.jei.pizza_cutting": "Spicchi di pizza (Tagliere)",
+  "gui.italiansdelight.jei.pizza_cutting.note": "Taglia una pizza cotta con un coltello: ogni quarto conserva i suoi condimenti."
 }

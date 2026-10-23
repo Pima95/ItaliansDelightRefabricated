@@ -57,6 +57,9 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new PizzaBakingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
+            new PizzaCuttingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
             new PizzaWorldRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             )
@@ -126,10 +129,16 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             PizzaCraftingJeiRecipes.createExamples()
         );
 
-        // Single Pizza Oven example; vanilla JEI already displays Smelting and Smoking.
+        // All 18 named Pizza Oven products; vanilla smelting/smoking remain separate.
         registration.addRecipes(
             PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
             PizzaBakingJeiRecipes.createExamples()
+        );
+
+        // Data-aware Cutting Board: each saved quarter becomes its own slice.
+        registration.addRecipes(
+            PizzaCuttingJeiRecipeTypes.PIZZA_CUTTING,
+            PizzaCuttingJeiRecipes.createExamples()
         );
 
         // Interactive in-world pizza handbook: placing/stretched dough,
@@ -176,6 +185,11 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addCraftingStation(
             PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
             new ItemStack(ModBlocks.PIZZA_OVEN)
+        );
+
+        registration.addCraftingStation(
+            PizzaCuttingJeiRecipeTypes.PIZZA_CUTTING,
+            new ItemStack(vectorwing.farmersdelight.common.registry.ModItems.CUTTING_BOARD.get())
         );
 
         registration.addCraftingStation(
