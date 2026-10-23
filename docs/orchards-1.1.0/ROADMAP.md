@@ -132,6 +132,10 @@ Il branch contiene sei nuovi blocchi: `olive_stairs`, `olive_slab`, `olive_fence
 
 ### Ulivo: cartelli, cabinet e Cutting Board — decisione approvata 24 ottobre 2026
 
+**Implementazione completata sul branch (24 ottobre 2026):** `olive_sign` con blocco da terra/a parete, `olive_hanging_sign` con blocco da soffitto/a parete, cabinet `olive_cabinet` compatibile con il block entity di Farmer's Delight, e le due ricette `cutting/olive_log`, `cutting/olive_wood` (ascia + corteccia). I nuovi PNG 16×16 sono **soltanto** `block/olive_sign.png`, `block/olive_hanging_sign.png` e `item/olive_hanging_sign.png`, tutti derivati dalla palette dell'ulivo, senza modificare le texture originali. **Compilazione Java 25 e controlli statici riusciti** (workflow [40042164597](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/40042164597)). **Test manuali non ancora confermati:** [checklist](OLIVE_SIGNS_CABINET_CUTTING_TESTS.md). Il test della botola resta indipendente.
+
+
+
 **Richiesta dell'autore:** implementare cartelli normali e appesi, cabinet d'ulivo e compatibilità per scortecciare legno d'ulivo sulla Cutting Board di Farmer's Delight Refabricated, mentre l'autore ritesta la botola. Solo branch `feature/orchards-1.1.0`, nessun merge su `main`.
 
 - **Cartelli vanilla-equivalenti:** cartello d'ulivo piazzabile a terra o a parete, cartello appeso d'ulivo piazzabile a soffitto o a parete; testo e interazioni standard vanilla, ricette, item e drop. I vecchi `textures/entity/sign/olive.png` e `textures/entity/sign/hanging/olive.png` sono presenti, ma appartengono al formato di Minecraft anteriore alla **26.2**: la versione 26.2 usa modelli/texture di blocco. **Non sovrascriverli.**
