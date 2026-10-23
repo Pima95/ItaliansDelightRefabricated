@@ -17,6 +17,10 @@ def main():
         if 'ModRegistries.id("' + name + '")' not in REGISTRY:
             raise ValueError("Missing olive registration " + name)
         for base in (MODELS, BLOCKS, DEFINITIONS):
+            # Vanilla fences use a multipart blockstate with post/side models;
+            # there intentionally is no single 'olive_fence' block model.
+            if base == MODELS and name == "olive_fence":
+                continue
             path = base / (name + ".json")
             if not path.exists():
                 raise ValueError("Missing wood model/definition " + str(path))
@@ -60,9 +64,6 @@ def main():
         actual = json.loads((BLOCKS / (name + ".json")).read_text(encoding="utf-8"))
         if len(actual.get("variants", {})) != count:
             raise ValueError(f"{name}: expected {count} vanilla variants")
-    for name in NAMES:
-        if name.startswith("olive_") and name not in {"olive_log", "olive_wood", "olive_planks"}:
-            pass
     print("OK: eleven olive wood building blocks; models use only non-Rustic olive textures")
 
 if __name__ == "__main__":
