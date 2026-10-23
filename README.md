@@ -28,7 +28,7 @@ Current features include:
 
 **Pizza Update 1.0.0** is now published. It introduces interactive dough stretching and topping placement, 18 recognized pizza flavors, Mixed Pizza, a reusable Pizza Peel, the Pizza Oven, vanilla furnace/smoker support, individual ingredient-bearing slices and searchable JEI guides. See the [v1.0.0 release](https://github.com/Pima95/ItaliansDelightRefabricated/releases/tag/v1.0.0).
 
-**Next update: Orchard Update 1.1.0** is in the planning stage on the [`feature/orchards-1.1.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/orchards-1.1.0). Planned additions are Olive Trees, Almond Trees, and distinct fruit-bearing Cherry Trees, including a rare **Ancient Olive Tree** with a 2×2 trunk. Design details and pending decisions are tracked in the [Orchard Update roadmap](docs/orchards-1.1.0/ROADMAP.md). These new trees are **not part of the published 1.0.0 release**.
+**Next update: Orchard Update 1.1.0** is in early development on the [`feature/orchards-1.1.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/orchards-1.1.0). Planned additions are Olive Trees, Almond Trees, and distinct fruit-bearing Cherry Trees, including a rare **Ancient Olive Tree** with a 2×2 trunk. Design details and pending decisions are tracked in the [Orchard Update roadmap](docs/orchards-1.1.0/ROADMAP.md). The first Olive Wood building blocks are implemented on the feature branch, **without using Rustic textures**. These new trees are **not part of the published 1.0.0 release**.
 
 Additional pasta dishes will be introduced gradually as bonus content alongside future updates; grapes/wine and seasonal content remain longer-term plans.
 

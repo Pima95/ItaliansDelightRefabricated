@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Protect the separation between published 0.4.0 and development Pizza 1.0.0.
+"""Verify published 1.0.0 metadata and historical pizza regression documentation.
 
-This CI guard is intentionally for the pre-release feature branch only.
-The development JAR intentionally uses version 1.0.0, but this is not
-an authorization to merge, tag or publish; runtime gates still apply.
-It cannot substitute for a real singleplayer/server test.
+Originally this guarded a development-only Pizza 1.0.0 branch. Since the
+author released 1.0.0, it now checks truthful published metadata without
+discarding the explicit release/test record.
 """
 import json
 import re
@@ -17,10 +16,10 @@ checklist = Path("docs/pizza-1.0.0/RELEASE_READINESS.md").read_text(encoding="ut
 properties = Path("gradle.properties").read_text(encoding="utf-8")
 mod = json.loads(Path("src/main/resources/fabric.mod.json").read_text(encoding="utf-8"))
 
-assert re.search(r"(?m)^mod_version=1\.0\.0$", properties), (
-    "Development branch must build a 1.0.0 JAR; publication remains gated"
-)
-assert mod.get("version") == "${version}", "Keep fabric.mod.json version supplied by Gradle"
+# The 1.1.0 work branch deliberately keeps the latest released JAR version:
+# building on a feature branch is not publication of 1.1.0.
+assert re.search(r"(?m)^mod_version=1\.0\.0$", properties)
+assert mod.get("version") == "${version}"
 assert mod.get("id") == "italiansdelight"
 assert mod.get("environment") == "*"
 assert mod.get("depends", {}).get("minecraft") == "~26.2"
@@ -30,22 +29,19 @@ assert re.search(r"(?m)^fabric_version=0\.161\.0\+26\.2$", properties)
 assert re.search(r"(?m)^fdrf_version=26\.2-3\.6\.29\+refabricated$", properties)
 assert mod.get("depends", {}).get("java") == ">=25"
 assert mod.get("depends", {}).get("farmersdelight")
-assert "Pizza Update 1.0.0 is in active development" in readme
-assert "not part of the published 0.4.0 release" in readme
-assert "## Unreleased — Pizza Update 1.0.0" in changelog
+assert "Pizza Update 1.0.0" in readme and "is now published" in readme
+assert "Orchard Update 1.1.0" in readme
+assert "## 1.0.0 — Pizza Update" in changelog
 assert "## 0.4.0" in changelog
-assert "RELEASE_READINESS.md" in readme and "RELEASE_READINESS.md" in changelog
+assert "RELEASE_READINESS.md" in changelog
 assert "RELEASE_READINESS.md" in roadmap
 for part in ("## A. Interazioni", "## B. Forni", "## C. Servizio",
              "## D. Compatibilità", "## E. Server"):
-    assert part in checklist, f"Missing pre-release checklist: {part}"
-for must_include in ("16", "multiplayer", "JEI", "Pizza mista",
-                     "hopper", "version", "main"):
-    assert must_include.lower() in checklist.lower(), (
-        f"Missing expected release test topic: {must_include}"
-    )
-# Only these explicitly user-confirmed runtime results are currently marked
-# complete. Future confirmations must be added deliberately, not inferred from CI.
+    assert part in checklist, f"Missing historical test checklist section: {part}"
+for topic in ("16", "multiplayer", "JEI", "Pizza mista", "hopper", "version", "main"):
+    assert topic.lower() in checklist.lower(), f"Missing historical test topic: {topic}"
+# Preserve exact author-confirmed outcomes; do not silently mark the untested
+# dedicated server or exceptional inventory states as verified.
 confirmed = [
     "- [x] Gli spicchi dello stesso gusto si impilano fino a **16**.",
     "- [x] Gli hopper **non estraggono la pizza cruda** dallo slot di ingresso del Pizza Oven.",
@@ -55,10 +51,8 @@ confirmed = [
     "- [x] Il siero nella ricetta JEI della Ricotta è allineato nel tank destro, dopo la correzione di 4 pixel.",
 ]
 found = [line for line in checklist.splitlines() if line.startswith("- [x]")]
-assert found == confirmed, (
-    "Only the explicitly author-confirmed Minecraft runtime tests should be "
-    "marked complete until further testing is explicitly reported"
-)
-print("OK: development JAR 1.0.0 stays separate from published 0.4.0")
-print("OK: README/CHANGELOG, mod metadata and release checklist are consistent")
-print("NOTE: 1.0.0 version bump done; merge, tagging and publication still need author approval and runtime testing")
+assert found == confirmed, "Historical runtime confirmations have changed without review"
+
+print("OK: published 1.0.0 and feature branch share truthful version metadata")
+print("OK: archived Pizza 1.0.0 checklist and confirmed regressions remain intact")
+print("NOTE: 1.1.0 remains in development; no new version/tag/publication")

@@ -2,9 +2,13 @@
 
 All notable changes to Italian's Delight Refabricated are documented here.
 
-## Unreleased — Pizza Update 1.0.0 (development branch; NOT published)
+## Unreleased — Orchard Update 1.1.0 (development branch)
 
-This section describes changes currently implemented on `feature/pizza-1.0.0`, **not an available public 1.0.0 download**. Development metadata now builds as **1.0.0**, while the latest **published** download remains **0.4.0** until release testing and approval.
+Early development work on `feature/orchards-1.1.0` includes the first five Olive Wood building blocks (Olive Log, Olive Wood, their stripped variants and Olive Planks), with vanilla-style crafting, tool interaction, fire rules, tags and dedicated models. These use existing `olive_*` textures and **not the 1.12.2-era Rustic assets**. The three planned fruit trees, Ancient Olive Tree 2×2 and harvest mechanics are **not yet implemented**.
+
+## 1.0.0 — Pizza Update (released 23 October 2026)
+
+The Pizza Update is published as [v1.0.0](https://github.com/Pima95/ItaliansDelightRefabricated/releases/tag/v1.0.0). This section records the features released after 0.4.0.
 
 ### Interactive pizza system
 
@@ -27,15 +31,15 @@ This section describes changes currently implemented on `feature/pizza-1.0.0`, *
 - Fixed hook-only Scamorza and Provolone placement and guarded hanging-cheese/wheel drops when their supports are removed.
 - Reused the original Margherita sprite as the Creative tab icon and Mixed Pizza whole-item illustration; approved textures are unchanged.
 
-### Pre-release review and release gate
+### Release review and tooling
 
-- Bumped the development JAR version to **1.0.0** (not published), updated **Fabric Loader to 0.20.1** and **Farmer's Delight Refabricated 26.2 to 3.6.29**; **Fabric API 0.161.0+26.2** remains current for Minecraft 26.2.
+- Bumped the JAR version to **1.0.0**, updated **Fabric Loader to 0.20.1** and **Farmer's Delight Refabricated 26.2 to 3.6.29**; **Fabric API 0.161.0+26.2** remains current for Minecraft 26.2.
 - Completed the final reported Cheese Vat and code-audit work (author confirmation, 23 October 2026).
 - Applied a conservative naming-path micro-optimization to avoid rebuilding the same quarter data and sorting the same topping list twice; previous baking, network update, bowl, peel and recipe-generation optimizations remain intact.
 - Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See [the optimization decision log](docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
 - Prepared [the 1.0.0 release notes draft](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and updated the release checklist.
 
-The Java 25 CI build and resource/static checks run on each branch push. **Dedicated-server/multiplayer testing cannot currently be completed by the author**, and detailed runtime corner cases remain unconfirmed; they are not implicitly passed by compilation. Follow [the 1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md). **Do not tag a release, upload to Modrinth/CurseForge, or merge to protected `main` until the author approves these checks.**
+**Historical test record:** compilation and static checks do not substitute for multiplayer testing, which was not fully completed before publication. The archival [1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) preserves the documented results. The author confirmed 1.0.0 was published and functioning.
 
 ## 0.4.0
 
