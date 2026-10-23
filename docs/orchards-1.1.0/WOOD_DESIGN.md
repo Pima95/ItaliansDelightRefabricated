@@ -11,6 +11,19 @@
 - **WD-004 (approvata):** tutte le specie hanno foglie e germogli riconoscibili, fruttificazione raccolta con clic destro e ricrescita senza distruggere le foglie. Il ciliegio fruttifero ha foglie verdi e ciliegie rosse, ed è diverso da quello rosa vanilla.
 - **WD-005 (approvata):** le nuove ricette di pasta e i piatti secondari sono contenuti bonus graduali degli aggiornamenti, non il fulcro della 1.1.0.
 
+## 1.1. Selezione artistica: NO texture Rustic — DECISIONE APPROVATA
+
+**Decisione dell'autore (23 ottobre 2026):** per i nuovi alberi e le nuove famiglie di legno della 1.1.0 **non utilizzare texture provenienti da Rustic**, perché i materiali originali appartengono a una mod della generazione **Minecraft 1.12.2** e sono considerati visivamente obsoleti per il nuovo progetto. La scelta riguarda i **nuovi blocchi e item** da implementare, non autorizza la cancellazione immediata delle risorse storiche presenti nel repository.
+
+- **Esclusi esplicitamente:** `block/log_olive.png`, `block/leaves_olive.png`, `block/sapling_olive.png`, `item/olive_seed.png`, tutti verificati identici ai rispettivi asset di Rustic; allo stesso modo, eventuali altri file per cui viene verificata la provenienza Rustic.
+- **Candidati per l'ulivo:** `block/olive_log.png`, `block/olive_log_top.png`, `block/stripped_olive_log.png`, `block/stripped_olive_log_top.png`, `block/olive_planks.png`, `block/olive_leaves.png`, `block/olive_sapling.png`, `block/olive_door_*.png`, `block/olive_trapdoor.png`; i loro blob **non** corrispondono ai file del repository Rustic consultato, ma occorre distinguere **assenza di corrispondenza** da **prova della provenienza Italian's Delight**.
+- **Mandorlo e ciliegio da frutto:** nuove texture coerenti con lo stile attuale di Minecraft e con i propri legni originali; palette definitive ancora da confermare.
+- **Ulivo secolare:** condividere le texture dell'ulivo normale; la diversità visiva sarà la forma naturale (tronco 2×2, ramificazione/chioma), **non** il recupero dei vecchi file Rustic.
+- **Conservazione storica:** non eliminare o modificare i PNG legacy in questa fase; non referenziarli nei nuovi modelli, blockstate, item o worldgen.
+- **Verifica:** il nuovo set di registrazioni/modelli della 1.1.0 dovrà essere accompagnato da un controllo automatico che neghi riferimenti ai quattro file Rustic identificati, inclusi riferimenti indiretti.
+
+Questa decisione prevale sulle precedenti proposte di usare i due gruppi di asset come varianti della chioma o della corteccia.
+
 ## 2. Inventario verificato degli asset ulivo su GitHub
 
 Percorsi relativi a `src/main/resources/assets/italiansdelight/textures/`. **I PNG qui sotto sono presenti, ma non costituiscono blocchi implementati.** Lettura della testata PNG: tutti i file elencati sono **16×16 pixel**.
@@ -58,7 +71,8 @@ Per ogni specie, perseguire progressivamente un set di costruzione coerente con 
 - [x] Registrare le decisioni approvate sulle tre famiglie di legno e sull'ulivo secolare 2×2.
 - [ ] **Approvazione della palette:** ulivo = asset attuali scelti; mandorlo = nocciola/beige caldo; ciliegio fruttifero = castano ramato/rossastro.
 - [x] Accertare **la licenza MIT indicata su CurseForge** per Italian's Delight e Rustic e confrontare gli asset con il repository Rustic; identificate **41 corrispondenze binarie**, inclusi quattro PNG relativi all'ulivo; redatti [rapporto](RUSTIC_ASSET_MATCHES.md) e [avvisi](../../THIRD_PARTY_NOTICES.md).
-- [ ] Completare la **provenienza file per file degli asset non corrispondenti**, incluse eventuali attribuzioni agli altri artisti; scegliere il set grafico dell'ulivo comune dopo approvazione. **Nessuna assegnazione automatica di varianti all'ulivo secolare.**
+- [x] **Escludere tutti gli asset identificati come Rustic dai nuovi elementi della 1.1.0** (decisione dell'autore); conservare i PNG storici senza cancellarli.
+- [ ] Completare la **provenienza file per file degli asset non corrispondenti**, incluse eventuali attribuzioni agli altri artisti; usare soltanto asset non-Rustic per il nuovo ulivo. **Nessuna assegnazione automatica di varianti all'ulivo secolare.**
 - [ ] Confermare dettaglio dell'insieme di blocchi extra (hanging signs, barche, mobili), senza confondere PNG esistenti con codice completato.
 - [ ] Passare alla prima implementazione soltanto dopo la decisione di design, iniziando da registrazione e blocchi semplici; poi vegetazione/worldgen, fruttificazione e raccolta.
 
