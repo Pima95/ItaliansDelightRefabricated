@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "decorations",
+  "group": "farmersdelight_cabinets",
+  "pattern": [
+    "PPP",
+    "P P",
+    "PPP"
+  ],
+  "key": {
+    "P": "italiansdelight:olive_planks"
+  },
+  "result": {
+    "id": "italiansdelight:olive_cabinet",
+    "count": 1
+  }
+}

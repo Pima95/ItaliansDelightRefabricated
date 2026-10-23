@@ -241,5 +241,12 @@
   "item.italiansdelight.olive_boat": "Olive Boat",
   "entity.italiansdelight.olive_boat": "Olive Boat",
   "item.italiansdelight.olive_chest_boat": "Olive Boat with Chest",
-  "entity.italiansdelight.olive_chest_boat": "Olive Boat with Chest"
+  "entity.italiansdelight.olive_chest_boat": "Olive Boat with Chest",
+  "block.italiansdelight.olive_sign": "Olive Sign",
+  "block.italiansdelight.olive_wall_sign": "Olive Wall Sign",
+  "block.italiansdelight.olive_hanging_sign": "Olive Hanging Sign",
+  "block.italiansdelight.olive_wall_hanging_sign": "Olive Wall Hanging Sign",
+  "block.italiansdelight.olive_cabinet": "Olive Cabinet",
+  "item.italiansdelight.olive_sign": "Olive Sign",
+  "item.italiansdelight.olive_hanging_sign": "Olive Hanging Sign"
 }

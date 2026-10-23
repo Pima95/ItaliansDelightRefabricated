@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 
 /**
  * Central registry for Italian's Delight BlockEntities.
@@ -85,6 +86,16 @@ public final class ModBlockEntities {
     }
 
     public static void register() {
-        
+        // Vanilla sign block entities keep writable text, both sides and dye.
+        // Keep their four modded block variants in the vanilla BE type.
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_WALL_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_WALL_HANGING_SIGN);
+
+        // Reuse Farmer's Delight 27-slot cabinet BE: it already implements
+        // screen, automation, sounds, comparator, save and open/close state.
+        vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
+            .addValidBlock(ModBlocks.OLIVE_CABINET);
     }
 }

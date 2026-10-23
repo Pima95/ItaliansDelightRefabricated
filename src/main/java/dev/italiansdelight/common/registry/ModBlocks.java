@@ -25,6 +25,11 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
+import vectorwing.farmersdelight.common.block.CabinetBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.FenceBlock;
@@ -173,6 +178,48 @@ public final class ModBlocks {
     // construction material and crafting ingredients vary.
     public static final Block OLIVE_CHEESE_AGING_RACK =
         registerRack("olive", OLIVE_PLANKS);
+
+    // Olive signs (Minecraft 26.2 ordinary block models) and Farmer's Delight
+    // cabinet. Sign block-items are registered as two SignItem variants,
+    // not four BlockItems, so that wall/ceiling placement uses the same item.
+    public static final ResourceKey<Block> OLIVE_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_sign"));
+    public static final Block OLIVE_SIGN = registerBlockOnly(
+        OLIVE_SIGN_KEY,
+        new StandingSignBlock(OLIVE_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_SIGN)
+            .setId(OLIVE_SIGN_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_WALL_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_wall_sign"));
+    public static final Block OLIVE_WALL_SIGN = registerBlockOnly(
+        OLIVE_WALL_SIGN_KEY,
+        new WallSignBlock(OLIVE_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN)
+            .setId(OLIVE_WALL_SIGN_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_HANGING_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_hanging_sign"));
+    public static final Block OLIVE_HANGING_SIGN = registerBlockOnly(
+        OLIVE_HANGING_SIGN_KEY,
+        new CeilingHangingSignBlock(OLIVE_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN)
+            .setId(OLIVE_HANGING_SIGN_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_WALL_HANGING_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_wall_hanging_sign"));
+    public static final Block OLIVE_WALL_HANGING_SIGN = registerBlockOnly(
+        OLIVE_WALL_HANGING_SIGN_KEY,
+        new WallHangingSignBlock(OLIVE_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN)
+            .setId(OLIVE_WALL_HANGING_SIGN_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_CABINET_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_cabinet"));
+    public static final Block OLIVE_CABINET = register(
+        OLIVE_CABINET_KEY,
+        new CabinetBlock(Block.Properties.ofFullCopy(Blocks.BARREL).setId(OLIVE_CABINET_KEY))
+    );
 
     public static final ResourceKey<Block> CARDOON_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("cardoon")
@@ -502,5 +549,6 @@ public final class ModBlocks {
         fire.add(OLIVE_PRESSURE_PLATE, 5, 20);
         fire.add(OLIVE_DOOR, 5, 20);
         fire.add(OLIVE_TRAPDOOR, 5, 20);
+        fire.add(OLIVE_CABINET, 5, 20);
     }
 }

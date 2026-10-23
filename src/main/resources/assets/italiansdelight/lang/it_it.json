@@ -241,5 +241,12 @@
   "item.italiansdelight.olive_boat": "Barca d'Ulivo",
   "entity.italiansdelight.olive_boat": "Barca d'Ulivo",
   "item.italiansdelight.olive_chest_boat": "Barca d'Ulivo con Baule",
-  "entity.italiansdelight.olive_chest_boat": "Barca d'Ulivo con Baule"
+  "entity.italiansdelight.olive_chest_boat": "Barca d'Ulivo con Baule",
+  "block.italiansdelight.olive_sign": "Cartello d'Ulivo",
+  "block.italiansdelight.olive_wall_sign": "Cartello a Parete d'Ulivo",
+  "block.italiansdelight.olive_hanging_sign": "Cartello Appeso d'Ulivo",
+  "block.italiansdelight.olive_wall_hanging_sign": "Cartello Appeso a Parete d'Ulivo",
+  "block.italiansdelight.olive_cabinet": "Armadietto d'Ulivo",
+  "item.italiansdelight.olive_sign": "Cartello d'Ulivo",
+  "item.italiansdelight.olive_hanging_sign": "Cartello Appeso d'Ulivo"
 }

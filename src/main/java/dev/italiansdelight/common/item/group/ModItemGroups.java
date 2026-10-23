@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.registry.ModSigns;
 import dev.italiansdelight.common.registry.ModBoats;
 import dev.italiansdelight.common.registry.ModRegistries;
 import dev.italiansdelight.common.pizza.PizzaDisplayNames;
@@ -78,6 +79,9 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.OLIVE_PRESSURE_PLATE);
                 output.accept(ModBlocks.OLIVE_DOOR);
                 output.accept(ModBlocks.OLIVE_TRAPDOOR);
+                output.accept(ModSigns.OLIVE_SIGN);
+                output.accept(ModSigns.OLIVE_HANGING_SIGN);
+                output.accept(ModBlocks.OLIVE_CABINET);
                 output.accept(ModBoats.OLIVE_BOAT_ITEM);
                 output.accept(ModBoats.OLIVE_CHEST_BOAT_ITEM);
 
