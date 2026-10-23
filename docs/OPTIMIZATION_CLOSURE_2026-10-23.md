@@ -48,4 +48,4 @@ Eseguire le misure **prima** di ottimizzare le parti rinviate e conservare i ris
 
 ## Confini del rilascio
 
-I test Cheese Vat e l'audit conclusivo sono stati dichiarati completati dall'autore il 23 ottobre 2026. Il test multiplayer **non è ancora eseguibile dall'autore** e rimane un gate separato: non va segnato come superato. Non modificare `mod_version=0.4.0`, non creare tag o pubblicare la 1.0.0 senza approvazione finale; seguire [RELEASE_READINESS.md](pizza-1.0.0/RELEASE_READINESS.md).
+I test Cheese Vat e l'audit conclusivo sono stati dichiarati completati dall'autore il 23 ottobre 2026. Il test multiplayer **non è ancora eseguibile dall'autore** e rimane un gate separato: non va segnato come superato. Il numero del JAR di sviluppo è stato successivamente aggiornato a `mod_version=1.0.0` su richiesta dell'autore; non creare tag, eseguire merge o pubblicare la 1.0.0 senza approvazione finale; seguire [RELEASE_READINESS.md](pizza-1.0.0/RELEASE_READINESS.md).
