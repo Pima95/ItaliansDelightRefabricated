@@ -28,6 +28,8 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: Reject Rustic art in Orchard wood models
         run: python3 .github/scripts/check_orchard_wood_assets.py
+      - name: Validate 26.2 Olive signs cabinet and Cutting Board
+        run: python3 .github/scripts/check_orchard_signs_and_cutting.py
       - name: Validate Olive doors, cheese rack and boat entities
         run: python3 .github/scripts/check_orchard_boats_and_rack.py
       - name: Prevent rolling-pin bootstrap crash
