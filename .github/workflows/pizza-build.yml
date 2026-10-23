@@ -63,5 +63,7 @@ jobs:
         run: python3 .github/scripts/generate_aging_rack_recipes.py --check
       - name: Verify Cardoon farming and wild plant parity
         run: python3 .github/scripts/check_cardoon_wild_farming.py
+      - name: Audit all JSON resources, code and recipe equivalence regressions
+        run: python3 .github/scripts/audit_project_consistency.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace
