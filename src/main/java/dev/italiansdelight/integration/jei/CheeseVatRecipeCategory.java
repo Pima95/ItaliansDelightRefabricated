@@ -57,7 +57,10 @@ public class CheeseVatRecipeCategory
     // The JEI texture keeps the same 16x32 tank interior used by the normal
     // Cheese Vat screen, moved to the right-hand side of the compact layout.
     private static final int WHEY_TANK_X = 128;
-    private static final int WHEY_TANK_Y = 1;
+    // The JEI liquid overlay was four pixels above the actual right-side tank.
+    // Keep the texture, fill amount and hover bounds unchanged; translate only
+    // the liquid rendering by +4 GUI pixels to match the underlying slot.
+    private static final int WHEY_TANK_Y = 5;
     private static final int WHEY_TANK_WIDTH = 16;
     private static final int WHEY_TANK_HEIGHT = 32;
 

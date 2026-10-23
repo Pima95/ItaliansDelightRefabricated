@@ -219,5 +219,9 @@
   "item.italiansdelight.potato_slice": "Patate a fette",
   "pizza.italiansdelight.taste.patate_speck": "Patate e Speck",
   "gui.italiansdelight.jei.pizza_cutting": "Spicchi di pizza (Tagliere)",
-  "gui.italiansdelight.jei.pizza_cutting.note": "Taglia una pizza cotta con un coltello: ogni quarto conserva i suoi condimenti."
+  "gui.italiansdelight.jei.pizza_cutting.note": "Taglia una pizza cotta con un coltello: ogni quarto conserva i suoi condimenti.",
+  "gui.italiansdelight.jei.pizza_world.flavor_title": "%s · %s",
+  "gui.italiansdelight.jei.pizza_world.named_toppings_description": "Per preparare %s nel mondo, posa e stendi un impasto di grano. Sulla base ancora intera aggiungi: %s. Ogni ingrediente va applicato una sola volta con clic destro.",
+  "gui.italiansdelight.jei.pizza_world.bianca_description": "Pizza Bianca: posa l'impasto e stendilo con quattro clic a mano o uno col mattarello. Non aggiungere condimenti: raccogli direttamente la base.",
+  "gui.italiansdelight.jei.pizza_world.named_toppings_note": "Ogni ingrediente copre tutta la base. Per pizze miste dividila prima in quarti."
 }
