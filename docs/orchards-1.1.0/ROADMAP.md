@@ -120,6 +120,8 @@ Il branch contiene sei nuovi blocchi: `olive_stairs`, `olive_slab`, `olive_fence
 - **Barca d'ulivo e barca con baule**: implementate come due entità veicolo distinte con item, crafting, modello e renderer vanilla, usando rispettivamente le texture `textures/entity/boat/olive.png` (128×64) e `textures/entity/chest_boat/olive.png` (128×128), oltre alle due icone 16×16 preesistenti; nessun PNG creato. **Da validare compilazione e funzionamento in gioco:** spawn su acqua, passeggeri, movimento, drop, salvataggio e inventario del baule.
 - **Test manuali ancora da fare**: porte (cerniere, apertura, segnale, rottura) e botole (orientamenti e acqua); rack (inserimento, prelievo, maturazione, save/load, rottura e drop). La Fase A precedente resta da collaudare separatamente.
 
+**Collaudo pendente:** [OLIVE_EXPANSION_TESTS.md](OLIVE_EXPANSION_TESTS.md) per porta, botola, scaffale, barca e barca con baule. Compilazione e controlli statici non equivalgono ai test manuali.
+
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).

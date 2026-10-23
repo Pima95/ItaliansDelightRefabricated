@@ -28,6 +28,8 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: Reject Rustic art in Orchard wood models
         run: python3 .github/scripts/check_orchard_wood_assets.py
+      - name: Validate Olive doors, cheese rack and boat entities
+        run: python3 .github/scripts/check_orchard_boats_and_rack.py
       - name: Prevent rolling-pin bootstrap crash
         run: python3 .github/scripts/check_rolling_pin_combat.py
       - name: Verify Creative tab registration (all items, no duplicates)

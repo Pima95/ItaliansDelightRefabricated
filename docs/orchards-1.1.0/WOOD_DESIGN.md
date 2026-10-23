@@ -63,6 +63,12 @@ Per le nuove **scale, lastre, recinzioni, cancelli, pulsanti e pedane a pression
 
 Tutti i sei nuovi blocchi sono presenti nel codice e nelle risorse del branch 1.1.0, ma **non ancora dichiarati superati nei test in gioco**.
 
+### Nuovi asset effettivamente riutilizzati (Fase B e barche)
+
+Le due texture verticali della porta, la botola e le relative icone sono già presenti. Anche la barca normale e la barca con baule dispongono delle proprie texture **di entità 3D**. L'aging rack utilizza `olive_planks.png` e gli stessi modelli di tutte le altre famiglie; è la 13ª variante di scaffale, con registrazione nel tipo di block entity condiviso.
+
+Tutto il codice, le ricette e le definizioni sono in fase di collaudo; vedi [OLIVE_EXPANSION_TESTS.md](OLIVE_EXPANSION_TESTS.md).
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.
