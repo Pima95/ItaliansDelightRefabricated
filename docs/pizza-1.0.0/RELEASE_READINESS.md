@@ -1,8 +1,8 @@
 # Pizza Update 1.0.0 — checklist per il rilascio
 
 **Stato:** sviluppo su `feature/pizza-1.0.0`; **non pubblicare ancora**.  
-**Versione attualmente nei metadati:** `mod_version=0.4.0`; non incrementarla finché la checklist non è confermata dall'autore.  
-**Target dichiarato:** Minecraft 26.2, Fabric Loader 0.19.5+, Fabric API 0.161.0+26.2, Java 25, Farmer's Delight Refabricated 26.2-3.6.28+refabricated.
+**Versione attualmente nei metadati del branch di sviluppo:** `mod_version=1.0.0` (aggiornamento autorizzato dall'autore, **non pubblicato**). L'ultima release pubblica resta 0.4.0; i test e l'approvazione per la pubblicazione rimangono necessari.  
+**Target dichiarato:** Minecraft 26.2, Fabric Loader 0.20.1+, Fabric API 0.161.0+26.2, Java 25, Farmer's Delight Refabricated 26.2-3.6.29+refabricated.
 
 ## Prima del test
 
@@ -47,7 +47,7 @@ sottostanti restano aperte per le parti non confermate.
 
 L'autore ha dichiarato conclusi **il controllo Cheese Vat** (punto 1 del riepilogo) e **la revisione completa dei bug** (punto 3). Il collaudo **multiplayer non è attualmente eseguibile** e resta esplicitamente **non verificato**. Le prove dettagliate non confermate qui sotto conservano la casella vuota; non vanno scambiate con bug sicuramente presenti né con test già eseguiti.
 
-La selezione delle ottimizzazioni pre-release è terminata: sono state conservate le implementazioni già approvate, applicata la rifinitura non invasiva OPT-011 e annotate le proposte da sottoporre a profiler nel [registro decisionale](../OPTIMIZATION_CLOSURE_2026-10-23.md). Le [note di rilascio](RELEASE_NOTES_DRAFT.md) sono pronte **come bozza**, non per la pubblicazione. Restano da ottenere i test obbligatori non eseguiti e l'approvazione esplicita per cambiare il numero di versione.
+La selezione delle ottimizzazioni pre-release è terminata: sono state conservate le implementazioni già approvate, applicata la rifinitura non invasiva OPT-011 e annotate le proposte da sottoporre a profiler nel [registro decisionale](../OPTIMIZATION_CLOSURE_2026-10-23.md). Le [note di rilascio](RELEASE_NOTES_DRAFT.md) sono pronte **come bozza**, non per la pubblicazione. Il numero di versione del JAR di sviluppo è già stato portato a 1.0.0 su richiesta dell'autore. Restano da ottenere i test obbligatori non eseguiti e l'approvazione esplicita per pubblicare.
 
 ## A. Interazioni e ricette base
 
@@ -92,7 +92,7 @@ La selezione delle ottimizzazioni pre-release è terminata: sono state conservat
 - [ ] Salvare e riaprire dopo una pizza a quattro quarti, pizza nel forno a metà, pala con cargo e formaggi/salumi in lavorazione; nessuna perdita, duplicazione o reset imprevisto.
 - [ ] Testare vari chunk caricati/scaricati, hopper pieni e ripetuti trasferimenti; controllare log, RAM e TPS senza creare cicli di duplicazione.
 - [ ] Raccogliere le verifiche e segnalazioni in `docs/KNOWN_BUGS.md`. Per ogni bug: riproduzione, versione, risultato atteso/ottenuto e riferimento al commit di fix.
-- [ ] **Solo con approvazione finale:** aggiornare `mod_version=1.0.0`, rivedere `CHANGELOG.md`/README, aprire PR verso la `main` protetta, creare release e poi pubblicare CurseForge/Modrinth.
+- [ ] **Solo con approvazione finale:** verificare che `mod_version=1.0.0` e i metadati del JAR siano corretti (già impostati nel branch di sviluppo), rivedere `CHANGELOG.md`/README e la PR draft #9 verso `main`, eseguire la build finale, poi creare release e pubblicare CurseForge/Modrinth.
 
 ## Risultato e criteri di blocco
 
