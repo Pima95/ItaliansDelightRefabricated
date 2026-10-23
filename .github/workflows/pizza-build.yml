@@ -41,6 +41,8 @@ jobs:
         run: python3 .github/scripts/check_pizza_crafting_bowls.py
       - name: Verify recognized JEI pizza catalogue and dynamic Cutting Board
         run: python3 .github/scripts/check_pizza_jei_cutting.py
+      - name: Verify all flavor guides, Farmer's Delight cutting GUI and whey offset
+        run: python3 .github/scripts/check_jei_flavor_guides_layout.py
       - name: Verify every pizza and slice has a searchable JEI ingredient entry
         run: python3 .github/scripts/check_pizza_jei_sidebar.py
       - name: Audit pizza nutrition and baking consistency

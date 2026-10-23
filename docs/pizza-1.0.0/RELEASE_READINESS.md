@@ -28,6 +28,10 @@ sottostanti restano aperte per le parti non confermate.
 
 ## Ultime verifiche JEI e caglio — 23 ottobre 2026
 
+- [ ] Ogni **pizza riconosciuta** (18) ha **sette pagine personalizzate** in JEI per posizionamento, stesura, divisione, topping, rimozione e raccolta. Le 126 pagine sono ricercabili partendo dal nome del gusto e mostrano gli item realmente necessari.
+- [ ] La Cutting Board delle pizze usa lo stesso sfondo JEI vanilla di Farmer's Delight Refabricated, formato 117×57, ingredienti a sinistra e quattro fette in griglia 2×2 a destra.
+- [ ] Nel JEI della Ricotta il whey del tank destro è **4 pixel più in basso**, senza alterare le proporzioni della barra o la GUI Cheese Vat.
+
 - [ ] Le **18 pizze riconosciute** e i relativi **18 spicchi** compaiono come item distinti, cercabili nel pannello JEI, non soltanto dentro ricette.
 - [ ] Comparsa di 18 varianti crude, 18 cotte e 18 fette, più due esempi di Pizza mista, con le texture già approvate.
 - [ ] R/U su una pizza e uno spicchio **ottenuti in Survival** conduce alle giuste categorie; i quarti misti restano coerenti.

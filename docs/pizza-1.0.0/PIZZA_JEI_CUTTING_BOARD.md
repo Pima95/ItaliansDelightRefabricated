@@ -16,9 +16,15 @@ Per rispettare i salvataggi già esistenti vengono usati veri `ItemStack` con i 
 1. **Pizze personalizzabili / crafting:** i cinque esempi originari sono conservati e ora vengono aggiunti i gusti riconosciuti dal catalogo `PizzaDisplayNames.allPresets()` con almeno un topping. La vera ricetta in gioco è una sola ricetta shapeless dinamica: queste sono **anteprime JEI**, non ulteriori ricette o restrizioni.
 2. **Pizza Oven:** una ricetta JEI con input raw e output cooked autentico per ciascuno dei **18 gusti riconosciuti**, con il solito tempo di 20 secondi. Ogni gusto ha un identificatore JEI distinto e bookmark. Le fornaci e gli affumicatori vanilla conservano le proprie categorie (60/30 secondi).
 3. **Cutting Board / Spicchi di pizza:** nuova categoria con **18 pizze cotte riconosciute** più una **Pizza mista**. Per ognuna sono mostrati quattro spicchi ottenuti davvero dai propri quarti. La categoria è ricercabile partendo dalla pizza cotta, dallo spicchio o dal tagliere.
-4. **Preparazione nel mondo:** la guida preesistente per posa/stesura/divisione/condimento è invariata. La **Pizza Bianca** nasce dall'impasto piazzato nel mondo; l'impasto da solo **non** costituisce una ricetta shapeless nella crafting table.
+4. **Preparazione nel mondo:** **18 guide personalizzate da sette passaggi ciascuna (126 pagine JEI)**, ricavate direttamente dall'elenco di gusti riconosciuti e dai loro ingredienti originali. Ogni pagina usa il nome e la pizza effettiva; la pagina «Condimenti» elenca gli oggetti precisi che si devono applicare alla base stesa. La **Pizza Bianca** mostra esplicitamente che non richiede topping. Non sono state aggiunte finte ricette shapeless.
 
 Nessuna nuova texture, nuovo item o nuova ricetta fissa duplicata è stata introdotta.
+
+## GUI Cutting Board standard — Farmer's Delight Refabricated
+
+Il precedente layout custom largo 165 pixel è stato sostituito dall'**interfaccia JEI standard di Farmer's Delight Refabricated 26.2**, utilizzando direttamente la sua texture `farmersdelight:textures/gui/jei/cutting_board.png`, il formato **117×57**, l'icona e il titolo della Cutting Board, il coltello a `(16,8)`, l'ingrediente a `(16,27)` e i **quattro risultati in griglia 2×2** a destra con gli slot standard. Non si copiano PNG e non si modifica la vera Cutting Board. Manteniamo solo un tipo ricetta JEI specifico perché quattro `ItemStack` con componenti per-quarto differenti non possono essere rappresentati da una ricetta JSON standard a risultato fisso.
+
+**Cheese Vat / Ricotta:** sovrapposizione del siero nel tank destro abbassata di esattamente **4 pixel**, passando da `WHEY_TANK_Y=1` a `5`. Texture, quantità del siero, altezza del riempimento e hitbox del tooltip rimangono invariati.
 
 ## Come si usa la Cutting Board
 
@@ -32,7 +38,9 @@ Nessuna nuova texture, nuovo item o nuova ricetta fissa duplicata è stata intro
 
 ## Test da eseguire in Minecraft
 
-- [ ] Aprire JEI, verificare **56 voci extra nel pannello item** (18 crude + 18 cotte + 18 spicchi + 2 miste), **18 ricette Pizza Oven** e **19 schede di taglio (18 + mista)**; cercare per nomi italiani/inglesi, usare R/U sugli stack ottenuti realmente in gioco e testare il bookmark.
+- [ ] Aprire JEI, verificare **56 voci extra nel pannello item** (18 crude + 18 cotte + 18 spicchi + 2 miste), **18 ricette Pizza Oven**, **19 schede di taglio (18 + mista)** e **126 istruzioni nel mondo**, 7 per ciascuna pizza; cercare per nomi italiani/inglesi, usare R/U sugli stack ottenuti realmente in gioco e testare il bookmark.
+- [ ] Confrontare la categoria JEI degli spicchi con quella delle altre ricette Cutting Board di FD: dimensione, sfondo, posizioni di coltello/pizza e quattro spicchi in griglia 2×2 devono combaciare.
+- [ ] Confrontare Ricotta nella Cheese Vat JEI con la GUI della vasca: il livello di whey nel tank destro deve essere 4 pixel più basso e perfettamente allineato, senza sovrapporsi alla cornice.
 - [ ] Verificare le ricette di crafting per Margherita, Salame, Quattro Formaggi e altre, inclusa la restituzione delle ciotole; **nessuna ricetta fittizia di Bianca con un solo impasto**.
 - [ ] Tagliare sulla Cutting Board una Margherita e controllare quattro fette; tagliare una Pizza mista e verificare i quattro nomi/spicchi diversi.
 - [ ] Verificare che la pizza intera scompaia **una sola volta**, e che il coltello perda un punto; provare coltello in ferro e altri utensili del tag knives.
