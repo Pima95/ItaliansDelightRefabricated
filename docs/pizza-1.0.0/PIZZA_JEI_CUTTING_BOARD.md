@@ -3,6 +3,14 @@
 **Branch:** `feature/pizza-1.0.0` (nessun nuovo branch).
 **Stato:** implementato e sottoposto alla CI, test runtime in Minecraft non ancora confermati.
 
+## Catalogo degli oggetti nella lista laterale di JEI
+
+**Correzione 23 ottobre 2026:** oltre alle ricette, JEI elenca singolarmente come ingredienti **54 varianti riconosciute** — 18 pizze crude, 18 pizze cotte e 18 spicchi — e **due esempi di Pizza mista** (cruda e cotta). Queste voci appaiono nella **barra degli item** di JEI e sono ricercabili con i nomi localizzati, come pasta e cibi tagliabili di Farmer's Delight; non sono soltanto esempi nascosti all'interno delle categorie.
+
+Per rispettare i salvataggi già esistenti vengono usati veri `ItemStack` con i componenti originali `PIZZA_CONTENTS`/`PIZZA_SLICE_CONTENTS`, l'`ITEM_MODEL` e il nome approvato, **non 56 nuove registrazioni item**. `registerExtraIngredients` inserisce gli stack nel catalogo di JEI; `registerItemSubtypes` fa sì che gusto e quarti identifichino correttamente il singolo tipo anche quando cambiano ID di applicazione, orientamento, render seed o provenienza degli ingredienti. Fette provenienti da una pizza mista e da una uniforme dello stesso gusto corrispondono alla **stessa** voce JEI. Le pizze miste non riconosciute sono distinte in base ai quattro quarti effettivi.
+
+**Test da fare:** cercare nel pannello di JEI 'Margherita', 'Rossa', 'Quattro Formaggi', 'Spicchio' e 'Pizza mista'; verificare i modelli, le varianti e la ricerca R/U sul prodotto vero ottenuto in gioco, anche dopo un salvataggio. Gli item generici senza condimenti devono continuare a essere riconosciuti senza corrompere i componenti.
+
 ## Cosa contiene davvero JEI
 
 1. **Pizze personalizzabili / crafting:** i cinque esempi originari sono conservati e ora vengono aggiunti i gusti riconosciuti dal catalogo `PizzaDisplayNames.allPresets()` con almeno un topping. La vera ricetta in gioco è una sola ricetta shapeless dinamica: queste sono **anteprime JEI**, non ulteriori ricette o restrizioni.
@@ -24,7 +32,7 @@ Nessuna nuova texture, nuovo item o nuova ricetta fissa duplicata è stata intro
 
 ## Test da eseguire in Minecraft
 
-- [ ] Aprire JEI, verificare **18 ricette Pizza Oven**, **19 schede di taglio (18 + mista)**, gusti e icone corrette; usare R/U su varie pizze e fette, testare il bookmark.
+- [ ] Aprire JEI, verificare **56 voci extra nel pannello item** (18 crude + 18 cotte + 18 spicchi + 2 miste), **18 ricette Pizza Oven** e **19 schede di taglio (18 + mista)**; cercare per nomi italiani/inglesi, usare R/U sugli stack ottenuti realmente in gioco e testare il bookmark.
 - [ ] Verificare le ricette di crafting per Margherita, Salame, Quattro Formaggi e altre, inclusa la restituzione delle ciotole; **nessuna ricetta fittizia di Bianca con un solo impasto**.
 - [ ] Tagliare sulla Cutting Board una Margherita e controllare quattro fette; tagliare una Pizza mista e verificare i quattro nomi/spicchi diversi.
 - [ ] Verificare che la pizza intera scompaia **una sola volta**, e che il coltello perda un punto; provare coltello in ferro e altri utensili del tag knives.

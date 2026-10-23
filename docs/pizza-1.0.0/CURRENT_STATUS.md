@@ -10,7 +10,7 @@
 - Pala riutilizzabile con cargo, Pizza Oven, fornace vanilla e smoker con cottura e rimborsi di ciotole.
 - 18 ricette di pizza riconosciute, Pizza mista con grafica Margherita, nomi e sprite propri degli spicchi; massimo **16 spicchi uguali per stack**.
 - Valori alimentari dinamici approvati (due ingredienti differenti per categoria, massimo 6 fame/6 saturazione) e Nourishment breve quando dovuto.
-- JEI: tutti i **18 gusti** riconosciuti nel Pizza Oven e nel taglio su Cutting Board (più esempio mista); ricette crafting disponibili per gusti con topping, guida nel mondo. Scheda Creativa senza doppia Pizza Bianca.
+- JEI: **54 voci di ingredienti** per 18 gusti riconosciuti (cruda, cotta e spicchio) **più due pizze miste** nel pannello laterale JEI, con sottotipi basati sugli ingredienti; tutti i **18 gusti** nel Pizza Oven e nel taglio su Cutting Board (più esempio mista). Ricette crafting disponibili per gusti con topping, guida nel mondo. Scheda Creativa senza doppia Pizza Bianca.
 - Fette ottenibili anche tagliando con un coltello sulla Cutting Board una pizza cotta intera, preservando i dati dei quattro quarti e la nutrizione; nessuna perdita/duplicazione intenzionale e danno di un punto al coltello.
 - Preservazione delle componenti strutturate, nome personalizzato, lore e `CUSTOM_DATA` durante cottura; i metadati specifici di altri sistemi devono essere valutati caso per caso.
 
@@ -27,9 +27,9 @@
 
 | ID | Stato effettivo |
 |---|---|
-| BUG-001 — Scamorza/Provolone a terra | Fix pubblicato, manca prova su superfici e uncino |
+| BUG-001 — Scamorza/Provolone a terra | Risolto e confermato in gioco il 23 ottobre 2026 |
 | BUG-002 — Mozzarella intera | Risolto e testato |
-| BUG-003 — Drop con supporti rimossi | Fix pubblicato, mancano test reali di drop/assenza di duplicazioni |
+| BUG-003 — Drop con supporti rimossi | Risolto e confermato in gioco il 23 ottobre 2026 |
 
 ## Audit tecnico del 19 ottobre
 

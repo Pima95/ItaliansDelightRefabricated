@@ -26,6 +26,13 @@ superate tutte le prove su hopper pieni, 17° spicchio, casse, multiplayer,
 pale cariche, forno a metà cottura o server dedicato. Le checklist dettagliate
 sottostanti restano aperte per le parti non confermate.
 
+## Ultime verifiche JEI e caglio — 23 ottobre 2026
+
+- [ ] Le **18 pizze riconosciute** e i relativi **18 spicchi** compaiono come item distinti, cercabili nel pannello JEI, non soltanto dentro ricette.
+- [ ] Comparsa di 18 varianti crude, 18 cotte e 18 fette, più due esempi di Pizza mista, con le texture già approvate.
+- [ ] R/U su una pizza e uno spicchio **ottenuti in Survival** conduce alle giuste categorie; i quarti misti restano coerenti.
+- [ ] **Unica ricetta caglio:** Cardoon selvatico/coltivato + acqua in secchio/bottiglia; pozioni non d'acqua escluse, resti restituiti esattamente una volta, 300 tick e recipiente originario conservati.
+
 ## A. Interazioni e ricette base
 
 - [ ] Impasto Farmer's Delight: posa su superficie valida, stesura con mano/mattarello, divisione metà/quarti e riunione; i topping rimangono sullo stesso quarto fisico.
