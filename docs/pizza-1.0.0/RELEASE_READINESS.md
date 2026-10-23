@@ -57,7 +57,8 @@ sottostanti restano aperte per le parti non confermate.
 ## D. Compatibilità, UI e altre regressioni
 
 - [ ] Creativa: **18 crude, 18 cotte, 18 spicchi, 2 Pizze miste**; nessuna voce base duplicata Pizza Bianca, icona scheda Margherita cotta, tutti gli altri item presenti.
-- [ ] JEI: categorie, guide, 5 esempi shapeless, Pizza Oven, progressi e nomi; traduzioni **italiano e inglese** senza chiavi mancanti. Conservare tutte le texture approvate.
+- [ ] JEI: **18 gusti riconosciuti** nel Pizza Oven e nella nuova categoria Cutting Board (più una Pizza mista), crafting dinamico per i **17 gusti con topping**, guida impasto; provare lookup con R/U, bookmark, traduzioni **italiano e inglese** e texture approvate. La Bianca si prepara nel mondo, non con l'impasto da solo in crafting.
+- [ ] Cutting Board Farmer's Delight: piazzare una **pizza cotta intera** sull'asse, clic con coltello idoneo, verificare **4 spicchi** con i condimenti di ciascun quarto, danno del coltello, nessun secondo output e salvataggio/load; testare anche una pizza mista. Vedi [PIZZA_JEI_CUTTING_BOARD.md](PIZZA_JEI_CUTTING_BOARD.md).
 - [ ] Formaggi da uncino (Scamorza/Provolone) non piazzabili a terra; formaggi da superficie e scaffali continuano a funzionare; recupero uncino + salume/formaggio e pulizia spazio tecnico dopo rottura del supporto.
 - [ ] Altro: la Cheese Vat, il sale, la coltivazione del basilico e le ricette dei salumi funzionano dopo l'aggiornamento.
 

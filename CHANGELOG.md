@@ -14,6 +14,8 @@ This section describes changes currently implemented on `feature/pizza-1.0.0`, *
 - Added dynamic shapeless crafting of uniform raw pizzas alongside freeform preparation in the world.
 - Added 18 recognized pizza flavors and Mixed Pizza with independent names, toppings and sprites for each of the four served quarters.
 - Added custom slice nutrition derived from the actual canonical topping categories; at most two distinct ingredients per category contribute, capped at six hunger and six saturation points.
+- Every recognized pizza now appears in JEI's Pizza Oven catalogue and Cutting Board slicing guide. Dough-only Bianca remains a world-prepared pizza rather than a false shapeless crafting recipe.
+- A cooked whole pizza can also be cut on Farmer's Delight Cutting Board with any tagged knife, producing four individually data-bearing slices, including mixed pizzas.
 - Added short Farmer's Delight Nourishment for slices meeting the nutritional threshold; slices of the same flavor stack up to 16.
 - Added Pizza Oven, crafting and in-world preparation guides in JEI and organized Creative samples without duplicate empty Pizza Bianca entries.
 

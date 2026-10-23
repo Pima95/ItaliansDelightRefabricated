@@ -10,7 +10,8 @@
 - Pala riutilizzabile con cargo, Pizza Oven, fornace vanilla e smoker con cottura e rimborsi di ciotole.
 - 18 ricette di pizza riconosciute, Pizza mista con grafica Margherita, nomi e sprite propri degli spicchi; massimo **16 spicchi uguali per stack**.
 - Valori alimentari dinamici approvati (due ingredienti differenti per categoria, massimo 6 fame/6 saturazione) e Nourishment breve quando dovuto.
-- JEI e scheda Creativa per l'aggiornamento, senza la doppia Pizza Bianca.
+- JEI: tutti i **18 gusti** riconosciuti nel Pizza Oven e nel taglio su Cutting Board (più esempio mista); ricette crafting disponibili per gusti con topping, guida nel mondo. Scheda Creativa senza doppia Pizza Bianca.
+- Fette ottenibili anche tagliando con un coltello sulla Cutting Board una pizza cotta intera, preservando i dati dei quattro quarti e la nutrizione; nessuna perdita/duplicazione intenzionale e danno di un punto al coltello.
 - Preservazione delle componenti strutturate, nome personalizzato, lore e `CUSTOM_DATA` durante cottura; i metadati specifici di altri sistemi devono essere valutati caso per caso.
 
 ## Test *effettivamente confermati dall'autore*

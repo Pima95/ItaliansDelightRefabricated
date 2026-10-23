@@ -1,5 +1,15 @@
 # Roadmap — Pizza Update 1.0.0
 
+## JEI e Cutting Board — 23 ottobre 2026
+
+- [x] Elencati **tutti i 18 gusti riconosciuti** nel JEI del Pizza Oven con un identificatore distinto per il bookmark.
+- [x] Esposti nella categoria crafting i gusti con almeno un topping, generati dal catalogo riconosciuto, mantenendo gli esempi liberi. **Pizza Bianca (solo impasto) non è una ricetta shapeless** e appare correttamente nei percorsi di cottura e taglio.
+- [x] Nuova categoria JEI Cutting Board: 18 gusti + una Pizza mista; ogni ricetta mostra **4 fette reali** con i dati del proprio quarto.
+- [x] La Cutting Board di Farmer's Delight taglia con un qualsiasi coltello del tag comune; consuma **una pizza cotta intera**, danneggia il coltello di un punto e produce quattro fette. Niente ricette JSON a output statico che perdono i condimenti.
+- [x] Controllo CI su numero gusti, registrazione JEI e ordine di commit della transazione Cutting Board.
+- [ ] Test in Survival e client JEI: 18 gusti, bookmark, Bianca, Pizza mista (quattro fette diverse), coltelli diversi, inventario/stack, server dedicato. [Guida](PIZZA_JEI_CUTTING_BOARD.md).
+
+
 ## Test recenti confermati dall'autore — 22 ottobre 2026
 
 - [x] **Stack degli spicchi identici fino a 16:** confermato funzionante.
