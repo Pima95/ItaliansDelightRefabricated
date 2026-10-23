@@ -55,9 +55,9 @@
 
 ## Ottimizzazioni
 
-- **Applicate:** OPT-002 (preview senza preparare ciotole), OPT-007 (un unico update dei topping), OPT-010 (rimborsi condivisi), OPT-012 (meno array temporanei nella pala), OPT-014 (generatore/test delle ricette degli scaffali).
+- **Applicate:** OPT-002 (preview senza preparare ciotole), OPT-007 (un unico update dei topping), OPT-010 (rimborsi condivisi), **OPT-011** (evitati snapshot e ordinamenti duplicati dei quarti nei nomi dinamici, 23 ottobre), OPT-012 (meno array temporanei nella pala), OPT-014 (generatore/test delle ricette degli scaffali).
 - **Ancora da misurare o richiedono cautela:** OPT-001, OPT-003–006, OPT-008–009. Profilare prima con più pizze, vasche, calderoni e stagionature; non introdurre cache senza invalidazione rigorosa.
-- **Rifiniture opzionali:** OPT-004 renderer, OPT-011 nomi, OPT-013 grafica JEI. **OPT-015** è una linea guida: non rimuovere validazioni e copie difensive soltanto per risparmiare qualche operazione.
+- **Rifiniture opzionali:** OPT-004 renderer, OPT-013 grafica JEI. **OPT-015** è una linea guida: non rimuovere validazioni e copie difensive soltanto per risparmiare qualche operazione. Tutte le decisioni per la candidata release sono registrate in [OPTIMIZATION_CLOSURE_2026-10-23.md](../OPTIMIZATION_CLOSURE_2026-10-23.md).
 
 ## Migliorie IMP-001–IMP-004 integrate — 22 ottobre 2026
 
@@ -97,6 +97,12 @@ Il completamento di queste funzioni non costituisce conferma automatica dei test
 
 La revisione automatizzata (ultimo commit, vedi [CODE_AUDIT_2026-10-23.md](../CODE_AUDIT_2026-10-23.md)) copre **114 sorgenti Java, 590 JSON e 94 ricette**. Le due coppie identiche di Bocconcino e Provolone fresco sono state accorpate in ricette singole, in analogia al caglio; gli output, i tempi e le fonti d'acqua non sono cambiati. Nessuna modifica ai dati già salvati delle pizze o ai modelli approvati. Restano da verificare in-game i tre prodotti Cheese Vat con alternative idriche e i residui dei contenitori; il server dedicato e i carichi elevati non sono stati collaudati soltanto dalla CI.
 
-## Prossimo gate: server dedicato e multiplayer — 23 ottobre 2026
+## Chiusura della revisione e preparazione del rilascio — 23 ottobre 2026
 
-Concluse le ultime schermate JEI, la priorità non è aggiungere nuovi gusti o texture, ma verificare un server headless e operazioni concorrenti senza duplicazioni. Ho predisposto [DEDICATED_SERVER_TESTS.md](DEDICATED_SERVER_TESTS.md) e un controllo CI statico per l'assenza di import/rendering client nei mixin comuni. **Questo controllo non avvia Minecraft** e non equivale al test del server reale, che rimane da svolgere. Nessun merge su `main`, modifica dei PNG o aggiornamento della versione finché la checklist non è confermata.
+L'autore ha comunicato che **(1) i test Cheese Vat** e **(3) la revisione conclusiva** del precedente riepilogo sono completati. Questa conferma chiude quei due macro-punti: non attesta automaticamente ogni caso combinatorio presente nelle checklist più dettagliate.
+
+**Multiplayer rimandato:** l'autore non può verificarlo al momento. Un controllo CI statico sui mixin comuni è disponibile in [DEDICATED_SERVER_TESTS.md](DEDICATED_SERVER_TESTS.md), ma **non avvia due client né il server Fabric reale**. Il rischio di operazioni simultanee e le verifiche non confermate rimangono dichiarati in [RELEASE_READINESS.md](RELEASE_READINESS.md).
+
+**Ottimizzazioni esaminate per la 1.0.0:** rifinitura non invasiva OPT-011 implementata, altre cinque già applicate e tutte le proposte restanti classificate come rinviate/di manutenzione dove il rischio supera l'evidenza disponibile. Si veda [il registro di chiusura](../OPTIMIZATION_CLOSURE_2026-10-23.md).
+
+**Materiale di pubblicazione predisposto:** [note della 1.0.0 in bozza](RELEASE_NOTES_DRAFT.md), CHANGELOG e checklist. La build CI più recente prima di queste modifiche è risultata verde (commit `867467de`, 23 ottobre); ogni nuovo commit deve ottenere una nuova verifica. La versione rimane `0.4.0`. Non sono stati pubblicati release/tag né eseguiti merge su `main`; l'approvazione finale e i gate indicati in checklist sono ancora necessari.
