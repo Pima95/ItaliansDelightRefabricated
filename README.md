@@ -81,6 +81,6 @@ If you find an issue or have an idea for improving the mod, feel free to open an
 
 Italian's Delight Refabricated is built as an add-on for [Farmer's Delight Refabricated](https://github.com/MehVahdJukaar/FarmersDelightRefabricated).
 
-## License
+## License and asset attribution
 
-See the [LICENSE](LICENSE) file for license information.
+See the [LICENSE](LICENSE) file for the license of this project and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for attributions of assets and inspirations from **PuurpZ's Italian's Delight** and **cadaverous_queen's Rustic**, including links to the original MIT notices.
