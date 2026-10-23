@@ -63,6 +63,10 @@ Le seguenti **texture PNG esistono** in `src/main/resources/assets/italiansdelig
 
 **Verifica di implementazione:** nella cartella dei `models/block`, `models/item` e `blockstates` non risultano ancora modelli o stati registrati per `olive_*`: non confondere la semplice presenza delle PNG con una funzionalità già presente in gioco. Prima di creare nuovi PNG controllare le coppie con nomi invertiti e riusare le risorse esistenti ove idonee. **Non modificare, sovrascrivere o eliminare texture preesistenti senza approvazione.** Per mandorlo e ciliegio da frutto serviranno asset coerenti ma visivamente distinti.
 
+### Regola artistica approvata per gli asset Rustic (23 ottobre 2026)
+
+**Decisione vincolante:** non usare texture provenienti da **Rustic** per nuovi contenuti della 1.1.0, essendo materiali della generazione Minecraft 1.12.2 che l'autore non intende riutilizzare. Per ulivi normali e secolari utilizzare un unico set coerente di asset non-Rustic; distinguere l'ulivo secolare dalla struttura 2×2 e dalla chioma, non tramite la texture antica. I file Rustic già nel repository restano intatti a fini storici, senza riferimenti nei nuovi modelli. Inventario, specifiche e possibili alternative in [WOOD_DESIGN.md](WOOD_DESIGN.md).
+
 ### Revisione artistica delle famiglie di legno (23 ottobre 2026)
 
 **Inventario completato:** tutte le texture legacy di ulivo elencate sono presenti e le relative dimensioni PNG sono state verificate (16×16). Le coppie `olive_log/log_olive`, `olive_leaves/leaves_olive` e `olive_sapling/sapling_olive` sono file grafici distinti perché provenienti dai materiali delle vecchie mod **Italian's Delight** e **Rustic** (chiarimento dell'autore). **Non costituiscono varianti concepite per l'ulivo secolare** e non vanno assegnate automaticamente al nuovo gameplay. L'attribuzione esatta e le licenze vanno verificate file per file. Nessun asset è stato modificato.
@@ -95,7 +99,7 @@ Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per
 ## 4. Fasi di sviluppo (non iniziate)
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
-- [ ] **Fase 1 — Asset e modelli:** inventario legacy dell'ulivo completato e licenze pubblicate dei due progetti verificate ([documento asset](WOOD_DESIGN.md)); tracciati **41 match Rustics** ([confronto](RUSTIC_ASSET_MATCHES.md)); rimangono l'attribuzione dei file non corrispondenti, l'approvazione palette, la scelta finale delle risorse, la registrazione delle tre famiglie legno e la progettazione foglie/frutti/germogli.
+- [ ] **Fase 1 — Asset e modelli:** inventario legacy completato, **esclusione delle texture Rustic approvata**, 41 match Rustic documentati ([confronto](RUSTIC_ASSET_MATCHES.md)); rimangono l'attribuzione degli altri file, l'approvazione delle palette mandorlo/ciliegio, la registrazione delle famiglie legno e la progettazione di foglie/frutti/germogli.
 - [ ] **Fase 2 — Alberi e generazione:** crescita, chiome, biomi, rarità e ulivo secolare 2×2.
 - [ ] **Fase 3 — Raccolta e ricrescita:** foglie fruttifere, raccolta, progressione e salvataggio.
 - [ ] **Fase 4 — Ingredienti e ricette:** decidere prima le lavorazioni principali e poi implementarle.
