@@ -28,7 +28,7 @@ public final class ModBoats {
         BuiltInRegistries.ENTITY_TYPE,
         OLIVE_BOAT_ENTITY_KEY,
         EntityType.Builder.<Boat>of(
-            (type, level) -> new Boat(type, level, () -> OLIVE_BOAT_ITEM),
+            (type, level) -> new Boat(type, level, ModBoats::getOliveBoatItem),
             MobCategory.MISC
         ).noLootTable().sized(1.375F, 0.5625F).eyeHeight(0.5625F)
             .clientTrackingRange(10).build(OLIVE_BOAT_ENTITY_KEY)
@@ -38,7 +38,7 @@ public final class ModBoats {
         BuiltInRegistries.ENTITY_TYPE,
         OLIVE_CHEST_BOAT_ENTITY_KEY,
         EntityType.Builder.<ChestBoat>of(
-            (type, level) -> new ChestBoat(type, level, () -> OLIVE_CHEST_BOAT_ITEM),
+            (type, level) -> new ChestBoat(type, level, ModBoats::getOliveChestBoatItem),
             MobCategory.MISC
         ).noLootTable().sized(1.375F, 0.5625F).eyeHeight(0.5625F)
             .clientTrackingRange(10).build(OLIVE_CHEST_BOAT_ENTITY_KEY)
@@ -59,6 +59,11 @@ public final class ModBoats {
         OLIVE_CHEST_BOAT_ITEM_KEY,
         new BoatItem(OLIVE_CHEST_BOAT_ENTITY, new Item.Properties().stacksTo(1).setId(OLIVE_CHEST_BOAT_ITEM_KEY))
     );
+
+    // Lazy getters avoid illegal Java static forward references while retaining
+    // the correct boat items for damage drops and entity persistence.
+    private static Item getOliveBoatItem() { return OLIVE_BOAT_ITEM; }
+    private static Item getOliveChestBoatItem() { return OLIVE_CHEST_BOAT_ITEM; }
 
     public static void register() {
         // Force registration of boat entities and their placeable inventory items.
