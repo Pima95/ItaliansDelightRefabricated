@@ -1,66 +1,47 @@
 package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.common.registry.ModItems;
-import net.minecraft.ChatFormatting;
-import mezz.jei.api.gui.placement.HorizontalAlignment;
+import java.util.List;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.placement.HorizontalAlignment;
 import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import java.util.List;
 
-/**
- * JEI handbook for the in-world pizza process, with no invented intermediate
- * items or fake shapeless recipes. Inputs are consumed only where applicable;
- * the rolling pin is a non-consumable crafting station for JEI lookup.
- */
+/** Seven in-world instructions for each of the eighteen recognized tastes. */
 public final class PizzaWorldRecipeCategory
         extends AbstractRecipeCategory<PizzaWorldJeiRecipe> {
     private static final int WIDTH = 170;
-    // Keep adequate room for four-to-five wrapped description lines and
-    // a separate two-to-three-line note, even with scaled fonts.
     private static final int HEIGHT = 136;
 
     public PizzaWorldRecipeCategory(IGuiHelper helper) {
-        super(
-                PizzaWorldJeiRecipeTypes.WORLD_PREPARATION,
+        super(PizzaWorldJeiRecipeTypes.WORLD_PREPARATION,
                 Component.translatable("gui.italiansdelight.jei.pizza_world"),
-                helper.createDrawableItemLike(ModItems.ROLLING_PIN),
-                WIDTH, HEIGHT
-        );
+                helper.createDrawableItemLike(ModItems.ROLLING_PIN), WIDTH, HEIGHT);
     }
 
     @Override
     public Identifier getIdentifier(PizzaWorldJeiRecipe recipe) {
-        // Synthetic, stable IDs let players bookmark every guide page.
-        return Identifier.fromNamespaceAndPath(
-                "italiansdelight", "/pizza_world/" + recipe.step().id());
+        return Identifier.fromNamespaceAndPath("italiansdelight",
+                "/pizza_world/" + recipe.flavorId() + "/" + recipe.step().id());
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder,
                           PizzaWorldJeiRecipe recipe, IFocusGroup focuses) {
         List<ItemStack> ingredients = recipe.exampleIngredients();
-        ItemStack dough = ingredients.get(0);
-        ItemStack sauce = ingredients.get(1);
-        ItemStack mozzarella = ingredients.get(2);
-        ItemStack basil = ingredients.get(3);
+        ItemStack dough = ingredients.getFirst();
+        List<ItemStack> toppings = ingredients.subList(1, ingredients.size());
 
-        // JEI indexes each instructional page by its displayed INPUT/OUTPUT
-        // ingredients. Without a shared lookup anchor, pressing R on a raw
-        // pizza selects ONLY COLLECT (the one page with a visible raw-pizza
-        // output), resulting in 1/1 despite all seven pages being registered.
-        //
-        // These are SEARCH-ONLY entries; they do not render extra slots or
-        // claim that every instruction crafts a raw pizza. They let players
-        // navigate the entire handbook starting from either the raw pizza,
-        // wheat dough, or rolling pin, while keeping the illustrations below
-        // accurate for each step.
+        // Index ALL seven stages by the exact data-bearing named pizza.
+        // Lookups R/U therefore find the corresponding flavor-specific guide
+        // rather than the former seven Margherita-only illustrations.
         builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT)
                 .add(recipe.examplePizza());
         builder.addInvisibleIngredients(RecipeIngredientRole.INPUT)
@@ -68,42 +49,41 @@ public final class PizzaWorldRecipeCategory
                 .add(new ItemStack(ModItems.ROLLING_PIN));
 
         switch (recipe.step()) {
-            case PLACE ->
+            case PLACE, STRETCH_HAND ->
                 builder.addInputSlot(76, 7)
                         .setStandardSlotBackground().add(dough);
-            case STRETCH_HAND ->
-                builder.addInputSlot(76, 7)
-                        .setStandardSlotBackground().add(dough);
-            case STRETCH_PIN -> {
-                builder.addInputSlot(46, 7)
-                        .setStandardSlotBackground().add(dough);
-                builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 106, 7)
-                        .setStandardSlotBackground().add(new ItemStack(ModItems.ROLLING_PIN));
-            }
-            case DIVIDE -> {
-                // Dough is a JEI visual reference for the placed base, not
-                // a second dough item consumed by dividing an existing pizza.
+            case STRETCH_PIN, DIVIDE -> {
                 builder.addInputSlot(46, 7)
                         .setStandardSlotBackground().add(dough);
                 builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 106, 7)
                         .setStandardSlotBackground().add(new ItemStack(ModItems.ROLLING_PIN));
             }
             case TOPPINGS -> {
-                // Margherita is a SAMPLE of valid toppings, not a fixed
-                // recipe or a mandatory sauce order. Each application
-                // consumes only one item on a successful right-click.
-                builder.addInputSlot(36, 7)
-                        .setStandardSlotBackground().add(sauce);
-                builder.addInputSlot(76, 7)
-                        .setStandardSlotBackground().add(mozzarella);
-                builder.addInputSlot(116, 7)
-                        .setStandardSlotBackground().add(basil);
+                if (toppings.isEmpty()) {
+                    // Bianca: no toppings are needed! This illustrates the
+                    // correctly stretched, undecorated finished base.
+                    builder.addOutputSlot(76, 7)
+                            .setOutputSlotBackground().add(recipe.examplePizza());
+                } else {
+                    // Max six, one physical application per item on an
+                    // undivided pizza. Unlike the old Margherita-only page,
+                    // these slots reflect the precise saved canonical preset.
+                    int left = (WIDTH - (toppings.size() * 22 - 4)) / 2;
+                    for (int i = 0; i < toppings.size(); i++) {
+                        builder.addInputSlot(left + i * 22, 7)
+                                .setStandardSlotBackground().add(toppings.get(i));
+                    }
+                }
             }
-            case REMOVE ->
-                // An original topping is refunded only once ALL its parts
-                // were removed; no output exists after a partial removal.
-                builder.addOutputSlot(76, 7)
-                        .setOutputSlotBackground().add(mozzarella);
+            case REMOVE -> {
+                if (!toppings.isEmpty()) {
+                    builder.addOutputSlot(76, 7)
+                            .setOutputSlotBackground().add(toppings.getLast());
+                } else {
+                    builder.addOutputSlot(76, 7)
+                            .setOutputSlotBackground().add(recipe.examplePizza());
+                }
+            }
             case COLLECT ->
                 builder.addOutputSlot(76, 7)
                         .setOutputSlotBackground().add(recipe.examplePizza());
@@ -113,27 +93,40 @@ public final class PizzaWorldRecipeCategory
     @Override
     public void createRecipeExtras(IRecipeExtrasBuilder builder,
                                    PizzaWorldJeiRecipe recipe, IFocusGroup focuses) {
-        // Use three distinct, non-overlapping areas. The previous 34-pixel
-        // description space truncated multi-line Italian/English translations,
-        // while the note began before the description had finished wrapping.
-        // No hardcoded line breaks: JEI handles word wrapping for both languages.
+        Component pizzaName = recipe.examplePizza().getHoverName();
+        List<ItemStack> ingredients = recipe.exampleIngredients();
+        List<ItemStack> toppings = ingredients.subList(1, ingredients.size());
+
+        // Every page is explicitly titled with its flavor. The toppings step
+        // additionally lists exact ingredient names in the client language.
         builder.addText(
-                Component.translatable(recipe.step().titleKey())
+                Component.translatable("gui.italiansdelight.jei.pizza_world.flavor_title",
+                        pizzaName, Component.translatable(recipe.step().titleKey()))
                         .withStyle(ChatFormatting.BOLD),
-                WIDTH - 12, 18
-        )
-                .setPosition(6, 31)
+                WIDTH - 12, 30)
+                .setPosition(6, 28)
                 .setTextAlignment(HorizontalAlignment.CENTER);
 
-        builder.addText(
-                Component.translatable(recipe.step().descriptionKey()),
-                WIDTH - 12, 51
-        ).setPosition(6, 53);
+        Component description;
+        if (recipe.step() == PizzaWorldJeiRecipe.Step.TOPPINGS) {
+            Component names = Component.empty();
+            for (int i = 0; i < toppings.size(); i++) {
+                if (i > 0) names = names.copy().append(Component.literal(", "));
+                names = names.copy().append(toppings.get(i).getHoverName());
+            }
+            description = toppings.isEmpty()
+                    ? Component.translatable("gui.italiansdelight.jei.pizza_world.bianca_description")
+                    : Component.translatable("gui.italiansdelight.jei.pizza_world.named_toppings_description",
+                            pizzaName, names);
+        } else {
+            description = Component.translatable(recipe.step().descriptionKey());
+        }
+        builder.addText(description, WIDTH - 12, 48).setPosition(6, 61);
 
-        builder.addText(
-                Component.translatable(recipe.step().noteKey())
-                        .withStyle(ChatFormatting.DARK_GRAY),
-                WIDTH - 12, 24
-        ).setPosition(6, 110);
+        Component note = recipe.step() == PizzaWorldJeiRecipe.Step.TOPPINGS
+                ? Component.translatable("gui.italiansdelight.jei.pizza_world.named_toppings_note")
+                : Component.translatable(recipe.step().noteKey());
+        builder.addText(note.withStyle(ChatFormatting.DARK_GRAY), WIDTH - 12, 24)
+                .setPosition(6, 111);
     }
 }
