@@ -237,5 +237,9 @@
   "block.italiansdelight.olive_pressure_plate": "Olive Pressure Plate",
   "block.italiansdelight.olive_door": "Olive Door",
   "block.italiansdelight.olive_trapdoor": "Olive Trapdoor",
-  "block.italiansdelight.olive_cheese_aging_rack": "Olive Cheese Aging Rack"
+  "block.italiansdelight.olive_cheese_aging_rack": "Olive Cheese Aging Rack",
+  "item.italiansdelight.olive_boat": "Olive Boat",
+  "entity.italiansdelight.olive_boat": "Olive Boat",
+  "item.italiansdelight.olive_chest_boat": "Olive Boat with Chest",
+  "entity.italiansdelight.olive_chest_boat": "Olive Boat with Chest"
 }

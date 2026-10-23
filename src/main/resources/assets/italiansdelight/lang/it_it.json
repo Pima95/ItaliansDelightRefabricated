@@ -237,5 +237,9 @@
   "block.italiansdelight.olive_pressure_plate": "Pedana a Pressione d'Ulivo",
   "block.italiansdelight.olive_door": "Porta d'Ulivo",
   "block.italiansdelight.olive_trapdoor": "Botola d'Ulivo",
-  "block.italiansdelight.olive_cheese_aging_rack": "Scaffale di Stagionatura d'Ulivo"
+  "block.italiansdelight.olive_cheese_aging_rack": "Scaffale di Stagionatura d'Ulivo",
+  "item.italiansdelight.olive_boat": "Barca d'Ulivo",
+  "entity.italiansdelight.olive_boat": "Barca d'Ulivo",
+  "item.italiansdelight.olive_chest_boat": "Barca d'Ulivo con Baule",
+  "entity.italiansdelight.olive_chest_boat": "Barca d'Ulivo con Baule"
 }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "transportation",
+  "group": "boats",
+  "pattern": [
+    "P P",
+    "PPP"
+  ],
+  "key": {
+    "P": "italiansdelight:olive_planks"
+  },
+  "result": {
+    "id": "italiansdelight:olive_boat",
+    "count": 1
+  }
+}

@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.registry.ModBoats;
 import dev.italiansdelight.common.registry.ModRegistries;
 import dev.italiansdelight.common.pizza.PizzaDisplayNames;
 import dev.italiansdelight.common.pizza.PizzaCreativeSamples;
@@ -77,6 +78,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.OLIVE_PRESSURE_PLATE);
                 output.accept(ModBlocks.OLIVE_DOOR);
                 output.accept(ModBlocks.OLIVE_TRAPDOOR);
+                output.accept(ModBoats.OLIVE_BOAT_ITEM);
+                output.accept(ModBoats.OLIVE_CHEST_BOAT_ITEM);
 
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);

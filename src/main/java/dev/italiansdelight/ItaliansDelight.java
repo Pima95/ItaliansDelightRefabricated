@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.registry.ModBoats;
 import dev.italiansdelight.common.item.group.ModItemGroups;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModMenuTypes;
@@ -41,6 +42,7 @@ public class ItaliansDelight implements ModInitializer {
         ModDataComponents.register();
         ModItems.register();
         ModBlocks.register();
+        ModBoats.register();
         // Pure, read-only registry. The toppings will be wired to pizza interactions later.
         PizzaToppingCatalog.register();
         // Datapack equivalences are loaded on server data reload, never per tick.

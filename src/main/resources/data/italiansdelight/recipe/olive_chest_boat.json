@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "transportation",
+  "group": "chest_boats",
+  "ingredients": [
+    "italiansdelight:olive_boat",
+    "minecraft:chest"
+  ],
+  "result": {
+    "id": "italiansdelight:olive_chest_boat",
+    "count": 1
+  }
+}

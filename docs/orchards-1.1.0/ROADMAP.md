@@ -117,7 +117,7 @@ Il branch contiene sei nuovi blocchi: `olive_stairs`, `olive_slab`, `olive_fence
 
 - **Porta e botola d'ulivo**: blocchi vanilla-equivalenti, texture già esistenti `olive_door_bottom.png`, `olive_door_top.png`, `olive_door.png` e `olive_trapdoor.png`, senza modifiche PNG. Incluse ricette, proprietà del legno, redstone, loot (porta solo dal mezzo inferiore), modelli e traduzioni.
 - **Aging rack d'ulivo**: nuova variante `olive_cheese_aging_rack`, costruita con recinzioni e assi d'ulivo. Condivide esattamente il comportamento, i due ripiani e l'entità persistente degli scaffali già implementati. Il generatore/check ricette registra **13** famiglie complessive.
-- La barca e la barca con baule hanno **sia icone 16×16 che texture 3D** (rispettivamente 128×64 e 128×128) nel repository; usare questi asset già presenti, senza crearne altri. La registrazione delle entità e il rendering sono il passo tecnico successivo.
+- **Barca d'ulivo e barca con baule**: implementate come due entità veicolo distinte con item, crafting, modello e renderer vanilla, usando rispettivamente le texture `textures/entity/boat/olive.png` (128×64) e `textures/entity/chest_boat/olive.png` (128×128), oltre alle due icone 16×16 preesistenti; nessun PNG creato. **Da validare compilazione e funzionamento in gioco:** spawn su acqua, passeggeri, movimento, drop, salvataggio e inventario del baule.
 - **Test manuali ancora da fare**: porte (cerniere, apertura, segnale, rottura) e botole (orientamenti e acqua); rack (inserimento, prelievo, maturazione, save/load, rottura e drop). La Fase A precedente resta da collaudare separatamente.
 
 ## 4. Fasi di sviluppo
