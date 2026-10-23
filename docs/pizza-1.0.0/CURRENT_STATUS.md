@@ -1,7 +1,7 @@
 # Stato corrente di Italian's Delight — Pizza 1.0.0
 
 **Branch:** `feature/pizza-1.0.0` (la `main` è protetta).  
-**Data verifica:** 22 ottobre 2026. **Versione del JAR:** ancora `0.4.0`; il numero della 1.0.0 non è stato incrementato né pubblicato.  
+**Data verifica:** 23 ottobre 2026. **Versione del JAR:** ancora `0.4.0`; il numero della 1.0.0 non è stato incrementato né pubblicato.  
 **Riferimenti:** [roadmap](ROADMAP.md), [checklist di release](RELEASE_READINESS.md), [bug](../KNOWN_BUGS.md), [migliorie](../PLANNED_IMPROVEMENTS.md), [audit](../CODE_AUDIT_2026-10-19.md) e [ottimizzazioni](../OPTIMIZATION_REVIEW_2026-10-19.md).
 
 ## Funzionalità implementate
@@ -21,6 +21,9 @@
 - [x] I quattro gusti di una Pizza mista restano distinti dopo salvataggio e riavvio.
 - [x] Icona Margherita della Creativa e riordino della scheda funzionano.
 - [x] Nome «Pizza mista» e rimozione della mozzarella intera come topping sono stati confermati in game.
+- [x] Istruzioni JEI personalizzate per tutti i 18 gusti di pizza (sette passaggi per gusto) confermate nel client.
+- [x] GUI JEI degli spicchi coerente con la Cutting Board standard di Farmer's Delight confermata nel client.
+- [x] Correzione di 4 pixel del liquido whey nella ricetta JEI della Ricotta confermata nel client.
 - [ ] Tutti gli altri casi combinatori elencati nella [checklist completa](RELEASE_READINESS.md), in particolare server dedicato, due giocatori, hopper pieni/rinominati e aggiornamenti da versioni vecchie.
 
 ## Bug registrati
@@ -88,8 +91,12 @@ Il completamento di queste funzioni non costituisce conferma automatica dei test
 - `AgingCheeseBlockEntity`: al caricamento e durante il tick recupera ruote senza pavimento attraverso il normale percorso di loot.
 - `AgingCheeseBlock`: prelievo manuale prima rimuove il blocco senza drop, poi consegna il singolo formaggio.
 
-**Stato reale:** implementato, soggetto a CI; l'autore deve ancora confermare le prove del [registro bug](../KNOWN_BUGS.md), soprattutto uncini con salumi/formaggi appesi, rottura del supporto, vecchi mondi, casi `doTileDrops=false` e multiplayer. Non indicare BUG-001/003 come confermati in-game prima delle prove.
+**Stato reale aggiornato:** BUG-001 e BUG-003 sono **confermati risolti in gioco dall'autore il 23 ottobre 2026**. Le verifiche su salvataggi vecchi, casi artificiali (`doTileDrops=false`) e multiplayer rimangono test aggiuntivi, non impediscono la chiusura dei bug base.
 
 ## Audit trasversale — 23 ottobre 2026
 
 La revisione automatizzata (ultimo commit, vedi [CODE_AUDIT_2026-10-23.md](../CODE_AUDIT_2026-10-23.md)) copre **114 sorgenti Java, 590 JSON e 94 ricette**. Le due coppie identiche di Bocconcino e Provolone fresco sono state accorpate in ricette singole, in analogia al caglio; gli output, i tempi e le fonti d'acqua non sono cambiati. Nessuna modifica ai dati già salvati delle pizze o ai modelli approvati. Restano da verificare in-game i tre prodotti Cheese Vat con alternative idriche e i residui dei contenitori; il server dedicato e i carichi elevati non sono stati collaudati soltanto dalla CI.
+
+## Prossimo gate: server dedicato e multiplayer — 23 ottobre 2026
+
+Concluse le ultime schermate JEI, la priorità non è aggiungere nuovi gusti o texture, ma verificare un server headless e operazioni concorrenti senza duplicazioni. Ho predisposto [DEDICATED_SERVER_TESTS.md](DEDICATED_SERVER_TESTS.md) e un controllo CI statico per l'assenza di import/rendering client nei mixin comuni. **Questo controllo non avvia Minecraft** e non equivale al test del server reale, che rimane da svolgere. Nessun merge su `main`, modifica dei PNG o aggiornamento della versione finché la checklist non è confermata.

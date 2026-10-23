@@ -1,7 +1,7 @@
 # Pizza JEI e Cutting Board — aggiornamento del 23 ottobre 2026
 
 **Branch:** `feature/pizza-1.0.0` (nessun nuovo branch).
-**Stato:** implementato e sottoposto alla CI, test runtime in Minecraft non ancora confermati.
+**Stato aggiornato 23 ottobre 2026:** l'autore conferma che **le ultime tre modifiche JEI funzionano in Minecraft**: guide personalizzate per i 18 gusti, interfaccia standard Cutting Board e allineamento whey Ricotta. Restano aperti test più ampi su multiplayer, 56 varianti della sidebar, reload e compatibilità; non considerarli automaticamente superati.
 
 ## Catalogo degli oggetti nella lista laterale di JEI
 

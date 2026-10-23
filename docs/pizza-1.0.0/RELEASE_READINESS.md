@@ -28,6 +28,12 @@ sottostanti restano aperte per le parti non confermate.
 
 ## Ultime verifiche JEI e caglio — 23 ottobre 2026
 
+**Conferma dell'autore (23 ottobre 2026):** le ultime modifiche funzionano nel client. Sono quindi chiuse queste tre verifiche funzionali, ma **non** le prove non citate di JEI dopo reload, server dedicato, multiplayer o combinazioni estreme.
+
+- [x] Le 18 pizze riconosciute dispongono delle nuove istruzioni personalizzate per stendere e condire l'impasto in JEI.
+- [x] La categoria degli spicchi utilizza il layout originale Cutting Board di Farmer's Delight Refabricated.
+- [x] Il siero nella ricetta JEI della Ricotta è allineato nel tank destro, dopo la correzione di 4 pixel.
+
 - [ ] Ogni **pizza riconosciuta** (18) ha **sette pagine personalizzate** in JEI per posizionamento, stesura, divisione, topping, rimozione e raccolta. Le 126 pagine sono ricercabili partendo dal nome del gusto e mostrano gli item realmente necessari.
 - [ ] La Cutting Board delle pizze usa lo stesso sfondo JEI vanilla di Farmer's Delight Refabricated, formato 117×57, ingredienti a sinistra e quattro fette in griglia 2×2 a destra.
 - [ ] Nel JEI della Ricotta il whey del tank destro è **4 pixel più in basso**, senza alterare le proporzioni della barra o la GUI Cheese Vat.
@@ -75,7 +81,7 @@ sottostanti restano aperte per le parti non confermate.
 
 ## E. Server, persistenza e consegna
 
-- [ ] Avviare un **server Fabric dedicato senza renderer client** e con le stesse versioni delle dipendenze; nessun crash/mixin client-side sul server.
+- [ ] Avviare un **server Fabric dedicato senza renderer client** e con le stesse versioni delle dipendenze; nessun crash/mixin client-side sul server. Eseguire [DEDICATED_SERVER_TESTS.md](DEDICATED_SERVER_TESTS.md) e conservare il log.
 - [ ] Test multiplayer: due giocatori manipolano lo stesso quarto o la stessa pizza nello stesso tick; non vengono rilasciati due spicchi, recuperate due pizze con pala o rimborsati ingredienti due volte.
 - [ ] Salvare e riaprire dopo una pizza a quattro quarti, pizza nel forno a metà, pala con cargo e formaggi/salumi in lavorazione; nessuna perdita, duplicazione o reset imprevisto.
 - [ ] Testare vari chunk caricati/scaricati, hopper pieni e ripetuti trasferimenti; controllare log, RAM e TPS senza creare cicli di duplicazione.
@@ -86,6 +92,6 @@ sottostanti restano aperte per le parti non confermate.
 
 Una compilazione verde non è sufficiente per rilasciare la 1.0.0. Bloccano la pubblicazione: crash, perdita/duplicazione di item, incompatibilità su server dedicato, dati di pizza non persistenti, hopper che estraggono input crudo, stack di spicchi che si uniscono a gusti diversi e assenza di elementi essenziali in Creativa/JEI.
 
-**Esito ultimo test:** tre verifiche funzionali confermate dall'autore il 22 ottobre 2026 e registrate in apertura; tutte le altre prove restano da confermare. Non segnare nuove checkbox senza riscontro reale.
+**Esito ultimo test:** le tre verifiche di base del 22 ottobre e le tre correzioni visive/JEI del 23 ottobre sono state confermate dall'autore. Le altre prove, in particolare la prova con due client su server dedicato, restano aperte. Non segnare nuove checkbox senza riscontro reale.
 
 Test di dettaglio: [PIZZA_OVEN_IMPLEMENTATION_TESTS.md](PIZZA_OVEN_IMPLEMENTATION_TESTS.md), [VANILLA_FURNACES_TESTS.md](VANILLA_FURNACES_TESTS.md), [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md), [CREATIVE_INVENTORY_ORDER.md](CREATIVE_INVENTORY_ORDER.md) e [RELEASE_BALANCE_AUDIT.md](RELEASE_BALANCE_AUDIT.md).

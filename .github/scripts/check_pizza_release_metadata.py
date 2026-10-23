@@ -45,10 +45,13 @@ confirmed = [
     "- [x] Gli spicchi dello stesso gusto si impilano fino a **16**.",
     "- [x] Gli hopper **non estraggono la pizza cruda** dallo slot di ingresso del Pizza Oven.",
     "- [x] Dopo il salvataggio e la riapertura del mondo, una **Pizza mista mantiene i quattro gusti**.",
+    "- [x] Le 18 pizze riconosciute dispongono delle nuove istruzioni personalizzate per stendere e condire l'impasto in JEI.",
+    "- [x] La categoria degli spicchi utilizza il layout originale Cutting Board di Farmer's Delight Refabricated.",
+    "- [x] Il siero nella ricetta JEI della Ricotta è allineato nel tank destro, dopo la correzione di 4 pixel.",
 ]
 found = [line for line in checklist.splitlines() if line.startswith("- [x]")]
 assert found == confirmed, (
-    "Only the three author-confirmed Minecraft runtime tests should be "
+    "Only the explicitly author-confirmed Minecraft runtime tests should be "
     "marked complete until further testing is explicitly reported"
 )
 print("OK: published 0.4.0 and development-only Pizza 1.0.0 are clearly separated")
