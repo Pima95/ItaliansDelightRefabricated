@@ -2,7 +2,21 @@
   "type": "italiansdelight:cheese_vat",
   "ingredients": [
     "#c:crops/cardoon",
-    "minecraft:water_bucket"
+    {
+      "fabric:type": "fabric:any",
+      "ingredients": [
+        "minecraft:water_bucket",
+        {
+          "fabric:type": "fabric:components",
+          "base": "minecraft:potion",
+          "components": {
+            "minecraft:potion_contents": {
+              "potion": "minecraft:water"
+            }
+          }
+        }
+      ]
+    }
   ],
   "container": {
     "id": "minecraft:glass_bottle",

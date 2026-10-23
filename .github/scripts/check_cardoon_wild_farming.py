@@ -21,15 +21,23 @@ check(set(tag["values"])=={"italiansdelight:cardoon","italiansdelight:cultivated
       "Legacy item must work alongside new harvest")
 rennet=doc("data/italiansdelight/recipe/cheese_vat/rennet.json")
 check("#c:crops/cardoon" in rennet["ingredients"], "Bucket Rennet uses an obsolete single Cardoon item")
-bottle_rennet=doc("data/italiansdelight/recipe/cheese_vat/rennet_from_water_bottle.json")
-check("#c:crops/cardoon" in bottle_rennet["ingredients"],
-      "Bottle Rennet must accept wild AND cultivated Cardoon")
-check("italiansdelight:cardoon" not in bottle_rennet["ingredients"],
-      "Bottle Rennet still directly requires the wild Cardoon item")
-check(bottle_rennet.get("cookingtime")==rennet.get("cookingtime")==300,
-      "Rennet preparation times must stay unchanged")
-check(bottle_rennet.get("container")==rennet.get("container"),
-      "Rennet bottle outputs must stay unchanged")
+check(not (ROOT/"data/italiansdelight/recipe/cheese_vat/rennet_from_water_bottle.json").exists(),
+      "Duplicate Rennet recipe must not reappear: both containers use one recipe")
+check(len(rennet["ingredients"])==2 and rennet["ingredients"][0]=="#c:crops/cardoon",
+      "Rennet must consume one wild OR cultivated Cardoon")
+water=rennet["ingredients"][1]
+check(water.get("fabric:type")=="fabric:any", "Water input must be one Fabric OR ingredient")
+check(len(water["ingredients"])==2 and "minecraft:water_bucket" in water["ingredients"],
+      "Water input must accept the vanilla water bucket")
+water_bottle=next((i for i in water["ingredients"] if isinstance(i,dict)),None)
+check(water_bottle is not None and water_bottle.get("fabric:type")=="fabric:components"
+      and water_bottle.get("base")=="minecraft:potion"
+      and water_bottle.get("components",{}).get("minecraft:potion_contents",{}).get("potion")=="minecraft:water",
+      "Only water potion bottles (not arbitrary potions) should match")
+check(rennet.get("cookingtime")==300
+      and rennet.get("container")=={"id":"minecraft:glass_bottle","count":1}
+      and rennet.get("result")=={"id":"italiansdelight:rennet"},
+      "Rennet recipe output, time and packaging must not change")
 wild=doc("data/italiansdelight/loot_table/blocks/cardoon.json")
 check("cultivated_cardoon" in json.dumps(wild) and "set_count" in json.dumps(wild),
       "Wild plant does not drop cultivated seeds")
