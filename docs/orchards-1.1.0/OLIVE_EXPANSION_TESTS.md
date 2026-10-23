@@ -2,6 +2,8 @@
 
 **Branch:** `feature/orchards-1.1.0`. **Stato:** implementati tecnicamente; **tutti i seguenti collaudi manuali sono ancora da confermare**. Registrare solo risultati dichiarati dall'autore.
 
+**CI Java 25:** compilazione e controlli automatici **superati** su [GitHub Actions run 40040792134](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/40040792134). Questo esito **non** certifica i comportamenti runtime delle entità/barche e non sostituisce la checklist in-game.
+
 ## Checklist per il test in Minecraft
 
 - [ ] **Creativa e aspetto**: porte, botole, scaffale, barca e barca con baule sono presenti una volta; nomi IT/EN e texture senza viola/nero.
