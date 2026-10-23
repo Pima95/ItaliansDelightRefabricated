@@ -89,3 +89,7 @@ Il completamento di queste funzioni non costituisce conferma automatica dei test
 - `AgingCheeseBlock`: prelievo manuale prima rimuove il blocco senza drop, poi consegna il singolo formaggio.
 
 **Stato reale:** implementato, soggetto a CI; l'autore deve ancora confermare le prove del [registro bug](../KNOWN_BUGS.md), soprattutto uncini con salumi/formaggi appesi, rottura del supporto, vecchi mondi, casi `doTileDrops=false` e multiplayer. Non indicare BUG-001/003 come confermati in-game prima delle prove.
+
+## Audit trasversale — 23 ottobre 2026
+
+La revisione automatizzata (ultimo commit, vedi [CODE_AUDIT_2026-10-23.md](../CODE_AUDIT_2026-10-23.md)) copre **114 sorgenti Java, 590 JSON e 94 ricette**. Le due coppie identiche di Bocconcino e Provolone fresco sono state accorpate in ricette singole, in analogia al caglio; gli output, i tempi e le fonti d'acqua non sono cambiati. Nessuna modifica ai dati già salvati delle pizze o ai modelli approvati. Restano da verificare in-game i tre prodotti Cheese Vat con alternative idriche e i residui dei contenitori; il server dedicato e i carichi elevati non sono stati collaudati soltanto dalla CI.

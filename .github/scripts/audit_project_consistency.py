@@ -138,6 +138,18 @@ for path, text in source.items():
     if "new ItemStack(Items.BOWL)" in text and "pizza" in str(path).lower():
         warnings.append(f"CRAFTING_BOWL_REFUND {path} (check against cooking refunds)")
 
+# Other container-bearing recipes must keep their vanilla crafting refunds.
+# These are intentional no-op checks: do not rewrite working vanilla recipes.
+mod_items = (SRC / "dev/italiansdelight/common/registry/ModItems.java").read_text(
+    encoding="utf-8")
+milk_bucket = mod_items.split("SHEEP_MILK_BUCKET = register(", 1)
+require(len(milk_bucket) == 2 and
+        ".craftRemainder(Items.BUCKET)" in milk_bucket[1].split("WHEY_BOTTLE_KEY", 1)[0],
+        "SHEEP_MILK_CRAFT_REMAINDER: missing empty bucket refund")
+sheep_milk_bottles = json_data.get(RECIPES / "sheep_milk_bottle.json", {})
+require("italiansdelight:sheep_milk_bucket" in sheep_milk_bottles.get("ingredients", []),
+        "SHEEP_MILK_CRAFT_RECIPE: bottle crafting lost milk bucket input")
+
 print(f"SCANNED {len(java_paths)} Java files; {len(json_data)} JSON resources; "
       f"{len(recipe_data)} recipe JSON files")
 print(f"CHECKED unified Cheese Vat water alternatives, tag compatibility, "

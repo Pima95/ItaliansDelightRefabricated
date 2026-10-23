@@ -68,8 +68,9 @@ public final class ModItems {
 
         // Baked pizza stays non-edible AS A WHOLE. Place it in the world
         // to retrieve four independent edible pizza_slice items.
-        // The existing raw_pizza pixel art is reused temporarily; its redesign
-        // and the baked-pizza art are still separate graphical TODOs.
+        // Approved 16x16 cooked item models are chosen dynamically from the
+        // four quarters by PizzaDisplayNames. Mixed pizzas deliberately keep
+        // the original Margherita icon, without changing the saved ingredients.
         public static final ResourceKey<Item> COOKED_PIZZA_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
                 ModRegistries.id("cooked_pizza"));
