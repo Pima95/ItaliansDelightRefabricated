@@ -69,7 +69,7 @@ Le seguenti **texture PNG esistono** in `src/main/resources/assets/italiansdelig
 
 **Proposte cromatiche in attesa di approvazione:** mantenere le tavole chiare dorate dell'ulivo, proporre **nocciola/beige caldo** per il mandorlo e **castano ramato/rossiccio** per il ciliegio da frutto (ben diverso dal rosa del ciliegio vanilla). Non considerare questa palette approvata finché l'autore non la conferma.
 
-Per il dettaglio dell'inventario, la **verifica di provenienza e permessi**, i possibili ID blocco e le scelte aperte, vedere [WOOD_DESIGN.md](WOOD_DESIGN.md). **Ogni decisione definitiva sarà registrata nel repository prima dell'implementazione.**
+**Audit di provenienza avviato:** Italian's Delight e Rustic dichiarano entrambe una licenza MIT sulle pagine CurseForge; un controllo dei blob Git ha identificato **41 file identici** al repository originale Rustic, inclusi `log_olive.png`, `leaves_olive.png`, `sapling_olive.png` e `olive_seed.png`. Per gli altri PNG, una mancata corrispondenza **non** prova che siano di Italian's Delight. Vedere [RUSTIC_ASSET_MATCHES.md](RUSTIC_ASSET_MATCHES.md), [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md) e [WOOD_DESIGN.md](WOOD_DESIGN.md). **Ogni decisione definitiva sarà registrata nel repository prima dell'implementazione.**
 
 ## 2. Meccaniche condivise approvate
 
@@ -95,7 +95,7 @@ Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per
 ## 4. Fasi di sviluppo (non iniziate)
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
-- [ ] **Fase 1 — Asset e modelli:** inventario legacy dell'ulivo **completato** ([documento asset](WOOD_DESIGN.md)); rimangono la verifica di **provenienza/licenze** degli asset Italian's Delight/Rustic, l'approvazione palette, la scelta dei file utilizzabili, la registrazione delle tre famiglie legno e la progettazione foglie/frutti/germogli.
+- [ ] **Fase 1 — Asset e modelli:** inventario legacy dell'ulivo completato e licenze pubblicate dei due progetti verificate ([documento asset](WOOD_DESIGN.md)); tracciati **41 match Rustics** ([confronto](RUSTIC_ASSET_MATCHES.md)); rimangono l'attribuzione dei file non corrispondenti, l'approvazione palette, la scelta finale delle risorse, la registrazione delle tre famiglie legno e la progettazione foglie/frutti/germogli.
 - [ ] **Fase 2 — Alberi e generazione:** crescita, chiome, biomi, rarità e ulivo secolare 2×2.
 - [ ] **Fase 3 — Raccolta e ricrescita:** foglie fruttifere, raccolta, progressione e salvataggio.
 - [ ] **Fase 4 — Ingredienti e ricette:** decidere prima le lavorazioni principali e poi implementarle.
