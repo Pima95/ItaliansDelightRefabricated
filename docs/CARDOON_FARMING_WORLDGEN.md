@@ -51,3 +51,9 @@ Lo screenshot dell'autore mostrava **quattro fiori viola separati** sul Cardoon 
 Il solo modello della **fase matura** usa ora `minecraft:block/cross`: due piani centrati e incrociati, con la stessa identica texture (16×16 RGBA) già presente, percepiti come **una singola infiorescenza**. Restano invariati il modello delle tre fasi immature, la texture item, i drop, la crescita e le hitbox. Questo risolve la causa del problema **senza rigenerare alcun PNG**.
 
 **Collaudo:** su una pianta di Cardoon a età 7 verificare dai quattro lati e dall'alto che la corolla sia una sola e ben centrata, non quadruplicata; verificare che le prime età restino identiche e che break/place conservino i soliti oggetti.
+
+## Correzioni confermate / da verificare — 23 ottobre 2026
+
+- **Rennet con Cardoon coltivabile:** entrambe le ricette della Cheese Vat (`rennet.json`, secchio d'acqua, e `rennet_from_water_bottle.json`, bottiglia d'acqua) richiedono ora lo stesso tag `#c:crops/cardoon`, contenente sia `italiansdelight:cardoon` sia `italiansdelight:cultivated_cardoon`. Prima la ricetta con bottiglia usava ancora il vecchio item fisso: questo causava la disparità segnalata. Tempo 300, contenitore e output invariati.
+- **Pianta adulta visivamente sospesa:** il modello `cultivated_cardoon_stage3.json` mantiene due soli piani incrociati come il modello vanilla `minecraft:block/cross` ma entrambe le geometrie scendono di esattamente **1/16 di blocco** (coordinate Y da 0..16 a -1..15). Nessun PNG modificato. Il modello dell'item e le altre tre fasi non sono toccati.
+- **Test in-game ancora richiesti:** creare caglio con Cardoon raccolto da pianta coltivata + secchio / bottiglia d'acqua, verificarne output e recipiente senza duplicazioni; osservare pianta adulta su terra coltivata da più prospettive, confrontare altezza degli stadi giovani, ricaricare il mondo. Lo script CI verifica ricette e geometria.

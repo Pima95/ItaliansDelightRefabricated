@@ -1,7 +1,7 @@
 {
   "type": "italiansdelight:cheese_vat",
   "ingredients": [
-    "italiansdelight:cardoon",
+    "#c:crops/cardoon",
     {
       "fabric:type": "fabric:components",
       "base": "minecraft:potion",

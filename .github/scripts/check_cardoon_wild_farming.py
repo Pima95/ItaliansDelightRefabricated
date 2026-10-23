@@ -20,7 +20,16 @@ tag=doc("data/c/tags/item/crops/cardoon.json")
 check(set(tag["values"])=={"italiansdelight:cardoon","italiansdelight:cultivated_cardoon"},
       "Legacy item must work alongside new harvest")
 rennet=doc("data/italiansdelight/recipe/cheese_vat/rennet.json")
-check("#c:crops/cardoon" in rennet["ingredients"], "Rennet uses an obsolete single Cardoon item")
+check("#c:crops/cardoon" in rennet["ingredients"], "Bucket Rennet uses an obsolete single Cardoon item")
+bottle_rennet=doc("data/italiansdelight/recipe/cheese_vat/rennet_from_water_bottle.json")
+check("#c:crops/cardoon" in bottle_rennet["ingredients"],
+      "Bottle Rennet must accept wild AND cultivated Cardoon")
+check("italiansdelight:cardoon" not in bottle_rennet["ingredients"],
+      "Bottle Rennet still directly requires the wild Cardoon item")
+check(bottle_rennet.get("cookingtime")==rennet.get("cookingtime")==300,
+      "Rennet preparation times must stay unchanged")
+check(bottle_rennet.get("container")==rennet.get("container"),
+      "Rennet bottle outputs must stay unchanged")
 wild=doc("data/italiansdelight/loot_table/blocks/cardoon.json")
 check("cultivated_cardoon" in json.dumps(wild) and "set_count" in json.dumps(wild),
       "Wild plant does not drop cultivated seeds")
@@ -88,12 +97,25 @@ mature=doc("assets/italiansdelight/models/block/cultivated_cardoon_stage3.json")
 check(mature.get("parent")=="minecraft:block/cross"
       and mature.get("textures", {}).get("cross")=="italiansdelight:block/cultivated_cardoon_stage3",
       "Mature cardoon must render one centered flower, not four separated crop quads")
+elements=mature.get("elements",[])
+check(len(elements)==2, "Mature cardoon must have exactly TWO crossed planes")
+for element, starting, ending, sides in zip(
+        elements, ([0.8,0,8],[8,0,0.8]), ([15.2,16,8],[8,16,15.2]),
+        ({"north","south"},{"west","east"})):
+    check(element["from"]==[starting[0],starting[1]-1,starting[2]]
+          and element["to"]==[ending[0],ending[1]-1,ending[2]],
+          "Mature cardoon crossed planes must be exactly 1 pixel lower")
+    check(set(element["faces"])==sides, "Keep vanilla cross plane double-sided")
+    check(element["rotation"]["angle"]==45
+          and element["rotation"]["axis"]=="y"
+          and element["rotation"]["rescale"] is True,
+          "Keep vanilla cross plane orientation and scaling")
 for i in range(3):
     immature=doc(f"assets/italiansdelight/models/block/cultivated_cardoon_stage{i}.json")
     check(immature.get("parent")=="minecraft:block/crop",
           "Keep approved pre-flowering crop growth stages unchanged")
 print("OK: FDR wild carrot/onion rarity 1/120 and 64 attempts for both wild plants")
-print("OK: old wild Cardoon preserved, plantable crop, Fortune loot and compatible rennet")
+print("OK: old wild Cardoon preserved, plantable crop, Fortune loot and both water Rennet recipes")
 print("OK: 5 exact 16x16 RGBA PNGs, valid CRCs, only opaque/transparent pixels")
-print("OK: one centered mature cardoon flower and unchanged 16x16 approved sprite")
+print("OK: mature Cardoon cross planes lowered exactly 1/16 block; approved 16x16 sprite untouched")
 print("OK: hook uses lantern block and interaction sounds")
