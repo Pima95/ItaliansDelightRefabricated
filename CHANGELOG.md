@@ -27,9 +27,14 @@ This section describes changes currently implemented on `feature/pizza-1.0.0`, *
 - Fixed hook-only Scamorza and Provolone placement and guarded hanging-cheese/wheel drops when their supports are removed.
 - Reused the original Margherita sprite as the Creative tab icon and Mixed Pizza whole-item illustration; approved textures are unchanged.
 
-### Release gate
+### Pre-release review and release gate
 
-The Java 25 CI build and resource/static checks run on each branch push. **Runtime multiplayer, save/load, hopper, slice stacking, JEI and older-world compatibility checks still require in-game verification**; they are not implicitly passed by compilation. Follow [the 1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md). **Do not change `mod_version`, tag a release, upload to Modrinth/CurseForge, or merge to protected `main` until the author approves these checks.**
+- Completed the final reported Cheese Vat and code-audit work (author confirmation, 23 October 2026).
+- Applied a conservative naming-path micro-optimization to avoid rebuilding the same quarter data and sorting the same topping list twice; previous baking, network update, bowl, peel and recipe-generation optimizations remain intact.
+- Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See [the optimization decision log](docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
+- Prepared [the 1.0.0 release notes draft](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and updated the release checklist.
+
+The Java 25 CI build and resource/static checks run on each branch push. **Dedicated-server/multiplayer testing cannot currently be completed by the author**, and detailed runtime corner cases remain unconfirmed; they are not implicitly passed by compilation. Follow [the 1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md). **Do not change `mod_version`, tag a release, upload to Modrinth/CurseForge, or merge to protected `main` until the author approves these checks.**
 
 ## 0.4.0
 
