@@ -26,15 +26,15 @@ Current features include:
 - **Nourishment** support for complete meals, balanced against Farmer's Delight Refabricated;
 - integration with **JEI** and Farmer's Delight systems, including Cheese Vat, aging/drying, and salt evaporation.
 
-**Pizza Update 1.0.0 is in active development** on the [`feature/pizza-1.0.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/pizza-1.0.0). Development builds now carry **version 1.0.0**, but the latest **published** version is still **0.4.0**. Pizza Update is **not part of the published 0.4.0 release**. The in-development update adds interactive pizza preparation on placed dough, a reusable pizza peel, the Pizza Oven, vanilla furnace/smoker support, data-bearing topping combinations, independent pizza slices, JEI guides, and Creative examples. Its release is gated on the remaining multiplayer, automation, persistence and regression tests. See the [Pizza 1.0.0 release readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) for details.
+**Pizza Update 1.0.0** is now published. It introduces interactive dough stretching and topping placement, 18 recognized pizza flavors, Mixed Pizza, a reusable Pizza Peel, the Pizza Oven, vanilla furnace/smoker support, individual ingredient-bearing slices and searchable JEI guides. See the [v1.0.0 release](https://github.com/Pima95/ItaliansDelightRefabricated/releases/tag/v1.0.0).
 
-The [draft 1.0.0 release notes](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and [pre-release optimization decisions](docs/OPTIMIZATION_CLOSURE_2026-10-23.md) are available for review. The author reports the Cheese Vat test and final code audit complete; multiplayer is deferred and **not yet verified**. The 1.0.0 development version does not mean a public release; these documents do not replace final release approval.
+**Next update: Orchard Update 1.1.0** is in the planning stage on the [`feature/orchards-1.1.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/orchards-1.1.0). Planned additions are Olive Trees, Almond Trees, and distinct fruit-bearing Cherry Trees, including a rare **Ancient Olive Tree** with a 2×2 trunk. Design details and pending decisions are tracked in the [Orchard Update roadmap](docs/orchards-1.1.0/ROADMAP.md). These new trees are **not part of the published 1.0.0 release**.
 
-Additional pasta dishes, olive trees, grapes/wine and seasonal content remain future plans.
+Additional pasta dishes will be introduced gradually as bonus content alongside future updates; grapes/wine and seasonal content remain longer-term plans.
 
 ## Requirements
 
-The latest documented **published version is 0.4.0**, targeting **Minecraft 26.2**. For the **1.0.0 development build**, use:
+The current **published version is 1.0.0**, targeting **Minecraft 26.2**. It requires:
 
 - **Java 25**
 - **Fabric Loader 0.20.1 or newer**
