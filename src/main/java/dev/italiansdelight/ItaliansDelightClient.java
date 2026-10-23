@@ -20,7 +20,7 @@ import dev.italiansdelight.common.registry.ModParticles;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.entity.BoatRenderer;
@@ -43,9 +43,9 @@ public class ItaliansDelightClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        EntityModelLayerRegistry.registerModelLayer(
+        ModelLayerRegistry.registerModelLayer(
             OLIVE_BOAT_LAYER, BoatModel::createBoatModel);
-        EntityModelLayerRegistry.registerModelLayer(
+        ModelLayerRegistry.registerModelLayer(
             OLIVE_CHEST_BOAT_LAYER, BoatModel::createChestBoatModel);
         EntityRenderers.register(ModBoats.OLIVE_BOAT_ENTITY,
             context -> new BoatRenderer(context, OLIVE_BOAT_LAYER));
