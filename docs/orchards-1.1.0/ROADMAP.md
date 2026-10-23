@@ -1,10 +1,10 @@
 # Italian's Delight Refabricated — Orchard Update 1.1.0
 
-**Stato:** progettazione iniziale, decisioni approvate dall'autore il 23 ottobre 2026.  
+**Stato:** progettazione + prima implementazione di legno d'ulivo completata e collaudata dall'autore il 24 ottobre 2026. Decisioni iniziali approvate il 23 ottobre 2026.  
 **Branch:** `feature/orchards-1.1.0`, creato da `main` dopo la pubblicazione della 1.0.0.  
 **Ambito:** tre alberi da frutto e relative coltivazioni. Le aggiunte di pasta, piatti e ricette saranno contenuti **bonus graduali** all'interno dei diversi aggiornamenti, non necessariamente una release dedicata.
 
-> Questo documento specifica il gameplay concordato; non indica che nuovi blocchi, alberi o ricette siano già implementati. La versione e il contenuto pubblicati della 1.0.0 rimangono invariati.
+> Il primo lotto di cinque **blocchi di legno d'ulivo** è stato implementato e verificato; **nessun albero vivo, germoglio, frutto, ricrescita o worldgen della 1.1.0 è ancora implementato**. La versione e il contenuto pubblicati della 1.0.0 rimangono invariati.
 
 ## 1. Alberi confermati
 
@@ -61,7 +61,7 @@ Le seguenti **texture PNG esistono** in `src/main/resources/assets/italiansdelig
 - Elementi da arredamento: `olive_cabinet_front.png`, `olive_cabinet_front_open.png`, `olive_cabinet_side.png`, `olive_cabinet_top.png`.
 - Texture item già presenti: `olive_door.png`, `olive_sign.png`, `olive_boat.png`, `olive_chest_boat.png`, `olive_seed.png`, `olives.png`.
 
-**Verifica di implementazione:** nella cartella dei `models/block`, `models/item` e `blockstates` non risultano ancora modelli o stati registrati per `olive_*`: non confondere la semplice presenza delle PNG con una funzionalità già presente in gioco. Prima di creare nuovi PNG controllare le coppie con nomi invertiti e riusare le risorse esistenti ove idonee. **Non modificare, sovrascrivere o eliminare texture preesistenti senza approvazione.** Per mandorlo e ciliegio da frutto serviranno asset coerenti ma visivamente distinti.
+**Stato implementazione aggiornato al 24 ottobre 2026:** i cinque blocchi `olive_log`, `olive_wood`, `stripped_olive_log`, `stripped_olive_wood` e `olive_planks` ora **hanno registrazioni, modelli, blockstate, item, ricette/loot** e sono stati collaudati dall'autore ([resoconto dei test](OLIVE_WOOD_TESTS.md)). I restanti asset di ulivo non sono ancora automaticamente implementati. **Non modificare, sovrascrivere o eliminare texture preesistenti senza approvazione.** Per mandorlo e ciliegio da frutto serviranno asset coerenti ma visivamente distinti.
 
 ### Regola artistica approvata per gli asset Rustic (23 ottobre 2026)
 
@@ -96,17 +96,21 @@ Le seguenti **texture PNG esistono** in `src/main/resources/assets/italiansdelig
 
 Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per l'intera 1.1.0.
 
-### Fase implementativa iniziale (in corso, non ancora verificata in gioco)
+### Fase implementativa iniziale — primo lotto completato e verificato in gioco
 
 - **Primo lotto tecnico:** `olive_log`, `olive_wood`, `stripped_olive_log`, `stripped_olive_wood` e `olive_planks`, con registrazioni, Creative, modelli, loot, crafting, tag, bruciabilità e scortecciatura da ascia.
 - **Texture referenziate dai modelli:** solo `olive_log.png`, `olive_log_top.png`, `stripped_olive_log.png`, `stripped_olive_log_top.png` e `olive_planks.png`, **non** asset Rustic.
 - Questa è la **prima porzione della famiglia di legno**, non un albero completo: non sono ancora implementati foglie, germogli, generazione nel mondo, ulivo secolare, frutti, porte, scale, lastre ecc. Gli altri due tipi di legno rimangono in fase di progettazione.
-- **Verifiche di rilascio richieste:** build Java 25 su branch, test di piazzamento/rotazione, scortecciatura, crafting, loot, combustione e compatibilità con recipe/tag vanilla. Non considerare completato finché le prove non riescono.
+- **Verifica completata:** build Java 25 e controlli CI superati ([run GitHub Actions](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/40028472641)); **sei su sei test manuali superati** e comunicati dall'autore il 24 ottobre 2026: Inventario Creativa, texture e rotazione, scortecciatura, ricette di crafting, rottura/recupero, combustione. Report dettagliato in [OLIVE_WOOD_TESTS.md](OLIVE_WOOD_TESTS.md). Le verifiche di intercompatibilità dei tag e server dedicato non fanno parte dei sei test, quindi restano aperte.
+
+### Prossimo blocco proposto — completamento del set edilizio d'ulivo
+
+**Proposta, non ancora implementata:** aggiungere prima i derivati delle assi (`olive_stairs`, `olive_slab`, `olive_fence`, `olive_fence_gate`, `olive_button`, `olive_pressure_plate`), poi porte e botole (`olive_door`, `olive_trapdoor`). Preferire l'uso delle texture `olive_*` esistenti, mai quelle Rustic, senza alterare i PNG. In seguito affrontare cartelli, cartelli appesi e barche. La crescita dell'ulivo e quella dell'ulivo secolare 2×2 resteranno una fase successiva. Ogni lotto necessita di una build e di un collaudo distinti. Vedi [test e criteri](OLIVE_WOOD_TESTS.md).
 
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
-- [ ] **Fase 1 — Asset e modelli:** inventario legacy completato, **esclusione delle texture Rustic approvata**, 41 match Rustic documentati ([confronto](RUSTIC_ASSET_MATCHES.md)); rimangono l'attribuzione degli altri file, l'approvazione delle palette mandorlo/ciliegio, la registrazione delle famiglie legno e la progettazione di foglie/frutti/germogli.
+- [ ] **Fase 1 — Asset e modelli:** inventario legacy completato, **esclusione delle texture Rustic approvata**, 41 match Rustic documentati ([confronto](RUSTIC_ASSET_MATCHES.md)); **primo lotto legno d'ulivo completato e collaudato (6/6 test)** ([report](OLIVE_WOOD_TESTS.md)). Restano il set edilizio completo, l'attribuzione degli altri file, l'approvazione palette mandorlo/ciliegio e la progettazione degli alberi.
 - [ ] **Fase 2 — Alberi e generazione:** crescita, chiome, biomi, rarità e ulivo secolare 2×2.
 - [ ] **Fase 3 — Raccolta e ricrescita:** foglie fruttifere, raccolta, progressione e salvataggio.
 - [ ] **Fase 4 — Ingredienti e ricette:** decidere prima le lavorazioni principali e poi implementarle.
