@@ -26,20 +26,20 @@ Current features include:
 - **Nourishment** support for complete meals, balanced against Farmer's Delight Refabricated;
 - integration with **JEI** and Farmer's Delight systems, including Cheese Vat, aging/drying, and salt evaporation.
 
-**Pizza Update 1.0.0 is in active development** on the [`feature/pizza-1.0.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/pizza-1.0.0). It is **not part of the published 0.4.0 release**. The in-development update adds interactive pizza preparation on placed dough, a reusable pizza peel, the Pizza Oven, vanilla furnace/smoker support, data-bearing topping combinations, independent pizza slices, JEI guides, and Creative examples. Its release is gated on the remaining multiplayer, automation, persistence and regression tests. See the [Pizza 1.0.0 release readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) for details.
+**Pizza Update 1.0.0 is in active development** on the [`feature/pizza-1.0.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/pizza-1.0.0). Development builds now carry **version 1.0.0**, but the latest **published** version is still **0.4.0**. Pizza Update is **not part of the published 0.4.0 release**. The in-development update adds interactive pizza preparation on placed dough, a reusable pizza peel, the Pizza Oven, vanilla furnace/smoker support, data-bearing topping combinations, independent pizza slices, JEI guides, and Creative examples. Its release is gated on the remaining multiplayer, automation, persistence and regression tests. See the [Pizza 1.0.0 release readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) for details.
 
-The [draft 1.0.0 release notes](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and [pre-release optimization decisions](docs/OPTIMIZATION_CLOSURE_2026-10-23.md) are available for review. The author reports the Cheese Vat test and final code audit complete; multiplayer is deferred and **not yet verified**. These documents do not change the published version or replace final release approval.
+The [draft 1.0.0 release notes](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and [pre-release optimization decisions](docs/OPTIMIZATION_CLOSURE_2026-10-23.md) are available for review. The author reports the Cheese Vat test and final code audit complete; multiplayer is deferred and **not yet verified**. The 1.0.0 development version does not mean a public release; these documents do not replace final release approval.
 
 Additional pasta dishes, olive trees, grapes/wine and seasonal content remain future plans.
 
 ## Requirements
 
-The latest documented **published version is 0.4.0**, targeting **Minecraft 26.2**, and requires:
+The latest documented **published version is 0.4.0**, targeting **Minecraft 26.2**. For the **1.0.0 development build**, use:
 
 - **Java 25**
-- **Fabric Loader 0.19.5 or newer**
+- **Fabric Loader 0.20.1 or newer**
 - **Fabric API 0.161.0+26.2**
-- **Farmer's Delight Refabricated 26.2-3.6.28+refabricated**
+- **Farmer's Delight Refabricated 26.2-3.6.29+refabricated**
 
 The development toolchain uses **Fabric Loom 1.18.3** and **Gradle 9.8.1**.
 
