@@ -2,6 +2,8 @@ package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.ItaliansDelight;
 import dev.italiansdelight.common.pizza.PizzaComposition;
+import dev.italiansdelight.common.pizza.PizzaCreativeSamples;
+import dev.italiansdelight.common.pizza.PizzaBaking;
 import dev.italiansdelight.common.pizza.PizzaDisplayNames;
 import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.pizza.PizzaQuarterSelection;
@@ -52,6 +54,39 @@ public final class PizzaCraftingJeiRecipes {
                 "italiansdelight:mozzarella_slice", "italiansdelight:basil",
                 "italiansdelight:tomato_slice", "farmersdelight:cooked_bacon",
                 "italiansdelight:speck_slice"); // Six distinct topping kinds.
+        // Every recognized flavor is discoverable in JEI. The plain Bianca
+        // is not a shapeless recipe (dough alone is placed in the world);
+        // JEI shows Bianca via baking and the Cutting Board instead.
+        Set<String> shown = new HashSet<>();
+        for (PizzaCraftingJeiRecipe example : examples) {
+            PizzaItemData pizza = example.result().get(ModDataComponents.PIZZA_CONTENTS);
+            if (pizza != null) {
+                shown.add(PizzaDisplayNames.wholePresetId(pizza));
+            }
+        }
+        for (var preset : PizzaDisplayNames.allPresets().entrySet()) {
+            if (preset.getKey().isEmpty() || shown.contains(preset.getValue())) {
+                continue;
+            }
+            // Native original source items and genuine full data, exactly as
+            // in the already approved Creative sample catalogue.
+            ItemStack raw = PizzaCreativeSamples.create(preset.getKey(), false);
+            PizzaItemData data = raw.get(ModDataComponents.PIZZA_CONTENTS);
+            var marked = data.composition().applications().stream()
+                    .map(a -> PizzaBaking.isBowlBearing(a.canonicalId())
+                            ? a.withCraftingBowlReturned() : a)
+                    .toList();
+            PizzaItemData crafted = new PizzaItemData(
+                    data.composition().withApplications(marked, data.composition().nextApplicationId()),
+                    data.legacyMozzarella());
+            raw.set(ModDataComponents.PIZZA_CONTENTS, crafted);
+            PizzaDisplayNames.nameWholeStack(raw, crafted);
+            List<ItemStack> inputs = new ArrayList<>();
+            inputs.add(stack(DOUGH).orElseThrow());
+            marked.forEach(app -> inputs.add(app.originalStack()));
+            examples.add(new PizzaCraftingJeiRecipe(inputs, raw));
+            shown.add(preset.getValue());
+        }
         return List.copyOf(examples);
     }
 
@@ -95,11 +130,13 @@ public final class PizzaCraftingJeiRecipes {
                 hasSauce = true;
             }
 
-            applications.add(new PizzaToppingApplication(
+            PizzaToppingApplication application = new PizzaToppingApplication(
                     sequence++, type.id(), topping,
                     PizzaQuarterSelection.ALL_QUARTERS,
                     PizzaQuarterSelection.ALL_QUARTERS
-            ));
+            );
+            applications.add(PizzaBaking.isBowlBearing(type.id())
+                    ? application.withCraftingBowlReturned() : application);
             ingredients.add(topping);
         }
 

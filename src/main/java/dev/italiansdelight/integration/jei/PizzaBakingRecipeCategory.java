@@ -1,6 +1,9 @@
 package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.registry.ModDataComponents;
+import dev.italiansdelight.common.pizza.PizzaDisplayNames;
+import dev.italiansdelight.common.pizza.PizzaItemData;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.placement.HorizontalAlignment;
 import mezz.jei.api.gui.placement.VerticalAlignment;
@@ -28,10 +31,7 @@ public final class PizzaBakingRecipeCategory
     private static final int WIDTH = 82;
     private static final int HEIGHT = 54;
 
-    /** Synthetic JEI display ID: enables the real recipe bookmark button. */
-    private static final Identifier EXAMPLE_ID = Identifier.fromNamespaceAndPath(
-            "italiansdelight", "/pizza_oven/margherita");
-
+    /** Each named flavor gets its own stable bookmarkable JEI identity. */
     public PizzaBakingRecipeCategory(IGuiHelper guiHelper) {
         super(
                 PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
@@ -50,7 +50,12 @@ public final class PizzaBakingRecipeCategory
      */
     @Override
     public Identifier getIdentifier(PizzaBakingJeiRecipe recipe) {
-        return EXAMPLE_ID;
+        PizzaItemData data = recipe.rawPizza().get(ModDataComponents.PIZZA_CONTENTS);
+        String flavor = data == null ? null : PizzaDisplayNames.wholePresetId(data);
+        if (flavor == null) {
+            throw new IllegalStateException("Expected a recognized pizza flavor in JEI oven");
+        }
+        return Identifier.fromNamespaceAndPath("italiansdelight", "/pizza_oven/" + flavor);
     }
 
     @Override
