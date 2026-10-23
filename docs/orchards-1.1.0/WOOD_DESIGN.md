@@ -75,6 +75,16 @@ Segnalata e corretta la texture della botola d'ulivo che da chiusa non seguiva l
 
 **Ancora mancanti nella famiglia completa:** cartello d'ulivo `olive_sign` (a terra e a parete) e cartello appeso `olive_hanging_sign` (soffitto e parete), sfruttando le due texture di entità già presenti. `olive_cabinet_*` indica un possibile mobile aggiuntivo, facoltativo e non equivalente a un blocco di legno vanilla. Non confondere foglie/germogli con blocchi decorativi: sono previsti nella fase alberi e frutti.
 
+### Ulivo: cartelli, cabinet e Cutting Board — decisione approvata 24 ottobre 2026
+
+**Richiesta dell'autore:** implementare cartelli normali e appesi, cabinet d'ulivo e compatibilità per scortecciare legno d'ulivo sulla Cutting Board di Farmer's Delight Refabricated, mentre l'autore ritesta la botola. Solo branch `feature/orchards-1.1.0`, nessun merge su `main`.
+
+- **Cartelli vanilla-equivalenti:** cartello d'ulivo piazzabile a terra o a parete, cartello appeso d'ulivo piazzabile a soffitto o a parete; testo e interazioni standard vanilla, ricette, item e drop. I vecchi `textures/entity/sign/olive.png` e `textures/entity/sign/hanging/olive.png` sono presenti, ma appartengono al formato di Minecraft anteriore alla **26.2**: la versione 26.2 usa modelli/texture di blocco. **Non sovrascriverli.**
+- **Grafica dei cartelli:** produrre solo i PNG nuovi indispensabili, in **pixel art Minecraft 16×16 RGBA**, colori campionati da `olive_planks.png` e dall'icona originale `olive_sign.png`: alfa di ciascun pixel esattamente 0 o 255, nessun antialiasing o sfumatura; sfondo esterno alle silhouette degli item trasparente; nessun riferimento alle texture Rustic obsolete.
+- **Cabinet d'ulivo:** riutilizzare i quattro file già esistenti `olive_cabinet_front.png`, `olive_cabinet_front_open.png`, `olive_cabinet_side.png`, `olive_cabinet_top.png` e il **comportamento del Cabinet di Farmer's Delight** (27 slot, apertura, menu, redstone, salvataggio e compatibilità col BlockEntityType). Evitare di duplicare la logica inventario se l'API originale permette di aggiungere un altro blocco allo stesso tipo.
+- **Scortecciatura sulla Cutting Board:** aggiungere **due ricette native `farmersdelight:cutting`** per `olive_log` e `olive_wood`, con ascia o equivalente `axe_strip`: restituiscono la rispettiva variante scortecciata **e** `farmersdelight:tree_bark`, un'unità ciascuno, suono vanilla `minecraft:item.axe.strip`. Il clic destro con ascia sui blocchi già funziona e non va modificato.
+- **Accettazione:** build Java 25/CI, controlli sulle nuove texture e sulle ricette; **test manuali ancora richiesti** per posizionamento dei quattro cartelli, testo, persistenza, cabinato con item, tag e Cutting Board/JEI. Non riportare i test come superati senza riscontro in gioco dell'autore.
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.
