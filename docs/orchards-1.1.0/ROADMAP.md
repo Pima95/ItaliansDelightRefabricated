@@ -18,7 +18,7 @@
 
 - Introdurre un **albero da frutto distinto** dal ciliegio ornamentale vanilla a foglie rosa.
 - Il nuovo ciliegio produce ciliegie commestibili tramite il sistema di raccolta comune.
-- È possibile **riutilizzare il legno di ciliegio vanilla** per evitare un ulteriore set di legni; la decisione sull'eventuale nuovo legno resta aperta.
+- **Decisione successiva approvata:** anche il ciliegio da frutto avrà una **famiglia di legno originale**, distinta dal legno `minecraft:cherry_*`. Non riutilizzare più il legno vanilla per la sua filiera; usare identificatori non ambigui (p.es. prefisso `fruit_cherry_`).
 - Non alterare il comportamento o la generazione dei ciliegi ornamentali vanilla.
 
 ### Variante rara: Ulivo secolare / Ancient Olive Tree
@@ -35,6 +35,33 @@
 - **Da definire prima dell'implementazione:** probabilità numerica di spawn, altezza/dimensioni, forma esatta di tronco e foglie, bilanciamento della probabilità di crescita del 2×2.
 - Verificare spazio libero, intersezioni tra alberi, generazione al bordo del chunk, luce/ombre, compatibilità con alberi vanilla e tempi di worldgen.
 - Non sostituire ulivi normali già generati nei vecchi chunk; gli alberi nuovi possono comparire solo dove la generazione di mondo viene eseguita.
+
+## 1.1. Nuova decisione: tre famiglie di legno uniche
+
+**Decisione approvata dall'autore:** ulivo, mandorlo e ciliegio da frutto avranno **ognuno un proprio tipo di legno**, non semplice riutilizzo dei blocchi vanilla. La decisione annulla esplicitamente la precedente ipotesi di usare il legno di ciliegio vanilla.
+
+| Albero | Famiglia proposta | Distinzione importante |
+|---|---|---|
+| Ulivo | **Olive Wood** (`olive_*`) | La stessa famiglia è usata anche dall'ulivo secolare 2×2; nessuna famiglia secolare separata |
+| Mandorlo | **Almond Wood** (`almond_*`) | Tavole e corteccia proprie |
+| Ciliegio da frutto | **Fruit Cherry Wood** (`fruit_cherry_*`) | Distinta dalla famiglia di legno `minecraft:cherry_*` e dal ciliegio ornamentale rosa |
+
+**Obiettivo dei tre set di legno:** tronchi, tronchi scortecciati, blocchi di legno completi, tavole, scale, lastre, recinzioni e cancelli, porte, botole, pulsanti, pedane a pressione, cartelli e versioni appese; valutare anche barche e barche con baule per coerenza con i set vanilla. Gli asset possono essere aggiunti progressivamente, ma il criterio è una famiglia edilizia completa, non soltanto tronco e foglie. Compatibilità dei tag `minecraft:logs`, `minecraft:planks` e tag specifici da includere nella fase implementativa. Per tutti gli asset vale la regola delle texture Minecraft senza antialiasing o alfa semitrasparente.
+
+### Asset dell'ulivo già presenti e verificati nel repository (23 ottobre 2026)
+
+Le seguenti **texture PNG esistono** in `src/main/resources/assets/italiansdelight/textures/block/`, recuperate dal progetto precedente. Sono risorse **da riutilizzare / revisionare**, non blocchi o modelli già implementati:
+
+- Tronco: `olive_log.png`, `olive_log_top.png`; anche `log_olive.png` (possibile variante/duplicato da confrontare).
+- Tronco scortecciato: `stripped_olive_log.png` e `stripped_olive_log_top.png`.
+- Tavole: `olive_planks.png`.
+- Foglie: `olive_leaves.png` e `leaves_olive.png` (possibili varianti da confrontare).
+- Germoglio: `olive_sapling.png` e `sapling_olive.png` (possibili varianti da confrontare).
+- Porta e botola: `olive_door_bottom.png`, `olive_door_top.png`, `olive_trapdoor.png`.
+- Elementi da arredamento: `olive_cabinet_front.png`, `olive_cabinet_front_open.png`, `olive_cabinet_side.png`, `olive_cabinet_top.png`.
+- Texture item già presenti: `olive_door.png`, `olive_sign.png`, `olive_boat.png`, `olive_chest_boat.png`, `olive_seed.png`, `olives.png`.
+
+**Verifica di implementazione:** nella cartella dei `models/block`, `models/item` e `blockstates` non risultano ancora modelli o stati registrati per `olive_*`: non confondere la semplice presenza delle PNG con una funzionalità già presente in gioco. Prima di creare nuovi PNG controllare le coppie con nomi invertiti e riusare le risorse esistenti ove idonee. **Non modificare, sovrascrivere o eliminare texture preesistenti senza approvazione.** Per mandorlo e ciliegio da frutto serviranno asset coerenti ma visivamente distinti.
 
 ## 2. Meccaniche condivise approvate
 
@@ -60,7 +87,7 @@ Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per
 ## 4. Fasi di sviluppo (non iniziate)
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
-- [ ] **Fase 1 — Asset e modelli:** definire riuso o creazione di legno, foglie, frutti e germogli; requisiti di pixel art.
+- [ ] **Fase 1 — Asset e modelli:** per le tre famiglie di legno già approvate, inventariare e riusare gli asset dell'ulivo esistenti, definire la palette originale di mandorlo e ciliegio da frutto, foglie, frutti e germogli; requisiti pixel art.
 - [ ] **Fase 2 — Alberi e generazione:** crescita, chiome, biomi, rarità e ulivo secolare 2×2.
 - [ ] **Fase 3 — Raccolta e ricrescita:** foglie fruttifere, raccolta, progressione e salvataggio.
 - [ ] **Fase 4 — Ingredienti e ricette:** decidere prima le lavorazioni principali e poi implementarle.
@@ -69,7 +96,7 @@ Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per
 
 ## 5. Decisioni da prendere prima di iniziare la fase 1
 
-1. **Legno:** gli alberi useranno legni vanilla oppure nuove famiglie di tronchi, tavole, scale e lastre?
+1. **Legno — DECISO:** **tre famiglie originali** di legno, una per ulivo (anche secolare), mandorlo e ciliegio da frutto. Rimangono da definire palette e lista finale dei blocchi secondari; per l'ulivo partire dalle texture già presenti.
 2. **Ulivo secolare — DECISO (B):** rara generazione naturale **e** crescita da quattro germogli di ulivo in un quadrato 2×2. Rimangono da bilanciare probabilità naturali e crescita del 2×2.
 3. **Raccolta:** maturazione e resa per foglia; interazione con la farina d'ossa.
 4. **Grafica:** chiome (normali/fiorite/fruttifere) e livello di differenza visiva per i tre alberi.
