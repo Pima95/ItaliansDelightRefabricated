@@ -32,6 +32,8 @@ Percorsi relativi a `src/main/resources/assets/italiansdelight/textures/`. **I P
 
 **Chiarimento dell'autore (23 ottobre 2026):** la coesistenza di file alternativi di tronco, foglie e germoglio è dovuta al recupero di risorse dalle vecchie mod **Italian's Delight** e **Rustic**. Non è un progetto di differenziazione tra ulivo comune e ulivo secolare. **Non assegnare automaticamente le varianti a specie, stadi o alberi differenti.** Prima di riutilizzare o redistribuire singoli file, verificare **quale mod è la fonte di ciascun asset, la licenza e le condizioni d'uso**; i crediti nella descrizione non sostituiscono i permessi necessari. In assenza di una licenza compatibile o autorizzazione, prevedere una texture nuova e originale. Conservare i file attuali intatti durante la verifica.
 
+**Risultato dell'audit GitHub (23 ottobre 2026):** le pagine CurseForge dell'[originale Italian's Delight](https://www.curseforge.com/minecraft/mc-mods/italians-delight/license) e di [Rustic](https://www.curseforge.com/minecraft/mc-mods/rustic/license) indicano entrambe **MIT**. Il confronto diretto con l'[albero sorgente di Rustic](https://github.com/cadaverous-eris/Rustic) ha trovato **41 corrispondenze binarie esatte** tra texture e file `.mcmeta` del nostro repository: inventario completo nel [rapporto di corrispondenze](RUSTIC_ASSET_MATCHES.md). Per il solo ulivo, i quattro asset identici sono `block/log_olive.png`, `block/leaves_olive.png`, `block/sapling_olive.png`, `item/olive_seed.png`. **Non è ancora provata** la provenienza degli altri file `olive_*`: MIT del progetto storico non permette di attribuirli automaticamente a un determinato autore. Aggiunto [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md) per i crediti e gli avvisi di licenza; approfondire in futuro eventuali autori/avvisi specifici non presenti su CurseForge.
+
 ## 3. Proposta di direzione estetica — NON ancora approvata
 
 | Famiglia | Tronco naturale suggerito | Legno lavorato suggerito | Foglie / frutto | Distinzione |
@@ -55,7 +57,8 @@ Per ogni specie, perseguire progressivamente un set di costruzione coerente con 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.
 - [x] Registrare le decisioni approvate sulle tre famiglie di legno e sull'ulivo secolare 2×2.
 - [ ] **Approvazione della palette:** ulivo = asset attuali scelti; mandorlo = nocciola/beige caldo; ciliegio fruttifero = castano ramato/rossastro.
-- [ ] Ricostruire la provenienza **file per file** delle texture ereditate da Italian's Delight e Rustic; verificare licenze/permessi e attribuzioni, quindi scegliere quale asset usare per l'ulivo comune. **Nessuna assegnazione automatica di varianti all'ulivo secolare.**
+- [x] Accertare **la licenza MIT indicata su CurseForge** per Italian's Delight e Rustic e confrontare gli asset con il repository Rustic; identificate **41 corrispondenze binarie**, inclusi quattro PNG relativi all'ulivo; redatti [rapporto](RUSTIC_ASSET_MATCHES.md) e [avvisi](../../THIRD_PARTY_NOTICES.md).
+- [ ] Completare la **provenienza file per file degli asset non corrispondenti**, incluse eventuali attribuzioni agli altri artisti; scegliere il set grafico dell'ulivo comune dopo approvazione. **Nessuna assegnazione automatica di varianti all'ulivo secolare.**
 - [ ] Confermare dettaglio dell'insieme di blocchi extra (hanging signs, barche, mobili), senza confondere PNG esistenti con codice completato.
 - [ ] Passare alla prima implementazione soltanto dopo la decisione di design, iniziando da registrazione e blocchi semplici; poi vegetazione/worldgen, fruttificazione e raccolta.
 
