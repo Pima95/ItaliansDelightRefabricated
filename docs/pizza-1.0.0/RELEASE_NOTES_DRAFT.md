@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated — Pizza Update 1.0.0
 
-> **DRAFT — NOT PUBLISHED.** Prepared from the `feature/pizza-1.0.0` branch on 23 October 2026. This is release-note copy for the eventual Modrinth/CurseForge/GitHub publication, **not** an announcement that version 1.0.0 is available. The shipped version remains 0.4.0 until the release is explicitly approved.
+> **DRAFT — NOT PUBLISHED.** Prepared from the `feature/pizza-1.0.0` branch on 23 October 2026. This is release-note copy for the eventual Modrinth/CurseForge/GitHub publication, **not** an announcement that version 1.0.0 is available. The public version remains 0.4.0; development JARs now carry 1.0.0, but nothing has been released.
 
 ## Highlights
 
@@ -33,10 +33,10 @@ The Pizza Update introduces a complete, interactive pizza-making system for **It
 | Dependency | Requirement |
 |---|---|
 | Minecraft | **26.2** |
-| Mod loader | **Fabric Loader 0.19.5+** |
+| Mod loader | **Fabric Loader 0.20.1+** |
 | Java runtime | **Java 25** |
 | Fabric API | **0.161.0+26.2** |
-| Farmer's Delight Refabricated | **26.2-3.6.28+refabricated** |
+| Farmer's Delight Refabricated | **26.2-3.6.29+refabricated** |
 | JEI | Supported for recipe viewing |
 
 Use a backup when opening worlds created with earlier development builds. Previously started Cheese Vat recipes whose internal recipe IDs changed during consolidation can lose partial **progress**; produced items are not migrated or intentionally changed.
@@ -52,7 +52,7 @@ The author has confirmed the basic Cheese Vat checks, final code audit, the most
 1. Confirm the final runtime release checks and obtain explicit author approval.
 2. Verify the latest GitHub Actions Java 25 build for the intended release commit.
 3. Merge the prepared branch into protected `main` through the approved PR process.
-4. Only then set `mod_version=1.0.0` and adapt/remove the development-only release metadata check in the appropriate commit, rebuild and verify the actual 1.0.0 JAR.
+4. The development branch already sets `mod_version=1.0.0` and has a CI guard for its release-gated status. At final approval, adapt/remove the development-only metadata guard as appropriate, rebuild, and verify the actual 1.0.0 JAR.
 5. Create the GitHub tag/release and upload that same verified artifact to CurseForge and Modrinth. Cross-check dependencies and supported Minecraft version.
 6. Change this note's DRAFT banner to the verified publication state.
 
