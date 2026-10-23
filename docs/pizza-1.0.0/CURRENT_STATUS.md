@@ -1,7 +1,7 @@
 # Stato corrente di Italian's Delight — Pizza 1.0.0
 
 **Branch:** `feature/pizza-1.0.0` (la `main` è protetta).  
-**Data verifica:** 23 ottobre 2026. **Versione del JAR:** ancora `0.4.0`; il numero della 1.0.0 non è stato incrementato né pubblicato.  
+**Data verifica:** 23 ottobre 2026. **Versione del JAR di sviluppo:** `1.0.0`; **versione pubblicata:** ancora `0.4.0`. Nessuna nuova release/tag, nessun merge su `main`.  
 **Riferimenti:** [roadmap](ROADMAP.md), [checklist di release](RELEASE_READINESS.md), [bug](../KNOWN_BUGS.md), [migliorie](../PLANNED_IMPROVEMENTS.md), [audit](../CODE_AUDIT_2026-10-19.md) e [ottimizzazioni](../OPTIMIZATION_REVIEW_2026-10-19.md).
 
 ## Funzionalità implementate
@@ -80,7 +80,7 @@ Il completamento di queste funzioni non costituisce conferma automatica dei test
 5. JEI: uscita/ingresso mondo, `/reload`, formaggi su rack/uncino, Cheese Vat; nessun crash e categorie corrette dopo join.
 6. Pala: mantenere lo stesso modello e posizionamento 3D in entrambe le mani, vuota e carica. Non sono state alterate le texture.
 
-**Non sono state modificate texture approvate né i valori nutrizionali, i tempi di cottura, gli ID registrati o la versione del JAR.**
+**Nota storica dei test precedenti:** non erano state modificate texture approvate, valori nutrizionali, tempi di cottura, ID registrati o versione del JAR. In seguito, il numero del JAR di sviluppo è stato aggiornato a `1.0.0`.
 
 ## Correzioni BUG-001 e BUG-003 rafforzate — 22 ottobre 2026
 
@@ -105,4 +105,4 @@ L'autore ha comunicato che **(1) i test Cheese Vat** e **(3) la revisione conclu
 
 **Ottimizzazioni esaminate per la 1.0.0:** rifinitura non invasiva OPT-011 implementata, altre cinque già applicate e tutte le proposte restanti classificate come rinviate/di manutenzione dove il rischio supera l'evidenza disponibile. Si veda [il registro di chiusura](../OPTIMIZATION_CLOSURE_2026-10-23.md).
 
-**Materiale di pubblicazione predisposto:** [note della 1.0.0 in bozza](RELEASE_NOTES_DRAFT.md), CHANGELOG e checklist. La build CI più recente prima di queste modifiche è risultata verde (commit `867467de`, 23 ottobre); ogni nuovo commit deve ottenere una nuova verifica. La versione rimane `0.4.0`. Non sono stati pubblicati release/tag né eseguiti merge su `main`; l'approvazione finale e i gate indicati in checklist sono ancora necessari.
+**Materiale di pubblicazione predisposto:** [note della 1.0.0 in bozza](RELEASE_NOTES_DRAFT.md), CHANGELOG e checklist. La build CI più recente prima di queste modifiche è risultata verde (commit `867467de`, 23 ottobre); ogni nuovo commit deve ottenere una nuova verifica. La versione del JAR nel branch di sviluppo è stata portata a `1.0.0`, aggiornando Fabric Loader 0.20.1 e Farmer's Delight Refabricated 26.2-3.6.29. La versione pubblicata è ancora `0.4.0`. Non sono stati pubblicati release/tag né eseguiti merge su `main`; l'approvazione finale e i gate indicati in checklist sono ancora necessari.
