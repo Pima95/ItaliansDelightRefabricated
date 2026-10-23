@@ -8,6 +8,8 @@ import dev.italiansdelight.common.registry.ModItems;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.registration.IExtraIngredientRegistration;
+import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -32,6 +34,32 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
     @Override
     public Identifier getPluginUid() {
         return UID;
+    }
+
+    /**
+     * The real Minecraft items are shared between flavors, but JEI must treat
+     * their saved quarter ingredients as distinct subtypes. Do not use the
+     * complete component record as the UID: sequences, render seeds, and
+     * original ingredient sources differ between otherwise identical pizzas.
+     */
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistration registration) {
+        registration.registerSubtypeInterpreter(ModItems.RAW_PIZZA,
+                (stack, context) -> PizzaJeiIngredientSamples.wholeSubtype(stack));
+        registration.registerSubtypeInterpreter(ModItems.COOKED_PIZZA,
+                (stack, context) -> PizzaJeiIngredientSamples.wholeSubtype(stack));
+        registration.registerSubtypeInterpreter(ModItems.PIZZA_SLICE,
+                (stack, context) -> PizzaJeiIngredientSamples.sliceSubtype(stack));
+    }
+
+    /**
+     * Like the pasta, every named pizza AND each named slice gets its own
+     * independently searchable slot in JEI's item sidebar, with the approved
+     * texture and the same edible component data as the playable item.
+     */
+    @Override
+    public void registerExtraIngredients(IExtraIngredientRegistration registration) {
+        registration.addExtraItemStacks(PizzaJeiIngredientSamples.createAll());
     }
 
     @Override
