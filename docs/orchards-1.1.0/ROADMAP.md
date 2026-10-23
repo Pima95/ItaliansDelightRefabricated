@@ -96,7 +96,14 @@ Le seguenti **texture PNG esistono** in `src/main/resources/assets/italiansdelig
 
 Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per l'intera 1.1.0.
 
-## 4. Fasi di sviluppo (non iniziate)
+### Fase implementativa iniziale (in corso, non ancora verificata in gioco)
+
+- **Primo lotto tecnico:** `olive_log`, `olive_wood`, `stripped_olive_log`, `stripped_olive_wood` e `olive_planks`, con registrazioni, Creative, modelli, loot, crafting, tag, bruciabilità e scortecciatura da ascia.
+- **Texture referenziate dai modelli:** solo `olive_log.png`, `olive_log_top.png`, `stripped_olive_log.png`, `stripped_olive_log_top.png` e `olive_planks.png`, **non** asset Rustic.
+- Questa è la **prima porzione della famiglia di legno**, non un albero completo: non sono ancora implementati foglie, germogli, generazione nel mondo, ulivo secolare, frutti, porte, scale, lastre ecc. Gli altri due tipi di legno rimangono in fase di progettazione.
+- **Verifiche di rilascio richieste:** build Java 25 su branch, test di piazzamento/rotazione, scortecciatura, crafting, loot, combustione e compatibilità con recipe/tag vanilla. Non considerare completato finché le prove non riescono.
+
+## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
 - [ ] **Fase 1 — Asset e modelli:** inventario legacy completato, **esclusione delle texture Rustic approvata**, 41 match Rustic documentati ([confronto](RUSTIC_ASSET_MATCHES.md)); rimangono l'attribuzione degli altri file, l'approvazione delle palette mandorlo/ciliegio, la registrazione delle famiglie legno e la progettazione di foglie/frutti/germogli.

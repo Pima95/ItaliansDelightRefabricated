@@ -62,6 +62,13 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CRIMSON_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);
 
+                // ORCHARD WOOD: construction blocks (saplings and fruit later).
+                output.accept(ModBlocks.OLIVE_LOG);
+                output.accept(ModBlocks.OLIVE_WOOD);
+                output.accept(ModBlocks.STRIPPED_OLIVE_LOG);
+                output.accept(ModBlocks.STRIPPED_OLIVE_WOOD);
+                output.accept(ModBlocks.OLIVE_PLANKS);
+
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);
                 output.accept(ModItems.ROLLING_PIN);

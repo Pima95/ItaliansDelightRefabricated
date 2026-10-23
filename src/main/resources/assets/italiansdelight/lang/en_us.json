@@ -223,5 +223,10 @@
   "gui.italiansdelight.jei.pizza_world.flavor_title": "%s · %s",
   "gui.italiansdelight.jei.pizza_world.named_toppings_description": "To make %s in the world, place and stretch wheat dough. On the still-undivided base add: %s. Right-click each topping onto the pizza once.",
   "gui.italiansdelight.jei.pizza_world.bianca_description": "Pizza Bianca: place and stretch the dough using four hand clicks or one rolling-pin click. Add no toppings; collect the plain base.",
-  "gui.italiansdelight.jei.pizza_world.named_toppings_note": "Each topping covers the whole base. Divide into quarters first for mixed pizzas."
+  "gui.italiansdelight.jei.pizza_world.named_toppings_note": "Each topping covers the whole base. Divide into quarters first for mixed pizzas.",
+  "block.italiansdelight.olive_log": "Olive Log",
+  "block.italiansdelight.olive_wood": "Olive Wood",
+  "block.italiansdelight.stripped_olive_log": "Stripped Olive Log",
+  "block.italiansdelight.stripped_olive_wood": "Stripped Olive Wood",
+  "block.italiansdelight.olive_planks": "Olive Planks"
 }

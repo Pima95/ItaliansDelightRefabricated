@@ -5,6 +5,7 @@ on:
     branches:
       - feature/pizza-1.0.0
       - feature/cardoon-farming-worldgen-sounds
+      - feature/orchards-1.1.0
   workflow_dispatch:
 
 permissions:
@@ -25,6 +26,8 @@ jobs:
           java-version: '25'
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
+      - name: Reject Rustic art in Orchard wood models
+        run: python3 .github/scripts/check_orchard_wood_assets.py
       - name: Prevent rolling-pin bootstrap crash
         run: python3 .github/scripts/check_rolling_pin_combat.py
       - name: Verify Creative tab registration (all items, no duplicates)

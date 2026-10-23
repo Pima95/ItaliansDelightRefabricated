@@ -22,7 +22,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 
 /**
  * Central registry for mod blocks and their BlockItems when they need to be placeable from the inventory.
@@ -34,6 +37,50 @@ public final class ModBlocks {
     }
 
     // -------------------- Registered blocks --------------------
+    // -------------------- Olive wood (Orchard Update 1.1.0) --------------------
+    // These five baseline building blocks only reference the newer olive_*
+    // artwork. Rustic's legacy log_olive/leaves_olive/sapling_olive are excluded.
+    public static final ResourceKey<Block> OLIVE_LOG_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_log")
+    );
+    public static final Block OLIVE_LOG = register(
+        OLIVE_LOG_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_LOG).setId(OLIVE_LOG_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_WOOD_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_wood")
+    );
+    public static final Block OLIVE_WOOD = register(
+        OLIVE_WOOD_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_WOOD).setId(OLIVE_WOOD_KEY))
+    );
+
+    public static final ResourceKey<Block> STRIPPED_OLIVE_LOG_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("stripped_olive_log")
+    );
+    public static final Block STRIPPED_OLIVE_LOG = register(
+        STRIPPED_OLIVE_LOG_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).setId(STRIPPED_OLIVE_LOG_KEY))
+    );
+
+    public static final ResourceKey<Block> STRIPPED_OLIVE_WOOD_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("stripped_olive_wood")
+    );
+    public static final Block STRIPPED_OLIVE_WOOD = register(
+        STRIPPED_OLIVE_WOOD_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD).setId(STRIPPED_OLIVE_WOOD_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_PLANKS_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_planks")
+    );
+    public static final Block OLIVE_PLANKS = register(
+        OLIVE_PLANKS_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS).setId(OLIVE_PLANKS_KEY))
+    );
+
+
     public static final ResourceKey<Block> CARDOON_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("cardoon")
     );
@@ -344,5 +391,15 @@ public final class ModBlocks {
     }
 
     public static void register() {
+        // Vanilla-style log stripping and fire spread: performed only after
+        // the registered block fields are initialized.
+        StrippableBlockRegistry.register(OLIVE_LOG, STRIPPED_OLIVE_LOG);
+        StrippableBlockRegistry.register(OLIVE_WOOD, STRIPPED_OLIVE_WOOD);
+        FlammableBlockRegistry fire = FlammableBlockRegistry.getDefaultInstance();
+        fire.add(OLIVE_LOG, 5, 5);
+        fire.add(OLIVE_WOOD, 5, 5);
+        fire.add(STRIPPED_OLIVE_LOG, 5, 5);
+        fire.add(STRIPPED_OLIVE_WOOD, 5, 5);
+        fire.add(OLIVE_PLANKS, 5, 20);
     }
 }
