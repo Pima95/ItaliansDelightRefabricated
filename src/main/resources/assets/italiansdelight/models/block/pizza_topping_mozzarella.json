@@ -1,0 +1,350 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "mozzarella": "italiansdelight:item/mozzarella",
+    "particle": "italiansdelight:item/mozzarella"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        1,
+        4
+      ],
+      "to": [
+        6,
+        2,
+        6
+      ],
+      "faces": {
+        "down": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            4,
+            6,
+            6
+          ]
+        },
+        "up": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            4,
+            6,
+            6
+          ]
+        },
+        "north": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            14,
+            6,
+            15
+          ]
+        },
+        "south": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            14,
+            6,
+            15
+          ]
+        },
+        "east": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            14,
+            6,
+            15
+          ]
+        },
+        "west": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            14,
+            6,
+            15
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        8,
+        1,
+        4
+      ],
+      "to": [
+        10,
+        2,
+        6
+      ],
+      "faces": {
+        "down": {
+          "texture": "#mozzarella",
+          "uv": [
+            8,
+            4,
+            10,
+            6
+          ]
+        },
+        "up": {
+          "texture": "#mozzarella",
+          "uv": [
+            8,
+            4,
+            10,
+            6
+          ]
+        },
+        "north": {
+          "texture": "#mozzarella",
+          "uv": [
+            8,
+            14,
+            10,
+            15
+          ]
+        },
+        "south": {
+          "texture": "#mozzarella",
+          "uv": [
+            8,
+            14,
+            10,
+            15
+          ]
+        },
+        "east": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            14,
+            6,
+            15
+          ]
+        },
+        "west": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            14,
+            6,
+            15
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        6,
+        1,
+        7
+      ],
+      "to": [
+        8,
+        2,
+        9
+      ],
+      "faces": {
+        "down": {
+          "texture": "#mozzarella",
+          "uv": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "up": {
+          "texture": "#mozzarella",
+          "uv": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "north": {
+          "texture": "#mozzarella",
+          "uv": [
+            6,
+            14,
+            8,
+            15
+          ]
+        },
+        "south": {
+          "texture": "#mozzarella",
+          "uv": [
+            6,
+            14,
+            8,
+            15
+          ]
+        },
+        "east": {
+          "texture": "#mozzarella",
+          "uv": [
+            7,
+            14,
+            9,
+            15
+          ]
+        },
+        "west": {
+          "texture": "#mozzarella",
+          "uv": [
+            7,
+            14,
+            9,
+            15
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        9,
+        1,
+        9
+      ],
+      "to": [
+        11,
+        2,
+        11
+      ],
+      "faces": {
+        "down": {
+          "texture": "#mozzarella",
+          "uv": [
+            9,
+            9,
+            11,
+            11
+          ]
+        },
+        "up": {
+          "texture": "#mozzarella",
+          "uv": [
+            9,
+            9,
+            11,
+            11
+          ]
+        },
+        "north": {
+          "texture": "#mozzarella",
+          "uv": [
+            9,
+            14,
+            11,
+            15
+          ]
+        },
+        "south": {
+          "texture": "#mozzarella",
+          "uv": [
+            9,
+            14,
+            11,
+            15
+          ]
+        },
+        "east": {
+          "texture": "#mozzarella",
+          "uv": [
+            9,
+            14,
+            11,
+            15
+          ]
+        },
+        "west": {
+          "texture": "#mozzarella",
+          "uv": [
+            9,
+            14,
+            11,
+            15
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        1,
+        10
+      ],
+      "to": [
+        6,
+        2,
+        12
+      ],
+      "faces": {
+        "down": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            10,
+            6,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            10,
+            6,
+            12
+          ]
+        },
+        "north": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            14,
+            6,
+            15
+          ]
+        },
+        "south": {
+          "texture": "#mozzarella",
+          "uv": [
+            4,
+            14,
+            6,
+            15
+          ]
+        },
+        "east": {
+          "texture": "#mozzarella",
+          "uv": [
+            10,
+            14,
+            12,
+            15
+          ]
+        },
+        "west": {
+          "texture": "#mozzarella",
+          "uv": [
+            10,
+            14,
+            12,
+            15
+          ]
+        }
+      }
+    }
+  ]
+}

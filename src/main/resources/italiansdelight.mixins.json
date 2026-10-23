@@ -3,7 +3,9 @@
   "package": "dev.italiansdelight.mixin",
   "mixins": [
     "LevelMixin",
-    "SheepMixin"
+    "SheepMixin",
+    "PizzaVanillaFurnaceMixin",
+    "PizzaCuttingBoardMixin"
   ],
   "client": [
     "client.CheeseHookParticlesMixin"

@@ -6,9 +6,13 @@ import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
 import dev.italiansdelight.common.block.CheeseAgingRackBlock;
 import dev.italiansdelight.common.block.AgingCheeseBlock;
 import dev.italiansdelight.common.block.CardoonBlock;
+import dev.italiansdelight.common.block.CultivatedCardoonCropBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
+import dev.italiansdelight.common.block.PizzaDoughBlock;
+import dev.italiansdelight.common.block.PizzaOvenBlock;
+import dev.italiansdelight.common.block.CookedPizzaBlock;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -18,6 +22,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.SoundType;
 
 /**
  * Central registry for mod blocks and their BlockItems when they need to be placeable from the inventory.
@@ -33,9 +38,21 @@ public final class ModBlocks {
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("cardoon")
     );
 
+    // Historical ID stays wild to preserve old worlds and flower pots.
     public static final Block CARDOON = register(
         CARDOON_KEY,
         new CardoonBlock(Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(CARDOON_KEY))
+    );
+
+    // New crop + BlockItem; harvested cardoon replants directly as with basil.
+    public static final ResourceKey<Block> CULTIVATED_CARDOON_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("cultivated_cardoon")
+    );
+    public static final Block CULTIVATED_CARDOON = register(
+        CULTIVATED_CARDOON_KEY,
+        new CultivatedCardoonCropBlock(
+            Block.Properties.ofFullCopy(Blocks.WHEAT).setId(CULTIVATED_CARDOON_KEY)
+        )
     );
 
     public static final ResourceKey<Block> POTTED_CARDOON_KEY = ResourceKey.create(
@@ -74,6 +91,34 @@ public final class ModBlocks {
             Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(WILD_BASIL_KEY)
         )
     );
+
+    // World representation of Farmer's Delight wheat dough; no additional dough item.
+    public static final ResourceKey<Block> PIZZA_DOUGH_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("pizza_dough")
+    );
+    public static final Block PIZZA_DOUGH = registerBlockOnly(
+        PIZZA_DOUGH_KEY,
+        new PizzaDoughBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
+            .setId(PIZZA_DOUGH_KEY).noCollision().noOcclusion().strength(0.2F))
+    );
+
+    // One baked pizza served as four physical quarters. No BlockItem:
+    // players place the data-carrying cooked_pizza directly via the same
+    // interaction handler used for raw pizza.
+    public static final ResourceKey<Block> COOKED_PIZZA_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("cooked_pizza"));
+    public static final Block COOKED_PIZZA = registerBlockOnly(
+        COOKED_PIZZA_KEY,
+        new CookedPizzaBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
+            .setId(COOKED_PIZZA_KEY).noCollision().noOcclusion().strength(0.2F)));
+
+    // One-block, pizza-only furnace. BlockItem is registered automatically.
+    public static final ResourceKey<Block> PIZZA_OVEN_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("pizza_oven"));
+    public static final Block PIZZA_OVEN = register(
+        PIZZA_OVEN_KEY,
+        new PizzaOvenBlock(Block.Properties.ofFullCopy(Blocks.FURNACE)
+            .setId(PIZZA_OVEN_KEY).strength(3.5F)));
 
     // Cheese Vat Block
     public static final ResourceKey<Block> CHEESE_VAT_KEY =
@@ -115,6 +160,7 @@ public final class ModBlocks {
                     .setId(CHEESE_HOOK_KEY)
                     .noOcclusion()
                     .noCollision()
+                    .sound(SoundType.LANTERN)
                     .strength(3.0F, 6.0F)
             )
         );

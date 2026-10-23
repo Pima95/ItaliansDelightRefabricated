@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.entity.container.CheeseVatMenu;
+import dev.italiansdelight.common.block.entity.container.PizzaOvenMenu;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,6 +20,13 @@ public final class ModMenuTypes {
 
     public static final MenuType<CheeseVatMenu> CHEESE_VAT =
         register("cheese_vat", CheeseVatMenu::new);
+
+    /**
+     * Custom menu prevents Minecraft from constructing FurnaceScreen and
+     * its unrelated vanilla recipe book, while keeping the same three slots.
+     */
+    public static final MenuType<PizzaOvenMenu> PIZZA_OVEN =
+        register("pizza_oven", PizzaOvenMenu::new);
 
     private static <T extends AbstractContainerMenu> MenuType<T> register(
         String name,

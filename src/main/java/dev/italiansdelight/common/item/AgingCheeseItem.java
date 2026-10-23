@@ -20,8 +20,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 /**
- * Whole cheese, fresh or finished, placeable on a flat, sturdy surface.
- *
+ * Fresh/finished wheel cheeses may be placed on a flat, sturdy surface.
+ * Provolone and Scamorza (including smoked) are hook-only: they must not
+ * accidentally become a world-side aging cheese block when used on the floor.
  * No aging progress is ever stored on this ItemStack. Placement always starts
  * a new world-side timer from zero.
  */
@@ -59,6 +60,13 @@ public final class AgingCheeseItem extends Item {
     public InteractionResult useOn(
         UseOnContext context
     ) {
+        // BUG-001: the old surface-placement path ignored the cheese's own
+        // eligibility and also placed fresh/mature Provolone and Scamorza.
+        // PASS keeps the stack untouched and lets the existing Cheese Hook
+        // block manage all five hanging cheese item variants as before.
+        if (!cheeseType.agesOnSurface()) {
+            return InteractionResult.PASS;
+        }
         if (context.getClickedFace() != Direction.UP) {
             return InteractionResult.PASS;
         }

@@ -15,6 +15,8 @@ import dev.italiansdelight.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -27,7 +29,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,7 +39,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -122,11 +122,13 @@ public final class CheeseHookBlock extends BaseEntityBlock {
     public BlockState getStateForPlacement(
         BlockPlaceContext context
     ) {
-        return defaultBlockState()
-            .setValue(
-                FACING,
-                context.getHorizontalDirection()
-            );
+        BlockState intended = defaultBlockState()
+            .setValue(FACING, context.getHorizontalDirection());
+        // A hanging hook needs an actual ceiling. Reject unsupported initial
+        // placement rather than briefly placing it, consuming an item, and
+        // depending on a later neighbor update to remove it.
+        return intended.canSurvive(context.getLevel(), context.getClickedPos())
+                ? intended : null;
     }
 
     @Override
@@ -222,10 +224,12 @@ public final class CheeseHookBlock extends BaseEntityBlock {
                 && level.getBlockEntity(pos)
                     instanceof CheeseHookBlockEntity hook
             ) {
-                giveRemovedCheeseToInventory(
-                    hook.remove(serverLevel),
-                    player
-                );
+                ItemStack removed = hook.remove(serverLevel);
+                giveRemovedCheeseToInventory(removed, player);
+                if (!removed.isEmpty()) {
+                    serverLevel.playSound(null, pos, SoundEvents.LANTERN_HIT,
+                            SoundSource.BLOCKS, 0.65F, 1.05F);
+                }
             }
 
             return InteractionResult.SUCCESS;
@@ -244,17 +248,14 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        if (
-            level instanceof ServerLevel serverLevel
-            && level.getBlockEntity(pos)
-                instanceof CheeseHookBlockEntity hook
-            && hook.insert(
-                serverLevel,
-                requested
-            )
-            && !player.getAbilities().instabuild
-        ) {
-            stack.shrink(1);
+        if (level instanceof ServerLevel serverLevel
+                && level.getBlockEntity(pos) instanceof CheeseHookBlockEntity hook
+                && hook.insert(serverLevel, requested)) {
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
+            serverLevel.playSound(null, pos, SoundEvents.LANTERN_PLACE,
+                    SoundSource.BLOCKS, 0.65F, 1.0F);
         }
 
         return InteractionResult.SUCCESS;
@@ -284,10 +285,12 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             && level.getBlockEntity(pos)
                 instanceof CheeseHookBlockEntity hook
         ) {
-            giveRemovedCheese(
-                hook.remove(serverLevel),
-                player
-            );
+            ItemStack removed = hook.remove(serverLevel);
+            giveRemovedCheese(removed, player);
+            if (!removed.isEmpty()) {
+                serverLevel.playSound(null, pos, SoundEvents.LANTERN_HIT,
+                        SoundSource.BLOCKS, 0.65F, 1.05F);
+            }
         }
 
         return InteractionResult.SUCCESS;
@@ -361,8 +364,9 @@ public final class CheeseHookBlock extends BaseEntityBlock {
                 pos
             )
         ) {
-            return Blocks.AIR
-                .defaultBlockState();
+            // Keep the occupied hook and its BlockEntity until vanilla
+            // destruction collects the hanging product and the hook itself.
+            ticks.scheduleTick(pos, this, 1);
         }
 
         return super.updateShape(
@@ -375,6 +379,15 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             neighbourState,
             random
         );
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!canSurvive(state, level, pos)) {
+            // The existing loot method yields the hook + attached item.
+            // Its removal callback also clears the reserved space below.
+            level.destroyBlock(pos, true);
+        }
     }
 
     @Override
@@ -419,19 +432,14 @@ public final class CheeseHookBlock extends BaseEntityBlock {
                 )
             );
 
-        if (
-            params.getOptionalParameter(
-                LootContextParams.BLOCK_ENTITY
-            ) instanceof CheeseHookBlockEntity hook
-        ) {
-            ItemStack cheese =
-                hook.getCheeseDrop(
-                    state
-                );
-
-            if (!cheese.isEmpty()) {
-                drops.add(cheese);
-            }
+        // The hanging product is stored in the BLOCKSTATE, not in
+        // BlockEntity NBT. The loot builder may omit BLOCK_ENTITY (e.g. some
+        // support-loss or command destruction paths). Reading the state
+        // directly ensures exactly one product is returned in all such cases,
+        // even if the BlockEntity was already discarded.
+        ItemStack hangingProduct = state.getValue(CHEESE).stack();
+        if (!hangingProduct.isEmpty()) {
+            drops.add(hangingProduct);
         }
 
         return drops;

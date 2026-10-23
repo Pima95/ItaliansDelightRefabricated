@@ -58,6 +58,14 @@ public final class AgingCheeseBlockEntity
         BlockState state,
         AgingCheeseBlockEntity blockEntity
     ) {
+        // Recheck loaded/mature wheels as well as progressing ones: a block
+        // saved without its supporting floor can otherwise survive forever
+        // without receiving any new neighbor update.
+        if (!state.canSurvive(level, pos)) {
+            level.destroyBlock(pos, true);
+            return;
+        }
+
         if (
             state.getValue(
                 AgingCheeseBlock.MATURE

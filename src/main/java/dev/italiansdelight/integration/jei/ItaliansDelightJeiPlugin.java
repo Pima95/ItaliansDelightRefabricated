@@ -2,10 +2,14 @@ package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.ItaliansDelight;
 import dev.italiansdelight.client.gui.CheeseVatScreen;
+import dev.italiansdelight.client.gui.PizzaOvenScreen;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.registry.ModItems;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.registration.IExtraIngredientRegistration;
+import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -32,6 +36,32 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         return UID;
     }
 
+    /**
+     * The real Minecraft items are shared between flavors, but JEI must treat
+     * their saved quarter ingredients as distinct subtypes. Do not use the
+     * complete component record as the UID: sequences, render seeds, and
+     * original ingredient sources differ between otherwise identical pizzas.
+     */
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistration registration) {
+        registration.registerSubtypeInterpreter(ModItems.RAW_PIZZA,
+                (stack, context) -> PizzaJeiIngredientSamples.wholeSubtype(stack));
+        registration.registerSubtypeInterpreter(ModItems.COOKED_PIZZA,
+                (stack, context) -> PizzaJeiIngredientSamples.wholeSubtype(stack));
+        registration.registerSubtypeInterpreter(ModItems.PIZZA_SLICE,
+                (stack, context) -> PizzaJeiIngredientSamples.sliceSubtype(stack));
+    }
+
+    /**
+     * Like the pasta, every named pizza AND each named slice gets its own
+     * independently searchable slot in JEI's item sidebar, with the approved
+     * texture and the same edible component data as the playable item.
+     */
+    @Override
+    public void registerExtraIngredients(IExtraIngredientRegistration registration) {
+        registration.addExtraItemStacks(PizzaJeiIngredientSamples.createAll());
+    }
+
     @Override
     public void registerCategories(
         IRecipeCategoryRegistration registration
@@ -47,6 +77,18 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
                 registration.getJeiHelpers().getGuiHelper()
             ),
             new SaltEvaporationRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
+            new PizzaCraftingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
+            new PizzaBakingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
+            new PizzaCuttingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
+            new PizzaWorldRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             )
         );
@@ -107,6 +149,33 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
                 SaltEvaporationJeiRecipe.createDefault()
             )
         );
+
+        // Illustrative valid configurations for the dynamic crafting recipe.
+        // These do NOT introduce five distinct gameplay recipes.
+        registration.addRecipes(
+            PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
+            PizzaCraftingJeiRecipes.createExamples()
+        );
+
+        // All 18 named Pizza Oven products; vanilla smelting/smoking remain separate.
+        registration.addRecipes(
+            PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
+            PizzaBakingJeiRecipes.createExamples()
+        );
+
+        // Data-aware Cutting Board: each saved quarter becomes its own slice.
+        registration.addRecipes(
+            PizzaCuttingJeiRecipeTypes.PIZZA_CUTTING,
+            PizzaCuttingJeiRecipes.createExamples()
+        );
+
+        // Interactive in-world pizza handbook: placing/stretched dough,
+        // rolling pin, quarters, toppings and collecting the formed pizza.
+        // These are informational pages, not additional crafting recipes.
+        registration.addRecipes(
+            PizzaWorldJeiRecipeTypes.WORLD_PREPARATION,
+            PizzaWorldJeiRecipes.createExamples()
+        );
     }
 
     @Override
@@ -134,6 +203,27 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
             new ItemStack(net.minecraft.world.level.block.Blocks.CAULDRON)
         );
+
+        registration.addCraftingStation(
+            PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
+            new ItemStack(net.minecraft.world.level.block.Blocks.CRAFTING_TABLE)
+        );
+
+        // Dedicated Pizza Oven catalyst for a vanilla-style 20-second cooking display.
+        registration.addCraftingStation(
+            PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
+            new ItemStack(ModBlocks.PIZZA_OVEN)
+        );
+
+        registration.addCraftingStation(
+            PizzaCuttingJeiRecipeTypes.PIZZA_CUTTING,
+            new ItemStack(vectorwing.farmersdelight.common.registry.ModItems.CUTTING_BOARD.get())
+        );
+
+        registration.addCraftingStation(
+            PizzaWorldJeiRecipeTypes.WORLD_PREPARATION,
+            new ItemStack(ModItems.ROLLING_PIN)
+        );
     }
 
     @Override
@@ -150,6 +240,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             17,
 
             CheeseVatJeiRecipeTypes.CHEESE_VAT
+        );
+
+        // Vanilla-layout arrow in our dedicated pizza furnace screen.
+        registration.addRecipeClickArea(
+            PizzaOvenScreen.class,
+            79, 34, 24, 16,
+            PizzaBakingJeiRecipeTypes.PIZZA_BAKING
         );
     }
 }

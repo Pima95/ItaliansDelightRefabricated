@@ -1,0 +1,65 @@
+# Cardoon coltivabile, spawn selvatico e suoni dell'uncino
+
+**Stato 22 ottobre 2026:** implementazione confermata funzionante dall'autore e integrata con fast-forward in `feature/pizza-1.0.0`. I test specifici sottostanti restano checklist di approfondimento e non vanno segnati singolarmente senza evidenza.
+
+Branch: `feature/cardoon-farming-worldgen-sounds` (basato su Pizza 1.0.0).
+
+## Riferimento Farmer's Delight Refabricated 26.2
+
+Confrontati i sorgenti upstream `MehVahdJukaar/FarmersDelightRefabricated`, ramo `fabric/latest/26.2`, commit `1778f671ffabbf99ea20e0ae88908e4478bb6f3c`:
+- **Cipolle selvatiche:** `rarity_filter.chance=120`, `count=64`.
+- **Carote selvatiche:** `chance=120`, `count=64`.
+- **Patate selvatiche:** `chance=100`, `count=64`.
+
+Il **Cardoon** e il **Basilico selvatico** usano entrambi `120/64`, con offset e filtro aria/terreno. Questo allinea la rarità dei *tentativi*, non garantisce una densità identica: upstream usa anche una feature `in_order`, noi `simple_block`.
+
+## Biomi selezionati
+
+- Cardoon selvatico: **Plains, Sunflower Plains, Meadow, Savanna, Savanna Plateau, Windswept Savanna**.
+- Basilico selvatico: **Plains, Sunflower Plains, Meadow, Forest, Flower Forest, Birch Forest, Cherry Grove, Sparse Jungle**.
+
+Gli originari Plains/Sunflower Plains/Meadow restano. I nuovi chunk usano la nuova generazione; quelli già esplorati conservano le piante presenti.
+
+## Compatibilità e nuovi oggetti
+
+- Il registro **`italiansdelight:cardoon` resta invariato**: rappresenta la pianta selvatica, preserva le piante e i vasi dei vecchi mondi. Il vecchio item, se posseduto, resta utilizzabile.
+- Aggiunto **`italiansdelight:cultivated_cardoon`**, nuovo BlockItem piantabile su farmland, 8 età, bonemeal, 4 stadi visivi, 1 item se raccolto prematuramente e almeno 2 se maturo (bonus Fortune). Nessun seme separato, come per il basilico.
+- La versione selvatica rilascia **1–2 cultivated_cardoon**. La bonemeal sul selvatico fa diffondere al massimo una pianta per uso riuscito, entro il limite locale di 10 piante; non produce direttamente item a ogni clic.
+- Il caglio della Cheese Vat usa ora **`#c:crops/cardoon`**, un tag con **entrambi** gli item vecchio e nuovo.
+- Aggiunte **cinque** nuove texture PNG RGBA **16×16**, alpha rigorosamente 0 o 255, senza antialiasing, senza modificare i PNG approvati.
+- Hanging Hook: `SoundType.LANTERN` per posa e rottura e `SoundEvents.LANTERN_PLACE`/`LANTERN_HIT` per aggancio/rimozione (suoni vanilla delle lanterne, aggiornati su richiesta).
+
+## Test Survival in attesa
+
+- [ ] Controllare distribuzione in **nuovi chunk** contro la densità di cipolle/carote FDR, incluso il Basilico.
+- [ ] In mondo vecchio, verificare che il Cardoon e il vaso non scompaiano e che il vecchio Cardoon continui a produrre caglio.
+- [ ] Rompere pianta selvatica: **1–2 nuovi item coltivabili**, non direttamente piante selvatiche; bonemeal produce un vicino vegetale, non oggetti.
+- [ ] Piantare su farmland, osservare tutti gli stadi (0–7), usare bone meal, raccogliere presto e a maturazione e confrontare rese/Fortune.
+- [ ] Verificare 5 sprite 16×16, tutte le texture ben distinguibili e niente pixel viola/nero.
+- [ ] Verificare incrocio delle due versioni dell'item nella ricetta del caglio.
+- [ ] Controllare suoni delle **lanterne** dell'uncino quando è vuoto/occupato, con formaggi e salumi, senza doppie riproduzioni.
+- [ ] Verificare tutte le voci nella scheda Creativa, le traduzioni e l'avvio di un server dedicato.
+
+## Decisione confermata il 22 ottobre 2026
+
+L'autore ha **approvato tutti i nuovi biomi** per Cardoon e Basilico selvatico elencati sopra. Non effettuare ulteriori modifiche alla selezione senza una nuova richiesta.
+
+## Rifinitura visuale del Cardoon — 22 ottobre 2026
+
+Lo screenshot dell'autore mostrava **quattro fiori viola separati** sul Cardoon coltivabile. La texture `cultivated_cardoon_stage3.png` contiene **già un solo fiore**: il problema era il modello vanilla `minecraft:block/crop`, che disegna quattro piani distanziati alle coordinate X/Z 4 e 12 e ripete quindi il fiore quattro volte.
+
+Il solo modello della **fase matura** usa ora `minecraft:block/cross`: due piani centrati e incrociati, con la stessa identica texture (16×16 RGBA) già presente, percepiti come **una singola infiorescenza**. Restano invariati il modello delle tre fasi immature, la texture item, i drop, la crescita e le hitbox. Questo risolve la causa del problema **senza rigenerare alcun PNG**.
+
+**Collaudo:** su una pianta di Cardoon a età 7 verificare dai quattro lati e dall'alto che la corolla sia una sola e ben centrata, non quadruplicata; verificare che le prime età restino identiche e che break/place conservino i soliti oggetti.
+
+## Correzioni confermate / da verificare — 23 ottobre 2026
+
+- **Rennet con Cardoon coltivabile:** entrambe le ricette della Cheese Vat (`rennet.json`, secchio d'acqua, e `rennet_from_water_bottle.json`, bottiglia d'acqua) richiedono ora lo stesso tag `#c:crops/cardoon`, contenente sia `italiansdelight:cardoon` sia `italiansdelight:cultivated_cardoon`. Prima la ricetta con bottiglia usava ancora il vecchio item fisso: questo causava la disparità segnalata. Tempo 300, contenitore e output invariati.
+- **Pianta adulta visivamente sospesa:** il modello `cultivated_cardoon_stage3.json` mantiene due soli piani incrociati come il modello vanilla `minecraft:block/cross` ma entrambe le geometrie scendono di esattamente **1/16 di blocco** (coordinate Y da 0..16 a -1..15). Nessun PNG modificato. Il modello dell'item e le altre tre fasi non sono toccati.
+- **Test in-game ancora richiesti:** creare caglio con Cardoon raccolto da pianta coltivata + secchio / bottiglia d'acqua, verificarne output e recipiente senza duplicazioni; osservare pianta adulta su terra coltivata da più prospettive, confrontare altezza degli stadi giovani, ricaricare il mondo. Lo script CI verifica ricette e geometria.
+
+## Un'unica ricetta del caglio — 23 ottobre 2026
+
+Ottimizzazione concordata: **una sola ricetta Cheese Vat** (`recipe/cheese_vat/rennet.json`). L'altro file `rennet_from_water_bottle.json` è stato eliminato perché entrambe le ricette avevano gli stessi 300 tick, la stessa uscita e lo stesso recipiente. La ricetta unificata utilizza `#c:crops/cardoon` e un unico ingrediente alternativo di Fabric (`fabric:any`) che accetta **secchio d'acqua** oppure **bottiglia di pozione con `minecraft:potion_contents = water`**. Pozioni diverse dall'acqua e bottiglie vuote non sono accettate. La macchina usa ancora la gestione già presente dei resti: secchio vuoto o bottiglia di vetro vengono restituiti una sola volta.
+
+**Test runtime pendente:** provare entrambe le fonti d'acqua e entrambi i Cardoon, incluse le combinazioni invertite negli slot, confrontare JEI Cheese Vat (un'unica ricetta che alterna le due fonti), recipiente, resa, tempo e resti dopo il riavvio del mondo.

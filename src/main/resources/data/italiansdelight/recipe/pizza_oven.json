@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BSB",
+    "SFS",
+    "BSB"
+  ],
+  "key": {
+    "B": "minecraft:bricks",
+    "S": "minecraft:stone_bricks",
+    "F": "minecraft:furnace"
+  },
+  "result": {
+    "id": "italiansdelight:pizza_oven",
+    "count": 1
+  }
+}

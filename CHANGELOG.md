@@ -2,6 +2,41 @@
 
 All notable changes to Italian's Delight Refabricated are documented here.
 
+## Unreleased — Pizza Update 1.0.0 (development branch; NOT published)
+
+This section describes changes currently implemented on `feature/pizza-1.0.0`, **not an available public 1.0.0 download**. Development metadata now builds as **1.0.0**, while the latest **published** download remains **0.4.0** until release testing and approval.
+
+### Interactive pizza system
+
+- Added placeable Farmer's Delight wheat dough, hand stretching and rolling-pin shaping, physical halves/quarters, ingredient placement and last-in-first-out removal.
+- Added a data-bearing pizza peel that transfers one raw or cooked pizza between the world and the Pizza Oven without discarding its saved toppings.
+- Added the Pizza Oven with a furnace-style GUI, vanilla fuel and hopper automation, and component-preserving baking; raw pizzas can also cook in vanilla furnaces and smokers.
+- Added dynamic shapeless crafting of uniform raw pizzas alongside freeform preparation in the world.
+- Added 18 recognized pizza flavors and Mixed Pizza with independent names, toppings and sprites for each of the four served quarters.
+- Added custom slice nutrition derived from the actual canonical topping categories; at most two distinct ingredients per category contribute, capped at six hunger and six saturation points.
+- Every recognized pizza now appears in JEI's Pizza Oven catalogue and Cutting Board slicing guide. Dough-only Bianca remains a world-prepared pizza rather than a false shapeless crafting recipe.
+- A cooked whole pizza can also be cut on Farmer's Delight Cutting Board with any tagged knife, producing four individually data-bearing slices, including mixed pizzas.
+- Added short Farmer's Delight Nourishment for slices meeting the nutritional threshold; slices of the same flavor stack up to 16.
+- Added Pizza Oven, crafting and in-world preparation guides in JEI and organized Creative samples without duplicate empty Pizza Bianca entries.
+
+### Compatibility and pre-release fixes
+
+- Preserved pizza data through block breaking, loss of support, placement, ovens, slice serving and peel transfers.
+- Improved hopper bowl handling for custom-component items and limited bowl returns to original sauce/cream applications.
+- Updated old Mixed Pizza item icons and legacy saved slice food/effect components without changing their toppings.
+- Fixed hook-only Scamorza and Provolone placement and guarded hanging-cheese/wheel drops when their supports are removed.
+- Reused the original Margherita sprite as the Creative tab icon and Mixed Pizza whole-item illustration; approved textures are unchanged.
+
+### Pre-release review and release gate
+
+- Bumped the development JAR version to **1.0.0** (not published), updated **Fabric Loader to 0.20.1** and **Farmer's Delight Refabricated 26.2 to 3.6.29**; **Fabric API 0.161.0+26.2** remains current for Minecraft 26.2.
+- Completed the final reported Cheese Vat and code-audit work (author confirmation, 23 October 2026).
+- Applied a conservative naming-path micro-optimization to avoid rebuilding the same quarter data and sorting the same topping list twice; previous baking, network update, bowl, peel and recipe-generation optimizations remain intact.
+- Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See [the optimization decision log](docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
+- Prepared [the 1.0.0 release notes draft](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and updated the release checklist.
+
+The Java 25 CI build and resource/static checks run on each branch push. **Dedicated-server/multiplayer testing cannot currently be completed by the author**, and detailed runtime corner cases remain unconfirmed; they are not implicitly passed by compilation. Follow [the 1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md). **Do not tag a release, upload to Modrinth/CurseForge, or merge to protected `main` until the author approves these checks.**
+
 ## 0.4.0
 
 ### Basil

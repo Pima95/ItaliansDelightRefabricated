@@ -3,6 +3,9 @@ package dev.italiansdelight.common.registry;
 import dev.italiansdelight.common.crafting.CheeseVatRecipe;
 import dev.italiansdelight.common.crafting.CheeseAgingRecipe;
 import dev.italiansdelight.common.crafting.CheeseDryingRecipe;
+import dev.italiansdelight.common.crafting.PizzaSmeltingRecipe;
+import dev.italiansdelight.common.crafting.PizzaSmokingRecipe;
+import dev.italiansdelight.common.crafting.PizzaCraftingRecipe;
 
 import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 import net.minecraft.core.Registry;
@@ -65,9 +68,38 @@ public final class ModRecipes {
             }
         );
 
+    // These serializers provide dynamic components to vanilla furnace/smoker
+    // recipes. The recipe TYPES are vanilla SMELTING and SMOKING; the custom
+    // serializers only change assembly, not normal fuel/menu automation.
+    public static final RecipeSerializer<PizzaSmeltingRecipe> PIZZA_SMELTING_SERIALIZER =
+        Registry.register(
+            BuiltInRegistries.RECIPE_SERIALIZER,
+            ModRegistries.id("pizza_smelting"),
+            PizzaSmeltingRecipe.SERIALIZER
+        );
+
+    public static final RecipeSerializer<PizzaSmokingRecipe> PIZZA_SMOKING_SERIALIZER =
+        Registry.register(
+            BuiltInRegistries.RECIPE_SERIALIZER,
+            ModRegistries.id("pizza_smoking"),
+            PizzaSmokingRecipe.SERIALIZER
+        );
+
+    // Dynamic shapeless crafting preserves the entire pizza composition
+    // rather than generating a fixed generic raw_pizza from a JSON result.
+    public static final RecipeSerializer<PizzaCraftingRecipe> PIZZA_CRAFTING_SERIALIZER =
+        Registry.register(
+            BuiltInRegistries.RECIPE_SERIALIZER,
+            ModRegistries.id("pizza_crafting"),
+            PizzaCraftingRecipe.SERIALIZER
+        );
+
     public static void register() {
         RecipeSynchronization.synchronizeRecipeSerializer(CHEESE_VAT_SERIALIZER);
         RecipeSynchronization.synchronizeRecipeSerializer(CHEESE_AGING_SERIALIZER);
         RecipeSynchronization.synchronizeRecipeSerializer(CHEESE_DRYING_SERIALIZER);
+        RecipeSynchronization.synchronizeRecipeSerializer(PIZZA_SMELTING_SERIALIZER);
+        RecipeSynchronization.synchronizeRecipeSerializer(PIZZA_SMOKING_SERIALIZER);
+        RecipeSynchronization.synchronizeRecipeSerializer(PIZZA_CRAFTING_SERIALIZER);
     }
 }

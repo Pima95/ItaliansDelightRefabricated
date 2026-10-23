@@ -4,6 +4,10 @@ import java.util.function.Function;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -15,7 +19,11 @@ import net.minecraft.core.Registry;
 
 import dev.italiansdelight.ItaliansDelight;
 import dev.italiansdelight.common.aging.AgingCheeseType;
+import dev.italiansdelight.common.pizza.PizzaItemData;
+import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.item.AgingCheeseItem;
+import dev.italiansdelight.common.item.PizzaNamedItem;
+import dev.italiansdelight.common.item.PizzaPeelItem;
 
 import vectorwing.farmersdelight.common.FoodValues;
 import vectorwing.farmersdelight.common.item.ConsumableItem;
@@ -44,6 +52,99 @@ public final class ModItems {
                         // Farmer's Delight's iron knife uses this same material durability.
                         .durability(ToolMaterial.IRON.durability())
                         .repairable(ToolMaterial.IRON.repairItems()));
+
+        // Formed raw pizza item: retains only the full ingredient composition.
+        // Baking progress is held by the oven and never by this ItemStack.
+        public static final ResourceKey<Item> RAW_PIZZA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("raw_pizza"));
+
+        public static final Item RAW_PIZZA = register(
+                RAW_PIZZA_KEY,
+                properties -> new PizzaNamedItem(properties, false),
+                new Item.Properties()
+                        .stacksTo(1)
+                        .component(ModDataComponents.PIZZA_CONTENTS, PizzaItemData.empty()));
+
+        // Baked pizza stays non-edible AS A WHOLE. Place it in the world
+        // to retrieve four independent edible pizza_slice items.
+        // Approved 16x16 cooked item models are chosen dynamically from the
+        // four quarters by PizzaDisplayNames. Mixed pizzas deliberately keep
+        // the original Margherita icon, without changing the saved ingredients.
+        public static final ResourceKey<Item> COOKED_PIZZA_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("cooked_pizza"));
+
+        public static final Item COOKED_PIZZA = register(
+                COOKED_PIZZA_KEY,
+                properties -> new PizzaNamedItem(properties, false),
+                new Item.Properties()
+                        .stacksTo(1)
+                        .component(ModDataComponents.PIZZA_CONTENTS, PizzaItemData.empty()));
+
+        /**
+         * Edible quarter of a baked pizza. Food values are replaced on each
+         * created stack by PizzaSliceFactory using that quarter's categories.
+         * The original ingredient data is persisted for localized names/tooltips.
+         */
+        public static final ResourceKey<Item> PIZZA_SLICE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("pizza_slice"));
+
+        public static final Item PIZZA_SLICE = register(
+                PIZZA_SLICE_KEY,
+                properties -> new PizzaNamedItem(properties, true),
+                new Item.Properties()
+                        .stacksTo(16)
+                        .food(new FoodProperties.Builder()
+                                .nutrition(1).saturationModifier(0.5f).build())
+                        .component(ModDataComponents.PIZZA_SLICE_CONTENTS, PizzaSliceData.empty()));
+
+        // Uses the owner's existing 16x16 pizza_peel texture.
+        // A loaded peel stores one whole pizza in ModDataComponents.PEEL_CARGO.
+        // Crafting costs are not yet approved: test via the creative tab.
+        public static final ResourceKey<Item> PIZZA_PEEL_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("pizza_peel"));
+
+        public static final Item PIZZA_PEEL = register(
+                PIZZA_PEEL_KEY, PizzaPeelItem::new,
+                // Same damage, speed and knockback as the FDR 26.2 skillet,
+                // but only when the peel is EMPTY. A loaded stack overrides
+                // ATTRIBUTE_MODIFIERS with EMPTY; PizzaPeelItem restores them.
+                // No durability: the peel remains endlessly reusable.
+                new Item.Properties().stacksTo(1)
+                        .attributes(PizzaPeelItem.EMPTY_PEEL_WEAPON_ATTRIBUTES));
+
+        // Minecraft 26.2 binds vanilla item default components AFTER
+        // mod registration. Reading Items.WOODEN_SHOVEL.getDefaultInstance()
+        // here crashed during ModItems.<clinit> ("Components not bound yet").
+        // Instead use exactly the vanilla WOODEN_SHOVEL combat baselines,
+        // calculated without instantiating any vanilla ItemStack.
+        // The mattarello remains an ordinary Item, NOT a shovel: only combat
+        // attributes are copied, so mining and pizza interactions stay intact.
+        public static final ResourceKey<Item> ROLLING_PIN_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("rolling_pin"));
+
+        private static final ItemAttributeModifiers ROLLING_PIN_COMBAT_ATTRIBUTES =
+                ItemAttributeModifiers.builder()
+                        .add(Attributes.ATTACK_DAMAGE,
+                                new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID,
+                                        1.5F + ToolMaterial.WOOD.attackDamageBonus(),
+                                        AttributeModifier.Operation.ADD_VALUE),
+                                EquipmentSlotGroup.MAINHAND)
+                        .add(Attributes.ATTACK_SPEED,
+                                new AttributeModifier(Item.BASE_ATTACK_SPEED_ID,
+                                        -3.0F,
+                                        AttributeModifier.Operation.ADD_VALUE),
+                                EquipmentSlotGroup.MAINHAND)
+                        .build();
+
+        public static final Item ROLLING_PIN = register(
+                ROLLING_PIN_KEY,
+                new Item.Properties()
+                        .durability(64)
+                        .attributes(ROLLING_PIN_COMBAT_ATTRIBUTES));
 
         // Pasta with tomato sauce
         public static final ResourceKey<Item> PASTA_WITH_TOMATO_SAUCE_KEY = ResourceKey.create(
@@ -238,6 +339,34 @@ public final class ModItems {
                                                         .saturationModifier(0.2f)
                                                         .build()));
         
+        // Pizza 1.0.0: prepared vegetable slices made on Farmer's Delight\'s
+        // Cutting Board (one whole vegetable -> four slices with a knife).
+        // These are the only approved carrot/potato pizza forms. Whole
+        // minecraft:carrot and minecraft:potato remain explicitly excluded.
+        public static final ResourceKey<Item> CARROT_SLICE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("carrot_slice"));
+
+        public static final Item CARROT_SLICE = register(
+                CARROT_SLICE_KEY,
+                new Item.Properties().food(
+                        new FoodProperties.Builder()
+                                .nutrition(1)
+                                .saturationModifier(0.2f)
+                                .build()));
+
+        public static final ResourceKey<Item> POTATO_SLICE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                ModRegistries.id("potato_slice"));
+
+        public static final Item POTATO_SLICE = register(
+                POTATO_SLICE_KEY,
+                new Item.Properties().food(
+                        new FoodProperties.Builder()
+                                .nutrition(1)
+                                .saturationModifier(0.2f)
+                                .build()));
+
         // Rennet
         public static final ResourceKey<Item> RENNET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),

@@ -1,0 +1,345 @@
+package dev.italiansdelight.common.pizza;
+
+import dev.italiansdelight.common.registry.ModItems;
+import dev.italiansdelight.common.registry.ModRegistries;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
+
+/**
+ * Names and descriptions derived from SAVED canonical ingredients, never
+ * from the player's current language or the visual cut state.
+ *
+ * <p>Whole pizzas are named only when all four physical quarters agree.
+ * Slices are named independently, even when collected from a mixed pizza.
+ * Text is translated client-side; no localized strings are serialized.
+ */
+public final class PizzaDisplayNames {
+    private static final String PREFIX = "pizza.italiansdelight.";
+    private static final String CANONICAL_PREFIX = "pizza_toppings/";
+    private static final Identifier LEGACY_MOZZARELLA =
+            Identifier.parse("italiansdelight:pizza_toppings/legacy_mozzarella");
+    // 18 currently possible recipes. Principessa remains SUSPENDED
+    // because tomato sauce and cream cannot share a physical quarter.
+    private static final Map<Set<Identifier>, String> PRESETS = buildPresets();
+
+    private PizzaDisplayNames() {
+    }
+
+    private static Identifier topping(String path) {
+        return Identifier.parse("italiansdelight:" + CANONICAL_PREFIX + path);
+    }
+
+    private static void add(Map<Set<Identifier>, String> out, String name, String... paths) {
+        Set<Identifier> ingredients = Arrays.stream(paths)
+                .map(PizzaDisplayNames::topping)
+                .collect(Collectors.toUnmodifiableSet());
+        if (out.putIfAbsent(ingredients, name) != null) {
+            throw new IllegalStateException("Duplicate pizza name recipe: " + name);
+        }
+    }
+
+    private static Map<Set<Identifier>, String> buildPresets() {
+        Map<Set<Identifier>, String> presets = new LinkedHashMap<>();
+        add(presets, "bianca");
+        add(presets, "rossa", "tomato_sauce");
+        add(presets, "margherita", "tomato_sauce", "mozzarella_slice", "basil");
+        add(presets, "caprese_rossa", "tomato_sauce", "mozzarella_slice", "tomato_slice", "basil");
+        add(presets, "caprese_bianca", "mozzarella_slice", "tomato_slice", "basil");
+        add(presets, "quattro_formaggi_bianca", "mozzarella_slice", "gorgonzola_wedge",
+                "provolone_slice", "grated_parmigiano_reggiano");
+        add(presets, "quattro_formaggi_rossa", "tomato_sauce", "mozzarella_slice",
+                "gorgonzola_wedge", "provolone_slice", "grated_parmigiano_reggiano");
+        add(presets, "prosciutto_crudo", "tomato_sauce", "mozzarella_slice", "prosciutto_crudo_slice");
+        add(presets, "salame", "tomato_sauce", "mozzarella_slice", "salame_slice");
+        add(presets, "mortadella_ricotta", "mozzarella_slice", "mortadella_slice", "ricotta");
+        add(presets, "guanciale_pecorino_rossa", "tomato_sauce", "guanciale_slice",
+                "grated_pecorino_romano");
+        add(presets, "speck_gorgonzola", "mozzarella_slice", "speck_slice", "gorgonzola_wedge");
+        add(presets, "salmone_ricotta", "mozzarella_slice", "salmon_slice", "ricotta", "basil");
+        add(presets, "salmone_scamorza", "mozzarella_slice", "salmon_slice", "smoked_scamorza_slice");
+        add(presets, "carne_mozzarella", "tomato_sauce", "mozzarella_slice", "minced_beef");
+        add(presets, "zucca_speck", "mozzarella_slice", "pumpkin_slice", "speck_slice");
+        add(presets, "patate_speck", "mozzarella_slice", "potato_slice", "speck_slice");
+        add(presets, "orto_disponibile", "mozzarella_slice", "tomato_slice",
+                "cabbage_leaf", "pumpkin_slice", "basil");
+        if (presets.size() != 18) {
+            throw new IllegalStateException("Unexpected count of active pizza presets");
+        }
+        return Collections.unmodifiableMap(presets);
+    }
+
+    private static Set<Identifier> quarter(PizzaItemData whole, int index) {
+        Set<Identifier> ingredients = new HashSet<>(whole.composition().toppingsForQuarter(index));
+        // Preserve the legacy proof-of-concept topping in the description.
+        // Never mislabel an old whole-mozzarella pizza as Bianca or a preset.
+        if (whole.legacyMozzarella()) {
+            ingredients.add(LEGACY_MOZZARELLA);
+        }
+        return Set.copyOf(ingredients);
+    }
+
+    private static Set<Identifier> quarter(PizzaSliceData slice) {
+        Set<Identifier> ingredients = new HashSet<>();
+        for (PizzaSliceData.Topping topping : slice.toppings()) {
+            ingredients.add(topping.canonicalId());
+        }
+        if (slice.legacyMozzarella()) {
+            ingredients.add(LEGACY_MOZZARELLA);
+        }
+        return Set.copyOf(ingredients);
+    }
+
+    private static Component preset(String id) {
+        return Component.translatable(PREFIX + "taste." + id);
+    }
+
+    private static Component ingredient(Identifier id) {
+        if (id.getNamespace().equals("italiansdelight")
+                && id.getPath().startsWith(CANONICAL_PREFIX)) {
+            String key = id.getPath().substring(CANONICAL_PREFIX.length());
+            if (PizzaToppingCatalog.findType(id).isPresent() || id.equals(LEGACY_MOZZARELLA)) {
+                return Component.translatable(PREFIX + "ingredient." + key);
+            }
+        }
+        // Missing optional mods / unknown old datapack types: retain the ID.
+        return Component.literal(id.toString());
+    }
+
+    private static List<Identifier> sorted(Set<Identifier> types) {
+        List<Identifier> ids = new ArrayList<>(types);
+        ids.sort(Comparator.comparing(Identifier::toString));
+        return ids;
+    }
+
+    /** Complete, stable list, independent of placement order and locale. */
+    private static Component ingredients(Set<Identifier> types) {
+        if (types.isEmpty()) {
+            return Component.translatable(PREFIX + "none");
+        }
+        List<Identifier> ids = sorted(types);
+        return join(ids, ids.size());
+    }
+
+    private static Component join(List<Identifier> ids, int count) {
+        MutableComponent text = Component.empty();
+        for (int i = 0; i < count; i++) {
+            if (i > 0) {
+                text.append(i == count - 1
+                        ? Component.translatable(PREFIX + "and")
+                        : Component.literal(", "));
+            }
+            text.append(ingredient(ids.get(i)));
+        }
+        return text;
+    }
+
+    /** Abbreviate only the inventory name; the tooltip always remains complete. */
+    private static Component shortIngredients(Set<Identifier> types) {
+        List<Identifier> ids = sorted(types);
+        if (ids.size() <= 3) {
+            // Reuse the already sorted list rather than sorting it again in
+            // ingredients(types). Keep the same text for an empty quarter.
+            return ids.isEmpty()
+                    ? Component.translatable(PREFIX + "none")
+                    : join(ids, ids.size());
+        }
+        return Component.translatable(PREFIX + "short_more",
+                join(ids, 2), ids.size() - 2);
+    }
+
+    private static Component quarterDescription(Set<Identifier> types) {
+        String id = PRESETS.get(types);
+        return id == null ? ingredients(types) : preset(id);
+    }
+
+    /**
+     * Canonical whole-pizza preset shared by display names and ITEM_MODEL.
+     * The four saved physical quarters must match exactly, never by union,
+     * substring or translated inventory name.
+     *
+     * @return exact recognized preset ID, or null for mixed/freeform pizzas.
+     */
+    public static String wholePresetId(PizzaItemData whole) {
+        // The first quarter was previously rebuilt after isMixed had
+        // already inspected it. Reuse this local immutable snapshot.
+        Set<Identifier> first = quarter(whole, 0);
+        for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
+            if (!first.equals(quarter(whole, q))) {
+                return null;
+            }
+        }
+        return PRESETS.get(first);
+    }
+
+    /** Different physical quarters, independent of division lines and toppings order. */
+    private static boolean isMixed(PizzaItemData whole) {
+        Set<Identifier> first = quarter(whole, 0);
+        for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
+            if (!first.equals(quarter(whole, q))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * The only ordered, immutable canonical preset catalogue. Used for both
+     * naming and genuine Creative samples; never duplicate topping recipes.
+     */
+    public static Map<Set<Identifier>, String> allPresets() {
+        return PRESETS;
+    }
+
+    /**
+     * Use the existing Margherita graphics for their original whole-item
+     * models, and independent raw/cooked 16x16 variants for all other tastes.
+     * Mixed pizzas use the approved original Margherita icon (both raw and
+     * baked perspectives), but keep their own name and four-quarter data.
+     * Uniform recipes without a preset retain the custom/fallback icon.
+     * No new Item registry entries or image edits are necessary.
+     */
+    private static Identifier wholeItemModel(PizzaItemData whole, boolean cooked) {
+        String base = cooked ? "cooked_pizza" : "raw_pizza";
+        String id = wholePresetId(whole);
+        if ("margherita".equals(id) || (id == null && isMixed(whole))) {
+            // Mixed and Margherita share ONLY the original approved icon.
+            // Raw: raw_pizza.png; cooked: pizza_margherita.png.
+            return ModRegistries.id(base);
+        }
+        return ModRegistries.id(base + "_" + (id == null ? "custom" : id));
+    }
+
+    public static Component wholeName(PizzaItemData whole) {
+        if (isMixed(whole)) {
+            // Historical translation key intentionally preserved; IT=Pizza mista.
+            return Component.translatable(PREFIX + "assorted");
+        }
+        Set<Identifier> first = quarter(whole, 0);
+        String id = PRESETS.get(first);
+        if (id != null) {
+            return Component.translatable(PREFIX + "named_whole", preset(id));
+        }
+        return Component.translatable(PREFIX + "with_whole", shortIngredients(first));
+    }
+
+    /**
+     * Match a slice using ONLY the saved ingredients from its own quarter.
+     * A Margherita quarter from a mixed pizza still gets Margherita art,
+     * independent of the names/models of the other three quarters.
+     */
+    public static String slicePresetId(PizzaSliceData slice) {
+        return PRESETS.get(quarter(slice));
+    }
+
+    private static Identifier sliceItemModel(PizzaSliceData slice) {
+        String id = slicePresetId(slice);
+        // Preserve the original approved 16x16 Margherita slice unchanged.
+        return ModRegistries.id("margherita".equals(id)
+                ? "pizza_slice" : "pizza_slice_" + (id == null ? "custom" : id));
+    }
+
+    public static Component sliceName(PizzaSliceData slice) {
+        Set<Identifier> types = quarter(slice);
+        String id = slicePresetId(slice);
+        if ("bianca".equals(id)) {
+            return Component.translatable(PREFIX + "slice_bianca");
+        }
+        if ("rossa".equals(id)) {
+            return Component.translatable(PREFIX + "slice_rossa");
+        }
+        if (id != null) {
+            return Component.translatable(PREFIX + "named_slice", preset(id));
+        }
+        return Component.translatable(PREFIX + "with_slice", shortIngredients(types));
+    }
+
+    /**
+     * Minecraft 26.2 gives all stacks a built-in item_name component, so
+     * overriding Item.getName alone does not replace the inventory display.
+     * Write a TRANSLATABLE Component alongside the existing pizza payload.
+     * The pizza's canonical ingredients are never modified by naming.
+     */
+    /**
+     * Upgrade ONLY legacy mixed-pizza item models already saved in inventories
+     * or inside pizza peels. The method is idempotent and leaves all topping
+     * data, localized names and non-mixed pizza sprites untouched.
+     *
+     * @return whether an outdated mixed icon was actually changed.
+     */
+    public static boolean refreshMixedItemModel(ItemStack stack) {
+        if (!stack.is(ModItems.RAW_PIZZA) && !stack.is(ModItems.COOKED_PIZZA)) {
+            return false;
+        }
+        PizzaItemData data = stack.get(dev.italiansdelight.common.registry.ModDataComponents.PIZZA_CONTENTS);
+        if (data == null || !isMixed(data)) {
+            return false;
+        }
+        Identifier expected = ModRegistries.id(
+                stack.is(ModItems.COOKED_PIZZA) ? "cooked_pizza" : "raw_pizza");
+        if (expected.equals(stack.get(DataComponents.ITEM_MODEL))) {
+            return false;
+        }
+        stack.set(DataComponents.ITEM_MODEL, expected);
+        return true;
+    }
+
+    public static void nameWholeStack(ItemStack stack, PizzaItemData data) {
+        stack.set(DataComponents.ITEM_NAME, wholeName(data));
+        // Assign a synchronized model for BOTH raw and cooked variants;
+        // using the exact same 4-quarter canonical match as wholeName.
+        // Margherita keeps the original approved base models unchanged.
+        if (stack.is(ModItems.COOKED_PIZZA) || stack.is(ModItems.RAW_PIZZA)) {
+            stack.set(DataComponents.ITEM_MODEL,
+                    wholeItemModel(data, stack.is(ModItems.COOKED_PIZZA)));
+        }
+    }
+
+    public static void nameSliceStack(ItemStack stack, PizzaSliceData data) {
+        stack.set(DataComponents.ITEM_NAME, sliceName(data));
+        if (stack.is(ModItems.PIZZA_SLICE)) {
+            // ITEM_MODEL is saved and synchronized on the real ItemStack.
+            // Never derive it from localized names or from the whole pizza.
+            stack.set(DataComponents.ITEM_MODEL, sliceItemModel(data));
+        }
+    }
+
+    public static void appendWholeTooltip(PizzaItemData whole, Consumer<Component> lines) {
+        Set<Identifier> first = quarter(whole, 0);
+        boolean uniform = true;
+        for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
+            if (!first.equals(quarter(whole, q))) {
+                uniform = false;
+                break;
+            }
+        }
+        if (uniform) {
+            lines.accept(Component.translatable(PREFIX + "tooltip_ingredients", ingredients(first))
+                    .withStyle(ChatFormatting.GRAY));
+        } else {
+            for (int q = 0; q < PizzaComposition.QUARTER_COUNT; q++) {
+                lines.accept(Component.translatable(PREFIX + "tooltip_quarter", q + 1,
+                        quarterDescription(quarter(whole, q))).withStyle(ChatFormatting.GRAY));
+            }
+        }
+    }
+
+    public static void appendSliceTooltip(PizzaSliceData slice, Consumer<Component> lines) {
+        lines.accept(Component.translatable(PREFIX + "tooltip_ingredients", ingredients(quarter(slice)))
+                .withStyle(ChatFormatting.GRAY));
+    }
+}

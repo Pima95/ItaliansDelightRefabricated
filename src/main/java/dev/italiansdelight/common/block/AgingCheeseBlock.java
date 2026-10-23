@@ -22,7 +22,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -169,11 +168,9 @@ public final class AgingCheeseBlock
                 pos
             )
         ) {
-            // Vanilla's normal block replacement/drop path handles the actual
-            // removal. getDrops() below intentionally returns an item with no
-            // aging progress.
-            return Blocks.AIR
-                .defaultBlockState();
+            // Deferring destruction preserves the BlockEntity through loot
+            // evaluation. Immediate AIR replacement can lose a cheese wheel.
+            ticks.scheduleTick(pos, this, 1);
         }
 
         return super.updateShape(
@@ -186,6 +183,15 @@ public final class AgingCheeseBlock
             neighbourState,
             random
         );
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!canSurvive(state, level, pos)) {
+            // Use the existing getDrops -> getPickupStack route; partial aging
+            // progress stays world-only, exactly as for manual block breaking.
+            level.destroyBlock(pos, true);
+        }
     }
 
     @Override
@@ -211,19 +217,14 @@ public final class AgingCheeseBlock
                     state
                 );
 
-            if (!player.addItem(pickup)) {
-                player.drop(
-                    pickup,
-                    false
-                );
+            // Remove first with NO vanilla drop; only give the calculated
+            // pickup AFTER successful removal. If the block is already gone
+            // (e.g. another player's interaction), do not grant a second item.
+            if (level.removeBlock(pos, false)
+                    && !player.addItem(pickup)
+                    && !pickup.isEmpty()) {
+                player.drop(pickup, false);
             }
-
-            // No drop from block removal: the correct fresh/final item was
-            // handed out above. Any incomplete progress disappears here.
-            level.removeBlock(
-                pos,
-                false
-            );
         }
 
         return InteractionResult.SUCCESS;

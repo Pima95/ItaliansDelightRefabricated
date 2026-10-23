@@ -1,0 +1,476 @@
+# Roadmap — Pizza Update 1.0.0
+
+## JEI e Cutting Board — 23 ottobre 2026
+
+- [x] Elencati **tutti i 18 gusti riconosciuti** nel JEI del Pizza Oven con un identificatore distinto per il bookmark.
+- [x] Esposti nella categoria crafting i gusti con almeno un topping, generati dal catalogo riconosciuto, mantenendo gli esempi liberi. **Pizza Bianca (solo impasto) non è una ricetta shapeless** e appare correttamente nei percorsi di cottura e taglio.
+- [x] Nuova categoria JEI Cutting Board: 18 gusti + una Pizza mista; ogni ricetta mostra **4 fette reali** con i dati del proprio quarto.
+- [x] La Cutting Board di Farmer's Delight taglia con un qualsiasi coltello del tag comune; consuma **una pizza cotta intera**, danneggia il coltello di un punto e produce quattro fette. Niente ricette JSON a output statico che perdono i condimenti.
+- [x] Controllo CI su numero gusti, registrazione JEI e ordine di commit della transazione Cutting Board.
+- [ ] Test in Survival e client JEI: 18 gusti, bookmark, Bianca, Pizza mista (quattro fette diverse), coltelli diversi, inventario/stack, server dedicato. [Guida](PIZZA_JEI_CUTTING_BOARD.md).
+
+
+## Test recenti confermati dall'autore — 22 ottobre 2026
+
+- [x] **Stack degli spicchi identici fino a 16:** confermato funzionante.
+- [x] **Hopper Pizza Oven:** non estrae pizze crude dallo slot di ingresso.
+- [x] **Salvataggio Pizza mista:** i quattro gusti rimangono distinti dopo uscita e rientro nel mondo.
+- [ ] Rimangono le regressioni non direttamente confermate (stack 17+, casse, hopper pieni/ciotole, server multiplayer dedicato, salvataggi pala/forno/formaggi). Vedi [RELEASE_READINESS.md](RELEASE_READINESS.md).
+- [x] Miglioramenti **IMP-001–IMP-004** a Cardoon, biomi e suoni dell'uncino integrati dal branch Cardoon in `feature/pizza-1.0.0`, con conferma funzionale dell'autore il 22 ottobre 2026. [Registro](../PLANNED_IMPROVEMENTS.md).
+- [x] Fix crafting delle pizze: ciotola restituita subito nella griglia e flag persistente contro il secondo rimborso al forno; autore conferma il funzionamento.
+
+
+## Blocco della pubblicazione — checklist release candidate
+
+- [x] README e CHANGELOG distinguono **0.4.0 pubblicata** e **1.0.0 ancora in sviluppo**; nessuna modifica a `mod_version`, `main` o ai file PNG approvati.
+- [x] Una checklist centralizzata in [RELEASE_READINESS.md](RELEASE_READINESS.md) unifica survival, multiplayer, hopper, salvataggi, performance, JEI e integrità dei dati.
+- [x] Controllo CI sui metadati di rilascio e sui riferimenti della checklist.
+- [ ] **Conferma in-game dell'autore** su tutti gli scenari obbligatori, inclusi lo stacking di 16 spicchi e la scheda Creativa senza doppioni.
+- [ ] Solo dopo il via libera: aggiornare la versione a 1.0.0, changelog e README, creare PR verso `main` protetta e preparare le pubblicazioni.
+
+
+## Rifinitura richiesta — spicchi 16/stack e Creativa senza doppioni
+
+- [x] **Stack di 16 già configurato, ora funzionante a livello dati:** gli spicchi dello stesso gusto confrontano ingredienti canonici + mozzarella legacy, non quarto d'origine, ordine o stack originale dei condimenti. Pizze diverse non si mescolano, nutrizione e texture non cambiano.
+- [x] **Creativa pulita:** rimossi soltanto i tre stack-base crudi/cotti/spicchi che duplicavano `Pizza Bianca`; rimangono tutti i 18 gusti reali per stadio più le due Pizze miste. Nessun Item ID deregistrato.
+- [x] Nuova regressione statica CI per confronto dei componenti e limite stack di 16, oltre al controllo Creativa contro i nuovi doppioni.
+- [ ] Verifica nel client, casse e multiplayer: 4/16, 16/16, 16+1, gusti differenti, origine quarto differente, Salame vs Margherita, inventario Creativa senza doppie Bianche. [Guida](CREATIVE_INVENTORY_ORDER.md).
+
+
+## Pre-release — compatibilità delle vecchie fette nutrizionali
+
+- [x] Il nome e l'icona della scheda Creativa (Margherita cotta) sono stati verificati dall'autore in gioco; disposizione interna confermata funzionante.
+- [x] Le fette salvate prima del bilanciamento vengono aggiornate automaticamente, al primo tick nell'inventario, secondo le attuali regole fame/saturazione e Nourishment. Nessuna riscrittura continua degli stack o modifica agli ingredienti.
+- [x] Controllo statico CI sul percorso di migrazione del FOOD/CONSUMABLE e sulla separazione dagli aggiornamenti della Pizza mista.
+- [ ] Test in Survival con vecchi spicchi, reinserimento in inventario, Nourishment e rientro nel mondo. [Checklist](RELEASE_BALANCE_AUDIT.md).
+
+
+## Scheda Creativa — riorganizzazione e Pizza mista
+
+- [x] Sempre **un'unica scheda** Italian's Delight, nessun nuovo ID item né blocco tecnico visibile. Categorie contigue: postazioni, 12 aging racks, strumenti, colture, ingredienti latticini, formaggi, salumi, pizze crude, pizze cotte, spicchi, piatti pronti.
+- [x] **Tutti i 18 gusti** conservati per ciascuna delle tre fasi (cruda/cotta/spicchio); aggiunti due veri ItemStack **Pizza mista cruda/cotta** con quattro quarti diversi e texture Margherita, senza alterare gli spicchi.
+- [x] Verifica automatica numero item registrati, assenza duplicati, categorie contigue, gruppi delle pizze e campioni misti.
+- [ ] Test visivo in Minecraft: ordine nella scheda, campioni Pizza mista con dati di quattro gusti reali, nessun elemento mancante o duplicato. [Guida](CREATIVE_INVENTORY_ORDER.md).
+
+
+## Correzione BUG-003 — drop formaggi e salumi quando si rompe il supporto
+
+- [x] Blocchi di stagionatura a terra e uncini da soffitto aggiornati a distruzione server differita con loot vanilla. L'uncino conserva il formaggio/salume appeso e libera lo spazio tecnico riservato.
+- [x] CI estesa con controllo statico anti-perdita dei drop.
+- [ ] Test Survival della rimozione supporti, oggetti recuperati, `doTileDrops` e assenza di blocchi tecnici invisibili. [Registro bug](../KNOWN_BUGS.md).
+
+
+## Rifinitura grafica Pizza mista (richiesta autore)
+
+- [x] **Pizza mista cruda e cotta**: usa esattamente i modelli originali della Margherita (`raw_pizza` e `cooked_pizza`), lasciando invariati nome, quattro quarti, componenti, nutrizione e tooltip. Nessun PNG modificato.
+- [x] **Fallback delle pizze uniformi non riconosciute**: mantiene il proprio modello `*_custom`; la sostituzione non cambia gli altri gusti o le texture degli spicchi.
+- [ ] **Collaudo client**: verificare item della Pizza mista cruda/cotta in inventario e Creativa, poi cuocere e ottenere quattro spicchi di gusto diverso; l'icona è Margherita, i dati rimangono misti.
+
+
+## Pulizia regressioni pre-release — BUG-001 formaggi da uncino
+
+- [x] **Correzione conservativa del bug già segnalato:** Scamorza e Provolone, inclusi gli stadi freschi e la Scamorza affumicata, non possono più essere posizionati a terra tramite l'item. L'uncino è invariato e gli altri formaggi da superficie rimangono posizionabili.
+- [x] **Audit CI introdotto** per il guard `agesOnSurface()` e la copertura di tutti i formaggi agganciabili.
+- [ ] **Test runtime** su terreno, slab superiore, uncino, stagionatura/essiccazione e regressioni dei formaggi su superficie. [BUG-001](../KNOWN_BUGS.md).
+- [x] **Nome Pizza mista:** l'autore ha confermato in gioco il nuovo nome dopo la sostituzione di «Pizza assortita». Traduzioni e riconoscimento spicchi approvati; nessun ulteriore intervento necessario.
+
+
+## Fase hopper e persistenza — hardening pre-release (21 ottobre 2026)
+
+- [x] **Hopper già implementati:** sopra input pizza cruda, lati combustibile, sotto output cotto + eventuale secchio di lava vuoto; la pizza cruda o incompleta non è estraibile dal basso.
+- [x] **Fix integrità ciotole:** Pizza Oven e fornace/affumicatore ora usano `ItemStack.isSameItemSameComponents` prima di unire un rimborso di ciotole a uno stack preesistente. Non alterare oggetti rinominati o con componenti diversi.
+- [x] **Nuovo controllo statico CI** per direzioni degli hopper, capienza, componenti delle ciotole, compatibilità con fornaci vanilla e salvataggio del progresso.
+- [ ] **Test Survival hopper e persistenza** (anche con ciotole rinominate, hopper pieni, salva/ricarica e due salse su metà differenti). [Checklist Pizza Oven](PIZZA_OVEN_IMPLEMENTATION_TESTS.md) e [fornaci vanilla](VANILLA_FURNACES_TESTS.md).
+- [x] **Test tooltip Nourishment** confermato dall'autore; durata 1 minuto e dati nutrizionali invariati.
+- [x] **UX naming approvato dall'autore il 21 ottobre 2026:** «Pizza assortita» è stata rinominata **«Pizza mista»** (inglese «Mixed Pizza»). I quattro quarti non uniformi mantengono nomi e condimenti indipendenti. La chiave di traduzione interna `pizza.italiansdelight.assorted` resta stabile per non toccare la logica.
+
+
+## Fase pre-release — salvataggio dei drop alla perdita del supporto
+
+- [x] **Fix GitHub implementato:** `PizzaDoughBlock` e `CookedPizzaBlock` pianificano un tick sul server quando il sostegno diventa invalido, al posto di sostituirsi immediatamente con aria. La distruzione vanilla recupera i componenti della BlockEntity.
+- [x] **Controllo automatico introdotto** nella pipeline GitHub: `check_pizza_support_drops.py` verifica l'instradamento verso `destroyBlock` e i metodi di loot esistenti.
+- [ ] **Test Survival** ancora da effettuare: impasto, pizza cruda condìta o divisa, pizza cotta intera e residui degli spicchi. [Checklist](SURFACE_RULES.md).
+- [x] **Nourishment:** durata dell'effetto visibile nel tooltip, confermata dall'autore. Fame/saturazione e tempi di cottura restano invariati.
+
+
+## 21 ottobre 2026 — Bilanciamento nutrizionale: stacking max 2 per categoria APPROVATO
+
+- [x] **Nuova decisione dell'autore:** mantenere i bonus originali, ma contarli **fino a 2 volte per categoria** quando lo stesso quarto contiene due ingredienti canonici *differenti*. Dal terzo ingrediente della medesima categoria non si ricevono altri bonus. Stesso ID canonico ripetuto (incluse varianti cruda/cotta) conta una sola volta; supporto mozzarella legacy senza duplicarla.
+- [x] **Implementato in `PizzaSliceFactory.foodFor`:** le regole sono uguali per qualsiasi spicchio, pizza riconosciuta o personalizzata. Fame massima 6, saturazione massima 6; nessuna eccezione speciale per la Quattro Formaggi. Esempi: Margherita 3/3, Quattro Formaggi bianca 3/4, Rossa 4/4,5, Mortadella e Ricotta 5/6, Orto 4/3,5.
+- [x] **Audit CI aggiornato:** 18 preset + combinazioni con 1/2/3/4 latticini, ingredienti duplicati, due proteine, legacy e massimali. [Decisione e casi di test](DYNAMIC_NUTRITION_STACKING.md).
+- [ ] **Test in gioco:** verificare cibo effettivo per spicchio, equivalenze, cap, quattro quarti differenti, salvataggio/reload e multiplayer. Non cambiare asset già approvati.
+- [x] **Tempi definitivi confermati dall'autore il 21 ottobre 2026:** Pizza Oven 20 secondi, affumicatore 30, fornace 60; nessuna modifica ai tick.
+
+## 21 ottobre 2026 — Spicchi APPROVATI e audit pre-release avviato
+
+- [x] **CONFERMA DELL'AUTORE:** «Questi spicchi vanno bene, procediamo». Le texture leggibili degli spicchi sono ora **approvate in Minecraft**. Le texture delle pizze intere crude/cotte erano già approvate. **Non modificarle senza esplicita autorizzazione.**
+- [x] **Audit bilanciamento dei dati attuali, SENZA modifiche gameplay:** esaminati `PizzaSliceFactory`, i 18 preset, le 31 categorie canoniche e i tre metodi di cottura. Pubblicata tabella completa fame/saturazione e tempi placeholder (Pizza Oven 20 s, smoker 30 s, furnace 60 s) in [RELEASE_BALANCE_AUDIT.md](RELEASE_BALANCE_AUDIT.md).
+- [x] **Nuovo controllo statico CI:** `.github/scripts/check_pizza_release_balance.py` verifica formula nutrizionale, 18 combinazioni, caps, consistenza JSON/serializer di cottura e conservazione dei dati. Non è un test client.
+- [ ] **TEST DI INTEGRAZIONE SURVIVAL/MULTIPLAYER:** quattro quarti differenti, nutrizione/fame/saturazione, contenitori, forni, pallet/spade mattarello e pala, GUI/JEI, inventario pieno, chunk reload e anti-duplicazioni. [Checklist](RELEASE_BALANCE_AUDIT.md).
+- [x] **Bilanciamento per categoria collaudato e approvato (21 ottobre 2026):** fino a due ingredienti canonici diversi per categoria, cap 6 fame/6 saturazione, nessun bonus per il nome. Aggiunta Nourishment breve sugli spicchi con almeno 3 fame (test in gioco ancora necessario). Tempi 20/30/60 s definitivi.
+
+## 21 ottobre 2026 — Revisione leggibilità delle texture degli spicchi
+
+- [x] **BUG VISIVO segnalato dall'autore:** gli spicchi erano visibili e il gioco compilava, ma molti gusti risultavano difficili da distinguere anche se tutti gli asset erano tecnicamente unici.
+- [x] **Ridisegno completo di 18 PNG spicchi (17 gusti + fallback):** palette dominanti e sagome dei condimenti realmente differenti (salame rotondo scuro, speck a strisce, salmone arancione, zucca arancione, orto verde, gorgonzola blu-verde, patate gialle, ecc.). La texture Margherita originale resta intatta e tutti i 218 pixel esterni alla farcitura sono preservati per ogni variante.
+- [x] **Regressione sulla percezione:** confronti di tutte le 171 coppie possibili fra 19 icone (inclusa Margherita); ogni coppia richiede almeno **10 pixel interni con differenza RGB significativa**, non solo byte diversi. Rimangono i controlli di CRC, alpha 0/255 e modello.
+- [ ] **COLLAUDO CLIENT:** confrontare le varianti nella hotbar a risoluzione nativa, prima di approvare la seconda iterazione delle texture. Nessuna modifica a food/data components, meccaniche, pizze intere o menù. [Specifiche e decisioni](NAMED_PIZZA_SLICES.md).
+
+## 21 ottobre 2026 — Pizze intere approvate; texture spicchi implementate
+
+- [x] **CONFERMA ESPLICITA DELL'AUTORE:** le texture crude/cotte di tutte le 18 pizze riconosciute ora vanno bene, e tutte le varianti delle pizze intere sono visibili correttamente nel menu Creativa. **Questa fase grafica è approvata**: non modificare i PNG originali o i topping delle pizze intere senza nuova richiesta.
+- [x] **PROSSIMA FASE AUTORIZZATA: icone degli spicchi**. Realizzate le 17 varianti riconosciute diverse dalla Margherita + fallback (18 PNG 16×16), conservando `margherita_slice.png` originale. I 218 pixel di bordo/sagoma/ombre rimangono intatti; solamente 38 pixel interni rappresentano la farcitura.
+- [x] **Spicchi riconosciuti per singolo quarto:** `PizzaDisplayNames.nameSliceStack` ora usa `PRESETS.get(quarter(slice))` anche per scegliere il modello. Uno spicchio Margherita proveniente da una pizza mista mantiene nome e immagine Margherita. `pizza_slice` resta l'unico Item e mantiene componenti, nutrizione e uso approvati.
+- [x] **Creative e test automatici:** aggiunti 18 stack spicchi autentici dopo le pizze intere; controllo `check_named_pizza_slices.py` su tutti i modelli, CRC PNG, sagoma/218 pixel del bordo, asset Margherita originale e assenza di duplicati. Due PNG inizialmente corrotti durante il trasferimento sono stati sostituiti con i file corretti identificati tramite hash Git.
+- [ ] **TEST CLIENT / APPROVAZIONE SPICCHI:** controllare spicchi Bianca, Rossa, Margherita, Salame, Patate e Speck e Caprese; pizza con quattro quarti diversi, salvataggi, fallback, fame/saturazione e presenza nel tab Creative. [Documentazione e checklist](NAMED_PIZZA_SLICES.md).
+
+## 21 ottobre 2026 — Correzione crash all'avvio causato dal mattarello
+
+- [x] **BUG CRITICO identificato tramite log dell'autore:** durante `runClient` il gioco crashava su `ModItems.<clinit>(ModItems.java:126)` con `NullPointerException: Components not bound yet`, poiché il mattarello richiedeva `Items.WOODEN_SHOVEL.getDefaultInstance()` prima del bootstrap dei componenti. La build Java 25 precedente aveva compilato ma **non garantiva l'avvio del gioco**.
+- [x] **Fix su GitHub:** rimossa la lettura prematura dello stack vanilla. Attributi d'attacco definiti con `ItemAttributeModifiers.builder()` usando i modificatori vanilla della pala di legno (bonus legno + 1.5 al danno, -3.0 velocità), senza modificare la durabilità originale (64) o conferire funzionalità di scavo.
+- [x] **CI rafforzata:** nuovo controllo `check_rolling_pin_combat.py` prima della compilazione; controlla la registrazione sicura e i valori degli attributi. [Diagnosi, codice e test](ROLLING_PIN_COMBAT.md).
+- [ ] **VERIFICA RUNTIME IN ATTESA:** nuova compilazione Java 25 e soprattutto avvio `gradlew.bat runClient` in Minecraft 26.2 dopo il fix. Il collaudo dell'autore resta obbligatorio; non proclamare runtime corretto in base soltanto al risultato di Gradle.
+
+## Aggiornamento 21 ottobre 2026 — mattarello con attributi pala di legno
+
+- [x] **Mattarello come arma leggera:** su richiesta dell'autore, `italiansdelight:rolling_pin` ora copia direttamente gli attributi d'attacco della **pala di legno vanilla** (`Items.WOODEN_SHOVEL`, `DataComponents.ATTRIBUTE_MODIFIERS`) senza hardcoding. **Restano 64 utilizzi** e la stesura/divisione dell'impasto mantiene il comportamento originale.
+- [ ] **Test in gioco:** verificare danno e velocità d'attacco nel tooltip rispetto alla pala di legno, consumo di durabilità quando si stende la pizza e comportamento invariato dei quarti; compilazione Java 25 da confermare sul nuovo commit. [Decisione e test](ROLLING_PIN_COMBAT.md).
+- [ ] **Texture pizza:** continua separatamente la verifica estetica delle icone crude/cotte; gli attributi del mattarello non modificano alcun PNG.
+
+## Aggiornamento 21 ottobre 2026 — condimenti riconoscibili per gli item
+
+- [x] **Revisione condimenti delle 36 icone crude/cotte:** l'autore ha approvato il bordo della precedente versione ma rifiutato la farcitura (pixel casuali e gusti non identificabili). Il nuovo disegno utilizza motivi di ingredienti contigui e forme specifiche per ogni pizza: rondelle di salame, fettine di patata, nastri di speck e prosciutto, gorgonzola erborinato, foglie di basilico, salmone ecc. Nessun cornicione o texture Margherita modificato.
+- [x] **Controllo anti-duplicati:** aggiunto test pixel-per-pixel per garantire che gli item dei gusti attivi e il fallback non utilizzino icone identiche; restano i vincoli 16×16 RGBA e preservazione esatta dei 62 pixel del bordo.
+- [ ] **Approvazione nel client:** verificare soprattutto Salame, Patate e Speck, Caprese, Quattro Formaggi e Salmone sia crudi che cotti a dimensione hotbar. [Registro della correzione](NAMED_PIZZA_TEXTURE_REWORK.md).
+
+## Aggiornamento 21 ottobre 2026 — cornicioni 16×16 definitivi (da collaudare)
+
+- [x] **Pixel art corretta direttamente dagli originali:** l'autore ha rifiutato il cornicione delle varianti crude/cotte per pixel casuali, segnalando che la sagoma alpha identica non è sufficiente. Tutti i 36 PNG sono stati rifatti *modificando direttamente* copie 16×16 di `raw_pizza.png` e `pizza_margherita.png`, senza downscale.
+- [x] **62 pixel di bordo per versione protetti:** ogni pixel RGBA che compone il cornicione corrisponde al PNG originale crudo o cotto; nessuna colorazione di fondo o topping può toccarli. Aggiunto test automatico che confronta esattamente tutti i pixel del bordo oltre alla maschera alpha. [Regola e checklist](NAMED_PIZZA_TEXTURE_REWORK.md).
+- [ ] **Validazione visiva dell'autore:** build CI da verificare sull'ultimo commit, poi confrontare in Creative/Hotbar il bordo della Margherita cruda/cotta con Bianca, Rossa, Patate e Speck e Quattro Formaggi. Finché non confermato, texture in revisione.
+
+## Aggiornamento del 20 ottobre 2026 — ripristino e texture coerenti
+
+**Decisione correttiva dell'autore:** la pizza cotta generica torna a usare il PNG Margherita cotta approvato e tutte le texture dei gusti riconosciuti devono avere una coppia cruda/cotta costruita sulla stessa sagoma/prospettiva delle due vecchie Margherite. La prima serie con pizze rotonde dall'alto non rispettava il prompt 16×16 e non è più utilizzata. Il menù Creativa deve mostrare anche varianti dei gusti, non soltanto tre oggetti generici.
+
+**Implementato:** ripristino modello cotto; 36 nuove icone con sagoma alpha identica ai riferimenti, 72 definizioni e modelli item, selettore raw/cooked da dati canonici, 18 coppie di stack reali nella scheda Creativa dopo i salumi, fallback crudo/cotto per pizze personalizzate, test automatici più severi a tutela degli asset approvati. **Nessun nuovo ID item** e nessuna modifica alla logica delle fette. [Registro definitivo](NAMED_PIZZA_TEXTURE_REWORK.md).
+
+## Aggiornamento 20 ottobre 2026 — Menù Creativa
+
+- [x] **Carote e patate a fette — test in gioco superato:** l'autore ha verificato il funzionamento di entrambe le aggiunte, comprese le relative texture.
+- [x] **Scheda Creativa riorganizzata — FUNZIONANTE, CONFERMATA DALL'AUTORE:** mantenuta una sola scheda Italian's Delight con gli stessi **97 elementi** (79 item + 18 blocchi), senza duplicati, suddivisi per vicinanza in pizza, attrezzature, rack, colture, risorse casearie, formaggi, salumi e piatti. Aggiunto controllo CI per la copertura completa degli item. [Checklist](CREATIVE_TAB_REORGANIZATION.md).
+- [x] **Texture delle pizze riconosciute — 18 GUSTI IN DUE VERSIONI PUBBLICATI:** corretto lo stile secondo i riferimenti originali raw_pizza.png e pizza_margherita.png. Test client ancora pendenti. [Revisione dettagliata](NAMED_PIZZA_TEXTURE_REWORK.md).
+
+## Aggiornamento 20 ottobre 2026 — Texture delle pizze riconosciute
+
+- [x] **REGOLA DOCUMENTAZIONE CONTINUA confermata dall'autore:** anche piccole discussioni, chiarimenti e scelte non direttamente legate al codice devono essere salvati su GitHub nel branch di lavoro. [Registro e inventario](NAMED_PIZZA_ARTWORK_PLAN.md).
+- [x] **Creativa approvata dall'autore:** pizze dopo salumi e prima dei piatti pronti, correttamente visibili in gioco.
+- [x] **Inventario reale dei gusti:** 18 preset implementati, Principessa sospesa; 1 texture Margherita già presente da conservare, 17 nuove texture di gusto previste.
+- [x] **Texture pizze — PRIMA ITERAZIONE RIFIUTATA E SOSTITUITA:** i vecchi PNG rotondi dall'alto sono archiviati ma inutilizzati. Ripristinato il modello cotto Margherita originale e aggiunte 36 texture, 72 JSON e 36 stack Creativa reali, senza nuovi item. Build Java 25 e test asset superati; grafica e Creative da testare in gioco. [Revisione approvata](NAMED_PIZZA_TEXTURE_REWORK.md).
+- [x] **Pizze intere approvate dall'autore il 21 ottobre 2026; fase spicchi successivamente autorizzata:** la collezione crude/cotte è approvata e le texture dedicate degli spicchi sono ora implementate sul branch. Collaudo degli spicchi in gioco ancora da svolgere; vedere la sezione più recente e [NAMED_PIZZA_SLICES.md](NAMED_PIZZA_SLICES.md).
+
+## Stato
+
+**PIZZA PEEL — CORREZIONE TERZA PERSONA, 18 ottobre 2026 (DA COLLAUDARE):** dallo screenshot ravvicinato dal basso, la testa metallica della pala carica sporge dietro il pugno e il manico si estende verso la spalla. L'autore ha chiesto di abbassare la pala e ruotarla di 180° SOLO in terza persona. Modificati `pizza_peel_loaded.json` e `PizzaPeelItemModel.java`: `rotation [-90,180,0]` da `[-90,0,0]` e `translation [0,2,8]` da `[0,2,5]`, sia a destra sia a sinistra. Verificato tramite matrice che la lama cambi direzione e che la pizza resti rivolta verso l'alto; i due livelli di render rimangono sincronizzati. Prima persona, pala vuota, mesh, texture e coordinate della pizza preservate. **Test visivo ancora pendente.** [Dettagli](PIZZA_PEEL_TESTS.md).
+
+## Stato
+
+**NAMING / LOCALIZZAZIONE, 18 ottobre 2026:** rilevato e corretto il contrasto in inglese fra `Bianca Pizza` / `White Pizza Slice` e fra `Rossa Pizza` / `Red Pizza Slice`. La traduzione inglese del gusto base è ora **White** / **Red**: raw/cooked `White Pizza` / `Red Pizza`, spicchio `White Pizza Slice` / `Red Pizza Slice`; IT resta `Pizza Bianca` / `Pizza Rossa` e `Spicchio di pizza bianca` / `Spicchio di pizza rossa`. Verificati staticamente tutti i **17 gusti × 2 lingue × 3 item (102 nomi)**; aggiunto test automatico `python scripts/check_pizza_names.py`, da ripetere in seguito a cambiamenti delle traduzioni. Nessun cambio al riconoscimento dei topping o al salvataggio dei nomi. [Dettagli e regressioni](PIZZA_NAMING_TESTS.md).
+
+
+**Stato implementazione pizza (17 ottobre 2026, fase pizza cotta piazzabile):** l'autore ha confermato funzionanti cottura, fuoco, hopper e ciotole del Pizza Oven. **Fase 4C pubblicata, DA COMPILARE/TESTARE:** `cooked_pizza` non commestibile intera ma piazzabile, `CookedPizzaBlock` + BlockEntity salva composizione, orientamento e maschera dei quattro quarti; mano principale vuota preleva lo **Spicchio di pizza** del quarto scelto con il nuovo componente `pizza_slice_contents`, fame/saturazione calcolate per categoria. Quando l'inventario non ha spazio non avviene alcun prelievo o drop. Rottura integra -> item cotto intero; rottura parziale -> soltanto gli spicchi restanti. Rendering dei quarti e condimenti provvisorio. **Nomi fissi/dinamici, tooltip ingredienti e texture definitive ancora TODO.** [Test](COOKED_PIZZA_SLICES_TESTS.md).
+
+**AGGIORNAMENTO 17 ottobre 2026:** l'autore ha confermato funzionanti il Pizza Oven (inclusa l'animazione) e la **FASE 4C** di pizza cotta piazzabile con quattro spicchi. La **fase nomi/tooltip** è ora implementata nel branch: 17 gusti già realizzabili, nomi dinamici, pizza mista, spicchi indipendenti, tooltip IT/EN; **build e test in gioco pendenti**. [Guida dedicata](PIZZA_NAMING_TESTS.md). Il vecchio resoconto della fase 4C sopra si conserva come riferimento storico.
+
+**STATO aggiornato 17 ottobre 2026:** anche i **nomi e i tooltip** sono stati confermati funzionanti dall'autore. È ora pubblicata sul ramo di sviluppo la **FASE 4D pala pizza** (non impilabile, senza durabilità, carico persistente, trasporto e interazioni con forno), **DA COMPILARE/TESTARE** secondo [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). Non sono state introdotte una ricetta non approvata, un'arma o nuove texture. Il contatore di cottura continua a essere esclusivo del forno e si azzera estraendo la pizza cruda.
+
+**FIX GRAFICO AGGIORNATO 18 ottobre 2026:** l'autore ha collaudato e segnalato problemi al modello a **7 elementi** (texture applicata male, impugnatura fuori mano). È stato quindi **rimpiazzato** con un modello 3D a **3 elementi**, ricostruito direttamente dai pixel dell'atlas 64×64 e con rotazioni mano ispirate al tridente vanilla, ma traslazioni/scaling specifici per la pala. **Da verificare ancora in gioco**; [test dedicati](PIZZA_PEEL_TESTS.md). Nessun cambio di PNG o meccaniche.
+
+**REVISIONE UV 18 ottobre 2026 (da testare in gioco):** corrette le proporzioni dei pixel del Pizza Peel confrontando le dimensioni di tutte le 18 facce dei tre cuboidi con le UV del PNG 64×64: peggiore distorsione 4,81→1,13. Pixel campionati opachi; geometria, posizione nella mano, texture e logica invariati. [Checklist](PIZZA_PEEL_TESTS.md).
+
+**PEEL — RIFINITURE DEL 18 OTTOBRE 2026:** confermato visivamente dall'autore il modello/UV della pala; completato il supporto all'interazione con la pala in entrambe le mani (senza modificare la priorità degli strumenti nella mano principale) e aggiunti avvisi localizzati per forno vuoto/pieno, pizza cotta non inseribile, pala già occupata. Nuovi test in gioco **pendenti**, vedere [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). Da decidere ancora: ricetta/sblocco, resa della pala occupata, utilizzo come arma solo a pala vuota.
+
+**PEEL 18 ottobre 2026 — scelta grafica e compatibilità Minecraft 26.2:** l'autore ha approvato il modello 3D della pala e deciso che su una pala occupata dev'essere visibile **il vero item pizza trasportato**, non una pizza generica. È stato aggiunto il render dinamico client-side con `ItemModelResolver` e componente `peel_cargo`, senza una lista statica di gusti o texture nuove; resta da verificare **resa visiva, scala e posizione**. Corretto inoltre l'errore di compilazione 26.2: `Player.displayClientMessage` rimosso, sostituito da pacchetto action bar server `ClientboundSetActionBarTextPacket`. **Nuova build/test ancora pendenti**. [Prove dettagliate](PIZZA_PEEL_TESTS.md).
+
+**CORREZIONE RENDER PALA — 18 ottobre 2026:** l'autore ha inviato uno screenshot: la pizza compariva in hotbar e fluttuava vicino al manico, invece che sulla piastra metallica. Pubblicata la revisione di `PizzaPeelItemModel.java`: la pizza reale è renderizzata **solo nelle mani, in prima/terza persona**, su un livello speciale con la stessa trasformazione della pala; traslazione dalla geometria della testa `[8,20.25,8]`, scala ridotta. **Build e verifica visiva ancora pendenti**; [test dedicati](PIZZA_PEEL_TESTS.md). Geometria e texture approvate inalterate.
+
+**AGGIORNAMENTO VISIVO PEEL — 18 ottobre 2026:** lo screenshot dell'autore mostrava la pala occupata rivolta verso l'alto; approvata la nuova regola «pala parallela al terreno quando trasporta una pizza». Pubblicati `pizza_peel_loaded.json` (figlio del modello approvato), la selezione `has_component: italiansdelight:peel_cargo` solo per contesti nelle mani e trasformazioni Java coerenti per l'item trasportato. **Pala vuota invariata**. [Checklist di test](PIZZA_PEEL_TESTS.md); compilazione e verifica visuale pendenti.
+
+**FIX PEEL, 18 ottobre 2026 — renderer condiviso (DA TESTARE):** tre screenshot hanno confermato pizza invisibile in prima persona e separata dalla pala in terza persona, con impugnatura errata. Sostituiti i due layer indipendenti con un renderer unico client-side per la pala carica: stessa trasformazione per pala e vera pizza; correzione grip in terza persona e extents espliciti per la visibilità; posa vuota invariata. Eliminato il vecchio selettore JSON della pala carica per evitare doppia trasformazione. Da compilare e verificare in gioco; [test mirati](PIZZA_PEEL_TESTS.md).
+
+**REVISIONE PEEL (18 ottobre 2026) — DA TESTARE:** l'ultimo screenshot mostra un problema di regressione: rendering speciale dell'intera pala carica dietro al personaggio in terza persona e oggetto assente in prima persona. Risoluzione pubblicata: nuovamente rendering standard Minecraft della **pala baked** in tutti i contesti; selezione tramite componente del modello orizzontale soltanto nelle mani e render speciale solo per l'item pizza. Corrette le posizioni della presa in terza persona e gli extents. **Non dichiarare funzionante prima del test dell'autore**. [Guida](PIZZA_PEEL_TESTS.md).
+
+**PEEL — affinamento dopo test 18 ottobre 2026, DA VERIFICARE:** l'autore vede correttamente la pala in prima persona, ma **non la pizza**; in terza il manico non attraversa la mano e il contenuto resta fuori dalla lamina. Regolati soltanto (1) grip loaded terza persona da [0,2,-4] a [0,3,-8], (2) verso della faccia dell'item pizza da +Z a -Z per evitare occultamento dietro il metallo, (3) scala pizza 0.34→0.44. La pala vuota e i dati sono invariati. Nuovo test visivo richiesto. [Guida](PIZZA_PEEL_TESTS.md).
+
+**CORREZIONE PALA CARICA — 18 ottobre 2026 (DA COLLAUDARE):** dopo ripetuti screenshot con la testa della pala e la pizza vicino ai piedi, implementato un cambiamento **geometrico** anziché ulteriori offset: rotazione -90° dei tre cuboidi del modello carico **attorno all'impugnatura [8,6.75,8]**, con `display` ereditato dall'originale già approvato. Il centro pizza è stato calcolato dal nuovo piano metallico `[8,7.25,-5.5]`; l'item completo del cargo si dispone sopra la lamina usando la stessa posa della pala e una rotazione locale. Nessuna modifica al modello/PNG vuoto o al gameplay. Verifiche matematiche e statiche superate, compilazione e test in gioco ancora necessari: [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
+
+**PEEL — FIX GEOMETRICO/RENDERING 18 ottobre 2026 (DA TESTARE):** individuata la conversione errata nelle coordinate del renderer speciale della pizza: sottrazione di 8 pixel extra agli assi (pizza distante dal piatto e quasi invisibile), aggravata da extents nello spazio sbagliato. Corretto il centro reale del contenuto della pala carica in `(0.5,0.484375,-0.34375)` e aggiornati gli extents. La geometria della pala carica rimane la stessa, ruotata attorno al manico; i display in mano ora puntano in avanti (yaw 0 in terza persona, ±15 in prima), mantenendo il grip e il resto del gameplay invariati. Nuovi screenshot e build necessari: [test dettagliati](PIZZA_PEEL_TESTS.md).
+
+**PEEL — ultimo collaudo 18 ottobre 2026:** la pizza si vede **correttamente** sulla pala (conferma esplicita dell'autore). Rimane soltanto l'aderenza della mano in terza persona. Pubblicata correzione laterale isolata di 3px, speculare per entrambe le mani, sincronizzata fra display JSON e renderer Java. Prima persona, mesh, texture e posizione relativa della pizza inalterate. **Verifica della presa da completare**; vedi [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
+
+**PEEL — CORREZIONE VERSO DELL'IMPUGNATURA, 18 ottobre 2026:** nuovo screenshot dell'autore: la precedente traslazione di +3px ha **allontanato ulteriormente** il manico dalla mano. Invertito il solo offset orizzontale terza persona: mano destra -3px, sinistra +3px, sincronizzando JSON e layer Java. Il rendering pizza resta approvato. Nuova verifica visiva richiesta; [test](PIZZA_PEEL_TESTS.md).
+
+**PEEL — STUDIO DELLA LANCIA VANILLA, 18 ottobre 2026:** dopo che i tentativi di ±3 pixel hanno spostato il manico da un lato all'altro del pugno, analizzati `spear_in_hand.json` vanilla (26.2) e la trasformazione di `ItemInHandLayer`. La causa non era il solo offset laterale: il braccio ruota già l'item -90° su X. La pala carica in piano XZ richiede un display aggiuntivo X=-90° per presentare la lama in avanti e la superficie superiore verso l'alto. Posizione terza persona ora `rotation [-90,0,0]`, `translation [0,2,2]` (ancoraggio dalla lancia), `scale 0.8`, identica in JSON e Java; rimossi offset ±3. Prima persona, pizza rispetto alla lama e modello vuoto invariati. **Verifica in Minecraft pendente**, vedere [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md).
+
+**PEEL — presa in terza persona, 18 ottobre 2026 (DA TESTARE):** il nuovo screenshot mostra un risultato quasi corretto; la pizza resta sulla lama, ma il manico attraversa l'avambraccio, sopra il pugno. Dal prodotto delle rotazioni vanilla `ItemInHandLayer` (X=-90°, Y=180°), il **+Z locale punta in basso** nello spazio mondo. Corretto dunque soltanto il display Z da **2 a 5**, per abbassare la pala carica di 3 pixel di modello; X=0, Y=2, rotazione X=-90° e scala 0.8 inalterate. Applicato identicamente al livello pizza Java e al modello JSON, prima persona e pala vuota invariati. [Test](PIZZA_PEEL_TESTS.md).
+
+**PEEL 19 OTTOBRE 2026 — ARMA SOLO QUANDO VUOTA (CODICE PUBBLICATO, DA TESTARE):** dopo il collaudo dell'autore, la pala vuota usa **esattamente** `SkilletItem.createAttributes(SkilletItem.SKILLET_MATERIAL,5.0F,-3.1F)` di Farmer's Delight Refabricated 26.2 (danno della padella comprensivo del bonus del ferro, velocità -3.1, contraccolpo +1). Quando `peel_cargo` è presente, `DataComponents.ATTRIBUTE_MODIFIERS` è impostato a `ItemAttributeModifiers.EMPTY`; quando la pizza viene depositata gli attributi vengono ripristinati. Prelievo/deposito/forno/rollback aggiornano i due componenti insieme e `inventoryTick` ripara i vecchi salvataggi. **Nessuna durabilità né speciale cottura/suoni della padella**, geometria, UV, posizioni dell'autore e trasporto invariati. Ricetta crafting ancora da definire prima di implementarla. [Checklist prove](PIZZA_PEEL_TESTS.md).
+
+**RICETTA PIZZA PEEL — 19 ottobre 2026 (CODICE PUBBLICATO, DA PROVARE):** l'autore ha approvato il crafting sagomato diagonale con 3 lingotti di ferro e 2 bastoni: `" II" / " SI" / "S  "`, con variante speculare `"II " / "IS " / "  S"`. Pubblicata una sola ricetta `data/italiansdelight/recipe/pizza_peel.json`, che utilizza il riconoscimento speculare nativo delle shaped recipes Java; aggiunto advancement `data/italiansdelight/advancement/recipes/tools/pizza_peel.json` per lo sblocco quando si ottiene un lingotto di ferro. Output 1 pala, senza cambiare attributi, durabilità, trasporto e modelli. Test in gioco e visualizzazione JEI da eseguire. [Test della pala](PIZZA_PEEL_TESTS.md).
+
+## Checklist decisioni già CONFERMATE
+
+- [x] Versione-obiettivo 1.0.0 con sistema di pizza personalizzabile.
+- [x] Palla d'impasto posizionata direttamente sopra i blocchi, non sul Cutting Board.
+- [x] Stesura sia a mano (clic destro) sia con mattarello.
+- [x] Condimento diretto nel mondo con clic destro, senza GUI.
+- [x] Preparazione tramite crafting table disponibile come alternativa.
+- [x] Pizze riconosciute con nomi prestabiliti, altre con nomi dinamici.
+- [x] **RICERCA GUSTI (13 ottobre 2026):** documentate **107 combinazioni** in [NAMED_PIZZAS.md](NAMED_PIZZAS.md): **56** con ingredienti già registrati (inclusa Principessa), **15** con le nuove fette carota/patata da creare e **36** proposte future ancora NON approvate. Tre esempi di pizze a quarti restano proposte tecniche, **non preset approvati**.
+- [x] **NOMI FISSI STORICAMENTE APPROVATI (13 ottobre 2026):** 19 SÌ e 52 NO fra 71 proposte; **attenzione (15 ottobre): il preset «Principessa» con pomodoro + panna non rispetta la nuova esclusività delle salse, quindi è temporaneamente sospeso e non realizzabile** finché l'autore non approva una variante. Conservare la lista originaria come riferimento e non inventare una sostituzione. [NAMED_PIZZAS.md](NAMED_PIZZAS.md).
+- [x] Pizza Oven dedicato oltre a fornace e affumicatore vanilla.
+- [x] Pizza Oven 1×1×1, **capienza una pizza alla volta**.
+- [x] **Pizza Oven solo per pizze:** comportamento tipo fornace, ma accetta **esclusivamente pizze come input di cottura**; altri cibi e oggetti non vengono lavorati.
+- [x] **Nessun preriscaldamento**: la cottura comincia subito con pizza ed energia disponibili.
+- [x] **DECISIONE SUPERATA il 17 ottobre — fuoco come fornace vanilla:** il combustibile già acceso continua a consumarsi anche se il forno è vuoto/ha appena finito la pizza; la fiamma nella GUI diminuisce progressivamente. Nuovo combustibile soltanto quando occorre cuocere.
+- [x] **DECISIONE AGGIORNATA il 17 ottobre — progresso SOLO nella fornace:** il `CookTime` del forno decresce gradualmente senza fuoco e viene azzerato quando la pizza è rimossa/sostituita. La `raw_pizza` non possiede più `bake_progress`; chiudere la GUI non cancella il contatore dell'oven.
+- [x] Pizza Oven accetta **tutti i combustibili vanilla**.
+- [x] **Pala FACOLTATIVA per il Pizza Oven**: inserimento ed estrazione devono essere possibili anche senza pala. Il suo impiego resta un'opzione di comodita', non un requisito.
+- [x] **Pizza Oven con GUI VANILLA DELLA FORNACE**: stessa grafica/disposizione della fornace di Minecraft, **tre slot** (pizza in ingresso, combustibile, pizza cotta in uscita), fiamma e freccia di progressione. Nessuna GUI grafica personalizzata; la gestione della pala resta un'interazione diretta alternativa.
+- [x] **Ricetta crafting Pizza Oven CONFERMATA:** shaped 3x3, **1 fornace vanilla al centro**, **4 blocchi di mattoni** negli angoli, **4 blocchi di mattoni di pietra** sui lati; risultato **1 Pizza Oven**, nessun altro materiale.
+- [x] **Inserimento diretto con pala occupata**: clic destro sul Pizza Oven con pizza sulla pala trasferisce la pizza direttamente nel forno **senza aprire la GUI**; pala vuota dopo successo, nessun trasferimento se il forno e' occupato e dati conservati.
+- [x] **Estrazione diretta con pala vuota**: clic destro sul Pizza Oven preleva la pizza **anche a cottura incompleta**, senza GUI e conservando il progresso, gli ingredienti e tutti i dati. La GUI resta disponibile come metodo alternativo.
+- [x] **Ruolo della cottura parziale chiarito:** e' uno stato tecnico/progresso della pizza cruda, non un alimento o risultato separato previsto; serve a poter spostare la pizza senza perdere il lavoro svolto. Solo la pizza cotta al 100% entra nell'output.
+- [x] **Pizza INTEGRA sul terreno recuperabile rompendo il blocco come ITEM PIZZA** (crudo o cotto), con tutti i dati di composizione, divisione, orientamento e cottura. **Nessuna raccolta con clic destro a mano vuota** sulla pizza stesa e nessun drop separato di impasto/topping dalla pizza formata. Stesura della palla e rimozione topping restano interazioni distinte.
+- [x] **Nessuna bruciatura** con qualsiasi metodo.
+- [x] Rendering 2.5D: **salse piatte, altri topping poco rialzati**.
+- [x] Ingredienti di altre mod supportabili tramite definizioni e tag.
+- [x] **Equivalenze di ingredienti tra mod**: due item riconosciuti esplicitamente come equivalenti sono lo stesso topping ai fini dell'anti-duplicato e del limite di 6 per quarto; il recupero restituisce sempre l'item originale.
+- [x] Suddivisione **facoltativa con mattarello dopo la stesura**: intera -> due meta' -> divisione di una o entrambe le meta' in quarti, condibili indipendentemente. **Orientamento della prima divisione determinato dalla direzione del giocatore nel momento del clic**, anziche' fisso. Clic ingrediente applica alla zona puntata. Linee visibili temporaneamente solo tenendo mattarello o ingrediente valido; nessun cambio permanente ai modelli/texture.
+- [x] Rimozione parziale senza rimborso; rimborso una sola volta dopo la rimozione di tutti i quarti coperti da una specifica applicazione.
+- [x] **Rimozione con Shift + clic destro a mano vuota**: un condimento per clic, partendo dall'ultima applicazione ancora presente nella zona mirata; zona priva di topping = nessun effetto.
+- [x] **Riunione con Shift + clic destro col mattarello**: due quarti della stessa meta' -> due meta' intere -> pizza intera, senza perdita, rimborso o redistribuzione dei topping preesistenti.
+- [x] **Durabilita' del mattarello**: 1 punto per stesura completata, **0 per tutte le divisioni e riunioni**, 0 se il gesto non ha effetto e in Creativa. Il mattarello esistente ha 64 punti.
+- [x] **Stesso ingrediente massimo una volta per sottoarea**: applicazioni su zone distinte consentite; se l'area puntata e' parzialmente coperta, il clic interessa solo la parte libera e consuma 1 item; se completamente coperta, nessun effetto/consumo.
+- [x] **Salsa facoltativa**: pizze bianche valide, nessun ingrediente salsa richiesto in generale.
+- [x] **Massimo una salsa per sottoarea fisica**, indipendentemente dal tipo; salse differenti ammesse in porzioni separate, mai sovrapposte.
+- [x] **Rifiuto integrale delle salse differenti sulle zone parzialmente occupate**: se una zona mirata contiene gia' una salsa differente anche solo su una parte, il clic non applica nulla e non consuma item.
+- [x] **Limite di 6 ingredienti diversi per quarto fisico**, salsa inclusa e facoltativa; invariato da divisioni e riunioni. Un tentativo che supererebbe sei in **anche un solo quarto interessato** e' rifiutato integralmente senza consumare item.
+- [x] La **rimozione completa dei topping** rimborsa l'ingrediente originale nell'inventario (drop solo se pieno); la **rottura della pizza formata ancora INTEGRA** restituisce invece **la pizza-item completa** (se gia' servita in parte, solo fette residue), cruda o cotta, non impasto e ingredienti separati.
+- [x] Pala per pizza: porta direttamente una sola pizza alla volta e conserva l'intero stato; non richiesta per condire.
+- [x] **Pala senza durabilita'**, riutilizzabile indefinitamente per raccogliere, spostare e trasferire pizze.
+- [x] **Pala non impilabile**, sia vuota sia occupata: **stack massimo 1**, una pala per slot di inventario.
+- [x] **Pala droppata (Q)**: normale entita' item che mantiene la pizza al suo interno, anche dopo la raccolta da parte di un altro giocatore. Dati completi immutati, nessun item pizza separato.
+- [x] **Despawn vanilla confermato**: una pala a terra con pizza puo' scomparire naturalmente nei tempi e condizioni vanilla; si **perdono pala e pizza**, senza ricompense o protezioni speciali.
+- [x] **Danni ambientali vanilla confermati**: se lava, fuoco, cactus, esplosioni o altri danni vanilla distruggono una pala lasciata a terra, **si perdono pala e pizza**, senza generare ingredienti, impasto o rimborsi.
+- [x] **Regola generale di progetto:** i comportamenti ordinari seguono **Minecraft vanilla per default**, salvo eccezioni personalizzate gia' confermate. Non discutere separatamente ogni dettaglio basilare: portare alla decisione dell'autore solo le vere meccaniche nuove o i trade-off di gameplay.
+- [x] **Pala come futura arma solo quando VUOTA**, ispirata alla padella di Farmer's Delight Refabricated. **Se OCCUPATA non attiva alcun bonus o effetto speciale da arma** e mantiene intatti i dati della pizza. Statistiche e dettagli non concordati; codice non implementato.
+
+## Questioni da risolvere prima del codice (NON CONFERMATE)
+
+- [ ] Bilanciamento definitivo della stesura (attualmente 4 clic a mano, 1 col mattarello).
+- [x] Ricetta del mattarello: 2 bastoni + 1 asse di qualsiasi legno (`#minecraft:planks`), con sblocco nel libro delle ricette (**test in gioco necessario**).
+- [x] Texture dedicata del mattarello: item handheld 16×16, sfondo trasparente e pixel opachi; durabilità confermata: **64 usi**, 1 per pizza stesa. **Aspetto da verificare in gioco.**
+- [x] **Definito il limite:** massimo 6 ingredienti diversi per quarto fisico (salsa inclusa), sostituisce la vecchia proposta non approvata di 8 porzioni.
+- [x] **Classificazione speciale e compatibilita' approvate nel principio:** uova come proteine animali, olive come vegetali, panna come latticini, **olio d'oliva in nuova categoria Oli e grassi (+0 fame/+1 saturazione)**. Ruolo pizza distinto da categoria nutrizionale; una stessa categoria non moltiplica i bonus e non crea automaticamente equivalenze. **Prevedere ingredienti di Farmer's Delight Refabricated** oltre a Vanilla, Italian's Delight e altre mod.
+- [x] **Ricognizione dei registri sorgente 26.2/3.6.28:** verificati `ModItemIds.java`, `ModBlockItemIds.java` e `ModItems.java` di Farmer's Delight `fabric/latest/26.2`, incluso onion come BlockItem; verificati gli item e i tag presenti in Italian's Delight. Inventario: [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md). **La ricognizione non costituisce approvazione o implementazione del supporto in gioco.**
+- [ ] **Verificare JAR, datapack e gioco:** contenuti dei tag comuni oltre a quelli presenti nelle risorse Italian's Delight; remainder, combinazioni di topping, whitelist dei 29 item/tipi ufficiali piu' 2 nuovi da creare, filtri di esclusione, gruppi canonici e test di compatibilita' cross-mod.
+- [x] **Architettura leggera APPROVATA:** mappa diretta in cache costruita al caricamento mondo/`/reload`, senza letture JSON e senza scansione di tag a ogni clic o per tick; base dei 31 tipi esplicita, **solo mappature per ID esterno verificato**, nessun selettore tag che abiliti automaticamente item. Prestazioni da misurare, non è dimostrato un primato assoluto sul Java diretto. [Dettagli](DATA_AND_COMPATIBILITY.md).
+- [ ] **Misurare prestazioni** del mapping compilato vs mapping diretto (caricamento/reload, memoria, tempo per clic, pizze dense, multiplayer e modpack): se l'overhead è rilevante, mantenere statici i mapping di base e restringere le estensioni. Non introdurre gestione equivalenze per tick.
+- [x] **Ricognizione 31 identità e tag DOCUMENTATA:** 20 tipi Italian's Delight, 9 Farmer's Delight (4 coppie crudo/cotto), 2 nuovi vegetali. Tag `c:` controllati, inclusi quelli troppo generici contenenti item interi. [Tabella](INGREDIENT_EQUIVALENCES.md). **Mapping esterno singolo verificato APPROVATO**, ma singoli ID di altre mod e formato JSON ancora da implementare.
+- [x] **Schema delle equivalenze CONFERMATO (13 ottobre 2026):** un JSON per ID, esclusivamente proprietà `item` e `canonical`, nessun override dei mapping ufficiali; mapping esterni discordi sullo stesso ID rifiutati con diagnostica senza compromettere gli altri, nessun tag selettore automatico. [Specifica](INGREDIENT_EQUIVALENCES.md).
+- [ ] **Test nuovo loader e mapping esterni:** build Java 25, log iniziale 33 ID, `/reload`, JSON validi e invalidi, override nativi, item esclusi, conflitti fra pack, mod opzionale assente. Scegliere i primi ID esterni realmente verificati. [Procedura](DATAPACK_RELOAD_TESTS.md).
+- [x] Definire il gesto per **rimuovere** topping: Shift + clic destro **a mano vuota** sulla zona puntata, dall'ultima applicazione alla piu' vecchia.
+- [ ] Implementare cronologia persistente delle applicazioni e rimozione per zona senza duplicazioni.
+- [x] Confermato che l'**orientamento della prima divisione dipende dalla direzione del giocatore**, non da un asse mondo fisso, e che la linea e' **parallela allo sguardo**, creando meta' sinistra/destra.
+- [x] **Confermati linea parallela alla direzione cardinale piu' vicina allo sguardo e orientamento a scatti** N/S/E/O, per due meta' sinistra/destra. Non viene usata una rotazione libera per le diagonali.
+- [x] **Selezione delle zone tramite posizione effettiva del clic**; sui confini e sulle intersezioni una sola zona in modo deterministico, senza selezioni doppie.
+- [x] **Spareggi confini e diagonali APPROVATI (13 ottobre 2026):** prevalgono destra sui confini delle meta', davanti sui confini dei quarti, davanti-destra al centro. In caso di visuale equidistante fra cardinali, prevale il successivo in senso orario (N/E -> E, E/S -> S, S/O -> O, O/N -> N). Nessuna hitbox separata per le linee. Tolleranza numerica iniziale `1/1024` di blocco, **da validare in test**. [Dettagli](QUARTERS_AND_PEEL.md).
+- [x] Pala: ricetta diagonale **APPROVATA E PUBBLICATA** (3 lingotti di ferro e 2 bastoni; versione speculare valida); tooltip, resa grafica e dettagli di integrazione **facoltativa** con il forno (**trasporto, drop/pickup, despawn e distruzione ambientale vanilla gia' confermati**, cosi' come assenza di durabilita' e stack massimo 1).
+- [ ] Recuperare e verificare l'asset della pala dalla vecchia Italian's Delight fornito dall'autore, senza sostituirlo.
+- [x] Casi approvati/esclusi per il posizionamento dell'impasto, documentati in [SURFACE_RULES.md](SURFACE_RULES.md). **Soul Sand ora vietata; rimossi modelli ribassati.**
+- [ ] Verificare in gioco che la Soul Sand sia vietata e che slab superiori/doppie, scale capovolte, botole superiori chiuse e incudini funzionino ancora; verificare anche recupero se il supporto viene rotto.
+- [x] **Rebalancing cottura concluso:** tempi definitivi 20/30/60 secondi (Pizza Oven/affumicatore/fornace), approvati il 21 ottobre 2026. Non cambiarli senza nuova indicazione.
+- [x] **Consumo fuel — aggiornamento 17 ottobre:** nessun preriscaldamento; una volta acceso il combustibile si consuma e la barra della fiamma scende anche durante inattività, come nella fornace vanilla. Il forno non accende un nuovo combustibile quando è vuoto o l'output è occupato.
+- [ ] **Test post-fix burn time/progresso:** verificare in gioco consumo continuo del fuoco, `CookTime` salvato dal forno con il chunk (non sulla pizza), reset dopo estrazione e decadimento senza combustibile. La gestione è stata implementata, da validare dopo la nuova build.
+- [x] **Automazione hopper approvata**: **sopra** inserimento pizze crude, **lati** inserimento combustibile, **sotto** estrazione esclusiva delle pizze completamente cotte dallo slot output, come nella fornace vanilla. La GUI e la pala restano metodi manuali.
+- [ ] **Implementare e testare gli hopper** rispettando il vincolo di una pizza totale, l'assenza di estrazione automatica a cottura incompleta, le rimanenze del combustibile, i salvataggi e il multiplayer.
+- [x] **Ricetta Pizza Oven concordata**: fornace centrale + 4 blocchi di mattoni + 4 blocchi di mattoni di pietra; schema **BSB / SFS / BSB** (B = bricks, S = stone bricks, F = furnace).
+- [ ] **TESTARE IN GIOCO** la ricetta sagomata 3×3 della pala e il suo riflesso speculare, sblocco nel ricettario e visualizzazione JEI. Implementazione JSON della ricetta e advancement già pubblicata.
+- [ ] Implementare e testare la **pizza-item ottenuta rompendo la pizza formata nel mondo**, con stato di cottura, divisioni, applicazioni e rendering conservati; verificare nessun drop separato di dough/topping e trasferimento corretto al Pizza Oven.
+- [x] **Percorso senza pala dal mondo al Pizza Oven — CONFERMATO:** rompere la pizza gia' formata a terra per ottenere la **pizza-item integra**, quindi inserirla nel forno direttamente. Nessun clic destro a mano vuota raccoglie la pizza da terra.
+- [x] **Pizza-item nel forno tramite GUI**: la pizza ottenuta rompendo una pizza formata a terra (o da crafting) e' inseribile senza pala tramite la GUI; estrazione tramite GUI disponibile.
+- [x] **Layout GUI definito:** usare la **fornace vanilla identica**, con input pizza, fuel, output pizza e indicatori vanilla. **Una sola pizza totale** tra ingresso e risultato: bloccare il nuovo input se l'output e' occupato; la pizza cotta passa nello slot risultato.
+- [ ] **Retest GUI vanilla con nuova progressione:** estrarre la pizza cruda e reinserirla deve azzerare la freccia, senza perdere gli ingredienti. GUI originale fornace, slot e output singolo invariati. Nessun tooltip/nome dinamico disponibile per ora.
+- [x] **Estrazione rapida con pala vuota — SPECIFICA AGGIORNATA:** quando la pala sarà sviluppata, estrarre una pizza cruda/parzialmente cotta dal forno farà **perdere il progresso di cottura** (come prelevare manualmente l'input vanilla); ingredienti, quarti e dati di composizione devono restare integri. L'item pala non è ancora implementato.
+- [ ] Griglia crafting della pizza libera e output crudo/cotto.
+- [x] **Servizio diretto della pizza cotta — CONFERMATO (12 ottobre 2026):** pizza cotta piazzabile, **4 porzioni prelevabili direttamente con clic destro a mano vuota** sulla zona fisica mirata, **senza tagliare prima**. I coltelli e il Cutting Board **NON sono richiesti** e la precedente meccanica di taglio obbligatorio e' SUPERATA. La pizza intera come item non si mangia.
+- [x] **NOMI INDIVIDUALI DEGLI SPICCHI COTTI — CONFERMATO (13 ottobre 2026):** **anche quando la pizza intera ha un nome dinamico perché i quarti sono diversi, ogni singolo spicchio cotto** viene confrontato **solo con gli ingredienti canonici del proprio quarto** e può ottenere uno dei **19 nomi fissi**; ad esempio quarto con pomodoro + mozzarella + basilico -> **Spicchio di Margherita**. Altrimenti **nome dinamico dello spicchio** basato esclusivamente sui suoi condimenti. Valido sia per prelievo a mano vuota sia per drop di fette residue rompendo una pizza cotta già parzialmente servita. Il confronto non richiede che gli altri quarti coincidano, e non cambia il nome dinamico della pizza intera mista.
+- [x] **NOME E TOOLTIP DELLA PIZZA INTERA — CONFERMATO (13 ottobre 2026):** 4 quarti identici con preset -> nome fisso; 4 quarti identici non riconosciuti -> **`Pizza con [ingredienti]`** (eventualmente abbreviata, tooltip completo); quarti differenti -> **`Pizza mista`**, tooltip **Quarto 1–4** con gusti riconosciuti o ingredienti del quarto. Ogni spicchio cotto conserva il naming individuale indipendente. Specifica in [NAMED_PIZZAS.md](NAMED_PIZZAS.md#nomi-e-tooltip-delle-pizze--confermato-13-ottobre-2026).
+- [ ] **Implementare/testare naming e tooltip pizza intera:** uniformità canonica, 19 preset, 52 NO, pizza mista, lingua it_it/en_us, quarti numerati stabilmente, lista completa, abbreviazione del display name senza perdita dei dati e indipendenza del nome delle fette.
+- [ ] **Implementare/testare nomi individuali delle fette cotte:** un quarto Margherita in pizza con altri tre gusti -> Spicchio di Margherita; un quarto Principessa -> Spicchio di Principessa; un quarto solo pomodoro -> Spicchio di pizza rossa; un quarto personalizzato -> nome dinamico basato sui propri ingredienti; copertura zero -> pizza bianca; test equivalenti crudo/cotto/cross-mod, quarti misti, inventario pieno, reload, tooltips e raccolta/drop senza creare nuovi item per singolo gusto.
+- [x] **Fette con il gusto del proprio QUARTO FISICO — CONFERMATO:** ogni fetta conserva solo i topping del quarto corrispondente, mai la composizione globale. Vale indipendentemente da divisioni/riunioni logiche fatte con il mattarello.
+- [ ] **Implementare e testare il prelievo diretto** dalla pizza cotta appena piazzata (nessuna fase di taglio): clic destro a mano vuota sul quarto ancora presente -> fetta con dati/topping di quel quarto in inventario e scomparsa del solo quarto prelevato. Mano occupata -> nessuna raccolta. Maschera quattro quarti persistente, multiplayer/anti-duplicazione.
+- [x] **Scelta nomi riconosciuti CONFERMATA:** 19 combinazioni a nome fisso e 52 a nome dinamico per la release 1.0.0; 36 ricette future non approvate.
+- [x] **MATCHING 4/4 QUARTI FISICI APPROVATO (13 ottobre 2026):** tutti e quattro i quarti devono contenere **esattamente la stessa combinazione canonica richiesta dal singolo preset SÌ**; anche un solo ingrediente extra/mancante in un quarto impone il **nome dinamico**. Valido senza divisioni, con divisioni e dopo riunioni. Identità crudo/cotto e cross-mod equivalenti, ordine di posa irrilevante. Nessun nome fisso per pizze miste nella 1.0.0.
+- [ ] **Implementare i preset riconosciuti e i nomi localizzati:** usare la lista originale di 19 SÌ e 52 NO in [NAMED_PIZZAS.md](NAMED_PIZZAS.md), **escludendo/sospendendo per ora «Principessa»** (combinazione pomodoro+panna divenuta impossibile) finché non venga aggiornata con il consenso dell'autore. Patate e Speck richiede ancora l'item patate a fette. Matching esatto sui quarti, no nomi fissi per combinazioni parziali.
+- [ ] **Implementare e testare la regola già approvata del match esatto su tutti e quattro i quarti fisici** dei 19 preset; Bianca vuota, Rossa solo pomodoro, Margherita uniforme; un quarto con speck extra o senza basilico -> dinamico; prova su pizza intera, divisa e riunita; tag equivalenti e ordine di posa irrilevante. Definire solo gli aspetti tecnici ancora aperti, inclusi stato/nome dopo aver servito fette.
+- [x] **AMBITO TOPPING 1.0.0 — CONFERMATO:** soltanto i 31 tipi previsti da Italian's Delight e Farmer's Delight (incluse le 2 fette vegetali future); gli item di altre mod possono essere sostituti **solo con mappatura puntuale per ID verificato**, non per semplice appartenenza ai tag `c:`. Nessun nuovo tipo ammesso implicitamente.
+- [x] **Filtro preparazione e dimensione CONFERMATO:** ammettere come topping soltanto **item gia' pronti in forma plausibile** (fette di salumi/formaggi, formaggi grattugiati/spicchi, carne/pesce in pezzi pronti, verdure tagliate, creme, salse, erbe). **Vietare forme intere di prosciutto e altri salumi anche se cotti, ruote di formaggio, bistecche intere crude/cotte, cibi da lavorare e ingredienti intermedi**, anche se ID/tag equivalenti. Un modello visivo ridotto non puo' sostituire un item lavorato. Cutting Board solo per ricette reali che producono una forma valida; **non** serve per condire o per prelevare le fette di pizza cotta. Non imporre cottura preventiva a vegetali gia' pronti; **carne e pesce gia' porzionati sono consentiti sia crudi sia cotti, con gli stessi effetti e valori alimentari**; le **quattro coppie sono ora approvate come tipi ufficiali**, e il mapping per equivalenti esterni resta da implementare.
+- [x] **Stato crudo/cotto — CONFERMATO:** le porzioni di carne e pesce sono topping validi **in entrambe le varianti** quando il tipo e' nel catalogo ufficiale: **stessi bonus proteine animali (+2 fame/+2,5 saturazione), nessun effetto aggiuntivo e nessuna penalita' per il crudo**. Nessuna distinzione nutrizionale e nessun obbligo di cottura preventiva. Vietati i pezzi grandi in entrambi gli stati; non inventare conversioni automatiche di ItemStack.
+- [x] **Un'unica identita' canonica per varianti crudo/cotto dello stesso ingrediente — CONFERMATO:** bacon/cooked_bacon, chicken_cuts/cooked_chicken_cuts, cod_slice/cooked_cod_slice e salmon_slice/cooked_salmon_slice condividono per ciascuna coppia anti-doppione e conteggio come **un solo tipo nel limite sei**; non unificare specie o alimenti diversi. Il rimborso restituisce l'**ItemStack crudo/cotto realmente utilizzato**, non una conversione.
+- [ ] **Test varianti crude e cotte:** rifiutare la doppia applicazione sullo stesso quarto con ordine invertito; clic completamente duplicato senza consumo; area parzialmente coperta da una delle versioni -> applicare un solo item ai quarti liberi; controllare conteggio di uno nel limite sei, stato ItemStack originale e bonus fame/saturazione identici; test equivalenti di mod terze.
+- [ ] **Test filtro topping e Cutting Board:** usare la whitelist dei 29 tipi approvati + due nuove fette dopo registrazione; respingere uova intere, salumi interi, formaggi interi, bistecche non tagliate, salumi/formaggi non approvati, quattro NO espliciti e item fuori catalogo anche se in tag generici. Verificare contenitori, tag `c:` e nessun consumo al rifiuto.
+- [x] **Prima shortlist dei singoli ingredienti registrati** in [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md): ID sorgente verificati, uso pizza proposto, esclusioni e tag con indicazione esplicita dello stato di verifica.
+- [x] **Catalogo ufficiale topping 1.0.0 APPROVATO (13 ottobre 2026):** 29 tipologie con item reali delle due mod (33 ID fisici per le quattro coppie crudo/cotto), 4 NO espliciti e due nuovi tipi **carote/patate a fette** da creare. **Totale 31 tipi previsti**, tutti elencati in [INGREDIENT_CATALOG.md](INGREDIENT_CATALOG.md). Scelte dell'autore non ancora implementate.
+- [x] **Uova:** ammettere solo `farmersdelight:fried_egg`, **mai** `minecraft:egg` intero (anche con tag ampi). **Carne macinata:** ammettere espressamente `farmersdelight:minced_beef`, non bistecche o hamburger/patty interi.
+- [x] **Quattro NO espliciti:** `italiansdelight:parmigiano_reggiano_wedge`, `italiansdelight:pecorino_romano_wedge`, `italiansdelight:mascarpone`, `italiansdelight:salt` — nonostante eventuali tag comuni. **Altri item fuori catalogo** ugualmente esclusi.
+- [x] **RICETTE CONFERMATE:** Cutting Board di Farmer's Delight Refabricated: 1 carota intera + coltello -> 4 fette; 1 patata intera + coltello -> 4 fette. I topping vegetali porzionati apportano +1 fame/+0,5 saturazione ciascuno, fino a **due tipi canonici vegetali differenti per quarto** secondo il nuovo stacking del 21 ottobre 2026. Le forme intere non sono topping. Vedere [VEGETABLE_SLICES_TESTS.md](VEGETABLE_SLICES_TESTS.md).
+- [x] **Carote e patate a fette — CODICE/TEXTURE PUBBLICATI (20 ottobre 2026):** `italiansdelight:carrot_slice` e `potato_slice`, ricette Cutting Board 1→4 con `#c:tools/knife`, texture 16×16, modelli, sprite 12×12, 31 tipi attivi/35 ID nativi e preset Patate e Speck. Rimane il collaudo client. [Test](VEGETABLE_SLICES_TESTS.md).
+- [x] **Whitelist dei 31 ingredienti — IMPLEMENTATA (20 ottobre 2026):** le due fette vegetali sono ora abilitate nel catalogo nativo, mentre carota e patata intere restano escluse. La verifica delle equivalenze di mod opzionali è separata dai nuovi item.
+- [x] **Fame per fetta AGGIORNATA IL 21 OTTOBRE 2026:** crosta +1, salse +1, latticini +1, proteine animali +2, vegetali +1, oli/grassi +0, erbe +0. Ogni categoria può fornire **massimo due contributi da ingredienti canonici differenti**; tetto 6 punti fame. [DYNAMIC_NUTRITION_STACKING.md](DYNAMIC_NUTRITION_STACKING.md).
+- [x] **Principio della saturazione — AGGIORNATO IL 21 OTTOBRE 2026:** ogni fetta usa solo i topping del proprio quarto; due ingredienti canonici distinti della stessa categoria possono sommare i rispettivi bonus, mentre il terzo non conta. Formaggi e proteine saturano più di salse e vegetali, indipendentemente dal nome della pizza.
+- [x] **Bonus saturazione CONFERMATI:** crosta +1, salse +0,5, latticini +1,5, proteine animali +2,5, vegetali +0,5, oli/grassi +1, erbe +0. **Fino a due contributi per categoria da tipi differenti**, massimo 6 punti saturazione per spicchio.
+- [x] **Effetto Nourishment implementato (21 ottobre 2026):** consumabile breve originale Farmer's Delight su nuove fette cotte con almeno 3 fame; nessun effetto sulle fette meno sostanziose. Regola indipendente dal nome, altri effetti esclusi. Da collaudare.
+- [ ] Definire la mappatura iniziale cross-mod e verificare la conversione tecnica dei punti di saturazione nei campi di FoodComponent/FoodData per la versione target, senza scambiarli per un `saturationModifier` vanilla.
+- [ ] **Test Nourishment in Survival:** fette nuove Bianca/Rossa senza effetto; Margherita/Quattro Formaggi e fette personalizzate da almeno 3 fame con Nourishment breve. Verificare durata e che la regola sia applicata per quarto, senza modificare la nutrizione approvata.
+- [ ] **SATURAZIONE dinamica — implementata, test pendenti:** base +1, latticini +1,5, proteine +2,5, verdure +0,5, salsa +0,5, erbe +0, oli +1; cap 6 punti, conversione al modificatore vanilla. [Test](COOKED_PIZZA_SLICES_TESTS.md).
+- [x] **Panna: categoria Latticini, ruolo CREAMY, alternativa esclusiva a salsa/ricotta:** massimo due contributi Latticini da tipi diversi sullo spicchio, senza bonus Salsa per la panna. Ricotta e panna restano distinte a livello canonico ma non sovrapponibili nello spazio salsa.
+- [x] **Ricotta: nutrizione Latticini, ruolo CREAMY, ma un solo spazio salsa — DECISIONE AGGIORNATA 15 ottobre:** non può essere applicata sullo stesso quarto di pomodoro o panna. Resta un tipo canonico distinto e un latticino; altri formaggi e mozzarella a fette possono coesistere con essa.
+- [ ] **TEST REGRESSIONE sostituito 15 ottobre:** pomodoro, panna e ricotta non possono più essere aggiunti allo stesso quarto (prima era ammesso); provare le tre combinazioni a coppie: tutte vietate senza consumo. Mozzarella a fette + una qualsiasi delle tre rimane consentita. [Test](CONTAINER_TOPPING_TESTS.md).
+- [ ] **TEST di salsa esclusiva e compatibilità cross-mod:** panna + pomodoro nello stesso quarto deve essere rifiutata integralmente, anche se la zona selezionata contiene quarti parzialmente liberi; diverse salse su quarti diversi devono funzionare. Impedire sovrapposizioni da ID esterni mappati allo stesso tipo canonico e conservare item originale ai rimborsi.
+- [x] **Fame dinamica collaudata dall'autore:** due tipi canonici diversi per categoria, cap 6, equivalenze e valori riconfermati il 21 ottobre 2026. [DYNAMIC_NUTRITION_STACKING.md](DYNAMIC_NUTRITION_STACKING.md).
+- [x] **Raccolta fette SENZA taglio — CONFERMATA:** clic destro a mano vuota su un quarto ancora presente della pizza cotta piazzata -> una sola fetta corrispondente nell'inventario; il quarto scompare dalla pizza. Mano occupata non raccoglie nulla. La pizza integra come item non viene raccolta con clic destro.
+- [x] **Drop alla rottura — CONFERMATO:** pizza cotta **ancora integra (4/4) -> item pizza intera**, mentre una pizza da cui e' stata gia' raccolta almeno una fetta (3/2/1 quarti restanti) -> **soltanto gli item delle fette rimanenti**, con topping del proprio quarto. Mai rimborsi extra o fette duplicate.
+- [x] **Decisione sui coltelli SUPERATA:** nessun coltello, tag/API di coltelli o Cutting Board e' richiesto per ottenere una fetta. Prendere le porzioni direttamente dalla pizza cotta posizionata, ispirandosi ai cibi piazzabili di Farmer's Delight Refabricated.
+- [x] **Inventario pieno — CONFERMATO:** clic destro a mano vuota con inventario senza spazio non rimuove la fetta dalla pizza e **non la droppa a terra**; nessuna perdita o duplicazione.
+- [ ] **Implementare/testare** presa diretta senza coltello da pizza cotta integra, con mano vuota e spazio nell'inventario, mask dei quarti, scomparsa del blocco dopo l'ultima fetta, nessun effetto con mano occupata/inventario pieno, multiplayer, salvataggi e assenza di duplicazioni.
+- [ ] **Rottura pizza cotta — implementata, test pendenti:** intatta = una pizza cotta con composizione; una/due/tre fette già prelevate = soltanto gli spicchi rimasti. Verificare rotazioni, multiplayer, salvataggi, drop vanilla e nessuna duplicazione, compreso supporto rimosso. [Test](COOKED_PIZZA_SLICES_TESTS.md).
+- [ ] Test visivo delle nuove forme e hitbox dell'impasto nei cinque stadi (vedi [DOUGH_GEOMETRY.md](DOUGH_GEOMETRY.md)).
+- [ ] Gestione delle collisioni, del posizionamento e rendering di dettaglio.
+- [ ] API effettive per mantenere data component nelle fornaci vanilla.
+
+## Piano di sviluppo proposto
+
+### Fase 1: fondamenta interattive
+
+- [ ] Registrare palla d'impasto, blocco di preparazione e dati serializzabili.
+- [x] Implementare e testare l'appoggio della palla su superfici approvate.
+- [x] Implementare e testare la stesura a mano e con mattarello (**entrambi i metodi confermati funzionanti dall'autore**).
+- [ ] Salvare e recuperare correttamente stati e oggetti.
+- [ ] Test chunk unload, multiplayer, rottura del supporto e superfici particolari.
+
+### Fase 2: sistema condimenti
+
+- [x] **FASE 3E — overlay di divisione verificato dall'autore:** linee visibili negli stati 1/3/5/7, con colore nero/scuro applicato dall'autore e meccanica confermata. [Test](DIVISION_OVERLAY_TESTS.md).
+- [x] **FASE 3E confermata dall'autore:** visualizzazione delle linee e comportamento della divisione funzionanti; eventuali controlli multiplayer restano consigliati.
+- [x] **FASE 3F — rendering funzionale dei topping SOLID testato dall'autore:** `PizzaToppingRenderer` visualizza gli ItemStack originali secondo `remaining_mask`, la BlockEntity sincronizza la composizione. Confermata anche la correzione della patina rossa. **Aspetto "item frame" considerato PLACEHOLDER grafico, da sostituire**, senza modificare il gameplay. Il vecchio flag mozzarella resta separato. [Test](TOPPING_RENDER_TESTS.md).
+- [x] **FASE 3G — condimenti in ciotola confermati funzionanti dall'autore (15 ottobre):** posa, rendering placeholder e rimborsi di pomodoro, panna e ricotta funzionano. **FASE 3H introduce l'esclusività funzionale senza cambiare ruolo nutrizionale**, da testare. La ciotola non viene consegnata alla posa; il rilascio dopo consumo irreversibile in cottura rimane futuro. [Test 3H](CONTAINER_TOPPING_TESTS.md).
+- [ ] **FASE 3H — una sola salsa per quarto (DA TESTARE):** bloccare ogni nuova sovrapposizione fra `tomato_sauce`, `cream_bowl` e `ricotta` sulla zona logica cliccata, permettendo combinazioni diverse solo in quarti separati; non alterare i salvataggi legacy con più salse, le maschere, gli ItemStack originali o i rimborsi. **Principessa storica sospesa**, senza cambiare automaticamente la ricetta. [Guida](CONTAINER_TOPPING_TESTS.md).
+
+- [x] **FASE 3C verificata dall'autore; aggiornamento dei drop e della texture da testare (14 ottobre 2026):** `raw_pizza` mantiene componente persistente completo, ma viene droppata solo se la pizza e' ancora suddivisa oppure contiene condimenti. Stadio 4 intero e pulito -> `farmersdelight:wheat_dough` anche dopo riunione. Nuova texture pixel art `textures/item/raw_pizza.png` (16×16 RGBA) e relativo modello; nessun asset preesistente sovrascritto. [Test](RAW_PIZZA_ITEM_TESTS.md).
+- [ ] **Verificare nuove regole e texture:** build Java 25, `division_state = 0` pulito -> impasto; diviso -> raw_pizza; diviso poi riunito pulito -> impasto; mozzarella prototipo oppure qualsiasi topping residuo -> raw_pizza. Verificare Pick Block, explosion loot, icon 16×16 e Q/inventario.
+
+- [x] **FASE 3A — modello persistente e BlockEntity nel branch:** codec versione 1, quattro quarti fisici, divisione e orientamento, identità delle applicazioni, maschere originaria/residua, `ItemStack` originale salvato con i suoi componenti, contatore cronologico e seed. Invarianti statici controllati; **compilazione e persistenza nel mondo non ancora provate**. [Guida](PERSISTENT_COMPOSITION_TESTS.md).
+- [x] **FASE 3A testata dall'autore:** build, persistenza e comportamento del blocco confermati funzionanti; [guida](PERSISTENT_COMPOSITION_TESTS.md).
+
+- [x] **SECONDO PASSO INFRASTRUTTURA completato (build da testare):** listener dei datapack e cache diretta degli ingredienti; nessun comportamento di clic modificato.
+
+- [x] **PRIMO PASSO CODICE — REGISTRO CANONICO (13 ottobre 2026):** aggiunti `PizzaToppingType` (categoria nutrizionale distinta dal ruolo salsa/crema/solido) e `PizzaToppingCatalog` (mappa immutabile di 31 tipi / 33 item nativi). Quattro coppie FDR crudo/cotto raggruppate, panna/ricotta `CREAMY` ma non `SAUCE`; due identità vegetali future senza item. Avvio del registro in `ItaliansDelight.onInitialize` dopo gli item/blocchi; controllo duplicati e dimensioni. **Verifica statica dei 31/33 completata; build Java 25 e test in gioco ancora da eseguire.** Non collegato al prototipo mozzarella né a un loader JSON. [Identità e test](INGREDIENT_EQUIVALENCES.md).
+- [ ] Test **mozzarella a fette** sulla base completamente stesa: clic destro, un solo item consumato, blocco doppia aggiunta, recupero tramite pizza-item; **rendering 2.5D definitivo ancora da sviluppare**. La mozzarella intera è esplicitamente esclusa, non va applicata.
+
+- [x] Zona interna per condimenti definita nella nuova base finale (`x/z = 3..13`, centro alto 1 pixel), con bordo alto 2 pixel (**conca profonda 1 pixel**); implementazione dopo il test della geometria.
+- [ ] Decidere se il pomodoro di Farmer's Delight va applicato direttamente oppure trasformato prima in salsa.
+
+- [x] **JSON/reload/cache implementati:** caricamento iniziale 33 ID ufficiali confermato dal giocatore nel log; restano da provare mapping JSON esterni, conflitti ed esclusioni.
+- [ ] Aggiunta topping con clic destro e gestione quantità.
+- [x] **FASE 3B/3E provate dall'autore:** divisioni, riunioni, valori `division_state` e overlay scuro. Anteprima temporanea e hitbox invariata. [Guida](DIVISION_OVERLAY_TESTS.md).
+- [x] **FASE 3D — condimenti SOLID testati dall'autore:** applicazione/rimozione sui quarti, rimborsi LIFO, persistenza item e no duplicazione. I condimenti in ciotola sono attivati dalla fase 3G, in attesa di test e gestione della ciotola a cottura completa. Rendering definitivo e ricette pizza rimangono incompleti. [Test](TOPPING_INTERACTIONS_TESTS.md).
+- [ ] Recupero diretto nell'inventario dei topping **rimossi completamente** (drop solo se pieno); **rottura pizza formata INTEGRA -> pizza-item cruda/cotta con dati completi** (pizza cotta servita parzialmente -> sole fette residue), senza duplicare ingredienti.
+- [ ] Pala: trasporto diretto di una pizza alla volta con dati persistenti e trasferimento sicuro al mondo/forno, **senza durabilita' ne' usura nei trasferimenti**, non impilabile in entrambi gli stati.
+- [ ] Test: due pale vuote non si impilano; ogni pala occupata resta singola; spostamenti tra slot e contenitori conservano i dati senza duplicazioni.
+- [ ] **Drop/pickup**: premere Q con pala occupata e raccoglierla, anche da altro giocatore; verificare che pizza, applicazioni, divisioni, orientamento, stadio e seed grafico restino identici. Ripetere in multiplayer e con piu' pale.
+- [ ] **Despawn naturale vanilla**: lasciare a terra una pala con pizza fino al despawn; verificare che l'entita' scompaia normalmente, senza drop della pala o ingredienti e senza mantenere la pizza altrove; nessuna modifica alle regole standard del mondo/server.
+- [ ] **Distruzione vanilla della pala occupata**: verificare danni ambientali da fuoco, lava, cactus ed esplosioni, controllando che se l'item viene distrutto sparisca anche la pizza, senza drop extra ne' duplicazioni.
+- [ ] Gestire gli eventuali remainder dei contenitori senza duplicazioni.
+- [ ] Nomi dinamici localizzati, tooltip completi per quarti, abbreviazione delle stringhe troppo lunghe e ricette riconosciute (regole di denominazione già approvate).
+- [ ] Rendering provvisorio per convalidare i dati.
+
+### Estensione successiva: pala usabile anche come arma (pianificata)
+
+- [x] Studiare il comportamento effettivo della **padella di Farmer's Delight Refabricated 26.2** come riferimento per la pala: attributi di danno, velocita' e knockback riprodotti tramite la funzione originale.
+- [x] Danni/velocita'/knockback della pala vuota: **stessi tre modificatori della padella FDR 26.2**. Pala occupata: nessun bonus da arma. La pala resta indistruttibile; non copia suoni speciali e funzioni di cottura della padella. **Da testare**.
+- [x] **Confermato** che la pala con pizza non funge da arma e non conferisce effetti/bonus speciali da combattimento.
+- [ ] **Test in Minecraft** che lo stato vuota/occupata disattivi e riattivi correttamente gli attributi della padella; gli attacchi base non alterino, perdano o duplichino la pizza trasportata. **Codice implementato.**
+- [ ] Testare la funzionalita' di arma della pala vuota e le regressioni su server dedicato, prima di dichiarare completata l'estensione.
+
+### Fase 3: rendering 2.5D
+
+- [x] Texture dell'impasto crudo nei cinque stadi di stesura: superficie, lati e particelle dedicate 16×16, completamente opache. **Aspetto da verificare in gioco**; [anteprima e test](TEXTURES.md).
+- [ ] **GRAFICA raw_pizza — VARIANTE PUBBLICATA, DA VALIDARE IN GIOCO:** texture 16×16 più chiara, rielaborata dalla `pizza_margherita.png` esistente con salsa, mozzarella e basilico dai colori crudi. Forma invariata e maschera alpha binaria 0/255. Sostituisce l'asset raw provvisorio su richiesta dell'autore; valutare la resa finale prima di considerarla definitiva.
+- [ ] **GRAFICA cooked_pizza / slice / blocco / forno — PUBBLICATA, DA VALIDARE (17 ottobre):** `cooked_pizza` item usa `pizza_margherita.png` approvata; `pizza_slice` usa `margherita_slice.png` già aggiunta dall'autore, senza modificarla; blocco cotto usa nuove `cooked_pizza_top`, `_side`, `_bottom` 16×16 basate sulle texture stese ma più dorate, con bordo e fondo più tostati, collegate a tutti e quattro i modelli; Pizza Oven usa `wood_oven_face`, `_face_on`, `_sides`, `_top`, `_bottom` dell'autore con nuovi modelli e blockstates orientabili. L'aspetto degli ingredienti renderizzati sulla pizza **non è stato modificato**.
+- [x] **BUG-002 mozzarella intera legacy — RISOLTO E CONFERMATO DALL'AUTORE (20 ottobre 2026):** la mozzarella intera non si applica né provoca animazioni di piazzamento; il vecchio modello viola/nero è rimosso dai blockstates ma l'item legacy continua a essere visibile e rimborsabile una volta. [Test](LEGACY_MOZZARELLA_TESTS.md).
+- [x] **GRAFICA TOPPING — NUOVO RENDERER A SPRITE 6×6 IMPLEMENTATO, APPROVATO DALL'AUTORE (20 ottobre 2026):** salse e creme continue 12×12 mantenute come approvate; 30 nuovi atlanti (4 frammenti per ingrediente) creati dai vecchi quadranti e posizionati senza sovrapposizioni, dimensione 2×2 o 3×3 secondo la densità. **33 texture originali conservate intatte nel repository**; gameplay invariato. [Specifica e test](TOPPING_SCATTERED_SPRITES.md).
+- [ ] **RIFINITURA VISIVA DEL 2.5D (dopo test):** regolare colori/sagome delle salse, dimensioni e distribuzione di formaggi, erbe e salumi, rappresentazione degli item/spicchi in inventario e prestazioni su server. Non sovrascrivere asset approvati senza autorizzazione.
+- [ ] Pizza condita cruda/cotta.
+- [ ] Salse piatte, formaggi/condimenti 2.5D, preset riutilizzabili.
+- [ ] Seed deterministico e conservazione della distribuzione.
+- [ ] Aspetto item inventario, eventuali fette e pizza nel forno.
+- [ ] Fallback per topping modded e stress test prestazioni.
+
+### Fase 4: Pizza Oven
+
+- [x] **FASE 4A — fondazione adattata alla regola vanilla 17 ottobre:** item `cooked_pizza` non commestibile e dati dei condimenti ancora conservati. **RIMOSSO** il campo `bake_progress` da `PizzaItemData` e dal blocco pizza, lasciando i vecchi campi dei salvataggi ignorati; `PizzaBaking.advance` ora calcola un intero del forno e `finish` richiede la cottura completa verificata dal forno. Le texture rimangono placeholder. [Test aggiornati](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
+- [ ] **FASE 4B — fix pubblicati, da collaudare (17 ottobre):** forno GUI vanilla 3 slot, hopper direzionali, timer `CookTime` salvato sulla BE, reset quando l'input è rimosso, fuoco consumato continuativamente e `lit` corretto; output pizza cotta e **1 bowl per applicazione originale**, con inserimento nel hopper sotto e drop dell'eccesso. Due salse applicate alle due metà = **due ciotole** (potenzialmente uno stack da 2). GUI/debug contatori e contenitori da testare. [Guida](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
+- [ ] **FASE 4B — ricettario fornace vanilla rimosso, DA TESTARE (17 ottobre):** nuovo menu `ModMenuTypes.PIZZA_OVEN` e schermo `PizzaOvenScreen` basato su `AbstractContainerScreen` anziché `FurnaceScreen`; sfondo, fiamma, freccia e slot restano vanilla, **nessun pulsante/pannello ricette**. Non sono stati modificati inventario, combustibili, hopper o ciotole. [Test GUI](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
+- [x] **ANIMAZIONE PIZZA OVEN — prova funzionale del forno CONFERMATA dall'autore (17 ottobre); verifiche approfondite ancora possibili:** `PizzaOvenBlock.animateTick` riproduce la fornace vanilla: `FLAME` + `SMOKE` davanti all'apertura orientata e suono intermittente `FURNACE_FIRE_CRACKLE` quando `lit=true`. Effetti client-only; proseguono finché brucia il fuel, anche se l'input è vuoto o la pizza è pronta; cessano quando il fuoco si spegne. **Nessun cambiamento alle texture `wood_oven_*`, alla GUI o alla cottura.** [Verifiche](PIZZA_OVEN_IMPLEMENTATION_TESTS.md).
+
+- [ ] Forno compatto orientabile con una pizza alla volta, **utilizzabile con o senza pala** (la pala non e' obbligatoria).
+- [ ] BlockEntity persistente, **GUI VANILLA della fornace** (input pizza, fuel, output pizza, fiamma/freccia standard) e inserimento/estrazione diretti con pala, senza bruciatura. Capienza massima una pizza totale in input/output.
+- [ ] Test inserimento con pala occupata: un solo trasferimento, pala svuotata solo a successo, dati della pizza intatti; forno occupato -> nessun consumo/sostituzione. Test parallelo inserimento ed estrazione tramite GUI senza pala.
+- [ ] **Futuro test pala vuota:** prelevare pizza cruda anche parzialmente cotta, senza GUI; si preservano ingredienti e composizione, ma **non** il progresso di cottura (reset come fornace vanilla). Pala non ancora registrata.
+- [ ] **Test fuel e hopper:** tutti i combustibili vanilla, secchio lava; fuoco che cala anche senza cottura; hopper sotto raccoglie sia `cooked_pizza` che bowl(s) se c'è spazio, con drop dell'eccesso. Al massimo una pizza nel forno.
+- [ ] **Implementare e testare l'automazione hopper gia' confermata** (sopra pizze crude, lati combustibile, sotto solo pizze cotte). Verificare che non estragga una pizza in ingresso con progresso parziale e che non si duplichi l'output.
+- [ ] Modelli, animazioni, traduzioni e **implementazione della ricetta gia' approvata** (BSB / SFS / BSB).
+
+- [x] **FASE 4C — piazzamento pizza cotta, QUATTRO SPICCHI, DATI QUARTO confermati funzionanti dall'autore (17 ottobre 2026):** nuovo blocco interno `cooked_pizza`, BE persistente, blocco rotabile con maschera `remaining` 0..15, quattro modelli placeholder + `CookedPizzaRenderer`, clic a mano vuota server-side, `pizza_slice` commestibile e componente `pizza_slice_contents` solo con i propri topping, valori fame/saturazione per categorie; inventario pieno -> no pickup/no drop. Rottura integra e rottura parziale danno output corretto. **Nomi gusti e tooltip NON IMPLEMENTATI.** [Test](COOKED_PIZZA_SLICES_TESTS.md).
+
+### Fase 5 — Cottura nelle fornaci vanilla (19 ottobre 2026; PUBBLICATA, DA COMPILARE/TESTARE)
+
+**Funzione appena sviluppata:** `raw_pizza` → `cooked_pizza` anche nella fornace vanilla (**1200 tick / 60 s**) e nell'affumicatore (**600 tick / 30 s**), senza creare un secondo item per ogni gusto. Sono stati aggiunti due serializer `italiansdelight:pizza_smelting` e `italiansdelight:pizza_smoking` che utilizzano i **tipi vanilla** `RecipeType.SMELTING`/`RecipeType.SMOKING`, con output calcolato da `PizzaBaking.finish()`. Gli item conservano i dati dei condimenti, i quarti e il nome tradotto, mentre il timer risiede esclusivamente nel forno. Il nuovo mixin su `AbstractFurnaceBlockEntity.serverTick` interviene soltanto al `burn` completato per consegnare **una ciotola per ogni applicazione originale** di salsa/panna/ricotta, all'hopper sottostante oppure in drop. Nessuna alterazione ad altri cibi, carburanti o al Pizza Oven.
+
+**Limiti di verifica:** riscontro API effettuato contro sorgenti decompilati **26.2 snapshot 2**, non contro una compilazione del progetto; il runtime dell'assistente non dispone del toolchain Java 25. **Verificare build, ricette caricate, JEI e gameplay prima di dichiarare la fase completata.** Non sono stati aggiunti ancora crafting delle pizze libere o modifiche ai modelli.
+
+**Documentazione del nuovo test:** [VANILLA_FURNACES_TESTS.md](VANILLA_FURNACES_TESTS.md).
+
+### Fase 5: forno vanilla e crafting
+
+- [x] **Cottura in fornace e affumicatore vanilla funzionante in gioco**, confermata dall'autore il 19 ottobre 2026. **Da confermare separatamente:** dati componenti delle pizze miste, rimborsi contenitori, hopper, JEI e multiplayer; [checklist](VANILLA_FURNACES_TESTS.md).
+- [x] **Crafting shapeless delle pizze uniformi implementato e confermato funzionante dall'autore** (19 ottobre 2026): un `farmersdelight:wheat_dough` e da 1 a 6 topping distinti approvati, stessa composizione sui quattro quarti, salsa facoltativa e non sovrapponibile, output `raw_pizza` con nome e dati dinamici. **Test base in gioco superato; casi limite ancora in checklist**. Pizze assortite continuano a richiedere la preparazione nel mondo. [Test dettagliati](PIZZA_CRAFTING_TESTS.md).
+- [x] **Cinque esempi di crafting shapeless uniforme in JEI:** Rossa, Margherita, Quattro Formaggi, Orto Disponibile e combinazione a sei topping. **Build superata e funzionamento in gioco confermato dall'autore il 19 ottobre 2026.** Restano controlli di regressione/multiplayer in [JEI_PIZZA_CRAFTING_TESTS.md](JEI_PIZZA_CRAFTING_TESTS.md).
+- [ ] **Rifinitura della grafica JEI per il crafting — IMPLEMENTATA, DA VERIFICARE VISIVAMENTE (20 ottobre 2026):** i 5 esempi ora usano il layout nativo di JEI 26.2 con `ICraftingGridHelper`, 3×3, freccia, output e indicatore shapeless. Ricette dinamiche e composti invariati. [Checklist](JEI_PIZZA_CRAFTING_TESTS.md).
+- [x] **Layout JEI Pizza Oven stile fornace vanilla — CONFERMATO FUNZIONANTE DALL'AUTORE (20 ottobre 2026):** layout 82×54, combustibili a rotazione, fiamma/freccia animate, tempo grigio e segnalibro JEI con la categoria centrata. Smelting e Smoking restano gestite da JEI vanilla. [Test](JEI_PIZZA_BAKING_TESTS.md).
+- [x] **Guida JEI alla preparazione delle pizze nel mondo — FUNZIONANTE, CONFERMATA DALL'AUTORE (20 ottobre 2026):** 7 passaggi visibili da JEI, con testi leggibili, navigazione corretta, IT/EN e segnalibri. [Test](JEI_PIZZA_WORLD_GUIDE_TESTS.md).
+- [ ] **Rifinitura della guida JEI nel mondo — IMPLEMENTATA, DA VERIFICARE VISIVAMENTE (20 ottobre 2026):** aumentato lo spazio del pannello da 170×100 a 170×136, titolo centrato/grassetto, istruzioni con wrapping in area distinta e note grigie. Verificare tutte e sette le schede e i segnalibri. [Checklist](JEI_PIZZA_WORLD_GUIDE_TESTS.md).
+- [ ] Implementare il sistema di **servizio diretto**: pizza cotta piazzata -> clic destro a mano vuota sul quarto -> un item fetta nell'inventario se c'e' spazio, altrimenti nessuna modifica. Nessun taglio preliminare/utensile. La pizza intera non e' commestibile; ogni fetta contiene i condimenti del quarto fisico. Quarto mancante visibile in-world; l'ultima raccolta elimina il blocco.
+
+### Fase 6: test e pubblicazione
+
+- [ ] Test con ingredienti ufficiali di **Italian's Delight e Farmer's Delight**, sostituti di altre mod riconosciuti tramite tag `c:` precisi, e casi **negativi** per nuovi tipi di topping provenienti da mod terze, tag troppo ampi e mancata presenza della mod opzionale.
+- [ ] Test stress di tanti topping/pizze, multiplayer e server dedicato.
+- [ ] Test no bruciatura, hopper, chunk unload, salvataggi e dupe.
+- [ ] Test di bilanciamento in gioco dei tempi, costi, fame e saturazione (**bonus e tetti a 6 per fetta per entrambe le statistiche gia' approvati**; eventuali modifiche richiedono una nuova decisione dell'autore).
+- [ ] Documentazione EN/IT, README, CHANGELOG 1.0.0, JEI.
+- [ ] Build finale, PR su `main`, release GitHub, CurseForge, Modrinth.
+
+## Regole da rispettare
+
+- Sviluppare sul branch `feature/pizza-1.0.0`; `main` è protetta e non va modificata direttamente.
+- Prima di implementare meccaniche non ancora confermate, discuterle.
+- Non fare modifiche radicali alle meccaniche cheese/cured meats già funzionanti.
+- **Non spostare, eliminare, sovrascrivere o sostituire asset creati dall'autore** senza consenso esplicito.
+- Tutti i JSON d'esempio nei documenti sono **bozze progettuali**, non file di datapack già utilizzabili.
+
+## Prossimo tema da concordare
+
+**Prossimo passo:** compilare e verificare in gioco la **FASE 4D — Pala per pizza e nuova ricetta speculare** seguendo [PIZZA_PEEL_TESTS.md](PIZZA_PEEL_TESTS.md). In particolare provare una pizza mista, trasporto mondo → pala → Pizza Oven → pala → mondo, reset del tempo di cottura, due pale separate e rifiuto di un forno occupato. L'uso senza pala via GUI resta invariato. Ricetta della pala, aspetto occupato e futuro uso come arma restano da definire; successivamente procedere con fornace e affumicatore vanilla. Le migliorie al Cardoon/Basilico rimangono in [PLANNED_IMPROVEMENTS.md](../PLANNED_IMPROVEMENTS.md).
