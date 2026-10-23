@@ -4,7 +4,7 @@ All notable changes to Italian's Delight Refabricated are documented here.
 
 ## Unreleased — Pizza Update 1.0.0 (development branch; NOT published)
 
-This section describes changes currently implemented on `feature/pizza-1.0.0`, **not an available 1.0.0 download**. Version metadata and published downloads remain at 0.4.0 until the author signs off on release testing.
+This section describes changes currently implemented on `feature/pizza-1.0.0`, **not an available public 1.0.0 download**. Development metadata now builds as **1.0.0**, while the latest **published** download remains **0.4.0** until release testing and approval.
 
 ### Interactive pizza system
 
@@ -29,12 +29,13 @@ This section describes changes currently implemented on `feature/pizza-1.0.0`, *
 
 ### Pre-release review and release gate
 
+- Bumped the development JAR version to **1.0.0** (not published), updated **Fabric Loader to 0.20.1** and **Farmer's Delight Refabricated 26.2 to 3.6.29**; **Fabric API 0.161.0+26.2** remains current for Minecraft 26.2.
 - Completed the final reported Cheese Vat and code-audit work (author confirmation, 23 October 2026).
 - Applied a conservative naming-path micro-optimization to avoid rebuilding the same quarter data and sorting the same topping list twice; previous baking, network update, bowl, peel and recipe-generation optimizations remain intact.
 - Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See [the optimization decision log](docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
 - Prepared [the 1.0.0 release notes draft](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and updated the release checklist.
 
-The Java 25 CI build and resource/static checks run on each branch push. **Dedicated-server/multiplayer testing cannot currently be completed by the author**, and detailed runtime corner cases remain unconfirmed; they are not implicitly passed by compilation. Follow [the 1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md). **Do not change `mod_version`, tag a release, upload to Modrinth/CurseForge, or merge to protected `main` until the author approves these checks.**
+The Java 25 CI build and resource/static checks run on each branch push. **Dedicated-server/multiplayer testing cannot currently be completed by the author**, and detailed runtime corner cases remain unconfirmed; they are not implicitly passed by compilation. Follow [the 1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md). **Do not tag a release, upload to Modrinth/CurseForge, or merge to protected `main` until the author approves these checks.**
 
 ## 0.4.0
 
