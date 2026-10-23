@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Protect the separation between published 0.4.0 and WIP Pizza 1.0.0.
+"""Protect the separation between published 0.4.0 and development Pizza 1.0.0.
 
 This CI guard is intentionally for the pre-release feature branch only.
-It must be deliberately updated/removed as part of an author-approved
-version bump, and cannot substitute for a real singleplayer/server test.
+The development JAR intentionally uses version 1.0.0, but this is not
+an authorization to merge, tag or publish; runtime gates still apply.
+It cannot substitute for a real singleplayer/server test.
 """
 import json
 import re
@@ -16,13 +17,17 @@ checklist = Path("docs/pizza-1.0.0/RELEASE_READINESS.md").read_text(encoding="ut
 properties = Path("gradle.properties").read_text(encoding="utf-8")
 mod = json.loads(Path("src/main/resources/fabric.mod.json").read_text(encoding="utf-8"))
 
-assert re.search(r"(?m)^mod_version=0\.4\.0$", properties), (
-    "The 1.0.0 version bump needs explicit author approval and release testing"
+assert re.search(r"(?m)^mod_version=1\.0\.0$", properties), (
+    "Development branch must build a 1.0.0 JAR; publication remains gated"
 )
 assert mod.get("version") == "${version}", "Keep fabric.mod.json version supplied by Gradle"
 assert mod.get("id") == "italiansdelight"
 assert mod.get("environment") == "*"
 assert mod.get("depends", {}).get("minecraft") == "~26.2"
+assert mod.get("depends", {}).get("fabricloader") == ">=0.20.1"
+assert re.search(r"(?m)^loader_version=0\.20\.1$", properties)
+assert re.search(r"(?m)^fabric_version=0\.161\.0\+26\.2$", properties)
+assert re.search(r"(?m)^fdrf_version=26\.2-3\.6\.29\+refabricated$", properties)
 assert mod.get("depends", {}).get("java") == ">=25"
 assert mod.get("depends", {}).get("farmersdelight")
 assert "Pizza Update 1.0.0 is in active development" in readme
@@ -54,6 +59,6 @@ assert found == confirmed, (
     "Only the explicitly author-confirmed Minecraft runtime tests should be "
     "marked complete until further testing is explicitly reported"
 )
-print("OK: published 0.4.0 and development-only Pizza 1.0.0 are clearly separated")
+print("OK: development JAR 1.0.0 stays separate from published 0.4.0")
 print("OK: README/CHANGELOG, mod metadata and release checklist are consistent")
-print("NOTE: version bump and releases require author approval and runtime testing")
+print("NOTE: 1.0.0 version bump done; merge, tagging and publication still need author approval and runtime testing")
