@@ -43,6 +43,12 @@ sottostanti restano aperte per le parti non confermate.
 - [ ] R/U su una pizza e uno spicchio **ottenuti in Survival** conduce alle giuste categorie; i quarti misti restano coerenti.
 - [ ] **Unica ricetta caglio:** Cardoon selvatico/coltivato + acqua in secchio/bottiglia; pozioni non d'acqua escluse, resti restituiti esattamente una volta, 300 tick e recipiente originario conservati.
 
+## Aggiornamento operativo del 23 ottobre 2026
+
+L'autore ha dichiarato conclusi **il controllo Cheese Vat** (punto 1 del riepilogo) e **la revisione completa dei bug** (punto 3). Il collaudo **multiplayer non è attualmente eseguibile** e resta esplicitamente **non verificato**. Le prove dettagliate non confermate qui sotto conservano la casella vuota; non vanno scambiate con bug sicuramente presenti né con test già eseguiti.
+
+La selezione delle ottimizzazioni pre-release è terminata: sono state conservate le implementazioni già approvate, applicata la rifinitura non invasiva OPT-011 e annotate le proposte da sottoporre a profiler nel [registro decisionale](../OPTIMIZATION_CLOSURE_2026-10-23.md). Le [note di rilascio](RELEASE_NOTES_DRAFT.md) sono pronte **come bozza**, non per la pubblicazione. Restano da ottenere i test obbligatori non eseguiti e l'approvazione esplicita per cambiare il numero di versione.
+
 ## A. Interazioni e ricette base
 
 - [ ] Impasto Farmer's Delight: posa su superficie valida, stesura con mano/mattarello, divisione metà/quarti e riunione; i topping rimangono sullo stesso quarto fisico.
