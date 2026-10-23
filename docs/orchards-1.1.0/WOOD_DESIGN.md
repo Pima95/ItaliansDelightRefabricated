@@ -1,6 +1,6 @@
 # Orchard Update 1.1.0 — Legni, palette e inventario asset
 
-**Stato:** progettazione. **Branch:** `feature/orchards-1.1.0`.  
+**Stato:** progettazione + prima implementazione del legno d'ulivo verificata. **Branch:** `feature/orchards-1.1.0`.  
 **Scopo:** tenere distinta ogni **decisione approvata**, ogni **proposta in attesa di risposta** e ogni **riscontro oggettivo sui file**. Documento creato il 23 ottobre 2026.
 
 ## 1. Decisioni già approvate dall'autore
@@ -26,7 +26,7 @@ Questa decisione prevale sulle precedenti proposte di usare i due gruppi di asse
 
 ## 2. Inventario verificato degli asset ulivo su GitHub
 
-Percorsi relativi a `src/main/resources/assets/italiansdelight/textures/`. **I PNG qui sotto sono presenti, ma non costituiscono blocchi implementati.** Lettura della testata PNG: tutti i file elencati sono **16×16 pixel**.
+Percorsi relativi a `src/main/resources/assets/italiansdelight/textures/`. I PNG elencati sono **16×16 pixel**. Una parte è ora effettivamente collegata a blocchi implementati: **tronco, legno intero, varianti scortecciate e assi**; per foglie, germogli, porte e altri oggetti la sola presenza della PNG non implica che siano stati implementati.
 
 | Tipo | Texture trovate | Nota visiva / uso da valutare |
 |---|---|---|
@@ -41,7 +41,7 @@ Percorsi relativi a `src/main/resources/assets/italiansdelight/textures/`. **I P
 | Cartello / barche | `item/olive_sign.png`, `item/olive_boat.png`, `item/olive_chest_boat.png` | Esistono gli **item**, non è garantita la presenza di modelli/texture entity/blocchi corrispondenti |
 | Altri | `block/olive_cabinet_*.png`, `item/olive_seed.png`, `item/olives.png` | Asset recuperabili; mobile e semi/frutti non comportano approvazione di nuove meccaniche |
 
-**Controllo struttura:** non risultano, nelle cartelle `blockstates/`, `models/block/` e `models/item/`, definizioni `olive_*` corrispondenti a una famiglia di blocchi giocabile. La registrazione e i modelli saranno da introdurre. Il colore dell'ulivo è ancorato agli asset presenti, **non** a una palette arbitraria nuova.
+**Controllo struttura aggiornato:** le cartelle `blockstates/`, `models/block/` e `models/item/` contengono oggi i file per i primi cinque blocchi da costruzione dell'ulivo, **tutti verificati in gioco** dall'autore il 24 ottobre 2026 ([report](OLIVE_WOOD_TESTS.md)). Non sono ancora presenti gli alberi con foglie e frutti né l'intera famiglia di arredi. Il colore rimane basato sugli asset scelti, non su una palette arbitraria nuova.
 
 **Chiarimento dell'autore (23 ottobre 2026):** la coesistenza di file alternativi di tronco, foglie e germoglio è dovuta al recupero di risorse dalle vecchie mod **Italian's Delight** e **Rustic**. Non è un progetto di differenziazione tra ulivo comune e ulivo secolare. **Non assegnare automaticamente le varianti a specie, stadi o alberi differenti.** Prima di riutilizzare o redistribuire singoli file, verificare **quale mod è la fonte di ciascun asset, la licenza e le condizioni d'uso**; i crediti nella descrizione non sostituiscono i permessi necessari. In assenza di una licenza compatibile o autorizzazione, prevedere una texture nuova e originale. Conservare i file attuali intatti durante la verifica.
 
@@ -74,6 +74,7 @@ Per ogni specie, perseguire progressivamente un set di costruzione coerente con 
 - [x] **Escludere tutti gli asset identificati come Rustic dai nuovi elementi della 1.1.0** (decisione dell'autore); conservare i PNG storici senza cancellarli.
 - [ ] Completare la **provenienza file per file degli asset non corrispondenti**, incluse eventuali attribuzioni agli altri artisti; usare soltanto asset non-Rustic per il nuovo ulivo. **Nessuna assegnazione automatica di varianti all'ulivo secolare.**
 - [ ] Confermare dettaglio dell'insieme di blocchi extra (hanging signs, barche, mobili), senza confondere PNG esistenti con codice completato.
-- [ ] Passare alla prima implementazione soltanto dopo la decisione di design, iniziando da registrazione e blocchi semplici; poi vegetazione/worldgen, fruttificazione e raccolta.
+- [x] **Prima implementazione verificata:** cinque blocchi di legno d'ulivo, build Java 25 CI riuscita e **6/6 test Minecraft confermati** ([report](OLIVE_WOOD_TESTS.md)).
+- [ ] **Prossimo lotto proposto:** scale, lastre, recinzioni, cancelli, pulsanti e pedane a pressione; successivamente porte/botole e altri blocchi. Poi vegetazione/worldgen, fruttificazione e raccolta.
 
-**Nessuna modifica a codice, PNG o versione durante questa fase documentale.** Tutte le future decisioni vanno registrate qui e nella [roadmap principale](ROADMAP.md).
+**Primo lotto di codice già presente e verificato;** le presenti modifiche documentali **non** cambiano codice, PNG o versione pubblicata. Tutte le decisioni future saranno registrate qui e nella [roadmap principale](ROADMAP.md).
