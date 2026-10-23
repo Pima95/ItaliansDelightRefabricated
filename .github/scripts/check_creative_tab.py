@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path("src/main/java/dev/italiansdelight/common")
 ITEMS = ROOT / "registry/ModItems.java"
 BLOCKS = ROOT / "registry/ModBlocks.java"
+SIGNS = ROOT / "registry/ModSigns.java"
 TAB = ROOT / "item/group/ModItemGroups.java"
 
 # These three item IDs are represented by the data-bearing samples below.
@@ -28,6 +29,8 @@ INTERNAL_BLOCKS = {
     "CHEESE_HOOK_OCCUPIED_SPACE",
     "AGING_CHEESE",
     "SALT_CAULDRON",
+    # These 4 sign blocks are placed by two SignItem instances, not BlockItems.
+    "OLIVE_SIGN", "OLIVE_WALL_SIGN", "OLIVE_HANGING_SIGN", "OLIVE_WALL_HANGING_SIGN",
 }
 
 
@@ -44,7 +47,7 @@ def declared(path: Path, java_type: str) -> set[str]:
 def main() -> None:
     content = TAB.read_text(encoding="utf-8")
     matches = re.findall(
-        r"output\.accept\(Mod(Items|Blocks)\.([A-Z][A-Z0-9_]*)\);",
+        r"output\.accept\(Mod(Items|Blocks|Signs)\.([A-Z][A-Z0-9_]*)\);",
         content,
     )
     entries = [(kind, name) for kind, name in matches]
@@ -53,12 +56,15 @@ def main() -> None:
 
     registered_items = declared(ITEMS, "Item")
     registered_blocks = declared(BLOCKS, "Block")
+    registered_sign_items = declared(SIGNS, "Item")
     if not PIZZA_DATA_ITEMS.issubset(registered_items):
         raise ValueError("Pizza item IDs must remain registered even when bare stacks are hidden")
     expected = {
         ("Items", name) for name in registered_items - PIZZA_DATA_ITEMS
     } | {
         ("Blocks", name) for name in registered_blocks - INTERNAL_BLOCKS
+    } | {
+        ("Signs", name) for name in registered_sign_items
     }
     exposed = set(entries)
     if exposed != expected:
