@@ -128,7 +128,20 @@ def main() -> None:
         raise ValueError("Mixed pizza name must still use the stable translation key")
     if '("margherita".equals(id) || (id == null && isMixed(whole)))' not in src:
         raise ValueError("Mixed pizzas must share Margherita raw/cooked artwork")
-    if 'return isMixed(whole) ? null : PRESETS.get(quarter(whole, 0));' not in src:
+    # Both implementations must reject genuinely mixed quarters before using
+    # the preset lookup. The optimized form reuses the first quarter snapshot
+    # instead of rebuilding it, so a one-line source-string guard is too brittle.
+    preset_section = src.split("public static String wholePresetId(PizzaItemData whole) {", 1)[1].split(
+        "private static boolean isMixed", 1
+    )[0]
+    previous_guard = 'return isMixed(whole) ? null : PRESETS.get(quarter(whole, 0));' in preset_section
+    optimized_guard = all(marker in preset_section for marker in (
+        "Set<Identifier> first = quarter(whole, 0);",
+        "if (!first.equals(quarter(whole, q))) {",
+        "return null;",
+        "return PRESETS.get(first);",
+    ))
+    if not (previous_guard or optimized_guard):
         raise ValueError("Uniform unknown pizzas must still use fallback artwork")
     if "public static boolean refreshMixedItemModel(ItemStack stack)" not in src:
         raise ValueError("Old stored mixed pizzas need an idempotent model repair")
