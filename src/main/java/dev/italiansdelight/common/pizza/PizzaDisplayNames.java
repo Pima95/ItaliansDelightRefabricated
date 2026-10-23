@@ -152,7 +152,11 @@ public final class PizzaDisplayNames {
     private static Component shortIngredients(Set<Identifier> types) {
         List<Identifier> ids = sorted(types);
         if (ids.size() <= 3) {
-            return ingredients(types);
+            // Reuse the already sorted list rather than sorting it again in
+            // ingredients(types). Keep the same text for an empty quarter.
+            return ids.isEmpty()
+                    ? Component.translatable(PREFIX + "none")
+                    : join(ids, ids.size());
         }
         return Component.translatable(PREFIX + "short_more",
                 join(ids, 2), ids.size() - 2);
@@ -171,7 +175,15 @@ public final class PizzaDisplayNames {
      * @return exact recognized preset ID, or null for mixed/freeform pizzas.
      */
     public static String wholePresetId(PizzaItemData whole) {
-        return isMixed(whole) ? null : PRESETS.get(quarter(whole, 0));
+        // The first quarter was previously rebuilt after isMixed had
+        // already inspected it. Reuse this local immutable snapshot.
+        Set<Identifier> first = quarter(whole, 0);
+        for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
+            if (!first.equals(quarter(whole, q))) {
+                return null;
+            }
+        }
+        return PRESETS.get(first);
     }
 
     /** Different physical quarters, independent of division lines and toppings order. */
@@ -217,8 +229,8 @@ public final class PizzaDisplayNames {
             // Historical translation key intentionally preserved; IT=Pizza mista.
             return Component.translatable(PREFIX + "assorted");
         }
-        String id = PRESETS.get(quarter(whole, 0));
         Set<Identifier> first = quarter(whole, 0);
+        String id = PRESETS.get(first);
         if (id != null) {
             return Component.translatable(PREFIX + "named_whole", preset(id));
         }
