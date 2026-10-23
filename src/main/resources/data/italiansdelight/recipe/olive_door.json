@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_door",
+  "pattern": [
+    "PP",
+    "PP",
+    "PP"
+  ],
+  "key": {
+    "P": "italiansdelight:olive_planks"
+  },
+  "result": {
+    "id": "italiansdelight:olive_door",
+    "count": 3
+  }
+}

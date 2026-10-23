@@ -66,7 +66,7 @@ jobs:
         run: python3 .github/scripts/check_jei_world_lifecycle.py
       - name: Verify dedicated-server entrypoint and common mixin side safety
         run: python3 .github/scripts/check_pizza_server_side_safety.py
-      - name: Verify twelve aging-rack crafting recipe variants
+      - name: Verify thirteen aging-rack crafting recipe variants
         run: python3 .github/scripts/generate_aging_rack_recipes.py --check
       - name: Verify Cardoon farming and wild plant parity
         run: python3 .github/scripts/check_cardoon_wild_farming.py

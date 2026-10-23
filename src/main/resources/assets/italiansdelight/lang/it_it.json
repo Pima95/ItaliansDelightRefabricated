@@ -234,5 +234,8 @@
   "block.italiansdelight.olive_fence": "Recinzione d'Ulivo",
   "block.italiansdelight.olive_fence_gate": "Cancelletto d'Ulivo",
   "block.italiansdelight.olive_button": "Pulsante d'Ulivo",
-  "block.italiansdelight.olive_pressure_plate": "Pedana a Pressione d'Ulivo"
+  "block.italiansdelight.olive_pressure_plate": "Pedana a Pressione d'Ulivo",
+  "block.italiansdelight.olive_door": "Porta d'Ulivo",
+  "block.italiansdelight.olive_trapdoor": "Botola d'Ulivo",
+  "block.italiansdelight.olive_cheese_aging_rack": "Scaffale di Stagionatura d'Ulivo"
 }

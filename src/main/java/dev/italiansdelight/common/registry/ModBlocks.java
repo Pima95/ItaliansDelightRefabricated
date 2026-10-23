@@ -23,6 +23,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.FenceBlock;
@@ -147,6 +149,30 @@ public final class ModBlocks {
         OLIVE_PRESSURE_PLATE_KEY,
         new PressurePlateBlock(OLIVE_BLOCK_SET_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE).setId(OLIVE_PRESSURE_PLATE_KEY))
     );
+
+
+    // Phase B: two pre-existing Italian's Delight olive textures and
+    // standard vanilla door/trapdoor redstone, collision and interaction.
+    public static final ResourceKey<Block> OLIVE_DOOR_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_door"));
+    public static final Block OLIVE_DOOR = register(
+        OLIVE_DOOR_KEY,
+        new DoorBlock(OLIVE_BLOCK_SET_TYPE,
+            Block.Properties.ofFullCopy(Blocks.OAK_DOOR).setId(OLIVE_DOOR_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_TRAPDOOR_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_trapdoor"));
+    public static final Block OLIVE_TRAPDOOR = register(
+        OLIVE_TRAPDOOR_KEY,
+        new TrapDoorBlock(OLIVE_BLOCK_SET_TYPE,
+            Block.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).setId(OLIVE_TRAPDOOR_KEY))
+    );
+
+    // All cheese aging racks are behaviorally identical; only the wooden
+    // construction material and crafting ingredients vary.
+    public static final Block OLIVE_CHEESE_AGING_RACK =
+        registerRack("olive", OLIVE_PLANKS);
 
     public static final ResourceKey<Block> CARDOON_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("cardoon")
@@ -474,5 +500,7 @@ public final class ModBlocks {
         fire.add(OLIVE_FENCE_GATE, 5, 20);
         fire.add(OLIVE_BUTTON, 5, 20);
         fire.add(OLIVE_PRESSURE_PLATE, 5, 20);
+        fire.add(OLIVE_DOOR, 5, 20);
+        fire.add(OLIVE_TRAPDOOR, 5, 20);
     }
 }

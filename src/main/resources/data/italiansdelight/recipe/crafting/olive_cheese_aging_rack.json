@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "italiansdelight_cheese_aging_racks",
+  "key": {
+    "S": "italiansdelight:olive_fence",
+    "B": "italiansdelight:olive_planks"
+  },
+  "pattern": [
+    "S S",
+    " B ",
+    "S S"
+  ],
+  "result": {
+    "id": "italiansdelight:olive_cheese_aging_rack",
+    "count": 1
+  }
+}

@@ -234,5 +234,8 @@
   "block.italiansdelight.olive_fence": "Olive Fence",
   "block.italiansdelight.olive_fence_gate": "Olive Fence Gate",
   "block.italiansdelight.olive_button": "Olive Button",
-  "block.italiansdelight.olive_pressure_plate": "Olive Pressure Plate"
+  "block.italiansdelight.olive_pressure_plate": "Olive Pressure Plate",
+  "block.italiansdelight.olive_door": "Olive Door",
+  "block.italiansdelight.olive_trapdoor": "Olive Trapdoor",
+  "block.italiansdelight.olive_cheese_aging_rack": "Olive Cheese Aging Rack"
 }

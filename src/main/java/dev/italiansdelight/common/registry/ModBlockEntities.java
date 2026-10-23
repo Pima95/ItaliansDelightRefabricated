@@ -68,7 +68,8 @@ public final class ModBlockEntities {
             ModBlocks.PALE_OAK_CHEESE_AGING_RACK,
             ModBlocks.BAMBOO_CHEESE_AGING_RACK,
             ModBlocks.CRIMSON_CHEESE_AGING_RACK,
-            ModBlocks.WARPED_CHEESE_AGING_RACK
+            ModBlocks.WARPED_CHEESE_AGING_RACK,
+            ModBlocks.OLIVE_CHEESE_AGING_RACK
         );
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(

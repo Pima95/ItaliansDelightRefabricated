@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 WOODS = ("oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
-         "mangrove", "cherry", "bamboo", "crimson", "warped", "pale_oak")
+         "mangrove", "cherry", "bamboo", "crimson", "warped", "pale_oak", "olive")
 DIRECTORY = Path("src/main/resources/data/italiansdelight/recipe/crafting")
 
 def recipe(wood):
@@ -18,8 +18,8 @@ def recipe(wood):
         "category": "misc",
         "group": "italiansdelight_cheese_aging_racks",
         "key": {
-            "S": f"minecraft:{wood}_fence",
-            "B": f"minecraft:{wood}_planks",
+            "S": f"{'italiansdelight' if wood == 'olive' else 'minecraft'}:{wood}_fence",
+            "B": f"{'italiansdelight' if wood == 'olive' else 'minecraft'}:{wood}_planks",
         },
         "pattern": ["S S", " B ", "S S"],
         "result": {"id": f"italiansdelight:{wood}_cheese_aging_rack", "count": 1},

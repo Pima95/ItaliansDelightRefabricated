@@ -113,6 +113,13 @@ Il branch contiene sei nuovi blocchi: `olive_stairs`, `olive_slab`, `olive_fence
 
 **Fase A implementata; restano i test manuali:** aggiungere prima i derivati delle assi (`olive_stairs`, `olive_slab`, `olive_fence`, `olive_fence_gate`, `olive_button`, `olive_pressure_plate`), poi porte e botole (`olive_door`, `olive_trapdoor`). Preferire l'uso delle texture `olive_*` esistenti, mai quelle Rustic, senza alterare i PNG. In seguito affrontare cartelli, cartelli appesi e barche. La crescita dell'ulivo e quella dell'ulivo secolare 2×2 resteranno una fase successiva. Ogni lotto necessita di una build e di un collaudo distinti. Vedi [test e criteri](OLIVE_WOOD_TESTS.md).
 
+### Fase B e scaffale di stagionatura d'ulivo (implementazione tecnica)
+
+- **Porta e botola d'ulivo**: blocchi vanilla-equivalenti, texture già esistenti `olive_door_bottom.png`, `olive_door_top.png`, `olive_door.png` e `olive_trapdoor.png`, senza modifiche PNG. Incluse ricette, proprietà del legno, redstone, loot (porta solo dal mezzo inferiore), modelli e traduzioni.
+- **Aging rack d'ulivo**: nuova variante `olive_cheese_aging_rack`, costruita con recinzioni e assi d'ulivo. Condivide esattamente il comportamento, i due ripiani e l'entità persistente degli scaffali già implementati. Il generatore/check ricette registra **13** famiglie complessive.
+- La barca e la barca con baule hanno **sia icone 16×16 che texture 3D** (rispettivamente 128×64 e 128×128) nel repository; usare questi asset già presenti, senza crearne altri. La registrazione delle entità e il rendering sono il passo tecnico successivo.
+- **Test manuali ancora da fare**: porte (cerniere, apertura, segnale, rottura) e botole (orientamenti e acqua); rack (inserimento, prelievo, maturazione, save/load, rottura e drop). La Fase A precedente resta da collaudare separatamente.
+
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
