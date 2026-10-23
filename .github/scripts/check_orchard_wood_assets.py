@@ -40,6 +40,15 @@ def main():
             json.loads(f.read_text(encoding="utf-8"))
     for name in ("olive_planks", "olive_wood", "stripped_olive_wood", "olive_stairs", "olive_slab", "olive_fence", "olive_fence_gate", "olive_button", "olive_pressure_plate"):
         json.loads((ROOT / "data/italiansdelight/recipe" / (name + ".json")).read_text(encoding="utf-8"))
+    slab_loot = json.loads((ROOT / "data/italiansdelight/loot_table/blocks/olive_slab.json").read_text(encoding="utf-8"))
+    drop = slab_loot["pools"][0]["entries"][0]
+    double = [f for f in drop.get("functions", []) if f.get("function") == "minecraft:set_count"]
+    if len(double) != 1 or double[0].get("count") != 2 or not any(
+            c.get("condition") == "minecraft:block_state_property"
+            and c.get("block") == "italiansdelight:olive_slab"
+            and c.get("properties", {}).get("type") == "double"
+            for c in double[0].get("conditions", [])):
+        raise ValueError("Double olive slab must drop two slabs, matching vanilla")
     for path in (
         ROOT / "data/italiansdelight/tags/item/olive_logs.json",
         ROOT / "data/italiansdelight/tags/block/olive_logs.json",
