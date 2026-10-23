@@ -103,9 +103,15 @@ Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per
 - Questa è la **prima porzione della famiglia di legno**, non un albero completo: non sono ancora implementati foglie, germogli, generazione nel mondo, ulivo secolare, frutti, porte, scale, lastre ecc. Gli altri due tipi di legno rimangono in fase di progettazione.
 - **Verifica completata:** build Java 25 e controlli CI superati ([run GitHub Actions](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/40028472641)); **sei su sei test manuali superati** e comunicati dall'autore il 24 ottobre 2026: Inventario Creativa, texture e rotazione, scortecciatura, ricette di crafting, rottura/recupero, combustione. Report dettagliato in [OLIVE_WOOD_TESTS.md](OLIVE_WOOD_TESTS.md). Le verifiche di intercompatibilità dei tag e server dedicato non fanno parte dei sei test, quindi restano aperte.
 
+### Fase A — Blocchi edilizi derivati dalle assi (implementati, collaudo manuale aperto)
+
+Il branch contiene sei nuovi blocchi: `olive_stairs`, `olive_slab`, `olive_fence`, `olive_fence_gate`, `olive_button`, `olive_pressure_plate`. Sono inclusi modelli orientabili con comportamenti vanilla, crafting, loot, tag, traduzioni, scheda Creative e registrazione. **Tutti i modelli usano esclusivamente `olive_planks.png`**, già presente e approvata durante il primo collaudo; non sono stati creati/sovrascritti PNG né recuperate le vecchie risorse di Rustic.
+
+**Stato:** implementazione tecnica in attesa di verifiche Minecraft da parte dell'autore. Non confondere i sei test già superati del primo lotto con l'accettazione di questi nuovi blocchi. Registrare separatamente i nuovi risultati. Prossima sottofase prevista: porte e botole con gli asset `olive_door_*.png` e `olive_trapdoor.png` già presenti.
+
 ### Prossimo blocco proposto — completamento del set edilizio d'ulivo
 
-**Proposta, non ancora implementata:** aggiungere prima i derivati delle assi (`olive_stairs`, `olive_slab`, `olive_fence`, `olive_fence_gate`, `olive_button`, `olive_pressure_plate`), poi porte e botole (`olive_door`, `olive_trapdoor`). Preferire l'uso delle texture `olive_*` esistenti, mai quelle Rustic, senza alterare i PNG. In seguito affrontare cartelli, cartelli appesi e barche. La crescita dell'ulivo e quella dell'ulivo secolare 2×2 resteranno una fase successiva. Ogni lotto necessita di una build e di un collaudo distinti. Vedi [test e criteri](OLIVE_WOOD_TESTS.md).
+**Fase A implementata; restano i test manuali:** aggiungere prima i derivati delle assi (`olive_stairs`, `olive_slab`, `olive_fence`, `olive_fence_gate`, `olive_button`, `olive_pressure_plate`), poi porte e botole (`olive_door`, `olive_trapdoor`). Preferire l'uso delle texture `olive_*` esistenti, mai quelle Rustic, senza alterare i PNG. In seguito affrontare cartelli, cartelli appesi e barche. La crescita dell'ulivo e quella dell'ulivo secolare 2×2 resteranno una fase successiva. Ogni lotto necessita di una build e di un collaudo distinti. Vedi [test e criteri](OLIVE_WOOD_TESTS.md).
 
 ## 4. Fasi di sviluppo
 

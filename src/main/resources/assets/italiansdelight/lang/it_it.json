@@ -228,5 +228,11 @@
   "block.italiansdelight.olive_wood": "Legno d'Ulivo",
   "block.italiansdelight.stripped_olive_log": "Tronco d'Ulivo Scortecciato",
   "block.italiansdelight.stripped_olive_wood": "Legno d'Ulivo Scortecciato",
-  "block.italiansdelight.olive_planks": "Assi d'Ulivo"
+  "block.italiansdelight.olive_planks": "Assi d'Ulivo",
+  "block.italiansdelight.olive_stairs": "Scale d'Ulivo",
+  "block.italiansdelight.olive_slab": "Lastra d'Ulivo",
+  "block.italiansdelight.olive_fence": "Recinzione d'Ulivo",
+  "block.italiansdelight.olive_fence_gate": "Cancelletto d'Ulivo",
+  "block.italiansdelight.olive_button": "Pulsante d'Ulivo",
+  "block.italiansdelight.olive_pressure_plate": "Pedana a Pressione d'Ulivo"
 }

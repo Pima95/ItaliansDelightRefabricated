@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "wooden_stairs",
+  "pattern": [
+    "P  ",
+    "PP ",
+    "PPP"
+  ],
+  "key": {
+    "P": "italiansdelight:olive_planks"
+  },
+  "result": {
+    "id": "italiansdelight:olive_stairs",
+    "count": 4
+  }
+}

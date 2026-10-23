@@ -8,7 +8,7 @@ MODELS = ROOT / "assets/italiansdelight/models/block"
 BLOCKS = ROOT / "assets/italiansdelight/blockstates"
 DEFINITIONS = ROOT / "assets/italiansdelight/items"
 REGISTRY = Path("src/main/java/dev/italiansdelight/common/registry/ModBlocks.java").read_text(encoding="utf-8")
-NAMES = ("olive_log", "olive_wood", "stripped_olive_log", "stripped_olive_wood", "olive_planks")
+NAMES = ("olive_log", "olive_wood", "stripped_olive_log", "stripped_olive_wood", "olive_planks", "olive_stairs", "olive_slab", "olive_fence", "olive_fence_gate", "olive_button", "olive_pressure_plate")
 ALLOWED = {"olive_log", "olive_log_top", "stripped_olive_log", "stripped_olive_log_top", "olive_planks"}
 LEGACY_RUSTIC = {"log_olive", "leaves_olive", "sapling_olive", "olive_seed"}
 
@@ -34,7 +34,7 @@ def main():
             if not f.is_file():
                 raise ValueError("Missing olive loot: " + str(f))
             json.loads(f.read_text(encoding="utf-8"))
-    for name in ("olive_planks", "olive_wood", "stripped_olive_wood"):
+    for name in ("olive_planks", "olive_wood", "stripped_olive_wood", "olive_stairs", "olive_slab", "olive_fence", "olive_fence_gate", "olive_button", "olive_pressure_plate"):
         json.loads((ROOT / "data/italiansdelight/recipe" / (name + ".json")).read_text(encoding="utf-8"))
     for path in (
         ROOT / "data/italiansdelight/tags/item/olive_logs.json",
@@ -44,7 +44,26 @@ def main():
         ROOT / "data/minecraft/tags/item/planks.json",
     ):
         json.loads(path.read_text(encoding="utf-8"))
-    print("OK: five olive wood building blocks; models use only non-Rustic olive textures")
+    # Additional model variants are also pinned to the one approved plank
+    # texture and standard Minecraft shapes.
+    for pattern in ("olive_stairs_*.json", "olive_slab_top.json", "olive_fence_*.json",
+                    "olive_button_*.json", "olive_pressure_plate_down.json"):
+        for path in MODELS.glob(pattern):
+            model = json.loads(path.read_text(encoding="utf-8"))
+            for texture in model.get("textures", {}).values():
+                if texture != "italiansdelight:block/olive_planks":
+                    raise ValueError("Non-approved texture for " + str(path) + ": " + texture)
+    expected_variants = {"olive_stairs": 40, "olive_slab": 3,
+                         "olive_fence_gate": 16, "olive_button": 24,
+                         "olive_pressure_plate": 2}
+    for name, count in expected_variants.items():
+        actual = json.loads((BLOCKS / (name + ".json")).read_text(encoding="utf-8"))
+        if len(actual.get("variants", {})) != count:
+            raise ValueError(f"{name}: expected {count} vanilla variants")
+    for name in NAMES:
+        if name.startswith("olive_") and name not in {"olive_log", "olive_wood", "olive_planks"}:
+            pass
+    print("OK: eleven olive wood building blocks; models use only non-Rustic olive textures")
 
 if __name__ == "__main__":
     main()

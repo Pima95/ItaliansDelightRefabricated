@@ -68,6 +68,12 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.STRIPPED_OLIVE_LOG);
                 output.accept(ModBlocks.STRIPPED_OLIVE_WOOD);
                 output.accept(ModBlocks.OLIVE_PLANKS);
+                output.accept(ModBlocks.OLIVE_STAIRS);
+                output.accept(ModBlocks.OLIVE_SLAB);
+                output.accept(ModBlocks.OLIVE_FENCE);
+                output.accept(ModBlocks.OLIVE_FENCE_GATE);
+                output.accept(ModBlocks.OLIVE_BUTTON);
+                output.accept(ModBlocks.OLIVE_PRESSURE_PLATE);
 
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);

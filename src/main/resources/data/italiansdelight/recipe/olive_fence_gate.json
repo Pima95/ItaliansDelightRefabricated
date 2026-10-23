@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_fence_gate",
+  "pattern": [
+    "SPS",
+    "SPS"
+  ],
+  "key": {
+    "P": "italiansdelight:olive_planks",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "italiansdelight:olive_fence_gate",
+    "count": 1
+  }
+}

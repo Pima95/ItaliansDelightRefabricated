@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "italiansdelight:block/olive_slab"
+    },
+    "type=top": {
+      "model": "italiansdelight:block/olive_slab_top"
+    },
+    "type=double": {
+      "model": "italiansdelight:block/olive_planks"
+    }
+  }
+}

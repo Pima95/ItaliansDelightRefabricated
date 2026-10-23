@@ -23,6 +23,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.minecraft.world.level.block.SoundType;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
@@ -80,6 +90,63 @@ public final class ModBlocks {
         new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS).setId(OLIVE_PLANKS_KEY))
     );
 
+
+
+    // Phase A of the Orchard Update: six vanilla-equivalent building blocks.
+    // All their block and inventory models reuse the existing olive_planks.png.
+    // BlockSetType/WoodType are registered once for future doors and signs.
+    public static final BlockSetType OLIVE_BLOCK_SET_TYPE =
+        BlockSetTypeBuilder.copyOf(BlockSetType.OAK).register(ModRegistries.id("olive"));
+    public static final WoodType OLIVE_WOOD_TYPE =
+        new WoodTypeBuilder().register(ModRegistries.id("olive"), OLIVE_BLOCK_SET_TYPE);
+
+    public static final ResourceKey<Block> OLIVE_STAIRS_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_stairs")
+    );
+    public static final Block OLIVE_STAIRS = register(
+        OLIVE_STAIRS_KEY,
+        new StairBlock(OLIVE_PLANKS.defaultBlockState(), Block.Properties.ofFullCopy(Blocks.OAK_STAIRS).setId(OLIVE_STAIRS_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_SLAB_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_slab")
+    );
+    public static final Block OLIVE_SLAB = register(
+        OLIVE_SLAB_KEY,
+        new SlabBlock(Block.Properties.ofFullCopy(Blocks.OAK_SLAB).setId(OLIVE_SLAB_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_FENCE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_fence")
+    );
+    public static final Block OLIVE_FENCE = register(
+        OLIVE_FENCE_KEY,
+        new FenceBlock(Block.Properties.ofFullCopy(Blocks.OAK_FENCE).setId(OLIVE_FENCE_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_FENCE_GATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_fence_gate")
+    );
+    public static final Block OLIVE_FENCE_GATE = register(
+        OLIVE_FENCE_GATE_KEY,
+        new FenceGateBlock(OLIVE_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE).setId(OLIVE_FENCE_GATE_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_BUTTON_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_button")
+    );
+    public static final Block OLIVE_BUTTON = register(
+        OLIVE_BUTTON_KEY,
+        new ButtonBlock(OLIVE_BLOCK_SET_TYPE, 30, Block.Properties.ofFullCopy(Blocks.OAK_BUTTON).setId(OLIVE_BUTTON_KEY))
+    );
+
+    public static final ResourceKey<Block> OLIVE_PRESSURE_PLATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_pressure_plate")
+    );
+    public static final Block OLIVE_PRESSURE_PLATE = register(
+        OLIVE_PRESSURE_PLATE_KEY,
+        new PressurePlateBlock(OLIVE_BLOCK_SET_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE).setId(OLIVE_PRESSURE_PLATE_KEY))
+    );
 
     public static final ResourceKey<Block> CARDOON_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("cardoon")
@@ -401,5 +468,11 @@ public final class ModBlocks {
         fire.add(STRIPPED_OLIVE_LOG, 5, 5);
         fire.add(STRIPPED_OLIVE_WOOD, 5, 5);
         fire.add(OLIVE_PLANKS, 5, 20);
+        fire.add(OLIVE_STAIRS, 5, 20);
+        fire.add(OLIVE_SLAB, 5, 20);
+        fire.add(OLIVE_FENCE, 5, 20);
+        fire.add(OLIVE_FENCE_GATE, 5, 20);
+        fire.add(OLIVE_BUTTON, 5, 20);
+        fire.add(OLIVE_PRESSURE_PLATE, 5, 20);
     }
 }

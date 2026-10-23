@@ -228,5 +228,11 @@
   "block.italiansdelight.olive_wood": "Olive Wood",
   "block.italiansdelight.stripped_olive_log": "Stripped Olive Log",
   "block.italiansdelight.stripped_olive_wood": "Stripped Olive Wood",
-  "block.italiansdelight.olive_planks": "Olive Planks"
+  "block.italiansdelight.olive_planks": "Olive Planks",
+  "block.italiansdelight.olive_stairs": "Olive Stairs",
+  "block.italiansdelight.olive_slab": "Olive Slab",
+  "block.italiansdelight.olive_fence": "Olive Fence",
+  "block.italiansdelight.olive_fence_gate": "Olive Fence Gate",
+  "block.italiansdelight.olive_button": "Olive Button",
+  "block.italiansdelight.olive_pressure_plate": "Olive Pressure Plate"
 }

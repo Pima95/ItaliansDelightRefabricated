@@ -57,6 +57,12 @@ Percorsi relativi a `src/main/resources/assets/italiansdelight/textures/`. I PNG
 
 **Da approvare:** le direzioni cromatiche per mandorlo e ciliegio; per l'ulivo la selezione di asset utilizzabili **solo dopo** la verifica della loro provenienza e dei diritti. Le texture alternative storiche **non** sono candidate automatiche per l'ulivo secolare. La differenza visiva dell'albero secolare dovrà derivare innanzitutto da dimensioni, tronco 2×2 e forma della chioma, salvo future decisioni esplicite.
 
+### Stato dei modelli dopo la Fase A (in attesa di collaudo)
+
+Per le nuove **scale, lastre, recinzioni, cancelli, pulsanti e pedane a pressione** sono stati riutilizzati i modelli geometrici vanilla applicando unicamente `block/olive_planks.png`. **Non sono necessarie texture PNG dedicate** per questi elementi. Le texture preesistenti di porta `olive_door_bottom.png`, `olive_door_top.png` e botola `olive_trapdoor.png` verranno riutilizzate nella Fase B; `item/olive_door.png` è già presente.
+
+Tutti i sei nuovi blocchi sono presenti nel codice e nelle risorse del branch 1.1.0, ma **non ancora dichiarati superati nei test in gioco**.
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.

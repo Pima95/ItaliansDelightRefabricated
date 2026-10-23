@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "wooden_slabs",
+  "pattern": [
+    "PPP"
+  ],
+  "key": {
+    "P": "italiansdelight:olive_planks"
+  },
+  "result": {
+    "id": "italiansdelight:olive_slab",
+    "count": 6
+  }
+}
