@@ -30,7 +30,9 @@
 - Utilizza lo **stesso frutto (olive)** e appartiene alla stessa filiera dell'ulivo comune; non è una quarta specie.
 - La sua generazione naturale deve essere **sensibilmente più rara** degli ulivi normali, preferibilmente negli stessi biomi adatti all'ulivo.
 - Non introdurre nuove ricette, raccolte o bonus di resa esclusivi senza una decisione dedicata.
-- **Da definire prima dell'implementazione:** probabilità numerica di spawn, altezza/dimensioni, tipo di tronco/foglie, possibilità di coltivarlo mediante 2×2 germogli oppure presenza soltanto naturale.
+- **Scelta B approvata:** l'ulivo secolare può essere ottenuto sia tramite rara generazione naturale, sia piantando **quattro germogli di ulivo in un quadrato 2×2**, in modo analogo agli alberi giganti vanilla. Il germoglio singolo continua a produrre l'ulivo normale.
+- La crescita del 2×2 deve verificare i quattro germogli e lo spazio necessario, consumandoli **soltanto a generazione riuscita**, senza lasciare tronchi o foglie parziali quando il terreno è ostruito. La farina d'ossa deve poter innescare anche questa crescita, rispettando le regole di gioco appropriate.
+- **Da definire prima dell'implementazione:** probabilità numerica di spawn, altezza/dimensioni, forma esatta di tronco e foglie, bilanciamento della probabilità di crescita del 2×2.
 - Verificare spazio libero, intersezioni tra alberi, generazione al bordo del chunk, luce/ombre, compatibilità con alberi vanilla e tempi di worldgen.
 - Non sostituire ulivi normali già generati nei vecchi chunk; gli alberi nuovi possono comparire solo dove la generazione di mondo viene eseguita.
 
@@ -57,7 +59,7 @@ Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per
 
 ## 4. Fasi di sviluppo (non iniziate)
 
-- [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato e variante rara di ulivo secolare con tronco 2×2.
+- [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
 - [ ] **Fase 1 — Asset e modelli:** definire riuso o creazione di legno, foglie, frutti e germogli; requisiti di pixel art.
 - [ ] **Fase 2 — Alberi e generazione:** crescita, chiome, biomi, rarità e ulivo secolare 2×2.
 - [ ] **Fase 3 — Raccolta e ricrescita:** foglie fruttifere, raccolta, progressione e salvataggio.
@@ -68,7 +70,7 @@ Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per
 ## 5. Decisioni da prendere prima di iniziare la fase 1
 
 1. **Legno:** gli alberi useranno legni vanilla oppure nuove famiglie di tronchi, tavole, scale e lastre?
-2. **Ulivo secolare:** naturale soltanto o coltivabile mediante un quadrato 2×2 di germogli?
+2. **Ulivo secolare — DECISO (B):** rara generazione naturale **e** crescita da quattro germogli di ulivo in un quadrato 2×2. Rimangono da bilanciare probabilità naturali e crescita del 2×2.
 3. **Raccolta:** maturazione e resa per foglia; interazione con la farina d'ossa.
 4. **Grafica:** chiome (normali/fiorite/fruttifere) e livello di differenza visiva per i tre alberi.
 
