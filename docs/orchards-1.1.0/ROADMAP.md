@@ -63,6 +63,14 @@ Le seguenti **texture PNG esistono** in `src/main/resources/assets/italiansdelig
 
 **Verifica di implementazione:** nella cartella dei `models/block`, `models/item` e `blockstates` non risultano ancora modelli o stati registrati per `olive_*`: non confondere la semplice presenza delle PNG con una funzionalità già presente in gioco. Prima di creare nuovi PNG controllare le coppie con nomi invertiti e riusare le risorse esistenti ove idonee. **Non modificare, sovrascrivere o eliminare texture preesistenti senza approvazione.** Per mandorlo e ciliegio da frutto serviranno asset coerenti ma visivamente distinti.
 
+### Revisione artistica delle famiglie di legno (23 ottobre 2026)
+
+**Inventario completato:** tutte le texture legacy di ulivo elencate sono presenti e le relative dimensioni PNG sono state verificate (16×16). Le coppie `olive_log/log_olive`, `olive_leaves/leaves_olive` e `olive_sapling/sapling_olive` sono **varianti grafiche distinte**, non file identici. Nessun asset è stato modificato.
+
+**Proposte cromatiche in attesa di approvazione:** mantenere le tavole chiare dorate dell'ulivo, proporre **nocciola/beige caldo** per il mandorlo e **castano ramato/rossiccio** per il ciliegio da frutto (ben diverso dal rosa del ciliegio vanilla). Non considerare questa palette approvata finché l'autore non la conferma.
+
+Per il dettaglio dell'inventario, l'uso delle varianti, i possibili ID blocco e le scelte aperte, vedere [WOOD_DESIGN.md](WOOD_DESIGN.md). **Ogni decisione definitiva sarà registrata nel repository prima dell'implementazione.**
+
 ## 2. Meccaniche condivise approvate
 
 1. **Germogli coltivabili:** ciascuna specie può essere piantata e crescere come un albero, con supporto alla farina d'ossa.
@@ -87,7 +95,7 @@ Le preparazioni elencate qui sono **idee**, non funzionalità già approvate per
 ## 4. Fasi di sviluppo (non iniziate)
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
-- [ ] **Fase 1 — Asset e modelli:** per le tre famiglie di legno già approvate, inventariare e riusare gli asset dell'ulivo esistenti, definire la palette originale di mandorlo e ciliegio da frutto, foglie, frutti e germogli; requisiti pixel art.
+- [ ] **Fase 1 — Asset e modelli:** inventario legacy dell'ulivo **completato** ([documento asset](WOOD_DESIGN.md)); rimangono l'approvazione palette, la scelta delle varianti da riutilizzare, la registrazione delle tre famiglie legno e la progettazione foglie/frutti/germogli.
 - [ ] **Fase 2 — Alberi e generazione:** crescita, chiome, biomi, rarità e ulivo secolare 2×2.
 - [ ] **Fase 3 — Raccolta e ricrescita:** foglie fruttifere, raccolta, progressione e salvataggio.
 - [ ] **Fase 4 — Ingredienti e ricette:** decidere prima le lavorazioni principali e poi implementarle.
