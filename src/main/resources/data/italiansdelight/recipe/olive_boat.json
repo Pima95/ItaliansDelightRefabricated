@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "transportation",
-  "group": "boats",
+  "group": "boat",
   "pattern": [
     "P P",
     "PPP"

@@ -1,14 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "decorations",
-  "group": "hanging_sign",
+  "group": "wooden_hanging_sign",
   "pattern": [
     "C C",
     "PPP",
     "PPP"
   ],
   "key": {
-    "C": "minecraft:chain",
+    "C": "minecraft:iron_chain",
     "P": "italiansdelight:stripped_olive_log"
   },
   "result": {

@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "transportation",
-  "group": "chest_boats",
+  "group": "chest_boat",
   "ingredients": [
     "italiansdelight:olive_boat",
     "minecraft:chest"

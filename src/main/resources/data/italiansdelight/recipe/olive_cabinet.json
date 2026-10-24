@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "decorations",
-  "group": "farmersdelight_cabinets",
+  "group": "fd_cabinet",
   "pattern": [
-    "PPP",
-    "P P",
-    "PPP"
+    "___",
+    "D D",
+    "___"
   ],
   "key": {
-    "P": "italiansdelight:olive_planks"
+    "_": "italiansdelight:olive_slab",
+    "D": "italiansdelight:olive_trapdoor"
   },
   "result": {
     "id": "italiansdelight:olive_cabinet",

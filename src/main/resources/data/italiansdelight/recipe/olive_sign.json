@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "decorations",
   "group": "wooden_sign",
   "pattern": [
     "PPP",
