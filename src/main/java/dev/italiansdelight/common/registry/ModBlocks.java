@@ -23,7 +23,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
@@ -101,14 +102,17 @@ public final class ModBlocks {
 
 
     // First Orchard foliage block: use the existing non-Rustic 16x16
-    // olive_leaves.png. Vanilla LeavesBlock provides decay, waterlogging,
-    // persistent player placement and neighbor-distance updates.
+    // olive_leaves.png. The concrete UntintedParticleLeavesBlock preserves
+    // its original fixed green palette while vanilla leaves handle decay,
+    // waterlogging, persistent placement and log distance. Particle chance
+    // 0 avoids inappropriate vanilla cherry/pale-leaf falling particles.
     // Olive logs are already in #minecraft:logs via logs_that_burn.
     public static final ResourceKey<Block> OLIVE_LEAVES_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_leaves"));
     public static final Block OLIVE_LEAVES = register(
         OLIVE_LEAVES_KEY,
-        new LeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(OLIVE_LEAVES_KEY))
+        new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES,
+            Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(OLIVE_LEAVES_KEY))
     );
 
     // Phase A of the Orchard Update: six vanilla-equivalent building blocks.

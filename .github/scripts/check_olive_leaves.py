@@ -39,7 +39,8 @@ def main():
     assert all("italiansdelight:"+name in logs["values"]
                for name in ("olive_log","olive_wood","stripped_olive_log","stripped_olive_wood"))
     srcjava=Path("src/main/java/dev/italiansdelight/common/registry/ModBlocks.java").read_text()
-    assert "new LeavesBlock(" in srcjava and "OLIVE_LEAVES" in srcjava
+    assert "new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES" in srcjava
+    assert "OLIVE_LEAVES" in srcjava
     assert "fire.add(OLIVE_LEAVES, 30, 60)" in srcjava
     group=Path("src/main/java/dev/italiansdelight/common/item/group/ModItemGroups.java").read_text()
     assert group.count("output.accept(ModBlocks.OLIVE_LEAVES);")==1
@@ -54,7 +55,7 @@ def main():
     assert any(e.get("name")=="minecraft:stick" for pool in loot["pools"][1:] for e in pool["entries"])
     assert not any(e.get("name","").endswith(("sapling","apple","olives"))
                    for pool in loot["pools"] for e in pool["entries"])
-    print("OK: real olive LeavesBlock registered; textures and model use approved non-Rustic 16x16 art")
+    print("OK: concrete untinted olive leaves registered; textures and model use approved non-Rustic 16x16 art")
     print("OK: vanilla distance via logs_that_burn, leaf tags, fire, Silk Touch/shears, sticks, no fruits/saplings")
     print("OK: Rustic leaves_olive.png removed from Orchard branch; no automatic user test claimed")
 
