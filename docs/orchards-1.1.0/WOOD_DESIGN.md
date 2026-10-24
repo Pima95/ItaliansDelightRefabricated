@@ -152,6 +152,31 @@ L'autore ha respinto le forme di **quercia / quercia scura** come soluzione defi
 
 **Grafica item cartello normale:** ripristinata la forma esatta dei glifi originali (prima della riscrittura di ottobre); modificato esclusivamente il colore dell'inchiostro per accordarlo all'icona dell'hanging sign.
 
+### Decisione approvata: generazione procedurale portabile (24 ottobre 2026)
+
+**Scelta dell'autore:** progettare gli ulivi con algoritmi procedurali anziché con strutture NBT realizzate a mano, in vista di un futuro porting Fabric → NeoForge / Forge. La compatibilità fra mod loader **non è automatica**: il codice condiviso deve evitare API Fabric e le registrazioni, gli eventi, i test client/server e le dipendenze dei loader andranno adattati nel porting.
+
+**Architettura preferita:**
+1. `OliveTrunkPlacer` (estensione dei componenti vanilla `TrunkPlacer`) calcola base, fusto irregolare, pieghe, ramificazione e punti di ancoraggio del fogliame. Una variante secolare parte da **base 2×2** e rami più larghi; usa sempre blocchi `olive_log` / `olive_wood`.
+2. `OliveFoliagePlacer` (estensione di `FoliagePlacer`) distribuisce molteplici gruppi di `olive_leaves` verde-argentee attorno ai rami, con piccole lacune; non una sfera regolare e non foglie al suolo.
+3. `ConfiguredFeature`/parametri data-driven separati per ulivo normale e secolare. Registrare i tipi di placer e relativi codec/serializzazione nel modulo comune, mantenendo gli eventuali adattatori delle API/mod loader separati.
+4. Testare ripetibilità a seme fisso, collisioni con costruzioni, conservazione dei germogli se fallisce la crescita, decadimento foglie, limiti del mondo/chunk, FPS, e coerenza client/server.
+5. **Nessuna generazione naturale** finché le forme non vengono approvate dall'autore. Mantenere temporaneamente i due `ConfiguredFeature` vanilla utilizzati dal germoglio come fallback fino a quando il prototipo procedurale non viene compilato e verificato.
+
+**Parametri iniziali proposti, da tarare con screenshot in-game (NON definitivi):**
+
+| Caratteristica | Ulivo normale (1 germoglio) | Ulivo secolare (4 germogli 2×2) |
+|---|---|---|
+| Altezza totale | 6–9 blocchi | 10–14 blocchi |
+| Larghezza chioma | 7–11 blocchi | 13–19 blocchi |
+| Base tronco | 1×1, progressivamente nodosa | 2×2, asimmetrica |
+| Rami principali | 2–3 | 4–6 |
+| Fogliame | 2–4 masse frammentate | molte masse ampie e irregolari |
+
+**Criterio di portabilità:** isolare la logica di scelta dei punti, curve e distribuzione (algoritmo condivisibile) dall'implementazione Minecraft della collocazione dei blocchi e dalla registrazione loader-specifica. Riutilizzare tag, risorse e JSON compatibili, senza supporre che gli stessi JAR o le registrazioni siano intercambiabili fra Fabric, NeoForge e Forge.
+
+**Stato:** **decisione di design registrata**; i nuovi placer procedurali non sono ancora implementati. Nessuna modifica a worldgen e release in questa fase.
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.
