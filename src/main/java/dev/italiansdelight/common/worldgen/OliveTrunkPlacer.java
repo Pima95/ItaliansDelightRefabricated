@@ -2,6 +2,7 @@ package dev.italiansdelight.common.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.italiansdelight.common.registry.ModBlocks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -9,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
@@ -17,13 +17,14 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
 /**
- * Low and crooked Mediterranean olive.
- * All stems make at least one sideways turn instead of growing as a pillar.
- * One in ten trees produces a second, shorter ascending limb.
+ * Short Mediterranean olive with a crooked low stem, never a tall staircase.
+ * The main canopy is supported at y=2 relative to the sapling; leaves reach
+ * at most y=4 with the current foliage placer. One tree in ten can split
+ * into a second short limb growing from the low fork.
  *
- * Every log in a bend is placed face-to-face with the previous log: there
- * are no isolated diagonal logs or long horizontal cherry-tree branches.
- * The ancient 2x2 olive uses a separate vanilla placer.
+ * Each bend uses the all-bark olive_wood block: no visible log end grain
+ * on sideways joints. Every placed block is connected through a full face.
+ * Ancient 2x2 olives are configured separately and are unaffected.
  */
 public final class OliveTrunkPlacer extends TrunkPlacer {
     private static final int FORK_VARIANT_CHANCE = 10;
@@ -51,40 +52,41 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
         TreeConfiguration config
     ) {
         placeBelowTrunkBlock(level, trunkSetter, random, origin.below(), config);
-
         List<FoliagePlacer.FoliageAttachment> crowns = new ArrayList<>(2);
-        Stem stem = placeBentStem(level, trunkSetter, random, config, origin);
+
+        Stem stem = placeLowBentStem(level, trunkSetter, random, origin, config);
         if (stem == null) {
             return crowns;
         }
 
-        boolean forked = random.nextInt(FORK_VARIANT_CHANCE) == 0;
-        // The main limb always turns on its second horizontal move:
-        // a straight beam must never appear in either tree variant.
-        Direction primaryDirection = Direction.Plane.HORIZONTAL.getRandomDirection(random);
-        BlockPos primaryTip = placeAscendingBranch(
-            level, trunkSetter, random, config, stem.tip(),
-            primaryDirection, 2, true
-        );
-        BlockPos crownTip = primaryTip != null ? primaryTip : stem.tip();
-        crowns.add(new FoliagePlacer.FoliageAttachment(crownTip.above(), 0, false));
+        // A short, sideways-curving continuation at the crown's height:
+        // no extra upward steps and no repeated straight horizontal beams.
+        Direction turn = random.nextBoolean()
+            ? stem.lean().getClockWise() : stem.lean().getCounterClockWise();
+        BlockPos mainTip = stem.tip();
+        if (random.nextFloat() < 0.70F) {
+            BlockPos crookedTip = mainTip.relative(turn);
+            if (canGrowInto(level, crookedTip)
+                && placeBark(level, trunkSetter, random, crookedTip, config)) {
+                mainTip = crookedTip;
+            }
+        }
+        crowns.add(new FoliagePlacer.FoliageAttachment(mainTip.above(), 0, false));
 
-        if (forked) {
-            // Start the secondary limb lower down. Choose a direction across
-            // the stem's lean and away from the primary direction, so the
-            // two arms do not form a mirrored Y or collide with the stem.
-            Direction left = stem.lean().getClockWise();
-            Direction right = stem.lean().getCounterClockWise();
-            Direction secondaryDirection = left == primaryDirection ? right
-                : right == primaryDirection ? left
-                : (random.nextBoolean() ? left : right);
-
-            BlockPos secondaryTip = placeAscendingBranch(
-                level, trunkSetter, random, config, stem.lowFork(),
-                secondaryDirection, 1, false
-            );
-            if (secondaryTip != null) {
-                crowns.add(new FoliagePlacer.FoliageAttachment(secondaryTip.above(), 0, false));
+        // A genuinely rare second branch, shorter than the first one. Both
+        // tips stay at y=2: the fork broadens the crown instead of making a
+        // tall or doubled-up trunk.
+        if (random.nextInt(FORK_VARIANT_CHANCE) == 0) {
+            Direction secondary = random.nextBoolean()
+                ? stem.lean().getOpposite() : turn.getOpposite();
+            BlockPos lowSide = stem.forkBase().relative(secondary);
+            BlockPos secondTip = lowSide.above();
+            // Plan both steps before placing either: never leave the lone
+            // horizontal stump visible in the screenshot of the old fork.
+            if (canGrowInto(level, lowSide) && canGrowInto(level, secondTip)
+                && placeBark(level, trunkSetter, random, lowSide, config)
+                && placeBark(level, trunkSetter, random, secondTip, config)) {
+                crowns.add(new FoliagePlacer.FoliageAttachment(secondTip.above(), 0, false));
             }
         }
 
@@ -92,128 +94,58 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
     }
 
     /**
-     * Creates the same short, crooked base for both variants.
-     *
-     * Two vertical blocks anchor the tree; a low horizontal log makes its
-     * first compulsory lean; the stem rises again away from the base.
-     * Some trees then turn once more at a right angle, never piling parallel
-     * columns of logs at the base. All moves stay face-connected.
-     *
-     * If an obstacle prevents the compulsory lean, the placement stops
-     * rather than silently producing another straight pole.
+     * A low, connected kink: origin (y=0), fork base (y=1), sideways at y=1,
+     * and one final rise at y=2. The stem never reaches y=3 or beyond.
+     * The horizontal segment has bark on every face, not exposed end grain.
      */
-    private Stem placeBentStem(
+    private Stem placeLowBentStem(
         WorldGenLevel level,
         BiConsumer<BlockPos, BlockState> trunkSetter,
         RandomSource random,
-        TreeConfiguration config,
-        BlockPos origin
+        BlockPos origin,
+        TreeConfiguration config
     ) {
         if (!placeLog(level, trunkSetter, random, origin, config)) {
             return null;
         }
-        BlockPos lowFork = origin.above();
-        if (!placeLog(level, trunkSetter, random, lowFork, config)) {
+        BlockPos forkBase = origin.above();
+        if (!placeBark(level, trunkSetter, random, forkBase, config)) {
             return null;
         }
 
         Direction candidate = Direction.Plane.HORIZONTAL.getRandomDirection(random);
-        Direction lean = null;
-        BlockPos tip = lowFork;
-        // Try each side exactly once if terrain blocks the first choice.
         for (int attempt = 0; attempt < 4; attempt++) {
-            Direction attemptedDirection = candidate;
-            BlockPos sideways = lowFork.relative(attemptedDirection);
-            if (placeLog(level, trunkSetter, random, sideways, config,
-                state -> state.setValue(RotatedPillarBlock.AXIS, attemptedDirection.getAxis()))) {
-                tip = sideways;
-                lean = candidate;
-                break;
+            BlockPos lowSide = forkBase.relative(candidate);
+            BlockPos raisedTip = lowSide.above();
+            // Precheck the entire bend so a blocked vertical step does not
+            // result in an isolated piece jutting out at waist height.
+            if (canGrowInto(level, lowSide) && canGrowInto(level, raisedTip)
+                && placeBark(level, trunkSetter, random, lowSide, config)
+                && placeBark(level, trunkSetter, random, raisedTip, config)) {
+                return new Stem(raisedTip, forkBase, candidate);
             }
             candidate = candidate.getClockWise();
         }
-        if (lean == null) {
-            return null;
-        }
-
-        BlockPos raised = tip.above();
-        if (placeLog(level, trunkSetter, random, raised, config)) {
-            tip = raised;
-        }
-
-        // Optional second kink: turn to the side, never reverse into
-        // already-placed stem logs. Only attempt it after the initial rise.
-        if (tip.getY() > lowFork.getY() && random.nextFloat() < 0.35F) {
-            Direction side = random.nextBoolean()
-                ? lean.getClockWise() : lean.getCounterClockWise();
-            BlockPos next = tip.relative(side);
-            if (placeLog(level, trunkSetter, random, next, config,
-                state -> state.setValue(RotatedPillarBlock.AXIS, side.getAxis()))) {
-                tip = next;
-                BlockPos up = tip.above();
-                if (placeLog(level, trunkSetter, random, up, config)) {
-                    tip = up;
-                }
-            }
-        }
-        return new Stem(tip, lowFork, lean);
+        // A blocked tree has no normal crown instead of a malformed
+        // straight trunk or loose horizontal branch.
+        return null;
     }
 
-    /**
-     * Builds an ascending, face-connected limb with at most two horizontal
-     * moves. It climbs before/after moves in varying order and usually
-     * turns sideways on the second move. The short secondary limb has only
-     * one outward step, so the two forks do not form parallel beams.
-     */
-    private BlockPos placeAscendingBranch(
+    private static boolean canGrowInto(WorldGenLevel level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        return state.isAir() || state.canBeReplaced();
+    }
+
+    private static boolean placeBark(
         WorldGenLevel level,
         BiConsumer<BlockPos, BlockState> trunkSetter,
         RandomSource random,
-        TreeConfiguration config,
-        BlockPos start,
-        Direction outward,
-        int horizontalSteps,
-        boolean curve
+        BlockPos pos,
+        TreeConfiguration config
     ) {
-        BlockPos tip = start;
-        boolean climbBeforeFirstMove = random.nextBoolean();
-        int placedSteps = 0;
-        Direction turn = random.nextBoolean()
-            ? outward.getClockWise() : outward.getCounterClockWise();
-
-        for (int step = 0; step < horizontalSteps; step++) {
-            boolean climbBefore = step == 0
-                ? climbBeforeFirstMove : random.nextBoolean();
-            if (climbBefore) {
-                BlockPos up = tip.above();
-                if (!placeLog(level, trunkSetter, random, up, config)) {
-                    break;
-                }
-                tip = up;
-            }
-
-            Direction travel = curve && step == horizontalSteps - 1
-                ? turn : outward;
-            BlockPos next = tip.relative(travel);
-            if (!placeLog(level, trunkSetter, random, next, config,
-                state -> state.setValue(RotatedPillarBlock.AXIS, travel.getAxis()))) {
-                break;
-            }
-            tip = next;
-            placedSteps++;
-
-            // An upward segment follows each move that did not already
-            // climb, and always caps the last move for an ascending tip.
-            if (!climbBefore || step == horizontalSteps - 1) {
-                BlockPos up = tip.above();
-                if (!placeLog(level, trunkSetter, random, up, config)) {
-                    break;
-                }
-                tip = up;
-            }
-        }
-        return placedSteps == 0 ? null : tip;
+        return placeLog(level, trunkSetter, random, pos, config,
+            state -> ModBlocks.OLIVE_WOOD.defaultBlockState());
     }
 
-    private record Stem(BlockPos tip, BlockPos lowFork, Direction lean) {}
+    private record Stem(BlockPos tip, BlockPos forkBase, Direction lean) {}
 }
