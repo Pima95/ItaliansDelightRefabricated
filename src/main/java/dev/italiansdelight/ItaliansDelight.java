@@ -15,6 +15,7 @@ import dev.italiansdelight.common.registry.ModMenuTypes;
 import dev.italiansdelight.common.registry.ModParticles;
 import dev.italiansdelight.common.registry.ModRecipes;
 import dev.italiansdelight.common.registry.ModWorldGeneration;
+import dev.italiansdelight.common.worldgen.ModTreePlacers;
 import dev.italiansdelight.common.salt.SaltCauldronManager;
 import dev.italiansdelight.common.pizza.PizzaDoughPlacement;
 import dev.italiansdelight.common.pizza.PizzaDivisionSync;
@@ -56,6 +57,7 @@ public class ItaliansDelight implements ModInitializer {
         ModRecipes.register();
         ModParticles.register();
         ModItemGroups.register();
+        ModTreePlacers.register();
         ModWorldGeneration.register();
 
         SaltCauldronManager.register();

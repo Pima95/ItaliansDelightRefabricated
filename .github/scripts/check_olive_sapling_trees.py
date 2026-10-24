@@ -41,7 +41,7 @@ def main():
     assert loot["pools"][0]["entries"][0]["name"]=="italiansdelight:olive_sapling"
     for kind in ("block","item"):
         assert "italiansdelight:olive_sapling" in j(D/f"minecraft/tags/{kind}/saplings.json")["values"]
-    for name,placer,base_height in (("olive_tree","minecraft:straight_trunk_placer",4),("ancient_olive_tree","minecraft:dark_oak_trunk_placer",7)):
+    for name,placer,base_height in (("olive_tree","italiansdelight:olive_trunk_placer",5),("ancient_olive_tree","minecraft:dark_oak_trunk_placer",7)):
         feat=j(D/f"italiansdelight/worldgen/configured_feature/{name}.json")
         assert feat["type"]=="minecraft:tree"
         cfg=feat["config"]
@@ -50,6 +50,11 @@ def main():
         assert cfg["foliage_provider"]["state"]["Properties"]["persistent"]=="false"
         assert cfg["trunk_placer"]["type"]==placer
         assert cfg["trunk_placer"]["base_height"]==base_height
+        if name=="olive_tree":
+            assert cfg["foliage_placer"]["type"]=="italiansdelight:olive_foliage_placer"
+            assert cfg["foliage_placer"]["radius"]==2
+        else:
+            assert cfg["foliage_placer"]["type"]=="minecraft:dark_oak_foliage_placer"
         assert cfg["below_trunk_provider"]["type"]=="minecraft:rule_based_state_provider"
     # Provisional oak/dark-oak shapes must NEVER appear by natural worldgen.
     # Keep only configured features for sapling growth via bone meal or ticks.
@@ -67,7 +72,7 @@ def main():
     tab=(SRC/"common/item/group/ModItemGroups.java").read_text()
     assert tab.count("output.accept(ModBlocks.OLIVE_SAPLING);")==1
     print("OK: sapling in Creative, loot and sapling tags; 26.2 vanilla TreeGrower recognizes 1x1 and 2x2")
-    print("OK: normal and ancient data-driven trees use exclusively olive log and silvery leaves")
+    print("OK: normal tree uses original olive trunk+foliage placers; ancient remains provisional until reviewed")
     print("OK: NO natural olive worldgen, no provisional olive placed features nor biome injection")
     print("OK: silver-green sapling art preserves original 16x16 alpha and stem")
 if __name__=="__main__":

@@ -177,6 +177,16 @@ L'autore ha respinto le forme di **quercia / quercia scura** come soluzione defi
 
 **Stato:** **decisione di design registrata**; i nuovi placer procedurali non sono ancora implementati. Nessuna modifica a worldgen e release in questa fase.
 
+### Ulivo normale procedurale — prima versione testabile (24 ottobre 2026)
+
+**Implementazione:** `OliveTrunkPlacer`, `OliveFoliagePlacer` e `ModTreePlacers` aggiunti nel package `dev.italiansdelight.common.worldgen`. Le classi utilizzano l'API dei placer vanilla 26.2 e i relativi `MapCodec`. Il germoglio 1×1 richiama ora i due generatori originali tramite `data/italiansdelight/worldgen/configured_feature/olive_tree.json`.
+
+- Tronco 1×1 con base dritta, lieve curvatura nella parte alta, 2–3 rami laterali rialzati e direzioni variabili. I rami usano orientamento orizzontale dell'asse del log. Le chiome sono ancorate alle estremità dei rami, non a livello del terreno.
+- Ogni ramo produce un gruppo compatto di foglie verde-argentee, leggermente appiattito, con margini irregolari e spazi naturali. Non sono state modificate texture approvate né introdotti frutti.
+- **Ulivo secolare:** conserva per ora il generatore 2×2 provvisorio della quercia scura; un tronco procedurale 2×2 dedicato sarà la prossima fase, riutilizzando i parametri e le regole morfologiche definite per l'ulivo normale.
+- **Worldgen naturale degli ulivi ancora DISATTIVATO.** La nuova forma è testabile solo tramite il germoglio in Creativa/Sopravvivenza e tramite `/place feature italiansdelight:olive_tree`.
+- **Collaudo ancora da confermare:** far crescere almeno 8–12 esemplari con farina d'ossa, verificare che i rami siano connessi al fusto, le chiome sopra il terreno, la raccolta dei tronchi e il decadimento delle foglie; evitare intersezioni eccessive con costruzioni. Non considerare la forma approvata finché l'autore non la verifica. [Checklist](OLIVE_SAPLING_TREES_TESTS.md).
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per mandorlo e ciliegio da frutto perseguire progressivamente un set edilizio coerente con Minecraft; **la famiglia d'ulivo è già implementata**: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Barche e barche con baule d'ulivo sono già presenti; quelle delle altre specie restano da valutare.

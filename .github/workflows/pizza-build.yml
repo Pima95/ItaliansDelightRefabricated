@@ -26,6 +26,8 @@ jobs:
           java-version: '25'
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
+      - name: Verify procedural olive trunk and canopy remain sapling-only
+        run: python3 .github/scripts/check_olive_procedural_placement.py
       - name: Verify Olive sapling normal and ancient tree definitions
         run: python3 .github/scripts/check_olive_sapling_trees.py
       - name: Verify Olive leaves and absence of Rustic leaf asset

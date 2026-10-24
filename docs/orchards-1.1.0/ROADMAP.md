@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated — Orchard Update 1.1.0
 
-**Stato:** set edilizio d'ulivo, foglie argentate e germoglio implementati; crescita 1×1/2×2 **ancora provvisoria**. Prossimo lavoro: forme procedurali originali. La generazione naturale è sospesa.  
+**Stato:** il set edilizio e il germoglio d'ulivo sono implementati. Il **primo prototipo procedurale dell'ulivo normale 1×1** è stato aggiunto; l'ulivo secolare 2×2 utilizza ancora forme provvisorie. La generazione naturale degli ulivi resta disabilitata.  
 **Branch:** `feature/orchards-1.1.0`, creato da `main` dopo la pubblicazione della 1.0.0.  
 **Ambito:** tre alberi da frutto e relative coltivazioni. Le aggiunte di pasta, piatti e ricette saranno contenuti **bonus graduali** all'interno dei diversi aggiornamenti, non necessariamente una release dedicata.
 
@@ -236,6 +236,16 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 **Criterio di implementazione:** concentrare le regole di ramificazione, distribuzione delle chiome e casualità nei componenti dedicati; riutilizzare il più possibile la logica comune a ulivo normale e secolare. Organizzare codice, registri, tag e JSON seguendo il progetto attuale, evitando classi o livelli di astrazione senza una necessità concreta.
 
 **Stato:** **decisione di design registrata**; i nuovi placer procedurali non sono ancora implementati. Nessuna modifica a worldgen e release in questa fase.
+
+### Ulivo normale procedurale — prima versione testabile (24 ottobre 2026)
+
+**Implementazione:** `OliveTrunkPlacer`, `OliveFoliagePlacer` e `ModTreePlacers` aggiunti nel package `dev.italiansdelight.common.worldgen`. Le classi utilizzano l'API dei placer vanilla 26.2 e i relativi `MapCodec`. Il germoglio 1×1 richiama ora i due generatori originali tramite `data/italiansdelight/worldgen/configured_feature/olive_tree.json`.
+
+- Tronco 1×1 con base dritta, lieve curvatura nella parte alta, 2–3 rami laterali rialzati e direzioni variabili. I rami usano orientamento orizzontale dell'asse del log. Le chiome sono ancorate alle estremità dei rami, non a livello del terreno.
+- Ogni ramo produce un gruppo compatto di foglie verde-argentee, leggermente appiattito, con margini irregolari e spazi naturali. Non sono state modificate texture approvate né introdotti frutti.
+- **Ulivo secolare:** conserva per ora il generatore 2×2 provvisorio della quercia scura; un tronco procedurale 2×2 dedicato sarà la prossima fase, riutilizzando i parametri e le regole morfologiche definite per l'ulivo normale.
+- **Worldgen naturale degli ulivi ancora DISATTIVATO.** La nuova forma è testabile solo tramite il germoglio in Creativa/Sopravvivenza e tramite `/place feature italiansdelight:olive_tree`.
+- **Collaudo ancora da confermare:** far crescere almeno 8–12 esemplari con farina d'ossa, verificare che i rami siano connessi al fusto, le chiome sopra il terreno, la raccolta dei tronchi e il decadimento delle foglie; evitare intersezioni eccessive con costruzioni. Non considerare la forma approvata finché l'autore non la verifica. [Checklist](OLIVE_SAPLING_TREES_TESTS.md).
 
 ## 4. Fasi di sviluppo
 
