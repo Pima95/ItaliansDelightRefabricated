@@ -54,6 +54,10 @@ Questo documento registra file con **lo stesso Git blob SHA-1** del repository p
 
 In seguito alla richiesta dell'autore, **`src/main/resources/assets/italiansdelight/textures/block/leaves_olive.png` è stato eliminato sul branch `feature/orchards-1.1.0`**. La riga nella tabella documenta il confronto storico del 23 ottobre 2026 (quando era presente), quindi **41** è il numero di corrispondenze dello snapshot originale, non il conteggio attuale del branch. Il file da utilizzare è `textures/block/olive_leaves.png`, diverso per hash dal campione Rustic verificato. Gli altri asset di origine Rustic non sono stati eliminati in questa operazione.
 
+### Seconda rimozione selettiva sul branch (24 ottobre 2026)
+
+Su richiesta dell'autore è stato eliminato **`src/main/resources/assets/italiansdelight/textures/block/sapling_olive.png`**, il cui Git blob `f03d6d4cdea69c6952e773c87d3ade4a5ecc9458` è identico alla risorsa Rustic riportata nella tabella. È stato preservato `olive_sapling.png`, distinto per SHA. La tabella di 41 corrispondenze rimane **uno snapshot storico del 23 ottobre** e non la lista dei file effettivamente presenti oggi; dopo le due rimozioni selettive qui descritte, i relativi due PNG non si trovano più sul branch `feature/orchards-1.1.0`.
+
 ## Conclusioni rilevanti per Orchard Update
 
 - Corrispondenze dirette per `block/log_olive.png`, `block/leaves_olive.png`, `block/sapling_olive.png` e `item/olive_seed.png`: **identità confermata** con file Rustic.

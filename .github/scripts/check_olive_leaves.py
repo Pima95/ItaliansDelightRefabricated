@@ -3,6 +3,7 @@
 from pathlib import Path
 import json
 import struct
+from check_orchard_signs_and_cutting import check_rgba_pixel_art
 
 ROOT=Path("src/main/resources")
 A=ROOT/"assets/italiansdelight"
@@ -21,6 +22,34 @@ def main():
     old=A/"textures/block/leaves_olive.png"
     if old.exists():
         raise ValueError("Rustic leaves_olive.png must be removed from the Orchard branch")
+    rustic_sapling=A/"textures/block/sapling_olive.png"
+    if rustic_sapling.exists():
+        raise ValueError("Rustic sapling_olive.png must be removed from the Orchard branch")
+    approved_sapling=A/"textures/block/olive_sapling.png"
+    assert approved_sapling.is_file(), "Preserve existing olive_sapling.png for a future growable sapling"
+    sapling_bytes=approved_sapling.read_bytes()
+    assert sapling_bytes[:8]==b"\\x89PNG\\r\\n\\x1a\\n" and struct.unpack(">II",sapling_bytes[16:24])==(16,16)
+
+    # Palette-only retouch: preserve the EXACT old leaf silhouette, 168
+    # opaque pixels and 88 transparent pixels. PNGs remain crisp RGBA 16x16,
+    # alpha either 0 or 255, never blended/antialiased.
+    pixels=[pixel for row in check_rgba_pixel_art(src,(16,16)) for pixel in row]
+    assert sum(px[3]==0 for px in pixels)==88, "Leaf silhouette must not change"
+    visible=[px for px in pixels if px[3]==255]
+    assert len(visible)==168
+    silver_palette={
+        (68,91,78), (104,127,110), (146,163,143), (198,209,194)
+    }
+    assert {px[:3] for px in visible}==silver_palette, (
+        "Olive leaves must use the tested four olive-silver colors"
+    )
+    assert sum(px[0]>=190 for px in visible)>=20, (
+        "Silvery highlights must remain visible over the crown"
+    )
+    for folder in ("models","blockstates","items"):
+        for path in (A/folder).rglob("*.json"):
+            if "sapling_olive" in path.read_text(encoding="utf-8"):
+                raise ValueError("A Minecraft resource still references the deleted Rustic sapling: "+str(path))
     model=read(A/"models/block/olive_leaves.json")
     if model != {"parent":"minecraft:block/leaves",
                   "textures":{"all":"italiansdelight:block/olive_leaves"}}:
@@ -57,7 +86,10 @@ def main():
                    for pool in loot["pools"] for e in pool["entries"])
     print("OK: concrete untinted olive leaves registered; textures and model use approved non-Rustic 16x16 art")
     print("OK: vanilla distance via logs_that_burn, leaf tags, fire, Silk Touch/shears, sticks, no fruits/saplings")
-    print("OK: Rustic leaves_olive.png removed from Orchard branch; no automatic user test claimed")
+    print("OK: 16x16 hard-alpha leaves recolored sage and silver, original 168px silhouette unchanged")
+    print("OK: both Rustic leaves_olive.png and sapling_olive.png are absent from branch")
+    print("OK: alternative olive_sapling.png retained for separate functional tree-growth development")
+    print("NOTE: silver-green palette needs manual in-game approval")
 
 if __name__=="__main__":
     main()

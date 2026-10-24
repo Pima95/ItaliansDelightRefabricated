@@ -118,9 +118,19 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 - **Usare** `textures/block/olive_leaves.png` già presente, che non corrisponde byte-per-byte al campione di Rustic. La provenienza artistica esatta continua a richiedere verifica, ma non va sostituita senza consenso.
 - **Eliminare** `textures/block/leaves_olive.png` dal branch 1.1.0: corrispondenza binaria esatta con Rustic (`c90b2ece...`) già documentata, rimozione esplicitamente richiesta dall'autore.
 - Implementazione limitata a un normale `LeavesBlock` (decay a distanza 7, persistenza, acqua, cesoie, Silk Touch, bastoni e comportamento del fuoco), senza frutta/germogli/worldgen fino alla fase successiva.
-- I tre restanti file Rustici legacy identificati per l'ulivo (`log_olive.png`, `sapling_olive.png` e `item/olive_seed.png`) **non sono stati rimossi** in questa modifica.
+- Nel primo lotto foglie non sono stati rimossi gli altri asset Rustic; **nel successivo ritocco il file `sapling_olive.png` è stato eliminato su richiesta dell'autore**. Rimangono i file storici `log_olive.png` e `item/olive_seed.png`, che non vanno usati nei nuovi modelli.
 
 Vedi [i controlli manuali](OLIVE_LEAVES_TESTS.md).
+
+### Revisione cromatica foglie e pulizia germogli Rustic — 24 ottobre 2026
+
+**Conferma dall'autore:** le foglie introdotte nel primo lotto **funzionano nel gioco**; tuttavia la texture esistente appariva troppo verde, priva del tipico colore argento degli ulivi mediterranei. Non è stata confermata singolarmente ogni voce della checklist (né un'approvazione cromatica).
+
+**Nuova palette** per `assets/italiansdelight/textures/block/olive_leaves.png`: quattro colori opachi **#445B4E** (ombra verde-grigia), **#687F6E** (salvia), **#92A38F** (verde argento) e **#C6D1C2** (riflesso argenteo chiaro). I pixel occupati restano esattamente **168** e quelli trasparenti **88** su 16×16, senza sfumature, antialiasing, alterazioni di silhouette o modifiche al codice di decadimento. La colorazione fissa è conservata dalla classe `UntintedParticleLeavesBlock`, indipendentemente dal bioma. Palette ispirata ai veri ulivi con foglie grigio-verdi e pagina inferiore argentea.
+
+**Seconda pulizia autorizzata:** rimossa esclusivamente `textures/block/sapling_olive.png` (Git blob storico `f03d6d4cdea69c6952e773c87d3ade4a5ecc9458`, corrispondente a Rustic). Resta intatta `textures/block/olive_sapling.png` (`be6c9b048a2e029fac39df202587a412961d7fbc`), candidata per il germoglio coltivabile della fase successiva. **Non** è ancora stato registrato un nuovo blocco germoglio: prima va implementata la generazione dell'ulivo normale e dell'ulivo secolare 2×2, così il germoglio potrà effettivamente crescere. Nessun altro asset Rustic è stato eliminato.
+
+**Test ancora da effettuare:** valutazione del nuovo colore argentato in gioco, al sole e all'ombra, e controllo del nuovo PNG in Creativa. [Checklist aggiornata](OLIVE_LEAVES_TESTS.md).
 
 ## 4. Famiglie e nomenclatura — proposta tecnica
 

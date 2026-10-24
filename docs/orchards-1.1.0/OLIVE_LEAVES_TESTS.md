@@ -1,6 +1,13 @@
 # Orchard Update 1.1.0 — Collaudo Foglie d'Ulivo
 
-**Branch:** `feature/orchards-1.1.0`. **Stato:** implementate, **test manuali non ancora eseguiti/confermati**. Assicurarsi che non sia stato installato un vecchio JAR della mod insieme alla build corrente.
+**Branch:** `feature/orchards-1.1.0`. **Stato:** l'autore ha confermato che **le foglie funzionano**, senza fornire conferma singola di tutte le casistiche della checklist. Il colore verde precedente è stato giudicato insoddisfacente e sostituito con una nuova palette argentata **da verificare in gioco**. Assicurarsi che non sia stato installato un vecchio JAR della mod insieme alla build corrente.
+
+## Modifiche cromatiche e pulizia asset (24 ottobre 2026)
+
+- [x] Risultato generale: **«Le foglie funzionano»**, confermato dall'autore; non equivale a superamento certificato di ogni caso sotto elencato.
+- [x] Rimossa la risorsa Rustic `textures/block/sapling_olive.png`, mantenuta la risorsa candidata `textures/block/olive_sapling.png`.
+- [ ] **Nuovo test visivo:** foglie color verde salvia/argento, con riflessi grigio-argentei distribuiti sul blocco e texture leggibile anche con luce solare/ombra; nessun colore di bioma sovrapposto e silhouette invariata.
+- [ ] **Consistenza futura:** quando si aggiungerà il germoglio, verificare che l'asset abbia una tonalità coerente con la chioma, senza riutilizzare la versione Rustic.
 
 ## Checklist Minecraft
 

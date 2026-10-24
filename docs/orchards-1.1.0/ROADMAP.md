@@ -178,6 +178,16 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Prossimi passi:** collaudare foglie prima di iniziare germogli, struttura di crescita ulivo normale e secolare 2×2, worldgen e frutti. [Checklist foglie](OLIVE_LEAVES_TESTS.md).
 
+### Revisione cromatica foglie e pulizia germogli Rustic — 24 ottobre 2026
+
+**Conferma dall'autore:** le foglie introdotte nel primo lotto **funzionano nel gioco**; tuttavia la texture esistente appariva troppo verde, priva del tipico colore argento degli ulivi mediterranei. Non è stata confermata singolarmente ogni voce della checklist (né un'approvazione cromatica).
+
+**Nuova palette** per `assets/italiansdelight/textures/block/olive_leaves.png`: quattro colori opachi **#445B4E** (ombra verde-grigia), **#687F6E** (salvia), **#92A38F** (verde argento) e **#C6D1C2** (riflesso argenteo chiaro). I pixel occupati restano esattamente **168** e quelli trasparenti **88** su 16×16, senza sfumature, antialiasing, alterazioni di silhouette o modifiche al codice di decadimento. La colorazione fissa è conservata dalla classe `UntintedParticleLeavesBlock`, indipendentemente dal bioma. Palette ispirata ai veri ulivi con foglie grigio-verdi e pagina inferiore argentea.
+
+**Seconda pulizia autorizzata:** rimossa esclusivamente `textures/block/sapling_olive.png` (Git blob storico `f03d6d4cdea69c6952e773c87d3ade4a5ecc9458`, corrispondente a Rustic). Resta intatta `textures/block/olive_sapling.png` (`be6c9b048a2e029fac39df202587a412961d7fbc`), candidata per il germoglio coltivabile della fase successiva. **Non** è ancora stato registrato un nuovo blocco germoglio: prima va implementata la generazione dell'ulivo normale e dell'ulivo secolare 2×2, così il germoglio potrà effettivamente crescere. Nessun altro asset Rustic è stato eliminato.
+
+**Test ancora da effettuare:** valutazione del nuovo colore argentato in gioco, al sole e all'ombra, e controllo del nuovo PNG in Creativa. [Checklist aggiornata](OLIVE_LEAVES_TESTS.md).
+
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
