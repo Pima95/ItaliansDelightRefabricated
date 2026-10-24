@@ -132,6 +132,18 @@ Vedi [i controlli manuali](OLIVE_LEAVES_TESTS.md).
 
 **Test ancora da effettuare:** valutazione del nuovo colore argentato in gioco, al sole e all'ombra, e controllo del nuovo PNG in Creativa. [Checklist aggiornata](OLIVE_LEAVES_TESTS.md).
 
+### Germoglio d'ulivo e crescita normale / secolare 2×2 — implementazione (24 ottobre 2026)
+
+**Problema segnalato dall'autore:** il germoglio non compariva in Minecraft perché prima era stata conservata **soltanto la texture**, senza registrazione di blocco o BlockItem. **Risolto**: `italiansdelight:olive_sapling` ora è un `SaplingBlock` posizionabile, visibile in Creativa, con nome IT/EN, modello a croce, drop e tag vanilla.
+
+**Alberi coltivabili:** lo stesso `TreeGrower` seleziona `olive_tree` per un germoglio isolato e `ancient_olive_tree` se trova **quattro germogli d'ulivo nel quadrato 2×2**. Le configurazioni di feature 26.2 impiegano sempre `olive_log` e `olive_leaves`; il normale usa un tronco ramificato vanilla di altezza moderata e corona arrotondata, il secolare usa tronco massiccio 2×2 con generatore vanilla `dark_oak_trunk_placer` e chioma ampia. È una prima geometria vanilla affidabile, **da valutare visivamente** per un ulivo contorto e mediterraneo, senza dichiararla definitiva. Le foglie generate sono naturali (`persistent=false`) e decadono se manca il tronco.
+
+**Generazione naturale provvisoria:** biomi pianure, savana e altopiano della savana; un tentativo per circa **55 chunk** normali e **450 chunk** secolari, subordinati a terreno e spazio appropriati. Questi sono parametri iniziali, **non frequenze effettive garantite di crescita**. Mondi esistenti generano nuovi alberi soltanto nei chunk nuovi. La crescita manuale dei germogli non è limitata a questi biomi.
+
+**Riproduzione in Sopravvivenza:** le foglie d'ulivo ora possono rilasciare il germoglio con probabilità 5% base (Fortuna fino a 10%), imitando il meccanismo di altre foglie vanilla; cesoie e Silk Touch mantengono il drop del blocco, non dei germogli. Niente olive o frutti fino alla fase di fruttificazione.
+
+**Stato:** la compilazione automatica e i test sul client devono essere eseguiti prima di considerare completata questa fase; checklist in [OLIVE_SAPLING_TREES_TESTS.md](OLIVE_SAPLING_TREES_TESTS.md). Non sono stati creati/modificati PNG: `olive_sapling.png` era già presente e il file Rustic `sapling_olive.png` resta rimosso.
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.

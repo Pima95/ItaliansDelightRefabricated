@@ -23,6 +23,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.core.registries.Registries;
+import java.util.Optional;
 import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.block.DoorBlock;
@@ -113,6 +118,28 @@ public final class ModBlocks {
         OLIVE_LEAVES_KEY,
         new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES,
             Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(OLIVE_LEAVES_KEY))
+    );
+
+
+    // One seedling: regular olive. Four identical seedlings in a 2x2:
+    // ancient (secular) olive, via vanilla TreeGrower mega-tree detection.
+    // Features are data-driven, using our non-Rustic log and silver leaves.
+    public static final ResourceKey<ConfiguredFeature<?, ?>> OLIVE_TREE_FEATURE =
+        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("olive_tree"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ANCIENT_OLIVE_TREE_FEATURE =
+        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("ancient_olive_tree"));
+    public static final TreeGrower OLIVE_TREE_GROWER = new TreeGrower(
+        "italiansdelight:olive",
+        Optional.of(ANCIENT_OLIVE_TREE_FEATURE),
+        Optional.of(OLIVE_TREE_FEATURE),
+        Optional.empty()
+    );
+    public static final ResourceKey<Block> OLIVE_SAPLING_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_sapling"));
+    public static final Block OLIVE_SAPLING = register(
+        OLIVE_SAPLING_KEY,
+        new SaplingBlock(OLIVE_TREE_GROWER,
+            Block.Properties.ofFullCopy(Blocks.OAK_SAPLING).setId(OLIVE_SAPLING_KEY))
     );
 
     // Phase A of the Orchard Update: six vanilla-equivalent building blocks.

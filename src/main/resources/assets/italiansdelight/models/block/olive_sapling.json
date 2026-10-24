@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "italiansdelight:block/olive_sapling"
+  }
+}

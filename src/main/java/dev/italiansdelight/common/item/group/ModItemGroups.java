@@ -72,6 +72,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.STRIPPED_OLIVE_WOOD);
                 output.accept(ModBlocks.OLIVE_PLANKS);
                 output.accept(ModBlocks.OLIVE_LEAVES);
+                output.accept(ModBlocks.OLIVE_SAPLING);
                 output.accept(ModBlocks.OLIVE_STAIRS);
                 output.accept(ModBlocks.OLIVE_SLAB);
                 output.accept(ModBlocks.OLIVE_FENCE);

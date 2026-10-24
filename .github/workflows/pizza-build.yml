@@ -26,6 +26,8 @@ jobs:
           java-version: '25'
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
+      - name: Verify Olive sapling normal and ancient tree definitions
+        run: python3 .github/scripts/check_olive_sapling_trees.py
       - name: Verify Olive leaves and absence of Rustic leaf asset
         run: python3 .github/scripts/check_olive_leaves.py
       - name: Reject Rustic art in Orchard wood models

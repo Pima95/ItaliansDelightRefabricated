@@ -82,10 +82,14 @@ def main():
     assert any(t.get("predicate",{}).get("predicates",{}).get("minecraft:enchantments")
                for t in tool["terms"])
     assert any(e.get("name")=="minecraft:stick" for pool in loot["pools"][1:] for e in pool["entries"])
-    assert not any(e.get("name","").endswith(("sapling","apple","olives"))
+    sapling_drop = [e for pool in loot["pools"] for e in pool["entries"]
+                    if e.get("name")=="italiansdelight:olive_sapling"]
+    assert len(sapling_drop)==1, "Leaf decay must now yield viable olive seedlings"
+    assert sapling_drop[0]["conditions"][-1]["chances"]==[0.05,0.0625,0.083333336,0.1]
+    assert not any(e.get("name","") in ("minecraft:apple","italiansdelight:olives")
                    for pool in loot["pools"] for e in pool["entries"])
     print("OK: concrete untinted olive leaves registered; textures and model use approved non-Rustic 16x16 art")
-    print("OK: vanilla distance via logs_that_burn, leaf tags, fire, Silk Touch/shears, sticks, no fruits/saplings")
+    print("OK: vanilla distance via logs_that_burn, leaf tags, fire, Silk Touch/shears, sticks, no fruit yet; sapling drop introduced with tree growth")
     print("OK: 16x16 hard-alpha leaves recolored sage and silver, original 168px silhouette unchanged")
     print("OK: both Rustic leaves_olive.png and sapling_olive.png are absent from branch")
     print("OK: alternative olive_sapling.png retained for separate functional tree-growth development")
