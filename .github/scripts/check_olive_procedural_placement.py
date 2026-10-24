@@ -16,6 +16,12 @@ assert "placeBelowTrunkBlock" in trunk
 assert "new FoliagePlacer.FoliageAttachment(tip.above()" in trunk
 assert "new FoliagePlacer.FoliageAttachment(topLog.above()" in trunk
 assert "placeLog(level, trunkSetter" in trunk
+# Regression: a branch below the bend must originate at the lower axis.
+# A raised branch end must be stacked over its horizontal segment instead
+# of starting diagonally, which would leave unsupported leaf clumps.
+assert "branchY < bendLevel ? origin : center" in trunk
+assert "BlockPos raisedTip = tip.above();" in trunk
+assert "tip = raisedTip;" in trunk
 assert "foliagePlacerParts(instance)" in foliage
 assert "shouldSkipLocation" in foliage
 assert "tryPlaceLeaf" in foliage

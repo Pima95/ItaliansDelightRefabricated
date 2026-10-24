@@ -241,7 +241,7 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Implementazione:** `OliveTrunkPlacer`, `OliveFoliagePlacer` e `ModTreePlacers` aggiunti nel package `dev.italiansdelight.common.worldgen`. Le classi utilizzano l'API dei placer vanilla 26.2 e i relativi `MapCodec`. Il germoglio 1×1 richiama ora i due generatori originali tramite `data/italiansdelight/worldgen/configured_feature/olive_tree.json`.
 
-- Tronco 1×1 con base dritta, lieve curvatura nella parte alta, 2–3 rami laterali rialzati e direzioni variabili. I rami usano orientamento orizzontale dell'asse del log. Le chiome sono ancorate alle estremità dei rami, non a livello del terreno.
+- Tronco 1×1 con base dritta, lieve curvatura nella parte alta, 2–3 rami laterali rialzati e direzioni variabili. I rami partono dal segmento corretto prima/dopo la piega e i loro tratti ascendenti sono **connessi per faccia** al resto del tronco, con orientamento orizzontale dell'asse dei segmenti. Le chiome sono ancorate alle estremità dei rami, non a livello del terreno.
 - Ogni ramo produce un gruppo compatto di foglie verde-argentee, leggermente appiattito, con margini irregolari e spazi naturali. Non sono state modificate texture approvate né introdotti frutti.
 - **Ulivo secolare:** conserva per ora il generatore 2×2 provvisorio della quercia scura; un tronco procedurale 2×2 dedicato sarà la prossima fase, riutilizzando i parametri e le regole morfologiche definite per l'ulivo normale.
 - **Worldgen naturale degli ulivi ancora DISATTIVATO.** La nuova forma è testabile solo tramite il germoglio in Creativa/Sopravvivenza e tramite `/place feature italiansdelight:olive_tree`.
