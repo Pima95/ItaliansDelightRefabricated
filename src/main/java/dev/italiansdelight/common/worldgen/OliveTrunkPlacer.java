@@ -123,9 +123,10 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
         BlockPos tip = lowFork;
         // Try each side exactly once if terrain blocks the first choice.
         for (int attempt = 0; attempt < 4; attempt++) {
-            BlockPos sideways = lowFork.relative(candidate);
+            Direction attemptedDirection = candidate;
+            BlockPos sideways = lowFork.relative(attemptedDirection);
             if (placeLog(level, trunkSetter, random, sideways, config,
-                state -> state.setValue(RotatedPillarBlock.AXIS, candidate.getAxis()))) {
+                state -> state.setValue(RotatedPillarBlock.AXIS, attemptedDirection.getAxis()))) {
                 tip = sideways;
                 lean = candidate;
                 break;
