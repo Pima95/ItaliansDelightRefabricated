@@ -14,25 +14,11 @@ public final class ModWorldGeneration {
         Registries.PLACED_FEATURE, ModRegistries.id("cardoon_patch"));
     private static final ResourceKey<PlacedFeature> WILD_BASIL_PATCH = ResourceKey.create(
         Registries.PLACED_FEATURE, ModRegistries.id("wild_basil_patch"));
-    // Ordinary olive trees are uncommon; ancient olives with a 2x2
-    // trunk are considerably rarer. Both appear only in selected warm /
-    // temperate Orchard biomes; planted saplings work in other biomes.
-    private static final ResourceKey<PlacedFeature> OLIVE_TREE_WILD = ResourceKey.create(
-        Registries.PLACED_FEATURE, ModRegistries.id("olive_tree_wild"));
-    private static final ResourceKey<PlacedFeature> ANCIENT_OLIVE_TREE_WILD = ResourceKey.create(
-        Registries.PLACED_FEATURE, ModRegistries.id("ancient_olive_tree_wild"));
+    // Olive world generation intentionally DISABLED until we have custom
+    // authentic olive canopies and twisted trunks. Sapling-only tree growth
+    // uses separate configured features and remains available for tests.
     private ModWorldGeneration() {}
     public static void register() {
-        BiomeModifications.addFeature(
-            BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SAVANNA,
-                Biomes.SAVANNA_PLATEAU),
-            GenerationStep.Decoration.VEGETAL_DECORATION, OLIVE_TREE_WILD
-        );
-        BiomeModifications.addFeature(
-            BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SAVANNA,
-                Biomes.SAVANNA_PLATEAU),
-            GenerationStep.Decoration.VEGETAL_DECORATION, ANCIENT_OLIVE_TREE_WILD
-        );
         BiomeModifications.addFeature(
             BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
                 Biomes.MEADOW, Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU,

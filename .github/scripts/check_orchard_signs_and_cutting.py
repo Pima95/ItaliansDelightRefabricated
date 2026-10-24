@@ -79,12 +79,18 @@ def main():
         ("gui/hanging_signs/olive.png", (16, 16)),
     ):
         check_rgba_pixel_art(A / "textures" / name, size)
-    # The normal item icon changed ONLY in its writing glyphs, on user
-    # request. Freeze this 16x16 candidate so unrelated art is never
-    # inadvertently overwritten without a new approval.
+    # User clarified: RESTORE original sign lettering shape (pre-October
+    # glyph patch), modify ONLY its two dark ink colors to those of the
+    # hanging sign item. Its silhouette and all wood colors are untouched.
+    # Freeze approved shape/color intent against future accidental changes.
     import hashlib
     candidate = (A/"textures/item/olive_sign.png").read_bytes()
-    assert hashlib.sha1(b"blob " + str(len(candidate)).encode() + b"\0" + candidate).hexdigest() == "d77f67ba49e9677d41d442cb38cb66dfbe0e583b", "Olive sign item sprite changed unexpectedly"
+    assert hashlib.sha1(b"blob " + str(len(candidate)).encode() + b"\0" + candidate).hexdigest() == "a04604000abc6d45202ae7dc4894b860d337cce8", "Olive sign glyph shape or other pixels changed unexpectedly"
+    normal_item=check_rgba_pixel_art(A/"textures/item/olive_sign.png",(16,16))
+    glyph_ink={(86,49,25),(126,68,34)}
+    ink=[px[:3] for row in normal_item for px in row if px[3] and px[:3] in glyph_ink]
+    assert len(ink)==25, "Original normal sign ink layout must be preserved with hanging-sign ink palette"
+    assert {tuple(px[:3]) for row in normal_item for px in row if px[3]} >= glyph_ink
 
     # Vanilla 26.2 layout: normal sign pole uses UV x28..31 with a 2px
     # gap at y14..15. Match the original olive bark palette, not the
@@ -171,7 +177,7 @@ def main():
     assert cabinet_recipe["key"]=={"_":"italiansdelight:olive_slab","D":"italiansdelight:olive_trapdoor"}
     assert cabinet_recipe["result"]["id"]=="italiansdelight:olive_cabinet"
     print("OK: Minecraft 26.2 32x32 sign UV maps, 24x26/16x16 GUI, 16x16 hanging item")
-    print("OK: all 16 standing/32 hanging orientations, correct attached parent and original sign item")
+    print("OK: all 16 standing/32 hanging orientations, original normal-item lettering restored with hanging-item ink colors")
     print("OK: FD 27-slot olive cabinet uses original 4 PNGs and shared CabinetBlockEntity")
     print("OK: two olive stripping Cutting Board recipes return stripped wood and tree bark")
 

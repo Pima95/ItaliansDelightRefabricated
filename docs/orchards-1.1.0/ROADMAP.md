@@ -4,7 +4,7 @@
 **Branch:** `feature/orchards-1.1.0`, creato da `main` dopo la pubblicazione della 1.0.0.  
 **Ambito:** tre alberi da frutto e relative coltivazioni. Le aggiunte di pasta, piatti e ricette saranno contenuti **bonus graduali** all'interno dei diversi aggiornamenti, non necessariamente una release dedicata.
 
-> Sono stati implementati i blocchi edilizi e ora **le foglie d'ulivo**; non sono ancora implementati **germogli, generazione di alberi, fruttificazione o ricrescita** della 1.1.0. La versione e il contenuto pubblicati della 1.0.0 rimangono invariati.
+> La famiglia edilizia, le foglie e il germoglio d'ulivo sono implementati. La crescita tramite germogli usa **forme provvisorie da verificare**. **La generazione naturale degli ulivi è disattivata** in attesa di generatori originali, e fruttificazione e raccolta non sono ancora implementate. `main` e la release 1.0.0 restano invariati.
 
 ## 1. Alberi confermati
 
@@ -194,11 +194,23 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Alberi coltivabili:** lo stesso `TreeGrower` seleziona `olive_tree` per un germoglio isolato e `ancient_olive_tree` se trova **quattro germogli d'ulivo nel quadrato 2×2**. Le configurazioni di feature 26.2 impiegano sempre `olive_log` e `olive_leaves`; il normale usa un tronco ramificato vanilla di altezza moderata e corona arrotondata, il secolare usa tronco massiccio 2×2 con generatore vanilla `dark_oak_trunk_placer` e chioma ampia. È una prima geometria vanilla affidabile, **da valutare visivamente** per un ulivo contorto e mediterraneo, senza dichiararla definitiva. Le foglie generate sono naturali (`persistent=false`) e decadono se manca il tronco.
 
-**Generazione naturale provvisoria:** biomi pianure, savana e altopiano della savana; un tentativo per circa **55 chunk** normali e **450 chunk** secolari, subordinati a terreno e spazio appropriati. Questi sono parametri iniziali, **non frequenze effettive garantite di crescita**. Mondi esistenti generano nuovi alberi soltanto nei chunk nuovi. La crescita manuale dei germogli non è limitata a questi biomi.
+**Generazione naturale provvisoria (ANNULLATA):** la prima configurazione prevedeva biomi pianure, savana e altopiano della savana, con tentativi ogni ~55/450 chunk; ora **completamente disattivata** su richiesta dell'autore. Questi sono parametri iniziali, **non frequenze effettive garantite di crescita**. Mondi esistenti generano nuovi alberi soltanto nei chunk nuovi. La crescita manuale dei germogli non è limitata a questi biomi.
 
 **Riproduzione in Sopravvivenza:** le foglie d'ulivo ora possono rilasciare il germoglio con probabilità 5% base (Fortuna fino a 10%), imitando il meccanismo di altre foglie vanilla; cesoie e Silk Touch mantengono il drop del blocco, non dei germogli. Niente olive o frutti fino alla fase di fruttificazione.
 
 **Stato:** la compilazione automatica e i test sul client devono essere eseguiti prima di considerare completata questa fase; checklist in [OLIVE_SAPLING_TREES_TESTS.md](OLIVE_SAPLING_TREES_TESTS.md). Non sono stati creati/modificati PNG: `olive_sapling.png` era già presente e il file Rustic `sapling_olive.png` resta rimosso.
+
+### Correzioni successive ai test dell'autore — 24 ottobre 2026
+
+**Cartello normale:** l'autore intendeva **conservare la disposizione originale delle scritte** sull'icona `textures/item/olive_sign.png` e cambiare **soltanto il loro colore**, non ridisegnare i glifi. È stato ripreso il PNG originale (`0bf533baf5faf7e99a26aa58b3ebcabd3ca98aa9`) e ricolorati esattamente i 25 pixel delle due tonalità d'inchiostro nei toni già usati dall'icona del cartello appeso (**#563119** e **#7E4422**). Sagoma, stelo, assi, alfa e geometria del cartello invariati. La precedente alterazione delle lettere è dunque annullata.
+
+**Forma ulivo normale:** l'autore ha segnalato una chioma generata **a livello del suolo**. La combinazione provvisoria `fancy_trunk_placer` + `blob_foliage_placer` non risultava coerente. Temporaneamente la feature di crescita del germoglio usa **`straight_trunk_placer` + `blob_foliage_placer`**, collocando normalmente la chioma in cima al fusto anziché produrla a terra. **Non è la forma definitiva:** è solo una riparazione intermedia per mantenere utilizzabile la crescita in attesa di modelli procedurali originali con fusti contorti e chiome realistiche. La crescita dell'ulivo secolare 2×2 continua a essere disponibile come prototipo con la geometria temporanea dark oak.
+
+**Worldgen degli ulivi DISABILITATO:** eliminati i due `placed_feature` `olive_tree_wild.json` e `ancient_olive_tree_wild.json`; rimosse entrambe le chiamate `BiomeModifications.addFeature` dal registro. **Non vengono più generati nuovi ulivi naturalmente in pianure/savane**. Rimangono solo i `configured_feature` necessari per il germoglio singolo e i quattro germogli 2×2. Restano invariati cardoon, wild basil e worldgen vanilla. Gli ulivi già generati nei salvataggi esistenti non vengono cancellati.
+
+**Germoglio:** `textures/block/olive_sapling.png` ritoccata senza alterarne la sagoma, il tronco, l'alpha né la risoluzione **16×16**. Solo 37 pixel di foglie sono stati ricolorati nella palette argentata **#445B4E**, **#687F6E**, **#92A38F**, **#C6D1C2** già usata da `olive_leaves.png`. Non è stata reintrodotta la risorsa Rustic `sapling_olive.png`.
+
+**Accettazione:** occorrono test in gioco sul germoglio argentato, sulla chioma corretta e sulla completa assenza di worldgen negli **chunk nuovi**. L'originalità delle forme di entrambi gli ulivi è un blocco per riattivare il worldgen.
 
 ## 4. Fasi di sviluppo
 

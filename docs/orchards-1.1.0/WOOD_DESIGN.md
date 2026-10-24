@@ -144,6 +144,14 @@ Vedi [i controlli manuali](OLIVE_LEAVES_TESTS.md).
 
 **Stato:** la compilazione automatica e i test sul client devono essere eseguiti prima di considerare completata questa fase; checklist in [OLIVE_SAPLING_TREES_TESTS.md](OLIVE_SAPLING_TREES_TESTS.md). Non sono stati creati/modificati PNG: `olive_sapling.png` era già presente e il file Rustic `sapling_olive.png` resta rimosso.
 
+### Decisione morfologica successiva al collaudo (24 ottobre 2026)
+
+L'autore ha respinto le forme di **quercia / quercia scura** come soluzione definitiva e ha segnalato foglie **a terra** sull'ulivo normale. **Generazione naturale provvisoria DISATTIVATA**, tanto normale quanto secolare: nessuna feature `olive_*_wild` registrata o presente nel datapack. Restano il germoglio normale/2×2 e le `configured_feature` per gli esperimenti, con una correzione temporanea `straight_trunk_placer` per riportare la chioma sul fusto. Le forme definitive dovranno avere un tronco irregolare contorto, chioma ampia/grigio-argentea e secolare con vero tronco 2×2.
+
+**Ritocco germoglio:** solo i 37 pixel di foglie di `olive_sapling.png` ricolorati nella palette silver-green di `olive_leaves.png`, restanti pixel, stelo, sagoma e trasparenze invariati. Nessuna texture Rustic ripristinata.
+
+**Grafica item cartello normale:** ripristinata la forma esatta dei glifi originali (prima della riscrittura di ottobre); modificato esclusivamente il colore dell'inchiostro per accordarlo all'icona dell'hanging sign.
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.

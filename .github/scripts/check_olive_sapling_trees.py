@@ -4,7 +4,8 @@
 This does not replace an in-game bone-meal, sapling or worldgen check.
 """
 from pathlib import Path
-import json,struct
+import json,struct,hashlib
+from check_orchard_signs_and_cutting import check_rgba_pixel_art
 A=Path("src/main/resources/assets/italiansdelight")
 D=Path("src/main/resources/data")
 SRC=Path("src/main/java/dev/italiansdelight")
@@ -16,6 +17,19 @@ def main():
     raw=png.read_bytes()
     assert raw[:8]==b"\x89PNG\r\n\x1a\n"
     assert struct.unpack(">II",raw[16:24])==(16,16)
+    # Silhouette, wood stem and original alpha are preserved; ONLY green
+    # foliage is recolored to the exact palette of olive_leaves.png.
+    sapling=[px for row in check_rgba_pixel_art(png,(16,16)) for px in row]
+    assert sum(px[3] == 0 for px in sapling) == 171
+    foliage_colors = {
+        (68,91,78), (104,127,110), (146,163,143), (198,209,194)
+    }
+    stem_colors = {
+        (84,74,54), (89,83,63), (99,92,70), (73,61,45),
+        (73,65,47), (86,73,52)
+    }
+    assert {px[:3] for px in sapling if px[3] == 255} == foliage_colors | stem_colors
+    assert sum(px[:3] in foliage_colors for px in sapling if px[3] == 255) == 37
     assert not (A/"textures/block/sapling_olive.png").exists(), "Rustic sapling is prohibited"
     block=j(A/"models/block/olive_sapling.json")
     assert block["parent"]=="minecraft:block/cross"
@@ -27,7 +41,7 @@ def main():
     assert loot["pools"][0]["entries"][0]["name"]=="italiansdelight:olive_sapling"
     for kind in ("block","item"):
         assert "italiansdelight:olive_sapling" in j(D/f"minecraft/tags/{kind}/saplings.json")["values"]
-    for name,placer,base_height in (("olive_tree","minecraft:fancy_trunk_placer",4),("ancient_olive_tree","minecraft:dark_oak_trunk_placer",7)):
+    for name,placer,base_height in (("olive_tree","minecraft:straight_trunk_placer",4),("ancient_olive_tree","minecraft:dark_oak_trunk_placer",7)):
         feat=j(D/f"italiansdelight/worldgen/configured_feature/{name}.json")
         assert feat["type"]=="minecraft:tree"
         cfg=feat["config"]
@@ -37,21 +51,24 @@ def main():
         assert cfg["trunk_placer"]["type"]==placer
         assert cfg["trunk_placer"]["base_height"]==base_height
         assert cfg["below_trunk_provider"]["type"]=="minecraft:rule_based_state_provider"
-    for name,chance in (("olive_tree",55),("ancient_olive_tree",450)):
-        p=j(D/f"italiansdelight/worldgen/placed_feature/{name}_wild.json")
-        assert p["feature"]==f"italiansdelight:{name}"
-        assert any(x.get("type")=="minecraft:rarity_filter" and x.get("chance")==chance for x in p["placement"])
-        assert any(x.get("type")=="minecraft:biome" for x in p["placement"])
+    # Provisional oak/dark-oak shapes must NEVER appear by natural worldgen.
+    # Keep only configured features for sapling growth via bone meal or ticks.
+    for name in ("olive_tree", "ancient_olive_tree"):
+        assert not (D/f"italiansdelight/worldgen/placed_feature/{name}_wild.json").exists(), (
+            f"Provisional {name} placement must not be present in datapacks"
+        )
     code=(SRC/"common/registry/ModBlocks.java").read_text()
     assert "new SaplingBlock(OLIVE_TREE_GROWER" in code
     assert "Optional.of(ANCIENT_OLIVE_TREE_FEATURE)" in code
     assert "Optional.of(OLIVE_TREE_FEATURE)" in code
     wg=(SRC/"common/registry/ModWorldGeneration.java").read_text()
-    assert "OLIVE_TREE_WILD" in wg and "ANCIENT_OLIVE_TREE_WILD" in wg
+    assert "OLIVE_TREE_WILD" not in wg and "ANCIENT_OLIVE_TREE_WILD" not in wg
+    assert "olive_tree_wild" not in wg and "ancient_olive_tree_wild" not in wg
     tab=(SRC/"common/item/group/ModItemGroups.java").read_text()
     assert tab.count("output.accept(ModBlocks.OLIVE_SAPLING);")==1
     print("OK: sapling in Creative, loot and sapling tags; 26.2 vanilla TreeGrower recognizes 1x1 and 2x2")
     print("OK: normal and ancient data-driven trees use exclusively olive log and silvery leaves")
-    print("OK: natural tree placements uncommon and ancient placement very rare")
+    print("OK: NO natural olive worldgen, no provisional olive placed features nor biome injection")
+    print("OK: silver-green sapling art preserves original 16x16 alpha and stem")
 if __name__=="__main__":
     main()
