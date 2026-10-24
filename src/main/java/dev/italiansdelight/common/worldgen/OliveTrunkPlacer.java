@@ -83,12 +83,13 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
         for (int i = 0; i < count; i++) {
             Direction outward = directions[(firstDirection + i * 4 / count) % 4];
             int branchY = Math.max(3, treeHeight - 2 - random.nextInt(2));
-            BlockPos base = center.above(branchY);
+            // A branch below the bend must start on the ORIGINAL trunk,
+            // not on its higher displaced axis, otherwise it would float.
+            BlockPos base = (branchY < bendLevel ? origin : center).above(branchY);
             BlockPos tip = null;
             int length = 2 + random.nextInt(2);
             for (int step = 1; step <= length; step++) {
-                BlockPos branchPos = base.relative(outward, step)
-                    .above(step == length ? 1 : 0);
+                BlockPos branchPos = base.relative(outward, step);
                 if (!placeLog(level, trunkSetter, random, branchPos, config,
                         state -> state.setValue(RotatedPillarBlock.AXIS, outward.getAxis()))) {
                     break;
@@ -96,6 +97,13 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
                 tip = branchPos;
             }
             if (tip != null) {
+                // Raise the crown with a VERTICAL log on the horizontal
+                // branch tip. The upward segment has a shared face with the
+                // last branch log, unlike a detached diagonal step.
+                BlockPos raisedTip = tip.above();
+                if (placeLog(level, trunkSetter, random, raisedTip, config)) {
+                    tip = raisedTip;
+                }
                 crowns.add(new FoliagePlacer.FoliageAttachment(tip.above(), 0, false));
             }
         }
