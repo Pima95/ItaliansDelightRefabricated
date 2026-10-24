@@ -11,7 +11,7 @@
 
 ## Regole sulle texture
 
-- **Nuovi file generati:** `textures/block/olive_sign.png`, `textures/block/olive_hanging_sign.png`, `textures/item/olive_hanging_sign.png`. Hanno esattamente **16×16 RGBA**, pixel con alfa soltanto 0/255, senza antialiasing, palette derivata da `olive_planks.png` e `olive_sign.png`.
+- **Nuovi file generati:** `textures/block/olive_sign.png`, `textures/block/olive_hanging_sign.png`, `textures/item/olive_hanging_sign.png`. Le texture dei **blocchi sono ora 32×32**, l'item dell'appeso 16×16 e gli sfondi GUI 24×26/16×16; tutti i pixel hanno alfa soltanto 0/255, senza antialiasing, palette derivata da `olive_planks.png` e `olive_sign.png`.
 - **File non modificati:** `textures/entity/sign/olive.png` e `textures/entity/sign/hanging/olive.png` (vecchio formato pre-26.2); `textures/item/olive_sign.png`; i quattro `olive_cabinet_*.png`.
 - **Escluse:** tutte le vecchie texture Rustic identificate. I vecchi PNG legacy restano disponibili nel repository a fini storici.
 
@@ -20,12 +20,16 @@
 - [ ] **Inventario Creativa:** compaiono Cartello d'Ulivo, Cartello Appeso d'Ulivo e Armadietto d'Ulivo, ciascuno una sola volta; icone distinguibili.
 - [ ] **Cartello normale:** piazzamento a terra nelle 16 orientazioni e a parete sui quattro lati; testo editabile avanti/retro, colori, luminescenza, persistenza dopo save/load e drop corretto.
 - [ ] **Cartello appeso:** posa al soffitto con catene e appoggio laterale, orientamento e collisioni come vanilla; testo avanti/retro, apertura dell'editor, salvataggio e drop.
-- [ ] **Grafica cartelli:** nessun viola/nero; palette coerente con le assi d'ulivo, assenza di sbavature, nessuna texture vecchia Rustic; attenzione anche all'icona del cartello appeso.
+- [ ] **REGRESSIONE GUI:** aprire l'editor del cartello normale e quello del cartello appeso e verificare che lo sfondo di entrambi non contenga più quadrati viola/neri; provare testo e persistenza.
+- [ ] **Grafica cartelli:** pannelli e catene con UV corrette da tutte le angolazioni, cartello appeso fissato al soffitto e parete, texture d'ulivo senza deformazioni. L'icona normale deve restare identica; quella dell'appeso deve mostrare tavole e catene corrette.
 - [ ] **Cabinet — aspetto e interazione:** texture frontale chiusa/aperta, tutte le direzioni, suoni e comportamento di apertura/chiusura come il cabinet FD.
 - [ ] **Cabinet — inventario:** 27 slot, inserimento ed estrazione, nome/indicatore redstone, recupero di cabinet e contenuto senza perdita/duplicazione in Sopravvivenza.
 - [ ] **Cabinet — persistenza e automatismi:** ripristino oggetti dopo riavvio del mondo; hopper laterali/sotto e, se previsti dal comportamento FD, trasporto di oggetti tramite Fabric Transfer API.
 - [ ] **Cutting Board — tronco:** con `olive_log` posato sulla tavola e un'ascia si ottengono `stripped_olive_log` + un `farmersdelight:tree_bark`. Suono e consumo durabilità come FD.
 - [ ] **Cutting Board — legno:** con `olive_wood` + ascia si ottengono `stripped_olive_wood` + una corteccia, senza duplicazioni.
+- [ ] **Crafting dei cartelli:** 6 assi + 1 bastone → 3 cartelli normali; 6 tronchi scortecciati + 2 catene di ferro → 6 cartelli appesi. Verificare sia nel banco 3×3 sia in JEI.
+- [ ] **Crafting cabinet:** 6 lastre d'ulivo + 2 botole d'ulivo nel pattern Farmer's Delight → 1 armadietto. Controllare gruppo, output e compatibilità JEI.
+- [ ] **Tutti i crafting:** provare le 17 ricette di legno d'ulivo elencate nella roadmap, non soltanto validarle con la CI. Registrare eventuali ricette invisibili o non riconosciute.
 - [ ] **JEI:** ricette della Cutting Board raggiungibili con R/U dal tronco, dal legno scortecciato e dalla corteccia; registrazioni normali di crafting per cartelli e armadietto.
 - [ ] **Regressioni:** controllo botola e legni già presenti, 13 scaffali stagionatura e vecchi cabinet Farmer's Delight invariati.
 - [ ] **Server dedicato:** log senza errori, cartelli con testo e cabinet persistenti e sincronizzati nel multiplayer.
