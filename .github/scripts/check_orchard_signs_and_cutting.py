@@ -41,6 +41,7 @@ def check_rgba_pixel_art(path, expected_size):
     raw = zlib.decompress(compressed)
     bpp = 4
     previous = bytearray(w*bpp)
+    decoded_rows = []
     offset = 0
     for y in range(h):
         filter_type = raw[offset]
@@ -62,7 +63,9 @@ def check_rgba_pixel_art(path, expected_size):
                 row[x]=(row[x]+pred)&255
             else: raise ValueError(f"Invalid PNG filter in {path}: {filter_type}")
         assert all(row[x] in (0,255) for x in range(3,len(row),4)), f"Alpha antialiasing in {path} row {y}"
+        decoded_rows.append([tuple(row[x:x+4]) for x in range(0,len(row),4)])
         previous = row
+    return decoded_rows
 
 
 def main():
@@ -71,15 +74,47 @@ def main():
         ("block/olive_sign.png", (32, 32)),
         ("block/olive_hanging_sign.png", (32, 32)),
         ("item/olive_hanging_sign.png", (16, 16)),
+        ("item/olive_sign.png", (16, 16)),
         ("gui/signs/olive.png", (24, 26)),
         ("gui/hanging_signs/olive.png", (16, 16)),
     ):
         check_rgba_pixel_art(A / "textures" / name, size)
-    # The original olive sign sprite and 64x32 legacy entity images are retained, unmodified.
-    assert (A/"textures/item/olive_sign.png").is_file()
+    # The normal item icon changed ONLY in its writing glyphs, on user
+    # request. Freeze this 16x16 candidate so unrelated art is never
+    # inadvertently overwritten without a new approval.
     import hashlib
-    original = (A/"textures/item/olive_sign.png").read_bytes()
-    assert hashlib.sha1(b"blob " + str(len(original)).encode() + b"\0" + original).hexdigest() == "0bf533baf5faf7e99a26aa58b3ebcabd3ca98aa9", "Approved normal sign item icon changed"
+    candidate = (A/"textures/item/olive_sign.png").read_bytes()
+    assert hashlib.sha1(b"blob " + str(len(candidate)).encode() + b"\0" + candidate).hexdigest() == "d77f67ba49e9677d41d442cb38cb66dfbe0e583b", "Olive sign item sprite changed unexpectedly"
+
+    # Vanilla 26.2 layout: normal sign pole uses UV x28..31 with a 2px
+    # gap at y14..15. Match the original olive bark palette, not the
+    # bright orange sign-board palette. User requested historic treatment.
+    normal = check_rgba_pixel_art(A/"textures/block/olive_sign.png", (32,32))
+    bark_palette = {
+        (73,65,47), (84,77,57), (99,92,67), (112,102,71), (130,117,81)
+    }
+    for y in list(range(0,14)) + list(range(16,30)):
+        for x in range(28,32):
+            rgba = normal[y][x]
+            assert rgba[3] == 255 and rgba[:3] in bark_palette, (
+                "Normal sign post must use olive bark grain", (x,y,rgba)
+            )
+
+    # Vanilla 26.2 atlas: the hanging sign's entire wood board uses the
+    # same five color tones as stripped_olive_log.png. Steel chains
+    # retain their neutral dark grey texture and alpha layout.
+    hanging = check_rgba_pixel_art(A/"textures/block/olive_hanging_sign.png", (32,32))
+    stripped_palette = {
+        (196,130,72), (214,139,79), (219,147,85),
+        (224,157,94), (229,165,105)
+    }
+    chain_palette = {(37,44,61), (62,68,83), (73,80,101), (91,100,124)}
+    for row in hanging:
+        for rgba in row:
+            if rgba[3] == 255:
+                assert rgba[:3] in stripped_palette | chain_palette, (
+                    "Hanging sign must match olive stripped-log tones or chain steel", rgba
+                )
     for old in ("sign/olive.png","sign/hanging/olive.png"):
         assert (A/"textures/entity"/old).is_file()
 

@@ -103,6 +103,16 @@ Segnalata e corretta la texture della botola d'ulivo che da chiusa non seguiva l
 - **Scortecciatura sulla Cutting Board:** aggiungere **due ricette native `farmersdelight:cutting`** per `olive_log` e `olive_wood`, con ascia o equivalente `axe_strip`: restituiscono la rispettiva variante scortecciata **e** `farmersdelight:tree_bark`, un'unità ciascuno, suono vanilla `minecraft:item.axe.strip`. Il clic destro con ascia sui blocchi già funziona e non va modificato.
 - **Accettazione:** build Java 25/CI, controlli sulle nuove texture e sulle ricette; **test manuali ancora richiesti** per posizionamento dei quattro cartelli, testo, persistenza, cabinato con item, tag e Cutting Board/JEI. Non riportare i test come superati senza riscontro in gioco dell'autore.
 
+### Ritocco artistico richiesto dall'autore — cartelli d'ulivo (24 ottobre 2026)
+
+L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo sono corretti** dopo la revisione vanilla 26.2, ma ha chiesto tre correzioni mirate:
+
+- **Cartello normale:** lo stelo nella texture 3D 32×32 era arancio-marrone e non coerente con il ceppo storico. La vecchia texture `textures/entity/sign/olive.png` mostrava invece lo stelo con la corteccia verde-grigiastra dell'ulivo. Sostituiti **solo i pixel del supporto** nelle regioni UV del template `template_sign_rot_*`, usando colori e venature di `textures/block/olive_log.png` (asset più recente, **non Rustic**). Pannello e modello invariati.
+- **Cartello appeso:** la vecchia texture `textures/entity/sign/hanging/olive.png` aveva una superficie chiara, coerente con `stripped_olive_log.png`. La nuova mappa 32×32 era troppo scura: ricolorate le parti in legno usando **esattamente le cinque tonalità** del tronco scortecciato, riprendendone direttamente le venature nelle facce frontali/posteriori; **catene metalliche e UV originali invariati**.
+- **Item cartello normale:** applicata una lieve correzione (20 pixel di glifi sul pannello) per uniformare la scritta stilizzata a quella del cartello appeso, mantenendo intatti sagoma, stelo, bordo e sfondo trasparente. **Icona del cartello appeso invariata**.
+
+**Nessun modello, blockstate, screen editor, script di gameplay, crafting o texture Rustic modificato.** Controlli CI ampliati: PNG 32×32/16×16 con alpha binario, colori dello stelo ricavati dal tronco, palette del cartello appeso limitata ai cinque toni scortecciati e colori delle catene, checksum del nuovo item normale. **Test in-game di resa estetica e accettazione artistica ancora da confermare.** La precedente conferma riguarda soltanto geometria e testo.
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.
