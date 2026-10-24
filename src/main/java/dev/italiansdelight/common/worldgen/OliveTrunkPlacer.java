@@ -136,7 +136,7 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
         return state.isAir() || state.canBeReplaced();
     }
 
-    private static boolean placeBark(
+    private boolean placeBark(
         WorldGenLevel level,
         BiConsumer<BlockPos, BlockState> trunkSetter,
         RandomSource random,
