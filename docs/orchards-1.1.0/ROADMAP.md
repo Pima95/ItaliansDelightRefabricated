@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated — Orchard Update 1.1.0
 
-**Stato:** progettazione + prima implementazione di legno d'ulivo completata e collaudata dall'autore il 24 ottobre 2026. Decisioni iniziali approvate il 23 ottobre 2026.  
+**Stato:** set edilizio d'ulivo, foglie argentate e germoglio implementati; crescita 1×1/2×2 **ancora provvisoria**. Prossimo lavoro: forme procedurali originali. La generazione naturale è sospesa.  
 **Branch:** `feature/orchards-1.1.0`, creato da `main` dopo la pubblicazione della 1.0.0.  
 **Ambito:** tre alberi da frutto e relative coltivazioni. Le aggiunte di pasta, piatti e ricette saranno contenuti **bonus graduali** all'interno dei diversi aggiornamenti, non necessariamente una release dedicata.
 
@@ -48,9 +48,9 @@
 
 **Obiettivo dei tre set di legno:** tronchi, tronchi scortecciati, blocchi di legno completi, tavole, scale, lastre, recinzioni e cancelli, porte, botole, pulsanti, pedane a pressione, cartelli e versioni appese; valutare anche barche e barche con baule per coerenza con i set vanilla. Gli asset possono essere aggiunti progressivamente, ma il criterio è una famiglia edilizia completa, non soltanto tronco e foglie. Compatibilità dei tag `minecraft:logs`, `minecraft:planks` e tag specifici da includere nella fase implementativa. Per tutti gli asset vale la regola delle texture Minecraft senza antialiasing o alfa semitrasparente.
 
-### Asset dell'ulivo già presenti e verificati nel repository (23 ottobre 2026)
+### Inventario storico degli asset dell'ulivo (23 ottobre 2026)
 
-Le seguenti **texture PNG esistono** in `src/main/resources/assets/italiansdelight/textures/block/`, recuperate dai materiali delle vecchie mod Italian's Delight e Rustic. La fonte precisa di ciascun file e la sua licenza sono **da verificare prima del riutilizzo**, non sono blocchi o modelli già implementati:
+Questo elenco fotografa **i file disponibili il 23 ottobre 2026**, non lo stato attuale del branch: in seguito, le due texture identiche a Rustic `leaves_olive.png` e `sapling_olive.png` sono state eliminate, mentre gli asset alternativi `olive_leaves.png` e `olive_sapling.png` sono utilizzati nel gioco. La provenienza degli altri file resta soggetta a verifica:
 
 - Tronco: `olive_log.png`, `olive_log_top.png`; anche `log_olive.png` (possibile variante/duplicato da confrontare).
 - Tronco scortecciato: `stripped_olive_log.png` e `stripped_olive_log_top.png`.
@@ -61,7 +61,7 @@ Le seguenti **texture PNG esistono** in `src/main/resources/assets/italiansdelig
 - Elementi da arredamento: `olive_cabinet_front.png`, `olive_cabinet_front_open.png`, `olive_cabinet_side.png`, `olive_cabinet_top.png`.
 - Texture item già presenti: `olive_door.png`, `olive_sign.png`, `olive_boat.png`, `olive_chest_boat.png`, `olive_seed.png`, `olives.png`.
 
-**Stato implementazione aggiornato al 24 ottobre 2026:** i cinque blocchi `olive_log`, `olive_wood`, `stripped_olive_log`, `stripped_olive_wood` e `olive_planks` ora **hanno registrazioni, modelli, blockstate, item, ricette/loot** e sono stati collaudati dall'autore ([resoconto dei test](OLIVE_WOOD_TESTS.md)). I restanti asset di ulivo non sono ancora automaticamente implementati. **Non modificare, sovrascrivere o eliminare texture preesistenti senza approvazione.** Per mandorlo e ciliegio da frutto serviranno asset coerenti ma visivamente distinti.
+**Stato corrente:** la famiglia edilizia d'ulivo, i cartelli, le barche, il cabinet, lo scaffale di stagionatura, le foglie e il germoglio sono implementati nel branch. I cinque blocchi di legno iniziali sono stati collaudati ([6/6 test](OLIVE_WOOD_TESTS.md)); le verifiche puntuali successive restano documentate nelle rispettive checklist. **Non sono definitive le forme degli alberi e la generazione naturale è disattivata**. Gli asset approvati non vanno modificati senza richiesta.
 
 ### Regola artistica approvata per gli asset Rustic (23 ottobre 2026)
 
@@ -119,7 +119,7 @@ Il branch contiene sei nuovi blocchi: `olive_stairs`, `olive_slab`, `olive_fence
 
 **Correzione:** in `assets/italiansdelight/blockstates/olive_trapdoor.json` applicate le rotazioni Y `north=0`, `east=90`, `south=180`, `west=270` **anche agli stati chiusi**, per entrambe le metà (`bottom`/`top`). Gli stati aperti avevano già la rotazione. La texture `olive_trapdoor.png` è immutata. Un controllo CI verifica **tutti i 16 stati**. **Da ricontrollare in gioco:** orientamento della texture della botola aperta e chiusa, metà alta e bassa; il fix non è ancora confermato dall'autore.
 
-**Prossimi blocchi mancanti per completare la famiglia di legno:** `olive_sign` (cartello in piedi/parete) e `olive_hanging_sign` (cartello appeso a soffitto/parete). Le relative texture entity `textures/entity/sign/olive.png` e `textures/entity/sign/hanging/olive.png` sono già presenti; servono registrazioni blocchi e block entity, modelli/renderer, crafting, tag e test. `olive_cabinet_*` è un **arredo opzionale** separato, non un blocco vanilla necessario. Foglie e germogli appartengono alla fase di arboricoltura, non al completamento edilizio.
+**Nota storica superata:** in questa fase cartelli e cabinet erano ancora mancanti; sono stati implementati nei lotti successivi. Il cabinet resta un arredo collegato a Farmer's Delight.
 
 ### Fase B e scaffale di stagionatura d'ulivo (implementazione tecnica)
 
@@ -194,7 +194,7 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Alberi coltivabili:** lo stesso `TreeGrower` seleziona `olive_tree` per un germoglio isolato e `ancient_olive_tree` se trova **quattro germogli d'ulivo nel quadrato 2×2**. Le configurazioni di feature 26.2 impiegano sempre `olive_log` e `olive_leaves`; il normale usa un tronco ramificato vanilla di altezza moderata e corona arrotondata, il secolare usa tronco massiccio 2×2 con generatore vanilla `dark_oak_trunk_placer` e chioma ampia. È una prima geometria vanilla affidabile, **da valutare visivamente** per un ulivo contorto e mediterraneo, senza dichiararla definitiva. Le foglie generate sono naturali (`persistent=false`) e decadono se manca il tronco.
 
-**Generazione naturale provvisoria (ANNULLATA):** la prima configurazione prevedeva biomi pianure, savana e altopiano della savana, con tentativi ogni ~55/450 chunk; ora **completamente disattivata** su richiesta dell'autore. Questi sono parametri iniziali, **non frequenze effettive garantite di crescita**. Mondi esistenti generano nuovi alberi soltanto nei chunk nuovi. La crescita manuale dei germogli non è limitata a questi biomi.
+**Generazione naturale provvisoria (ANNULLATA):** l'esperimento iniziale nei biomi pianure/savana è **disattivato**. Non esistono più `placed_feature` d'ulivo attivi né inserimenti nei biomi. Gli alberi già esistenti nei vecchi chunk non sono eliminati e la crescita manuale dei germogli rimane possibile.
 
 **Riproduzione in Sopravvivenza:** le foglie d'ulivo ora possono rilasciare il germoglio con probabilità 5% base (Fortuna fino a 10%), imitando il meccanismo di altre foglie vanilla; cesoie e Silk Touch mantengono il drop del blocco, non dei germogli. Niente olive o frutti fino alla fase di fruttificazione.
 
@@ -212,14 +212,14 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Accettazione:** occorrono test in gioco sul germoglio argentato, sulla chioma corretta e sulla completa assenza di worldgen negli **chunk nuovi**. L'originalità delle forme di entrambi gli ulivi è un blocco per riattivare il worldgen.
 
-### Decisione approvata: generazione procedurale portabile (24 ottobre 2026)
+### Decisione approvata: generazione procedurale degli ulivi (24 ottobre 2026)
 
-**Scelta dell'autore:** progettare gli ulivi con algoritmi procedurali anziché con strutture NBT realizzate a mano, in vista di un futuro porting Fabric → NeoForge / Forge. La compatibilità fra mod loader **non è automatica**: il codice condiviso deve evitare API Fabric e le registrazioni, gli eventi, i test client/server e le dipendenze dei loader andranno adattati nel porting.
+**Scelta dell'autore:** costruire gli ulivi mediante algoritmi procedurali anziché strutture NBT prefabbricate. Lo scopo è ottenere alberi diversi fra loro, ma riconoscibili per tronchi irregolari, rami biforcati e chiome argentate. Si seguono le convenzioni di registrazione e organizzazione già adottate dalla mod.
 
 **Architettura preferita:**
 1. `OliveTrunkPlacer` (estensione dei componenti vanilla `TrunkPlacer`) calcola base, fusto irregolare, pieghe, ramificazione e punti di ancoraggio del fogliame. Una variante secolare parte da **base 2×2** e rami più larghi; usa sempre blocchi `olive_log` / `olive_wood`.
 2. `OliveFoliagePlacer` (estensione di `FoliagePlacer`) distribuisce molteplici gruppi di `olive_leaves` verde-argentee attorno ai rami, con piccole lacune; non una sfera regolare e non foglie al suolo.
-3. `ConfiguredFeature`/parametri data-driven separati per ulivo normale e secolare. Registrare i tipi di placer e relativi codec/serializzazione nel modulo comune, mantenendo gli eventuali adattatori delle API/mod loader separati.
+3. Due `ConfiguredFeature` con parametri distinti per l'ulivo normale e quello secolare. Registrare i relativi `TrunkPlacer` e `FoliagePlacer` con i `Codec` previsti da Minecraft 26.2, tenendo i parametri leggibili e coerenti con le altre risorse del progetto.
 4. Testare ripetibilità a seme fisso, collisioni con costruzioni, conservazione dei germogli se fallisce la crescita, decadimento foglie, limiti del mondo/chunk, FPS, e coerenza client/server.
 5. **Nessuna generazione naturale** finché le forme non vengono approvate dall'autore. Mantenere temporaneamente i due `ConfiguredFeature` vanilla utilizzati dal germoglio come fallback fino a quando il prototipo procedurale non viene compilato e verificato.
 
@@ -233,7 +233,7 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 | Rami principali | 2–3 | 4–6 |
 | Fogliame | 2–4 masse frammentate | molte masse ampie e irregolari |
 
-**Criterio di portabilità:** isolare la logica di scelta dei punti, curve e distribuzione (algoritmo condivisibile) dall'implementazione Minecraft della collocazione dei blocchi e dalla registrazione loader-specifica. Riutilizzare tag, risorse e JSON compatibili, senza supporre che gli stessi JAR o le registrazioni siano intercambiabili fra Fabric, NeoForge e Forge.
+**Criterio di implementazione:** concentrare le regole di ramificazione, distribuzione delle chiome e casualità nei componenti dedicati; riutilizzare il più possibile la logica comune a ulivo normale e secolare. Organizzare codice, registri, tag e JSON seguendo il progetto attuale, evitando classi o livelli di astrazione senza una necessità concreta.
 
 **Stato:** **decisione di design registrata**; i nuovi placer procedurali non sono ancora implementati. Nessuna modifica a worldgen e release in questa fase.
 
@@ -241,16 +241,16 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
 - [ ] **Fase 1 — Asset e modelli:** inventario legacy completato, **esclusione delle texture Rustic approvata**, 41 match Rustic documentati ([confronto](RUSTIC_ASSET_MATCHES.md)); **primo lotto legno d'ulivo completato e collaudato (6/6 test)** ([report](OLIVE_WOOD_TESTS.md)). Restano il set edilizio completo, l'attribuzione degli altri file, l'approvazione palette mandorlo/ciliegio e la progettazione degli alberi.
-- [ ] **Fase 2 — Alberi e generazione:** crescita, chiome, biomi, rarità e ulivo secolare 2×2.
+- [ ] **Fase 2 — Alberi e generazione:** germoglio e crescita tecnica 1×1/2×2 presenti; **da realizzare i placer procedurali originali**, collaudare le chiome e solo successivamente riesaminare worldgen e rarità.
 - [ ] **Fase 3 — Raccolta e ricrescita:** foglie fruttifere, raccolta, progressione e salvataggio.
 - [ ] **Fase 4 — Ingredienti e ricette:** decidere prima le lavorazioni principali e poi implementarle.
 - [ ] **Fase 5 — JEI, localizzazione e bonus:** ricette e integrazione completa.
 - [ ] **Fase 6 — Test e pubblicazione:** build, client, server dedicato, vecchi mondi, worldgen e bilanciamento.
 
-## 5. Decisioni da prendere prima di iniziare la fase 1
+## 5. Decisioni confermate e aspetti ancora aperti
 
-1. **Legno — DECISO:** **tre famiglie originali** di legno, una per ulivo (anche secolare), mandorlo e ciliegio da frutto. Rimangono da definire palette e lista finale dei blocchi secondari; per l'ulivo partire dalle texture già presenti.
-2. **Ulivo secolare — DECISO (B):** rara generazione naturale **e** crescita da quattro germogli di ulivo in un quadrato 2×2. Rimangono da bilanciare probabilità naturali e crescita del 2×2.
+1. **Legno — DECISO:** tre famiglie originali di legno. Quella dell'ulivo comprende già varianti edilizie, cartelli, barche, cabinet e aging rack; mandorlo e ciliegio da frutto restano da sviluppare.
+2. **Ulivo secolare — DECISO (B):** crescita con quattro germogli in quadrato 2×2. La generazione naturale, inizialmente prevista come rara, resta **disabilitata fino all'approvazione delle nuove forme procedurali**.
 3. **Raccolta:** maturazione e resa per foglia; interazione con la farina d'ossa.
 4. **Grafica:** chiome (normali/fiorite/fruttifere) e livello di differenza visiva per i tre alberi.
 

@@ -4,7 +4,7 @@ All notable changes to Italian's Delight Refabricated are documented here.
 
 ## Unreleased — Orchard Update 1.1.0 (development branch)
 
-Early development work on `feature/orchards-1.1.0` includes the first five Olive Wood building blocks (Olive Log, Olive Wood, their stripped variants and Olive Planks), with vanilla-style crafting, tool interaction, fire rules, tags and dedicated models. These use existing `olive_*` textures and **not the 1.12.2-era Rustic assets**. The three planned fruit trees, Ancient Olive Tree 2×2 and harvest mechanics are **not yet implemented**.
+Work on `feature/orchards-1.1.0` includes the Olive Wood building family, standard and hanging signs, cheese-aging rack, Farmer's Delight cabinet, boats with/without chests, silvery Olive Leaves and a plantable Olive Sapling. The sapling currently supports normal and ancient 2×2 growth using **temporary tree forms**. Original procedural trunk and foliage placers are the next milestone. **Natural olive world generation is disabled** until the original shapes are approved. Almond/Fruit Cherry trees, fruiting and harvesting are not yet implemented. Identified obsolete Rustic leaf/sapling artwork was removed from the development branch. The published 1.0.0 release is unchanged.
 
 ## 1.0.0 — Pizza Update (released 23 October 2026)
 

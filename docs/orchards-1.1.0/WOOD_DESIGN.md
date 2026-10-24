@@ -138,7 +138,7 @@ Vedi [i controlli manuali](OLIVE_LEAVES_TESTS.md).
 
 **Alberi coltivabili:** lo stesso `TreeGrower` seleziona `olive_tree` per un germoglio isolato e `ancient_olive_tree` se trova **quattro germogli d'ulivo nel quadrato 2×2**. Le configurazioni di feature 26.2 impiegano sempre `olive_log` e `olive_leaves`; il normale usa un tronco ramificato vanilla di altezza moderata e corona arrotondata, il secolare usa tronco massiccio 2×2 con generatore vanilla `dark_oak_trunk_placer` e chioma ampia. È una prima geometria vanilla affidabile, **da valutare visivamente** per un ulivo contorto e mediterraneo, senza dichiararla definitiva. Le foglie generate sono naturali (`persistent=false`) e decadono se manca il tronco.
 
-**Generazione naturale provvisoria:** biomi pianure, savana e altopiano della savana; un tentativo per circa **55 chunk** normali e **450 chunk** secolari, subordinati a terreno e spazio appropriati. Questi sono parametri iniziali, **non frequenze effettive garantite di crescita**. Mondi esistenti generano nuovi alberi soltanto nei chunk nuovi. La crescita manuale dei germogli non è limitata a questi biomi.
+**Generazione naturale provvisoria (annullata):** l'esperimento iniziale su pianure e savane è stato rimosso; non vengono generati nuovi ulivi naturalmente. La crescita manuale tramite germogli rimane disponibile.
 
 **Riproduzione in Sopravvivenza:** le foglie d'ulivo ora possono rilasciare il germoglio con probabilità 5% base (Fortuna fino a 10%), imitando il meccanismo di altre foglie vanilla; cesoie e Silk Touch mantengono il drop del blocco, non dei germogli. Niente olive o frutti fino alla fase di fruttificazione.
 
@@ -152,14 +152,14 @@ L'autore ha respinto le forme di **quercia / quercia scura** come soluzione defi
 
 **Grafica item cartello normale:** ripristinata la forma esatta dei glifi originali (prima della riscrittura di ottobre); modificato esclusivamente il colore dell'inchiostro per accordarlo all'icona dell'hanging sign.
 
-### Decisione approvata: generazione procedurale portabile (24 ottobre 2026)
+### Decisione approvata: generazione procedurale degli ulivi (24 ottobre 2026)
 
-**Scelta dell'autore:** progettare gli ulivi con algoritmi procedurali anziché con strutture NBT realizzate a mano, in vista di un futuro porting Fabric → NeoForge / Forge. La compatibilità fra mod loader **non è automatica**: il codice condiviso deve evitare API Fabric e le registrazioni, gli eventi, i test client/server e le dipendenze dei loader andranno adattati nel porting.
+**Scelta dell'autore:** costruire gli ulivi mediante algoritmi procedurali anziché strutture NBT prefabbricate. Lo scopo è ottenere alberi diversi fra loro, ma riconoscibili per tronchi irregolari, rami biforcati e chiome argentate. Si seguono le convenzioni di registrazione e organizzazione già adottate dalla mod.
 
 **Architettura preferita:**
 1. `OliveTrunkPlacer` (estensione dei componenti vanilla `TrunkPlacer`) calcola base, fusto irregolare, pieghe, ramificazione e punti di ancoraggio del fogliame. Una variante secolare parte da **base 2×2** e rami più larghi; usa sempre blocchi `olive_log` / `olive_wood`.
 2. `OliveFoliagePlacer` (estensione di `FoliagePlacer`) distribuisce molteplici gruppi di `olive_leaves` verde-argentee attorno ai rami, con piccole lacune; non una sfera regolare e non foglie al suolo.
-3. `ConfiguredFeature`/parametri data-driven separati per ulivo normale e secolare. Registrare i tipi di placer e relativi codec/serializzazione nel modulo comune, mantenendo gli eventuali adattatori delle API/mod loader separati.
+3. Due `ConfiguredFeature` con parametri distinti per l'ulivo normale e quello secolare. Registrare i relativi `TrunkPlacer` e `FoliagePlacer` con i `Codec` previsti da Minecraft 26.2, tenendo i parametri leggibili e coerenti con le altre risorse del progetto.
 4. Testare ripetibilità a seme fisso, collisioni con costruzioni, conservazione dei germogli se fallisce la crescita, decadimento foglie, limiti del mondo/chunk, FPS, e coerenza client/server.
 5. **Nessuna generazione naturale** finché le forme non vengono approvate dall'autore. Mantenere temporaneamente i due `ConfiguredFeature` vanilla utilizzati dal germoglio come fallback fino a quando il prototipo procedurale non viene compilato e verificato.
 
@@ -173,13 +173,13 @@ L'autore ha respinto le forme di **quercia / quercia scura** come soluzione defi
 | Rami principali | 2–3 | 4–6 |
 | Fogliame | 2–4 masse frammentate | molte masse ampie e irregolari |
 
-**Criterio di portabilità:** isolare la logica di scelta dei punti, curve e distribuzione (algoritmo condivisibile) dall'implementazione Minecraft della collocazione dei blocchi e dalla registrazione loader-specifica. Riutilizzare tag, risorse e JSON compatibili, senza supporre che gli stessi JAR o le registrazioni siano intercambiabili fra Fabric, NeoForge e Forge.
+**Criterio di implementazione:** concentrare le regole di ramificazione, distribuzione delle chiome e casualità nei componenti dedicati; riutilizzare il più possibile la logica comune a ulivo normale e secolare. Organizzare codice, registri, tag e JSON seguendo il progetto attuale, evitando classi o livelli di astrazione senza una necessità concreta.
 
 **Stato:** **decisione di design registrata**; i nuovi placer procedurali non sono ancora implementati. Nessuna modifica a worldgen e release in questa fase.
 
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
-Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.
+Per mandorlo e ciliegio da frutto perseguire progressivamente un set edilizio coerente con Minecraft; **la famiglia d'ulivo è già implementata**: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Barche e barche con baule d'ulivo sono già presenti; quelle delle altre specie restano da valutare.
 
 **Prefissi ID proposti:** `italiansdelight:olive_*`, `italiansdelight:almond_*`, `italiansdelight:fruit_cherry_*`. Evitare di registrare ID `minecraft:cherry_*` o sovrascrivere altri blocchi. Riutilizzare i modelli vanilla quando sufficienti, con texture dedicate; aggiungere correttamente loot, crafting, bruciabilità, linguaggi IT/EN, Creative e tag legno/foglie/germogli.
 
@@ -193,8 +193,9 @@ Per ogni specie, perseguire progressivamente un set di costruzione coerente con 
 - [x] Accertare **la licenza MIT indicata su CurseForge** per Italian's Delight e Rustic e confrontare gli asset con il repository Rustic; identificate **41 corrispondenze binarie**, inclusi quattro PNG relativi all'ulivo; redatti [rapporto](RUSTIC_ASSET_MATCHES.md) e [avvisi](../../THIRD_PARTY_NOTICES.md).
 - [x] **Escludere tutti gli asset identificati come Rustic dai nuovi elementi della 1.1.0** (decisione dell'autore); conservare i PNG storici senza cancellarli.
 - [ ] Completare la **provenienza file per file degli asset non corrispondenti**, incluse eventuali attribuzioni agli altri artisti; usare soltanto asset non-Rustic per il nuovo ulivo. **Nessuna assegnazione automatica di varianti all'ulivo secolare.**
-- [ ] Confermare dettaglio dell'insieme di blocchi extra (hanging signs, barche, mobili), senza confondere PNG esistenti con codice completato.
+- [x] **Ulivo:** cartelli normali/appesi, barche e barche con baule, cabinet e aging rack implementati; i collaudi specifici aperti restano nelle relative checklist.
 - [x] **Prima implementazione verificata:** cinque blocchi di legno d'ulivo, build Java 25 CI riuscita e **6/6 test Minecraft confermati** ([report](OLIVE_WOOD_TESTS.md)).
-- [ ] **Prossimo lotto proposto:** scale, lastre, recinzioni, cancelli, pulsanti e pedane a pressione; successivamente porte/botole e altri blocchi. Poi vegetazione/worldgen, fruttificazione e raccolta.
+- [x] **Set edilizio d'ulivo:** scale, lastre, recinzioni, cancelli, pulsanti, pedane, porte, botole, cartelli, barche e cabinet implementati.
+- [ ] **Prossimo lotto:** `OliveTrunkPlacer` e `OliveFoliagePlacer`, test crescita 1×1/2×2 e poi eventuale riattivazione del worldgen; successivamente fruttificazione e raccolta.
 
-**Primo lotto di codice già presente e verificato;** le presenti modifiche documentali **non** cambiano codice, PNG o versione pubblicata. Tutte le decisioni future saranno registrate qui e nella [roadmap principale](ROADMAP.md).
+**Stato attuale:** edilizia d'ulivo e crescita tecnica provvisoria presenti; i generatori originali sono ancora da sviluppare. Questa revisione non cambia codice, PNG né versione pubblicata. Le decisioni sono allineate alla [roadmap](ROADMAP.md).
