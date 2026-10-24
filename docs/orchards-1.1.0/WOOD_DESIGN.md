@@ -113,6 +113,15 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Nessun modello, blockstate, screen editor, script di gameplay, crafting o texture Rustic modificato.** Controlli CI ampliati: PNG 32×32/16×16 con alpha binario, colori dello stelo ricavati dal tronco, palette del cartello appeso limitata ai cinque toni scortecciati e colori delle catene, checksum del nuovo item normale. **Test in-game di resa estetica e accettazione artistica ancora da confermare.** La precedente conferma riguarda soltanto geometria e testo.
 
+### Texture delle foglie d'ulivo — scelta dell'autore (24 ottobre 2026)
+
+- **Usare** `textures/block/olive_leaves.png` già presente, che non corrisponde byte-per-byte al campione di Rustic. La provenienza artistica esatta continua a richiedere verifica, ma non va sostituita senza consenso.
+- **Eliminare** `textures/block/leaves_olive.png` dal branch 1.1.0: corrispondenza binaria esatta con Rustic (`c90b2ece...`) già documentata, rimozione esplicitamente richiesta dall'autore.
+- Implementazione limitata a un normale `LeavesBlock` (decay a distanza 7, persistenza, acqua, cesoie, Silk Touch, bastoni e comportamento del fuoco), senza frutta/germogli/worldgen fino alla fase successiva.
+- I tre restanti file Rustici legacy identificati per l'ulivo (`log_olive.png`, `sapling_olive.png` e `item/olive_seed.png`) **non sono stati rimossi** in questa modifica.
+
+Vedi [i controlli manuali](OLIVE_LEAVES_TESTS.md).
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per ogni specie, perseguire progressivamente un set di costruzione coerente con Minecraft: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Valutare barche e barche con baule (comportamento completo, non soltanto item texture) in una fase successiva.

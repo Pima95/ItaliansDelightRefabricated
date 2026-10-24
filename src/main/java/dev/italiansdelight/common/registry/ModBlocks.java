@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
@@ -98,6 +99,17 @@ public final class ModBlocks {
     );
 
 
+
+    // First Orchard foliage block: use the existing non-Rustic 16x16
+    // olive_leaves.png. Vanilla LeavesBlock provides decay, waterlogging,
+    // persistent player placement and neighbor-distance updates.
+    // Olive logs are already in #minecraft:logs via logs_that_burn.
+    public static final ResourceKey<Block> OLIVE_LEAVES_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_leaves"));
+    public static final Block OLIVE_LEAVES = register(
+        OLIVE_LEAVES_KEY,
+        new LeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(OLIVE_LEAVES_KEY))
+    );
 
     // Phase A of the Orchard Update: six vanilla-equivalent building blocks.
     // All their block and inventory models reuse the existing olive_planks.png.
@@ -541,6 +553,7 @@ public final class ModBlocks {
         fire.add(STRIPPED_OLIVE_LOG, 5, 5);
         fire.add(STRIPPED_OLIVE_WOOD, 5, 5);
         fire.add(OLIVE_PLANKS, 5, 20);
+        fire.add(OLIVE_LEAVES, 30, 60);
         fire.add(OLIVE_STAIRS, 5, 20);
         fire.add(OLIVE_SLAB, 5, 20);
         fire.add(OLIVE_FENCE, 5, 20);

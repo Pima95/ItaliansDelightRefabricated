@@ -26,6 +26,8 @@ jobs:
           java-version: '25'
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
+      - name: Verify Olive leaves and absence of Rustic leaf asset
+        run: python3 .github/scripts/check_olive_leaves.py
       - name: Reject Rustic art in Orchard wood models
         run: python3 .github/scripts/check_orchard_wood_assets.py
       - name: Audit every standard crafting recipe and all Olive Wood craft patterns

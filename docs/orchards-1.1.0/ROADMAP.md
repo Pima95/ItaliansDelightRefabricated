@@ -4,7 +4,7 @@
 **Branch:** `feature/orchards-1.1.0`, creato da `main` dopo la pubblicazione della 1.0.0.  
 **Ambito:** tre alberi da frutto e relative coltivazioni. Le aggiunte di pasta, piatti e ricette saranno contenuti **bonus graduali** all'interno dei diversi aggiornamenti, non necessariamente una release dedicata.
 
-> Il primo lotto di cinque **blocchi di legno d'ulivo** è stato implementato e verificato; **nessun albero vivo, germoglio, frutto, ricrescita o worldgen della 1.1.0 è ancora implementato**. La versione e il contenuto pubblicati della 1.0.0 rimangono invariati.
+> Sono stati implementati i blocchi edilizi e ora **le foglie d'ulivo**; non sono ancora implementati **germogli, generazione di alberi, fruttificazione o ricrescita** della 1.1.0. La versione e il contenuto pubblicati della 1.0.0 rimangono invariati.
 
 ## 1. Alberi confermati
 
@@ -167,6 +167,16 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 - **Item cartello normale:** applicata una lieve correzione (20 pixel di glifi sul pannello) per uniformare la scritta stilizzata a quella del cartello appeso, mantenendo intatti sagoma, stelo, bordo e sfondo trasparente. **Icona del cartello appeso invariata**.
 
 **Nessun modello, blockstate, screen editor, script di gameplay, crafting o texture Rustic modificato.** Controlli CI ampliati: PNG 32×32/16×16 con alpha binario, colori dello stelo ricavati dal tronco, palette del cartello appeso limitata ai cinque toni scortecciati e colori delle catene, checksum del nuovo item normale. **Test in-game di resa estetica e accettazione artistica ancora da confermare.** La precedente conferma riguarda soltanto geometria e testo.
+
+### 1.1.0 — Prima implementazione delle foglie d'ulivo (24 ottobre 2026)
+
+**Collaudo dei cartelli:** l'autore ha confermato *«Funziona tutto»* dopo i ritocchi grafici e ha autorizzato la fase successiva. La conferma non certifica in modo distinto ogni ricetta non riportata.
+
+**Foglie:** implementato `italiansdelight:olive_leaves` usando esclusivamente la texture preesistente **`textures/block/olive_leaves.png`**, alternativa senza corrispondenza binaria nota in Rustic. Blocco con `LeavesBlock` vanilla 26.2, `persistent`, `distance`, `waterlogged`, decay quando vengono rimossi i tronchi, tag blocco/item `minecraft:leaves`, scorrimento del fuoco (30/60), modelli 3D e item, loot da cesoie/*Silk Touch* e possibili bastoni (come vanilla). Nessun drop di olive, mele o germogli prima del relativo gameplay.
+
+**Pulizia autorizzata dall'autore:** la texture **`textures/block/leaves_olive.png`** era un match binario esatto di Rustic (Git SHA `c90b2ece17d8452c07ba9d697dcbfb4d87f85d86`) e **viene eliminata da questo branch**. La relazione storica resta nel [confronto Rustic](RUSTIC_ASSET_MATCHES.md) per tracciabilità. Non rimuovere altri PNG Rustic non autorizzati.
+
+**Prossimi passi:** collaudare foglie prima di iniziare germogli, struttura di crescita ulivo normale e secolare 2×2, worldgen e frutti. [Checklist foglie](OLIVE_LEAVES_TESTS.md).
 
 ## 4. Fasi di sviluppo
 
