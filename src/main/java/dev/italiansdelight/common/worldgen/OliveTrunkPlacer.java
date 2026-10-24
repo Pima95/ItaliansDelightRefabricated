@@ -77,7 +77,7 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
             ? first.getOpposite()
             : (random.nextBoolean() ? first.getClockWise() : first.getCounterClockWise());
         int firstY = stemHeight - 1;
-        int secondY = stemHeight == 3 ? 1 : 1;
+        int secondY = 1;
 
         BlockPos firstTip = placeAscendingBranch(
             level, trunkSetter, random, config, origin.above(firstY), first,
