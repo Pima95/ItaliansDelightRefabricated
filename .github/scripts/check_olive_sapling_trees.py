@@ -14,7 +14,7 @@ def j(p):
 def main():
     png=A/"textures/block/olive_sapling.png"
     raw=png.read_bytes()
-    assert raw[:8]==b"\\x89PNG\\r\\n\\x1a\\n"
+    assert raw[:8]==b"\x89PNG\r\n\x1a\n"
     assert struct.unpack(">II",raw[16:24])==(16,16)
     assert not (A/"textures/block/sapling_olive.png").exists(), "Rustic sapling is prohibited"
     block=j(A/"models/block/olive_sapling.json")
