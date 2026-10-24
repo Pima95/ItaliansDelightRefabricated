@@ -4,7 +4,7 @@
 
 - [ ] **Inventario Creativa:** `italiansdelight:olive_sapling` presente una sola volta; icona 16×16, modello a croce e nome italiano.
 - [ ] **Piazzamento e drop:** germoglio su terra, erba, podzol ecc., con luce appropriata; rompendolo deve restituire se stesso.
-- [ ] **Nuovo prototipo procedurale 1×1:** coltivare almeno 8–12 ulivi da un singolo germoglio, con farina d'ossa e crescita naturale. Verificare tronco leggermente piegato, **2–3 rami connessi realmente al fusto senza segmenti diagonali staccati**, foglie in più gruppi rialzati, nessuna chioma sul terreno e nessuna forma identica alla quercia. Valutare la forma prima di dichiararla definitiva.
+- [ ] **Nuovo prototipo procedurale 1×1, revisione biforcazione bassa:** far crescere almeno 10–12 ulivi con farina d'ossa e senza. **Il tronco deve biforcarsi al 2°/3° blocco** in due rami principali ampi, spesso quasi opposti. I rami devono salire **obliquamente a scalini**, anche con curve laterali, ed essere **sempre collegati per faccia**, mai con log diagonali fluttuanti. Le chiome devono formare **due gruppi distinti** sopra i rami, non una massa piatta da ciliegio. Verificare variazione tra semi e assenza di foglie al suolo.
 - [ ] **Crescita 2×2:** quattro germogli a quadrato con spazio libero crescono **in un unico ulivo secolare**, con tronco 2×2, stessa texture dei tronchi e ampia chioma; controllare anche rotazione/altezza.
 - [ ] **Fallimento sicuro:** se sopra i germogli ci sono ostacoli, la crescita non sostituisce costruzioni né perde i germogli.
 - [ ] **Foglie naturali e drop:** dopo aver abbattuto un ulivo, le foglie decadono e possono lasciare germogli (5% base), anche con Fortuna, ma non olive né mele; cesoie e Silk Touch devono dare le foglie.

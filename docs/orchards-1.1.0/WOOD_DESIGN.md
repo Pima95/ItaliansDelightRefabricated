@@ -187,6 +187,19 @@ L'autore ha respinto le forme di **quercia / quercia scura** come soluzione defi
 - **Worldgen naturale degli ulivi ancora DISATTIVATO.** La nuova forma è testabile solo tramite il germoglio in Creativa/Sopravvivenza e tramite `/place feature italiansdelight:olive_tree`.
 - **Collaudo ancora da confermare:** far crescere almeno 8–12 esemplari con farina d'ossa, verificare che i rami siano connessi al fusto, le chiome sopra il terreno, la raccolta dei tronchi e il decadimento delle foglie; evitare intersezioni eccessive con costruzioni. Non considerare la forma approvata finché l'autore non la verifica. [Checklist](OLIVE_SAPLING_TREES_TESTS.md).
 
+### Revisione morfologica dell'ulivo normale — biforcazione bassa (24 ottobre 2026)
+
+**Feedback dell'autore (screenshot di gioco + foto di ulivo reale):** il precedente prototipo aveva l'aspetto di un ciliegio vanilla, con fusto lungo, diramazioni troppo alte e orizzontali, chioma continua. È stata approvata una morfologia con **due grandi biforcazioni già al secondo o terzo blocco del tronco** e rami **obliqui a scalini**, simili nell'andamento alle ramificazioni delle mangrovie.
+
+**Implementazione in `OliveTrunkPlacer`:**
+- Fusto centrale **2–3 blocchi**; radice delle biforcazioni a **y=1/2** (secondo/terzo blocco dal suolo), senza alto pilastro centrale.
+- **Esattamente due rami principali**, generalmente quasi opposti e talvolta ad angolo retto, con piccola asimmetria verticale. Lunghezza orizzontale 3–5 blocchi, salite intermedie ed eventuale deviazione laterale.
+- Le salite sono costruite in due passaggi distinti (`relative(direction)` poi `above()`), con **ogni segmento attaccato per faccia al precedente**. Rami privi di spazio non generano chiome staccate.
+- Due **chiome distinte** unicamente alle punte dei rami principali; solo se entrambe non possono svilupparsi, una piccola chioma di sicurezza sopra il fusto. `OliveFoliagePlacer` ora restringe anche lo strato inferiore oltre quello superiore, evitando il grande soffitto piatto.
+- Rimangono invariati `olive_log`, `olive_leaves`, le altre texture, il germoglio 1×1 e la crescita provvisoria 2×2 dell'ulivo secolare. **Nessuna generazione naturale degli ulivi**.
+
+**Stato:** modello procedurale modificato e controlli statici aggiornati; compilazione Java CI e valutazione visiva in-game vanno registrate separatamente. La struttura resta un prototipo, non una forma già approvata.
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per mandorlo e ciliegio da frutto perseguire progressivamente un set edilizio coerente con Minecraft; **la famiglia d'ulivo è già implementata**: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Barche e barche con baule d'ulivo sono già presenti; quelle delle altre specie restano da valutare.

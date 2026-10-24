@@ -59,10 +59,12 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
         int offset
     ) {
         BlockPos center = attachment.pos().above(offset);
-        // A broad, low dome. One local gap in ten gives a characteristically
-        // broken olive crown while preserving enough contact with the logs.
+        // Compact, flattened lobes at the tips of two distinct rising limbs.
+        // Narrow upper/lower layers keep the silhouette open, not cherry-like.
         for (int dy = -1; dy <= 1; dy++) {
-            int radius = Math.max(1, leafRadius - (dy == 1 ? 1 : 0));
+            // Taper both faces of each crown; avoid one continuous flat
+            // underside connecting the two separately rising primary arms.
+            int radius = dy == 0 ? leafRadius : Math.max(1, leafRadius - 1);
             for (int dx = -radius; dx <= radius; dx++) {
                 for (int dz = -radius; dz <= radius; dz++) {
                     if (shouldSkipLocation(random, dx, dy, dz, radius, false)) {

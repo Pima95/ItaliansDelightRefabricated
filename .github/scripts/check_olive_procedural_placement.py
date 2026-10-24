@@ -13,18 +13,32 @@ registry=(W/"ModTreePlacers.java").read_text()
 init=(SRC/"ItaliansDelight.java").read_text()
 assert "trunkPlacerParts(instance)" in trunk
 assert "placeBelowTrunkBlock" in trunk
-assert "new FoliagePlacer.FoliageAttachment(tip.above()" in trunk
-assert "new FoliagePlacer.FoliageAttachment(topLog.above()" in trunk
 assert "placeLog(level, trunkSetter" in trunk
-# Regression: a branch below the bend must originate at the lower axis.
-# A raised branch end must be stacked over its horizontal segment instead
-# of starting diagonally, which would leave unsupported leaf clumps.
-assert "branchY < bendLevel ? origin : center" in trunk
-assert "BlockPos raisedTip = tip.above();" in trunk
-assert "tip = raisedTip;" in trunk
+# Low two/three-block stem, with forks connected on the 2nd/3rd block.
+assert "int stemHeight = 2 + random.nextInt(2);" in trunk
+assert "int firstForkY = Math.min(stemHeight - 1, 1 + random.nextInt(2));" in trunk
+assert "int secondForkY = Math.max(1, firstForkY - (random.nextBoolean() ? 1 : 0));" in trunk
+assert "for (int i = 0; i < 2; i++)" in trunk
+# Opposing or angled main limbs, not high horizontal branches from a
+# continuous main trunk like a vanilla cherry.
+assert "first.getOpposite()" in trunk
+assert "first.getClockWise()" in trunk and "first.getCounterClockWise()" in trunk
+assert "placeAscendingBranch(" in trunk
+assert "int length = 3 + random.nextInt(3);" in trunk
+assert "int firstRise = 1 + random.nextInt(2);" in trunk
+assert "BlockPos horizontal = tip.relative(outward);" in trunk
+assert "BlockPos sideways = tip.relative(lateral);" in trunk
+assert "BlockPos above = tip.above();" in trunk
+assert "tip = horizontal;" in trunk and "tip = above;" in trunk
+assert "state -> state.setValue(RotatedPillarBlock.AXIS, outward.getAxis())" in trunk
+assert "state -> state.setValue(RotatedPillarBlock.AXIS, lateral.getAxis())" in trunk
+assert "new FoliagePlacer.FoliageAttachment(tip.above()" in trunk
+assert "new FoliagePlacer.FoliageAttachment(stemTop.above()" in trunk  # obstacle-only fallback
+assert "outwardSteps >= 2 ? tip : null" in trunk
 assert "foliagePlacerParts(instance)" in foliage
 assert "shouldSkipLocation" in foliage
 assert "tryPlaceLeaf" in foliage
+assert "int radius = dy == 0 ? leafRadius : Math.max(1, leafRadius - 1);" in foliage
 assert "BuiltInRegistries.TRUNK_PLACER_TYPE" in registry
 assert "BuiltInRegistries.FOLIAGE_PLACER_TYPE" in registry
 assert "ModTreePlacers.register()" in init
@@ -38,5 +52,6 @@ assert not (DATA/"placed_feature/olive_tree_wild.json").exists()
 assert not (DATA/"placed_feature/ancient_olive_tree_wild.json").exists()
 wg=(SRC/"common/registry/ModWorldGeneration.java").read_text()
 assert "OLIVE_TREE_WILD" not in wg and "ANCIENT_OLIVE_TREE_WILD" not in wg
-print("OK: procedural 1x1 olive trunk, elevated branch foliage and both placer codecs registered")
+print("OK: low fork at block 2/3, exactly two principal rising face-connected limbs and separate crowns")
+print("OK: tapered foliage lobes and both custom placer codecs registered")
 print("OK: old 2x2 prototype retained; natural olive world generation stays DISABLED")

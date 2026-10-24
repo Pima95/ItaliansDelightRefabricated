@@ -17,12 +17,13 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
 /**
- * An olive grows a short upright base, bends near its crown and sends out
- * two or three raised branches. Unlike FancyTrunkPlacer, all foliage anchors
- * belong to real log endpoints ABOVE the trunk base: no canopy at ground.
+ * Low-forking Mediterranean olive: a two/three-block central stem splits
+ * into TWO opposed or angled rising limbs. Branch paths are constructed
+ * one face-connected log at a time (horizontal, then vertical and sometimes
+ * sideways), with distinct foliage anchors only at their elevated tips.
  *
- * The same vanilla TreeFeature contract handles water/obstacle checks, block
- * scheduling and leaf distance afterwards. No natural worldgen is registered.
+ * This replaces the earlier cherry-like high branches and central canopy.
+ * Ancient 2x2 olives use a separate, still provisional configuration.
  */
 public final class OliveTrunkPlacer extends TrunkPlacer {
     public static final MapCodec<OliveTrunkPlacer> CODEC =
@@ -49,65 +50,112 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
     ) {
         placeBelowTrunkBlock(level, trunkSetter, random, origin.below(), config);
 
-        List<FoliagePlacer.FoliageAttachment> crowns = new ArrayList<>();
-        // Keep the first 3 blocks upright and connected to the planted root.
-        int bendLevel = Math.max(3, treeHeight - 2);
-        Direction bend = Direction.Plane.HORIZONTAL.getRandomDirection(random);
-        BlockPos center = origin;
-        BlockPos topLog = null;
-
-        for (int y = 0; y < treeHeight; y++) {
-            BlockPos previous = center;
-            if (y == bendLevel) {
-                // Add a horizontal bridge BEFORE moving the trunk axis, so
-                // it remains connected even when the next section bends.
-                BlockPos bridge = previous.above(y);
-                placeLog(level, trunkSetter, random, bridge, config);
-                center = center.relative(bend);
+        List<FoliagePlacer.FoliageAttachment> crowns = new ArrayList<>(2);
+        // 2 or 3 blocks of trunk, including the one planted at y=0.
+        // The fork connects to the 2nd or 3rd block (y=1 or y=2).
+        int stemHeight = 2 + random.nextInt(2);
+        BlockPos stemTop = null;
+        for (int y = 0; y < stemHeight; y++) {
+            BlockPos spot = origin.above(y);
+            if (!placeLog(level, trunkSetter, random, spot, config)) {
+                break;
             }
-            BlockPos spot = center.above(y);
-            if (placeLog(level, trunkSetter, random, spot, config)) {
-                topLog = spot;
-            }
+            stemTop = spot;
+        }
+        if (stemTop == null) {
+            return crowns;
         }
 
-        if (topLog != null) {
-            crowns.add(new FoliagePlacer.FoliageAttachment(topLog.above(), 0, false));
-        }
+        Direction first = Direction.Plane.HORIZONTAL.getRandomDirection(random);
+        // Usually two opposite arms, sometimes approximately a right angle.
+        // Both always spring from the LOWER stem, never the top of a tall trunk.
+        Direction second = random.nextInt(4) == 0
+            ? (random.nextBoolean() ? first.getClockWise() : first.getCounterClockWise())
+            : first.getOpposite();
 
-        // Branch tips spread outward and rise as they leave the trunk,
-        // carrying separate olive foliage clusters instead of an oak sphere.
-        int count = 2 + random.nextInt(2);
-        int firstDirection = random.nextInt(4);
-        Direction[] directions = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
-        for (int i = 0; i < count; i++) {
-            Direction outward = directions[(firstDirection + i * 4 / count) % 4];
-            int branchY = Math.max(3, treeHeight - 2 - random.nextInt(2));
-            // A branch below the bend must start on the ORIGINAL trunk,
-            // not on its higher displaced axis, otherwise it would float.
-            BlockPos base = (branchY < bendLevel ? origin : center).above(branchY);
-            BlockPos tip = null;
-            int length = 2 + random.nextInt(2);
-            for (int step = 1; step <= length; step++) {
-                BlockPos branchPos = base.relative(outward, step);
-                if (!placeLog(level, trunkSetter, random, branchPos, config,
-                        state -> state.setValue(RotatedPillarBlock.AXIS, outward.getAxis()))) {
-                    break;
-                }
-                tip = branchPos;
-            }
+        int firstForkY = Math.min(stemHeight - 1, 1 + random.nextInt(2));
+        int secondForkY = Math.max(1, firstForkY - (random.nextBoolean() ? 1 : 0));
+        Direction[] directions = {first, second};
+        int[] forkHeights = {firstForkY, secondForkY};
+
+        for (int i = 0; i < 2; i++) {
+            BlockPos branchBase = origin.above(forkHeights[i]);
+            BlockPos tip = placeAscendingBranch(
+                level, trunkSetter, random, config, branchBase, directions[i]
+            );
             if (tip != null) {
-                // Raise the crown with a VERTICAL log on the horizontal
-                // branch tip. The upward segment has a shared face with the
-                // last branch log, unlike a detached diagonal step.
-                BlockPos raisedTip = tip.above();
-                if (placeLog(level, trunkSetter, random, raisedTip, config)) {
-                    tip = raisedTip;
-                }
+                // No central crown: each oblique primary limb supports its
+                // own compact, silver-green leaf cluster.
                 crowns.add(new FoliagePlacer.FoliageAttachment(tip.above(), 0, false));
             }
         }
 
+        // If obstacles blocked BOTH branches, avoid an undecorated stump.
+        // This is an emergency fallback, not a third crown in normal growth.
+        if (crowns.isEmpty()) {
+            crowns.add(new FoliagePlacer.FoliageAttachment(stemTop.above(), 0, false));
+        }
         return crowns;
+    }
+
+    /**
+     * Gently climbing, mangrove-inspired stepping:
+     * 3-5 outward steps, at least two upward steps, sometimes a lateral kink.
+     * Every log shares a FULL FACE with the preceding log. Never place a
+     * diagonal-only pair or leap over an obstructed block.
+     *
+     * @return the connected tip when a branch extends at least two horizontal
+     *         blocks; otherwise null (no disconnected foliage cluster).
+     */
+    private BlockPos placeAscendingBranch(
+        WorldGenLevel level,
+        BiConsumer<BlockPos, BlockState> trunkSetter,
+        RandomSource random,
+        TreeConfiguration config,
+        BlockPos start,
+        Direction outward
+    ) {
+        BlockPos tip = start;
+        int outwardSteps = 0;
+        int length = 3 + random.nextInt(3);
+        int firstRise = 1 + random.nextInt(2);
+        Direction lateral = random.nextBoolean()
+            ? outward.getClockWise()
+            : outward.getCounterClockWise();
+        boolean sideKink = random.nextFloat() < 0.55F;
+
+        for (int step = 1; step <= length; step++) {
+            // Horizontal segment first; then vertical segment on the SAME
+            // column. This produces a connected oblique line of trunk logs.
+            BlockPos horizontal = tip.relative(outward);
+            if (!placeLog(level, trunkSetter, random, horizontal, config,
+                state -> state.setValue(RotatedPillarBlock.AXIS, outward.getAxis()))) {
+                break;
+            }
+            tip = horizontal;
+            outwardSteps++;
+
+            if (step == 2 && sideKink) {
+                BlockPos sideways = tip.relative(lateral);
+                if (placeLog(level, trunkSetter, random, sideways, config,
+                    state -> state.setValue(RotatedPillarBlock.AXIS, lateral.getAxis()))) {
+                    tip = sideways;
+                }
+            }
+
+            // At least two rises, with slight variation in their location.
+            // Endpoints stay high enough that their foliage will not touch
+            // the soil even when the main fork occurs at block two.
+            boolean rise = step == firstRise || step == length
+                || (length == 5 && step == 3);
+            if (rise) {
+                BlockPos above = tip.above();
+                if (!placeLog(level, trunkSetter, random, above, config)) {
+                    break;
+                }
+                tip = above;
+            }
+        }
+        return outwardSteps >= 2 ? tip : null;
     }
 }
