@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/template_hanging_sign_attached_rot_1",
+  "parent": "minecraft:block/template_attached_hanging_sign_rot_1",
   "textures": {
     "all": "italiansdelight:block/olive_hanging_sign",
     "particle": "italiansdelight:block/stripped_olive_log"
