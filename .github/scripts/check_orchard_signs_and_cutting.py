@@ -79,7 +79,7 @@ def main():
     assert (A/"textures/item/olive_sign.png").is_file()
     import hashlib
     original = (A/"textures/item/olive_sign.png").read_bytes()
-    assert hashlib.sha1(b"blob " + str(len(original)).encode() + b"\\0" + original).hexdigest() == "0bf533baf5faf7e99a26aa58b3ebcabd3ca98aa9", "Approved normal sign item icon changed"
+    assert hashlib.sha1(b"blob " + str(len(original)).encode() + b"\0" + original).hexdigest() == "0bf533baf5faf7e99a26aa58b3ebcabd3ca98aa9", "Approved normal sign item icon changed"
     for old in ("sign/olive.png","sign/hanging/olive.png"):
         assert (A/"textures/entity"/old).is_file()
 
