@@ -24,17 +24,20 @@ assert "for (int i = 0; i < 2; i++)" in trunk
 assert "first.getOpposite()" in trunk
 assert "first.getClockWise()" in trunk and "first.getCounterClockWise()" in trunk
 assert "placeAscendingBranch(" in trunk
-assert "int length = 3 + random.nextInt(3);" in trunk
-assert "int firstRise = 1 + random.nextInt(2);" in trunk
-assert "BlockPos horizontal = tip.relative(outward);" in trunk
-assert "BlockPos sideways = tip.relative(lateral);" in trunk
+# Strict two-block horizontal cap, including any sideways deviation.
+assert "private static final int MAX_BRANCH_HORIZONTAL_STEPS = 2;" in trunk
+assert "for (int step = 1; step <= MAX_BRANCH_HORIZONTAL_STEPS; step++)" in trunk
+assert "Direction travelDirection = step == 2 && bendSecondStep ? lateral : outward;" in trunk
+assert "BlockPos horizontal = tip.relative(travelDirection);" in trunk
 assert "BlockPos above = tip.above();" in trunk
 assert "tip = horizontal;" in trunk and "tip = above;" in trunk
-assert "state -> state.setValue(RotatedPillarBlock.AXIS, outward.getAxis())" in trunk
-assert "state -> state.setValue(RotatedPillarBlock.AXIS, lateral.getAxis())" in trunk
+assert "state -> state.setValue(RotatedPillarBlock.AXIS, travelDirection.getAxis())" in trunk
+assert "horizontalSteps > 0 ? tip : null" in trunk
+# Prevent the old bug: extra lateral moves in addition to long straight limbs.
+assert "int length = 3 + random.nextInt(3);" not in trunk
+assert "BlockPos sideways = tip.relative(lateral);" not in trunk
 assert "new FoliagePlacer.FoliageAttachment(tip.above()" in trunk
 assert "new FoliagePlacer.FoliageAttachment(stemTop.above()" in trunk  # obstacle-only fallback
-assert "outwardSteps >= 2 ? tip : null" in trunk
 assert "foliagePlacerParts(instance)" in foliage
 assert "shouldSkipLocation" in foliage
 assert "tryPlaceLeaf" in foliage
@@ -52,6 +55,6 @@ assert not (DATA/"placed_feature/olive_tree_wild.json").exists()
 assert not (DATA/"placed_feature/ancient_olive_tree_wild.json").exists()
 wg=(SRC/"common/registry/ModWorldGeneration.java").read_text()
 assert "OLIVE_TREE_WILD" not in wg and "ANCIENT_OLIVE_TREE_WILD" not in wg
-print("OK: low fork at block 2/3, exactly two principal rising face-connected limbs and separate crowns")
+print("OK: low fork at block 2/3, two ascending limbs, <=2 horizontal steps per limb INCLUDING turns")
 print("OK: tapered foliage lobes and both custom placer codecs registered")
 print("OK: old 2x2 prototype retained; natural olive world generation stays DISABLED")

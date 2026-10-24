@@ -26,6 +26,10 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
  * Ancient 2x2 olives use a separate, still provisional configuration.
  */
 public final class OliveTrunkPlacer extends TrunkPlacer {
+    // Horizontal distance is capped at two FULL-FACE steps from the fork,
+    // including any sideways turn. Vertical rises do not count.
+    private static final int MAX_BRANCH_HORIZONTAL_STEPS = 2;
+
     public static final MapCodec<OliveTrunkPlacer> CODEC =
         RecordCodecBuilder.mapCodec(instance ->
             trunkPlacerParts(instance).apply(instance, OliveTrunkPlacer::new));
@@ -99,13 +103,15 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
     }
 
     /**
-     * Gently climbing, mangrove-inspired stepping:
-     * 3-5 outward steps, at least two upward steps, sometimes a lateral kink.
-     * Every log shares a FULL FACE with the preceding log. Never place a
-     * diagonal-only pair or leap over an obstructed block.
+     * Compact, mangrove-inspired ascending branch.
      *
-     * @return the connected tip when a branch extends at least two horizontal
-     *         blocks; otherwise null (no disconnected foliage cluster).
+     * Exactly two horizontal moves at most (one may turn sideways), and
+     * one upward move after each. Counting the sideways kink AS a move
+     * prevents a branch from extending three or more blocks away.
+     * Every placed log touches the previous one by a FULL FACE.
+     *
+     * @return the last connected branch log, or null if no horizontal
+     *         segment could be placed safely.
      */
     private BlockPos placeAscendingBranch(
         WorldGenLevel level,
@@ -116,46 +122,32 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
         Direction outward
     ) {
         BlockPos tip = start;
-        int outwardSteps = 0;
-        int length = 3 + random.nextInt(3);
-        int firstRise = 1 + random.nextInt(2);
+        int horizontalSteps = 0;
         Direction lateral = random.nextBoolean()
             ? outward.getClockWise()
             : outward.getCounterClockWise();
-        boolean sideKink = random.nextFloat() < 0.55F;
+        boolean bendSecondStep = random.nextFloat() < 0.35F;
 
-        for (int step = 1; step <= length; step++) {
-            // Horizontal segment first; then vertical segment on the SAME
-            // column. This produces a connected oblique line of trunk logs.
-            BlockPos horizontal = tip.relative(outward);
+        for (int step = 1; step <= MAX_BRANCH_HORIZONTAL_STEPS; step++) {
+            // The optional sideways bend REPLACES the second outward move.
+            // It does not introduce an extra horizontal segment.
+            Direction travelDirection = step == 2 && bendSecondStep ? lateral : outward;
+            BlockPos horizontal = tip.relative(travelDirection);
             if (!placeLog(level, trunkSetter, random, horizontal, config,
-                state -> state.setValue(RotatedPillarBlock.AXIS, outward.getAxis()))) {
+                state -> state.setValue(RotatedPillarBlock.AXIS, travelDirection.getAxis()))) {
                 break;
             }
             tip = horizontal;
-            outwardSteps++;
+            horizontalSteps++;
 
-            if (step == 2 && sideKink) {
-                BlockPos sideways = tip.relative(lateral);
-                if (placeLog(level, trunkSetter, random, sideways, config,
-                    state -> state.setValue(RotatedPillarBlock.AXIS, lateral.getAxis()))) {
-                    tip = sideways;
-                }
+            // A vertical segment after each horizontal one makes the
+            // branch rise obliquely without disconnected diagonal jumps.
+            BlockPos above = tip.above();
+            if (!placeLog(level, trunkSetter, random, above, config)) {
+                break;
             }
-
-            // At least two rises, with slight variation in their location.
-            // Endpoints stay high enough that their foliage will not touch
-            // the soil even when the main fork occurs at block two.
-            boolean rise = step == firstRise || step == length
-                || (length == 5 && step == 3);
-            if (rise) {
-                BlockPos above = tip.above();
-                if (!placeLog(level, trunkSetter, random, above, config)) {
-                    break;
-                }
-                tip = above;
-            }
+            tip = above;
         }
-        return outwardSteps >= 2 ? tip : null;
+        return horizontalSteps > 0 ? tip : null;
     }
 }

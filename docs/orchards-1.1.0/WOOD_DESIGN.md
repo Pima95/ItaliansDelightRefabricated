@@ -200,6 +200,16 @@ L'autore ha respinto le forme di **quercia / quercia scura** come soluzione defi
 
 **Stato:** modello procedurale modificato e controlli statici aggiornati; compilazione Java CI e valutazione visiva in-game vanno registrate separatamente. La struttura resta un prototipo, non una forma già approvata.
 
+### Ritocco proporzioni — massimo due blocchi orizzontali per ramo (24 ottobre 2026)
+
+**Feedback in gioco dell'autore:** il concetto di biforcazione bassa a Y funziona, ma gli estremi dei rami e i due gruppi di foglie erano **troppo distanti** (screenshot del prototipo precedente).
+
+**Nuova regola:** entrambi i rami principali dell'ulivo normale mantengono la biforcazione al secondo/terzo blocco, ma possono effettuare **non più di 2 spostamenti orizzontali complessivi ciascuno**, **inclusa** l'eventuale deviazione laterale. La deviazione sostituisce il secondo passo in avanti e **non si somma** a esso. Dopo ogni spostamento orizzontale il ramo sale di un blocco; tutti i tronchi restano collegati per faccia. In caso di ostacolo il ramo si arresta e usa l'ultima punta effettivamente posizionata, senza generare chiome isolate. Le due chiome rimangono separate come punti di ancoraggio, ma più vicine al fusto.
+
+**Invariati:** numero di rami principali (2), blocchi e texture, `OliveFoliagePlacer`, crescita 2×2 provvisoria, e worldgen naturale degli ulivi (**disattivato**).
+
+**Da verificare in gioco:** crescere 8–12 ulivi normali e confrontare la larghezza con lo screenshot precedente; controllare le ramificazioni oblique e le chiome, inclusi esemplari con deviazioni laterali. Gli automatismi verificano il limite nel codice e la compilazione, non l'approvazione visiva.
+
 ## 4. Famiglie e nomenclatura — proposta tecnica
 
 Per mandorlo e ciliegio da frutto perseguire progressivamente un set edilizio coerente con Minecraft; **la famiglia d'ulivo è già implementata**: `*_log`, `*_wood`, `stripped_*_log`, `stripped_*_wood`, `*_planks`, `*_stairs`, `*_slab`, `*_fence`, `*_fence_gate`, `*_door`, `*_trapdoor`, `*_button`, `*_pressure_plate`, `*_sign`, `*_hanging_sign` e germoglio/foglie. Barche e barche con baule d'ulivo sono già presenti; quelle delle altre specie restano da valutare.
