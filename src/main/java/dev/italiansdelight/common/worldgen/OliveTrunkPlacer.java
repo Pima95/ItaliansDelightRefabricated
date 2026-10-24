@@ -61,10 +61,11 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
 
         // A short, sideways-curving continuation at the crown's height:
         // no extra upward steps and no repeated straight horizontal beams.
+        boolean forked = random.nextInt(FORK_VARIANT_CHANCE) == 0;
         Direction turn = random.nextBoolean()
             ? stem.lean().getClockWise() : stem.lean().getCounterClockWise();
         BlockPos mainTip = stem.tip();
-        if (random.nextFloat() < 0.70F) {
+        if (forked || random.nextFloat() < 0.70F) {
             BlockPos crookedTip = mainTip.relative(turn);
             if (canGrowInto(level, crookedTip)
                 && placeBark(level, trunkSetter, random, crookedTip, config)) {
@@ -76,9 +77,8 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
         // A genuinely rare second branch, shorter than the first one. Both
         // tips stay at y=2: the fork broadens the crown instead of making a
         // tall or doubled-up trunk.
-        if (random.nextInt(FORK_VARIANT_CHANCE) == 0) {
-            Direction secondary = random.nextBoolean()
-                ? stem.lean().getOpposite() : turn.getOpposite();
+        if (forked) {
+            Direction secondary = turn.getOpposite();
             BlockPos lowSide = stem.forkBase().relative(secondary);
             BlockPos secondTip = lowSide.above();
             // Plan both steps before placing either: never leave the lone
