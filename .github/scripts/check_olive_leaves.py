@@ -28,7 +28,7 @@ def main():
     approved_sapling=A/"textures/block/olive_sapling.png"
     assert approved_sapling.is_file(), "Preserve existing olive_sapling.png for a future growable sapling"
     sapling_bytes=approved_sapling.read_bytes()
-    assert sapling_bytes[:8]==b"\\x89PNG\\r\\n\\x1a\\n" and struct.unpack(">II",sapling_bytes[16:24])==(16,16)
+    assert sapling_bytes[:8]==b"\x89PNG\r\n\x1a\n" and struct.unpack(">II",sapling_bytes[16:24])==(16,16)
 
     # Palette-only retouch: preserve the EXACT old leaf silhouette, 168
     # opaque pixels and 88 transparent pixels. PNGs remain crisp RGBA 16x16,
