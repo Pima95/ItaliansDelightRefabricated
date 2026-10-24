@@ -59,13 +59,12 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
         }
 
         boolean forked = random.nextInt(FORK_VARIANT_CHANCE) == 0;
-        // The main limb curves away from the already leaning stem. In most
-        // cases the second horizontal step changes direction rather than
-        // extending into a straight beam.
+        // The main limb always turns on its second horizontal move:
+        // a straight beam must never appear in either tree variant.
         Direction primaryDirection = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         BlockPos primaryTip = placeAscendingBranch(
             level, trunkSetter, random, config, stem.tip(),
-            primaryDirection, 2, random.nextFloat() < 0.75F
+            primaryDirection, 2, true
         );
         BlockPos crownTip = primaryTip != null ? primaryTip : stem.tip();
         crowns.add(new FoliagePlacer.FoliageAttachment(crownTip.above(), 0, false));
