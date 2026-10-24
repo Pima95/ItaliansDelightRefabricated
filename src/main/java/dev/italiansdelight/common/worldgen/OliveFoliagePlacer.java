@@ -58,16 +58,16 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
         int leafRadius,
         int offset
     ) {
-        BlockPos center = attachment.pos().above(offset);
+        BlockPos center = attachment.pos().above(offset).offset(\n            random.nextInt(3) - 1, 0, random.nextInt(3) - 1);\n        int crownRadius = Math.max(1, leafRadius - (random.nextInt(3) == 0 ? 1 : 0));
         // Compact, flattened lobes at the tips of two distinct rising limbs.
         // Narrow upper/lower layers keep the silhouette open, not cherry-like.
         for (int dy = -1; dy <= 1; dy++) {
             // Taper both faces of each crown; avoid one continuous flat
             // underside connecting the two separately rising primary arms.
-            int radius = dy == 0 ? leafRadius : Math.max(1, leafRadius - 1);
+            int radius = dy == 0 ? crownRadius : Math.max(1, crownRadius - 1);
             for (int dx = -radius; dx <= radius; dx++) {
                 for (int dz = -radius; dz <= radius; dz++) {
-                    if (shouldSkipLocation(random, dx, dy, dz, radius, false)) {
+                    if (shouldSkipLocation(random, dx, dy, dz, radius, false)\n                        || (dy != 0 && random.nextFloat() < 0.12F)) {
                         continue;
                     }
                     if (dy == -1 && Math.abs(dx) + Math.abs(dz) >= radius + 1
