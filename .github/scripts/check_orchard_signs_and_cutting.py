@@ -21,7 +21,7 @@ def doc(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def check_rgba_pixel_art(path):
+def check_rgba_pixel_art(path, expected_size):
     buf = path.read_bytes()
     assert buf[:8] == b"\x89PNG\r\n\x1a\n", f"Not a PNG: {path}"
     position = 8
@@ -32,7 +32,7 @@ def check_rgba_pixel_art(path):
         value = buf[position+8:position+8+length]
         if tag == b"IHDR":
             w, h, depth, color, comp, filt, interlace = struct.unpack(">IIBBBBB", value)
-            assert (w, h, depth, color, interlace) == (16, 16, 8, 6, 0), (path, w, h, depth, color, interlace)
+            assert (w, h, depth, color, interlace) == (*expected_size, 8, 6, 0), (path, w, h, depth, color, interlace)
         elif tag == b"IDAT":
             compressed.extend(value)
         elif tag == b"IEND":
@@ -66,10 +66,20 @@ def check_rgba_pixel_art(path):
 
 
 def main():
-    for name in ("block/olive_sign.png", "block/olive_hanging_sign.png", "item/olive_hanging_sign.png"):
-        check_rgba_pixel_art(A / "textures" / name)
+    # Match actual Minecraft 26.2 UV layout and screen asset dimensions.
+    for name, size in (
+        ("block/olive_sign.png", (32, 32)),
+        ("block/olive_hanging_sign.png", (32, 32)),
+        ("item/olive_hanging_sign.png", (16, 16)),
+        ("gui/signs/olive.png", (24, 26)),
+        ("gui/hanging_signs/olive.png", (16, 16)),
+    ):
+        check_rgba_pixel_art(A / "textures" / name, size)
     # The original olive sign sprite and 64x32 legacy entity images are retained, unmodified.
     assert (A/"textures/item/olive_sign.png").is_file()
+    import hashlib
+    original = (A/"textures/item/olive_sign.png").read_bytes()
+    assert hashlib.sha1(b"blob " + str(len(original)).encode() + b"\\0" + original).hexdigest() == "0bf533baf5faf7e99a26aa58b3ebcabd3ca98aa9", "Approved normal sign item icon changed"
     for old in ("sign/olive.png","sign/hanging/olive.png"):
         assert (A/"textures/entity"/old).is_file()
 
@@ -84,6 +94,11 @@ def main():
             assert o.get("y",0)==(n//4)*90
             shape=doc(A/f"models/block/{model}.json")
             assert shape["textures"]["all"]=="italiansdelight:block/olive_hanging_sign"
+            expected_parent = (
+                f"minecraft:block/template_attached_hanging_sign_rot_{n%4}"
+                if attached == "true" else f"minecraft:block/template_hanging_sign_rot_{n%4}"
+            )
+            assert shape["parent"] == expected_parent, f"Wrong vanilla sign model: {model}"
         o=standing[f"rotation={n}"]
         assert o["model"]==f"italiansdelight:block/olive_sign_rot_{n%4}"
         assert o.get("y",0)==(n//4)*90
@@ -91,7 +106,6 @@ def main():
         assert len(doc(A/f"blockstates/{name}.json")["variants"])==4
     for name in ("olive_sign","olive_hanging_sign","olive_cabinet"):
         doc(A/f"items/{name}.json")
-        doc(A/f"recipe/{name}.json") if False else None
         doc(D/f"recipe/{name}.json")
     for name in ("olive_cabinet","olive_cabinet_open"):
         m=doc(A/f"models/block/{name}.json")
@@ -113,7 +127,16 @@ def main():
     assert "BlockEntityTypes.HANGING_SIGN.addValidBlock" in besrc
     assert "ModBlockEntityTypes.CABINET.get()" in besrc
     assert "addValidBlock(ModBlocks.OLIVE_CABINET)" in besrc
-    print("OK: 26.2 olive signs have 16+32 rotations, 16x16 hard-alpha textures, and two SignItems")
+    hanging_recipe=doc(D/"recipe/olive_hanging_sign.json")
+    assert hanging_recipe["key"]=={"C":"minecraft:iron_chain","P":"italiansdelight:stripped_olive_log"}
+    assert hanging_recipe["pattern"]==["C C","PPP","PPP"]
+    assert hanging_recipe["result"]=={"id":"italiansdelight:olive_hanging_sign","count":6}
+    cabinet_recipe=doc(D/"recipe/olive_cabinet.json")
+    assert cabinet_recipe["pattern"]==["___","D D","___"]
+    assert cabinet_recipe["key"]=={"_":"italiansdelight:olive_slab","D":"italiansdelight:olive_trapdoor"}
+    assert cabinet_recipe["result"]["id"]=="italiansdelight:olive_cabinet"
+    print("OK: Minecraft 26.2 32x32 sign UV maps, 24x26/16x16 GUI, 16x16 hanging item")
+    print("OK: all 16 standing/32 hanging orientations, correct attached parent and original sign item")
     print("OK: FD 27-slot olive cabinet uses original 4 PNGs and shared CabinetBlockEntity")
     print("OK: two olive stripping Cutting Board recipes return stripped wood and tree bark")
 
