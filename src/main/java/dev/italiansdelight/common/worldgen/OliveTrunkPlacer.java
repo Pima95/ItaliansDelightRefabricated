@@ -2,7 +2,6 @@ package dev.italiansdelight.common.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.italiansdelight.common.registry.ModBlocks;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,8 +24,8 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
  * The remaining singles and every forked tree have 4- or 5-block-high
  * trunks. One tree in ten has two genuinely separate ascending limbs.
  *
- * All wood paths are face-connected. The low bend and forks use all-bark
- * olive wood to hide exposed log rings. The ancient 2x2 tree is separate.
+ * All wood paths are face-connected and use regular olive logs, not
+ * all-bark olive wood. The ancient 2x2 tree is separate.
  */
 public final class OliveTrunkPlacer extends TrunkPlacer {
     private static final int FORK_VARIANT_CHANCE = 10;
@@ -84,7 +83,7 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
             }
 
             for (BlockPos position : plan.barkPositions()) {
-                if (!placeBark(level, trunkSetter, random, position, config)) {
+                if (!placeLog(level, trunkSetter, random, position, config)) {
                     // A placement failure should never create an additional
                     // foliage attachment or claim a completed second limb.
                     return crowns;
@@ -183,17 +182,6 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
             }
         }
         return true;
-    }
-
-    private boolean placeBark(
-        WorldGenLevel level,
-        BiConsumer<BlockPos, BlockState> trunkSetter,
-        RandomSource random,
-        BlockPos position,
-        TreeConfiguration config
-    ) {
-        return placeLog(level, trunkSetter, random, position, config,
-            state -> ModBlocks.OLIVE_WOOD.defaultBlockState());
     }
 
     private record OlivePlan(

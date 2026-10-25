@@ -2,7 +2,7 @@ package dev.italiansdelight.common.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.italiansdelight.common.registry.ModBlocks;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -24,8 +24,8 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
  * An ancient Mediterranean olive, not a tall baobab or a dark oak.
  *
  * The 2x2 bole is only three layers tall: the upper layer shifts sideways
- * and immediately splits into low, climbing limbs. Irregular buttress roots
- * and bark-clad wooden knuckles give the base its centuries-old silhouette.
+ * and splits into ascending branches mostly from the third level.
+ * Asymmetric log knuckles give the base its old, twisted silhouette.
  * Broad overlapping silver crowns conceal the upper branches.
  *
  * Build and preflight the COMPLETE shape before placing any wood. A cramped
@@ -38,6 +38,8 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
 
     private static final int BOLE_HEIGHT = 3;
     private static final int MAIN_LIMBS = 4;
+    // Exceeds the requested 85%, while retaining occasional low branching.
+    private static final int THIRD_LEVEL_LIMB_CHANCE = 90;
 
     public AncientOliveTrunkPlacer(int baseHeight, int heightRandA, int heightRandB) {
         super(baseHeight, heightRandA, heightRandB);
@@ -62,14 +64,13 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
         boolean[] sidewaysKink = new boolean[MAIN_LIMBS];
         boolean[] longLimb = new boolean[MAIN_LIMBS];
         int[] attachmentHeight = new int[MAIN_LIMBS];
-        int lowFirst = random.nextInt(2);
 
         // Generate one immutable silhouette; obstacle handling may rotate it,
         // but must never change it into a tall vertical fallback tree.
         for (int i = 0; i < MAIN_LIMBS; i++) {
             sidewaysKink[i] = random.nextBoolean();
             longLimb[i] = random.nextInt(4) == 0;
-            attachmentHeight[i] = 1 + ((i + lowFirst) % 2);
+            attachmentHeight[i] = random.nextInt(100) < THIRD_LEVEL_LIMB_CHANCE ? 2 : 1;
         }
 
         for (int rotation = 0; rotation < 4; rotation++) {
@@ -89,11 +90,11 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
                         origin.offset(dx, -1, dz), config);
                 }
             }
-            for (Map.Entry<BlockPos, Boolean> entry : plan.logs().entrySet()) {
-                boolean placed = entry.getValue()
-                    ? placeLog(level, trunkSetter, random, entry.getKey(), config,
-                        state -> ModBlocks.OLIVE_WOOD.defaultBlockState())
-                    : placeLog(level, trunkSetter, random, entry.getKey(), config);
+            for (Map.Entry<BlockPos, Direction.Axis> entry : plan.logs().entrySet()) {
+                // Vanilla-style olive_log throughout: sideways limbs receive
+                // the appropriate horizontal log axis, never olive_wood.
+                boolean placed = placeLog(level, trunkSetter, random, entry.getKey(),
+                    config, state -> state.setValue(RotatedPillarBlock.AXIS, entry.getValue()));
                 if (!placed) {
                     // All planned blocks were already checked; no partial
                     // fallback crown is deliberately produced.
@@ -115,7 +116,7 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
         BlockPos origin, Direction lean, boolean clockwise,
         boolean[] sidewaysKink, boolean[] longLimb, int[] attachmentHeight
     ) {
-        Map<BlockPos, Boolean> logs = new LinkedHashMap<>();
+        Map<BlockPos, Direction.Axis> logs = new LinkedHashMap<>();
         Set<BlockPos> tips = new LinkedHashSet<>();
 
         // The bole is 2x2 at the bottom, but bends sharply from the THIRD
@@ -126,39 +127,27 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
             BlockPos layer = y == BOLE_HEIGHT - 1 ? upper : origin;
             for (int dx = 0; dx < 2; dx++) {
                 for (int dz = 0; dz < 2; dz++) {
-                    logs.put(layer.offset(dx, y, dz), y != 0);
+                    logs.put(layer.offset(dx, y, dz), Direction.Axis.Y);
                 }
             }
         }
 
-        // Buttress knots begin ONLY on the SECOND trunk level (y=1).
-        // Projecting blocks at y=0 looked like branches growing directly
-        // from the first block; keep the planted footprint strictly 2x2.
-        for (int i = 0; i < MAIN_LIMBS; i++) {
-            Direction side = rotated(lean, clockwise, i);
-            if (i == 3) {
-                continue; // An asymmetric missing buttress.
-            }
-            BlockPos edge = edgeOf(origin, side, i % 2);
-            // y=0 contains the four base logs and nothing else.
-            // These irregular buttresses now grow outward at y=1.
-            BlockPos root = edge.relative(side).above();
-            logs.put(root, true);
-            if (i == 0 || i == 2) {
-                logs.put(root.above(), true);
-            }
-        }
+        // No independent side buttresses at y=1: three such extensions,
+        // plus the main limbs, crowded the trunk at the second block.
+        // Its irregular outline now comes from the third-level bend and forks.
+        // The planted footprint at y=0 is strictly 2x2.
 
         // A pair of offset wooden knuckles forms an open, crooked fork.
         // There is intentionally NO solid 2x2 column above y=2.
         BlockPos knotA = upper.offset(0, BOLE_HEIGHT, 1);
         BlockPos knotB = upper.offset(1, BOLE_HEIGHT, 1);
-        logs.put(knotA, true);
-        logs.put(knotB, true);
+        logs.put(knotA, Direction.Axis.Y);
+        logs.put(knotB, Direction.Axis.Y);
         BlockPos centralTip = knotB.above();
-        logs.put(centralTip, true);
+        logs.put(centralTip, Direction.Axis.Y);
 
-        // Four major limbs begin at the second/third trunk block (y=1/2).
+        // Each major limb starts at the THIRD trunk block (y=2) with a
+        // 90% chance; a rare 10% begins at the second (y=1).
         // Every lateral segment climbs a block before the next lateral move.
         // This creates visible gnarled Y-forks instead of horizontal beams.
         for (int i = 0; i < MAIN_LIMBS; i++) {
@@ -169,23 +158,23 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
                 .above(rootY);
 
             tip = tip.relative(outward);
-            logs.putIfAbsent(tip, true);
+            logs.putIfAbsent(tip, outward.getAxis());
             tip = tip.above();
-            logs.putIfAbsent(tip, true);
+            logs.putIfAbsent(tip, Direction.Axis.Y);
 
             Direction second = sidewaysKink[i]
                 ? (clockwise ? outward.getClockWise() : outward.getCounterClockWise())
                 : outward;
             tip = tip.relative(second);
-            logs.putIfAbsent(tip, true);
+            logs.putIfAbsent(tip, second.getAxis());
             tip = tip.above();
-            logs.putIfAbsent(tip, true);
+            logs.putIfAbsent(tip, Direction.Axis.Y);
 
             if (longLimb[i]) {
                 tip = tip.relative(outward);
-                logs.putIfAbsent(tip, true);
+                logs.putIfAbsent(tip, outward.getAxis());
                 tip = tip.above();
-                logs.putIfAbsent(tip, true);
+                logs.putIfAbsent(tip, Direction.Axis.Y);
             }
             tips.add(tip);
         }
@@ -254,5 +243,5 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
         return state.isAir() || state.canBeReplaced();
     }
 
-    private record AncientPlan(Map<BlockPos, Boolean> logs, Set<BlockPos> tips) {}
+    private record AncientPlan(Map<BlockPos, Direction.Axis> logs, Set<BlockPos> tips) {}
 }

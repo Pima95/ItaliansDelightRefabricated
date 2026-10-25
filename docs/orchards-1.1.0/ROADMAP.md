@@ -304,6 +304,18 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Conferma visiva ancora aperta** sul nuovo ritocco. La generazione naturale è sempre disattivata e `main` resta invariato.
 
+### Rifinitura ulivo secolare — rami dal terzo blocco e tronchi vanilla (25 ottobre 2026)
+
+**Feedback in gioco:** il secondo blocco del tronco era ancora troppo affollato di rami. Inoltre l'uso di `olive_wood` (tutta corteccia) nei generatori non produceva l'aspetto vanilla desiderato.
+
+**Implementato:**
+- Ogni ramo principale dell'ulivo secolare parte dal **terzo blocco (y=2) nel 90% dei casi**, dal secondo (y=1) nel 10%. La probabilità per ramo supera l'85% richiesto, pur non garantendo la stessa percentuale sul singolo albero di quattro rami.
+- Rimossi i tre contrafforti laterali indipendenti dal secondo blocco, lasciando una base 2×2 pulita e la torsione al terzo livello. Mantiene quattro rami e cinque chiome.
+- **Entrambi i generatori** ora posano soltanto blocchi `olive_log`, mai `olive_wood`. Il generatore secolare orienta `axis=x/z` sui rami orizzontali e `axis=y` sui tratti verticali, come nei tronchi vanilla. Il blocco `olive_wood` rimane disponibile per i giocatori come materiale edilizio.
+- Test CI statici aggiornati; nessuna texture, ricetta, foliage, worldgen naturale o `main` alterati.
+
+**Collaudo visivo della forma aggiornata:** da confermare dall'autore; la generazione naturale resta disabilitata.
+
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).

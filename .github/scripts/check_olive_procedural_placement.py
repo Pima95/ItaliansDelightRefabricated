@@ -33,7 +33,7 @@ for token in (
     "4 + random.nextInt(2)",
     "planTree(origin, trunkHeight, forked, lean, turn, upperKink)",
     "canPlacePlan(level, origin, plan.barkPositions())",
-    "placeBark(level, trunkSetter",
+    "placeLog(level, trunkSetter, random, position, config)",
     "lowerFork = forkBase.relative(secondary)",
     "secondaryTip = outerFork.above()",
     "new FoliagePlacer.FoliageAttachment(plan.mainTip().above()",
@@ -81,7 +81,7 @@ for token in (
     "y == BOLE_HEIGHT - 1 ? upper : origin",
     "for (int dx = 0; dx < 2; dx++)", "for (int dz = 0; dz < 2; dz++)",
     "hasClearSpace(level, origin, plan)", "origin.relative(lean)",
-    "logs.put(root, true)", "knotA", "knotB",
+    "knotA", "knotB", "THIRD_LEVEL_LIMB_CHANCE = 90",
     "int rootY = attachmentHeight[i]",
     "tip = tip.relative(outward)", "tip = tip.relative(second)",
     "placeBelowTrunkBlock", "new FoliagePlacer.FoliageAttachment(tip.above()",
@@ -98,17 +98,20 @@ for token in (
 assert "stemHeight = Math.max(5, treeHeight - 4)" not in ancient_trunk
 assert "for (int y = 0; y < stemHeight; y++)" not in ancient_trunk
 assert "BOLE_HEIGHT = 3" in ancient_trunk
-assert "attachmentHeight[i] = 1 + ((i + lowFirst) % 2)" in ancient_trunk
-assert "if (i == 3)" in ancient_trunk and "logs.put(root, true)" in ancient_trunk
-# Regression: ground-level buttresses made branches appear from block one.
-# The only y=0 wood must be the original 2x2 base; all lateral wood starts
-# at y>=1 (second level), including the asymmetric buttress knots.
-assert "BlockPos root = edge.relative(side).above();" in ancient_trunk
-assert "BlockPos root = edge.relative(side);" not in ancient_trunk
-assert "logs.put(layer.offset(dx, y, dz), y != 0);" in ancient_trunk
-assert "attachmentHeight[i] = 1 + ((i + lowFirst) % 2)" in ancient_trunk
+# At least 85% of main limbs should start at the third block (90% design).
+assert "THIRD_LEVEL_LIMB_CHANCE = 90" in ancient_trunk
+assert "attachmentHeight[i] = random.nextInt(100) < THIRD_LEVEL_LIMB_CHANCE ? 2 : 1;" in ancient_trunk
+assert "attachmentHeight[i] = 1 + ((i + lowFirst) % 2)" not in ancient_trunk
+assert "logs.put(root" not in ancient_trunk
+assert "logs.put(layer.offset(dx, y, dz), Direction.Axis.Y);" in ancient_trunk
 assert "tip = tip.relative(outward);" in ancient_trunk
-assert "logs.put(root.above(), true);" in ancient_trunk
+# No all-bark blocks are allowed to spawn from either olive tree placer.
+for tree in (trunk, ancient_trunk):
+    assert "OLIVE_WOOD" not in tree
+    assert "placeBark" not in tree
+assert "state.setValue(RotatedPillarBlock.AXIS, entry.getValue())" in ancient_trunk
+assert "Map<BlockPos, Direction.Axis>" in ancient_trunk
+assert "placeLog(level, trunkSetter, random, position, config)" in trunk
 assert "ANCIENT_OLIVE_TRUNK" in registry
 assert "ANCIENT_OLIVE_FOLIAGE" in registry
 
