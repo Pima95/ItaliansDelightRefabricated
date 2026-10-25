@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
+  "group": "shelf",
   "pattern": [
-    "PPP",
-    "S S"
+    "###",
+    "   ",
+    "###"
   ],
   "key": {
-    "P": "italiansdelight:olive_planks",
-    "S": "minecraft:stick"
+    "#": "italiansdelight:stripped_olive_log"
   },
   "result": {
     "id": "italiansdelight:olive_shelf",
-    "count": 2
+    "count": 6
   }
 }

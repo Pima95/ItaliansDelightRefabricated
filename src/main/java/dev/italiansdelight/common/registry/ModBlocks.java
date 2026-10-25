@@ -1,7 +1,6 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CheeseVatBlock;
-import dev.italiansdelight.common.block.OliveShelfBlock;
 import dev.italiansdelight.common.block.CheeseHookBlock;
 import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
 import dev.italiansdelight.common.block.CheeseAgingRackBlock;
@@ -40,6 +39,9 @@ import net.minecraft.world.level.block.WallHangingSignBlock;
 import vectorwing.farmersdelight.common.block.CabinetBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.ShelfBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityType;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.ButtonBlock;
@@ -267,18 +269,14 @@ public final class ModBlocks {
             .setId(OLIVE_WALL_HANGING_SIGN_KEY))
     );
 
-    // Decorative wall shelf; intentionally separate from the functional
-    // olive cheese-aging rack. Reuses approved olive plank artwork.
+    // Vanilla-equivalent shelf: 3 display slots, powered swaps and
+    // side-chain behavior come directly from Minecraft's ShelfBlock.
+    // Its block entity is the existing vanilla SHELF type.
     public static final ResourceKey<Block> OLIVE_SHELF_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_shelf"));
     public static final Block OLIVE_SHELF = register(
         OLIVE_SHELF_KEY,
-        new OliveShelfBlock(
-            Block.Properties.ofFullCopy(OLIVE_PLANKS)
-                .setId(OLIVE_SHELF_KEY)
-                .noOcclusion()
-                .strength(2.0F, 3.0F)
-        )
+        new ShelfBlock(Block.Properties.ofFullCopy(Blocks.OAK_SHELF).setId(OLIVE_SHELF_KEY))
     );
 
     public static final ResourceKey<Block> OLIVE_CABINET_KEY =
@@ -598,6 +596,10 @@ public final class ModBlocks {
     }
 
     public static void register() {
+        // Reuse the vanilla shelf BE (3 visible items, persistence, native
+        // renderer). Explicitly permit the modded olive shelf block state;
+        // otherwise vanilla rejects its block entity as unsupported.
+        ((FabricBlockEntityType) BlockEntityType.SHELF).addValidBlock(OLIVE_SHELF);
         // Vanilla-style log stripping and fire spread: performed only after
         // the registered block fields are initialized.
         StrippableBlockRegistry.register(OLIVE_LOG, STRIPPED_OLIVE_LOG);

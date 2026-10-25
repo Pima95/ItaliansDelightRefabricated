@@ -324,16 +324,19 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Invariati:** tronco dell'ulivo secolare approvato, generatore e chioma dell'ulivo normale, strati medi e superiori della chioma secolare, texture, frutti, ricette e worldgen naturale (ancora **disabilitato**). Il risultato visivo di questo esperimento resta da approvare in gioco.
 
-### Mensola da parete in legno d'ulivo (`olive_shelf`) — implementata
+### Mensola d'ulivo vanilla-equivalente (`olive_shelf`) — sostituita la variante decorativa
 
-- [x] **Blocchetto decorativo** `italiansdelight:olive_shelf`, indipendente dallo scaffale di stagionatura `olive_cheese_aging_rack` e senza inventario o interazione con gli oggetti.
-- [x] **Quattro orientamenti**: posa contro una parete solida, sagoma e collisioni corrispondenti a tavola, schienale e due supporti. Quando viene tolto il supporto a parete, la mensola si rompe e lascia il proprio oggetto.
-- [x] **Grafica e materiali**: modello 3D originale composto da quattro cuboidi, realizzato usando solamente `olive_planks.png` già approvata; nessuna nuova texture e nessun recupero di materiale Rustic.
-- [x] **Gameplay**: crafting con 3 assi d'ulivo e 2 bastoni (2 mensole), loot di recupero, tag `mineable/axe`, comportamento infiammabile, scheda Creativa senza duplicati, descrizioni IT/EN.
-- [x] **Test automatico** dedicato `check_olive_shelf.py` integrato in GitHub Actions; controlli su risorse e separazione dal rack di stagionatura.
-- [ ] **Collaudo grafico in Minecraft**: verificare quattro direzioni, parete di supporto, rottura/drop, inventario e aspetto del modello da vicino. La funzionalità di esposizione degli oggetti resta *fuori ambito* salvo futura decisione dell'autore.
+**Correzione dell'autore:** la precedente mensola da parete puramente decorativa NON era il blocco desiderato. Si intende la nuova **Shelf vanilla** presente in Minecraft 26.2, ultimo elemento mancante della famiglia di legni d'ulivo.
 
-**Invariati:** `olive_cheese_aging_rack` già implementato, alberi approvati, texture preesistenti, `main` e generazione naturale disabilitata.
+- [x] **Stesso ID** `italiansdelight:olive_shelf`: sostituito il blocco decorativo custom con `ShelfBlock` vanilla, senza cambiare il nome di registro nei mondi di prova.
+- [x] **Gameplay vanilla**: tre slot visibili con oggetti, inserimento e scambio, salvataggio e renderer vanilla, alimentazione redstone e collegamento di più scaffali; aggiunto il nostro blocco tra quelli accettati da `BlockEntityType.SHELF` tramite Fabric `addValidBlock`.
+- [x] **Modelli vanilla 26.2**: `template_shelf_body`, `template_shelf_unpowered`, `template_shelf_unconnected`, `template_shelf_left`, `template_shelf_center`, `template_shelf_right`, `template_shelf_inventory` e blockstate multipart per tutte le direzioni.
+- [x] **Texture originale d'ulivo 32×32**: conservata l'impostazione UV della Shelf vanilla 26.2, rimappandone il disegno esclusivamente ai 7 colori della texture `olive_planks.png` già approvata; pixel RGBA opachi, senza sfumature né asset Rustic. Nessuna modifica a `olive_planks.png` stessa.
+- [x] **Ricetta equivalente vanilla**: 6 `stripped_olive_log` in due righe di tre, con una riga vuota centrale, producono 6 `olive_shelf`. Conservate registrazione item, tag ascia, drop, traduzioni e scheda Creativa.
+- [x] **CI**: `check_olive_shelf.py` controlla le nuove risorse e che il BE vanilla accetti `olive_shelf`; il vecchio codice `OliveShelfBlock.java` è rimosso.
+- [ ] **Verifica in Minecraft**: 3 oggetti per mensola, redstone e collegamenti, rotazione, texture e icona, recupero con gli oggetti, mondo salvato e multiplayer.
+
+**Non modificati:** `olive_cheese_aging_rack`, gli alberi e le loro texture approvate, `main`, worldgen naturale (disabilitato).
 
 ### Compattazione laterale della chioma secolare — 25 ottobre 2026
 
