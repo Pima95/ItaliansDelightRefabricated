@@ -107,6 +107,27 @@ public final class ModBlocks {
 
 
 
+    // Almond phase 1: just logs (ordinary/stripped) and planks.
+    // All-bark wood, stairs, saplings and fruit are deferred for art review.
+    public static final ResourceKey<Block> ALMOND_LOG_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_log"));
+    public static final Block ALMOND_LOG = register(
+        ALMOND_LOG_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_LOG).setId(ALMOND_LOG_KEY))
+    );
+    public static final ResourceKey<Block> STRIPPED_ALMOND_LOG_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("stripped_almond_log"));
+    public static final Block STRIPPED_ALMOND_LOG = register(
+        STRIPPED_ALMOND_LOG_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).setId(STRIPPED_ALMOND_LOG_KEY))
+    );
+    public static final ResourceKey<Block> ALMOND_PLANKS_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_planks"));
+    public static final Block ALMOND_PLANKS = register(
+        ALMOND_PLANKS_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS).setId(ALMOND_PLANKS_KEY))
+    );
+
     // First Orchard foliage block: use the existing non-Rustic 16x16
     // olive_leaves.png. The concrete UntintedParticleLeavesBlock preserves
     // its original fixed green palette while vanilla leaves handle decay,
@@ -598,12 +619,16 @@ public final class ModBlocks {
         // the registered block fields are initialized.
         StrippableBlockRegistry.register(OLIVE_LOG, STRIPPED_OLIVE_LOG);
         StrippableBlockRegistry.register(OLIVE_WOOD, STRIPPED_OLIVE_WOOD);
+        StrippableBlockRegistry.register(ALMOND_LOG, STRIPPED_ALMOND_LOG);
         FlammableBlockRegistry fire = FlammableBlockRegistry.getDefaultInstance();
         fire.add(OLIVE_LOG, 5, 5);
         fire.add(OLIVE_WOOD, 5, 5);
         fire.add(STRIPPED_OLIVE_LOG, 5, 5);
         fire.add(STRIPPED_OLIVE_WOOD, 5, 5);
         fire.add(OLIVE_PLANKS, 5, 20);
+        fire.add(ALMOND_LOG, 5, 5);
+        fire.add(STRIPPED_ALMOND_LOG, 5, 5);
+        fire.add(ALMOND_PLANKS, 5, 20);
         fire.add(OLIVE_LEAVES, 30, 60);
         fire.add(OLIVE_STAIRS, 5, 20);
         fire.add(OLIVE_SLAB, 5, 20);

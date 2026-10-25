@@ -88,6 +88,11 @@ public final class ModItemGroups {
                 output.accept(ModBoats.OLIVE_BOAT_ITEM);
                 output.accept(ModBoats.OLIVE_CHEST_BOAT_ITEM);
 
+                // ALMOND: three starter blocks, full wood family later.
+                output.accept(ModBlocks.ALMOND_LOG);
+                output.accept(ModBlocks.STRIPPED_ALMOND_LOG);
+                output.accept(ModBlocks.ALMOND_PLANKS);
+
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);
                 output.accept(ModItems.ROLLING_PIN);

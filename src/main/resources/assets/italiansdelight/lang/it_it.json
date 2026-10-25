@@ -252,5 +252,8 @@
   "block.italiansdelight.olive_leaves": "Foglie d'Ulivo",
   "block.italiansdelight.olive_sapling": "Germoglio d'Ulivo",
   "block.italiansdelight.potted_olive_sapling": "Germoglio d'Ulivo in Vaso",
-  "block.italiansdelight.olive_shelf": "Mensola d'Ulivo"
+  "block.italiansdelight.olive_shelf": "Mensola d'Ulivo",
+  "block.italiansdelight.almond_log": "Tronco di Mandorlo",
+  "block.italiansdelight.stripped_almond_log": "Tronco di Mandorlo Scortecciato",
+  "block.italiansdelight.almond_planks": "Assi di Mandorlo"
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "italiansdelight:block/almond_log",
+    "end": "italiansdelight:block/almond_log_top"
+  }
+}

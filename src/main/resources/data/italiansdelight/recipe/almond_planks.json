@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "#italiansdelight:almond_logs"
+  ],
+  "result": {
+    "id": "italiansdelight:almond_planks",
+    "count": 4
+  }
+}

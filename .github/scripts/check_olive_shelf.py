@@ -122,19 +122,22 @@ assert len(atlas_pixels) == 32 * 32
 assert all(pixel[3] == 255 for pixel in atlas_pixels), "No translucent texture pixels"
 assert {pixel[:3] for pixel in atlas_pixels} <= allowed_rgb, "Only approved olive colors"
 assert len({pixel[:3] for pixel in atlas_pixels}) >= 5, "Keep pixel-art shading"
-# Preserve vanilla's three central recesses and the unornamented broad
-# surfaces: the old attempt carved the middle of the shelf and was rejected.
-# Hash the rows OUTSIDE the upper/lower trim UV strips, compared to the
-# original, unmodified olive shelf atlas.
+# The approved olive-leaf trim stays pixel-identical, as do all the atlas
+# rows beyond 4..10. Only the recessed 3-slot and 1-slot interiors deepen.
 import hashlib
 moulding_rows = {1, 2, 3, 12, 13, 14}
-untouched = bytes(component
-                  for y in range(32) if y not in moulding_rows
-                  for x in range(32)
-                  for component in atlas_pixels[y*32+x])
+untouched = bytes(v
+                  for y in range(32) if y not in range(4, 11)
+                  for x in range(32) for v in atlas_pixels[y*32+x])
 assert hashlib.sha256(untouched).hexdigest() == (
-    "6319ff3a02dfb6ada1cecd85efaedb3047f37ce0a415ac87cab88872c09b2f2a"
-), "The central panels or non-decorative UV regions must remain unmodified"
+    "534d7a4af3553ff740c54188df832f30a53f2f1cc3dba86cd993c2ee5c59de04"
+), "Olive-leaf trims or pixels outside the slot recesses changed"
+for x in (2, 7, 12):
+    assert atlas_pixels[4*32+x][:3] == (158, 87, 44)
+    assert atlas_pixels[10*32+x+1][:3] == (201, 135, 78)
+assert atlas_pixels[5*32+18][:3] == (158, 87, 44)
+assert atlas_pixels[9*32+29][:3] == (214, 156, 94)
+assert atlas_pixels[10*32+25][:3] == (214, 156, 94)
 
 # Olive-leaf garland is engraved in BOTH 16px UV halves (front and back),
 # mirrored in the upper and lower 3-pixel-high moulding. It repeats every
@@ -172,5 +175,5 @@ assert load(A/"models/block/olive_cheese_aging_rack.json")["textures"]["wood"] =
 assert load(D/"recipe/crafting/olive_cheese_aging_rack.json")["result"]["id"] == "italiansdelight:olive_cheese_aging_rack"
 
 print("OK: native shelf block entity, redstone chaining, 3-slot storage, vanilla 26.2 models")
-print("OK: 32x32 olive-leaf frieze on upper/lower trims, front and back; central panels untouched")
+print("OK: approved olive-leaf frieze unchanged; 3-slot and 1-slot inset shading")
 print("OK: crafting x6, items, drops, translations and preserved cheese rack")

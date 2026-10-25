@@ -365,6 +365,16 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Vincoli in questa fase:** niente worldgen naturale, niente sistema di frutti prematuro, niente modifica delle texture d'ulivo già approvate; tutte le modifiche in `feature/orchards-1.1.0`, mai direttamente su `main`.
 
+### Primo lotto mandorlo e profondità delle mensole (25 ottobre 2026)
+
+L'autore richiede in questa fase **solo tre blocchi di mandorlo**: `almond_log`, `stripped_almond_log`, `almond_planks`. Tutte le altre varianti (compresi `almond_wood` e `stripped_almond_wood`), germogli, alberi e frutti sono rinviati fino all'approvazione delle texture.
+
+- [x] **Cinque texture originali 16×16 RGBA**: corteccia e sezione superiore del tronco, lato e sezione del tronco scortecciato, assi. Direzione artistica provvisoria **bruno-nocciola / beige caldo**, diversa dal miele dell'ulivo. Nessun pixel trasparente o semitrasparente, nessuna risorsa Rustic.
+- [x] **Tre blocchi vanilla-equivalenti** con orientamento assi X/Y/Z, scortecciatura da ascia, bruciabilità, crafting 1 tronco (anche scortecciato) → 4 assi, Creative, loot, modelli/definizioni item, traduzioni e tag legno.
+- [x] **Mensola d'ulivo**: aggiunte ombre nelle cavità dei **tre slot** e nella cavità della variante **a slot unico**, con luci lungo le labbra inferiori e destre. Il fregio di foglioline alto/basso già approvato e tutti i pixel esterni alle cavità **rimangono invariati**, verificati dal test CI. Nessun cambiamento ai modelli e alla meccanica vanilla.
+- [ ] Collaudo in Minecraft dei tre nuovi materiali e della profondità della mensola nelle due configurazioni. **Le texture del mandorlo non sono ancora approvate** e potranno essere rifinite dopo il giudizio dell'autore.
+- [ ] Famiglia completa del mandorlo e il suo albero soltanto in una fase successiva.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

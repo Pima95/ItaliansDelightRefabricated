@@ -30,6 +30,8 @@ jobs:
         run: python3 .github/scripts/check_olive_procedural_placement.py
       - name: Verify Olive sapling normal and ancient tree definitions
         run: python3 .github/scripts/check_olive_sapling_trees.py
+      - name: Validate initial Almond wood, crafting and original art
+        run: python3 .github/scripts/check_almond_wood_phase1.py
       - name: Verify Olive leaves and absence of Rustic leaf asset
         run: python3 .github/scripts/check_olive_leaves.py
       - name: Reject Rustic art in Orchard wood models
@@ -40,7 +42,7 @@ jobs:
         run: python3 .github/scripts/check_orchard_signs_and_cutting.py
       - name: Validate Olive doors, cheese rack and boat entities
         run: python3 .github/scripts/check_orchard_boats_and_rack.py
-      - name: Verify decorative olive shelf and wall placement resources
+      - name: Verify vanilla olive shelf and slot shading
         run: python3 .github/scripts/check_olive_shelf.py
       - name: Prevent rolling-pin bootstrap crash
         run: python3 .github/scripts/check_rolling_pin_combat.py
