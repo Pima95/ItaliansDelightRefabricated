@@ -21,17 +21,23 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
 /**
- * Original 2x2 ancient olive: thick, slightly displaced core and four low,
- * ascending limbs. No vanilla dark-oak or prebuilt structure geometry.
+ * An ancient Mediterranean olive, not a tall baobab or a dark oak.
  *
- * The whole wood and canopy envelope is checked BEFORE changing the ground
- * or placing logs. A failed orientation leaves all four saplings untouched
- * (the vanilla TreeGrower restores them when TreeFeature returns false).
+ * The 2x2 bole is only three layers tall: the upper layer shifts sideways
+ * and immediately splits into low, climbing limbs. Irregular buttress roots
+ * and bark-clad wooden knuckles give the base its centuries-old silhouette.
+ * Broad overlapping silver crowns conceal the upper branches.
+ *
+ * Build and preflight the COMPLETE shape before placing any wood. A cramped
+ * tree does not destroy buildings, spawn disconnected limbs or lose saplings.
  */
 public final class AncientOliveTrunkPlacer extends TrunkPlacer {
     public static final MapCodec<AncientOliveTrunkPlacer> CODEC =
         RecordCodecBuilder.mapCodec(instance ->
             trunkPlacerParts(instance).apply(instance, AncientOliveTrunkPlacer::new));
+
+    private static final int BOLE_HEIGHT = 3;
+    private static final int MAIN_LIMBS = 4;
 
     public AncientOliveTrunkPlacer(int baseHeight, int heightRandA, int heightRandB) {
         super(baseHeight, heightRandA, heightRandB);
@@ -51,29 +57,32 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
         BlockPos origin,
         TreeConfiguration config
     ) {
-        int stemHeight = Math.max(5, treeHeight - 4);
         Direction initialLean = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         boolean clockwise = random.nextBoolean();
-        boolean[] outerBends = new boolean[4];
-        int[] branchRise = new int[4];
-        for (int i = 0; i < 4; i++) {
-            outerBends[i] = random.nextBoolean();
-            branchRise[i] = random.nextInt(2);
+        boolean[] sidewaysKink = new boolean[MAIN_LIMBS];
+        boolean[] longLimb = new boolean[MAIN_LIMBS];
+        int[] attachmentHeight = new int[MAIN_LIMBS];
+        int lowFirst = random.nextInt(2);
+
+        // Generate one immutable silhouette; obstacle handling may rotate it,
+        // but must never change it into a tall vertical fallback tree.
+        for (int i = 0; i < MAIN_LIMBS; i++) {
+            sidewaysKink[i] = random.nextBoolean();
+            longLimb[i] = random.nextInt(4) == 0;
+            attachmentHeight[i] = 1 + ((i + lowFirst) % 2);
         }
 
-        // Retain the same tree silhouette when rotating to avoid an obstacle.
         for (int rotation = 0; rotation < 4; rotation++) {
             Direction lean = initialLean;
             for (int i = 0; i < rotation; i++) {
                 lean = lean.getClockWise();
             }
-            AncientPlan plan = planTree(origin, stemHeight, lean, clockwise,
-                outerBends, branchRise);
+            AncientPlan plan = planTree(origin, lean, clockwise,
+                sidewaysKink, longLimb, attachmentHeight);
             if (!hasClearSpace(level, origin, plan)) {
                 continue;
             }
 
-            // All placement checks have passed. Preserve the four-block base.
             for (int dx = 0; dx < 2; dx++) {
                 for (int dz = 0; dz < 2; dz++) {
                     placeBelowTrunkBlock(level, trunkSetter, random,
@@ -81,98 +90,127 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
                 }
             }
             for (Map.Entry<BlockPos, Boolean> entry : plan.logs().entrySet()) {
-                boolean placed;
-                if (entry.getValue()) {
-                    placed = placeLog(level, trunkSetter, random, entry.getKey(), config,
-                        state -> ModBlocks.OLIVE_WOOD.defaultBlockState());
-                } else {
-                    placed = placeLog(level, trunkSetter, random, entry.getKey(), config);
-                }
+                boolean placed = entry.getValue()
+                    ? placeLog(level, trunkSetter, random, entry.getKey(), config,
+                        state -> ModBlocks.OLIVE_WOOD.defaultBlockState())
+                    : placeLog(level, trunkSetter, random, entry.getKey(), config);
                 if (!placed) {
-                    // All wood cells were prechecked; there should be no
-                    // obstruction at this point in synchronous tree generation.
+                    // All planned blocks were already checked; no partial
+                    // fallback crown is deliberately produced.
                     return List.of();
                 }
             }
 
-            List<FoliagePlacer.FoliageAttachment> crowns = new ArrayList<>();
+            List<FoliagePlacer.FoliageAttachment> crowns = new ArrayList<>(5);
             for (BlockPos tip : plan.tips()) {
                 crowns.add(new FoliagePlacer.FoliageAttachment(tip.above(), 0, false));
             }
             return crowns;
         }
 
-        // Reject cramped growth rather than overwriting terrain or building
-        // a truncated monumental olive.
         return List.of();
     }
 
     private static AncientPlan planTree(
-        BlockPos origin, int stemHeight, Direction lean, boolean clockwise,
-        boolean[] outerBends, int[] branchRise
+        BlockPos origin, Direction lean, boolean clockwise,
+        boolean[] sidewaysKink, boolean[] longLimb, int[] attachmentHeight
     ) {
         Map<BlockPos, Boolean> logs = new LinkedHashMap<>();
         Set<BlockPos> tips = new LinkedHashSet<>();
-        int bendY = Math.max(3, stemHeight - 2);
 
-        // A continuous 2x2 base and central bole, with a one-block-wide
-        // offset of the ENTIRE 2x2 cross-section near its top. The overlapping
-        // layers remain connected by faces and resemble a twisting old trunk.
-        for (int y = 0; y < stemHeight; y++) {
-            BlockPos layer = y >= bendY ? origin.relative(lean) : origin;
+        // The bole is 2x2 at the bottom, but bends sharply from the THIRD
+        // layer: only two consecutive layers share the same footprint.
+        // The staggered 2x2 overlap remains connected face-to-face.
+        BlockPos upper = origin.relative(lean);
+        for (int y = 0; y < BOLE_HEIGHT; y++) {
+            BlockPos layer = y == BOLE_HEIGHT - 1 ? upper : origin;
             for (int dx = 0; dx < 2; dx++) {
                 for (int dz = 0; dz < 2; dz++) {
-                    logs.put(layer.offset(dx, y, dz), y >= 2);
+                    logs.put(layer.offset(dx, y, dz), y != 0);
                 }
             }
         }
 
-        Direction start = lean;
-        for (int i = 0; i < 4; i++) {
-            Direction outward = start;
-            for (int turn = 0; turn < i; turn++) {
-                outward = clockwise ? outward.getClockWise() : outward.getCounterClockWise();
+        // The roots broaden the trunk irregularly at ground level, rather
+        // than continuing a square 2x2 pillar high into the canopy.
+        for (int i = 0; i < MAIN_LIMBS; i++) {
+            Direction side = rotated(lean, clockwise, i);
+            if (i == 3) {
+                continue; // An asymmetric missing buttress.
             }
-
-            int y = stemHeight - 3 + branchRise[i];
-            BlockPos core = y >= bendY ? origin.relative(lean) : origin;
-            BlockPos root;
-            if (outward == Direction.NORTH) {
-                root = core.offset(i % 2, y, 0);
-            } else if (outward == Direction.SOUTH) {
-                root = core.offset(i % 2, y, 1);
-            } else if (outward == Direction.EAST) {
-                root = core.offset(1, y, i % 2);
-            } else {
-                root = core.offset(0, y, i % 2);
+            BlockPos edge = edgeOf(origin, side, i % 2);
+            BlockPos root = edge.relative(side);
+            logs.put(root, true);
+            if (i == 0 || i == 2) {
+                logs.put(root.above(), true);
             }
+        }
 
-            // Every horizontal step is followed by an upward one, so all
-            // branch segments touch. The optional third step replaces a
-            // straight move with a sideways kink, producing uneven lobes.
-            BlockPos tip = root.relative(outward);
-            logs.put(tip, true);
-            tip = tip.above();
-            logs.put(tip, true);
+        // A pair of offset wooden knuckles forms an open, crooked fork.
+        // There is intentionally NO solid 2x2 column above y=2.
+        BlockPos knotA = upper.offset(0, BOLE_HEIGHT, 1);
+        BlockPos knotB = upper.offset(1, BOLE_HEIGHT, 1);
+        logs.put(knotA, true);
+        logs.put(knotB, true);
+        BlockPos centralTip = knotB.above();
+        logs.put(centralTip, true);
+
+        // Four major limbs begin at the second/third trunk block (y=1/2).
+        // Every lateral segment climbs a block before the next lateral move.
+        // This creates visible gnarled Y-forks instead of horizontal beams.
+        for (int i = 0; i < MAIN_LIMBS; i++) {
+            Direction outward = rotated(lean, clockwise, i);
+            int rootY = attachmentHeight[i];
+            BlockPos section = rootY == BOLE_HEIGHT - 1 ? upper : origin;
+            BlockPos tip = edgeOf(section, outward, (i + 1) % 2)
+                .above(rootY);
+
             tip = tip.relative(outward);
-            logs.put(tip, true);
+            logs.putIfAbsent(tip, true);
             tip = tip.above();
-            logs.put(tip, true);
-            if (outerBends[i]) {
-                Direction side = clockwise
-                    ? outward.getClockWise() : outward.getCounterClockWise();
-                tip = tip.relative(side);
-                logs.put(tip, true);
+            logs.putIfAbsent(tip, true);
+
+            Direction second = sidewaysKink[i]
+                ? (clockwise ? outward.getClockWise() : outward.getCounterClockWise())
+                : outward;
+            tip = tip.relative(second);
+            logs.putIfAbsent(tip, true);
+            tip = tip.above();
+            logs.putIfAbsent(tip, true);
+
+            if (longLimb[i]) {
+                tip = tip.relative(outward);
+                logs.putIfAbsent(tip, true);
                 tip = tip.above();
-                logs.put(tip, true);
+                logs.putIfAbsent(tip, true);
             }
             tips.add(tip);
         }
 
-        // A fifth overlapping crown bridges the four spreading limbs.
-        BlockPos summit = origin.relative(lean).offset(1, stemHeight - 1, 1);
-        tips.add(summit);
+        tips.add(centralTip);
         return new AncientPlan(logs, tips);
+    }
+
+    private static Direction rotated(Direction initial, boolean clockwise, int rotations) {
+        Direction result = initial;
+        for (int i = 0; i < rotations; i++) {
+            result = clockwise ? result.getClockWise() : result.getCounterClockWise();
+        }
+        return result;
+    }
+
+    /** One of the two outermost blocks of a 2x2 section, on the selected side. */
+    private static BlockPos edgeOf(BlockPos section, Direction side, int position) {
+        if (side == Direction.NORTH) {
+            return section.offset(position, 0, 0);
+        }
+        if (side == Direction.SOUTH) {
+            return section.offset(position, 0, 1);
+        }
+        if (side == Direction.EAST) {
+            return section.offset(1, 0, position);
+        }
+        return section.offset(0, 0, position);
     }
 
     private static boolean hasClearSpace(WorldGenLevel level, BlockPos origin, AncientPlan plan) {
@@ -182,12 +220,12 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
             }
         }
 
-        // Reserve each rounded lobe before touching the four saplings. This
-        // is intentionally conservative near buildings and other trees.
+        // Reserve foliage volumes before moving even one trunk block. Small
+        // clearances prevent overwriting walls, paths or neighboring trees.
+        // Unlike the former baobab shape, no tall central-column reservation.
         for (BlockPos tip : plan.tips()) {
             for (int dy = -2; dy <= 2; dy++) {
                 BlockPos slice = tip.above(dy);
-                // Keep two full blocks clear above ground.
                 if (slice.getY() - (origin.getY() - 1) < 3) {
                     continue;
                 }

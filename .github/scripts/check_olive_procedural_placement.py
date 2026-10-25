@@ -77,11 +77,15 @@ assert_braces_balanced(foliage, "OliveFoliagePlacer.java")
 assert_braces_balanced(ancient_trunk, "AncientOliveTrunkPlacer.java")
 assert_braces_balanced(ancient_foliage, "AncientOliveFoliagePlacer.java")
 for token in (
-    "trunkPlacerParts(instance)", "for (int y = 0; y < stemHeight; y++)",
+    "trunkPlacerParts(instance)", "BOLE_HEIGHT = 3", "MAIN_LIMBS = 4",
+    "y == BOLE_HEIGHT - 1 ? upper : origin",
     "for (int dx = 0; dx < 2; dx++)", "for (int dz = 0; dz < 2; dz++)",
     "hasClearSpace(level, origin, plan)", "origin.relative(lean)",
+    "logs.put(root, true)", "knotA", "knotB",
+    "int rootY = attachmentHeight[i]",
+    "tip = tip.relative(outward)", "tip = tip.relative(second)",
     "placeBelowTrunkBlock", "new FoliagePlacer.FoliageAttachment(tip.above()",
-    "for (int i = 0; i < 4; i++)", "return List.of();",
+    "return List.of();",
 ):
     assert token in ancient_trunk, f"Ancient trunk missing {token}"
 for token in (
@@ -90,6 +94,12 @@ for token in (
     "connected.contains(leaf)", "tryPlaceLeaf",
 ):
     assert token in ancient_foliage, f"Ancient foliage missing {token}"
+# The old giant, straight 5-9-block bole caused the baobab silhouette.
+assert "stemHeight = Math.max(5, treeHeight - 4)" not in ancient_trunk
+assert "for (int y = 0; y < stemHeight; y++)" not in ancient_trunk
+assert "BOLE_HEIGHT = 3" in ancient_trunk
+assert "attachmentHeight[i] = 1 + ((i + lowFirst) % 2)" in ancient_trunk
+assert "if (i == 3)" in ancient_trunk and "logs.put(root, true)" in ancient_trunk
 assert "ANCIENT_OLIVE_TRUNK" in registry
 assert "ANCIENT_OLIVE_FOLIAGE" in registry
 

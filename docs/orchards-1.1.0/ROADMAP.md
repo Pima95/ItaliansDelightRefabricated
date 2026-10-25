@@ -286,6 +286,16 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Importante:** la generazione naturale degli ulivi rimane **DISATTIVATA**. Non sono ancora implementati frutti o raccolta delle olive. La release 1.0.0 e `main` non vengono modificate.
 
+### Revisione artistica ulivo secolare — tronco basso e contorto (25 ottobre 2026)
+
+**Feedback dell'autore:** il primo secolare procedurale ha un tronco troppo alto e dritto, con silhouette simile a un baobab; la fotografia di riferimento mostra invece un grosso fusto antico e nodoso, corto, con più grandi rami che si dividono già in basso sotto una chioma larghissima.
+
+**Correzione proposta e implementata:** `AncientOliveTrunkPlacer` conserva la base 2×2, ma limita il **fusto pieno a tre livelli** (y=0,1,2). Già il terzo livello del 2×2 è sfalsato di un blocco per creare una forte piega. Sopra non prosegue alcuna colonna 2×2: due nocche di legno formano una biforcazione aperta; quattro rami principali partono dal **secondo e terzo blocco** e si sviluppano con segmenti obliqui, curve occasionali e lunghezze lievemente variabili. Tre radici contrafforti irregolari allargano il piede del fusto e interrompono il profilo squadrato. I raccordi usano la corteccia `olive_wood`.
+
+**Proporzioni:** la `configured_feature` del secolare ha ora `base_height=7`, `height_rand_a=1` e `height_rand_b=1`, invece di 9+2+2; si riduce così anche l'altezza minima richiesta dalla feature. Le cinque chiome arrotondate mantengono la texture argentea approvata e `AncientOliveFoliagePlacer` invariato. I rami restano connessi al tronco e il volume previsto viene verificato prima di piazzare legno.
+
+**Collaudo da confermare:** aspetto del tronco da quattro lati, crescita tramite quattro germogli 2×2, collisioni, continuità dei rami, equilibrio della chioma. **Non considerare il ritocco approvato soltanto perché compila.** La generazione naturale resta disattivata; `main`, ulivo normale e texture restano invariati.
+
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).

@@ -41,7 +41,7 @@ def main():
     assert loot["pools"][0]["entries"][0]["name"]=="italiansdelight:olive_sapling"
     for kind in ("block","item"):
         assert "italiansdelight:olive_sapling" in j(D/f"minecraft/tags/{kind}/saplings.json")["values"]
-    for name,placer,base_height in (("olive_tree","italiansdelight:olive_trunk_placer",6),("ancient_olive_tree","italiansdelight:ancient_olive_trunk_placer",9)):
+    for name,placer,base_height in (("olive_tree","italiansdelight:olive_trunk_placer",6),("ancient_olive_tree","italiansdelight:ancient_olive_trunk_placer",7)):
         feat=j(D/f"italiansdelight/worldgen/configured_feature/{name}.json")
         assert feat["type"]=="minecraft:tree"
         cfg=feat["config"]
