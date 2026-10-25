@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -27,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public final class OliveShelfBlock extends Block {
     private static final MapCodec<OliveShelfBlock> CODEC = simpleCodec(OliveShelfBlock::new);
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     // Model origin faces north: the backboard is close to the southern wall.
     private static final VoxelShape NORTH = Shapes.or(
