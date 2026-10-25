@@ -3,7 +3,10 @@ package dev.italiansdelight.common.worldgen;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.italiansdelight.common.registry.ModBlocks;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,14 +19,12 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
 /**
- * Natural Mediterranean olive crown generator.
+ * Broad, rounded Mediterranean olive crowns, not square Minecraft canopies.
  *
- * Real olive trees possess a light, airy umbrella- or bowl-like canopy
- * formed by soft cushions (cuscini) of silvery foliage. The canopy is centered
- * on the limb axis without lopsided drift, with smoothly rounded layers that avoid
- * cubic boxiness. It maintains at least 2 clear air blocks above ground level.
- * On tall trees (6 blocks high), foliage envelops down to the 3rd-last trunk block;
- * on shorter trees (4-5 blocks high), it envelops down at most to the 2nd-last block.
+ * The five tapered layers have soft, irregular boundaries and small peripheral
+ * tufts. They stay centered above each limb rather than drifting sideways.
+ * Every leaf must be connected through other foliage to the actual olive wood.
+ * Leaves are kept at least two air blocks above solid ground.
  */
 public final class OliveFoliagePlacer extends FoliagePlacer {
     public static final MapCodec<OliveFoliagePlacer> CODEC =
@@ -51,7 +52,7 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
         int distance = dx * dx + dz * dz;
         if (distance > currentRadius * currentRadius + 1) {
             return true;
-
+        }
         return distance >= currentRadius * currentRadius && random.nextFloat() < 0.55F;
     }
 
@@ -67,11 +68,13 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
         int leafRadius,
         int offset
     ) {
-        // Anchor directly on the topmost trunk log (mainTip)
+        // Trunk placer attaches above its tip; the crown is centered on that
+        // tip. The second fork, when present, gets its own overlapping crown.
         BlockPos anchor = attachment.pos().above(offset).below();
         double radiusScale = Math.max(0.8D, leafRadius / 2.0D);
 
-        // Determine ground elevation under the tree to check trunk height and air clearance
+        // Find the actual terrain under this crown, ignoring existing olive
+        // wood/leaves so that the clearance does not count a branch as ground.
         int groundY = anchor.getY() - 1;
         while (groundY > level.getMinY()) {
             BlockPos checkPos = new BlockPos(anchor.getX(), groundY, anchor.getZ());
@@ -81,142 +84,140 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
                 && !state.is(ModBlocks.OLIVE_LOG)
                 && !state.is(ModBlocks.OLIVE_WOOD)) {
                 break;
-    
+            }
             groundY--;
+        }
 
         int trunkHeightAboveGround = anchor.getY() - groundY;
-        boolean isTallTrunk = trunkHeightAboveGround >= 5;
+        // A tall trunk can carry foliage one layer lower than short trunks.
+        int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;
 
-        // If trunk is 6 blocks tall, envelop down to terzultimo blocco (dy = -2).
-        // Otherwise (4-5 blocks tall), envelop maximum down to secondo blocco (dy = -1).
-        int minDy = isTallTrunk ? -2 : -1;
-
-        // Base radii per vertical layer to form a convex rounded dome without flat boxy walls
-        // dy = -2: tight collar wrapping lower log (radius ~1.65)
-        // dy = -1: lower canopy wrapping branch (radius ~2.15)
-        // dy =  0: main equator, widest (radius ~2.55)
-        // dy =  1: upper dome (radius ~2.05)
-        // dy =  2: crown peak (radius ~1.20, soft plus-shape summit)
+        // Rounded olive dome: wide middle, compact crest, soft lower skirt.
+        // Keep these approved proportions; no texture or trunk changes here.
         double rMinus2 = 2.05D * radiusScale;
         double rMinus1 = 2.55D * radiusScale;
         double rZero   = 2.95D * radiusScale;
         double rPlus1  = 2.45D * radiusScale;
         double rPlus2  = 1.55D * radiusScale;
 
-        // Radial harmonic modulation for organic cushions, kept symmetric/balanced
-        // so the center of mass stays directly over the trunk axis (never lopsided).
         int waveFreq = random.nextBoolean() ? 3 : 4;
         double wavePhase = random.nextDouble() * 2.0D * Math.PI;
         double waveAmp = 0.12D + random.nextDouble() * 0.06D;
 
-        // Micro-jitter strictly limited to +/- 0.15 blocks
-        double jitterX = random.nextDouble() * 0.30D - 0.15D;
-        double jitterZ = random.nextDouble() * 0.30D - 0.15D;
-
-        Set<BlockPos> planned = new HashSet<>();
+        // Preserve insertion order for deterministic foliage placement.
+        Set<BlockPos> planned = new LinkedHashSet<>();
 
         for (int dy = minDy; dy <= 2; dy++) {
-            // Enforce at least 2 clear air blocks between ground and leaves
+            // Never lower the foliage into the player's two-block clearance.
             if (anchor.getY() + dy - groundY < 3) {
                 continue;
-    
+            }
 
-            // Determine base radius for this layer
             double baseR;
-            if (dy == -2) baseR = rMinus2;
-            else if (dy == -1) baseR = rMinus1;
-            else if (dy == 0) baseR = rZero;
-            else if (dy == 1) baseR = rPlus1;
-            else baseR = rPlus2;
+            if (dy == -2) {
+                baseR = rMinus2;
+            } else if (dy == -1) {
+                baseR = rMinus1;
+            } else if (dy == 0) {
+                baseR = rZero;
+            } else if (dy == 1) {
+                baseR = rPlus1;
+            } else {
+                baseR = rPlus2;
+            }
+            baseR += random.nextDouble() * 0.16D - 0.08D;
 
-            // Slight random variation per layer
-            baseR += (random.nextDouble() * 0.16D - 0.08D);
+            // Tiny variation per layer breaks straight vertical walls without
+            // moving the center of the whole crown off its branch.
+            double jitterX = random.nextDouble() * 0.40D - 0.20D;
+            double jitterZ = random.nextDouble() * 0.40D - 0.20D;
 
-            // Increased jitter per layer for more organic variation
-            double jitterXLayer = random.nextDouble() * 0.40D - 0.20D;
-            double jitterZLayer = random.nextDouble() * 0.40D - 0.20D;
-
-            // Loop bounds tightened to reduce cubic outlines
             for (int dx = -3; dx <= 3; dx++) {
                 for (int dz = -3; dz <= 3; dz++) {
-                    double ox = dx - jitterXLayer;
-                    double oz = dz - jitterZLayer;
+                    double ox = dx - jitterX;
+                    double oz = dz - jitterZ;
                     double distH = Math.sqrt(ox * ox + oz * oz);
 
-                    // Early discard far points
                     if (distH > baseR + 0.45D) {
                         continue;
-            
-
-                    // More aggressive corner cut: discard extreme diagonal points that would form a box
-                    if (Math.abs(dx) >= 2 && Math.abs(dz) >= 2 && distH > baseR * 0.85) {
+                    }
+                    // Reject the far diagonals: no cuboid canopy corners.
+                    if (Math.abs(dx) >= 2 && Math.abs(dz) >= 2
+                        && distH > baseR * 0.85D) {
                         continue;
-            
+                    }
 
                     double theta = distH > 0.0D ? Math.atan2(oz, ox) : 0.0D;
-                    double localR = baseR * (1.0D + waveAmp * Math.cos(waveFreq * theta + wavePhase));
+                    double localR = baseR
+                        * (1.0D + waveAmp * Math.cos(waveFreq * theta + wavePhase));
 
                     BlockPos leafPos = anchor.offset(dx, dy, dz);
                     if (!hasGroundClearance(level, leafPos)) {
                         continue;
-            
+                    }
 
                     if (distH <= localR) {
+                        // Sparse holes at the rim, never an empty solid center.
                         if (distH > localR - 0.40D && random.nextFloat() < 0.20F) {
                             continue;
-                
+                        }
                         planned.add(leafPos);
-             else if (distH <= localR + 0.45D) {
+                    } else if (distH <= localR + 0.45D) {
+                        // Occasional tufts near the equator make the silhouette
+                        // irregular without creating floating distant clusters.
                         if ((dy == 0 || dy == -1) && random.nextFloat() < 0.22F) {
                             planned.add(leafPos);
-                
-            
-        
-    
+                        }
+                    }
+                }
+            }
+        }
 
+        // Keep only components that are reachable from real olive wood via
+        // face-connected planned leaves. Checking just one planned neighbor
+        // would accidentally allow floating pairs and isolated clusters.
+        Deque<BlockPos> frontier = new ArrayDeque<>();
+        Set<BlockPos> connected = new HashSet<>();
+        for (BlockPos pos : planned) {
+            for (Direction dir : Direction.values()) {
+                BlockState neighbor = level.getBlockState(pos.relative(dir));
+                if (neighbor.is(ModBlocks.OLIVE_LOG) || neighbor.is(ModBlocks.OLIVE_WOOD)) {
+                    if (connected.add(pos)) {
+                        frontier.addLast(pos);
+                    }
+                    break;
+                }
+            }
+        }
 
-
-
-
-        // Place leaves, ensuring no disconnected floating singletons.
-        // A leaf is connected if it touches the upper trunk logs or another placed leaf.
-        Direction[] directions = Direction.values();
-        BlockPos trunk1 = anchor;
-        BlockPos trunk2 = anchor.below(1);
-        BlockPos trunk3 = anchor.below(2);
+        while (!frontier.isEmpty()) {
+            BlockPos pos = frontier.removeFirst();
+            for (Direction dir : Direction.values()) {
+                BlockPos next = pos.relative(dir);
+                if (planned.contains(next) && connected.add(next)) {
+                    frontier.addLast(next);
+                }
+            }
+        }
 
         for (BlockPos pos : planned) {
-            boolean connected = false;
-            for (Direction dir : directions) {
-                BlockPos neighbor = pos.relative(dir);
-                if (neighbor.equals(trunk1) || neighbor.equals(trunk2)
-                    || (isTallTrunk && neighbor.equals(trunk3))
-                    || planned.contains(neighbor)) {
-                    connected = true;
-                    break;
-        
-    
-            if (connected) {
+            if (connected.contains(pos)) {
                 tryPlaceLeaf(level, foliageSetter, random, config, pos);
-    
-
+            }
+        }
     }
 
-    /**
-     * Enforce at least 2 blocks of clear vertical clearance between the ground and leaves.
-     * Both pos.below(1) and pos.below(2) must not be solid terrain/ground.
-     */
+    /** Keep two blocks of clearance below leaves, without treating tree wood as terrain. */
     private static boolean hasGroundClearance(WorldGenLevel level, BlockPos pos) {
         for (int down = 1; down <= 2; down++) {
-            BlockPos check = pos.below(down);
-            BlockState state = level.getBlockState(check);
+            BlockState state = level.getBlockState(pos.below(down));
             if (!state.isAir() && !state.canBeReplaced()
                 && !state.is(ModBlocks.OLIVE_LEAVES)
                 && !state.is(ModBlocks.OLIVE_LOG)
                 && !state.is(ModBlocks.OLIVE_WOOD)) {
                 return false;
-    
-
+            }
+        }
         return true;
     }
 }
