@@ -2,6 +2,7 @@
 """Check that olive_shelf is a native 26.2 shelf, not a decorative imitation."""
 import json
 import struct
+import zlib
 from pathlib import Path
 
 R = Path("src/main/resources")
@@ -71,6 +72,60 @@ tex = A/"textures/block/olive_shelf.png"
 raw = tex.read_bytes()
 assert raw[:8] == b"\x89PNG\r\n\x1a\n"
 assert struct.unpack(">II",raw[16:24]) == (32,32)
+
+# Pixel-level checks for the experimental engraved olive-branch motif.
+# This PNG uses vanilla's 32x32 UV atlas; use only colors from the previously
+# approved olive_planks palette and forbid semitransparent pixels.
+def png_chunks(png):
+    assert png.startswith(b"\x89PNG\r\n\x1a\n")
+    pos = 8
+    while pos < len(png):
+        size = struct.unpack_from(">I", png, pos)[0]
+        kind, data = png[pos+4:pos+8], png[pos+8:pos+8+size]
+        yield kind, data
+        pos += size + 12
+        if kind == b"IEND":
+            break
+
+def png_rgba_pixels(chunks):
+    ihdr = next(data for kind, data in chunks if kind == b"IHDR")
+    assert struct.unpack(">IIBBBBB", ihdr) == (32, 32, 8, 6, 0, 0, 0)
+    pixel_data = zlib.decompress(b"".join(data for kind, data in chunks if kind == b"IDAT"))
+    stride = 32 * 4
+    assert len(pixel_data) == 32 * (stride + 1)
+    previous = bytearray(stride)
+    result = []
+    for y in range(32):
+        start = y * (stride + 1)
+        filter_kind = pixel_data[start]
+        scan = pixel_data[start+1:start+1+stride]
+        assert filter_kind in (0, 1, 2, 3, 4)
+        row = bytearray(stride)
+        for i, encoded in enumerate(scan):
+            left = row[i-4] if i >= 4 else 0
+            up = previous[i]
+            corner = previous[i-4] if i >= 4 else 0
+            p = left + up - corner
+            distance = (abs(p-left), abs(p-up), abs(p-corner))
+            paeth = (left, up, corner)[distance.index(min(distance))]
+            predictor = (0, left, up, (left+up)//2, paeth)[filter_kind]
+            row[i] = (encoded + predictor) & 255
+        result.extend(tuple(row[i:i+4]) for i in range(0, stride, 4))
+        previous = row
+    return result
+
+planks_png = (A/"textures/block/olive_planks.png").read_bytes()
+plte = next(data for kind, data in png_chunks(planks_png) if kind == b"PLTE")
+allowed_rgb = {tuple(plte[i:i+3]) for i in range(0, len(plte), 3)}
+atlas_pixels = png_rgba_pixels(list(png_chunks(raw)))
+assert len(atlas_pixels) == 32 * 32
+assert all(pixel[3] == 255 for pixel in atlas_pixels), "No translucent texture pixels"
+assert {pixel[:3] for pixel in atlas_pixels} <= allowed_rgb, "Only approved olive colors"
+assert len({pixel[:3] for pixel in atlas_pixels}) >= 5, "Keep pixel-art shading"
+# At least three distinct front panels display the ornamental carving.
+assert len({atlas_pixels[y*32+x] for y in (5, 6, 7) for x in range(3, 11)}) >= 3
+assert len({atlas_pixels[y*32+x] for y in (18, 19, 20) for x in range(3, 11)}) >= 3
+
 assert not (A/"textures/item/olive_shelf.png").exists()
 
 recipe = load(D/"recipe/olive_shelf.json")
@@ -92,4 +147,5 @@ assert load(A/"models/block/olive_cheese_aging_rack.json")["textures"]["wood"] =
 assert load(D/"recipe/crafting/olive_cheese_aging_rack.json")["result"]["id"] == "italiansdelight:olive_cheese_aging_rack"
 
 print("OK: native shelf block entity, redstone chaining, 3-slot storage, vanilla 26.2 models")
-print("OK: 32x32 olive pixel art, crafting x6, items, drops, translations and preserved cheese rack")
+print("OK: original 32x32 engraved olive branch pattern, opaque pixels, approved wood palette")
+print("OK: crafting x6, items, drops, translations and preserved cheese rack")
