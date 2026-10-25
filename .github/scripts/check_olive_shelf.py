@@ -73,7 +73,7 @@ raw = tex.read_bytes()
 assert raw[:8] == b"\x89PNG\r\n\x1a\n"
 assert struct.unpack(">II",raw[16:24]) == (32,32)
 
-# Pixel-level checks for the experimental engraved olive-branch motif.
+# Pixel-level checks for the revised, trim-only olive-leaf garland.
 # This PNG uses vanilla's 32x32 UV atlas; use only colors from the previously
 # approved olive_planks palette and forbid semitransparent pixels.
 def png_chunks(png):
@@ -122,9 +122,34 @@ assert len(atlas_pixels) == 32 * 32
 assert all(pixel[3] == 255 for pixel in atlas_pixels), "No translucent texture pixels"
 assert {pixel[:3] for pixel in atlas_pixels} <= allowed_rgb, "Only approved olive colors"
 assert len({pixel[:3] for pixel in atlas_pixels}) >= 5, "Keep pixel-art shading"
-# At least three distinct front panels display the ornamental carving.
-assert len({atlas_pixels[y*32+x] for y in (5, 6, 7) for x in range(3, 11)}) >= 3
-assert len({atlas_pixels[y*32+x] for y in (18, 19, 20) for x in range(3, 11)}) >= 3
+# Preserve vanilla's three central recesses and the unornamented broad
+# surfaces: the old attempt carved the middle of the shelf and was rejected.
+# Hash the rows OUTSIDE the upper/lower trim UV strips, compared to the
+# original, unmodified olive shelf atlas.
+import hashlib
+moulding_rows = {1, 2, 3, 12, 13, 14}
+untouched = bytes(component
+                  for y in range(32) if y not in moulding_rows
+                  for x in range(32)
+                  for component in atlas_pixels[y*32+x])
+assert hashlib.sha256(untouched).hexdigest() == (
+    "6319ff3a02dfb6ada1cecd85efaedb3047f37ce0a415ac87cab88872c09b2f2a"
+), "The central panels or non-decorative UV regions must remain unmodified"
+
+# Olive-leaf garland is engraved in BOTH 16px UV halves (front and back),
+# mirrored in the upper and lower 3-pixel-high moulding. It repeats every
+# eight pixels but must not extend onto the center panels.
+for y in moulding_rows:
+    for x in (1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14):
+        assert atlas_pixels[y*32+x] == atlas_pixels[y*32+x+16], (
+            "The olive-branch moulding must match on the front and back"
+        )
+for x in (1, 9, 17, 25):
+    assert atlas_pixels[1*32+x][:3] == (224, 160, 100)
+for x in (3, 11, 19, 27):
+    assert atlas_pixels[2*32+x][:3] == (158, 87, 44)
+assert len({atlas_pixels[y*32+x] for y in (1, 2, 3, 12, 13, 14)
+            for x in range(1, 16)}) >= 5
 
 assert not (A/"textures/item/olive_shelf.png").exists()
 
@@ -147,5 +172,5 @@ assert load(A/"models/block/olive_cheese_aging_rack.json")["textures"]["wood"] =
 assert load(D/"recipe/crafting/olive_cheese_aging_rack.json")["result"]["id"] == "italiansdelight:olive_cheese_aging_rack"
 
 print("OK: native shelf block entity, redstone chaining, 3-slot storage, vanilla 26.2 models")
-print("OK: original 32x32 engraved olive branch pattern, opaque pixels, approved wood palette")
+print("OK: 32x32 olive-leaf frieze on upper/lower trims, front and back; central panels untouched")
 print("OK: crafting x6, items, drops, translations and preserved cheese rack")
