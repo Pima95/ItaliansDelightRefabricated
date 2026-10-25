@@ -2,7 +2,12 @@ package dev.italiansdelight.common.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.WorldGenLevel;
@@ -11,9 +16,12 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
 /**
- * Broad, irregular olive crowns built from overlapping flattened lobes.
- * The silhouette is deliberately wider than it is tall, with an uneven
- * outline and occasional gaps rather than a solid cherry-like sphere.
+ * Natural Mediterranean olive crown generator.
+ *
+ * Real olive trees possess a broad, open umbrella- or bowl-like canopy
+ * formed by overlapping cushions (cuscini) of silvery foliage. The canopy
+ * is wider than it is tall, with a gently convex dome on top, lush foliage
+ * enclosing the branch tips, and delicate drooping twiglets around the lower outer rim.
  */
 public final class OliveFoliagePlacer extends FoliagePlacer {
     public static final MapCodec<OliveFoliagePlacer> CODEC =
@@ -31,7 +39,7 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
 
     @Override
     public int foliageHeight(RandomSource random, int treeHeight, TreeConfiguration config) {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -57,96 +65,112 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
         int leafRadius,
         int offset
     ) {
-        // Each trunk attachment gets its own crown lobe. A small horizontal
-        // jitter keeps the outline from looking mechanically centred.
-        BlockPos center = attachment.pos().above(offset).offset(
-            random.nextInt(3) - 1, 0, random.nextInt(3) - 1);
+        BlockPos center = attachment.pos().above(offset);
+        double radiusScale = Math.max(0.8D, leafRadius / 2.0D);
 
-        // The configured radius is 2; expand it to a 3-4 block long axis,
-        // while keeping the short axis narrow for an olive-like silhouette.
-        int crownSize = Math.max(2, Math.min(3,
-            leafRadius + (random.nextBoolean() ? 0 : 1)));
-        int longRadius = crownSize + 1;
-        int shortRadius = Math.max(1, crownSize - 1);
-        boolean longAxisX = random.nextBoolean();
+        // Define the organic multi-cluster model (cushions of foliage)
+        List<FoliageCluster> clusters = new ArrayList<>(5);
 
-        placeLobe(level, foliageSetter, random, config, center,
-            longRadius, shortRadius, longAxisX);
+        // 1. Central broad dome cluster, anchored over the limb
+        double mainRx = (3.1D + (random.nextDouble() * 0.5D - 0.2D)) * radiusScale;
+        double mainRz = (3.1D + (random.nextDouble() * 0.5D - 0.2D)) * radiusScale;
+        double mainRy = 2.1D;
+        clusters.add(new FoliageCluster(0.0D, 0.5D, 0.0D, mainRx, mainRy, mainRz));
 
-        // Olive crowns grow in uneven clumps. Add one or two smaller lobes
-        // on the same randomly chosen side, rather than a symmetric ring.
-        int satelliteCount = 1 + random.nextInt(2);
-        int side = random.nextBoolean() ? 1 : -1;
-        for (int i = 0; i < satelliteCount; i++) {
-            int along = side * (Math.max(1, longRadius - 1) + i);
-            int across = random.nextInt(3) - 1;
-            int vertical = random.nextInt(3) - 1;
-            BlockPos satellite = center.offset(
-                longAxisX ? along : across,
-                vertical,
-                longAxisX ? across : along);
+        // 2. 3 to 4 secondary spreading cushions around the perimeter
+        int numLobes = 3 + random.nextInt(2);
+        double baseAngle = random.nextDouble() * 2.0D * Math.PI;
+        for (int i = 0; i < numLobes; i++) {
+            double angle = baseAngle + (i * 2.0D * Math.PI / numLobes)
+                + (random.nextDouble() * 0.6D - 0.3D);
+            double dist = (1.8D + random.nextDouble() * 0.6D) * radiusScale;
+            double lx = Math.cos(angle) * dist;
+            double lz = Math.sin(angle) * dist;
+            double ly = random.nextDouble() * 0.8D - 0.2D;
+            double lr = (1.9D + random.nextDouble() * 0.4D) * radiusScale;
+            double lry = 1.4D + random.nextDouble() * 0.3D;
+            clusters.add(new FoliageCluster(lx, ly, lz, lr, lry, lr));
+        }
 
-            int satelliteLong = random.nextInt(4) == 0 ? 2 : 1;
-            placeLobe(level, foliageSetter, random, config, satellite,
-                satelliteLong, 1, longAxisX);
+        Set<BlockPos> planned = new HashSet<>();
+
+        // Generate canopy volume from dy = -2 to +3, dx/dz from -5 to +5
+        for (int dy = -2; dy <= 3; dy++) {
+            for (int dx = -5; dx <= 5; dx++) {
+                for (int dz = -5; dz <= 5; dz++) {
+                    double minDistanceSq = Double.MAX_VALUE;
+                    for (FoliageCluster cluster : clusters) {
+                        double dSq = cluster.distanceSq(dx, dy, dz);
+                        if (dSq < minDistanceSq) {
+                            minDistanceSq = dSq;
+                        }
+                    }
+
+                    if (minDistanceSq <= 0.85D) {
+                        // Dense, lush canopy core
+                        planned.add(center.offset(dx, dy, dz));
+                    } else if (minDistanceSq <= 1.05D) {
+                        // Main canopy body with soft natural gaps
+                        if (random.nextFloat() < 0.85F) {
+                            planned.add(center.offset(dx, dy, dz));
+                        }
+                    } else if (minDistanceSq <= 1.25D) {
+                        // Outer feathered boundary
+                        float chance = (dy == 0 || dy == 1) ? 0.35F : 0.15F;
+                        if (random.nextFloat() < chance) {
+                            planned.add(center.offset(dx, dy, dz));
+                        }
+                    }
+                }
+            }
+        }
+
+        // Add delicate drooping branchlets at dy = -2 along the outer rim
+        // (quintessential weeping habit of mature olive canopies)
+        for (int dx = -4; dx <= 4; dx++) {
+            for (int dz = -4; dz <= 4; dz++) {
+                BlockPos abovePos = center.offset(dx, -1, dz);
+                BlockPos hangPos = center.offset(dx, -2, dz);
+                if (planned.contains(abovePos) && !planned.contains(hangPos)) {
+                    double distH = Math.sqrt(dx * dx + dz * dz);
+                    if (distH >= 2.2D && distH <= 3.8D && random.nextFloat() < 0.30F) {
+                        planned.add(hangPos);
+                    }
+                }
+            }
+        }
+
+        // Place leaves, ensuring no disconnected floating singletons
+        Direction[] directions = Direction.values();
+        BlockPos limbTip = center.below();
+        for (BlockPos pos : planned) {
+            boolean connected = false;
+            for (Direction dir : directions) {
+                BlockPos neighbor = pos.relative(dir);
+                if (neighbor.equals(limbTip) || planned.contains(neighbor)) {
+                    connected = true;
+                    break;
+                }
+            }
+            if (connected) {
+                tryPlaceLeaf(level, foliageSetter, random, config, pos);
+            }
         }
     }
 
-    /**
-     * Place a flattened, elliptical cluster with a ragged outline.
-     * The middle layer is widest; upper and lower layers taper unevenly.
-     * Sparse omissions create small openings without making the crown bare.
-     */
-    private void placeLobe(
-        WorldGenLevel level,
-        FoliageSetter foliageSetter,
-        RandomSource random,
-        TreeConfiguration config,
-        BlockPos center,
-        int longRadius,
-        int shortRadius,
-        boolean longAxisX
+    private record FoliageCluster(
+        double x,
+        double y,
+        double z,
+        double rx,
+        double ry,
+        double rz
     ) {
-        for (int dy = -1; dy <= 1; dy++) {
-            int layerLong = dy == 0 ? longRadius : Math.max(1, longRadius - 1);
-            int layerShort = dy == 1
-                ? Math.max(1, shortRadius - 1) : shortRadius;
-
-            // Small layer-to-layer drift avoids flat, rectangular undersides.
-            int driftX = dy == 0 ? 0 : random.nextInt(3) - 1;
-            int driftZ = dy == 0 ? 0 : random.nextInt(3) - 1;
-            BlockPos layerCenter = center.offset(driftX, 0, driftZ);
-
-            for (int dx = -layerLong; dx <= layerLong; dx++) {
-                for (int dz = -layerLong; dz <= layerLong; dz++) {
-                    int along = longAxisX ? dx : dz;
-                    int across = longAxisX ? dz : dx;
-                    if (Math.abs(along) > layerLong || Math.abs(across) > layerShort) {
-                        continue;
-                    }
-
-                    double ellipse = (double) (along * along)
-                        / (layerLong * layerLong + 0.5)
-                        + (double) (across * across)
-                        / (layerShort * layerShort + 0.5);
-                    if (ellipse > 1.18D) {
-                        continue;
-                    }
-
-                    boolean edge = Math.abs(along) == layerLong
-                        || Math.abs(across) == layerShort;
-                    float skipChance = edge ? (dy == 0 ? 0.24F : 0.42F) : 0.055F;
-                    if (random.nextFloat() < skipChance) {
-                        continue;
-                    }
-                    if (dy == 1 && random.nextFloat() < 0.10F) {
-                        continue;
-                    }
-
-                    tryPlaceLeaf(level, foliageSetter, random, config,
-                        layerCenter.offset(dx, dy, dz));
-                }
-            }
+        double distanceSq(double px, double py, double pz) {
+            double dx = (px - x) / rx;
+            double dy = (py - y) / ry;
+            double dz = (pz - z) / rz;
+            return dx * dx + dy * dy + dz * dz;
         }
     }
 }
