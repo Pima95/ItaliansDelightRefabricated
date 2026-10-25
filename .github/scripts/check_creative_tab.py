@@ -24,6 +24,7 @@ PIZZA_DATA_ITEMS = {"RAW_PIZZA", "COOKED_PIZZA", "PIZZA_SLICE"}
 # These represent stateful/technical blocks, not independent Creative items.
 INTERNAL_BLOCKS = {
     "POTTED_CARDOON",
+    "POTTED_OLIVE_SAPLING",
     "PIZZA_DOUGH",
     "COOKED_PIZZA",
     "CHEESE_HOOK_OCCUPIED_SPACE",

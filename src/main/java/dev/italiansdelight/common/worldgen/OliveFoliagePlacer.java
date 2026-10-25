@@ -3,9 +3,7 @@ package dev.italiansdelight.common.worldgen;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.italiansdelight.common.registry.ModBlocks;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,10 +19,11 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
  * Natural Mediterranean olive crown generator.
  *
  * Real olive trees possess a light, airy umbrella- or bowl-like canopy
- * formed by soft cushions (cuscini) of silvery foliage. The canopy maintains
- * at least 2 clear blocks of clearance above ground level. If the trunk is tall
- * (6 blocks high), foliage can envelop down to the 3rd-last trunk block; on shorter
- * trees (4-5 blocks high), it envelops down at most to the 2nd-last block.
+ * formed by soft cushions (cuscini) of silvery foliage. The canopy is centered
+ * on the limb axis without lopsided drift, with smoothly rounded layers that avoid
+ * cubic boxiness. It maintains at least 2 clear air blocks above ground level.
+ * On tall trees (6 blocks high), foliage envelops down to the 3rd-last trunk block;
+ * on shorter trees (4-5 blocks high), it envelops down at most to the 2nd-last block.
  */
 public final class OliveFoliagePlacer extends FoliagePlacer {
     public static final MapCodec<OliveFoliagePlacer> CODEC =
@@ -92,66 +91,77 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
         // Otherwise (4-5 blocks tall), envelop maximum down to secondo blocco (dy = -1).
         int minDy = isTallTrunk ? -2 : -1;
 
-        // Light, airy olive canopy: slightly reduced horizontal width
-        List<FoliageCluster> clusters = new ArrayList<>(4);
+        // Base radii per vertical layer to form a convex rounded dome without flat boxy walls
+        // dy = -2: tight collar wrapping lower log (radius ~1.65)
+        // dy = -1: lower canopy wrapping branch (radius ~2.15)
+        // dy =  0: main equator, widest (radius ~2.55)
+        // dy =  1: upper dome (radius ~2.05)
+        // dy =  2: crown peak (radius ~1.20, soft plus-shape summit)
+        double rMinus2 = 2.05D * radiusScale;
+        double rMinus1 = 2.55D * radiusScale;
+        double rZero   = 2.95D * radiusScale;
+        double rPlus1  = 2.45D * radiusScale;
+        double rPlus2  = 1.55D * radiusScale;
 
-        double mainRx = (2.4D + (random.nextDouble() * 0.3D - 0.15D)) * radiusScale;
-        double mainRz = (2.4D + (random.nextDouble() * 0.3D - 0.15D)) * radiusScale;
-        double mainRy = isTallTrunk ? 2.0D : 1.7D;
-        double centerY = isTallTrunk ? -0.3D : -0.1D;
-        clusters.add(new FoliageCluster(0.0D, centerY, 0.0D, mainRx, mainRy, mainRz));
+        // Radial harmonic modulation for organic cushions, kept symmetric/balanced
+        // so the center of mass stays directly over the trunk axis (never lopsided).
+        int waveFreq = random.nextBoolean() ? 3 : 4;
+        double wavePhase = random.nextDouble() * 2.0D * Math.PI;
+        double waveAmp = 0.12D + random.nextDouble() * 0.06D;
 
-        // 3 secondary spreading cushions around the perimeter
-        int numLobes = 3;
-        double baseAngle = random.nextDouble() * 2.0D * Math.PI;
-        for (int i = 0; i < numLobes; i++) {
-            double angle = baseAngle + (i * 2.0D * Math.PI / numLobes)
-                + (random.nextDouble() * 0.6D - 0.3D);
-            double dist = (1.5D + random.nextDouble() * 0.4D) * radiusScale;
-            double lx = Math.cos(angle) * dist;
-            double lz = Math.sin(angle) * dist;
-            double ly = centerY + (random.nextDouble() * 0.6D - 0.3D);
-            double lr = (1.6D + random.nextDouble() * 0.3D) * radiusScale;
-            double lry = 1.3D + random.nextDouble() * 0.3D;
-            clusters.add(new FoliageCluster(lx, ly, lz, lr, lry, lr));
-        }
+        // Micro-jitter strictly limited to +/- 0.15 blocks
+        double jitterX = random.nextDouble() * 0.30D - 0.15D;
+        double jitterZ = random.nextDouble() * 0.30D - 0.15D;
 
         Set<BlockPos> planned = new HashSet<>();
 
-        // Generate canopy volume from minDy to +2, dx/dz from -4 to +4
         for (int dy = minDy; dy <= 2; dy++) {
             // Strictly enforce at least 2 clear air blocks between ground and leaves
             if (anchor.getY() + dy - groundY < 3) {
                 continue;
             }
 
+            double baseR;
+            if (dy == -2) baseR = rMinus2;
+            else if (dy == -1) baseR = rMinus1;
+            else if (dy == 0) baseR = rZero;
+            else if (dy == 1) baseR = rPlus1;
+            else baseR = rPlus2;
+
+            baseR += (random.nextDouble() * 0.16D - 0.08D);
+
             for (int dx = -4; dx <= 4; dx++) {
                 for (int dz = -4; dz <= 4; dz++) {
+                    double ox = dx - jitterX;
+                    double oz = dz - jitterZ;
+                    double distH = Math.sqrt(ox * ox + oz * oz);
+
+                    if (distH > baseR + 0.50D) {
+                        continue;
+                    }
+
+                    // Cut sharp diagonal corners (never generate a cubic square box)
+                    if (Math.abs(dx) >= 2 && Math.abs(dz) >= 2 && distH > 2.45D) {
+                        continue;
+                    }
+
+                    double theta = distH > 0.0D ? Math.atan2(oz, ox) : 0.0D;
+                    double localR = baseR * (1.0D + waveAmp * Math.cos(waveFreq * theta + wavePhase));
+
                     BlockPos leafPos = anchor.offset(dx, dy, dz);
                     if (!hasGroundClearance(level, leafPos)) {
                         continue;
                     }
 
-                    double minDistanceSq = Double.MAX_VALUE;
-                    for (FoliageCluster cluster : clusters) {
-                        double dSq = cluster.distanceSq(dx, dy, dz);
-                        if (dSq < minDistanceSq) {
-                            minDistanceSq = dSq;
+                    if (distH <= localR) {
+                        // Light skip chance on outer boundary for airy olive foliage
+                        if (distH > localR - 0.40D && random.nextFloat() < 0.20F) {
+                            continue;
                         }
-                    }
-
-                    if (minDistanceSq <= 0.70D) {
-                        // Dense core
                         planned.add(leafPos);
-                    } else if (minDistanceSq <= 0.95D) {
-                        // Main canopy body with soft natural gaps
-                        if (random.nextFloat() < 0.80F) {
-                            planned.add(leafPos);
-                        }
-                    } else if (minDistanceSq <= 1.15D) {
-                        // Outer boundary
-                        float chance = (dy >= minDy && dy <= 0) ? 0.25F : 0.12F;
-                        if (random.nextFloat() < chance) {
+                    } else if (distH <= localR + 0.45D) {
+                        // Soft outer feathering on equator and lower layer
+                        if ((dy == 0 || dy == -1) && random.nextFloat() < 0.22F) {
                             planned.add(leafPos);
                         }
                     }
@@ -199,21 +209,5 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
             }
         }
         return true;
-    }
-
-    private record FoliageCluster(
-        double x,
-        double y,
-        double z,
-        double rx,
-        double ry,
-        double rz
-    ) {
-        double distanceSq(double px, double py, double pz) {
-            double dx = (px - x) / rx;
-            double dy = (py - y) / ry;
-            double dz = (pz - z) / rz;
-            return dx * dx + dy * dy + dz * dz;
-        }
     }
 }

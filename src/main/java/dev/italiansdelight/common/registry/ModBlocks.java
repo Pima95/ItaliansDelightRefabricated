@@ -142,6 +142,15 @@ public final class ModBlocks {
             Block.Properties.ofFullCopy(Blocks.OAK_SAPLING).setId(OLIVE_SAPLING_KEY))
     );
 
+    public static final ResourceKey<Block> POTTED_OLIVE_SAPLING_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("potted_olive_sapling")
+    );
+    public static final Block POTTED_OLIVE_SAPLING = registerBlockOnly(
+        POTTED_OLIVE_SAPLING_KEY,
+        new FlowerPotBlock(OLIVE_SAPLING,
+            Block.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING).setId(POTTED_OLIVE_SAPLING_KEY))
+    );
+
     // Phase A of the Orchard Update: six vanilla-equivalent building blocks.
     // All their block and inventory models reuse the existing olive_planks.png.
     // BlockSetType/WoodType are registered once for future doors and signs.

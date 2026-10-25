@@ -1,4 +1,7 @@
 {
   "replace": false,
-  "values": ["italiansdelight:potted_cardoon"]
+  "values": [
+    "italiansdelight:potted_cardoon",
+    "italiansdelight:potted_olive_sapling"
+  ]
 }
