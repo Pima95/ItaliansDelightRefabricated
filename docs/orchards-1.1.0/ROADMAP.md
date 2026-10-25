@@ -296,6 +296,14 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Collaudo da confermare:** aspetto del tronco da quattro lati, crescita tramite quattro germogli 2×2, collisioni, continuità dei rami, equilibrio della chioma. **Non considerare il ritocco approvato soltanto perché compila.** La generazione naturale resta disattivata; `main`, ulivo normale e texture restano invariati.
 
+### Correzione altezza di partenza dei rami del secolare — 25 ottobre 2026
+
+**Segnalazione dell'autore dopo prova in gioco:** alcuni elementi sporgenti sembrano rami che nascono dal **primo blocco** anziché dal secondo. Il problema non era nelle quattro biforcazioni principali (già a quota y=1/2), ma nei **contrafforti**: `BlockPos root = edge.relative(side)` creava espansioni orizzontali del fusto al livello y=0.
+
+**Risoluzione nel generatore:** i contrafforti laterali iniziano ora esattamente a **y=1** usando `edge.relative(side).above()`, mentre a **y=0 rimangono soltanto i quattro tronchi del quadrato 2×2**. I contrafforti possono continuare al terzo livello e i quattro rami principali restano a y=1/2. Invariati: silhouette contorta, dimensioni, cinque chiome argentate, texture e crescita da quattro germogli. Aggiunto un controllo di regressione allo script CI per impedire di reintrodurre contrafforti a livello del suolo.
+
+**Conferma visiva ancora aperta** sul nuovo ritocco. La generazione naturale è sempre disattivata e `main` resta invariato.
+
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).

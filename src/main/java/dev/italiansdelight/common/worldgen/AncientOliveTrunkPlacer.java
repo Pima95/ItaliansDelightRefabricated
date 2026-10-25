@@ -131,15 +131,18 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
             }
         }
 
-        // The roots broaden the trunk irregularly at ground level, rather
-        // than continuing a square 2x2 pillar high into the canopy.
+        // Buttress knots begin ONLY on the SECOND trunk level (y=1).
+        // Projecting blocks at y=0 looked like branches growing directly
+        // from the first block; keep the planted footprint strictly 2x2.
         for (int i = 0; i < MAIN_LIMBS; i++) {
             Direction side = rotated(lean, clockwise, i);
             if (i == 3) {
                 continue; // An asymmetric missing buttress.
             }
             BlockPos edge = edgeOf(origin, side, i % 2);
-            BlockPos root = edge.relative(side);
+            // y=0 contains the four base logs and nothing else.
+            // These irregular buttresses now grow outward at y=1.
+            BlockPos root = edge.relative(side).above();
             logs.put(root, true);
             if (i == 0 || i == 2) {
                 logs.put(root.above(), true);

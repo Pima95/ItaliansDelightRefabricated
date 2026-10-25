@@ -100,6 +100,15 @@ assert "for (int y = 0; y < stemHeight; y++)" not in ancient_trunk
 assert "BOLE_HEIGHT = 3" in ancient_trunk
 assert "attachmentHeight[i] = 1 + ((i + lowFirst) % 2)" in ancient_trunk
 assert "if (i == 3)" in ancient_trunk and "logs.put(root, true)" in ancient_trunk
+# Regression: ground-level buttresses made branches appear from block one.
+# The only y=0 wood must be the original 2x2 base; all lateral wood starts
+# at y>=1 (second level), including the asymmetric buttress knots.
+assert "BlockPos root = edge.relative(side).above();" in ancient_trunk
+assert "BlockPos root = edge.relative(side);" not in ancient_trunk
+assert "logs.put(layer.offset(dx, y, dz), y != 0);" in ancient_trunk
+assert "attachmentHeight[i] = 1 + ((i + lowFirst) % 2)" in ancient_trunk
+assert "tip = tip.relative(outward);" in ancient_trunk
+assert "logs.put(root.above(), true);" in ancient_trunk
 assert "ANCIENT_OLIVE_TRUNK" in registry
 assert "ANCIENT_OLIVE_FOLIAGE" in registry
 
