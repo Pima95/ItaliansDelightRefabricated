@@ -2,6 +2,7 @@ package dev.italiansdelight.common.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.italiansdelight.common.registry.ModBlocks;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
@@ -18,10 +20,11 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
 /**
  * Natural Mediterranean olive crown generator.
  *
- * Real olive trees possess a broad, open umbrella- or bowl-like canopy
- * formed by overlapping cushions (cuscini) of silvery foliage. The canopy
- * envelops the upper 2-3 blocks of each ascending limb, with a gently convex dome
- * on top, dense foliage wrapping around the branches, and delicate drooping twiglets.
+ * Real olive trees possess a light, airy umbrella- or bowl-like canopy
+ * formed by soft cushions (cuscini) of silvery foliage. The canopy maintains
+ * at least 2 clear blocks of clearance above ground level. If the trunk is tall
+ * (6 blocks high), foliage can envelop down to the 3rd-last trunk block; on shorter
+ * trees (4-5 blocks high), it envelops down at most to the 2nd-last block.
  */
 public final class OliveFoliagePlacer extends FoliagePlacer {
     public static final MapCodec<OliveFoliagePlacer> CODEC =
@@ -65,47 +68,70 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
         int leafRadius,
         int offset
     ) {
-        // Anchor directly on the topmost trunk log (mainTip) so the canopy
-        // naturally envelops the last 2 to 3 trunk blocks instead of sitting high above.
+        // Anchor directly on the topmost trunk log (mainTip)
         BlockPos anchor = attachment.pos().above(offset).below();
         double radiusScale = Math.max(0.8D, leafRadius / 2.0D);
 
-        // Define the organic multi-cluster model (cushions of foliage)
-        List<FoliageCluster> clusters = new ArrayList<>(5);
+        // Determine ground elevation under the tree to check trunk height and air clearance
+        int groundY = anchor.getY() - 1;
+        while (groundY > level.getMinY()) {
+            BlockPos checkPos = new BlockPos(anchor.getX(), groundY, anchor.getZ());
+            BlockState state = level.getBlockState(checkPos);
+            if (!state.isAir() && !state.canBeReplaced()
+                && !state.is(ModBlocks.OLIVE_LEAVES)
+                && !state.is(ModBlocks.OLIVE_LOG)
+                && !state.is(ModBlocks.OLIVE_WOOD)) {
+                break;
+            }
+            groundY--;
+        }
+        int trunkHeightAboveGround = anchor.getY() - groundY;
+        boolean isTallTrunk = trunkHeightAboveGround >= 5;
 
-        // 1. Central broad dome cluster, centered slightly below the tip
-        // to envelop the upper 2-3 trunk blocks while forming a soft dome above.
-        double mainRx = (3.3D + (random.nextDouble() * 0.4D - 0.2D)) * radiusScale;
-        double mainRz = (3.3D + (random.nextDouble() * 0.4D - 0.2D)) * radiusScale;
-        double mainRy = 2.5D;
-        clusters.add(new FoliageCluster(0.0D, -0.4D, 0.0D, mainRx, mainRy, mainRz));
+        // If trunk is 6 blocks tall, envelop down to terzultimo blocco (dy = -2).
+        // Otherwise (4-5 blocks tall), envelop maximum down to secondo blocco (dy = -1).
+        int minDy = isTallTrunk ? -2 : -1;
 
-        // 2. 4 secondary spreading cushions around the perimeter
-        int numLobes = 4;
+        // Light, airy olive canopy: slightly reduced horizontal width
+        List<FoliageCluster> clusters = new ArrayList<>(4);
+
+        double mainRx = (2.4D + (random.nextDouble() * 0.3D - 0.15D)) * radiusScale;
+        double mainRz = (2.4D + (random.nextDouble() * 0.3D - 0.15D)) * radiusScale;
+        double mainRy = isTallTrunk ? 2.0D : 1.7D;
+        double centerY = isTallTrunk ? -0.3D : -0.1D;
+        clusters.add(new FoliageCluster(0.0D, centerY, 0.0D, mainRx, mainRy, mainRz));
+
+        // 3 secondary spreading cushions around the perimeter
+        int numLobes = 3;
         double baseAngle = random.nextDouble() * 2.0D * Math.PI;
         for (int i = 0; i < numLobes; i++) {
             double angle = baseAngle + (i * 2.0D * Math.PI / numLobes)
                 + (random.nextDouble() * 0.6D - 0.3D);
-            double dist = (1.9D + random.nextDouble() * 0.6D) * radiusScale;
+            double dist = (1.5D + random.nextDouble() * 0.4D) * radiusScale;
             double lx = Math.cos(angle) * dist;
             double lz = Math.sin(angle) * dist;
-            double ly = -0.4D + (random.nextDouble() * 1.4D - 0.8D);
-            double lr = (2.0D + random.nextDouble() * 0.4D) * radiusScale;
-            double lry = 1.5D + random.nextDouble() * 0.4D;
+            double ly = centerY + (random.nextDouble() * 0.6D - 0.3D);
+            double lr = (1.6D + random.nextDouble() * 0.3D) * radiusScale;
+            double lry = 1.3D + random.nextDouble() * 0.3D;
             clusters.add(new FoliageCluster(lx, ly, lz, lr, lry, lr));
         }
 
         Set<BlockPos> planned = new HashSet<>();
 
-        // Generate canopy volume from dy = -3 to +2, dx/dz from -5 to +5
-        // dy =  0 is the topmost trunk block (limbTip)
-        // dy = -1 is the 2nd last trunk block
-        // dy = -2 is the 3rd last trunk block
-        // dy = -3 is the lower fringe / weeping leaves
-        // dy =  1 and 2 are the upper dome
-        for (int dy = -3; dy <= 2; dy++) {
-            for (int dx = -5; dx <= 5; dx++) {
-                for (int dz = -5; dz <= 5; dz++) {
+        // Generate canopy volume from minDy to +2, dx/dz from -4 to +4
+        for (int dy = minDy; dy <= 2; dy++) {
+            // Strictly enforce at least 2 clear air blocks between ground and leaves
+            if (anchor.getY() + dy - groundY < 3) {
+                continue;
+            }
+
+            for (int dx = -4; dx <= 4; dx++) {
+                for (int dz = -4; dz <= 4; dz++) {
+                    BlockPos leafPos = anchor.offset(dx, dy, dz);
+                    if (!hasGroundClearance(level, leafPos)) {
+                        continue;
+                    }
+
                     double minDistanceSq = Double.MAX_VALUE;
                     for (FoliageCluster cluster : clusters) {
                         double dSq = cluster.distanceSq(dx, dy, dz);
@@ -114,43 +140,27 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
                         }
                     }
 
-                    if (minDistanceSq <= 0.85D) {
-                        // Dense, lush canopy core
-                        planned.add(anchor.offset(dx, dy, dz));
-                    } else if (minDistanceSq <= 1.05D) {
+                    if (minDistanceSq <= 0.70D) {
+                        // Dense core
+                        planned.add(leafPos);
+                    } else if (minDistanceSq <= 0.95D) {
                         // Main canopy body with soft natural gaps
-                        if (random.nextFloat() < 0.85F) {
-                            planned.add(anchor.offset(dx, dy, dz));
+                        if (random.nextFloat() < 0.80F) {
+                            planned.add(leafPos);
                         }
-                    } else if (minDistanceSq <= 1.25D) {
-                        // Outer feathered boundary
-                        float chance = (dy >= -2 && dy <= 0) ? 0.35F : 0.15F;
+                    } else if (minDistanceSq <= 1.15D) {
+                        // Outer boundary
+                        float chance = (dy >= minDy && dy <= 0) ? 0.25F : 0.12F;
                         if (random.nextFloat() < chance) {
-                            planned.add(anchor.offset(dx, dy, dz));
+                            planned.add(leafPos);
                         }
-                    }
-                }
-            }
-        }
-
-        // Add delicate drooping branchlets at dy = -3 along the outer rim
-        // (quintessential weeping habit of mature olive canopies)
-        for (int dx = -4; dx <= 4; dx++) {
-            for (int dz = -4; dz <= 4; dz++) {
-                BlockPos abovePos = anchor.offset(dx, -2, dz);
-                BlockPos hangPos = anchor.offset(dx, -3, dz);
-                if (planned.contains(abovePos) && !planned.contains(hangPos)) {
-                    double distH = Math.sqrt(dx * dx + dz * dz);
-                    if (distH >= 2.2D && distH <= 3.8D && random.nextFloat() < 0.30F) {
-                        planned.add(hangPos);
                     }
                 }
             }
         }
 
         // Place leaves, ensuring no disconnected floating singletons.
-        // A leaf is connected if it touches any of the upper 3 trunk blocks
-        // or touches another placed leaf.
+        // A leaf is connected if it touches the upper trunk logs or another placed leaf.
         Direction[] directions = Direction.values();
         BlockPos trunk1 = anchor;
         BlockPos trunk2 = anchor.below(1);
@@ -160,7 +170,8 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
             boolean connected = false;
             for (Direction dir : directions) {
                 BlockPos neighbor = pos.relative(dir);
-                if (neighbor.equals(trunk1) || neighbor.equals(trunk2) || neighbor.equals(trunk3)
+                if (neighbor.equals(trunk1) || neighbor.equals(trunk2)
+                    || (isTallTrunk && neighbor.equals(trunk3))
                     || planned.contains(neighbor)) {
                     connected = true;
                     break;
@@ -170,6 +181,24 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
                 tryPlaceLeaf(level, foliageSetter, random, config, pos);
             }
         }
+    }
+
+    /**
+     * Enforce at least 2 blocks of clear vertical clearance between the ground and leaves.
+     * Both pos.below(1) and pos.below(2) must not be solid terrain/ground.
+     */
+    private static boolean hasGroundClearance(WorldGenLevel level, BlockPos pos) {
+        for (int down = 1; down <= 2; down++) {
+            BlockPos check = pos.below(down);
+            BlockState state = level.getBlockState(check);
+            if (!state.isAir() && !state.canBeReplaced()
+                && !state.is(ModBlocks.OLIVE_LEAVES)
+                && !state.is(ModBlocks.OLIVE_LOG)
+                && !state.is(ModBlocks.OLIVE_WOOD)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private record FoliageCluster(
