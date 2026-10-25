@@ -17,7 +17,7 @@
 
 - **Esclusi esplicitamente:** `block/log_olive.png`, `block/leaves_olive.png`, `block/sapling_olive.png`, `item/olive_seed.png`, tutti verificati identici ai rispettivi asset di Rustic; allo stesso modo, eventuali altri file per cui viene verificata la provenienza Rustic.
 - **Candidati per l'ulivo:** `block/olive_log.png`, `block/olive_log_top.png`, `block/stripped_olive_log.png`, `block/stripped_olive_log_top.png`, `block/olive_planks.png`, `block/olive_leaves.png`, `block/olive_sapling.png`, `block/olive_door_*.png`, `block/olive_trapdoor.png`; i loro blob **non** corrispondono ai file del repository Rustic consultato, ma occorre distinguere **assenza di corrispondenza** da **prova della provenienza Italian's Delight**.
-- **Mandorlo e ciliegio da frutto:** nuove texture coerenti con lo stile attuale di Minecraft e con i propri legni originali; palette definitive ancora da confermare.
+- **Mandorlo e ciliegio da frutto:** nuove texture coerenti con lo stile attuale di Minecraft e con i propri legni originali; palette definitive ancora da confermare. **Nuova priorità dell'autore del 25 ottobre 2026:** sviluppare prima entrambe le famiglie legno e gli alberi coltivabili, poi una sola meccanica di raccolta condivisa dalle tre specie, e soltanto alla fine il worldgen naturale.
 - **Ulivo secolare:** condividere le texture dell'ulivo normale; la diversità visiva sarà la forma naturale (tronco 2×2, ramificazione/chioma), **non** il recupero dei vecchi file Rustic.
 - **Conservazione storica:** non eliminare o modificare i PNG legacy in questa fase; non referenziarli nei nuovi modelli, blockstate, item o worldgen.
 - **Verifica:** il nuovo set di registrazioni/modelli della 1.1.0 dovrà essere accompagnato da un controllo automatico che neghi riferimenti ai quattro file Rustic identificati, inclusi riferimenti indiretti.
@@ -218,6 +218,15 @@ Per mandorlo e ciliegio da frutto perseguire progressivamente un set edilizio co
 
 **Rischi da verificare:** esatta gestione Minecraft 26.2 delle famiglie legno, collocamento e orientamento dei blocchi, porta in due metà, cartelli, boat entity e data fixers quando applicabili, crescita 2×2 col terreno ingombro e generazione ai confini di chunk. Le risorse non ancora esistenti devono essere create solo dopo l'approvazione della direzione artistica.
 
+### Ordine delle prossime implementazioni — 25 ottobre 2026
+
+1. **`almond_*`**: palette originale (direzione proposta: nocciola/beige caldo, **non ancora approvata**), set completo di legno secondo la famiglia vanilla 26.2, texture, crafting, tab Creative, tag, cartelli/barche/mensola ove pertinenti, foglie, germoglio e albero procedurale piantabile. Solo dopo il collaudo estetico dell'autore.
+2. **`fruit_cherry_*`**: palette proposta castano ramato, **non ancora approvata**; legno completo originale, foglie verdi, germoglio e albero coltivabile distinto dal ciliegio rosa vanilla.
+3. **Un solo sistema di fruttificazione** per le tre specie: maturazione, foglie produttive, raccolta con clic destro e ricrescita, con frutti, texture e tassi specifici.
+4. **Generazione naturale dopo la fruttificazione**: tre specie nei rispettivi biomi; secolari molto più rari. Non anticiparla durante la creazione dei nuovi alberi.
+
+La famiglia d'ulivo già approvata e le relative texture restano invariate; non usare asset di Rustic o modificare `main`.
+
 ## 5. Prossimi passi di progettazione
 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.
@@ -229,6 +238,6 @@ Per mandorlo e ciliegio da frutto perseguire progressivamente un set edilizio co
 - [x] **Ulivo:** cartelli normali/appesi, barche e barche con baule, cabinet e aging rack implementati; i collaudi specifici aperti restano nelle relative checklist.
 - [x] **Prima implementazione verificata:** cinque blocchi di legno d'ulivo, build Java 25 CI riuscita e **6/6 test Minecraft confermati** ([report](OLIVE_WOOD_TESTS.md)).
 - [x] **Set edilizio d'ulivo:** scale, lastre, recinzioni, cancelli, pulsanti, pedane, porte, botole, cartelli, barche e cabinet implementati.
-- [ ] **Prossimo lotto:** `OliveTrunkPlacer` e `OliveFoliagePlacer`, test crescita 1×1/2×2 e poi eventuale riattivazione del worldgen; successivamente fruttificazione e raccolta.
+- [ ] **Prossimo lotto:** creare `almond_*` e albero di mandorlo; a seguire `fruit_cherry_*` e ciliegio fruttifero; in seguito un'unica raccolta/ricrescita condivisa; per ultimo worldgen naturale delle tre specie.
 
-**Stato attuale:** edilizia d'ulivo e crescita tecnica provvisoria presenti; i generatori originali sono ancora da sviluppare. Questa revisione non cambia codice, PNG né versione pubblicata. Le decisioni sono allineate alla [roadmap](ROADMAP.md).
+**Stato attuale:** la famiglia edilizia d'ulivo e i suoi generatori procedurali sono già implementati. La priorità passa alle nuove famiglie `almond_*` e `fruit_cherry_*`; questa revisione della pianificazione non cambia codice, PNG né versione pubblicata. Le decisioni sono allineate alla [roadmap](ROADMAP.md).

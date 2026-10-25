@@ -1,10 +1,10 @@
 # Italian's Delight Refabricated — Orchard Update 1.1.0
 
-**Stato:** il set edilizio, il germoglio d'ulivo e l'**ulivo normale procedurale 1×1** sono implementati; la forma dell'ulivo normale è stata verificata in gioco e approvata dall'autore. È ora implementato anche l'**ulivo secolare procedurale 2×2**, la cui forma richiede ancora approvazione in gioco. La generazione naturale degli ulivi resta disabilitata.  
+**Stato:** il set edilizio d'ulivo (compresa la mensola vanilla), il germoglio e gli alberi procedurali **normale 1×1 e secolare 2×2** sono implementati e verificati esteticamente in gioco dall'autore. **Nuova priorità (25 ottobre 2026): completare mandorlo e ciliegio da frutto, con i rispettivi legni originali e alberi coltivabili, prima del worldgen naturale e del sistema condiviso di fruttificazione.** La generazione naturale resta disabilitata.  
 **Branch:** `feature/orchards-1.1.0`, creato da `main` dopo la pubblicazione della 1.0.0.  
 **Ambito:** tre alberi da frutto e relative coltivazioni. Le aggiunte di pasta, piatti e ricette saranno contenuti **bonus graduali** all'interno dei diversi aggiornamenti, non necessariamente una release dedicata.
 
-> La famiglia edilizia, le foglie e il germoglio d'ulivo sono implementati. Entrambe le varianti crescono ora tramite generatori originali: il normale 1×1 è approvato in gioco, mentre il secolare 2×2 è in attesa di collaudo. **La generazione naturale degli ulivi è disattivata** in attesa di generatori originali, e fruttificazione e raccolta non sono ancora implementate. `main` e la release 1.0.0 restano invariati.
+> La famiglia edilizia, le foglie e il germoglio d'ulivo sono implementati. Entrambe le varianti crescono tramite generatori originali e l'autore ha verificato in gioco gli ultimi ritocchi. **Prima si realizzano le famiglie di legno e gli alberi di mandorlo e ciliegio da frutto; poi si implementa una sola meccanica di fruttificazione e raccolta riutilizzabile da tutte le specie; infine si attiva e bilancia la generazione naturale.** `main` e la release 1.0.0 restano invariati.
 
 ## 1. Alberi confermati
 
@@ -347,15 +347,33 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Invariati:** tronchi di entrambe le varianti, chioma dell'ulivo normale, asset grafici, scaffale `olive_shelf` ancora da implementare, generazione naturale disattivata e `main`. Il ritocco della larghezza resta da approvare visivamente.
 
-## 4. Fasi di sviluppo
 
-- [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
-- [ ] **Fase 1 — Asset e modelli:** inventario legacy completato, **esclusione delle texture Rustic approvata**, 41 match Rustic documentati ([confronto](RUSTIC_ASSET_MATCHES.md)); **primo lotto legno d'ulivo completato e collaudato (6/6 test)** ([report](OLIVE_WOOD_TESTS.md)). Restano il set edilizio completo, l'attribuzione degli altri file, l'approvazione palette mandorlo/ciliegio e la progettazione degli alberi.
-- [ ] **Fase 2 — Alberi e generazione:** germoglio e crescita 1×1/2×2 presenti con **entrambi i placer procedurali originali**. Ulivo normale approvato in gioco; collaudare la forma del secolare 2×2 e solo successivamente riesaminare worldgen e rarità.
-- [ ] **Fase 3 — Raccolta e ricrescita:** foglie fruttifere, raccolta, progressione e salvataggio.
-- [ ] **Fase 4 — Ingredienti e ricette:** decidere prima le lavorazioni principali e poi implementarle.
-- [ ] **Fase 5 — JEI, localizzazione e bonus:** ricette e integrazione completa.
-- [ ] **Fase 6 — Test e pubblicazione:** build, client, server dedicato, vecchi mondi, worldgen e bilanciamento.
+### Decisione di sequenza approvata — completare i tre alberi prima dei frutti e del worldgen (25 ottobre 2026)
+
+**Decisione dell'autore:** non riattivare ora gli ulivi naturali e non iniziare ancora le meccaniche di raccolta. Prima completare tutti gli alberi e i rispettivi set di legno, perché **olive, mandorle e ciliegie useranno lo stesso sistema di fruttificazione, raccolta con clic destro e ricrescita**.
+
+**Ordine operativo aggiornato:**
+
+1. **Mandorlo (`almond_*`) — prossimo lavoro:** definire/approvare una palette originale distinta dall'ulivo e creare progressivamente tutta la famiglia di legno vanilla (tronco, corteccia, scortecciati, assi, scale, lastre, recinzioni, cancelli, bottoni, pedane, porte, botole, cartelli, cartelli appesi, mensola, barche/varianti con baule ove supportate), più germoglio e foglie. Registrazioni, ricette, loot, Creative, tag, lingue IT/EN e test automatici. **Poi** generatore procedurale coltivabile dal germoglio, senza generazione naturale e senza frutti.
+2. **Ciliegio da frutto (`fruit_cherry_*`) — lavoro successivo:** stessa completezza della famiglia di legno originale, rigorosamente distinta dal ciliegio ornamentale `minecraft:cherry_*`. Germoglio, foglie **verdi** e chioma del ciliegio fruttifero, modello procedurale coltivabile. Nessuna texture rosa del ciliegio vanilla riutilizzata automaticamente.
+3. **Accettazione in gioco:** texture, forme, posa, ricette, foglie, decadimento e crescita di **tutte e tre le specie**; i controlli manuali dell'autore sono l'approvazione estetica, indipendentemente dalla CI.
+4. **Una meccanica condivisa per i tre frutti:** progettare una base comune per foglie produttive, maturazione a stati/tick limitati, raccolta con clic destro **senza rompere la foglia**, drop del frutto corretto, reset e ricrescita. Le tre specie condividono il comportamento ma mantengono texture, frutti e parametri specifici.
+5. **Worldgen naturale soltanto alla fine:** inserire ulivi, mandorli e ciliegi da frutto nei biomi previsti, mantenendo gli ulivi secolari assai più rari; bilanciare rarità, posizioni, ostacoli, intersezioni, confini chunk e multiplayer, senza alterare il mondo già generato.
+6. In seguito ingredienti/lavorazioni, integrazioni Farmer's Delight, JEI, collaudi finali e rilascio.
+
+**Stato dei nuovi asset:** la verifica dei file del branch al 25 ottobre 2026 non trova ancora risorse con nomi `almond` o `fruit_cherry`; le nuove texture vanno **create da zero**, senza riutilizzare Rustic. Le palette proposte nel documento [WOOD_DESIGN.md](WOOD_DESIGN.md) non sono ancora approvate come colori definitivi, quindi non presumere un'approvazione estetica prima della prova dell'autore.
+
+**Vincoli in questa fase:** niente worldgen naturale, niente sistema di frutti prematuro, niente modifica delle texture d'ulivo già approvate; tutte le modifiche in `feature/orchards-1.1.0`, mai direttamente su `main`.
+
+## 4. Fasi di sviluppo — ordine aggiornato
+
+- [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
+- [ ] **Fase 1 — Legno e albero di mandorlo:** palette originale da approvare, famiglia edilizia completa, texture originali, germoglio, foglie e albero procedurale coltivabile, prove in gioco.
+- [ ] **Fase 2 — Legno e albero di ciliegio da frutto:** legno `fruit_cherry_*` autonomo, foglie verdi, germoglio, crescita procedurale e prove in gioco, senza modificare il ciliegio ornamentale vanilla.
+- [ ] **Fase 3 — Fruttificazione condivisa:** una meccanica comune a olive, mandorle e ciliegie: maturazione, clic destro, raccolta, ricrescita e persistenza, senza distruggere le foglie.
+- [ ] **Fase 4 — Generazione naturale e bilanciamento:** aggiungere le tre specie nei rispettivi biomi, con la variante secolare nettamente più rara, soltanto dopo la verifica di alberi e sistema frutti.
+- [ ] **Fase 5 — Ingredienti, preparazioni e integrazione:** ricette, eventuali lavorazioni specifiche, Farmer's Delight, JEI, lingue e bonus.
+- [ ] **Fase 6 — Test e pubblicazione:** build, client, server dedicato, vecchi mondi, worldgen, performance, verifica asset e rilascio.
 
 ## 5. Decisioni confermate e aspetti ancora aperti
 
