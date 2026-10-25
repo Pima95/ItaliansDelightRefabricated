@@ -22,6 +22,18 @@ public final class ModTreePlacers {
         new FoliagePlacerType<>(OliveFoliagePlacer.CODEC)
     );
 
+    public static final TrunkPlacerType<AncientOliveTrunkPlacer> ANCIENT_OLIVE_TRUNK = Registry.register(
+        BuiltInRegistries.TRUNK_PLACER_TYPE,
+        ModRegistries.id("ancient_olive_trunk_placer"),
+        new TrunkPlacerType<>(AncientOliveTrunkPlacer.CODEC)
+    );
+
+    public static final FoliagePlacerType<AncientOliveFoliagePlacer> ANCIENT_OLIVE_FOLIAGE = Registry.register(
+        BuiltInRegistries.FOLIAGE_PLACER_TYPE,
+        ModRegistries.id("ancient_olive_foliage_placer"),
+        new FoliagePlacerType<>(AncientOliveFoliagePlacer.CODEC)
+    );
+
     public static void register() {
         // Trigger the static registrations before the datapack loads.
     }
