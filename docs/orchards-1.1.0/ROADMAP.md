@@ -375,6 +375,25 @@ L'autore richiede in questa fase **solo tre blocchi di mandorlo**: `almond_log`,
 - [ ] Collaudo in Minecraft dei tre nuovi materiali e della profondità della mensola nelle due configurazioni. **Le texture del mandorlo non sono ancora approvate** e potranno essere rifinite dopo il giudizio dell'autore.
 - [ ] Famiglia completa del mandorlo e il suo albero soltanto in una fase successiva.
 
+### Correzione Shelf vanilla e texture mandorlo — 25 ottobre 2026
+
+**Feedback dall'autore dopo il collaudo in gioco:**
+- La precedente modifica degli slot aveva oscurato anche la **metà posteriore della mensola** (x=16–31, y=4–10) e aveva lavorato solo sul pannello da 3 slot. Mancavano le quattro varianti frontali alimentate.
+- Non si collegava né alle altre mensole di ulivo né agli altri legni, nonostante fosse già una `ShelfBlock` vanilla.
+- Il primo set di cinque texture del mandorlo era troppo distante dalla grammatica visuale vanilla; **i colori erano invece approvati**.
+
+**Interventi:**
+
+1. **Retro e fregio invariati**: ricostruito l'atlante a partire dalla versione approvata precedente all'errore. Hash SHA-256 invariato per tutti i pixel esterni ai cinque rettangoli UV frontali e per l'intera metà alta posteriore.
+2. **Tutti e cinque i pannelli anteriori**: aggiunte vere ombre rientranti, bordi e venature usando i modelli e la distribuzione dei pixel della Shelf vanilla 26.2. L'atlante 32×32 include `unpowered` (tre slot, x=0–15/y=4–11), `unconnected` (un vano, x=16–31/y=24–31), `left` (x=0–15/y=16–23), `center` (x=0–15/y=24–31), `right` (x=16–31/y=16–23). **Non modificare il retro per cercare di migliorare uno slot**.
+3. **Connessione redstone**: la mensola ora partecipa a `#minecraft:wooden_shelves` sia nei tag dei blocchi sia degli oggetti, senza riscrivere `ShelfBlock`. Le mensole si collegano *solo se alimentate* e orientate nella stessa direzione; fino a 3 possono collegarsi anche con legni diversi. Il comportamento è quello vanilla (3, 6 o 9 scambi in hotbar).
+4. **Mandorlo più vanilla**: rigenerate `almond_log`, `almond_log_top`, `stripped_almond_log`, `stripped_almond_log_top`, `almond_planks` utilizzando come struttura di riferimento il pixel art dell'**oak wood vanilla 26.2** (venature verticali, anelli squadrati, sezioni di assi nette), mappato rigorosamente sugli **stessi colori della versione precedente**. Non è stata cambiata la palette approvata né aggiunto alcun blocco al primo lotto. Non si tratta più di distribuzione di pixel casuale.
+5. **Test GitHub Actions**: controllare il tag di connessione, tutte le cinque varianti di cavità e il ripristino del retro; conservare i controlli RGBA e registrazione per le texture del mandorlo.
+
+**Invariati:** ID dei blocchi, inventario e meccaniche vanilla della Shelf, texture d'ulivo approvate altrove, genera-zione naturale ancora disabilitata, altri alberi, versione 1.0.0 e branch `main`.
+
+**Collaudo ancora necessario:** in Minecraft provare 2–3 mensole alimentate e rivolte nella stessa direzione (anche miste), provare i 3 slot normali e le quattro configurazioni alimentate, osservare il retro; verificare le 5 nuove texture del mandorlo in gioco.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

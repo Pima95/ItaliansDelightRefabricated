@@ -120,39 +120,55 @@ allowed_rgb = {tuple(plte[i:i+3]) for i in range(0, len(plte), 3)}
 atlas_pixels = png_rgba_pixels(list(png_chunks(raw)))
 assert len(atlas_pixels) == 32 * 32
 assert all(pixel[3] == 255 for pixel in atlas_pixels), "No translucent texture pixels"
-assert {pixel[:3] for pixel in atlas_pixels} <= allowed_rgb, "Only approved olive colors"
+# Six new shadow pixels are restricted to the front-facing slot overlays;
+# the rear, sides, body and existing approved olive-leaf frieze are unchanged.
+accent_rgb = {(118,67,39), (130,73,41), (142,80,45),
+              (153,87,47), (164,92,48), (176,100,51)}
+assert {pixel[:3] for pixel in atlas_pixels} <= (allowed_rgb | accent_rgb)
 assert len({pixel[:3] for pixel in atlas_pixels}) >= 5, "Keep pixel-art shading"
-# The approved olive-leaf trim stays pixel-identical, as do all the atlas
-# rows beyond 4..10. Only the recessed 3-slot and 1-slot interiors deepen.
+# The vanilla UV layout has FIVE FRONT overlays, not two:
+# normal triple slots (0..15,4..11), and the four powered chain states
+# left/center/right/unconnected in the BOTTOM HALF of the 32px atlas.
+# The old code incorrectly shaded the REAR (x16..31, y4..10), which is
+# restored byte-for-byte to its approved version.
 import hashlib
-moulding_rows = {1, 2, 3, 12, 13, 14}
-untouched = bytes(v
-                  for y in range(32) if y not in range(4, 11)
-                  for x in range(32) for v in atlas_pixels[y*32+x])
-assert hashlib.sha256(untouched).hexdigest() == (
-    "534d7a4af3553ff740c54188df832f30a53f2f1cc3dba86cd993c2ee5c59de04"
-), "Olive-leaf trims or pixels outside the slot recesses changed"
-for x in (2, 7, 12):
-    assert atlas_pixels[4*32+x][:3] == (158, 87, 44)
-    assert atlas_pixels[10*32+x+1][:3] == (201, 135, 78)
-assert atlas_pixels[5*32+18][:3] == (158, 87, 44)
-assert atlas_pixels[9*32+29][:3] == (214, 156, 94)
-assert atlas_pixels[10*32+25][:3] == (214, 156, 94)
+atlas_rgb = bytes(component for px in atlas_pixels for component in px[:3])
+def coords(x0,y0,x1,y1):
+    return ((x,y) for y in range(y0,y1) for x in range(x0,x1))
+five_front_uvs = {
+    "triple": (0,4,16,12),
+    "unconnected": (16,24,32,32),
+    "left": (0,16,16,24),
+    "center": (0,24,16,32),
+    "right": (16,16,32,24)
+}
+mask = set()
+for name,(x0,y0,x1,y1) in five_front_uvs.items():
+    patch = [atlas_pixels[y*32+x] for x,y in coords(x0,y0,x1,y1)]
+    mask.update(coords(x0,y0,x1,y1))
+    assert len({p[:3] for p in patch}) >= 5, f"{name} must have vanilla depth shading"
+    assert any(p[:3] in accent_rgb for p in patch), f"{name}: no dark recesses"
+assert len(mask)==5*16*8
 
-# Olive-leaf garland is engraved in BOTH 16px UV halves (front and back),
-# mirrored in the upper and lower 3-pixel-high moulding. It repeats every
-# eight pixels but must not extend onto the center panels.
-for y in moulding_rows:
-    for x in (1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14):
-        assert atlas_pixels[y*32+x] == atlas_pixels[y*32+x+16], (
-            "The olive-branch moulding must match on the front and back"
-        )
-for x in (1, 9, 17, 25):
-    assert atlas_pixels[1*32+x][:3] == (224, 160, 100)
-for x in (3, 11, 19, 27):
-    assert atlas_pixels[2*32+x][:3] == (158, 87, 44)
-assert len({atlas_pixels[y*32+x] for y in (1, 2, 3, 12, 13, 14)
-            for x in range(1, 16)}) >= 5
+rear = bytes(c for x,y in coords(16,0,32,16)
+             for c in atlas_pixels[y*32+x][:3])
+assert hashlib.sha256(rear).hexdigest()==(
+    "02f549753d34d0dbd5c771cf27d3ee5a2ec822dc6746a47437fbb0d94d332cbd"
+), "The back panel must remain exactly the approved original"
+
+outside = bytes(c for y in range(32) for x in range(32)
+                if (x,y) not in mask
+                for c in atlas_pixels[y*32+x][:3])
+assert hashlib.sha256(outside).hexdigest()==(
+    "6f3d0bad6eed465da844ecbc7059bcab5bb3c1b89b0c837686d6d74020180cc4"
+), "Only the five frontal overlay UV rectangles may change"
+
+# All wooden shelves (even of mixed wood species) may side-chain when
+# powered AND facing the same direction, up to 3 shelves total.
+for kind in ("block","item"):
+    tag = load(R/f"data/minecraft/tags/{kind}/wooden_shelves.json")
+    assert tag["replace"] is False
+    assert tag["values"] == ["italiansdelight:olive_shelf"]
 
 assert not (A/"textures/item/olive_shelf.png").exists()
 
@@ -174,6 +190,6 @@ assert 'registerRack("olive", OLIVE_PLANKS)' in registry
 assert load(A/"models/block/olive_cheese_aging_rack.json")["textures"]["wood"] == "italiansdelight:block/olive_planks"
 assert load(D/"recipe/crafting/olive_cheese_aging_rack.json")["result"]["id"] == "italiansdelight:olive_cheese_aging_rack"
 
-print("OK: native shelf block entity, redstone chaining, 3-slot storage, vanilla 26.2 models")
-print("OK: approved olive-leaf frieze unchanged; 3-slot and 1-slot inset shading")
+print("OK: vanilla shelf block entity and #minecraft:wooden_shelves connection tag (both registries)")
+print("OK: all 5 front overlay UVs shaded; rear, ornament and other pixels preserved")
 print("OK: crafting x6, items, drops, translations and preserved cheese rack")
