@@ -394,6 +394,17 @@ L'autore richiede in questa fase **solo tre blocchi di mandorlo**: `almond_log`,
 
 **Collaudo ancora necessario:** in Minecraft provare 2–3 mensole alimentate e rivolte nella stessa direzione (anche miste), provare i 3 slot normali e le quattro configurazioni alimentate, osservare il retro; verificare le 5 nuove texture del mandorlo in gioco.
 
+### Ritocchi dopo il confronto in Minecraft — 25 ottobre 2026
+
+**Mensola d'ulivo alimentata:**
+- [x] **Configurazione center:** eliminate le evidenti venature a V; superficie del vano sostituita dalla trama poco contrastata della variante laterale sinistra, senza gli stipiti laterali (per connessioni visive continue).
+- [x] **Configurazione unconnected (singola):** rimpiazzato il fondo piatto con la trama della variante sinistra, completando il bordo destro con quello della variante `right`. Adesso il vano ha fondo testurizzato e due cornici.
+- [x] **Tutte le altre configurazioni, retro e fregio rimangono intatti**: cambiati soltanto gli UV `center` e `unconnected` (righe 24–31 del PNG 32×32). Nessuna modifica alla connessione redstone e ai tre slot vanilla.
+
+**Mandorlo:** l'autore ha confermato i colori, ma chiede di distinguere il disegno dalla quercia. Rifatte quattro texture del tronco con uno stile vanilla originale: fessure verticali meno uniformi e un piccolo nodo/cicatrice ovale sulla corteccia; sullo scortecciato venature verticali più pulite e un nodo naturale. I tagli ora presentano anelli **ovalizzati e irregolari**, con **durame molto più scuro per `almond_log_top`** e **sezione chiara per `stripped_almond_log_top`**. Conservata esattamente la palette già accettata; **le assi `almond_planks.png` non sono state modificate**.
+
+**Verifiche:** test CI aggiornati per controllare i bordi e la texture delle due varianti alimentate e la differenza di luminosità dei tagli del mandorlo. La resa estetica finale richiede ancora la verifica dell'autore in gioco; `main` e gli altri asset approvati restano invariati.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

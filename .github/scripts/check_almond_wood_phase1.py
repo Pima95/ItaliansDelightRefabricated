@@ -50,6 +50,7 @@ recipe=load(D/"italiansdelight/recipe/almond_planks.json")
 assert recipe=={"type":"minecraft:crafting_shapeless","category":"building","ingredients":["#italiansdelight:almond_logs"],"result":{"id":"italiansdelight:almond_planks","count":4}}
 images=("almond_log","almond_log_top","stripped_almond_log","stripped_almond_log_top","almond_planks")
 art=[]
+decoded={}
 for n in images:
     png=(A/"textures/block"/f"{n}.png").read_bytes()
     assert png[:8]==b"\x89PNG\r\n\x1a\n"
@@ -66,6 +67,7 @@ for n in images:
     packed=zlib.decompress(b"".join(sections))
     assert len(packed)==16*65
     previous=bytearray(64)
+    rgb=[]
     for y in range(16):
         f=packed[y*65]
         encoded=packed[y*65+1:y*65+65]
@@ -81,8 +83,25 @@ for n in images:
             predictor=(0,left,up,(left+up)//2,paeth)[f]
             row[i]=(v+predictor)&255
         assert all(row[i]==255 for i in range(3,64,4)),n
+        rgb.extend(tuple(row[i:i+3]) for i in range(0,64,4))
         previous=row
+    decoded[n]=rgb
 assert len(set(art))==5
+# The normal almond trunk cut shows darker aged heartwood, while the
+# stripped cut shows much lighter exposed fresh wood. Both use only colors
+# from the already accepted almond palette.
+approved={
+ "almond_log": {(126,87,69),(154,112,84),(101,69,57),(79,57,49),(63,49,48),(181,141,108)},
+ "almond_log_top": {(181,141,108),(154,112,84),(202,167,131),(79,57,49),(63,49,48),(224,198,164),(126,87,69),(101,69,57)},
+ "stripped_almond_log": {(207,174,139),(188,151,119),(163,125,99),(131,98,81),(225,197,163)},
+ "stripped_almond_log_top": {(188,151,119),(207,174,139),(225,197,163),(131,98,81),(163,125,99)}
+}
+for name,colors in approved.items():
+    assert set(decoded[name]) <= colors, name
+    assert len(set(decoded[name])) >= 4, name
+def brightness(name):
+    return sum(sum(rgb)/3 for rgb in decoded[name]) / 256
+assert brightness("almond_log_top") + 55 < brightness("stripped_almond_log_top")
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
-print("OK: 3 almond blocks, 5 distinct original opaque 16x16 textures")
+print("OK: almond grain artwork, approved warm colors, distinctly dark normal cut vs light stripped cut")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")

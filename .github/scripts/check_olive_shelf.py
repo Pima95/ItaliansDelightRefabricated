@@ -150,6 +150,24 @@ for name,(x0,y0,x1,y1) in five_front_uvs.items():
     assert any(p[:3] in accent_rgb for p in patch), f"{name}: no dark recesses"
 assert len(mask)==5*16*8
 
+# Center and isolated powered variants share the understated lateral wood
+# grain. Center removes both jambs for seamless joining; standalone uses
+# the LEFT jamb and the RIGHT jamb from the matching right-side model.
+for y in range(8):
+    for x in range(1,15):
+        assert atlas_pixels[(24+y)*32+x] == atlas_pixels[(16+y)*32+x], (
+            "Center shelf must blend into the side shelves, with no bold V veins"
+        )
+    assert atlas_pixels[(24+y)*32] == atlas_pixels[(16+y)*32+2]
+    assert atlas_pixels[(24+y)*32+15] == atlas_pixels[(16+y)*32+12]
+    for x in range(15):
+        assert atlas_pixels[(24+y)*32+16+x] == atlas_pixels[(16+y)*32+x], (
+            "Standalone powered shelf requires the same recessed wood texture"
+        )
+    assert atlas_pixels[(24+y)*32+31] == atlas_pixels[(16+y)*32+31], (
+        "Standalone powered shelf must have a complete right-side frame"
+    )
+
 rear = bytes(c for x,y in coords(16,0,32,16)
              for c in atlas_pixels[y*32+x][:3])
 assert hashlib.sha256(rear).hexdigest()==(
@@ -191,5 +209,5 @@ assert load(A/"models/block/olive_cheese_aging_rack.json")["textures"]["wood"] =
 assert load(D/"recipe/crafting/olive_cheese_aging_rack.json")["result"]["id"] == "italiansdelight:olive_cheese_aging_rack"
 
 print("OK: vanilla shelf block entity and #minecraft:wooden_shelves connection tag (both registries)")
-print("OK: all 5 front overlay UVs shaded; rear, ornament and other pixels preserved")
+print("OK: center shelf has subtle grain; standalone powered shelf has matching inset and both jambs")
 print("OK: crafting x6, items, drops, translations and preserved cheese rack")
