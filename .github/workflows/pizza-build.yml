@@ -40,6 +40,8 @@ jobs:
         run: python3 .github/scripts/check_orchard_signs_and_cutting.py
       - name: Validate Olive doors, cheese rack and boat entities
         run: python3 .github/scripts/check_orchard_boats_and_rack.py
+      - name: Verify decorative olive shelf and wall placement resources
+        run: python3 .github/scripts/check_olive_shelf.py
       - name: Prevent rolling-pin bootstrap crash
         run: python3 .github/scripts/check_rolling_pin_combat.py
       - name: Verify Creative tab registration (all items, no duplicates)

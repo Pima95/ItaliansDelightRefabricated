@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CheeseVatBlock;
+import dev.italiansdelight.common.block.OliveShelfBlock;
 import dev.italiansdelight.common.block.CheeseHookBlock;
 import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
 import dev.italiansdelight.common.block.CheeseAgingRackBlock;
@@ -264,6 +265,20 @@ public final class ModBlocks {
         OLIVE_WALL_HANGING_SIGN_KEY,
         new WallHangingSignBlock(OLIVE_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN)
             .setId(OLIVE_WALL_HANGING_SIGN_KEY))
+    );
+
+    // Decorative wall shelf; intentionally separate from the functional
+    // olive cheese-aging rack. Reuses approved olive plank artwork.
+    public static final ResourceKey<Block> OLIVE_SHELF_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_shelf"));
+    public static final Block OLIVE_SHELF = register(
+        OLIVE_SHELF_KEY,
+        new OliveShelfBlock(
+            Block.Properties.ofFullCopy(OLIVE_PLANKS)
+                .setId(OLIVE_SHELF_KEY)
+                .noOcclusion()
+                .strength(2.0F, 3.0F)
+        )
     );
 
     public static final ResourceKey<Block> OLIVE_CABINET_KEY =
@@ -603,5 +618,6 @@ public final class ModBlocks {
         fire.add(OLIVE_DOOR, 5, 20);
         fire.add(OLIVE_TRAPDOOR, 5, 20);
         fire.add(OLIVE_CABINET, 5, 20);
+        fire.add(OLIVE_SHELF, 5, 20);
     }
 }

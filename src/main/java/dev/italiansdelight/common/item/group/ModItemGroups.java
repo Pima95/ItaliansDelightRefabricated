@@ -84,6 +84,7 @@ public final class ModItemGroups {
                 output.accept(ModSigns.OLIVE_SIGN);
                 output.accept(ModSigns.OLIVE_HANGING_SIGN);
                 output.accept(ModBlocks.OLIVE_CABINET);
+                output.accept(ModBlocks.OLIVE_SHELF);
                 output.accept(ModBoats.OLIVE_BOAT_ITEM);
                 output.accept(ModBoats.OLIVE_CHEST_BOAT_ITEM);
 

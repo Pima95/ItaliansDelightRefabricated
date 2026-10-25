@@ -324,11 +324,16 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Invariati:** tronco dell'ulivo secolare approvato, generatore e chioma dell'ulivo normale, strati medi e superiori della chioma secolare, texture, frutti, ricette e worldgen naturale (ancora **disabilitato**). Il risultato visivo di questo esperimento resta da approvare in gioco.
 
-### Nuova attività da implementare — scaffale in legno d'ulivo (`olive_shelf`)
+### Mensola da parete in legno d'ulivo (`olive_shelf`) — implementata
 
-- [ ] **Scaffale d'ulivo**: aggiungere un blocco di arredamento `italiansdelight:olive_shelf`, **separato** dal già implementato `olive_cheese_aging_rack` (scaffale di stagionatura dei formaggi). Il blocco `olive_shelf` non risulta attualmente registrato.
-- [ ] Prima dell'implementazione definire se lo scaffale debba essere puramente decorativo oppure consentire di appoggiare/esporre oggetti; poi prevedere modello e texture originali o riuso degli asset di ulivo approvati, crafting, loot, Creative, traduzioni e test in gioco.
-- [ ] Mantenere invariata la funzionalità del già esistente `olive_cheese_aging_rack`.
+- [x] **Blocchetto decorativo** `italiansdelight:olive_shelf`, indipendente dallo scaffale di stagionatura `olive_cheese_aging_rack` e senza inventario o interazione con gli oggetti.
+- [x] **Quattro orientamenti**: posa contro una parete solida, sagoma e collisioni corrispondenti a tavola, schienale e due supporti. Quando viene tolto il supporto a parete, la mensola si rompe e lascia il proprio oggetto.
+- [x] **Grafica e materiali**: modello 3D originale composto da quattro cuboidi, realizzato usando solamente `olive_planks.png` già approvata; nessuna nuova texture e nessun recupero di materiale Rustic.
+- [x] **Gameplay**: crafting con 3 assi d'ulivo e 2 bastoni (2 mensole), loot di recupero, tag `mineable/axe`, comportamento infiammabile, scheda Creativa senza duplicati, descrizioni IT/EN.
+- [x] **Test automatico** dedicato `check_olive_shelf.py` integrato in GitHub Actions; controlli su risorse e separazione dal rack di stagionatura.
+- [ ] **Collaudo grafico in Minecraft**: verificare quattro direzioni, parete di supporto, rottura/drop, inventario e aspetto del modello da vicino. La funzionalità di esposizione degli oggetti resta *fuori ambito* salvo futura decisione dell'autore.
+
+**Invariati:** `olive_cheese_aging_rack` già implementato, alberi approvati, texture preesistenti, `main` e generazione naturale disabilitata.
 
 ### Compattazione laterale della chioma secolare — 25 ottobre 2026
 

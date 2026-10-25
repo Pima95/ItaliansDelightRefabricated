@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "italiansdelight:block/olive_shelf"
+    },
+    "facing=east": {
+      "model": "italiansdelight:block/olive_shelf",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "italiansdelight:block/olive_shelf",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "italiansdelight:block/olive_shelf",
+      "y": 270
+    }
+  }
+}
