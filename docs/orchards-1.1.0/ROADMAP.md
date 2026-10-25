@@ -1,10 +1,10 @@
 # Italian's Delight Refabricated — Orchard Update 1.1.0
 
-**Stato:** il set edilizio e il germoglio d'ulivo sono implementati. Il **primo prototipo procedurale dell'ulivo normale 1×1** è stato aggiunto; l'ulivo secolare 2×2 utilizza ancora forme provvisorie. La generazione naturale degli ulivi resta disabilitata.  
+**Stato:** il set edilizio, il germoglio d'ulivo e l'**ulivo normale procedurale 1×1** sono implementati; la forma dell'ulivo normale è stata verificata in gioco e approvata dall'autore. È ora implementato anche l'**ulivo secolare procedurale 2×2**, la cui forma richiede ancora approvazione in gioco. La generazione naturale degli ulivi resta disabilitata.  
 **Branch:** `feature/orchards-1.1.0`, creato da `main` dopo la pubblicazione della 1.0.0.  
 **Ambito:** tre alberi da frutto e relative coltivazioni. Le aggiunte di pasta, piatti e ricette saranno contenuti **bonus graduali** all'interno dei diversi aggiornamenti, non necessariamente una release dedicata.
 
-> La famiglia edilizia, le foglie e il germoglio d'ulivo sono implementati. La crescita tramite germogli usa **forme provvisorie da verificare**. **La generazione naturale degli ulivi è disattivata** in attesa di generatori originali, e fruttificazione e raccolta non sono ancora implementate. `main` e la release 1.0.0 restano invariati.
+> La famiglia edilizia, le foglie e il germoglio d'ulivo sono implementati. Entrambe le varianti crescono ora tramite generatori originali: il normale 1×1 è approvato in gioco, mentre il secolare 2×2 è in attesa di collaudo. **La generazione naturale degli ulivi è disattivata** in attesa di generatori originali, e fruttificazione e raccolta non sono ancora implementate. `main` e la release 1.0.0 restano invariati.
 
 ## 1. Alberi confermati
 
@@ -270,11 +270,27 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Da verificare in gioco:** crescere 8–12 ulivi normali e confrontare la larghezza con lo screenshot precedente; controllare le ramificazioni oblique e le chiome, inclusi esemplari con deviazioni laterali. Gli automatismi verificano il limite nel codice e la compilazione, non l'approvazione visiva.
 
+### Ulivo secolare originale 2×2 — prototipo implementato (25 ottobre 2026)
+
+**Via libera dell'autore:** la forma dell'ulivo normale 1×1 è già stata verificata in Minecraft e accettata, senza necessità di ripetere la richiesta di collaudo. Si passa quindi alla variante monumentale.
+
+**Implementato su `feature/orchards-1.1.0`:**
+
+- `AncientOliveTrunkPlacer` genera una base di legno di **2×2 blocchi**, persistente lungo il fusto principale; il segmento superiore cambia posizione di un blocco per suggerire la torsione di un albero secolare. Il tronco si dirama in **quattro rami** ascendenti, con curve opzionali e collegamento diretto per faccia. I raccordi sono in `olive_wood` con corteccia su tutti i lati; non vengono creati nuovi blocchi o PNG.
+- `AncientOliveFoliagePlacer` produce **cinque masse di foglie** argentee sovrapposte, con strati ovali rastremati, bordi irregolari e nessuna isola di foglie priva di collegamento al legno. Usa esclusivamente `olive_leaves` già approvato.
+- `ancient_olive_tree.json` non utilizza più `dark_oak_trunk_placer` e `dark_oak_foliage_placer`, bensì i due nuovi placer registrati nel `ModTreePlacers`. Il `TreeGrower` già presente continua a scegliere il secolare con **quattro germogli 2×2** e il normale con il germoglio singolo. Nessun cambiamento alla normale forma procedurale.
+- La forma completa e gli ingombri previsti della chioma vengono controllati **prima** di modificare terreno e tronco. Se lo spazio non è sufficiente, nessun ramo viene piazzato e la crescita viene respinta, lasciando al `TreeGrower` vanilla il ripristino dei germogli. Per prudenza, anche ostacoli periferici possono impedire la crescita.
+- `check_olive_procedural_placement.py` e `check_olive_sapling_trees.py` coprono entrambi i generatori e controllano che non siano introdotti `placed_feature` per ulivi selvatici.
+
+**Verifica tecnica:** compilazione e test automatici riusciti ([GitHub Actions #40219167220](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/40219167220)). **L'aspetto del nuovo secolare in Minecraft non è ancora stato approvato dall'autore.** Prima della generazione naturale occorrono i controlli in gioco su quattro germogli, sagoma, interferenze, collisioni, persistenza e multiplayer, oltre alla scelta della rarità.
+
+**Importante:** la generazione naturale degli ulivi rimane **DISATTIVATA**. Non sono ancora implementati frutti o raccolta delle olive. La release 1.0.0 e `main` non vengono modificate.
+
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).
 - [ ] **Fase 1 — Asset e modelli:** inventario legacy completato, **esclusione delle texture Rustic approvata**, 41 match Rustic documentati ([confronto](RUSTIC_ASSET_MATCHES.md)); **primo lotto legno d'ulivo completato e collaudato (6/6 test)** ([report](OLIVE_WOOD_TESTS.md)). Restano il set edilizio completo, l'attribuzione degli altri file, l'approvazione palette mandorlo/ciliegio e la progettazione degli alberi.
-- [ ] **Fase 2 — Alberi e generazione:** germoglio e crescita tecnica 1×1/2×2 presenti; **da realizzare i placer procedurali originali**, collaudare le chiome e solo successivamente riesaminare worldgen e rarità.
+- [ ] **Fase 2 — Alberi e generazione:** germoglio e crescita 1×1/2×2 presenti con **entrambi i placer procedurali originali**. Ulivo normale approvato in gioco; collaudare la forma del secolare 2×2 e solo successivamente riesaminare worldgen e rarità.
 - [ ] **Fase 3 — Raccolta e ricrescita:** foglie fruttifere, raccolta, progressione e salvataggio.
 - [ ] **Fase 4 — Ingredienti e ricette:** decidere prima le lavorazioni principali e poi implementarle.
 - [ ] **Fase 5 — JEI, localizzazione e bonus:** ricette e integrazione completa.
