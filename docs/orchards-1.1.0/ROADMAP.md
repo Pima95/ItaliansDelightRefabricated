@@ -330,6 +330,14 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 - [ ] Prima dell'implementazione definire se lo scaffale debba essere puramente decorativo oppure consentire di appoggiare/esporre oggetti; poi prevedere modello e texture originali o riuso degli asset di ulivo approvati, crafting, loot, Creative, traduzioni e test in gioco.
 - [ ] Mantenere invariata la funzionalità del già esistente `olive_cheese_aging_rack`.
 
+### Compattazione laterale della chioma secolare — 25 ottobre 2026
+
+**Feedback dopo collaudo in Minecraft:** l'autore ha confermato che le rientranze inferiori e i ciuffi pendenti funzionano e hanno un buon aspetto, ma la chioma è troppo larga: lo spessore laterale percepito è di circa tre blocchi. Richiesto di passare a **due blocchi**.
+
+**Ritocco implementato:** i cinque lobi del secolare conservano gli stessi strati verticali (`dy=-2..2`, più i ciuffi pendenti occasionali fino a `dy=-3`) ma sono più stretti. Le distanze radiali di base diventano **1,90 / 2,20 / 2,60 / 2,20 / 1,50** dal basso verso l'alto, rispetto a 2,15 / 3,15 / 3,75 / 3,10 / 2,00. Le coordinate orizzontali sono limitate a **±2 blocchi per asse rispetto a ciascun ancoraggio**, indipendentemente dalle ondulazioni della superficie; anche il raggio configurato passa da 3 a 2. Le rientranze e i ciuffi inferiori sono mantenuti, così come i controlli di connessione e distanza dal terreno.
+
+**Invariati:** tronchi di entrambe le varianti, chioma dell'ulivo normale, asset grafici, scaffale `olive_shelf` ancora da implementare, generazione naturale disattivata e `main`. Il ritocco della larghezza resta da approvare visivamente.
+
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).

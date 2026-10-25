@@ -90,6 +90,9 @@ for token in (
     assert token in ancient_trunk, f"Ancient trunk missing {token}"
 for token in (
     "foliagePlacerParts(instance)", "for (int dy = -2; dy <= 2; dy++)",
+    "MAX_HORIZONTAL_REACH = 2",
+    "for (int dx = -MAX_HORIZONTAL_REACH; dx <= MAX_HORIZONTAL_REACH; dx++)",
+    "for (int dz = -MAX_HORIZONTAL_REACH; dz <= MAX_HORIZONTAL_REACH; dz++)",
     "hasGroundClearance", "while (!frontier.isEmpty())",
     "connected.contains(leaf)", "tryPlaceLeaf",
     # Only the ancient canopy receives the cherry-inspired lower fringe.
@@ -137,6 +140,9 @@ assert normal["config"]["trunk_placer"]["type"] == "italiansdelight:olive_trunk_
 assert normal["config"]["foliage_placer"]["type"] == "italiansdelight:olive_foliage_placer"
 assert ancient["config"]["trunk_placer"]["type"] == "italiansdelight:ancient_olive_trunk_placer"
 assert ancient["config"]["foliage_placer"]["type"] == "italiansdelight:ancient_olive_foliage_placer"
+assert ancient["config"]["foliage_placer"]["radius"] == 2
+assert "baseRadius = 3.75D;" not in ancient_foliage
+assert "for (int dx = -5; dx <= 5; dx++)" not in ancient_foliage
 assert not (DATA / "placed_feature/olive_tree_wild.json").exists()
 assert not (DATA / "placed_feature/ancient_olive_tree_wild.json").exists()
 wg = (SRC / "common/registry/ModWorldGeneration.java").read_text()

@@ -24,7 +24,7 @@
     "decorators": [],
     "foliage_placer": {
       "type": "italiansdelight:ancient_olive_foliage_placer",
-      "radius": 3,
+      "radius": 2,
       "offset": 0
     },
     "foliage_provider": {

@@ -55,7 +55,7 @@ def main():
             assert cfg["foliage_placer"]["radius"]==2
         else:
             assert cfg["foliage_placer"]["type"]=="italiansdelight:ancient_olive_foliage_placer"
-            assert cfg["foliage_placer"]["radius"]==3
+            assert cfg["foliage_placer"]["radius"]==2
         assert cfg["below_trunk_provider"]["type"]=="minecraft:rule_based_state_provider"
     # Provisional oak/dark-oak shapes must NEVER appear by natural worldgen.
     # Keep only configured features for sapling growth via bone meal or ticks.

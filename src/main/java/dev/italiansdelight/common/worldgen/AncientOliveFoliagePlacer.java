@@ -22,10 +22,14 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
  * Broad ancient olive foliage: five individually rounded lobes around the
  * branches, with soft taper, irregular edges and occasional small openings.
  * Its underside has cherry-like, shallow scallops: some rim sections recede
- * and a few leaf tufts hang one block lower. The rest of the wide canopy,
- * and the existing normal-olive canopy, remain unchanged.
+ * and a few leaf tufts hang one block lower. The crown now reaches at most
+ * two blocks sideways from each limb, rather than three; its vertical layers
+ * and the existing normal-olive canopy remain unchanged.
  */
 public final class AncientOliveFoliagePlacer extends FoliagePlacer {
+    // Maximum horizontal reach of each foliage lobe, in block coordinates.
+    private static final int MAX_HORIZONTAL_REACH = 2;
+
     public static final MapCodec<AncientOliveFoliagePlacer> CODEC =
         RecordCodecBuilder.mapCodec(instance ->
             foliagePlacerParts(instance).apply(instance, AncientOliveFoliagePlacer::new));
@@ -58,33 +62,35 @@ public final class AncientOliveFoliagePlacer extends FoliagePlacer {
         int foliageHeight, int leafRadius, int offset
     ) {
         BlockPos anchor = attachment.pos().above(offset).below();
-        double scale = Math.max(1.0D, leafRadius / 3.0D);
+        double scale = Math.max(1.0D, leafRadius / 2.0D);
         double phase = random.nextDouble() * Math.PI * 2.0D;
         int frequency = 3 + random.nextInt(2);
         double wave = 0.11D + 0.06D * random.nextDouble();
         Set<BlockPos> planned = new LinkedHashSet<>();
 
         for (int dy = -2; dy <= 2; dy++) {
-            // An umbrella-like olive crown: full center and gently tapering
-            // top and bottom; all five lobes overlap rather than float apart.
+            // Keep the same five vertical levels and overlapping olive lobes,
+            // while reducing their sideways thickness by roughly one block.
             double baseRadius;
             if (dy == -2) {
-                baseRadius = 2.15D;
+                baseRadius = 1.90D;
             } else if (dy == -1) {
-                baseRadius = 3.15D;
+                baseRadius = 2.20D;
             } else if (dy == 0) {
-                baseRadius = 3.75D;
+                baseRadius = 2.60D;
             } else if (dy == 1) {
-                baseRadius = 3.10D;
+                baseRadius = 2.20D;
             } else {
-                baseRadius = 2.00D;
+                baseRadius = 1.50D;
             }
             baseRadius = baseRadius * scale + random.nextDouble() * 0.14D - 0.07D;
             double jitterX = random.nextDouble() * 0.30D - 0.15D;
             double jitterZ = random.nextDouble() * 0.30D - 0.15D;
 
-            for (int dx = -5; dx <= 5; dx++) {
-                for (int dz = -5; dz <= 5; dz++) {
+            // Hard limit: never exceed two blocks from the attachment along
+            // either horizontal axis, even with the organic radial waves.
+            for (int dx = -MAX_HORIZONTAL_REACH; dx <= MAX_HORIZONTAL_REACH; dx++) {
+                for (int dz = -MAX_HORIZONTAL_REACH; dz <= MAX_HORIZONTAL_REACH; dz++) {
                     double x = dx - jitterX;
                     double z = dz - jitterZ;
                     double distance = Math.sqrt(x * x + z * z);
