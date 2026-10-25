@@ -316,6 +316,20 @@ L'autore ha **confermato che i modelli dei cartelli e il funzionamento del testo
 
 **Collaudo visivo della forma aggiornata:** da confermare dall'autore; la generazione naturale resta disabilitata.
 
+### Ritocco della chioma inferiore del secolare — 25 ottobre 2026
+
+**Feedback dell'autore:** tronco approvato in Minecraft; forma superiore della chioma già convincente. Si prova una variazione ispirata ai ciliegi **solo nella parte sottostante**: zone che si allungano verso il basso e piccoli vuoti/rientranze fra esse.
+
+**Sperimentazione:** in `AncientOliveFoliagePlacer`, la fascia inferiore `dy=-2` presenta ora rientranze localizzate soltanto sul bordo esterno, distribuite in settori angolari irregolari. Nei settori opposti, poche foglie laterali possono scendere fino a `dy=-3`, sempre direttamente sotto una foglia già prevista nella fascia `dy=-2`, con massimo **un blocco supplementare di discesa**. Le nuove foglie passano i controlli di terreno e di connessione al legno; i blocchi solidi non vengono sovrascritti.
+
+**Invariati:** tronco dell'ulivo secolare approvato, generatore e chioma dell'ulivo normale, strati medi e superiori della chioma secolare, texture, frutti, ricette e worldgen naturale (ancora **disabilitato**). Il risultato visivo di questo esperimento resta da approvare in gioco.
+
+### Nuova attività da implementare — scaffale in legno d'ulivo (`olive_shelf`)
+
+- [ ] **Scaffale d'ulivo**: aggiungere un blocco di arredamento `italiansdelight:olive_shelf`, **separato** dal già implementato `olive_cheese_aging_rack` (scaffale di stagionatura dei formaggi). Il blocco `olive_shelf` non risulta attualmente registrato.
+- [ ] Prima dell'implementazione definire se lo scaffale debba essere puramente decorativo oppure consentire di appoggiare/esporre oggetti; poi prevedere modello e texture originali o riuso degli asset di ulivo approvati, crafting, loot, Creative, traduzioni e test in gioco.
+- [ ] Mantenere invariata la funzionalità del già esistente `olive_cheese_aging_rack`.
+
 ## 4. Fasi di sviluppo
 
 - [x] **Fase 0 — Scelte iniziali:** tre specie, ciliegio fruttifero separato, ulivo secolare raro con tronco 2×2 e crescita coltivabile tramite quattro germogli disposti 2×2 (scelta B).

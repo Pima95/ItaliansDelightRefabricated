@@ -21,7 +21,9 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
 /**
  * Broad ancient olive foliage: five individually rounded lobes around the
  * branches, with soft taper, irregular edges and occasional small openings.
- * The existing normal-olive canopy remains unchanged.
+ * Its underside has cherry-like, shallow scallops: some rim sections recede
+ * and a few leaf tufts hang one block lower. The rest of the wide canopy,
+ * and the existing normal-olive canopy, remain unchanged.
  */
 public final class AncientOliveFoliagePlacer extends FoliagePlacer {
     public static final MapCodec<AncientOliveFoliagePlacer> CODEC =
@@ -96,6 +98,16 @@ public final class AncientOliveFoliagePlacer extends FoliagePlacer {
                         continue;
                     }
 
+                    // Only on the UNDERSIDE, carve shallow scallops along
+                    // the outer rim. The crown's middle and top are unchanged.
+                    // Alternating angular sectors leave some gaps and some
+                    // lower foliage, inspired by vanilla cherry leaf shapes.
+                    if (dy == -2 && distance > baseRadius * 0.62D
+                        && Math.sin(4.0D * angle + phase) < -0.25D
+                        && random.nextFloat() < 0.82F) {
+                        continue;
+                    }
+
                     BlockPos leaf = anchor.offset(dx, dy, dz);
                     BlockState existing = level.getBlockState(leaf);
                     if (existing.is(ModBlocks.OLIVE_LOG)
@@ -112,6 +124,36 @@ public final class AncientOliveFoliagePlacer extends FoliagePlacer {
                 }
             }
         }
+
+        // A few underside tufts hang exactly one block below an existing
+        // lower-rim leaf. Use the opposite angular sectors from the gaps,
+        // avoiding a uniform fringe, curtains or a flat lower disk.
+        // Collect separately to avoid mutating the set during iteration.
+        Set<BlockPos> hanging = new LinkedHashSet<>();
+        for (BlockPos leaf : planned) {
+            if (leaf.getY() != anchor.getY() - 2) {
+                continue;
+            }
+            int dx = leaf.getX() - anchor.getX();
+            int dz = leaf.getZ() - anchor.getZ();
+            double radial = Math.sqrt(dx * dx + dz * dz);
+            if (radial < 1.45D * scale) {
+                continue; // Leave the central wood and clear underside intact.
+            }
+            double angle = Math.atan2(dz, dx);
+            if (Math.sin(4.0D * angle + phase) <= 0.30D
+                || random.nextFloat() >= 0.35F) {
+                continue;
+            }
+            BlockPos tip = leaf.below(); // Maximum one extra downward block.
+            BlockState state = level.getBlockState(tip);
+            if (!hasGroundClearance(level, tip)
+                || (!state.isAir() && !state.canBeReplaced())) {
+                continue; // Never replace terrain, trunks or obstacles.
+            }
+            hanging.add(tip);
+        }
+        planned.addAll(hanging);
 
         // Breadth-first traversal from real wood, so thin detached islands
         // are never generated as the randomness cuts gaps at crown edges.

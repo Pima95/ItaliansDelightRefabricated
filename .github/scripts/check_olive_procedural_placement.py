@@ -92,8 +92,20 @@ for token in (
     "foliagePlacerParts(instance)", "for (int dy = -2; dy <= 2; dy++)",
     "hasGroundClearance", "while (!frontier.isEmpty())",
     "connected.contains(leaf)", "tryPlaceLeaf",
+    # Only the ancient canopy receives the cherry-inspired lower fringe.
+    "if (dy == -2 && distance > baseRadius * 0.62D",
+    "Math.sin(4.0D * angle + phase) < -0.25D",
+    "Set<BlockPos> hanging = new LinkedHashSet<>()",
+    "leaf.getY() != anchor.getY() - 2",
+    "Math.sin(4.0D * angle + phase) <= 0.30D",
+    "BlockPos tip = leaf.below()",
+    "hasGroundClearance(level, tip)",
+    "planned.addAll(hanging)",
 ):
     assert token in ancient_foliage, f"Ancient foliage missing {token}"
+assert "Set<BlockPos> hanging" not in foliage, "Normal olive canopy must stay approved and unchanged"
+assert "planned.addAll(hanging)" not in foliage
+
 # The old giant, straight 5-9-block bole caused the baobab silhouette.
 assert "stemHeight = Math.max(5, treeHeight - 4)" not in ancient_trunk
 assert "for (int y = 0; y < stemHeight; y++)" not in ancient_trunk
