@@ -40,8 +40,6 @@ import vectorwing.farmersdelight.common.block.CabinetBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.ShelfBlock;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityType;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.ButtonBlock;
@@ -596,10 +594,6 @@ public final class ModBlocks {
     }
 
     public static void register() {
-        // Reuse the vanilla shelf BE (3 visible items, persistence, native
-        // renderer). Explicitly permit the modded olive shelf block state;
-        // otherwise vanilla rejects its block entity as unsupported.
-        ((FabricBlockEntityType) BlockEntityType.SHELF).addValidBlock(OLIVE_SHELF);
         // Vanilla-style log stripping and fire spread: performed only after
         // the registered block fields are initialized.
         StrippableBlockRegistry.register(OLIVE_LOG, STRIPPED_OLIVE_LOG);

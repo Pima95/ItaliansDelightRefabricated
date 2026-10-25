@@ -86,6 +86,11 @@ public final class ModBlockEntities {
     }
 
     public static void register() {
+        // Native 26.2 shelf: register our wood variant with the same type as
+        // the vanilla shelves, so three-item storage, persistence and the
+        // existing shelf item renderer work on modded olive blocks.
+        BlockEntityTypes.SHELF.addValidBlock(ModBlocks.OLIVE_SHELF);
+
         // Vanilla sign block entities keep writable text, both sides and dye.
         // Keep their four modded block variants in the vanilla BE type.
         BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_SIGN);

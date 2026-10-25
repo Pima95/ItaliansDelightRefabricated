@@ -20,7 +20,8 @@ tab = (J / "common/item/group/ModItemGroups.java").read_text(encoding="utf-8")
 # persisted items, native renderer, three slots, redstone and side chaining.
 assert "new ShelfBlock(" in registry
 assert "Block.Properties.ofFullCopy(Blocks.OAK_SHELF)" in registry
-assert "((FabricBlockEntityType) BlockEntityType.SHELF).addValidBlock(OLIVE_SHELF)" in registry
+be_registry = (J / "common/registry/ModBlockEntities.java").read_text(encoding="utf-8")
+assert "BlockEntityTypes.SHELF.addValidBlock(ModBlocks.OLIVE_SHELF)" in be_registry
 assert 'ModRegistries.id("olive_shelf")' in registry
 assert not (J / "common/block/OliveShelfBlock.java").exists()
 assert tab.count("output.accept(ModBlocks.OLIVE_SHELF);") == 1
