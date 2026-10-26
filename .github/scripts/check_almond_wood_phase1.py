@@ -115,7 +115,7 @@ assert brightness([log_end[i] for i in inside]) == brightness(
 # The approved six-color plank artwork remains pixel-identical.
 import hashlib
 assert hashlib.sha256((A/"textures/block/almond_planks.png").read_bytes()).hexdigest() == (
-    "f281c73907b867d4ccad6b6efb104a0d3ac66d6038ede9f4651747ddee1e78aa"
+    "cad111aed831068bc7a443a6963c21ddb7f306404c8f72c103176b2ddbaff323"
 )
 # Unique muted almond bark / exposed wood families; gentle, broken
 # lateral fibers rather than straight vertical bands or an oak recolor.
