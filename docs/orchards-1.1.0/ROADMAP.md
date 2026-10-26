@@ -419,6 +419,19 @@ L'autore richiede in questa fase **solo tre blocchi di mandorlo**: `almond_log`,
 
 **Controlli CI aggiornati:** verificare identità del centro delle due sezioni, uso esclusivo della palette delle assi, contrasto confinato alla cornice, originalità e opacità delle texture, conservazione di tutti gli altri asset.
 
+
+### Ultima rifinitura del mandorlo: proporzioni vanilla a 16×16 — 26 ottobre 2026
+
+Dopo ulteriore verifica dell'autore in Minecraft, sono state corrette le dimensioni apparenti del disegno e l'insufficiente separazione cromatica dei dettagli:
+
+- [x] **Sezioni superiore/inferiore:** `almond_log_top.png` e `stripped_almond_log_top.png` condividono *esattamente* i 196 pixel del nucleo 14×14, con anelli squadrati e discontinuità da pixel art vanilla. Le sole differenze sono i **60 pixel della cornice esterna di 1 pixel**: corteccia per il tronco normale, alburno chiaro per il tronco scortecciato.
+- [x] **Colori delle sezioni:** tutto il nucleo è ottenuto dai sei colori delle `almond_planks.png` approvate, senza modificare le assi. Gli anelli sono più articolati alla scala di un singolo pixel e non appaiono come grossi blocchi uniformi.
+- [x] **Lati del tronco:** rifatte da zero le trame laterali a 16×16 con dettagli minuti, placche disallineate, solchi spezzati e leggere curvature. `almond_log.png` mantiene i sei toni bruno-nocciola di corteccia già in uso; `stripped_almond_log.png` usa i soli sei toni del legno esposto, uguali alle assi.
+- [x] **Test di regressione:** 14×14/1 px obbligatori, nucleo identico, bordo completamente diverso, anelli con più sfumature locali, PNG 16×16 RGBA opachi, colori e SHA delle assi inalterati.
+- [ ] **Accettazione estetica:** verificare direttamente in Minecraft se la nuova risoluzione apparente, i cerchi di crescita e la continuità dei solchi sui lati risultano ora vicini allo stile dei tronchi vanilla.
+
+Nessuna modifica a `almond_planks.png`, modelli, registrazioni, mensole, worldgen o asset già approvati. `main` resta invariata.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

@@ -87,28 +87,35 @@ for n in images:
         previous=row
     decoded[n]=rgb
 assert len(set(art))==5
-# As in vanilla, the log and stripped log share IDENTICAL cut wood.
-# Stripping only changes the two-pixel-thick outer bark / sapwood rim.
-# Every pixel of the 12x12 inner cross section uses ONLY the colors of
-# the already approved almond planks, not the dark bark palette.
+# Vanilla-sized 16x16 end grain: 1px bark/sapwood rim (60 pixels) and
+# identical 14x14 plank-colored wood inside (196 pixels).
+# The same shared rings are exposed by both the normal and stripped log.
 planks_palette=set(decoded["almond_planks"])
 log_end=decoded["almond_log_top"]
 stripped_end=decoded["stripped_almond_log_top"]
-inside=[y*16+x for y in range(2,14) for x in range(2,14)]
+inside=[y*16+x for y in range(1,15) for x in range(1,15)]
 outside=[y*16+x for y in range(16) for x in range(16)
-         if x<2 or x>=14 or y<2 or y>=14]
-assert len(inside)==144 and len(outside)==112
+         if x==0 or x==15 or y==0 or y==15]
+assert len(inside)==196 and len(outside)==60
 assert all(log_end[i]==stripped_end[i] for i in inside), (
     "The inner cross sections must match pixel-for-pixel; only the rim changes"
 )
 assert {log_end[i] for i in inside} <= planks_palette, (
     "The cut wood must use the exact color palette of almond_planks"
 )
-assert len({log_end[i] for i in inside})>=4, "Retain recognizable vanilla rings"
-assert sum(log_end[i]!=stripped_end[i] for i in outside)>=95
+assert len({log_end[i] for i in inside})==6, "All approved plank tones should contribute to vanilla rings"
+assert sum(log_end[i]!=stripped_end[i] for i in outside)==60, (
+    "Every outer-edge pixel must distinguish natural bark from stripped sapwood"
+)
+# Vanilla-style concentric relief: internal cut has high-contrast ring
+# details at multiple distances from the center, not a few huge flat bands.
+for radius in (2,4,6):
+    ring=[log_end[y*16+x] for y in range(1,15) for x in range(1,15)
+          if max(abs(x-7), abs(y-7))==radius]
+    assert len(set(ring))>=3, f"Insufficient color variation in growth ring radius {radius}"
 def brightness(colors):
     return sum(sum(c)/3 for c in colors)/len(colors)
-assert brightness([log_end[i] for i in outside])+55 < brightness(
+assert brightness([log_end[i] for i in outside])+40 < brightness(
     [stripped_end[i] for i in outside]), "Natural bark must be darker than stripped rim"
 assert brightness([log_end[i] for i in inside]) == brightness(
     [stripped_end[i] for i in inside])
@@ -141,6 +148,6 @@ assert {stripped_end[i] for i in outside} <= planks_palette
 assert {log_end[i] for i in inside} == {stripped_end[i] for i in inside}
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
 print("OK: 16x16 RGBA opaque almond sprites with structured bark and plank-colored stripped grain")
-print("OK: exactly matching 12x12 end-grain rings; only exterior border changes")
+print("OK: exactly matching 14x14 vanilla-sized end-grain rings, only 1px exterior border changes")
 print("OK: approved almond planks SHA-256 preserved; block models and recipes untouched")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")
