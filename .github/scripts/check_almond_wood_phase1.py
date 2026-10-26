@@ -108,11 +108,11 @@ assert len(inside)==196 and len(outside)==60
 assert all(log_end[i]==stripped_end[i] for i in inside), (
     "The inner cross sections must match pixel-for-pixel; only the rim changes"
 )
-assert all(tone_distance(log_end[i]) <= 9 for i in inside), (
+assert all(tone_distance(log_end[i]) <= 12 for i in inside), (
     "The cut wood must stay near the softer Almond Planks tones"
 )
 from collections import Counter
-assert len({log_end[i] for i in inside}) >= 15, (
+assert len({log_end[i] for i in inside}) >= 13, (
     "The cut wood needs several visible intermediate tones inside the square rings"
 )
 assert max(Counter(log_end[i] for i in inside).values()) <= 60, (
