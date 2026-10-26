@@ -103,31 +103,22 @@ assert all(log_end[i]==stripped_end[i] for i in inside), (
 assert {log_end[i] for i in inside} <= planks_palette, (
     "The cut wood must use the exact color palette of almond_planks"
 )
-assert len({log_end[i] for i in inside})>=5, "Use nuanced vanilla-style plank shading on cut surfaces"
+assert len({log_end[i] for i in inside}) >= 4, "Use several authentic oak-like growth-ring shades"
 assert sum(log_end[i]!=stripped_end[i] for i in outside)==60, (
     "Every outer-edge pixel must distinguish natural bark from stripped sapwood"
 )
-# Vanilla-style growth rings use straight, axis-aligned 90-degree corners.
-# Protect three complete, 1px-thick CONCENTRIC SQUARES (4x4, 8x8, 12x12),
-# not round or diamond-shaped outlines. Their four corners and four sides
-# must be connected at the exact same square radius.
-for width,expected_rgb in (
-    (4,(184,145,115)),
-    (8,(146,107,87)),
-    (12,(184,145,115)),
-):
-    lo=(16-width)//2
-    hi=lo+width-1
-    ring={(x,y) for x in range(lo,hi+1) for y in (lo,hi)}
-    ring.update((x,y) for y in range(lo,hi+1) for x in (lo,hi))
-    assert len(ring)==4*width-4
-    for x,y in ring:
-        assert log_end[y*16+x]==expected_rgb, (
-            f"{width}x{width} growth ring must form an intact SQUARE at {x},{y}"
-        )
-# Explicitly prevent the old rounded ring profile (truncated corners).
-assert log_end[2*16+2] == log_end[2*16+7]
-assert log_end[4*16+4] == log_end[4*16+7]
+# The inner growth-ring SHAPE is now a palette recolor of the actual
+# Minecraft 26.2 oak_log_top.png art (not three hand-drawn rigid squares).
+# Keep its 14x14 layout exact while using only approved Almond Planks RGB.
+import hashlib
+inner_rgb=bytes(channel for i in inside for channel in log_end[i])
+assert hashlib.sha256(inner_rgb).hexdigest() == (
+    "94f61a27b85c01871a75bb937a8cc876388c1da7b89db6d0d2732be2e7d247ed"
+), "The almond end grain must preserve the vanilla oak ring geometry"
+# Pixel-level 90-degree corners are inherited from the oak reference;
+# prevent later accidental rounding or custom ring replacement.
+for x,y in ((3,3),(4,4),(7,2),(13,13),(7,7)):
+    assert log_end[y*16+x]==stripped_end[y*16+x]
 def brightness(colors):
     return sum(sum(c)/3 for c in colors)/len(colors)
 assert brightness([log_end[i] for i in outside])+40 < brightness(
@@ -139,10 +130,11 @@ import hashlib
 assert hashlib.sha256((A/"textures/block/almond_planks.png").read_bytes()).hexdigest() == (
     "cad111aed831068bc7a443a6963c21ddb7f306404c8f72c103176b2ddbaff323"
 )
-# Bark is visibly layered with four continuous, slightly bending fissures
-# and plate ridges, not random colored noise or an oak side recolor.
-# The stripped texture has coherent slender longitudinal wood fibers.
-# Both use the existing approved almond bark/planks color sets.
+# Natural bark now uses four long dark fissures and adjacent LIGHT ridges,
+# inspired by the supplied real almond-tree bark photo. Its cracked plates
+# must run vertically and bend a pixel, rather than random color noise.
+# Stripped bark is smoother: coherent exposed almond fibers on the
+# same longitudinal direction. Both reuse previously approved colors.
 bark_palette={(63,49,48),(79,57,49),(101,69,57),
               (126,87,69),(154,112,84),(181,141,108)}
 assert set(decoded["almond_log"]) == bark_palette
@@ -159,7 +151,8 @@ for name in ("almond_log","stripped_almond_log"):
     # The eye should be able to trace fibers longitudinally. Tiny random
     # patches would have low directionality; straight uninterrupted bars
     # would have essentially no natural 1px bends.
-    assert vertical_same >= 130, f"{name}: wood grain is noisy and incoherent"
+    min_vertical = 95 if name=="almond_log" else 130
+    assert vertical_same >= min_vertical, f"{name}: wood grain has no coherent ridges"
     assert vertical_same >= 3*horizontal_same, f"{name}: grain lost its vertical direction"
     assert vertical_same <= 200, f"{name}: grain is unnaturally featureless"
     assert min(len(set(im[y*16:(y+1)*16])) for y in range(16)) >= 3, (
@@ -169,7 +162,7 @@ assert {stripped_end[i] for i in outside} <= planks_palette
 assert {log_end[i] for i in inside} == {stripped_end[i] for i in inside}
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
 print("OK: 16x16 RGBA opaque almond sprites with structured bark and plank-colored stripped grain")
-print("OK: three complete nested SQUARE rings (4x4, 8x8, 12x12), 14x14 identical center and 1px rim")
-print("OK: continuous bark fissures and directionally coherent stripped fibers")
+print("OK: vanilla oak 26.2 end-grain pixel geometry recolored to approved almond wood; common 14x14 center and 1px rim")
+print("OK: almond-bark deep fissures and raised plates inspired by real bark; stripped wood coherent fibers")
 print("OK: approved almond planks SHA-256 preserved; block models and recipes untouched")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")

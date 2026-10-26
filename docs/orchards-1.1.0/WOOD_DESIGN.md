@@ -32,6 +32,16 @@
 
 **Accettazione estetica delle nuove texture ancora aperta** finché non saranno verificate in gioco.
 
+### Ulteriore direzione approvata dall'autore (26 ottobre 2026): riferimento reale per la corteccia, taglio oak vanilla
+
+Su richiesta dell'autore e con riferimento alla **fotografia di corteccia di mandorlo allegata in chat**, le texture laterali `almond_log.png` devono mostrare **placche verticali riconoscibili, solchi profondi scuri, creste illuminate parallele ai solchi e fenditure con lievi deviazioni laterali**. Il disegno è originale alla scala 16×16: non è una copia fotografica, né pixel casuali, né una ricolorazione della corteccia di quercia.
+
+`stripped_almond_log.png` corrisponde allo stesso legno privato della corteccia: niente fenditure profonde, ma **fibre verticali più chiare e continue**, con leggere curvature e nodi poco contrastati.
+
+Per `almond_log_top.png` e `stripped_almond_log_top.png` l'autore ha chiesto **una vera ricolorazione della sezione `minecraft:oak_log_top` vanilla 26.2** (non più gli anelli geometrici inventati). Il nucleo condiviso **14×14** mantiene *esattamente* la disposizione dei pixel dell'originale oak, ricampionando i colori nei sei toni già approvati di `almond_planks.png`. Cambia solo la **cornice perimetrale di 1 pixel** (corteccia scura nel normale e legno chiaro nello scortecciato). Le teste superiore e inferiore sono gestite dal medesimo modello `cube_column`, dunque mostrano la stessa texture senza ulteriori asset.
+
+Questa direttiva sostituisce la precedente richiesta di disegnare tre quadrati geometrici perfettamente uniformi 4×4, 8×8 e 12×12: il **riferimento esatto è il disegno oak originale**, con i suoi contorni quadrangolari e le sue naturali variazioni. Le assi approvate restano immutate; prima dell'accettazione definitiva l'autore verificherà le texture in Minecraft.
+
 ## 1.1. Selezione artistica: NO texture Rustic — DECISIONE APPROVATA
 
 **Decisione dell'autore (23 ottobre 2026):** per i nuovi alberi e le nuove famiglie di legno della 1.1.0 **non utilizzare texture provenienti da Rustic**, perché i materiali originali appartengono a una mod della generazione **Minecraft 1.12.2** e sono considerati visivamente obsoleti per il nuovo progetto. La scelta riguarda i **nuovi blocchi e item** da implementare, non autorizza la cancellazione immediata delle risorse storiche presenti nel repository.

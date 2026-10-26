@@ -440,6 +440,18 @@ Dopo il confronto dell'autore con le texture vanilla, le due sezioni del mandorl
 - [x] Test per quadrati completi, coerenza delle fibre e palette.
 - [ ] Collaudo visivo nel gioco in confronto a diversi tronchi vanilla.
 
+### Mandorlo — corteccia fotografica e vero recolor vanilla del taglio (26 ottobre 2026)
+
+**Feedback dell'autore:** rendere i lati del tronco simili alla foto di corteccia reale allegata e adeguare la versione scortecciata; per i due tagli utilizzare direttamente il disegno di `minecraft:oak_log_top` ricolorato.
+
+- [x] **Corteccia normale** `almond_log.png`: quattro spaccature irregolari longitudinali con zone scure in profondità, placche allungate e bordi chiari in rilievo, reinterpretazione originale in 16×16 e con i sei colori già approvati.
+- [x] **Lato scortecciato** `stripped_almond_log.png`: fibre verticali ordinate ma lievemente ondulate, qualche nodo e ombra discreta. Utilizzati solo i colori dell'attuale `almond_planks.png`.
+- [x] **Sezioni** `almond_log_top.png` e `stripped_almond_log_top.png`: ricolorazione della disposizione di pixel del **vero oak_log_top vanilla 26.2**, non quadrati sintetici; nucleo centrale 14×14 identico, colore coerente con le assi, bordo esterno da 1 pixel diverso per i due stati.
+- [x] **Protezione regressioni**: test aggiornati sulla struttura della sezione (hash della disposizione ricolorata), identità dell'interno, due bordi distinti, palette, fessure longitudinali e integrità dell'asset delle assi.
+- [ ] **Verifica estetica in Minecraft**: appoggiare tronchi normali e scortecciati uno accanto all'altro, anche impilati; controllare continuità e leggibilità delle fessure e delle sezioni.
+
+Non modificati: `almond_planks.png`, `olive_*`, asset approvati, registrazioni Java, gameplay, modelli, ricette, worldgen e `main`.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
