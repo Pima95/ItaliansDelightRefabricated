@@ -111,23 +111,37 @@ assert all(log_end[i]==stripped_end[i] for i in inside), (
 assert all(tone_distance(log_end[i]) <= 9 for i in inside), (
     "The cut wood must stay near the softer Almond Planks tones"
 )
-assert len({log_end[i] for i in inside}) >= 9, (
-    "Large flat areas between rings need subtle intermediate shading"
+from collections import Counter
+assert len({log_end[i] for i in inside}) >= 15, (
+    "The cut wood needs several visible intermediate tones inside the square rings"
 )
-assert max(__import__("collections").Counter(log_end[i] for i in inside).values()) <= 79, (
-    "Too much of the tree-ring interior is monochrome"
+assert max(Counter(log_end[i] for i in inside).values()) <= 60, (
+    "Too many pixels between growth rings have the same flat color"
 )
 assert sum(log_end[i]!=stripped_end[i] for i in outside)==60, (
     "Every outer-edge pixel must distinguish natural bark from stripped sapwood"
 )
-# Preserve the exact original vanilla oak end-ring silhouette while allowing
-# subtle additional pixel shading INSIDE the broad growth bands. Every pixel
-# stays closest to the same base tonal class as the oak-derived recolor.
+# Preserve the oak-derived square ring silhouette instead of freezing
+# RGB classes, which prevented stronger but still natural shading.
+# The original dark-ring footprint is 43 pixels, in exactly the
+# original positions; the remaining bands may use brighter/darker shades.
 import hashlib
-oak_ring_classes=bytes(nearest_tone(log_end[i]) for i in inside)
-assert hashlib.sha256(oak_ring_classes).hexdigest() == (
-    "517228f8b8d5991a86638217a82066d8b7082d35a37bbafb90e0f5efb4d0da46"
-), "The almond end grain must preserve the vanilla oak ring geometry"
+oak_dark_ring_mask=bytes(int(max(log_end[i])<189) for i in inside)
+assert sum(oak_dark_ring_mask)==43
+assert hashlib.sha256(oak_dark_ring_mask).hexdigest() == (
+    "4fbab6026fcc71deb174e63508fa2dc01d04557136e5058cafc79fae816f82a9"
+), "The oak-inspired square growth ring structure was damaged"
+# Both natural and stripped cuts retain the approved, 1px external rims.
+for name,top,expected in (
+    ("almond_log_top",log_end,
+     "4b014d766ecd0f573cb2d2b73837d2024d74dc3952f2235e889604038818a49c"),
+    ("stripped_almond_log_top",stripped_end,
+     "028ef29df1414e94e5339648ac6d9c0d94504508645f05f01cdf325ed83c6935")
+):
+    rim=bytes(v for i in outside for v in top[i])
+    assert hashlib.sha256(rim).hexdigest()==expected, (
+        f"{name}: the approved bark/sapwood rim must remain unchanged"
+    )
 # Pixel-level 90-degree corners are inherited from the oak reference;
 # prevent later accidental rounding or custom ring replacement.
 for x,y in ((3,3),(4,4),(7,2),(13,13),(7,7)):
@@ -166,8 +180,20 @@ for seam in (3,7,11,15):
 # plank colors, while remaining directionally coherent rather than noisy.
 bark_pixels=decoded["almond_log"]
 stripped_pixels=decoded["stripped_almond_log"]
-assert len(set(bark_pixels))>=16, "Bark crevices/ridges lost tonal gradations"
+# Deliberately fewer shades/isolated pixels than the last 'soil' version:
+# visible plates and long fissures take priority over noisy gradients.
+assert 8 <= len(set(bark_pixels)) <= 12, (
+    "Bark looks speckled instead of having a few deliberate shaded plates"
+)
+bark_dark=sum(sum(rgb)/3<96 for rgb in bark_pixels)
+assert bark_dark <= 145, "Bark still contains too many dark scattered holes"
+bark_sha=hashlib.sha256((A/"textures/block/almond_log.png").read_bytes()).hexdigest()
+assert bark_sha == "f864032ecf4516c6cd159f4f168cf5c11efc1a991d0509251386d941479e5e61"
 assert len(set(stripped_pixels))>=12, "Stripped longitudinal fibers are too flat"
+# Approved stripped side and planks must stay byte-for-byte identical.
+assert hashlib.sha256((A/"textures/block/stripped_almond_log.png").read_bytes()).hexdigest() == (
+    "7f89b690d12b9a3a29ab13864553b4c85afab4b107a39348adccdf242d537a28"
+)
 assert all(60<=rgb[0]<=185 and 45<=rgb[1]<=145
            and 43<=rgb[2]<=112 for rgb in bark_pixels)
 assert all(tone_distance(rgb)<=9 for rgb in stripped_pixels)
@@ -187,7 +213,7 @@ assert all(tone_distance(stripped_end[i])<=9 for i in outside)
 assert {log_end[i] for i in inside} == {stripped_end[i] for i in inside}
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
 print("OK: 16x16 RGBA opaque almond sprites with structured bark and plank-colored stripped grain")
-print("OK: vanilla oak ring SILHOUETTE preserved, with nuanced 14x14 shading and unchanged 1px rim")
-print("OK: fine bark/stripped-fiber shadow gradients remain vertically coherent")
-print("OK: softer plank palette, fewer harsh pixel jumps, preserved board seams and grain")
+print("OK: square oak ring footprint with stronger 14x14 tonal shading and both approved 1px rims")
+print("OK: reduced-noise bark plates with continuous fissures, unchanged stripped side")
+print("OK: unchanged Almond planks SHA and board seams, no changes to approved variants")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")

@@ -262,6 +262,12 @@ La famiglia d'ulivo già approvata e le relative texture restano invariate; non 
 
 L'autore ha esplicitamente richiesto un nuovo intervento su **tutte e cinque** le texture del mandorlo. Le aree approvate da mantenere sono il **disegno oak vanilla degli anelli**, il **bordo di 1 pixel**, la disposizione delle fessure nei fianchi normali/scortecciati e la trama complessiva delle tavole. Ora sono permesse tonalità intermedie (anche nuove) per ombre e luci coerenti sulla corteccia e sul legno esposto; sulle assi il contrasto locale deve risultare più uniforme pur lasciando leggibili le fughe fra tavole. Il nucleo 14×14 dei due tagli resta identico pixel per pixel. La nuova resa in-game non è ancora stata validata.
 
+### Direzione aggiornata — texture corteccia mandorlo e tagli, 26 ottobre 2026
+
+Dopo ulteriore esame dell'autore, **conservare integralmente le assi di mandorlo e la texture laterale scortecciata**. Il nuovo `almond_log.png` deve ispirarsi alla foto reale allegata usando **poche fessure longitudinali continue**, non un mosaico di macchie scure. Prediligere placche larghe con bordi ombreggiati e creste illuminate; lasciare variazione a livello di singolo pixel solo dove contribuisce alla lettura della corteccia.
+
+Per `almond_log_top.png` e `stripped_almond_log_top.png`, usare anelli quadrangolari già approvati e cornice da **1 pixel invariata**. Aggiungere ombreggiature organizzate lungo gli anelli, con riferimento anche ad abete, betulla, ciliegio, legno della giungla e quercia scura vanilla. **L'interno 14×14 deve continuare a essere identico** nelle due versioni; la geometria quadrata degli anelli non deve trasformarsi in puntini casuali. Il controllo automatico verifica la disposizione delle linee principali separatamente dalle sfumature. Il collaudo estetico in-game resta necessario.
+
 ## 5. Prossimi passi di progettazione
 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.

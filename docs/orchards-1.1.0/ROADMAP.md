@@ -478,6 +478,18 @@ Confermata l'integrità delle cinque texture approvate del mandorlo. Nessuna mod
 
 **Ambito:** solo cinque PNG del mandorlo, test e documentazione; nessuna modifica a codice Java, modelli, ricette, ulivo, worldgen o `main`. Questo intervento grafico è autorizzato dall'autore e supera il precedente vincolo di conservare pixel-identiche le texture approvate.
 
+### Ritocco mirato: corteccia meno rumorosa e sezioni più sfumate (26 ottobre 2026)
+
+**Feedback dell'autore:** la nuova corteccia dava l'impressione di terra scavata da insetti; le sezioni `*_log_top` risultavano ancora troppo uniformi. Le **assi sono esplicitamente approvate e non devono essere toccate**. Il lato scortecciato è anch'esso lasciato inalterato perché il problema segnalato riguarda soltanto il fianco del tronco normale.
+
+- [x] **`almond_log.png`:** ridisegnato con tre solchi longitudinali principali, placche più grandi, creste illuminate e brevi raccordi; eliminata la maggioranza dei pixel scuri isolati. Texture originale 16×16, ispirata alla foto della corteccia allegata, senza riprodurla letteralmente.
+- [x] **`almond_log_top.png` e `stripped_almond_log_top.png`:** maggiore varietà di mezzitoni nelle fasce fra gli anelli, ispirata anche ai tagli di abete, betulla, ciliegio, legno della giungla e quercia scura vanilla. I **43 pixel di contorno degli anelli più scuri** sono rimasti nelle posizioni precedenti; i due nuclei centrali 14×14 sono identici. Cornici esterne da 1 pixel inalterate.
+- [x] **`almond_planks.png` e `stripped_almond_log.png`:** nessun cambiamento, protette anche dai test SHA-256.
+- [x] Aggiornati i controlli per verificare la silhouette degli anelli indipendentemente dalle sfumature, le cornici originali, il ridotto rumore della corteccia e i due PNG invariati.
+- [ ] Verifica estetica in Minecraft, in particolare parete di più `almond_wood` adiacenti e visuale ravvicinata di `almond_log_top`.
+
+**Ambito limitato ai tre PNG indicati, test e documentazione.** Non vengono modificati `main`, gameplay, altri alberi, modelli o ricette.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
