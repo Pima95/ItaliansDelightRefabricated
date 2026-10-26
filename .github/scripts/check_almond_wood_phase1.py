@@ -182,13 +182,15 @@ bark_pixels=decoded["almond_log"]
 stripped_pixels=decoded["stripped_almond_log"]
 # Deliberately fewer shades/isolated pixels than the last 'soil' version:
 # visible plates and long fissures take priority over noisy gradients.
-assert 8 <= len(set(bark_pixels)) <= 12, (
-    "Bark looks speckled instead of having a few deliberate shaded plates"
+assert 7 <= len(set(bark_pixels)) <= 12, (
+    "Bark needs restrained but recognizable shades, not noise or flat plates"
 )
 bark_dark=sum(sum(rgb)/3<96 for rgb in bark_pixels)
 assert bark_dark <= 145, "Bark still contains too many dark scattered holes"
 bark_sha=hashlib.sha256((A/"textures/block/almond_log.png").read_bytes()).hexdigest()
-assert bark_sha == "59467426afb182b71d2f153bfd48914bf0b72edd3fa298783a70e2dbb3a3b934"
+assert bark_sha == "35623be8ea530f77f0e162d6aac62347c2f2435baf3c0c7867f92c52c0fb0509", (
+    "The 26 October requested Almond bark design changed unexpectedly"
+)
 assert len(set(stripped_pixels))>=8, "Stripped longitudinal fibers need several soft tonal levels"
 # Stripped side deliberately follows the SAME compressed stripe geometry as
 # almond_log, just with a lighter exposed-wood palette. Previously it used
@@ -202,13 +204,13 @@ assert hashlib.sha256((A/"textures/block/almond_log_top.png").read_bytes()).hexd
 assert hashlib.sha256((A/"textures/block/stripped_almond_log_top.png").read_bytes()).hexdigest() == (
     "de0aa52080d28f22d4a65950a1dbceed6ffcaacd7392af87ccaa6567b66b5284"
 )
-assert all(60<=rgb[0]<=185 and 45<=rgb[1]<=145
-           and 43<=rgb[2]<=112 for rgb in bark_pixels)
+assert all(78<=rgb[0]<=216 and 58<=rgb[1]<=188
+           and 49<=rgb[2]<=158 for rgb in bark_pixels)
 assert all(tone_distance(rgb)<=9 for rgb in stripped_pixels)
 stripped_classes=bytes(nearest_tone(rgb) for rgb in stripped_pixels)
-# Both bark and exposed wood now share the same main ridge locations.
-# 1-2px shifts move the main grooves inward; at least 90% directional
-# correlation prevents future unrelated striped wood textures.
+# The bark was redesigned from scratch at the author's request.
+# The stripped wood remains approved and unchanged; its stripe positions
+# no longer have to be identical to the new natural bark's fissures.
 def luminance(rgb):
     return sum(a*b for a,b in zip(rgb,(.2126,.7152,.0722)))
 def column_profile(im):
@@ -221,11 +223,14 @@ def profile_correlation(a,b):
     numerator=sum((x-av)*(y-bv) for x,y in zip(a,b))
     denominator=(sum((x-av)**2 for x in a)*sum((y-bv)**2 for y in b))**.5
     return numerator/denominator
-assert profile_correlation(normal_profile,exposed_profile)>.92, (
-    "The stripped wood fibers must align with the ordinary bark fissures"
+assert max(normal_profile)-min(normal_profile)>65, (
+    "Redrawn bark must have raised ridges and recessed fissures"
 )
-assert all(normal_profile[x]<95 for x in (4,5,7,8,9,12)), (
-    "The intended compressed bark stripes have shifted or disappeared"
+assert sum(v<115 for v in normal_profile)>=2, (
+    "Fine dark fissures of the new Almond bark disappeared"
+)
+assert sum(normal_profile)/16+25 < sum(exposed_profile)/16, (
+    "Natural bark must remain darker than approved stripped wood"
 )
 for name,im in (("almond_log",bark_pixels),("stripped_almond_log",stripped_pixels)):
     vertical=sum(sum(abs(a-b) for a,b in zip(im[y*16+x],im[(y+1)*16+x]))/3
@@ -238,12 +243,12 @@ for name,im in (("almond_log",bark_pixels),("stripped_almond_log",stripped_pixel
     assert horizontal > (20 if name=="almond_log" else 11), (
         f"{name}: texture lacks readable ridges"
     )
-    assert min(len(set(im[y*16:(y+1)*16])) for y in range(16))>=6
+    assert min(len(set(im[y*16:(y+1)*16])) for y in range(16)) >= (4 if name=="almond_log" else 6)
 assert all(tone_distance(stripped_end[i])<=9 for i in outside)
 assert {log_end[i] for i in inside} == {stripped_end[i] for i in inside}
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
 print("OK: 16x16 RGBA opaque almond sprites with structured bark and plank-colored stripped grain")
 print("OK: square oak ring footprint with stronger 14x14 tonal shading and both approved 1px rims")
-print("OK: bark fissures compressed 1-2px; stripped wood rebuilt on aligned lighter grain")
+print("OK: newly drawn bark with fine irregular fissures; stripped texture unchanged")
 print("OK: unchanged Almond planks SHA and board seams, no changes to approved variants")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")
