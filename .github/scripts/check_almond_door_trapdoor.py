@@ -47,8 +47,9 @@ def png(path):
     assert len(pixels)==256 and at==len(decoded),path
     return pixels
 palette={p[:3] for p in png(A/"textures/block/almond_planks.png")}
-# Four restrained oxidized-iron tones make hinge pins and pulls *visible*.
-# No invented new wood tint: metal is a tiny, physically located detail.
+# Restrained iron highlights appear ONLY in small edge-integrated pins
+# and handles, modeled on the oak/spruce/cherry vanilla 16x16 hardware.
+# The old oversized 3x3 metal patches must never return.
 METAL={(77,76,71),(99,100,95),(145,147,137),(187,188,174)}
 assert __import__("hashlib").sha256(
     (A/"textures/block/almond_planks.png").read_bytes()
@@ -86,32 +87,33 @@ for name in ("door_top","door_bottom","trapdoor"):
     assert hashlib.sha256(area).hexdigest()==accepted_core,(
         f"{name}: the user-approved emblem may not be changed"
     )
-# Hardware is restricted to physical hinge / pull regions, never the
-# ornament. Stronger contrast is intentional; this is NOT gray wood.
+# Vanilla oak places slim hinges on the OUTER stile, not square steel
+# plates atop the inset artwork. Trapdoor pins are paired and recessed.
 def metalcoords(name):
     return {(x,y) for y in range(16) for x in range(16)
             if imgs[name][y*16+x][:3] in METAL}
-top_hinges={(x,y) for x in range(0,3) for y in range(3,7)}
-bottom_hinges={(x,y) for x in range(0,3) for y in range(10,14)}
-upper_grip={(x,y) for x in range(11,15) for y in range(12,16)}
-lower_grip={(x,y) for x in range(12,15) for y in range(0,2)}
-trap_hinges={(x,y) for x in (*range(2,5),*range(11,14)) for y in range(0,3)}
-trap_pull={(x,y) for x in range(6,10) for y in range(12,15)}
-assert metalcoords("door_top")<=top_hinges|upper_grip
-assert metalcoords("door_bottom")<=bottom_hinges|lower_grip
-assert metalcoords("trapdoor")<=trap_hinges|trap_pull
-for name,a,b in (
-    ("door_top",top_hinges,upper_grip),
-    ("door_bottom",bottom_hinges,lower_grip),
-    ("trapdoor",trap_hinges,trap_pull)):
-    assert len(metalcoords(name)&a)>=9,name+" has no legible hinge"
-    assert len(metalcoords(name)&b)>=5,name+" has no legible handle"
-# The trapdoor's paired pins and lower pull are unmistakably present.
-for center in (3,12):
-    assert imgs["trapdoor"][1*16+center][:3]==(187,188,174)
-assert imgs["trapdoor"][13*16+7][:3]==(187,188,174)
-assert imgs["trapdoor"][13*16+8][:3]==(187,188,174)
-# Item also includes two hinge highlights and its own latch.
+assert metalcoords("door_top")=={
+    (0,4),(0,5),(0,6),      # upper 1px-wide hinge barrel
+    (12,13),(13,13),(13,14) # three-pixel knob with small highlight
+}, "Upper almond door has oversized/misplaced metal fittings"
+assert metalcoords("door_bottom")=={
+    (0,10),(0,11),(0,12) # lower 1px-wide hinge barrel
+}, "Lower almond door metal must remain on the outer stile only"
+assert metalcoords("trapdoor")=={
+    (3,0),(3,1),(12,0),(12,1), # slim, paired hinge pins
+    (7,13),(8,13)              # recessed, centered two-pixel pull
+}, "Trapdoor hardware no longer resembles recessed vanilla-style fittings"
+# Explicit pixel-budget prevents slab-like handles: at most 6 metal pixels
+# per 16x16 face, with the remaining mortise/shadow in wooden colors.
+for name in ("door_top","door_bottom","trapdoor"):
+    assert len(metalcoords(name))<=6,name
+    assert not any(all((x+dx,y+dy) in metalcoords(name)
+                       for dy in range(2) for dx in range(2))
+                   for y in range(15) for x in range(15)), (
+        f"{name}: metal fittings turned into large square patches again"
+    )
+# User accepted the item: every hinge, grip and its pixel silhouette remain
+# unchanged, including exact coordinates (and the approved emblem above).
 assert metalcoords("door_icon")=={
     (3,5),(4,5),(3,12),(4,12),
     (11,8),(10,9),(11,9),(11,10)
@@ -150,8 +152,11 @@ assert pixel("door_top",12,13)!=pixel("door_top",13,13),(
 )
 assert pixel("trapdoor",3,1)!=pixel("trapdoor",4,1)
 assert pixel("trapdoor",11,1)!=pixel("trapdoor",12,1)
-assert pixel("trapdoor",7,13)==pixel("trapdoor",8,13),(
-    "The trapdoor pull must be centered on the 16-pixel middle"
+assert (7,13) in metalcoords("trapdoor") and (8,13) in metalcoords("trapdoor"),(
+    "Both central trapdoor pull pixels must remain visible at x=7,8"
+)
+assert pixel("trapdoor",7,13)!=pixel("trapdoor",8,13),(
+    "The tiny vanilla-style handle needs one bright face and one shaded face"
 )
 for name in ("almond_door","almond_trapdoor"):
     assert f'ModRegistries.id("{name}")' in B
@@ -198,5 +203,6 @@ assert js(A/"models/item/almond_trapdoor.json")["parent"]=="italiansdelight:bloc
 loot=js(D/"italiansdelight/loot_table/blocks/almond_door.json")
 assert any(c.get("properties",{}).get("half")=="lower" for c in loot["pools"][0]["conditions"])
 print("OK: approved emblem preserved pixel-perfect and all wooden areas use approved Almond palette")
-print("OK: functional metal hinge pins & handles, recessed wood grain and vanilla 10x14 item silhouette")
+print("OK: vanilla-scale hinges and recessed handles (<=6 metal pixels per block), no bulky square patches")
+print("OK: previously approved 10x14 door item remains exactly unchanged")
 print("OK: 32/16 states, 11 models, item art, recipes, loot, tags and orientations")

@@ -286,6 +286,10 @@ La prima versione è stata giudicata troppo piatta e con il fregio non centrato.
 
 La nuova icona della porta adotta l'ingombro 10×14 `x=3..12, y=2..15` delle porte vanilla (quercia/abete/ciliegio), con parte superiore trasparente e antine riprogettate alla giusta scala: non va ingrandito o ritagliato un PNG 16×32. L'iconografia dei due pannelli resta coerente con il fiore della porta, ma la forma è progettata alla scala dell'inventario. È necessaria la verifica in Minecraft, soprattutto per la ferratura vicino al confine fra i due blocchi verticali.
 
+### Proporzione delle cerniere vanilla — revisione successiva, 26 ottobre 2026
+
+L'autore approva la texture **item** della porta, ma respinge la ferramenta grigia sovradimensionata dei tre PNG del blocco. Nuova regola: **cerniere sottili sul margine, perni o chiodi di un solo pixel, piccoli pomelli incassati nella cornice e non placche metalliche sopra il pannello**. Riferimento diretto alle scelte grafiche vanilla: la quercia concentra la ferramenta sul bordo dell'anta, l'abete usa piccole bande scure integrate e le botole esibiscono giunti coerenti con gli elementi lignei. Il legno di mandorlo mantiene cornici, ombre, intarsio identico e palette delle assi approvate. La porta conserva integralmente il PNG `item/almond_door.png`, senza ridisegno né ritocco. La nuova ferramenta va verificata dall'autore in Minecraft.
+
 ## 5. Prossimi passi di progettazione
 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.

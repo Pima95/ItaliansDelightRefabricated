@@ -536,6 +536,19 @@ Confermata l'integrità delle cinque texture approvate del mandorlo. Nessuna mod
 
 Nessuna modifica alle texture base approvate, ai modelli, all'interazione/registrazione, alle ricette, alla generazione naturale né a `main`.
 
+### Mandorlo — ferramenta ridisegnata secondo il linguaggio vanilla (26 ottobre 2026)
+
+**Feedback in gioco:** la terza iterazione presentava ancora grandi placche grigie attaccate sopra la porta e la botola, visivamente estranee alla falegnameria vanilla. **L'icona della porta invece è stata esplicitamente approvata e resta intatta.**
+
+Confronto con le texture `oak_door_top/bottom`, `oak_trapdoor`, `spruce_door_top`, `spruce_trapdoor`, `cherry_trapdoor` vanilla 26.2: le parti metalliche sono piccoli accenti integrati nelle cornici e nei listelli, non maniglie/grappoli grigi di 3×3 o 4×3 pixel.
+
+- [x] `almond_door_top.png`: cerniera **di larghezza 1 pixel** sul bordo esterno sinistro e piccolo pomolo ombreggiato sul lato destro (3 pixel metallici), con resto del supporto ricavato da legno in ombra. Nessuna piastra che sovrapponga il pannello.
+- [x] `almond_door_bottom.png`: perno inferiore sempre **di 1 pixel**, tre accenti metallici sul montante sinistro e nessun doppione della maniglia sul traverso.
+- [x] `almond_trapdoor.png`: due piccoli perni incassati sul bordo superiore, uniti alla cornice con una leggera ombra nel legno; presa centrata `x=7,8` di **soli 2 pixel metallici** con una luce e un'ombra.
+- [x] Restano immutati **i 36 pixel del fregio approvato di ogni texture** (area x=5..10, y=5..10), tutte le parti già accettate dell'icona `textures/item/almond_door.png`, i cinque PNG originali di mandorlo e tutti i modelli/ricette.
+- [x] Test regressione aggiornati: posizioni esatte dei perni, maniglia entro 3 pixel metallici, nessun blocco di ferramenta 2×2, simboli centrati, risoluzione 16×16, comportamento dei blocchi e item vanilla approvato.
+- [ ] Verifica in gioco della ferramenta sulle porte aperte/chiuse e sulle botole orientate, senza ulteriori modifiche automatiche all'icona.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
