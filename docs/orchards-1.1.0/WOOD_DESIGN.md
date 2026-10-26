@@ -276,6 +276,10 @@ L'autore ha approvato la direzione delle striature ma chiede di avvicinarle di 1
 
 Il mandorlo adotta un dettaglio grafico ricorrente: un **fiore di mandorlo geometrico a quattro petali / losanga** intagliato nel legno, reso soltanto con la palette già presente in `almond_planks.png`. La porta ha due riquadri verticali a cornice smussata: fiore nella metà superiore e losanga allungata in quella inferiore, con piccolo pomolo discreto. La botola ha un solo riquadro quadrato a cornice più robusta, fiore semplificato e piccoli dettagli agli angoli. Le texture sono **originali**, non recolor della porta d'ulivo e non una copia dei legni vanilla. La parte grafica potrà essere ritoccata dopo prova in gioco. Sono implementati gli stati e i comportamenti vanilla, compreso l'orientamento della botola chiusa.
 
+### Rifinitura della porta e della botola di mandorlo — 26 ottobre 2026
+
+La prima versione è stata giudicata troppo piatta e con il fregio non centrato. Per la seconda iterazione si è lavorato **solo sulle tre superfici del blocco e sull'icona della porta**, senza cambiare i modelli o le interazioni. L'intarsio a fiore di mandorlo è ora rigorosamente centrato sull'asse fra i pixel **x=7 e x=8**, in modo che il disegno sia speculare. I pannelli hanno bordi a doppia profondità (lato superiore/sinistro luminoso, inferiore/destro ombreggiato), venature longitudinali più riconoscibili e dettagli di falegnameria. Le cerniere della porta sono sul montante sinistro e la maniglia è sul traverso vicino al centro dell'anta; la botola ha due cerniere sul bordo di attacco e una piccola presa centrale sul lato opposto. Tutto resta entro la palette delle assi approvate, con risoluzione vanilla 16×16; il nuovo risultato necessita ancora di verifica estetica in Minecraft.
+
 ## 5. Prossimi passi di progettazione
 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.

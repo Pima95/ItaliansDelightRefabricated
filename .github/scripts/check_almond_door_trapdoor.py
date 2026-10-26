@@ -62,6 +62,39 @@ assert imgs["door_top"]!=imgs["door_bottom"]
 assert imgs["door_top"]!=imgs["trapdoor"]
 assert all(imgs["door_icon"][y*16+x][3]==0 for y in range(16) for x in (0,1,2,13,14,15))
 assert sum(p[3]==255 for p in imgs["door_icon"])>=140
+
+# ART REGRESSION: The blossom has been re-centered precisely at x=7.5,
+# rather than offset toward the right. The two central columns and the
+# inner engraved outline must mirror one another on *all three sprites*.
+# Check the engraving itself (not the surrounding asymmetric wood hardware).
+def pixel(name,x,y):
+    return imgs[name][16*y+x][:3]
+for name in ("door_top","door_bottom","trapdoor"):
+    for y in (5,6,7,8,9,10):
+        assert pixel(name,7,y)==pixel(name,8,y),(
+            f"{name}: center of the almond-blossom carving drifted sideways"
+        )
+    for y in (6,9):
+        assert pixel(name,6,y)==pixel(name,9,y),(
+            f"{name}: the inner carved petal outline became asymmetric"
+        )
+    # Two-level beveled recessed panel, brighter raised upper/left
+    # edge against the dark inset right/bottom bevel.
+    assert pixel(name,3,3)!=pixel(name,12,12),(
+        f"{name}: inner panel lost the illusion of depth"
+    )
+# Original 16x16 vanilla wood details: two door hinges at the left,
+# an unobtrusive latch on the right and paired hardware on the trapdoor.
+assert pixel("door_top",1,4)!=pixel("door_top",0,4)
+assert pixel("door_bottom",1,10)!=pixel("door_bottom",0,10)
+assert pixel("door_top",12,13)!=pixel("door_top",13,13),(
+    "Missing contrasting wooden door handle/plate"
+)
+assert pixel("trapdoor",3,1)!=pixel("trapdoor",4,1)
+assert pixel("trapdoor",11,1)!=pixel("trapdoor",12,1)
+assert pixel("trapdoor",7,13)==pixel("trapdoor",8,13),(
+    "The trapdoor pull must be centered on the 16-pixel middle"
+)
 for name in ("almond_door","almond_trapdoor"):
     assert f'ModRegistries.id("{name}")' in B
     assert T.count(f"output.accept(ModBlocks.{name.upper()});")==1
@@ -106,5 +139,6 @@ assert js(A/"models/item/almond_door.json")["textures"]["layer0"]=="italiansdeli
 assert js(A/"models/item/almond_trapdoor.json")["parent"]=="italiansdelight:block/almond_trapdoor_bottom"
 loot=js(D/"italiansdelight/loot_table/blocks/almond_door.json")
 assert any(c.get("properties",{}).get("half")=="lower" for c in loot["pools"][0]["conditions"])
-print("OK: Original Almond door and trapdoor sprites, approved plank palette and alpha")
+print("OK: Almond 16px door/trapdoor sprites use only approved plank palette and alpha")
+print("OK: carved symbols are centered; recessed bevels, hinges and handles are present")
 print("OK: 32/16 states, 11 models, item art, recipes, loot, tags and orientations")

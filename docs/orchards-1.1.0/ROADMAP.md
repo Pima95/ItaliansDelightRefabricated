@@ -511,6 +511,17 @@ Confermata l'integrità delle cinque texture approvate del mandorlo. Nessuna mod
 
 **Nessuna modifica alle cinque texture base di mandorlo, all'ulivo, alle altre specie, alla generazione naturale o a `main`.**
 
+### Mandorlo — seconda revisione estetica porta/botola (26 ottobre 2026)
+
+**Feedback della prova in Minecraft:** la prima versione risultava troppo piatta, il fregio era spostato a destra e mancavano dettagli chiari delle cerniere e delle maniglie. Si è confrontato il disegno con porte e botole vanilla: preferire una cornice in rilievo, pannelli scavati con luce a sinistra/alto e ombra a destra/basso, minuteria leggibile con pochissimi pixel.
+
+- [x] `almond_door_top.png` e `almond_door_bottom.png`: pannelli a doppio smusso, cornice più spessa, ombre di profondità, cerniere su montante sinistro, piastrina/maniglia al limite fra le due metà. Il fregio è ridisegnato su **asse x=7,5**, con petali simmetrici centrati.
+- [x] `almond_trapdoor.png`: richiamo allo stesso fregio, centrato con precisione, incassato in un pannello quadrato profondo. Aggiunte **due cerniere simmetriche sul lato di attacco** e una **presa centrata sul bordo opposto**.
+- [x] `textures/item/almond_door.png`: nuova icona coerente con il disegno reale dell'anta.
+- [x] Tutte le nuove ombreggiature e i dettagli metallici stilizzati derivano **esclusivamente dai colori delle assi** di mandorlo già approvate. Nessun pixel delle assi, del tronco o di altri legni è stato modificato.
+- [x] Aggiornato il test specifico per verificare centratura e simmetria del fregio, doppio smusso, dettagli di apertura, palette, PNG e blockstate.
+- [ ] Verificare in gioco la leggibilità della ferramenta, l'effetto di profondità e la centratura da entrambi i lati; l'approvazione estetica finale resta aperta.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
