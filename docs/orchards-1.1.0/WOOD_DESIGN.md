@@ -280,6 +280,12 @@ Il mandorlo adotta un dettaglio grafico ricorrente: un **fiore di mandorlo geome
 
 La prima versione è stata giudicata troppo piatta e con il fregio non centrato. Per la seconda iterazione si è lavorato **solo sulle tre superfici del blocco e sull'icona della porta**, senza cambiare i modelli o le interazioni. L'intarsio a fiore di mandorlo è ora rigorosamente centrato sull'asse fra i pixel **x=7 e x=8**, in modo che il disegno sia speculare. I pannelli hanno bordi a doppia profondità (lato superiore/sinistro luminoso, inferiore/destro ombreggiato), venature longitudinali più riconoscibili e dettagli di falegnameria. Le cerniere della porta sono sul montante sinistro e la maniglia è sul traverso vicino al centro dell'anta; la botola ha due cerniere sul bordo di attacco e una piccola presa centrale sul lato opposto. Tutto resta entro la palette delle assi approvate, con risoluzione vanilla 16×16; il nuovo risultato necessita ancora di verifica estetica in Minecraft.
 
+### Direttiva aggiornata per porta e botola — ferramenta visibile e item conforme a vanilla, 26 ottobre 2026
+
+**Conservare invariati i simboli già approvati:** la zona centrale 6×6 è identica nelle due parti della porta e nella botola. Non basta variare lievemente un pixel ligneo per simulare un perno: la ferramenta deve essere **visibile**. La nuova soluzione impiega quattro piccole tonalità di metallo brunito, espressamente limitate alla maniglia/piastrina e ai barilotti delle cerniere, e due perni sulla botola. Il resto dei pixel conserva rigorosamente l'attuale palette delle assi approvate. Trame di legno più definite, ombre e rilievi sui pannelli in luogo delle superfici piatte.
+
+La nuova icona della porta adotta l'ingombro 10×14 `x=3..12, y=2..15` delle porte vanilla (quercia/abete/ciliegio), con parte superiore trasparente e antine riprogettate alla giusta scala: non va ingrandito o ritagliato un PNG 16×32. L'iconografia dei due pannelli resta coerente con il fiore della porta, ma la forma è progettata alla scala dell'inventario. È necessaria la verifica in Minecraft, soprattutto per la ferratura vicino al confine fra i due blocchi verticali.
+
 ## 5. Prossimi passi di progettazione
 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.

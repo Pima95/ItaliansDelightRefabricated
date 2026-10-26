@@ -522,6 +522,20 @@ Confermata l'integrità delle cinque texture approvate del mandorlo. Nessuna mod
 - [x] Aggiornato il test specifico per verificare centratura e simmetria del fregio, doppio smusso, dettagli di apertura, palette, PNG e blockstate.
 - [ ] Verificare in gioco la leggibilità della ferramenta, l'effetto di profondità e la centratura da entrambi i lati; l'approvazione estetica finale resta aperta.
 
+### Mandorlo — terza revisione porta/botola: profondità, vera ferramenta e item vanilla (26 ottobre 2026)
+
+**Riscontro dell'autore:** nonostante le precedenti dichiarazioni di avanzamento, maniglie e perni non erano visivamente riconoscibili; diversi settori dei pannelli rimanevano quasi monocolore. I loghi/fiore, invece, erano già approvati e vanno conservati.
+
+- [x] **Centratura e logo intatti:** i 36 pixel del nucleo 6×6 (`x=5..10`, `y=5..10`) sono preservati *identici* su porta alta, porta bassa e botola, protetti con controllo SHA del nucleo.
+- [x] **Porta:** aggiunti veri perni e cerniere sulla montante sinistro in entrambi i blocchi (parte alta/bassa). Maniglia con impugnatura e piastrina sul montante destro, distribuita presso la giuntura tra i due blocchi; metallo brunito evidenziato con quattro colori neutri, anziché toni di legno indistinguibili.
+- [x] **Botola:** due cerniere metalliche simmetriche su un lato e una vera presa ad anello centrata sul lato opposto. Collocazione testata ai pixel.
+- [x] **Legno:** dettagli di venatura in brevi segmenti allineati e luci/ombre nelle cornici, soprattutto sulle travi precedentemente monocolore, senza sfumature casuali nell'intarsio.
+- [x] **Item porta:** ricostruita come sprite 16×16 di **sagoma vanilla 10×14** (colonne 3–12, righe 2–15, due righe trasparenti sopra) ispirandosi alle reali icone oak, spruce e cherry, con due pannelli e ferramenta riconoscibile, non una copia miniaturizzata del blocco.
+- [x] I quattro colori aggiuntivi sono **solo metallo**; tutti i pixel del legno continuano a usare la palette binariamente invariata di `almond_planks.png`. Sono aggiornati gli assert su hardware, identità del fregio, nuova sagoma dell'icona, alpha e blockstates.
+- [ ] **Convalida estetica** in Minecraft: verifica leggibilità delle due cerniere della porta, maniglia alla giunzione fra blocchi, presa della botola e ingombro dell'item accanto alle porte vanilla.
+
+Nessuna modifica alle texture base approvate, ai modelli, all'interazione/registrazione, alle ricette, alla generazione naturale né a `main`.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

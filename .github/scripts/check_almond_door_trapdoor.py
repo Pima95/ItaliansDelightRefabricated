@@ -47,6 +47,12 @@ def png(path):
     assert len(pixels)==256 and at==len(decoded),path
     return pixels
 palette={p[:3] for p in png(A/"textures/block/almond_planks.png")}
+# Four restrained oxidized-iron tones make hinge pins and pulls *visible*.
+# No invented new wood tint: metal is a tiny, physically located detail.
+METAL={(77,76,71),(99,100,95),(145,147,137),(187,188,174)}
+assert __import__("hashlib").sha256(
+    (A/"textures/block/almond_planks.png").read_bytes()
+).hexdigest()=="afef2d5ba69a3b978a58cfb60eb86f1a51a45165926560f58f13fa7a2c755322"
 imgs={}
 for name,path in (
  ("door_top","textures/block/almond_door_top.png"),
@@ -54,14 +60,66 @@ for name,path in (
  ("trapdoor","textures/block/almond_trapdoor.png"),
  ("door_icon","textures/item/almond_door.png")):
     pixels=png(A/path);imgs[name]=pixels
-    assert {p[:3] for p in pixels if p[3]}<=palette,name
+    assert {p[:3] for p in pixels if p[3]}<=palette|METAL,name
     assert len(set(p for p in pixels if p[3]))>=6,name
 for name in ("door_top","door_bottom","trapdoor"):
     assert all(p[3]==255 for p in imgs[name]),name
 assert imgs["door_top"]!=imgs["door_bottom"]
 assert imgs["door_top"]!=imgs["trapdoor"]
 assert all(imgs["door_icon"][y*16+x][3]==0 for y in range(16) for x in (0,1,2,13,14,15))
-assert sum(p[3]==255 for p in imgs["door_icon"])>=140
+assert sum(p[3]==255 for p in imgs["door_icon"])==140
+# 16x16 door item follows the exact *silhouette bounds* of vanilla oak
+# and spruce: x 3..12, y 2..15, leaving upper two rows fully transparent.
+for y in range(16):
+    for x in range(16):
+        expect=3<=x<=12 and 2<=y<=15
+        assert (imgs["door_icon"][y*16+x][3]==255)==expect,(
+            f"Door item did not match vanilla 10x14 silhouette at {x},{y}"
+        )
+# The previously accepted central symbol is kept verbatim for ALL 3
+# front-face block sprites. This is a SHA of their actual core pixels.
+import hashlib
+accepted_core="df151e838d03722f56230b46f86fd5c91ba2bd293fa38cb3020db8b67657ecee"
+for name in ("door_top","door_bottom","trapdoor"):
+    area=bytes(v for y in range(5,11) for x in range(5,11)
+               for v in imgs[name][y*16+x])
+    assert hashlib.sha256(area).hexdigest()==accepted_core,(
+        f"{name}: the user-approved emblem may not be changed"
+    )
+# Hardware is restricted to physical hinge / pull regions, never the
+# ornament. Stronger contrast is intentional; this is NOT gray wood.
+def metalcoords(name):
+    return {(x,y) for y in range(16) for x in range(16)
+            if imgs[name][y*16+x][:3] in METAL}
+top_hinges={(x,y) for x in range(0,3) for y in range(3,7)}
+bottom_hinges={(x,y) for x in range(0,3) for y in range(10,14)}
+upper_grip={(x,y) for x in range(11,15) for y in range(12,16)}
+lower_grip={(x,y) for x in range(12,15) for y in range(0,2)}
+trap_hinges={(x,y) for x in (*range(2,5),*range(11,14)) for y in range(0,3)}
+trap_pull={(x,y) for x in range(6,10) for y in range(12,15)}
+assert metalcoords("door_top")<=top_hinges|upper_grip
+assert metalcoords("door_bottom")<=bottom_hinges|lower_grip
+assert metalcoords("trapdoor")<=trap_hinges|trap_pull
+for name,a,b in (
+    ("door_top",top_hinges,upper_grip),
+    ("door_bottom",bottom_hinges,lower_grip),
+    ("trapdoor",trap_hinges,trap_pull)):
+    assert len(metalcoords(name)&a)>=9,name+" has no legible hinge"
+    assert len(metalcoords(name)&b)>=5,name+" has no legible handle"
+# The trapdoor's paired pins and lower pull are unmistakably present.
+for center in (3,12):
+    assert imgs["trapdoor"][1*16+center][:3]==(187,188,174)
+assert imgs["trapdoor"][13*16+7][:3]==(187,188,174)
+assert imgs["trapdoor"][13*16+8][:3]==(187,188,174)
+# Item also includes two hinge highlights and its own latch.
+assert metalcoords("door_icon")=={
+    (3,5),(4,5),(3,12),(4,12),
+    (11,8),(10,9),(11,9),(11,10)
+}
+# Continuous grain on beams prevents a full-width monochrome border.
+assert len({imgs["door_top"][x] for x in range(16)})>=2
+assert len({imgs["door_bottom"][15*16+x] for x in range(16)})>=3
+assert len({imgs["trapdoor"][15*16+x] for x in range(16)})>=2
 
 # ART REGRESSION: The blossom has been re-centered precisely at x=7.5,
 # rather than offset toward the right. The two central columns and the
@@ -139,6 +197,6 @@ assert js(A/"models/item/almond_door.json")["textures"]["layer0"]=="italiansdeli
 assert js(A/"models/item/almond_trapdoor.json")["parent"]=="italiansdelight:block/almond_trapdoor_bottom"
 loot=js(D/"italiansdelight/loot_table/blocks/almond_door.json")
 assert any(c.get("properties",{}).get("half")=="lower" for c in loot["pools"][0]["conditions"])
-print("OK: Almond 16px door/trapdoor sprites use only approved plank palette and alpha")
-print("OK: carved symbols are centered; recessed bevels, hinges and handles are present")
+print("OK: approved emblem preserved pixel-perfect and all wooden areas use approved Almond palette")
+print("OK: functional metal hinge pins & handles, recessed wood grain and vanilla 10x14 item silhouette")
 print("OK: 32/16 states, 11 models, item art, recipes, loot, tags and orientations")
