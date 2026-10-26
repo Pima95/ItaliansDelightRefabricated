@@ -43,7 +43,18 @@ for k in ("block","item"):
         assert {"italiansdelight:almond_wood","italiansdelight:stripped_almond_wood"} <= set(j(tag)["values"])
 for p in (A/"models/block").glob("*almond*.json"):
     data=j(p)
-    for ref in data.get("textures",{}).values():
+    textures=data.get("textures",{})
+    for key,reference in textures.items():
+        # Vanilla-style models can alias another texture variable, e.g.
+        # "particle": "#texture". Resolve aliases, rejecting cycles and
+        # missing targets instead of treating the reference as a PNG path.
+        seen={key}
+        ref=reference
+        while ref.startswith("#"):
+            alias=ref[1:]
+            assert alias in textures and alias not in seen,(p,ref)
+            seen.add(alias)
+            ref=textures[alias]
         assert ref.startswith("italiansdelight:block/"),(p,ref)
         assert ref.rsplit("/",1)[-1] in ALLOWED,(p,ref)
         assert (A/"textures/block"/(ref.rsplit("/",1)[-1]+".png")).is_file(),(p,ref)
