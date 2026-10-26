@@ -465,6 +465,19 @@ L'autore ha approvato i tronchi e le assi di mandorlo. Il primo lotto crea **ott
 
 Confermata l'integrità delle cinque texture approvate del mandorlo. Nessuna modifica a `main` o alla generazione naturale.
 
+### Mandorlo — sfumature più naturali e assi armonizzate (26 ottobre 2026)
+
+**Modifiche richieste dall'autore dopo la valutazione dei blocchi a tutta corteccia:** i solchi originali erano leggibili ma eccessivamente monocromatici, le assi contenevano alcuni contrasti localmente troppo forti e grandi porzioni tra i cerchi del taglio risultavano piatte.
+
+- [x] **`almond_log.png`:** introdotte sfumature a livello di singolo pixel accanto alle fessure scure e ai rilievi più chiari; i solchi verticali e le placche approvati mantengono la stessa disposizione.
+- [x] **`stripped_almond_log.png`:** integrati toni intermedi lungo fibre e nodi già presenti, senza ricreare macchie casuali; i colori sono coerenti con quelli nuovi delle assi.
+- [x] **`almond_planks.png`:** ridotto il contrasto fra pixel adiacenti intervenendo soprattutto sulle tonalità estreme. La separazione fra le quattro tavole, il disegno originale e le venature restano riconoscibili.
+- [x] **`almond_log_top.png` e `stripped_almond_log_top.png`:** toni intermedi nelle bande larghe fra gli anelli, senza alterare la geometria del *recolor* della quercia vanilla. **Interno centrale 14×14 ancora identico**, cornice distinta da **1 pixel** confermata.
+- [x] Aggiornati i test di regressione: controllo della silhouette degli anelli vanilla per classi tonali (non vecchio hash RGB rigido), contrasti locali delle assi, numero di sfumature, continuità direzionale delle fibre e struttura dei blocchi.
+- [ ] Confrontare le cinque texture in Minecraft a distanza ravvicinata e normale distanza di gioco, in particolare i blocchi `almond_wood` e `stripped_almond_wood` ripetuti in parete.
+
+**Ambito:** solo cinque PNG del mandorlo, test e documentazione; nessuna modifica a codice Java, modelli, ricette, ulivo, worldgen o `main`. Questo intervento grafico è autorizzato dall'autore e supera il precedente vincolo di conservare pixel-identiche le texture approvate.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

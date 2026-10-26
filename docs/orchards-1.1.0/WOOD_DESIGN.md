@@ -258,6 +258,10 @@ Per mandorlo e ciliegio da frutto perseguire progressivamente un set edilizio co
 
 La famiglia d'ulivo già approvata e le relative texture restano invariate; non usare asset di Rustic o modificare `main`.
 
+### Mandorlo: rifinitura delle sfumature (26 ottobre 2026)
+
+L'autore ha esplicitamente richiesto un nuovo intervento su **tutte e cinque** le texture del mandorlo. Le aree approvate da mantenere sono il **disegno oak vanilla degli anelli**, il **bordo di 1 pixel**, la disposizione delle fessure nei fianchi normali/scortecciati e la trama complessiva delle tavole. Ora sono permesse tonalità intermedie (anche nuove) per ombre e luci coerenti sulla corteccia e sul legno esposto; sulle assi il contrasto locale deve risultare più uniforme pur lasciando leggibili le fughe fra tavole. Il nucleo 14×14 dei due tagli resta identico pixel per pixel. La nuova resa in-game non è ancora stata validata.
+
 ## 5. Prossimi passi di progettazione
 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.
