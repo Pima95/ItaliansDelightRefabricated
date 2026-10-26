@@ -117,17 +117,30 @@ import hashlib
 assert hashlib.sha256((A/"textures/block/almond_planks.png").read_bytes()).hexdigest() == (
     "cad111aed831068bc7a443a6963c21ddb7f306404c8f72c103176b2ddbaff323"
 )
-# Unique muted almond bark / exposed wood families; gentle, broken
-# lateral fibers rather than straight vertical bands or an oak recolor.
+# Bark is a visibly layered six-color almond design, NOT a flat oak recolor.
+# Both side textures have irregular fine fibers, with natural pixel variation
+# vertically as well as across the width (no long straight monochrome bands).
 bark_palette={(63,49,48),(79,57,49),(101,69,57),
               (126,87,69),(154,112,84),(181,141,108)}
-exposed_palette={(131,98,81),(163,125,99),(188,151,119),
-                 (207,174,139),(225,197,163)}
-assert set(decoded["almond_log"]) <= bark_palette
-assert set(decoded["stripped_almond_log"]) <= exposed_palette
-assert len(set(decoded["almond_log"]))>=5
-assert len(set(decoded["stripped_almond_log"]))>=4
+assert set(decoded["almond_log"]) == bark_palette
+assert set(decoded["stripped_almond_log"]) <= planks_palette, (
+    "Stripped side must use the approved six plank colors; no new tint"
+)
+assert len(set(decoded["stripped_almond_log"])) >= 5
+for name,min_transitions in (("almond_log",85),("stripped_almond_log",65)):
+    im=decoded[name]
+    transitions=sum(im[y*16+x] != im[(y+1)*16+x]
+                    for x in range(16) for y in range(15))
+    assert transitions >= min_transitions, (
+        f"{name}: bark/fibers too flat or long perfectly straight stripes"
+    )
+    assert min(len(set(im[y*16:(y+1)*16])) for y in range(16)) >= 3, (
+        f"{name}: some rows do not show enough distinct natural wood detail"
+    )
+assert {stripped_end[i] for i in outside} <= planks_palette
+assert {log_end[i] for i in inside} == {stripped_end[i] for i in inside}
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
-print("OK: almond log and stripped log have identical plank-colored heartwood; only bark/outer ring differs")
-print("OK: original slightly crooked side grain; original plank PNG unchanged")
+print("OK: 16x16 RGBA opaque almond sprites with structured bark and plank-colored stripped grain")
+print("OK: exactly matching 12x12 end-grain rings; only exterior border changes")
+print("OK: approved almond planks SHA-256 preserved; block models and recipes untouched")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")
