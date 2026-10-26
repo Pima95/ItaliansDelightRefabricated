@@ -188,8 +188,8 @@ assert 7 <= len(set(bark_pixels)) <= 12, (
 bark_dark=sum(sum(rgb)/3<96 for rgb in bark_pixels)
 assert bark_dark <= 145, "Bark still contains too many dark scattered holes"
 bark_sha=hashlib.sha256((A/"textures/block/almond_log.png").read_bytes()).hexdigest()
-assert bark_sha == "35623be8ea530f77f0e162d6aac62347c2f2435baf3c0c7867f92c52c0fb0509", (
-    "The 26 October requested Almond bark design changed unexpectedly"
+assert bark_sha == "37863c8c9ce8d13f12787c63d53fcdca2804600edfda5fbd4b07cf052c017b8b", (
+    "The original-color Almond bark redesign changed unexpectedly"
 )
 assert len(set(stripped_pixels))>=8, "Stripped longitudinal fibers need several soft tonal levels"
 # Stripped side deliberately follows the SAME compressed stripe geometry as
@@ -204,13 +204,26 @@ assert hashlib.sha256((A/"textures/block/almond_log_top.png").read_bytes()).hexd
 assert hashlib.sha256((A/"textures/block/stripped_almond_log_top.png").read_bytes()).hexdigest() == (
     "de0aa52080d28f22d4a65950a1dbceed6ffcaacd7392af87ccaa6567b66b5284"
 )
-assert all(78<=rgb[0]<=216 and 58<=rgb[1]<=188
-           and 49<=rgb[2]<=158 for rgb in bark_pixels)
+# Every original brown color is retained exactly; no pale stripped-wood tint
+# was introduced. The artist changed silhouette and arrangement, not palette.
+ORIGINAL_BARK_PALETTE={
+    (65,49,47),(77,56,50),(92,65,55),(108,76,61),(125,88,70),
+    (142,103,81),(156,116,90),(171,132,102),(184,143,112)
+}
+assert set(bark_pixels)==ORIGINAL_BARK_PALETTE, (
+    "Natural Almond bark must preserve the nine approved ORIGINAL colors"
+)
+mean_bark=tuple(sum(rgb[i] for rgb in bark_pixels)/256 for i in range(3))
+assert all(abs(actual-reference)<3 for actual,reference in
+           zip(mean_bark,(129.9,96.2,76.9))), (
+    "Rebalanced bark has drifted from the original average chestnut tone"
+)
 assert all(tone_distance(rgb)<=9 for rgb in stripped_pixels)
 stripped_classes=bytes(nearest_tone(rgb) for rgb in stripped_pixels)
-# The bark was redesigned from scratch at the author's request.
-# The stripped wood remains approved and unchanged; its stripe positions
-# no longer have to be identical to the new natural bark's fissures.
+# The author's original dark palette is restored but rearranged into
+# contiguous bark plates and interrupted vertical fissures, not the old
+# randomized checkerboard and not the pale ploughed-soil design.
+# Stripped wood stays unchanged; its light fibers have a distinct texture.
 def luminance(rgb):
     return sum(a*b for a,b in zip(rgb,(.2126,.7152,.0722)))
 def column_profile(im):
@@ -223,8 +236,8 @@ def profile_correlation(a,b):
     numerator=sum((x-av)*(y-bv) for x,y in zip(a,b))
     denominator=(sum((x-av)**2 for x in a)*sum((y-bv)**2 for y in b))**.5
     return numerator/denominator
-assert max(normal_profile)-min(normal_profile)>65, (
-    "Redrawn bark must have raised ridges and recessed fissures"
+assert max(normal_profile)-min(normal_profile)>35, (
+    "Natural bark must have readable shadowed fissures between raised plates"
 )
 assert sum(v<115 for v in normal_profile)>=2, (
     "Fine dark fissures of the new Almond bark disappeared"
@@ -249,6 +262,6 @@ assert {log_end[i] for i in inside} == {stripped_end[i] for i in inside}
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
 print("OK: 16x16 RGBA opaque almond sprites with structured bark and plank-colored stripped grain")
 print("OK: square oak ring footprint with stronger 14x14 tonal shading and both approved 1px rims")
-print("OK: newly drawn bark with fine irregular fissures; stripped texture unchanged")
+print("OK: restored exact original nine chestnut tones, structured bark grain, and unchanged stripped texture")
 print("OK: unchanged Almond planks SHA and board seams, no changes to approved variants")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")

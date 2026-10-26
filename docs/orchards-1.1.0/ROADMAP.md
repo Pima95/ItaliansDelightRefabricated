@@ -586,6 +586,26 @@ la corteccia laterale del tronco di mandorlo aveva ricevuto feedback estetici ne
 
 `main` e l'icona della porta approvata restano intatte.
 
+### Mandorlo — ritorno alla palette di corteccia originale (26 ottobre 2026)
+
+Feedback dell'autore: la revisione chiara del `almond_log.png` ricordava
+legno scortecciato o terra arata; **la palette marrone precedente era corretta**,
+ma la disposizione casuale delle macchie scure non era riuscita.
+
+- [x] Recuperata **esattamente la palette originale a nove toni** precedente
+  al ritocco chiaro, mantenendo anche una luminosità media pressoché identica.
+- [x] Ridisegnata la sola texture `almond_log.png` a mano tramite fasce
+  di corteccia volutamente irregolari, creste lunghe, incisioni strette
+  interrotte e ramificazioni leggere: niente pixel casuali o righe uniformi.
+- [x] Test: palette identica, tinta media entro ±3 per canale,
+  fessure visibili, orientamento prevalentemente verticale, CRC/PNG 16×16.
+- [ ] **Convalida dell'autore in Minecraft**: tronco singolo, foresta
+  di tronchi affiancati e montaggio nelle direzioni X/Y/Z; la
+  qualità estetica finale richiede osservazione in gioco.
+
+Non sono state cambiate le texture di taglio del tronco, del legno
+scortecciato, delle tavole, della porta o della botola. Branch `main` intatta.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
