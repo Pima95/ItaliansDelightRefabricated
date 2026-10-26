@@ -452,6 +452,19 @@ Dopo il confronto dell'autore con le texture vanilla, le due sezioni del mandorl
 
 Non modificati: `almond_planks.png`, `olive_*`, asset approvati, registrazioni Java, gameplay, modelli, ricette, worldgen e `main`.
 
+### Mandorlo — primo lotto di derivati approvati (26 ottobre 2026)
+
+L'autore ha approvato i tronchi e le assi di mandorlo. Il primo lotto crea **otto nuovi blocchi vanilla**: `almond_wood`, `stripped_almond_wood`, `almond_stairs`, `almond_slab`, `almond_fence`, `almond_fence_gate`, `almond_button`, `almond_pressure_plate`.
+
+- [x] Registrazione, scortecciatura di `almond_wood` con ascia, combustibilità, inventario Creativa, traduzioni italiane e inglesi.
+- [x] Blocchi, item e varianti dei modelli vanilla clonati dagli equivalenti d'ulivo, ma con riferimenti **esclusivamente alle texture di mandorlo già approvate**, senza nuovi PNG.
+- [x] Crafting, loot (compreso il recupero di due lastre per una doppia), tag Minecraft e due ricette Farmer's Delight per scortecciare tronco e legno tutto corteccia.
+- [x] Test statici e workflow dedicati.
+- [ ] Collaudo in Minecraft di orientamenti, recinzioni, cancelli, pedane, pulsanti, drop e ricette.
+- [ ] **Prossima fase grafica:** porte, botole, cartelli, mensola e barche richiedono nuovi modelli o texture da sottoporre ad approvazione, prima di continuare con alberi, frutti e worldgen.
+
+Confermata l'integrità delle cinque texture approvate del mandorlo. Nessuna modifica a `main` o alla generazione naturale.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
