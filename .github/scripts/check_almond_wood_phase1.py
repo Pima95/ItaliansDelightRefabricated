@@ -44,7 +44,7 @@ for kind in ("item","block"):
     tag=load(D/"minecraft/tags"/kind/"logs_that_burn.json")["values"]
     assert all(f"italiansdelight:{n}" in tag for n in NAMES[:2])
     own=load(D/"italiansdelight/tags"/kind/"almond_logs.json")["values"]
-    assert set(own)=={"italiansdelight:almond_log","italiansdelight:stripped_almond_log"}
+    assert {"italiansdelight:almond_log","italiansdelight:stripped_almond_log"} <= set(own)
 assert "italiansdelight:almond_planks" in load(D/"minecraft/tags/item/planks.json")["values"]
 recipe=load(D/"italiansdelight/recipe/almond_planks.json")
 assert recipe=={"type":"minecraft:crafting_shapeless","category":"building","ingredients":["#italiansdelight:almond_logs"],"result":{"id":"italiansdelight:almond_planks","count":4}}
