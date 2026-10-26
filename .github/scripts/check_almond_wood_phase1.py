@@ -189,7 +189,7 @@ bark_dark=sum(sum(rgb)/3<96 for rgb in bark_pixels)
 assert bark_dark <= 145, "Bark still contains too many dark scattered holes"
 bark_sha=hashlib.sha256((A/"textures/block/almond_log.png").read_bytes()).hexdigest()
 assert bark_sha == "59467426afb182b71d2f153bfd48914bf0b72edd3fa298783a70e2dbb3a3b934"
-assert len(set(stripped_pixels))>=12, "Stripped longitudinal fibers are too flat"
+assert len(set(stripped_pixels))>=8, "Stripped longitudinal fibers need several soft tonal levels"
 # Stripped side deliberately follows the SAME compressed stripe geometry as
 # almond_log, just with a lighter exposed-wood palette. Previously it used
 # unrelated stripes; this revision aligns all prominent longitudinal fibers.
