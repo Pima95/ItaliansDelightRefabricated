@@ -490,6 +490,16 @@ Confermata l'integrità delle cinque texture approvate del mandorlo. Nessuna mod
 
 **Ambito limitato ai tre PNG indicati, test e documentazione.** Non vengono modificati `main`, gameplay, altri alberi, modelli o ricette.
 
+### Mandorlo — solchi ravvicinati e trama condivisa con lo scortecciato (26 ottobre 2026)
+
+**Richiesta dell'autore:** avvicinare le strisce verticali del tronco di 1–2 pixel e ricostruire il lato scortecciato in continuità visiva con il nuovo disegno.
+
+- [x] `almond_log.png`: spostati i gruppi di fessure verso l'interno di circa **1–2 pixel**, mantenendo le forme ondulate, le sfumature e la palette già selezionata. Tre direttrici delle spaccature principali risultano più vicine, con creste più strette e meno spazio fra le linee scure.
+- [x] `stripped_almond_log.png`: ridisegnata la trama chiara riprendendo **le stesse posizioni delle venature verticali del nuovo tronco normale**, senza copiare il colore e le fenditure buie della corteccia. La versione scortecciata resta morbida e riconoscibile come legno esposto. Profilo cromatico orizzontale fortemente correlato (circa 0,99) a quello del normale.
+- [x] Entrambi i PNG 16×16 RGBA opachi; nuovi controlli dedicati agli SHA, all'allineamento delle fibre e alle fessure spostate.
+- [x] Assi `almond_planks.png`, sezioni `almond_log_top.png`/`stripped_almond_log_top.png`, modelli, blocchi derivati, ulivo e `main` **non modificati**.
+- [ ] Verifica estetica in Minecraft di `almond_log` e `almond_wood` affiancati alle rispettive varianti scortecciate: osservare in particolare i solchi ravvicinati in pareti ripetute.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

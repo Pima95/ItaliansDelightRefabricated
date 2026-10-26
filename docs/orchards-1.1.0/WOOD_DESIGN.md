@@ -268,6 +268,10 @@ Dopo ulteriore esame dell'autore, **conservare integralmente le assi di mandorlo
 
 Per `almond_log_top.png` e `stripped_almond_log_top.png`, usare anelli quadrangolari già approvati e cornice da **1 pixel invariata**. Aggiungere ombreggiature organizzate lungo gli anelli, con riferimento anche ad abete, betulla, ciliegio, legno della giungla e quercia scura vanilla. **L'interno 14×14 deve continuare a essere identico** nelle due versioni; la geometria quadrata degli anelli non deve trasformarsi in puntini casuali. Il controllo automatico verifica la disposizione delle linee principali separatamente dalle sfumature. Il collaudo estetico in-game resta necessario.
 
+### Allineamento della corteccia naturale e delle fibre scortecciate (26 ottobre 2026)
+
+L'autore ha approvato la direzione delle striature ma chiede di avvicinarle di 1–2 pixel. La nuova pixel art di `almond_log.png` conserva le fessure longitudinali e i rilievi originali, comprimendo gli spazi fra di esse. `stripped_almond_log.png` viene ridisegnata **sulla stessa disposizione strutturale delle fibre**: le venature corrono lungo le medesime posizioni, ma sono più chiare e delicate per rappresentare la corteccia rimossa. Questa scelta supera il precedente vincolo di lasciare intatto il fianco scortecciato e non autorizza modifiche a `almond_planks.png` o alle due sezioni dei tronchi. Test in-game della nuova coppia ancora da confermare.
+
 ## 5. Prossimi passi di progettazione
 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.
