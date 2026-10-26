@@ -38,7 +38,7 @@ for name in NAMES:
     assert f"block.italiansdelight.{name}" in load(A/"lang/en_us.json")
     assert f"fire.add({name.upper()}," in REG
 assert "StrippableBlockRegistry.register(ALMOND_LOG, STRIPPED_ALMOND_LOG)" in REG
-for n in ("almond_door","almond_trapdoor","almond_shelf","almond_sapling"):
+for n in ("almond_shelf","almond_sapling"):
     assert f'ModRegistries.id("{n}")' not in REG
 for kind in ("item","block"):
     tag=load(D/"minecraft/tags"/kind/"logs_that_burn.json")["values"]

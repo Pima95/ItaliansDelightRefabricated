@@ -272,6 +272,10 @@ Per `almond_log_top.png` e `stripped_almond_log_top.png`, usare anelli quadrango
 
 L'autore ha approvato la direzione delle striature ma chiede di avvicinarle di 1–2 pixel. La nuova pixel art di `almond_log.png` conserva le fessure longitudinali e i rilievi originali, comprimendo gli spazi fra di esse. `stripped_almond_log.png` viene ridisegnata **sulla stessa disposizione strutturale delle fibre**: le venature corrono lungo le medesime posizioni, ma sono più chiare e delicate per rappresentare la corteccia rimossa. Questa scelta supera il precedente vincolo di lasciare intatto il fianco scortecciato e non autorizza modifiche a `almond_planks.png` o alle due sezioni dei tronchi. Test in-game della nuova coppia ancora da confermare.
 
+### Porta e botola originali coordinate — 26 ottobre 2026
+
+Il mandorlo adotta un dettaglio grafico ricorrente: un **fiore di mandorlo geometrico a quattro petali / losanga** intagliato nel legno, reso soltanto con la palette già presente in `almond_planks.png`. La porta ha due riquadri verticali a cornice smussata: fiore nella metà superiore e losanga allungata in quella inferiore, con piccolo pomolo discreto. La botola ha un solo riquadro quadrato a cornice più robusta, fiore semplificato e piccoli dettagli agli angoli. Le texture sono **originali**, non recolor della porta d'ulivo e non una copia dei legni vanilla. La parte grafica potrà essere ritoccata dopo prova in gioco. Sono implementati gli stati e i comportamenti vanilla, compreso l'orientamento della botola chiusa.
+
 ## 5. Prossimi passi di progettazione
 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.

@@ -13,7 +13,7 @@ COUNTS={"almond_wood":3,"stripped_almond_wood":3,"almond_stairs":40,
         "almond_slab":3,"almond_fence_gate":16,"almond_button":24,
         "almond_pressure_plate":2}
 ALLOWED={"almond_log","almond_log_top","stripped_almond_log",
-         "stripped_almond_log_top","almond_planks"}
+         "stripped_almond_log_top","almond_planks","almond_door_bottom","almond_door_top","almond_trapdoor"}
 def j(p):
     assert p.is_file(),f"Missing {p}"
     return json.loads(p.read_text(encoding="utf-8"))
@@ -56,7 +56,7 @@ for name in ("almond_log","almond_wood"):
     assert data["type"]=="farmersdelight:cutting"
     assert data["ingredients"]==["italiansdelight:"+name]
     assert any(x.get("item",{}).get("id")=="farmersdelight:tree_bark" for x in data["result"])
-for name in ("almond_door","almond_trapdoor","almond_shelf","almond_sapling"):
+for name in ("almond_shelf","almond_sapling"):
     assert f'ModRegistries.id("{name}")' not in B
 print("OK: eight Almond wood derivatives with vanilla states, crafting, loot, tags and FD Cutting Board")
 print("OK: models use only previously approved Almond wood PNGs")

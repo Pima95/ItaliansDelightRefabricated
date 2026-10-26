@@ -500,6 +500,17 @@ Confermata l'integrità delle cinque texture approvate del mandorlo. Nessuna mod
 - [x] Assi `almond_planks.png`, sezioni `almond_log_top.png`/`stripped_almond_log_top.png`, modelli, blocchi derivati, ulivo e `main` **non modificati**.
 - [ ] Verifica estetica in Minecraft di `almond_log` e `almond_wood` affiancati alle rispettive varianti scortecciate: osservare in particolare i solchi ravvicinati in pareti ripetute.
 
+### Mandorlo — nuova porta e botola con intarsio coordinato (26 ottobre 2026)
+
+- [x] **Arte originale 16×16:** la porta presenta due pannelli incassati con cornici smussate, un fiore geometrico di mandorlo nel pannello superiore e una losanga allungata in quello inferiore; la botola riprende il motivo floreale in una cornice quadrata più spessa. Disegni simili ma non uguali; tutti i pixel opachi utilizzano **esclusivamente la palette della versione approvata di `almond_planks.png`**.
+- [x] Quattro nuovi PNG: `almond_door_top.png`, `almond_door_bottom.png`, `almond_trapdoor.png` e icona trasparente `textures/item/almond_door.png`.
+- [x] `almond_door` e `almond_trapdoor`: comportamento vanilla, 32/16 blockstates, 11 modelli di blocco, 2 modelli oggetto e definizioni, tag wooden doors/trapdoors, ricette (3 porte / 2 botole), drop, ascia, combustibilità, scheda Creativa e traduzioni IT/EN.
+- [x] Test statico dedicato alla palette e alla geometria delle texture, ai modelli e agli orientamenti (botola compresa); CI Java 25.
+- [ ] **Verifica estetica dell'autore in Minecraft:** porta chiusa e aperta con cerniere sinistra/destra, botola su pavimento/soffitto e orientata nei quattro punti cardinali, icone e ricette. Motivi **non ancora definitivamente approvati**.
+- [ ] Lotti successivi: cartelli, mensola, barca/chest boat e modelli di mobili; alberi e frutti dopo i legni.
+
+**Nessuna modifica alle cinque texture base di mandorlo, all'ulivo, alle altre specie, alla generazione naturale o a `main`.**
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
