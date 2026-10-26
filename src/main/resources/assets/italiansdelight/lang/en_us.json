@@ -263,5 +263,7 @@
   "block.italiansdelight.almond_fence": "Almond Fence",
   "block.italiansdelight.almond_fence_gate": "Almond Fence Gate",
   "block.italiansdelight.almond_button": "Almond Button",
-  "block.italiansdelight.almond_pressure_plate": "Almond Pressure Plate"
+  "block.italiansdelight.almond_pressure_plate": "Almond Pressure Plate",
+  "block.italiansdelight.almond_door": "Almond Door",
+  "block.italiansdelight.almond_trapdoor": "Almond Trapdoor"
 }

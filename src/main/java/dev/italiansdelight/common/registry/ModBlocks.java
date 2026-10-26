@@ -198,6 +198,23 @@ public final class ModBlocks {
 
 
 
+    // Original matching almond-blossom ornament, vanilla redstone and hinges.
+    public static final ResourceKey<Block> ALMOND_DOOR_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_door"));
+    public static final Block ALMOND_DOOR = register(
+        ALMOND_DOOR_KEY,
+        new DoorBlock(ALMOND_BLOCK_SET_TYPE,
+            Block.Properties.ofFullCopy(Blocks.OAK_DOOR).setId(ALMOND_DOOR_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_TRAPDOOR_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_trapdoor"));
+    public static final Block ALMOND_TRAPDOOR = register(
+        ALMOND_TRAPDOOR_KEY,
+        new TrapDoorBlock(ALMOND_BLOCK_SET_TYPE,
+            Block.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).setId(ALMOND_TRAPDOOR_KEY))
+    );
+
     // First Orchard foliage block: use the existing non-Rustic 16x16
     // olive_leaves.png. The concrete UntintedParticleLeavesBlock preserves
     // its original fixed green palette while vanilla leaves handle decay,
@@ -708,6 +725,8 @@ public final class ModBlocks {
         fire.add(ALMOND_FENCE_GATE, 5, 20);
         fire.add(ALMOND_BUTTON, 5, 20);
         fire.add(ALMOND_PRESSURE_PLATE, 5, 20);
+        fire.add(ALMOND_DOOR, 5, 20);
+        fire.add(ALMOND_TRAPDOOR, 5, 20);
         fire.add(OLIVE_LEAVES, 30, 60);
         fire.add(OLIVE_STAIRS, 5, 20);
         fire.add(OLIVE_SLAB, 5, 20);
