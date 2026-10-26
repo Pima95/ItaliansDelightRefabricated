@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "wooden_button",
+  "ingredients": [
+    "italiansdelight:almond_planks"
+  ],
+  "result": {
+    "id": "italiansdelight:almond_button",
+    "count": 1
+  }
+}
