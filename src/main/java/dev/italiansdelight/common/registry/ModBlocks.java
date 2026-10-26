@@ -107,8 +107,7 @@ public final class ModBlocks {
 
 
 
-    // Almond phase 1: just logs (ordinary/stripped) and planks.
-    // All-bark wood, stairs, saplings and fruit are deferred for art review.
+    // Almond originals: log, stripped log and planks (art approved).
     public static final ResourceKey<Block> ALMOND_LOG_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_log"));
     public static final Block ALMOND_LOG = register(
@@ -127,6 +126,77 @@ public final class ModBlocks {
         ALMOND_PLANKS_KEY,
         new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS).setId(ALMOND_PLANKS_KEY))
     );
+
+
+    // Approved almond_log texture (six faces), ordinary and stripped wood.
+    public static final ResourceKey<Block> ALMOND_WOOD_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_wood"));
+    public static final Block ALMOND_WOOD = register(
+        ALMOND_WOOD_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_WOOD).setId(ALMOND_WOOD_KEY))
+    );
+    public static final ResourceKey<Block> STRIPPED_ALMOND_WOOD_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("stripped_almond_wood"));
+    public static final Block STRIPPED_ALMOND_WOOD = register(
+        STRIPPED_ALMOND_WOOD_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD).setId(STRIPPED_ALMOND_WOOD_KEY))
+    );
+
+    // Standard wooden building derivatives: only approved almond_planks art.
+    public static final BlockSetType ALMOND_BLOCK_SET_TYPE =
+        BlockSetTypeBuilder.copyOf(BlockSetType.OAK).register(ModRegistries.id("almond"));
+    public static final WoodType ALMOND_WOOD_TYPE =
+        new WoodTypeBuilder().register(ModRegistries.id("almond"), ALMOND_BLOCK_SET_TYPE);
+
+    public static final ResourceKey<Block> ALMOND_STAIRS_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_stairs")
+    );
+    public static final Block ALMOND_STAIRS = register(
+        ALMOND_STAIRS_KEY,
+        new StairBlock(ALMOND_PLANKS.defaultBlockState(), Block.Properties.ofFullCopy(Blocks.OAK_STAIRS).setId(ALMOND_STAIRS_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_SLAB_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_slab")
+    );
+    public static final Block ALMOND_SLAB = register(
+        ALMOND_SLAB_KEY,
+        new SlabBlock(Block.Properties.ofFullCopy(Blocks.OAK_SLAB).setId(ALMOND_SLAB_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_FENCE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_fence")
+    );
+    public static final Block ALMOND_FENCE = register(
+        ALMOND_FENCE_KEY,
+        new FenceBlock(Block.Properties.ofFullCopy(Blocks.OAK_FENCE).setId(ALMOND_FENCE_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_FENCE_GATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_fence_gate")
+    );
+    public static final Block ALMOND_FENCE_GATE = register(
+        ALMOND_FENCE_GATE_KEY,
+        new FenceGateBlock(ALMOND_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE).setId(ALMOND_FENCE_GATE_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_BUTTON_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_button")
+    );
+    public static final Block ALMOND_BUTTON = register(
+        ALMOND_BUTTON_KEY,
+        new ButtonBlock(ALMOND_BLOCK_SET_TYPE, 30, Block.Properties.ofFullCopy(Blocks.OAK_BUTTON).setId(ALMOND_BUTTON_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_PRESSURE_PLATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_pressure_plate")
+    );
+    public static final Block ALMOND_PRESSURE_PLATE = register(
+        ALMOND_PRESSURE_PLATE_KEY,
+        new PressurePlateBlock(ALMOND_BLOCK_SET_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE).setId(ALMOND_PRESSURE_PLATE_KEY))
+    );
+
+
 
     // First Orchard foliage block: use the existing non-Rustic 16x16
     // olive_leaves.png. The concrete UntintedParticleLeavesBlock preserves
@@ -620,6 +690,7 @@ public final class ModBlocks {
         StrippableBlockRegistry.register(OLIVE_LOG, STRIPPED_OLIVE_LOG);
         StrippableBlockRegistry.register(OLIVE_WOOD, STRIPPED_OLIVE_WOOD);
         StrippableBlockRegistry.register(ALMOND_LOG, STRIPPED_ALMOND_LOG);
+        StrippableBlockRegistry.register(ALMOND_WOOD, STRIPPED_ALMOND_WOOD);
         FlammableBlockRegistry fire = FlammableBlockRegistry.getDefaultInstance();
         fire.add(OLIVE_LOG, 5, 5);
         fire.add(OLIVE_WOOD, 5, 5);
@@ -629,6 +700,14 @@ public final class ModBlocks {
         fire.add(ALMOND_LOG, 5, 5);
         fire.add(STRIPPED_ALMOND_LOG, 5, 5);
         fire.add(ALMOND_PLANKS, 5, 20);
+        fire.add(ALMOND_WOOD, 5, 5);
+        fire.add(STRIPPED_ALMOND_WOOD, 5, 5);
+        fire.add(ALMOND_STAIRS, 5, 20);
+        fire.add(ALMOND_SLAB, 5, 20);
+        fire.add(ALMOND_FENCE, 5, 20);
+        fire.add(ALMOND_FENCE_GATE, 5, 20);
+        fire.add(ALMOND_BUTTON, 5, 20);
+        fire.add(ALMOND_PRESSURE_PLATE, 5, 20);
         fire.add(OLIVE_LEAVES, 30, 60);
         fire.add(OLIVE_STAIRS, 5, 20);
         fire.add(OLIVE_SLAB, 5, 20);

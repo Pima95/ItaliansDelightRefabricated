@@ -255,5 +255,13 @@
   "block.italiansdelight.olive_shelf": "Mensola d'Ulivo",
   "block.italiansdelight.almond_log": "Tronco di Mandorlo",
   "block.italiansdelight.stripped_almond_log": "Tronco di Mandorlo Scortecciato",
-  "block.italiansdelight.almond_planks": "Assi di Mandorlo"
+  "block.italiansdelight.almond_planks": "Assi di Mandorlo",
+  "block.italiansdelight.almond_wood": "Legno di Mandorlo",
+  "block.italiansdelight.stripped_almond_wood": "Legno di Mandorlo Scortecciato",
+  "block.italiansdelight.almond_stairs": "Scale di Mandorlo",
+  "block.italiansdelight.almond_slab": "Lastra di Mandorlo",
+  "block.italiansdelight.almond_fence": "Recinzione di Mandorlo",
+  "block.italiansdelight.almond_fence_gate": "Cancelletto di Mandorlo",
+  "block.italiansdelight.almond_button": "Pulsante di Mandorlo",
+  "block.italiansdelight.almond_pressure_plate": "Pedana a Pressione di Mandorlo"
 }

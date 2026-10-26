@@ -255,5 +255,13 @@
   "block.italiansdelight.olive_shelf": "Olive Shelf",
   "block.italiansdelight.almond_log": "Almond Log",
   "block.italiansdelight.stripped_almond_log": "Stripped Almond Log",
-  "block.italiansdelight.almond_planks": "Almond Planks"
+  "block.italiansdelight.almond_planks": "Almond Planks",
+  "block.italiansdelight.almond_wood": "Almond Wood",
+  "block.italiansdelight.stripped_almond_wood": "Stripped Almond Wood",
+  "block.italiansdelight.almond_stairs": "Almond Stairs",
+  "block.italiansdelight.almond_slab": "Almond Slab",
+  "block.italiansdelight.almond_fence": "Almond Fence",
+  "block.italiansdelight.almond_fence_gate": "Almond Fence Gate",
+  "block.italiansdelight.almond_button": "Almond Button",
+  "block.italiansdelight.almond_pressure_plate": "Almond Pressure Plate"
 }

@@ -88,10 +88,18 @@ public final class ModItemGroups {
                 output.accept(ModBoats.OLIVE_BOAT_ITEM);
                 output.accept(ModBoats.OLIVE_CHEST_BOAT_ITEM);
 
-                // ALMOND: three starter blocks, full wood family later.
+                // ALMOND: original textures and vanilla-style wooden variants.
                 output.accept(ModBlocks.ALMOND_LOG);
+                output.accept(ModBlocks.ALMOND_WOOD);
                 output.accept(ModBlocks.STRIPPED_ALMOND_LOG);
+                output.accept(ModBlocks.STRIPPED_ALMOND_WOOD);
                 output.accept(ModBlocks.ALMOND_PLANKS);
+                output.accept(ModBlocks.ALMOND_STAIRS);
+                output.accept(ModBlocks.ALMOND_SLAB);
+                output.accept(ModBlocks.ALMOND_FENCE);
+                output.accept(ModBlocks.ALMOND_FENCE_GATE);
+                output.accept(ModBlocks.ALMOND_BUTTON);
+                output.accept(ModBlocks.ALMOND_PRESSURE_PLATE);
 
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);
