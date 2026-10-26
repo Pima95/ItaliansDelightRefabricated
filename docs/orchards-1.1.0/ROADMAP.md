@@ -549,6 +549,17 @@ Confronto con le texture `oak_door_top/bottom`, `oak_trapdoor`, `spruce_door_top
 - [x] Test regressione aggiornati: posizioni esatte dei perni, maniglia entro 3 pixel metallici, nessun blocco di ferramenta 2×2, simboli centrati, risoluzione 16×16, comportamento dei blocchi e item vanilla approvato.
 - [ ] Verifica in gioco della ferramenta sulle porte aperte/chiuse e sulle botole orientate, senza ulteriori modifiche automatiche all'icona.
 
+### Mandorlo — corretta distribuzione della ferramenta nei modelli (26 ottobre 2026)
+
+Le texture delle maniglie e delle cerniere sono state **approvate**, ma in gioco comparivano anche sui bordi sbagliati: nella porta su quello della maniglia, e nella botola lungo tutti i bordi. La causa è il modo in cui i modelli vanilla campionano la stessa fascia del PNG sui lati opposti.
+
+- [x] **Porta:** 8 modelli JSON locali con geometria e UV di Minecraft vanilla invariati; il bordo realmente incernierato mantiene la sprite della porta, mentre quello della maniglia e i due bordi orizzontali usano `almond_planks` senza ferramenta. Copertura di sinistra/destra e aperta/chiusa.
+- [x] **Botola:** 3 modelli locali mantengono i due pannelli decorati nelle facce principali e usano `almond_planks` per i quattro bordi stretti (spessore 3px), anche quando è aperta.
+- [x] Controlli automatici su ciascuna faccia, sugli stati e su tutte le varianti; artwork e item invariati.
+- [ ] Conferma della distribuzione delle cerniere in gioco da diverse angolazioni.
+
+**Nessuna texture PNG, animazione, ricetta o registrazione Java modificata; `main` intatta.**
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

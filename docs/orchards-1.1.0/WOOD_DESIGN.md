@@ -290,6 +290,10 @@ La nuova icona della porta adotta l'ingombro 10×14 `x=3..12, y=2..15` delle por
 
 L'autore approva la texture **item** della porta, ma respinge la ferramenta grigia sovradimensionata dei tre PNG del blocco. Nuova regola: **cerniere sottili sul margine, perni o chiodi di un solo pixel, piccoli pomelli incassati nella cornice e non placche metalliche sopra il pannello**. Riferimento diretto alle scelte grafiche vanilla: la quercia concentra la ferramenta sul bordo dell'anta, l'abete usa piccole bande scure integrate e le botole esibiscono giunti coerenti con gli elementi lignei. Il legno di mandorlo mantiene cornici, ombre, intarsio identico e palette delle assi approvate. La porta conserva integralmente il PNG `item/almond_door.png`, senza ridisegno né ritocco. La nuova ferramenta va verificata dall'autore in Minecraft.
 
+### Distinzione fra lato ferramenta e bordi puliti dei modelli (26 ottobre 2026)
+
+I motivi, le maniglie e le cerniere della porta e della botola di mandorlo sono approvati, ma i template vanilla riusavano la striscia di texture con i perni su più bordi. La nuova mappatura conserva **gli stessi PNG** e tutte le geometrie, coordinate UV, rotazioni e stati vanilla; solo la scelta del materiale della faccia cambia. Il bordo incernierato della porta è l'unico bordo stretto con ferramenta, e il bordo della maniglia è in legno pulito. Per la botola, la decorazione resta sulle **due facce larghe** mentre i quattro bordi laterali sono di assi di mandorlo, senza perni ripetuti. Non toccare l'icona già accettata.
+
 ## 5. Prossimi passi di progettazione
 
 - [x] Inventariare i file dell'ulivo e distinguere varianti grafiche presenti.

@@ -180,17 +180,49 @@ for name in ("almond_door","almond_trapdoor"):
 door=js(A/"blockstates/almond_door.json")["variants"]
 trap=js(A/"blockstates/almond_trapdoor.json")["variants"]
 assert len(door)==32 and len(trap)==16
+# Vanilla door templates copied the left 3px hardware strip onto BOTH
+# endcaps. The Almond models retain the vanilla geometry and UV mapping,
+# but only the real hinge endcap may sample the hardware-bearing sprite.
 for half in ("bottom","top"):
     for hinge in ("left","right"):
         for suffix in ("","_open"):
-            m=js(A/f"models/block/almond_door_{half}_{hinge}{suffix}.json")
-            assert m["parent"]==f"minecraft:block/door_{half}_{hinge}{suffix}"
-            assert m["textures"]=={"bottom":"italiansdelight:block/almond_door_bottom",
-                                   "top":"italiansdelight:block/almond_door_top"}
+            part=f"{half}_{hinge}{suffix}"
+            m=js(A/f"models/block/almond_door_{part}.json")
+            assert "parent" not in m and m["ambientocclusion"] is False
+            assert m["textures"]=={
+                "particle":f"#{half}",
+                "bottom":"italiansdelight:block/almond_door_bottom",
+                "top":"italiansdelight:block/almond_door_top",
+                "edge":"italiansdelight:block/almond_planks"
+            }
+            assert len(m["elements"])==1
+            e=m["elements"][0]
+            assert e["from"]==[0,0,0] and e["to"]==[3,16,16]
+            f=e["faces"]
+            opened=bool(suffix)
+            hinge_end=("north" if opened else "south") if hinge=="right" else ("south" if opened else "north")
+            latch_end="south" if hinge_end=="north" else "north"
+            assert f[hinge_end]["texture"]==f"#{half}",part
+            assert f[latch_end]["texture"]=="#edge",part
+            assert f["west"]["texture"]==f"#{half}" and f["east"]["texture"]==f"#{half}"
+            for cap in ("up","down"):
+                if cap in f: assert f[cap]["texture"]=="#edge",part
+# Closed trapdoors display the decorated sprite on top/bottom only;
+# open trapdoors on front/back only. All 3px side edges use bare planks.
 for part in ("bottom","top","open"):
     m=js(A/f"models/block/almond_trapdoor_{part}.json")
-    assert m["textures"]=={"texture":"italiansdelight:block/almond_trapdoor"}
-    assert m["parent"]==f"minecraft:block/template_orientable_trapdoor_{part}"
+    assert m["textures"]=={
+        "particle":"#texture",
+        "texture":"italiansdelight:block/almond_trapdoor",
+        "edge":"italiansdelight:block/almond_planks"
+    }
+    e=m["elements"][0]
+    assert e["from"]==([0,0,13] if part=="open" else [0,13,0] if part=="top" else [0,0,0])
+    assert e["to"]==([16,3,16] if part=="bottom" else [16,16,16])
+    decorated={"north","south"} if part=="open" else {"up","down"}
+    for side,face in e["faces"].items():
+        assert face["texture"]==("#texture" if side in decorated else "#edge"),(part,side)
+    if part=="bottom":assert m["parent"]=="block/thin_block"
 for facing,angle in (("north",0),("east",90),("south",180),("west",270)):
     for half in ("bottom","top"):
         for opened in ("false","true"):
@@ -203,6 +235,8 @@ assert js(A/"models/item/almond_trapdoor.json")["parent"]=="italiansdelight:bloc
 loot=js(D/"italiansdelight/loot_table/blocks/almond_door.json")
 assert any(c.get("properties",{}).get("half")=="lower" for c in loot["pools"][0]["conditions"])
 print("OK: approved emblem preserved pixel-perfect and all wooden areas use approved Almond palette")
+print("OK: hardware only on real door hinge endcaps, not on handle end")
+print("OK: trapdoor hardware only on broad panels, never on four thin edges")
 print("OK: vanilla-scale hinges and recessed handles (<=6 metal pixels per block), no bulky square patches")
 print("OK: previously approved 10x14 door item remains exactly unchanged")
 print("OK: 32/16 states, 11 models, item art, recipes, loot, tags and orientations")
