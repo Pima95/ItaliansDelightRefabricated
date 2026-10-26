@@ -11,6 +11,11 @@
 - **WD-004 (approvata):** tutte le specie hanno foglie e germogli riconoscibili, fruttificazione raccolta con clic destro e ricrescita senza distruggere le foglie. Il ciliegio fruttifero ha foglie verdi e ciliegie rosse, ed è diverso da quello rosa vanilla.
 - **WD-005 (approvata):** le nuove ricette di pasta e i piatti secondari sono contenuti bonus graduali degli aggiornamenti, non il fulcro della 1.1.0.
 
+### Regola specifica del mandorlo — sezioni di tronco, 26 ottobre 2026
+
+**I due tagli devono mostrare lo stesso legno.** Per `almond_log_top` e `stripped_almond_log_top`, il nucleo 12×12 è identico e usa solo la palette approvata di `almond_planks.png`: lo scortecciamento cambia il bordo esterno, non il colore dell'interno. Le texture laterali mantengono il bruno-nocciola approvato, ma devono presentare venature brevi, sfalsate e leggermente curve, non solchi dritti o un semplice recolor della quercia. Questa regola sostituisce ogni precedente descrizione di durame interno normale più scuro e scortecciato più chiaro.
+
+
 ## 1.1. Selezione artistica: NO texture Rustic — DECISIONE APPROVATA
 
 **Decisione dell'autore (23 ottobre 2026):** per i nuovi alberi e le nuove famiglie di legno della 1.1.0 **non utilizzare texture provenienti da Rustic**, perché i materiali originali appartengono a una mod della generazione **Minecraft 1.12.2** e sono considerati visivamente obsoleti per il nuovo progetto. La scelta riguarda i **nuovi blocchi e item** da implementare, non autorizza la cancellazione immediata delle risorse storiche presenti nel repository.

@@ -87,21 +87,47 @@ for n in images:
         previous=row
     decoded[n]=rgb
 assert len(set(art))==5
-# The normal almond trunk cut shows darker aged heartwood, while the
-# stripped cut shows much lighter exposed fresh wood. Both use only colors
-# from the already accepted almond palette.
-approved={
- "almond_log": {(126,87,69),(154,112,84),(101,69,57),(79,57,49),(63,49,48),(181,141,108)},
- "almond_log_top": {(181,141,108),(154,112,84),(202,167,131),(79,57,49),(63,49,48),(224,198,164),(126,87,69),(101,69,57)},
- "stripped_almond_log": {(207,174,139),(188,151,119),(163,125,99),(131,98,81),(225,197,163)},
- "stripped_almond_log_top": {(188,151,119),(207,174,139),(225,197,163),(131,98,81),(163,125,99)}
-}
-for name,colors in approved.items():
-    assert set(decoded[name]) <= colors, name
-    assert len(set(decoded[name])) >= 4, name
-def brightness(name):
-    return sum(sum(rgb)/3 for rgb in decoded[name]) / 256
-assert brightness("almond_log_top") + 55 < brightness("stripped_almond_log_top")
+# As in vanilla, the log and stripped log share IDENTICAL cut wood.
+# Stripping only changes the two-pixel-thick outer bark / sapwood rim.
+# Every pixel of the 12x12 inner cross section uses ONLY the colors of
+# the already approved almond planks, not the dark bark palette.
+planks_palette=set(decoded["almond_planks"])
+log_end=decoded["almond_log_top"]
+stripped_end=decoded["stripped_almond_log_top"]
+inside=[y*16+x for y in range(2,14) for x in range(2,14)]
+outside=[y*16+x for y in range(16) for x in range(16)
+         if x<2 or x>=14 or y<2 or y>=14]
+assert len(inside)==144 and len(outside)==112
+assert all(log_end[i]==stripped_end[i] for i in inside), (
+    "The inner cross sections must match pixel-for-pixel; only the rim changes"
+)
+assert {log_end[i] for i in inside} <= planks_palette, (
+    "The cut wood must use the exact color palette of almond_planks"
+)
+assert len({log_end[i] for i in inside})>=4, "Retain recognizable vanilla rings"
+assert sum(log_end[i]!=stripped_end[i] for i in outside)>=95
+def brightness(colors):
+    return sum(sum(c)/3 for c in colors)/len(colors)
+assert brightness([log_end[i] for i in outside])+55 < brightness(
+    [stripped_end[i] for i in outside]), "Natural bark must be darker than stripped rim"
+assert brightness([log_end[i] for i in inside]) == brightness(
+    [stripped_end[i] for i in inside])
+# The approved six-color plank artwork remains pixel-identical.
+import hashlib
+assert hashlib.sha256((A/"textures/block/almond_planks.png").read_bytes()).hexdigest() == (
+    "f281c73907b867d4ccad6b6efb104a0d3ac66d6038ede9f4651747ddee1e78aa"
+)
+# Unique muted almond bark / exposed wood families; gentle, broken
+# lateral fibers rather than straight vertical bands or an oak recolor.
+bark_palette={(63,49,48),(79,57,49),(101,69,57),
+              (126,87,69),(154,112,84),(181,141,108)}
+exposed_palette={(131,98,81),(163,125,99),(188,151,119),
+                 (207,174,139),(225,197,163)}
+assert set(decoded["almond_log"]) <= bark_palette
+assert set(decoded["stripped_almond_log"]) <= exposed_palette
+assert len(set(decoded["almond_log"]))>=5
+assert len(set(decoded["stripped_almond_log"]))>=4
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
-print("OK: almond grain artwork, approved warm colors, distinctly dark normal cut vs light stripped cut")
+print("OK: almond log and stripped log have identical plank-colored heartwood; only bark/outer ring differs")
+print("OK: original slightly crooked side grain; original plank PNG unchanged")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")

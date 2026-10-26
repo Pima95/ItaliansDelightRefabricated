@@ -405,6 +405,20 @@ L'autore richiede in questa fase **solo tre blocchi di mandorlo**: `almond_log`,
 
 **Verifiche:** test CI aggiornati per controllare i bordi e la texture delle due varianti alimentate e la differenza di luminosità dei tagli del mandorlo. La resa estetica finale richiede ancora la verifica dell'autore in gioco; `main` e gli altri asset approvati restano invariati.
 
+### Rifinitura mandorlo — stessa sezione lignea, corteccia diversa (26 ottobre 2026)
+
+**Nuovo feedback dopo prova in gioco:** il tronco non deve sembrare la quercia ricolorata; inoltre la precedente versione presentava un taglio scuro sul tronco normale e uno chiaro sullo scortecciato, in contrasto con la coerenza delle sezioni dei tronchi vanilla. I lati avevano venature eccessivamente dritte.
+
+**Correzioni:**
+- **`almond_log_top.png` e `stripped_almond_log_top.png`** condividono ora **esattamente gli stessi 144 pixel centrali (12×12)**, composti unicamente dai sei colori originali di `almond_planks.png`. Gli anelli di crescita risultano naturali, leggermente irregolari, con durame e alburno della stessa tinta su entrambi i blocchi.
+- Le sezioni differiscono **soltanto nella cornice esterna di 2 pixel**: bruno corteccia per il tronco normale, beige legno esposto per lo scortecciato. Nessuna differenza artificiale di colore nel centro.
+- **`almond_log.png`**: piccoli solchi spezzati e leggermente ondulati, con brevi deviazioni e una piccola cicatrice naturale; non sono copie pixel per pixel dei solchi della quercia né colonne perfettamente dritte.
+- **`stripped_almond_log.png`**: venature più morbide, che variano di 1 pixel di direzione lungo l'altezza, con una piccola imperfezione naturale. Mantiene la palette calda già concordata.
+- **`almond_planks.png`** rimane *identica pixel per pixel* alla versione precedente; controllata con SHA-256 nel test automatico. Nessuna modifica ai blocchi, ricette, registrazioni, altri alberi o asset approvati.
+- [ ] Verificare in Minecraft entrambe le sezioni affiancate e i lati dei tronchi in una colonna verticale, assicurando una buona ripetibilità del motivo.
+
+**Controlli CI aggiornati:** verificare identità del centro delle due sezioni, uso esclusivo della palette delle assi, contrasto confinato alla cornice, originalità e opacità delle texture, conservazione di tutti gli altri asset.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
