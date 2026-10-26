@@ -432,6 +432,14 @@ Dopo ulteriore verifica dell'autore in Minecraft, sono state corrette le dimensi
 
 Nessuna modifica a `almond_planks.png`, modelli, registrazioni, mensole, worldgen o asset già approvati. `main` resta invariata.
 
+### Mandorlo — seconda rifinitura texture vanilla (26 ottobre 2026)
+
+Dopo il confronto dell'autore con le texture vanilla, le due sezioni del mandorlo mantengono bordo da **1 pixel** e stesso interno **14×14**, ma gli anelli prima arrotondati diventano **tre quadrati concentrici netti (4×4, 8×8, 12×12)**, come le sezioni dei tronchi Minecraft. Le nuove texture laterali sono progettate come **fessure e placche longitudinali con direzione e illuminazione riconoscibile**, non come pixel casuali; il tronco scortecciato presenta fibre regolari ma leggermente ondulate. Nessun cambiamento ai colori o alle assi approvate, agli altri blocchi o a `main`.
+
+- [x] Rielaborazione delle quattro texture (fianco/taglio, normale/scortecciato).
+- [x] Test per quadrati completi, coerenza delle fibre e palette.
+- [ ] Collaudo visivo nel gioco in confronto a diversi tronchi vanilla.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

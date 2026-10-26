@@ -18,6 +18,20 @@
 
 **Revisione grafica eseguita il 26 ottobre 2026 — in attesa di verifica dell'autore in Minecraft.** Sono state aggiornate esclusivamente le quattro immagini `almond_log.png`, `almond_log_top.png`, `stripped_almond_log.png` e `stripped_almond_log_top.png`. Disegno originale, non copia o recolor pixel-per-pixel di un tronco vanilla: corteccia composta da placche irregolari, fessure brevi sfalsate e ombre con contrasto controllato; superficie scortecciata con fibre a leggere deviazioni e **soltanto i sei colori di `almond_planks.png`**. Il disegno degli anelli di crescita è stato inizialmente progettato su un'area 12×12 con bordo da 2 pixel; **questa versione è stata superata dalla revisione successiva (26/10/2026): area centrale 14×14 identica, bordo da 1 pixel**, corteccia bruna nel tronco normale e legno chiaro nello scortecciato. Le assi approvate restano binariamente identiche. Un nuovo controllo CI garantisce 16×16 RGBA, opacità totale, palette, coerenza delle sezioni e riferimenti dei modelli. Il collaudo in gioco resta da eseguire.
 
+### Rifinitura estetica: anelli quadrati e fibre coerenti — 26 ottobre 2026
+
+**Feedback in Minecraft:** la cornice da 1 pixel e i colori dei tagli erano approvati, ma le linee di accrescimento erano troppo tondeggianti, mentre i fianchi apparivano come una distribuzione casuale di pixel anziché vera corteccia.
+
+**Revisione implementata, da validare visivamente:**
+- Sezioni `almond_log_top` e `stripped_almond_log_top`: nucleo **14×14 identico pixel per pixel**, composto esclusivamente dai colori già approvati di `almond_planks.png`, con **tre anelli quadrati concentrici da 4×4, 8×8 e 12×12**, ciascuno formato da lati retti, angoli di 90° e spessore di un pixel. Lievi tocchi cromatici secondari non interrompono gli anelli.
+- La **cornice esterna da 1 pixel** resta differente: bruno di corteccia per il normale, legno esposto chiaro per lo scortecciato. Nessuna variazione artificiale dei colori interni.
+- `almond_log`: fessure longitudinali che si piegano di un pixel, con nervature illuminate accanto ai solchi, placche definite e un piccolo nodo coerente con la corteccia.
+- `stripped_almond_log`: fibre più morbide ma tracciabili lungo l'altezza, piccole deviazioni a passo di pixel e un nodo discreto. Palette identica alle assi.
+- **Test dedicati** per anelli interamente quadrati, bordi e centro invarianti, orientamento delle fibre (continuità verticale maggiore delle ripetizioni orizzontali), opacità 16×16 e SHA delle assi.
+- `almond_planks.png`, asset d'ulivo, codice, ricette, configurazioni di alberi, `main` e generazione naturale restano invariati.
+
+**Accettazione estetica delle nuove texture ancora aperta** finché non saranno verificate in gioco.
+
 ## 1.1. Selezione artistica: NO texture Rustic — DECISIONE APPROVATA
 
 **Decisione dell'autore (23 ottobre 2026):** per i nuovi alberi e le nuove famiglie di legno della 1.1.0 **non utilizzare texture provenienti da Rustic**, perché i materiali originali appartengono a una mod della generazione **Minecraft 1.12.2** e sono considerati visivamente obsoleti per il nuovo progetto. La scelta riguarda i **nuovi blocchi e item** da implementare, non autorizza la cancellazione immediata delle risorse storiche presenti nel repository.
