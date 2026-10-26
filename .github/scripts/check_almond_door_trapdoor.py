@@ -58,6 +58,8 @@ imgs={}
 for name,path in (
  ("door_top","textures/block/almond_door_top.png"),
  ("door_bottom","textures/block/almond_door_bottom.png"),
+ ("door_top_edge","textures/block/almond_door_top_edge.png"),
+ ("door_bottom_edge","textures/block/almond_door_bottom_edge.png"),
  ("trapdoor","textures/block/almond_trapdoor.png"),
  ("door_icon","textures/item/almond_door.png")):
     pixels=png(A/path);imgs[name]=pixels
@@ -67,6 +69,31 @@ for name in ("door_top","door_bottom","trapdoor"):
     assert all(p[3]==255 for p in imgs[name]),name
 assert imgs["door_top"]!=imgs["door_bottom"]
 assert imgs["door_top"]!=imgs["trapdoor"]
+# Door-edge sprites preserve every original wooden/handle pixel. Only the
+# 3 unwanted metallic hinge pixels are recolored to matching frame wood;
+# replacing the whole endcap with unrelated planks is not acceptable.
+for half,ys in (("top",(4,5,6)),("bottom",(10,11,12))):
+    src=imgs["door_"+half]
+    edge=imgs["door_"+half+"_edge"]
+    for y in range(16):
+        for x in range(16):
+            i=y*16+x
+            if x==0 and y in ys:
+                assert src[i][:3] in METAL and edge[i][:3] in palette, (half,x,y)
+            else:
+                assert edge[i]==src[i], (half,x,y)
+    assert all(edge[y*16+x][:3] not in METAL
+               for y in range(16) for x in range(3)),half
+# The flower crest and all six metal fittings stay approved and untouched.
+# Additional highlights and grain avoid broad 2x2 monochrome patches.
+flat2=sum(len({imgs["trapdoor"][(y+dy)*16+x+dx]
+               for dy in (0,1) for dx in (0,1)})==1
+          for y in range(15) for x in range(15))
+assert flat2<=8, f"Trapdoor too flat: {flat2} monochrome 2x2 cells"
+# Almond bark is completely redrawn as a shaded, irregular vertical grain.
+bark=png(A/"textures/block/almond_log.png")
+assert all(p[3]==255 for p in bark)
+assert len(set(bark))>=7, "Bark must not collapse into a few broad flat strips"
 assert all(imgs["door_icon"][y*16+x][3]==0 for y in range(16) for x in (0,1,2,13,14,15))
 assert sum(p[3]==255 for p in imgs["door_icon"])==140
 # 16x16 door item follows the exact *silhouette bounds* of vanilla oak
@@ -193,7 +220,7 @@ for half in ("bottom","top"):
                 "particle":f"#{half}",
                 "bottom":"italiansdelight:block/almond_door_bottom",
                 "top":"italiansdelight:block/almond_door_top",
-                "edge":"italiansdelight:block/almond_planks"
+                "edge":f"italiansdelight:block/almond_door_{half}_edge"
             }
             assert len(m["elements"])==1
             e=m["elements"][0]
@@ -235,8 +262,8 @@ assert js(A/"models/item/almond_trapdoor.json")["parent"]=="italiansdelight:bloc
 loot=js(D/"italiansdelight/loot_table/blocks/almond_door.json")
 assert any(c.get("properties",{}).get("half")=="lower" for c in loot["pools"][0]["conditions"])
 print("OK: approved emblem preserved pixel-perfect and all wooden areas use approved Almond palette")
-print("OK: hardware only on real door hinge endcaps, not on handle end")
-print("OK: trapdoor hardware only on broad panels, never on four thin edges")
+print("OK: non-hinge door edges sample cleaned door frame, NOT planks")
+print("OK: trapdoor broad panels have added grain; metal remains restricted to panels")
 print("OK: vanilla-scale hinges and recessed handles (<=6 metal pixels per block), no bulky square patches")
 print("OK: previously approved 10x14 door item remains exactly unchanged")
 print("OK: 32/16 states, 11 models, item art, recipes, loot, tags and orientations")

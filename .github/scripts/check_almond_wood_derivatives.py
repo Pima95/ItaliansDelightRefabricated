@@ -13,7 +13,8 @@ COUNTS={"almond_wood":3,"stripped_almond_wood":3,"almond_stairs":40,
         "almond_slab":3,"almond_fence_gate":16,"almond_button":24,
         "almond_pressure_plate":2}
 ALLOWED={"almond_log","almond_log_top","stripped_almond_log",
-         "stripped_almond_log_top","almond_planks","almond_door_bottom","almond_door_top","almond_trapdoor"}
+         "stripped_almond_log_top","almond_planks","almond_door_bottom","almond_door_top","almond_door_bottom_edge",
+         "almond_door_top_edge","almond_trapdoor"}
 def j(p):
     assert p.is_file(),f"Missing {p}"
     return json.loads(p.read_text(encoding="utf-8"))

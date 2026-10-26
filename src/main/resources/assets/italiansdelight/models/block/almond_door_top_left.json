@@ -4,7 +4,7 @@
     "particle": "#top",
     "bottom": "italiansdelight:block/almond_door_bottom",
     "top": "italiansdelight:block/almond_door_top",
-    "edge": "italiansdelight:block/almond_planks"
+    "edge": "italiansdelight:block/almond_door_top_edge"
   },
   "elements": [
     {

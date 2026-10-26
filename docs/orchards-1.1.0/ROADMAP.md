@@ -560,6 +560,32 @@ Le texture delle maniglie e delle cerniere sono state **approvate**, ma in gioco
 
 **Nessuna texture PNG, animazione, ricetta o registrazione Java modificata; `main` intatta.**
 
+### Revisione grafica 26 ottobre — bordo porta, botole e corteccia mandorlo
+
+Segnalazione dell'autore: il bordo della porta senza cerniera era stato erroneamente
+sostituito con il motivo delle assi; le facce delle botole erano ancora troppo uniformi;
+la corteccia laterale del tronco di mandorlo aveva ricevuto feedback estetici negativi.
+
+- [x] **Bordo porta:** conservata la texture della cornice originale nelle varianti
+  `almond_door_top_edge` e `almond_door_bottom_edge`. Eliminati ESATTAMENTE
+  i tre pixel metallici della cerniera da ciascuna variante, sostituiti con tinte
+  del legno già presenti: tutti gli altri pixel sono invariati. Il bordo
+  incernierato conserva la texture originale e l'item non cambia.
+- [x] **Botola:** venature e contrasti rafforzati in `almond_trapdoor.png`;
+  meno zone 2×2 monocromatiche. Intarsio centrale e sei pixel di ferramenta
+  invariati. Le due superfici principali condividono il nuovo disegno.
+- [x] **Tronco:** nuovo `almond_log.png` con corteccia bruno-cenere, fessure
+  discontinue e rilievi verticali più sottili. Il taglio `almond_log_top.png`,
+  lo scortecciato e le assi non sono stati alterati.
+- [x] **Regressioni:** controllo pixel-a-pixel sulle varianti senza cerniera,
+  8 modelli di porta, numero di aree monocromatiche della botola,
+  formato e varietà cromatica della corteccia.
+- [ ] **Verifica visiva Minecraft:** bordi della porta aperta/chiusa e destra/sinistra;
+  entrambe le facce della botola, differenti orientamenti e livelli;
+  tronco in blocchi singoli e composizioni di più tronchi.
+
+`main` e l'icona della porta approvata restano intatte.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
