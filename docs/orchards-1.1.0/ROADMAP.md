@@ -780,6 +780,28 @@ quando il tronco è curvo, il suo gomito sotto la chioma rimane nudo.
 - [ ] Verifica visiva in Minecraft su alberi **nuovi**, perché quelli già
   cresciuti nel mondo non vengono rigenerati automaticamente.
 
+### Mandorlo — completamento della famiglia edilizia (27 ottobre 2026)
+
+- [x] **Cartello e cartello appeso** di mandorlo, con le rispettive varianti
+  a parete, cartelli scrivibili e sei/sei-teen orientamenti vanilla.
+  Riutilizzate le block entity vanilla per testo, colore e persistenza.
+- [x] **Barca e barca con baule**, con entità navigabili indipendenti,
+  collisioni, modelli di barca vanilla 26.2, texture originali e ricette.
+- [x] **Mensola 26.2 originale**, con 3 slot, segnale redstone, combinazione
+  orizzontale e block entity nativa `SHELF`.
+- [x] **Armadietto Farmer's Delight** con 27 slot, apertura, texture
+  frontale chiusa/aperta, inventario e block entity condivisa FD.
+- [x] **Rastrelliera di stagionatura di mandorlo**, variante funzionale
+  della rastrelliera esistente, con due ripiani utilizzabili per formaggi
+  e ricetta esclusiva mandorlo (assi + staccionate).
+- [x] Asset e file JSON originali, texture 16×16 e 32×32,
+  entità 128×64 / 128×128, loot table, Creative, traduzioni, ricette,
+  tag Minecraft e regressioni in pipeline GitHub Actions.
+- [ ] **Da controllare in gioco:** leggibilità delle texture di cartelli,
+  mensola e armadietto, barca / barca con baule viste di lato e interazioni
+  con inventari e formaggi. Le texture sono originali e sono una prima
+  proposta grafica, non ancora approvate dall'autore.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

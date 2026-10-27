@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "chest_boat",
+  "ingredients": [
+    "italiansdelight:almond_boat",
+    "minecraft:chest"
+  ],
+  "result": {
+    "id": "italiansdelight:almond_chest_boat",
+    "count": 1
+  }
+}

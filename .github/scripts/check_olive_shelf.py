@@ -186,7 +186,7 @@ assert hashlib.sha256(outside).hexdigest()==(
 for kind in ("block","item"):
     tag = load(R/f"data/minecraft/tags/{kind}/wooden_shelves.json")
     assert tag["replace"] is False
-    assert tag["values"] == ["italiansdelight:olive_shelf"]
+    assert set(tag["values"]) == {"italiansdelight:olive_shelf", "italiansdelight:almond_shelf"}
 
 assert not (A/"textures/item/olive_shelf.png").exists()
 

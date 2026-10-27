@@ -70,7 +70,8 @@ public final class ModBlockEntities {
             ModBlocks.BAMBOO_CHEESE_AGING_RACK,
             ModBlocks.CRIMSON_CHEESE_AGING_RACK,
             ModBlocks.WARPED_CHEESE_AGING_RACK,
-            ModBlocks.OLIVE_CHEESE_AGING_RACK
+            ModBlocks.OLIVE_CHEESE_AGING_RACK,
+            ModBlocks.ALMOND_CHEESE_AGING_RACK
         );
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
@@ -90,17 +91,24 @@ public final class ModBlockEntities {
         // the vanilla shelves, so three-item storage, persistence and the
         // existing shelf item renderer work on modded olive blocks.
         BlockEntityTypes.SHELF.addValidBlock(ModBlocks.OLIVE_SHELF);
+        BlockEntityTypes.SHELF.addValidBlock(ModBlocks.ALMOND_SHELF);
 
         // Vanilla sign block entities keep writable text, both sides and dye.
         // Keep their four modded block variants in the vanilla BE type.
         BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_SIGN);
         BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_WALL_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_WALL_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_HANGING_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_WALL_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_WALL_HANGING_SIGN);
 
         // Reuse Farmer's Delight 27-slot cabinet BE: it already implements
         // screen, automation, sounds, comparator, save and open/close state.
         vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
             .addValidBlock(ModBlocks.OLIVE_CABINET);
+        vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
+            .addValidBlock(ModBlocks.ALMOND_CABINET);
     }
 }

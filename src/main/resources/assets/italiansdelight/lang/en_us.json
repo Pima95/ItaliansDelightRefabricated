@@ -268,5 +268,18 @@
   "block.italiansdelight.almond_button": "Almond Button",
   "block.italiansdelight.almond_pressure_plate": "Almond Pressure Plate",
   "block.italiansdelight.almond_door": "Almond Door",
-  "block.italiansdelight.almond_trapdoor": "Almond Trapdoor"
+  "block.italiansdelight.almond_trapdoor": "Almond Trapdoor",
+  "block.italiansdelight.almond_cheese_aging_rack": "Almond Cheese Aging Rack",
+  "item.italiansdelight.almond_boat": "Almond Boat",
+  "entity.italiansdelight.almond_boat": "Almond Boat",
+  "item.italiansdelight.almond_chest_boat": "Almond Boat with Chest",
+  "entity.italiansdelight.almond_chest_boat": "Almond Boat with Chest",
+  "block.italiansdelight.almond_sign": "Almond Sign",
+  "block.italiansdelight.almond_wall_sign": "Almond Wall Sign",
+  "block.italiansdelight.almond_hanging_sign": "Almond Hanging Sign",
+  "block.italiansdelight.almond_wall_hanging_sign": "Almond Wall Hanging Sign",
+  "block.italiansdelight.almond_cabinet": "Almond Cabinet",
+  "item.italiansdelight.almond_sign": "Almond Sign",
+  "item.italiansdelight.almond_hanging_sign": "Almond Hanging Sign",
+  "block.italiansdelight.almond_shelf": "Almond Shelf"
 }

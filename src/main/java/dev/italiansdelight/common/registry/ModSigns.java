@@ -33,6 +33,26 @@ public final class ModSigns {
                 .setId(OLIVE_HANGING_SIGN_KEY))
     );
 
+    public static final ResourceKey<Item> ALMOND_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("almond_sign"));
+    public static final Item ALMOND_SIGN = Registry.register(
+        BuiltInRegistries.ITEM, ALMOND_SIGN_KEY,
+        new SignItem(ModBlocks.ALMOND_SIGN, ModBlocks.ALMOND_WALL_SIGN,
+            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
+                .setId(ALMOND_SIGN_KEY))
+    );
+
+    public static final ResourceKey<Item> ALMOND_HANGING_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("almond_hanging_sign"));
+    public static final Item ALMOND_HANGING_SIGN = Registry.register(
+        BuiltInRegistries.ITEM, ALMOND_HANGING_SIGN_KEY,
+        new HangingSignItem(ModBlocks.ALMOND_HANGING_SIGN,
+            ModBlocks.ALMOND_WALL_HANGING_SIGN,
+            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
+                .setId(ALMOND_HANGING_SIGN_KEY))
+    );
+
+
     public static void register() {
     }
 }

@@ -268,5 +268,18 @@
   "block.italiansdelight.almond_button": "Pulsante di Mandorlo",
   "block.italiansdelight.almond_pressure_plate": "Pedana a Pressione di Mandorlo",
   "block.italiansdelight.almond_door": "Porta di mandorlo",
-  "block.italiansdelight.almond_trapdoor": "Botola di mandorlo"
+  "block.italiansdelight.almond_trapdoor": "Botola di mandorlo",
+  "block.italiansdelight.almond_cheese_aging_rack": "Scaffale di Stagionatura di Mandorlo",
+  "item.italiansdelight.almond_boat": "Barca di Mandorlo",
+  "entity.italiansdelight.almond_boat": "Barca d'Mandorlo",
+  "item.italiansdelight.almond_chest_boat": "Barca di Mandorlo con Baule",
+  "entity.italiansdelight.almond_chest_boat": "Barca d'Mandorlo con Baule",
+  "block.italiansdelight.almond_sign": "Cartello di Mandorlo",
+  "block.italiansdelight.almond_wall_sign": "Cartello a Parete d'Mandorlo",
+  "block.italiansdelight.almond_hanging_sign": "Cartello Appeso di Mandorlo",
+  "block.italiansdelight.almond_wall_hanging_sign": "Cartello Appeso a Parete d'Mandorlo",
+  "block.italiansdelight.almond_cabinet": "Armadietto di Mandorlo",
+  "item.italiansdelight.almond_sign": "Cartello di Mandorlo",
+  "item.italiansdelight.almond_hanging_sign": "Cartello Appeso di Mandorlo",
+  "block.italiansdelight.almond_shelf": "Mensola di Mandorlo"
 }

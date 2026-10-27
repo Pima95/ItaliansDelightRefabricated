@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shelf",
+  "pattern": [
+    "###",
+    "   ",
+    "###"
+  ],
+  "key": {
+    "#": "italiansdelight:stripped_almond_log"
+  },
+  "result": {
+    "id": "italiansdelight:almond_shelf",
+    "count": 6
+  }
+}

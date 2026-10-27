@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "fd_cabinet",
+  "pattern": [
+    "___",
+    "D D",
+    "___"
+  ],
+  "key": {
+    "_": "italiansdelight:almond_slab",
+    "D": "italiansdelight:almond_trapdoor"
+  },
+  "result": {
+    "id": "italiansdelight:almond_cabinet",
+    "count": 1
+  }
+}

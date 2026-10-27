@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "italiansdelight:block/almond_wall_sign",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "italiansdelight:block/almond_wall_sign"
+    },
+    "facing=east": {
+      "model": "italiansdelight:block/almond_wall_sign",
+      "y": 270
+    },
+    "facing=west": {
+      "model": "italiansdelight:block/almond_wall_sign",
+      "y": 90
+    }
+  }
+}

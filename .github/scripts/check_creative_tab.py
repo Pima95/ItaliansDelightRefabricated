@@ -33,6 +33,7 @@ INTERNAL_BLOCKS = {
     "SALT_CAULDRON",
     # These 4 sign blocks are placed by two SignItem instances, not BlockItems.
     "OLIVE_SIGN", "OLIVE_WALL_SIGN", "OLIVE_HANGING_SIGN", "OLIVE_WALL_HANGING_SIGN",
+    "ALMOND_SIGN", "ALMOND_WALL_SIGN", "ALMOND_HANGING_SIGN", "ALMOND_WALL_HANGING_SIGN",
 }
 
 

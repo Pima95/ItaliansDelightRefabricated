@@ -64,6 +64,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CRIMSON_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.OLIVE_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.ALMOND_CHEESE_AGING_RACK);
 
                 // ORCHARD WOOD: construction blocks (saplings and fruit later).
                 output.accept(ModBlocks.OLIVE_LOG);
@@ -104,6 +105,12 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.ALMOND_TRAPDOOR);
                 output.accept(ModBlocks.ALMOND_LEAVES);
                 output.accept(ModBlocks.ALMOND_SAPLING);
+                output.accept(ModSigns.ALMOND_SIGN);
+                output.accept(ModSigns.ALMOND_HANGING_SIGN);
+                output.accept(ModBlocks.ALMOND_CABINET);
+                output.accept(ModBlocks.ALMOND_SHELF);
+                output.accept(ModBoats.ALMOND_BOAT_ITEM);
+                output.accept(ModBoats.ALMOND_CHEST_BOAT_ITEM);
 
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);

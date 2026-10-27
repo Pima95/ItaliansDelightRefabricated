@@ -38,8 +38,8 @@ for name in NAMES:
     assert f"block.italiansdelight.{name}" in load(A/"lang/en_us.json")
     assert f"fire.add({name.upper()}," in REG
 assert "StrippableBlockRegistry.register(ALMOND_LOG, STRIPPED_ALMOND_LOG)" in REG
-for n in ("almond_shelf",):
-    assert f'ModRegistries.id("{n}")' not in REG
+# The native Almond shelf is part of the completed wood family.
+assert 'ModRegistries.id("almond_shelf")' in REG
 for kind in ("item","block"):
     tag=load(D/"minecraft/tags"/kind/"logs_that_burn.json")["values"]
     assert all(f"italiansdelight:{n}" in tag for n in NAMES[:2])

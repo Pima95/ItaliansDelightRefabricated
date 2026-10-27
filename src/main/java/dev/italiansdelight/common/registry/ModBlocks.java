@@ -370,6 +370,8 @@ public final class ModBlocks {
     // construction material and crafting ingredients vary.
     public static final Block OLIVE_CHEESE_AGING_RACK =
         registerRack("olive", OLIVE_PLANKS);
+    public static final Block ALMOND_CHEESE_AGING_RACK =
+        registerRack("almond", ALMOND_PLANKS);
 
     // Olive signs (Minecraft 26.2 ordinary block models) and Farmer's Delight
     // cabinet. Sign block-items are registered as two SignItem variants,
@@ -421,6 +423,59 @@ public final class ModBlocks {
     public static final Block OLIVE_CABINET = register(
         OLIVE_CABINET_KEY,
         new CabinetBlock(Block.Properties.ofFullCopy(Blocks.BARREL).setId(OLIVE_CABINET_KEY))
+    );
+
+    // Almond signs, hanging signs, native shelf, and functional FD cabinet.
+    // Almond signs (Minecraft 26.2 ordinary block models) and Farmer's Delight
+    // cabinet. Sign block-items are registered as two SignItem variants,
+    // not four BlockItems, so that wall/ceiling placement uses the same item.
+    public static final ResourceKey<Block> ALMOND_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_sign"));
+    public static final Block ALMOND_SIGN = registerBlockOnly(
+        ALMOND_SIGN_KEY,
+        new StandingSignBlock(ALMOND_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_SIGN)
+            .setId(ALMOND_SIGN_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_WALL_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_wall_sign"));
+    public static final Block ALMOND_WALL_SIGN = registerBlockOnly(
+        ALMOND_WALL_SIGN_KEY,
+        new WallSignBlock(ALMOND_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN)
+            .setId(ALMOND_WALL_SIGN_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_HANGING_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_hanging_sign"));
+    public static final Block ALMOND_HANGING_SIGN = registerBlockOnly(
+        ALMOND_HANGING_SIGN_KEY,
+        new CeilingHangingSignBlock(ALMOND_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN)
+            .setId(ALMOND_HANGING_SIGN_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_WALL_HANGING_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_wall_hanging_sign"));
+    public static final Block ALMOND_WALL_HANGING_SIGN = registerBlockOnly(
+        ALMOND_WALL_HANGING_SIGN_KEY,
+        new WallHangingSignBlock(ALMOND_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN)
+            .setId(ALMOND_WALL_HANGING_SIGN_KEY))
+    );
+
+    // Vanilla-equivalent shelf: 3 display slots, powered swaps and
+    // side-chain behavior come directly from Minecraft's ShelfBlock.
+    // Its block entity is the existing vanilla SHELF type.
+    public static final ResourceKey<Block> ALMOND_SHELF_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_shelf"));
+    public static final Block ALMOND_SHELF = register(
+        ALMOND_SHELF_KEY,
+        new ShelfBlock(Block.Properties.ofFullCopy(Blocks.OAK_SHELF).setId(ALMOND_SHELF_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_CABINET_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_cabinet"));
+    public static final Block ALMOND_CABINET = register(
+        ALMOND_CABINET_KEY,
+        new CabinetBlock(Block.Properties.ofFullCopy(Blocks.BARREL).setId(ALMOND_CABINET_KEY))
     );
 
     public static final ResourceKey<Block> CARDOON_KEY = ResourceKey.create(
@@ -769,6 +824,8 @@ public final class ModBlocks {
         fire.add(OLIVE_DOOR, 5, 20);
         fire.add(OLIVE_TRAPDOOR, 5, 20);
         fire.add(OLIVE_CABINET, 5, 20);
+        fire.add(ALMOND_CABINET, 5, 20);
+        fire.add(ALMOND_SHELF, 5, 20);
         fire.add(OLIVE_SHELF, 5, 20);
     }
 }
