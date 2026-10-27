@@ -70,8 +70,8 @@ assert len(read(A/"blockstates/almond_cheese_aging_rack.json")["multipart"])>=10
 assert read(A/"models/block/almond_shelf.json")["parent"]=="minecraft:block/template_shelf_body"
 assert read(A/"models/block/almond_cabinet.json")["parent"]=="minecraft:block/orientable"
 assert read(A/"models/block/almond_cheese_aging_rack.json")["textures"]["wood"]=="italiansdelight:block/almond_planks"
-for t in ("sign","hanging_sign"):
-    assert len(read(A/f"blockstates/almond_{t}.json")["variants"])==4
+for t, count in (("sign",16),("hanging_sign",32)):
+    assert len(read(A/f"blockstates/almond_{t}.json")["variants"])==count
 for filename,size in {
     "block/almond_sign.png":(32,32),"block/almond_hanging_sign.png":(32,32),
     "block/almond_shelf.png":(32,32),
