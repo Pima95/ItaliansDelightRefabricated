@@ -215,6 +215,37 @@ public final class ModBlocks {
             Block.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).setId(ALMOND_TRAPDOOR_KEY))
     );
 
+    // Almond (Orchard 1.1.0): original fixed-color foliage, conventional
+    // leaf decay and a plantable sapling. Natural biome generation is deferred.
+    public static final ResourceKey<Block> ALMOND_LEAVES_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_leaves"));
+    public static final Block ALMOND_LEAVES = register(
+        ALMOND_LEAVES_KEY,
+        new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES,
+            Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(ALMOND_LEAVES_KEY))
+    );
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ALMOND_TREE_FEATURE =
+        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("almond_tree"));
+    public static final TreeGrower ALMOND_TREE_GROWER = new TreeGrower(
+        "italiansdelight:almond", Optional.empty(),
+        Optional.of(ALMOND_TREE_FEATURE), Optional.empty()
+    );
+    public static final ResourceKey<Block> ALMOND_SAPLING_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_sapling"));
+    public static final Block ALMOND_SAPLING = register(
+        ALMOND_SAPLING_KEY,
+        new SaplingBlock(ALMOND_TREE_GROWER,
+            Block.Properties.ofFullCopy(Blocks.OAK_SAPLING).setId(ALMOND_SAPLING_KEY))
+    );
+    public static final ResourceKey<Block> POTTED_ALMOND_SAPLING_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("potted_almond_sapling"));
+    public static final Block POTTED_ALMOND_SAPLING = registerBlockOnly(
+        POTTED_ALMOND_SAPLING_KEY,
+        new FlowerPotBlock(ALMOND_SAPLING,
+            Block.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING).setId(POTTED_ALMOND_SAPLING_KEY))
+    );
+
     // First Orchard foliage block: use the existing non-Rustic 16x16
     // olive_leaves.png. The concrete UntintedParticleLeavesBlock preserves
     // its original fixed green palette while vanilla leaves handle decay,
@@ -727,6 +758,7 @@ public final class ModBlocks {
         fire.add(ALMOND_PRESSURE_PLATE, 5, 20);
         fire.add(ALMOND_DOOR, 5, 20);
         fire.add(ALMOND_TRAPDOOR, 5, 20);
+        fire.add(ALMOND_LEAVES, 30, 60);
         fire.add(OLIVE_LEAVES, 30, 60);
         fire.add(OLIVE_STAIRS, 5, 20);
         fire.add(OLIVE_SLAB, 5, 20);

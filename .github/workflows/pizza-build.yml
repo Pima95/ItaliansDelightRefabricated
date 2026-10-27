@@ -30,6 +30,8 @@ jobs:
         run: python3 .github/scripts/check_olive_procedural_placement.py
       - name: Verify Olive sapling normal and ancient tree definitions
         run: python3 .github/scripts/check_olive_sapling_trees.py
+      - name: Validate Almond leaves, sapling, tree growth and disabled worldgen
+        run: python3 .github/scripts/check_almond_sapling_tree.py
       - name: Validate initial Almond wood, crafting and original art
         run: python3 .github/scripts/check_almond_wood_phase1.py
       - name: Validate eight Almond wood derivatives, models, recipes and tags

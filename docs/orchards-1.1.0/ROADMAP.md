@@ -647,6 +647,23 @@ non coerente con la venatura integrale.
 - [ ] Controllare anche in Minecraft tronchi verticali, orizzontali,
   vicini e legno scortecciato.
 
+### Mandorlo — foglie e germoglio coltivabile (27 ottobre 2026)
+
+- [x] Prime texture **originali 16×16** per foglie verde vivo e germoglio.
+  Palette autonoma, senza riutilizzare fogliame Rustic o quello argentato d'ulivo.
+- [x] Registrati `almond_leaves`, `almond_sapling` e la variante in vaso;
+  Creative, drop, strumenti, combustibilità, traduzioni e modelli.
+- [x] **Crescita da germoglio 1×1** con TreeGrower, feature configurata
+  `almond_tree` e placer originali `almond_trunk_placer` e
+  `almond_foliage_placer`: fusto alto e leggermente curvo,
+  rami occasionali e chioma rotonda più alta di quella dell'ulivo.
+- [x] Foglie con decadenza vanilla, forbici, Silk Touch, rametti e
+  possibilità di ottenere nuovi germogli. Nessun drop di mandorle ancora.
+- [x] **Worldgen naturale disabilitato**, per evitare alberi non approvati
+  nei biomi. Nessuna fioritura/maturazione implementata in questa fase.
+- [ ] **Verifica in gioco** della grafica e crescita con farina d'ossa,
+  ostacoli, foglie e forme di tronco prima della messa in natura.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

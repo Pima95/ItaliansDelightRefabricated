@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "italiansdelight:block/almond_leaves"
+  }
+}

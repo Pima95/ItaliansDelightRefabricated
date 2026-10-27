@@ -102,6 +102,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.ALMOND_PRESSURE_PLATE);
                 output.accept(ModBlocks.ALMOND_DOOR);
                 output.accept(ModBlocks.ALMOND_TRAPDOOR);
+                output.accept(ModBlocks.ALMOND_LEAVES);
+                output.accept(ModBlocks.ALMOND_SAPLING);
 
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);
