@@ -21,8 +21,8 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
 
 /**
  * Almond crown: olive-like crooked trunk below, but foliage is much more
- * upright than the OLIVE dome. The 7-layer canopy is fairly narrow at the
- * shoulders; three asymmetric ascending leaf sprays reach above its crown.
+ * upright than the OLIVE dome. The multi-layer canopy is fairly narrow at the
+ * shoulders; three short upward leaf sprays merge into the crown shoulders.
  * Every planned leaf must connect to real almond wood through <=6 face
  * steps, respecting vanilla leaves decay/distance mechanics.
  */
@@ -97,26 +97,27 @@ public final class AlmondFoliagePlacer extends FoliagePlacer {
             }
         }
 
-        // Thin, upward-facing sprays: three of four directions, with tiny
-        // sidelets near their bases. These add a distinctly VERTICAL outline,
-        // not the broad flattened olive crown or square vanilla tree cap.
+        // Keep the approved upright Almond silhouette, but NO tall leaf
+        // pillars: the original shoots filled y=1..4 in the same x/z
+        // position and made four-block-high artificial columns.
+        // The tapered crown above already provides the overall height.
+        // Each fringe twig now contains at most TWO vertically adjacent
+        // foliage blocks, anchored on the crown's natural shoulders.
         Direction first = Direction.Plane.HORIZONTAL.getRandomDirection(random);
-        for (int arm = 0; arm < 4; arm++) {
-            if (arm == 3) {
-                break;
-            }
+        for (int arm = 0; arm < 3; arm++) {
             Direction d = first;
             for (int turn = 0; turn < arm; turn++) {
                 d = d.getClockWise();
             }
             int dx = d.getStepX() * 2;
             int dz = d.getStepZ() * 2;
-            for (int dy = 1; dy <= 4; dy++) {
+            for (int dy = 2; dy <= 3; dy++) {
                 BlockPos shoot = anchor.offset(dx, dy, dz);
                 if (clearBelow(level, shoot)) {
                     planned.add(shoot);
                 }
-                if (dy <= 2 && random.nextBoolean()) {
+                if (dy == 2 && random.nextBoolean()) {
+                    // A small lateral whorl softens the narrow spike.
                     Direction side = d.getClockWise();
                     BlockPos leaf = shoot.relative(side);
                     if (clearBelow(level, leaf)) {
@@ -125,11 +126,8 @@ public final class AlmondFoliagePlacer extends FoliagePlacer {
                 }
             }
         }
-        // One delicate central leader reaches higher than the side sprays.
-        BlockPos leader = anchor.above(5);
-        if (clearBelow(level, leader)) {
-            planned.add(leader);
-        }
+        // The core crown's last taper is the highest point. Do not add
+        // a separate leaf at y+5: it looked like a lone vertical antenna.
 
         // A complete connectivity and Minecraft leaves-distance check:
         // no floating wisps, and tips at >6 steps from actual logs decay.

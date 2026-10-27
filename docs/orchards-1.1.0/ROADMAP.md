@@ -687,6 +687,35 @@ il germoglio 16×16 era troppo diritto, schematico e graficamente rozzo.
   germogli in vaso e con farina d'ossa.
 - [ ] Nessuna generazione naturale / fruttificazione in questa fase.
 
+### Mandorlo — rifinitura foglie / germoglio / ciuffi (27 ottobre 2026)
+
+Feedback in gioco: germoglio con tronco troppo sottile, foglie troppo
+opache e due-tre colonne di foglie verticali alte oltre due blocchi.
+
+- [x] Texture foglie `almond_leaves.png` 16×16 ridisegnata con
+  **foglie lanceolate strette** seguendo foto botaniche di *Prunus dulcis*;
+  117 pixel completamente trasparenti (45,7%, contro 47/256 precedenti),
+  e i **sei colori verdi originari mantenuti senza aggiunte**.
+- [x] Germoglio `almond_sapling.png` rifatto in stile vanilla:
+  fusto curvo con **3 pixel di larghezza alla base** e ombre brune
+  originali; gruppi di foglie più piccoli e ramificati asimmetricamente.
+- [x] Algoritmo di fogliame: eliminati i pilastri artificiali
+  `dy=1..4` e il leader isolato a `dy=5`.
+  Restano un profilo alto, rametti laterali di **massimo due
+  blocchi sovrapposti**, e l'algoritmo che collega foglie a legno.
+- [x] Test di regressione su texture, trasparenza, base tronco e
+  altezza massima dei nuovi rametti.
+- [ ] **Da decidere con l'autore:** colorazione dipendente dal bioma,
+  **solo per `almond_leaves`**. Attualmente il blocco usa
+  `UntintedParticleLeavesBlock`, senza colorazione dinamica.
+  Proposta: come foglie di quercia, usare colormap foliage vanilla
+  (più verde nei biomi umidi/temperati, più caldo nelle savane)
+  con sprite di base opportunamente neutralizzato; mantenere le
+  foglie dell'ulivo non tintate e nessun cambiamento al germoglio.
+  NON abilitare la tintatura finché l'autore non l'approva.
+- [ ] Verifica visiva dell'autore in Minecraft di densità delle foglie,
+  germoglio in mano / piantato / in vaso e nuova silhouette dell'albero.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

@@ -28,11 +28,20 @@ def main():
     colors={(40,75,40),(58,99,49),(78,121,57),
             (103,148,71),(136,174,95),(166,192,119)}
     leaf_visible=[p for p in leaf if p[3]==255]
-    assert len(leaf_visible)==209 and {p[:3] for p in leaf_visible}==colors
-    assert 65<=sum(p[3]==255 for p in sapling)<=110
+    assert len(leaf_visible)==139 and {p[:3] for p in leaf_visible}==colors
+    # Transparent openings are a deliberate part of Almond's delicate foliage.
+    # Earlier texture had only 47 transparent pixels and looked opaque.
+    assert 105<=sum(p[3]==0 for p in leaf)<=125, (
+        "Almond leaves should show daylight between narrow leaf blades"
+    )
+    assert 75<=sum(p[3]==255 for p in sapling)<=100
     stem={(87,58,48),(120,79,58),(156,110,78)}
     assert {p[:3] for p in sapling if p[3]==255}<=colors|stem
-    assert sum(p[:3] in stem for p in sapling if p[3])>=16
+    assert sum(p[:3] in stem for p in sapling if p[3])>=30
+    # The bent lower sapling MUST have a visually solid, shaded 3px base.
+    for y in range(11,16):
+        assert sum(sapling[y*16+x][:3] in stem and sapling[y*16+x][3]
+                   for x in range(16))>=3, ("too thin sapling trunk",y)
     # Real saplings have a crooked S-shaped stem and secondary branches,
     # not a straight trunk with a symmetric pixel cloud above it.
     for x,y in ((8,15),(7,13),(6,11),(9,6)):
@@ -41,9 +50,9 @@ def main():
                 if sapling[y*16+x][:3] in stem})>=5
     assert {p[:3] for p in sapling if p[3]>0}==colors|stem
     assert hashlib.sha256((A/"textures/block/almond_leaves.png").read_bytes()).hexdigest()==(
-        "0d18e28fb2be34731eb41b2d53c01514c0339ce8f216de5c6f08d64f6c31d726")
+        "3b8da4f731485569f2b3b124edb56d26da5e2078c5246afdcf9744c17dddaab6")
     assert hashlib.sha256((A/"textures/block/almond_sapling.png").read_bytes()).hexdigest()==(
-        "f033c642298211c138e08538587e4eac4d9a9caa9553c7406bd9ba0c37196606")
+        "f8c52ac0088cacf0584afaad9240bfcc96fa96e328e61791d31bc706d07a14a7")
 
     for name in ("almond_sapling","almond_leaves"):
         block=j(A/f"blockstates/{name}.json")
@@ -115,8 +124,11 @@ def main():
     assert "FORK_VARIANT_CHANCE = 5" in trunk
     assert "TALL_SINGLE_CHANCE = 4" in trunk
     assert "new double" not in foliage
-    assert "anchor.above(5)" in foliage
-    assert "for (int dy = 1; dy <= 4; dy++)" in foliage
+    assert "anchor.above(5)" not in foliage
+    assert "for (int dy = 2; dy <= 3; dy++)" in foliage
+    assert "for (int dy = 1; dy <= 4; dy++)" not in foliage
+    assert "for (int arm = 0; arm < 3; arm++)" in foliage
+    assert "for (int dy = 2; dy <= 3; dy++)" in foliage
     assert "distanceFromWood" in foliage and "nextDistance > 6" in foliage
     assert "radii = {1.70D, 2.35D, 2.45D, 2.00D, 1.45D, 0.85D}" in foliage
     assert "OLIVE_LEAVES" not in foliage and "OLIVE_TRUNK" not in trunk
@@ -124,8 +136,8 @@ def main():
         assert (SRC/f"common/worldgen/{class_name}.java").exists()
     assert "ALMOND_TREE" not in (SRC/"common/registry/ModWorldGeneration.java").read_text()
     assert not (D/"italiansdelight/worldgen/placed_feature/almond_tree_wild.json").exists()
-    print("OK: Almond original leaves/sapling art, correct vanilla models, pot, drops and tags")
-    print("OK: Almond sapling has crooked hand-drawn stem; trunk reuses Olive bends/forks and crown has tall upward foliage")
+    print("OK: Almond leaf cutouts 117/256 pixels, thicker vanilla-style sapling trunk, items/pot/drops/tags")
+    print("OK: curved three-pixel sapling trunk; almond crown keeps height but no 4-block vertical leaf pillars")
     print("OK: No fruit drops or wild Almond worldgen until later phases")
 
 if __name__=="__main__":
