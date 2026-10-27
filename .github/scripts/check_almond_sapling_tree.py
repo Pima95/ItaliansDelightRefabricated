@@ -165,7 +165,7 @@ def main():
     assert "BlockPos leaf = wood.relative(side)" in foliage
     assert "planned.add(leaf); // Face-adjacent to REAL logs." in foliage
     assert "y - groundY < 3" in foliage
-    assert "for (int dy = minDy; dy <= 4; dy++)" in foliage
+    assert "for (int dy = minDy; dy <= 3; dy++)" in foliage
     assert "anchor.above(5)" not in foliage
 
     # The block stays a standard vanilla-tinted leaf model, but the
@@ -184,7 +184,7 @@ def main():
     assert "ALMOND_TREE" not in (SRC/"common/registry/ModWorldGeneration.java").read_text()
     assert not (D/"italiansdelight/worldgen/placed_feature/almond_tree_wild.json").exists()
     print("OK: Almond vanilla-density foliage: 197 opaque, 59 transparent, 37/60 opaque border, unchanged six-color palette")
-    print("OK: approved Almond sapling unchanged; crown begins at Olive height (-2 tall/-1 short), apex stays +4")
+    print("OK: approved Almond sapling unchanged; crown begins at Olive height (-2 tall/-1 short), apex now +3")
     print("OK: Almond-only soft vanilla biome tint registered on the client; Olive untouched")
     print("OK: real upper-wood collars fill shifted elbows; crown apex lowered exactly one block (+3)")
     print("OK: No fruit drops or wild Almond worldgen until later phases")
