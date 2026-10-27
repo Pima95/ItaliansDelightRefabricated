@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate/check exactly twelve vanilla-style wooden cheese aging rack recipes.
+"""Generate/check fourteen vanilla-style wooden cheese aging rack recipes.
 
 Run with --check in CI (read-only) or --write when adding/updating wood sets.
 No runtime recipe schema or output IDs are changed.
@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 WOODS = ("oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
-         "mangrove", "cherry", "bamboo", "crimson", "warped", "pale_oak", "olive")
+         "mangrove", "cherry", "bamboo", "crimson", "warped", "pale_oak", "olive", "almond")
 DIRECTORY = Path("src/main/resources/data/italiansdelight/recipe/crafting")
 
 def recipe(wood):
@@ -18,8 +18,8 @@ def recipe(wood):
         "category": "misc",
         "group": "italiansdelight_cheese_aging_racks",
         "key": {
-            "S": f"{'italiansdelight' if wood == 'olive' else 'minecraft'}:{wood}_fence",
-            "B": f"{'italiansdelight' if wood == 'olive' else 'minecraft'}:{wood}_planks",
+            "S": f"{'italiansdelight' if wood in ('olive', 'almond') else 'minecraft'}:{wood}_fence",
+            "B": f"{'italiansdelight' if wood in ('olive', 'almond') else 'minecraft'}:{wood}_planks",
         },
         "pattern": ["S S", " B ", "S S"],
         "result": {"id": f"italiansdelight:{wood}_cheese_aging_rack", "count": 1},
