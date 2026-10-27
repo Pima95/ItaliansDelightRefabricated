@@ -767,6 +767,19 @@ quando il tronco è curvo, il suo gomito sotto la chioma rimane nudo.
 - [ ] Test visivi in Minecraft nei biomi Plains, Savanna e Snowy Plains,
   oltre a una crescita con tronco curvo e biforcato osservata dal basso.
 
+### Mandorlo — chioma più bassa di un blocco (27 ottobre 2026)
+
+- [x] Su richiesta dopo la prova in gioco, eliminato **solo lo strato
+  superiore** della chioma: l'altezza massima passa da `dy=+4` a
+  `dy=+3` sopra l'ultimo blocco di tronco.
+- [x] Conservati i raggi degli altri sei livelli, il punto inferiore
+  equivalente all'ulivo, i ciuffi laterali `dy=2..3` e le foglie
+  aggiuntive attorno ai veri gomiti del tronco.
+- [x] Aggiornato il valore `foliageHeight` da 7 a 6 e aggiunti
+  controlli di regressione per non ripristinare la sommità `+4`.
+- [ ] Verifica visiva in Minecraft su alberi **nuovi**, perché quelli già
+  cresciuti nel mondo non vengono rigenerati automaticamente.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

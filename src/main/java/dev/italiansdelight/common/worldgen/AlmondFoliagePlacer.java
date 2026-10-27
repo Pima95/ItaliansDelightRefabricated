@@ -42,7 +42,7 @@ public final class AlmondFoliagePlacer extends FoliagePlacer {
 
     @Override
     public int foliageHeight(RandomSource random, int treeHeight, TreeConfiguration config) {
-        return 7;
+        return 6;
     }
 
     @Override
@@ -85,10 +85,11 @@ public final class AlmondFoliagePlacer extends FoliagePlacer {
         int trunkHeightAboveGround = anchor.getY() - groundY;
         int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;
 
-        // ONLY extend the skirt downwards. The previously approved radii
-        // from dy=-1 through dy=+4 and the top height (+4) are unchanged.
-        double[] radii = {1.95D, 1.70D, 2.35D, 2.45D, 2.00D, 1.45D, 0.85D};
-        for (int dy = minDy; dy <= 4; dy++) {
+        // Keep the approved lower canopy and all existing widths, but
+        // remove the single highest layer: the crown stops at dy=+3
+        // instead of dy=+4 above the final Almond log.
+        double[] radii = {1.95D, 1.70D, 2.35D, 2.45D, 2.00D, 1.45D};
+        for (int dy = minDy; dy <= 3; dy++) {
             if (anchor.getY() + dy - groundY < 3) {
                 continue; // Retain the olive's two-block walking clearance.
             }

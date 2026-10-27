@@ -145,10 +145,13 @@ def main():
     olive=(SRC/"common/worldgen/OliveFoliagePlacer.java").read_text()
     low_rule="int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;"
     assert low_rule in olive and low_rule in foliage
-    assert "for (int dy = minDy; dy <= 4; dy++)" in foliage
-    assert "double[] radii = {1.95D, 1.70D, 2.35D, 2.45D, 2.00D, 1.45D, 0.85D};" in foliage
+    assert "for (int dy = minDy; dy <= 3; dy++)" in foliage
+    assert "for (int dy = minDy; dy <= 4; dy++)" not in foliage
+    assert "return 6;" in foliage
+    assert "double[] radii = {1.95D, 1.70D, 2.35D, 2.45D, 2.00D, 1.45D};" in foliage
     assert "radii[dy + 2] * scale" in foliage
     assert "anchor.getY() + dy - groundY < 3" in foliage
+    assert "dy <= 4" not in foliage
     assert "dy <= 5" not in foliage
     assert "anchor.above(5)" not in foliage
     assert "OLIVE_LEAVES" not in foliage and "OLIVE_TRUNK" not in trunk
@@ -183,7 +186,7 @@ def main():
     print("OK: Almond vanilla-density foliage: 197 opaque, 59 transparent, 37/60 opaque border, unchanged six-color palette")
     print("OK: approved Almond sapling unchanged; crown begins at Olive height (-2 tall/-1 short), apex stays +4")
     print("OK: Almond-only soft vanilla biome tint registered on the client; Olive untouched")
-    print("OK: real upper-wood collars fill shifted elbows below canopy; original apex and ground clearance preserved")
+    print("OK: real upper-wood collars fill shifted elbows; crown apex lowered exactly one block (+3)")
     print("OK: No fruit drops or wild Almond worldgen until later phases")
 
 if __name__=="__main__":
