@@ -261,7 +261,7 @@ APPROVED_EXPOSED_PALETTE={
 }
 assert set(stripped_pixels)<=APPROVED_EXPOSED_PALETTE
 assert len(set(stripped_pixels))>=8
-assert all(sum(abs(stripped_pixels[i][c]-old) for i in range(256))/256 < 2
+assert all(abs(sum(stripped_pixels[i][c] for i in range(256))/256-old) < 2
            for c,old in enumerate((209.97,172.44,141.75))), (
     "The exposed timber average should preserve its previous light warmth"
 )
