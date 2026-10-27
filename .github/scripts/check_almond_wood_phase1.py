@@ -192,12 +192,13 @@ assert bark_sha == "37863c8c9ce8d13f12787c63d53fcdca2804600edfda5fbd4b07cf052c01
     "The original-color Almond bark redesign changed unexpectedly"
 )
 assert len(set(stripped_pixels))>=8, "Stripped longitudinal fibers need several soft tonal levels"
-# Stripped side deliberately follows the SAME compressed stripe geometry as
-# almond_log, just with a lighter exposed-wood palette. Previously it used
-# unrelated stripes; this revision aligns all prominent longitudinal fibers.
+# Approved stripped-wood COLOR PALETTE retained, but its original unrelated
+# groove map is replaced with a lighter version of the approved natural
+# bark's now-irregular lengthwise grain. Only this SIDE PNG is changed;
+# approved dark bark, cut-end wood rings and plank artwork stay untouched.
 assert hashlib.sha256((A/"textures/block/stripped_almond_log.png").read_bytes()).hexdigest() == (
-    "5e91590f63a8813c09896d48c15087d9efe01ba74d6e477ceaa30332db55b52b"
-)
+    "dc599cb7eda8729f625c4f1bf56fb8b3ac0930114b21a1b2c891177f9e667413"
+), "Adapted stripped Almond wood artwork must not drift unnoticed"
 assert hashlib.sha256((A/"textures/block/almond_log_top.png").read_bytes()).hexdigest() == (
     "3022f84cd1039849ecee528ed572a66f057927b00b3c1de0593832e879712540"
 )
@@ -223,7 +224,8 @@ stripped_classes=bytes(nearest_tone(rgb) for rgb in stripped_pixels)
 # The author's original dark palette is restored but rearranged into
 # contiguous bark plates and interrupted vertical fissures, not the old
 # randomized checkerboard and not the pale ploughed-soil design.
-# Stripped wood stays unchanged; its light fibers have a distinct texture.
+# The reworked stripped surface keeps lighter timber grain while following
+# the new natural log's dark-groove distribution rather than the old map.
 def luminance(rgb):
     return sum(a*b for a,b in zip(rgb,(.2126,.7152,.0722)))
 def column_profile(im):
@@ -243,7 +245,25 @@ assert sum(v<115 for v in normal_profile)>=2, (
     "Fine dark fissures of the new Almond bark disappeared"
 )
 assert sum(normal_profile)/16+25 < sum(exposed_profile)/16, (
-    "Natural bark must remain darker than approved stripped wood"
+    "Natural bark must remain darker than exposed stripped wood"
+)
+# Visually coherent means the two trunks share the same major
+# vertical ridge and groove positions, not the same RGB/roughness.
+assert profile_correlation(normal_profile,exposed_profile)>.90, (
+    "Stripped wood must align with the user-approved natural Almond bark"
+)
+# Do not recolor the exposed wood: colors originate from its prior
+# nine-swatch texture, with no new shades, blur or antialiasing.
+APPROVED_EXPOSED_PALETTE={
+    (186,146,118),(190,150,122),(198,159,128),
+    (202,163,132),(206,167,136),(217,180,148),
+    (220,183,152),(226,191,160),(229,195,164)
+}
+assert set(stripped_pixels)<=APPROVED_EXPOSED_PALETTE
+assert len(set(stripped_pixels))>=8
+assert all(sum(abs(stripped_pixels[i][c]-old) for i in range(256))/256 < 2
+           for c,old in enumerate((209.97,172.44,141.75))), (
+    "The exposed timber average should preserve its previous light warmth"
 )
 for name,im in (("almond_log",bark_pixels),("stripped_almond_log",stripped_pixels)):
     vertical=sum(sum(abs(a-b) for a,b in zip(im[y*16+x],im[(y+1)*16+x]))/3
@@ -262,6 +282,6 @@ assert {log_end[i] for i in inside} == {stripped_end[i] for i in inside}
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
 print("OK: 16x16 RGBA opaque almond sprites with structured bark and plank-colored stripped grain")
 print("OK: square oak ring footprint with stronger 14x14 tonal shading and both approved 1px rims")
-print("OK: restored exact original nine chestnut tones, structured bark grain, and unchanged stripped texture")
+print("OK: approved bark untouched, stripped Almond grain aligned (r>0.90), original timber palette retained")
 print("OK: unchanged Almond planks SHA and board seams, no changes to approved variants")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")

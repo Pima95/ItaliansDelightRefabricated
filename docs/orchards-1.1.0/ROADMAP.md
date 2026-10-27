@@ -606,6 +606,28 @@ ma la disposizione casuale delle macchie scure non era riuscita.
 Non sono state cambiate le texture di taglio del tronco, del legno
 scortecciato, delle tavole, della porta o della botola. Branch `main` intatta.
 
+### Mandorlo — texture laterale del tronco scortecciato armonizzata (27 ottobre 2026)
+
+L'autore ha **approvato la nuova corteccia** del mandorlo e ha chiesto
+l'adeguamento della sola superficie laterale scortecciata, che aveva ancora
+le vecchie linee incompatibili con la disposizione delle creste di corteccia.
+
+- [x] `stripped_almond_log.png`: rilievi e scanalature ora seguono la
+  distribuzione verticale del tronco `almond_log.png` approvato, ma sono
+  smorzati per rappresentare le **fibre interne chiare**, non la corteccia.
+- [x] Recuperate **solo le tonalità già presenti nel precedente
+  scortecciato**, senza nuovi colori o semitrasparenze; rispettate
+  dimensioni 16×16 e orientamento del disegno del blocco vanilla.
+- [x] Test aggiornati: correlazione dei rilievi tra le due superfici,
+  protezione hash del nuovo PNG, palette, luminosità, leggibilità delle
+  venature e conferma che tutti gli altri asset rimangano inalterati.
+- [ ] Da verificare esteticamente in Minecraft: tronchi singoli,
+  affiancati, in orizzontale e in verticale, osservando soprattutto i
+  bordi e il confronto tra bark / stripped.
+
+Nessuna modifica a `almond_log.png`, alle sezioni di taglio, alle assi,
+alle porte e alle botole. `main` resta invariato.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
