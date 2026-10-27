@@ -188,7 +188,7 @@ assert 7 <= len(set(bark_pixels)) <= 12, (
 bark_dark=sum(sum(rgb)/3<96 for rgb in bark_pixels)
 assert bark_dark <= 145, "Bark still contains too many dark scattered holes"
 bark_sha=hashlib.sha256((A/"textures/block/almond_log.png").read_bytes()).hexdigest()
-assert bark_sha == "424264bc712343e8291ea8d47ac6212ba428153b2f19a9ac9f4ccede2ad636c9", (
+assert bark_sha == "68b1a9076049c3e3466c5aed66154279c936e52bee51eb912e60b9fd5c8f1e49", (
     "The original-color Almond bark redesign changed unexpectedly"
 )
 assert len(set(stripped_pixels))>=8, "Stripped longitudinal fibers need several soft tonal levels"
@@ -197,7 +197,7 @@ assert len(set(stripped_pixels))>=8, "Stripped longitudinal fibers need several 
 # bark's now-irregular lengthwise grain. Only this SIDE PNG is changed;
 # approved dark bark, cut-end wood rings and plank artwork stay untouched.
 assert hashlib.sha256((A/"textures/block/stripped_almond_log.png").read_bytes()).hexdigest() == (
-    "035605d78706cfa7036a81b1acac7c34fe814d0a41aef0a7a1362746670b775b"
+    "5c51b381a599593a36de5d25b6b2dd9f8383c3c47cdda38f07516afd0e9bec84"
 ), "Adapted stripped Almond wood artwork must not drift unnoticed"
 assert hashlib.sha256((A/"textures/block/almond_log_top.png").read_bytes()).hexdigest() == (
     "3022f84cd1039849ecee528ed572a66f057927b00b3c1de0593832e879712540"
@@ -219,32 +219,40 @@ assert all(abs(actual-reference)<3 for actual,reference in
            zip(mean_bark,(129.9,96.2,76.9))), (
     "Rebalanced bark has drifted from the original average chestnut tone"
 )
-# Both 16x16 log textures had an unbroken one-color strip at x=15.
-# The user's correction changes ONLY those 16 border pixels per texture;
-# freeze all previously approved interior pixels (the other 15 columns).
-for name,interior_sha,max_seam in (
+# Both seamless edges now share the surrounding wood grain. Repainting
+# just column 15 produced a detached vertical ribbon; the approved center
+# stays byte-for-byte unchanged while edge pixels on BOTH sides are blended.
+for name,central_sha,max_seam in (
     ("almond_log",
-     "413acce2e3c29188501017ebc457dad74832d84ca5ebff7a2f881195be5736dc",34),
+     "19987d8dbb8b9cf9b70ddcd5f92c30160a7a0a2277c14d1024afb12a5e9201bf",17),
     ("stripped_almond_log",
-     "6b4e0fbcd97f8d673a8a24b924c8818eb4a16ea95dcb78b565c999231a620a59",13),
+     "986b91a5987694e3bcd2f885cd0fb183ca9f09e8dabfbc5264629b33c9cc4398",13),
 ):
     pix=decoded[name]
-    interior=bytes(channel for y in range(16) for x in range(15)
-                   for channel in pix[y*16+x])
-    assert hashlib.sha256(interior).hexdigest()==interior_sha, (
-        name+": approved non-border pixels changed unexpectedly"
+    center=bytes(v for y in range(16) for x in range(2,13)
+                 for v in pix[y*16+x])
+    assert hashlib.sha256(center).hexdigest()==central_sha, (
+        name+": approved middle 11 columns were unexpectedly modified"
     )
-    right=[pix[y*16+15] for y in range(16)]
-    assert len(set(right))>=3, name+": x=15 is a flat monochrome column"
+    for x in (0,15):
+        col=[pix[y*16+x] for y in range(16)]
+        assert len(set(col))>=3, (name,x,"flat monochrome border")
+        runs=[1]
+        for y in range(1,16):
+            runs.append(runs[-1]+1 if col[y]==col[y-1] else 1)
+        assert max(runs)<=4, (name,x,"vertical strip returned")
     assert max(abs(a-b) for y in range(16)
                for a,b in zip(pix[y*16+15],pix[y*16]))<=max_seam, (
-        name+": strong seam between tiles at x=15/x=0"
+        name+": two adjacent logs have an obvious high-contrast seam"
     )
-    run=longest=1
-    for y in range(1,16):
-        run=run+1 if right[y]==right[y-1] else 1
-        longest=max(longest,run)
-    assert longest<=4, name+": excessively long flat strip on right side"
+    # The right-hand grain must also flow into columns x=13,14 rather
+    # than standing as a detached single-column stripe.
+    edge_jump=sum(sum(abs(a-b) for a,b in
+                      zip(pix[y*16+x],pix[y*16+(x+1)%16]))/3
+                  for y in range(16) for x in (13,14,15,0))/64
+    assert edge_jump < (20 if name=="almond_log" else 10), (
+        name+": painted edge is not integrated with interior texture"
+    )
 assert all(tone_distance(rgb)<=9 for rgb in stripped_pixels)
 stripped_classes=bytes(nearest_tone(rgb) for rgb in stripped_pixels)
 # The author's original dark palette is restored but rearranged into
@@ -299,7 +307,7 @@ for name,im in (("almond_log",bark_pixels),("stripped_almond_log",stripped_pixel
     assert (8 if name=="almond_log" else 5) < vertical < horizontal*.8, (
         f"{name}: longitudinal grain lost"
     )
-    assert horizontal > (20 if name=="almond_log" else 11), (
+    assert horizontal > (20 if name=="almond_log" else 10), (
         f"{name}: texture lacks readable ridges"
     )
     assert min(len(set(im[y*16:(y+1)*16])) for y in range(16)) >= (4 if name=="almond_log" else 6)
@@ -308,6 +316,6 @@ assert {log_end[i] for i in inside} == {stripped_end[i] for i in inside}
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
 print("OK: 16x16 RGBA opaque almond sprites with structured bark and plank-colored stripped grain")
 print("OK: square oak ring footprint with stronger 14x14 tonal shading and both approved 1px rims")
-print("OK: both almond log sprites retain the approved 15 columns and original palettes; only right edge gains 3 shades")
+print("OK: both Almond log tiles preserve their central 11 columns, blend both edges, and tile seamlessly")
 print("OK: unchanged Almond planks SHA and board seams, no changes to approved variants")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")

@@ -628,6 +628,25 @@ le vecchie linee incompatibili con la disposizione delle creste di corteccia.
 Nessuna modifica a `almond_log.png`, alle sezioni di taglio, alle assi,
 alle porte e alle botole. `main` resta invariato.
 
+### Mandorlo — raccordo naturale dei bordi del tronco (27 ottobre 2026)
+
+Feedback successivo: la sola sostituzione dei pixel monocromatici
+sull'ultima colonna ha lasciato un effetto di **striscia sovrapposta**,
+non coerente con la venatura integrale.
+
+- [x] `almond_log.png` e `stripped_almond_log.png`: riallineati
+  entrambi i bordi della texture insieme, rielaborando una piccola
+  fascia di pixel anche nelle colonne limitrofe per far continuare
+  le venature attraverso la giunzione tra blocchi.
+- [x] Proteggere pixel per pixel **le 11 colonne centrali x=2–12**
+  di entrambe le texture; nessun nuovo colore, nessuna sfocatura,
+  dimensioni originali 16×16 e sezioni di taglio invariate.
+- [x] Verificare la ripetizione 3×3, i colori e la struttura verticale;
+  nuovi test contro colonne uniformi su entrambi i bordi, stacchi di
+  colore sulla giunzione e riapparizione della striscia artificiale.
+- [ ] Controllare anche in Minecraft tronchi verticali, orizzontali,
+  vicini e legno scortecciato.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
