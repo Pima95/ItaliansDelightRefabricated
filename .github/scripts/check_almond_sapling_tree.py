@@ -28,12 +28,22 @@ def main():
     colors={(40,75,40),(58,99,49),(78,121,57),
             (103,148,71),(136,174,95),(166,192,119)}
     leaf_visible=[p for p in leaf if p[3]==255]
-    assert len(leaf_visible)==139 and {p[:3] for p in leaf_visible}==colors
-    # Transparent openings are a deliberate part of Almond's delicate foliage.
-    # Earlier texture had only 47 transparent pixels and looked opaque.
-    assert 105<=sum(p[3]==0 for p in leaf)<=125, (
-        "Almond leaves should show daylight between narrow leaf blades"
+    assert len(leaf_visible)==197 and {p[:3] for p in leaf_visible}==colors
+    # Vanilla leaves are dense in the center, but their outer edges remain
+    # partially cut out: not the see-through lace of the previous drawing.
+    # Preserve all six approved colors, strict binary alpha, and 16x16 art.
+    assert sum(p[3]==0 for p in leaf)==59
+    border=[leaf[y*16+x] for y in range(16) for x in range(16)
+            if x in (0,15) or y in (0,15)]
+    interior=[leaf[y*16+x] for y in range(1,15) for x in range(1,15)]
+    assert len(border)==60
+    assert 30 <= sum(p[3]==255 for p in border) <= 45, (
+        "Vanilla-style leaf outlines should be semi-filled, not a solid border"
     )
+    assert sum(p[3]==255 for p in interior)>=155, (
+        "The center must be substantially fuller than the outer edges"
+    )
+    assert all(p[3] in (0,255) for p in leaf)
     assert 75<=sum(p[3]==255 for p in sapling)<=100
     stem={(87,58,48),(120,79,58),(156,110,78)}
     assert {p[:3] for p in sapling if p[3]==255}<=colors|stem
@@ -50,7 +60,7 @@ def main():
                 if sapling[y*16+x][:3] in stem})>=5
     assert {p[:3] for p in sapling if p[3]>0}==colors|stem
     assert hashlib.sha256((A/"textures/block/almond_leaves.png").read_bytes()).hexdigest()==(
-        "3b8da4f731485569f2b3b124edb56d26da5e2078c5246afdcf9744c17dddaab6")
+        "1c01dfc872b59c229ef91595493b190aa6e7166c8c3572ba03f6b0236d778953")
     assert hashlib.sha256((A/"textures/block/almond_sapling.png").read_bytes()).hexdigest()==(
         "f8c52ac0088cacf0584afaad9240bfcc96fa96e328e61791d31bc706d07a14a7")
 
@@ -130,14 +140,24 @@ def main():
     assert "for (int arm = 0; arm < 3; arm++)" in foliage
     assert "for (int dy = 2; dy <= 3; dy++)" in foliage
     assert "distanceFromWood" in foliage and "nextDistance > 6" in foliage
-    assert "radii = {1.70D, 2.35D, 2.45D, 2.00D, 1.45D, 0.85D}" in foliage
+    # Match Olive's low starting level on every short/tall trunk while
+    # keeping the prior maximum canopy level (+4) exactly unchanged.
+    olive=(SRC/"common/worldgen/OliveFoliagePlacer.java").read_text()
+    low_rule="int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;"
+    assert low_rule in olive and low_rule in foliage
+    assert "for (int dy = minDy; dy <= 4; dy++)" in foliage
+    assert "double[] radii = {1.95D, 1.70D, 2.35D, 2.45D, 2.00D, 1.45D, 0.85D};" in foliage
+    assert "radii[dy + 2] * scale" in foliage
+    assert "anchor.getY() + dy - groundY < 3" in foliage
+    assert "dy <= 5" not in foliage
+    assert "anchor.above(5)" not in foliage
     assert "OLIVE_LEAVES" not in foliage and "OLIVE_TRUNK" not in trunk
     for class_name in ("AlmondTrunkPlacer","AlmondFoliagePlacer"):
         assert (SRC/f"common/worldgen/{class_name}.java").exists()
     assert "ALMOND_TREE" not in (SRC/"common/registry/ModWorldGeneration.java").read_text()
     assert not (D/"italiansdelight/worldgen/placed_feature/almond_tree_wild.json").exists()
-    print("OK: Almond leaf cutouts 117/256 pixels, thicker vanilla-style sapling trunk, items/pot/drops/tags")
-    print("OK: curved three-pixel sapling trunk; almond crown keeps height but no 4-block vertical leaf pillars")
+    print("OK: Almond vanilla-density foliage: 197 opaque, 59 transparent, 37/60 opaque border, unchanged six-color palette")
+    print("OK: approved Almond sapling unchanged; crown begins at Olive height (-2 tall/-1 short), apex stays +4")
     print("OK: No fruit drops or wild Almond worldgen until later phases")
 
 if __name__=="__main__":

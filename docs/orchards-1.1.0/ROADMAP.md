@@ -716,6 +716,30 @@ opache e due-tre colonne di foglie verticali alte oltre due blocchi.
 - [ ] Verifica visiva dell'autore in Minecraft di densità delle foglie,
   germoglio in mano / piantato / in vaso e nuova silhouette dell'albero.
 
+### Mandorlo — texture delle foglie vanilla e altezza della chioma (27 ottobre 2026)
+
+Correzioni richieste dopo verifica in gioco: la texture precedente aveva
+troppi vuoti anche sui bordi e la chioma partiva più in alto di quella dell'ulivo.
+
+- [x] `almond_leaves.png` ridisegnata **senza copiare sprite vanilla**:
+  densità centrale simile alle foglie del gioco, bordi irregolari
+  **semipieni**; 197 pixel opachi e 59 trasparenti (prima 139/117).
+  Sul perimetro 16×16 rimangono 37 dei 60 pixel visibili.
+  Tutti e sei i verdi approvati e la trasparenza binaria sono conservati.
+  Riferimento consultato: texture vanilla `oak_leaves` (Minecraft 26.2).
+- [x] Altezza iniziale della chioma ora **identica alla regola dell'ulivo**:
+  `dy=-2` su fusti sufficientemente alti, `dy=-1` su quelli più bassi,
+  con controllo del terreno e almeno due blocchi liberi.
+  È stato aggiunto **solo un livello inferiore**; la sommità rimane al
+  medesimo `dy=+4`, e gli altri raggi approvati restano invariati.
+- [x] Controlli automatici aggiornati per densità, bordi semipieni e
+  quota inferiore identica a `OliveFoliagePlacer`, massimo `dy=4`.
+- [ ] L'autore dovrà verificare in Minecraft la nuova continuità delle
+  chiome, la densità in `Fancy` e l'effetto di piante accostate.
+
+**Non modificati** germoglio approvato, forma del tronco, ulivo e colori
+in base ai biomi (ancora in attesa di decisione). `main` intatta.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

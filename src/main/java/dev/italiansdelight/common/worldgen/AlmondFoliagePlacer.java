@@ -69,13 +69,30 @@ public final class AlmondFoliagePlacer extends FoliagePlacer {
         double scale = Math.max(0.85D, leafRadius / 2.0D);
         Set<BlockPos> planned = new LinkedHashSet<>();
 
-        // A lower irregular shoulder rises into a tall, loose silhouette.
-        // Unlike the old flattened five-layer crown, y=3..5 adds height
-        // without spreading the branches sideways.
-        double[] radii = {1.70D, 2.35D, 2.45D, 2.00D, 1.45D, 0.85D};
-        for (int layer = 0; layer < radii.length; layer++) {
-            int dy = layer - 1;
-            double r = radii[layer] * scale;
+        // Begin the canopy at EXACTLY the same relative lower height as
+        // OliveFoliagePlacer: -2 on tall trunks, -1 on shorter trunks.
+        // Ignore existing Almond wood and foliage while finding terrain.
+        int groundY = anchor.getY() - 1;
+        while (groundY > level.getMinY()) {
+            BlockPos check = new BlockPos(anchor.getX(), groundY, anchor.getZ());
+            BlockState state = level.getBlockState(check);
+            if (!state.isAir() && !state.canBeReplaced()
+                && !state.is(ModBlocks.ALMOND_LEAVES) && !isAlmondWood(state)) {
+                break;
+            }
+            groundY--;
+        }
+        int trunkHeightAboveGround = anchor.getY() - groundY;
+        int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;
+
+        // ONLY extend the skirt downwards. The previously approved radii
+        // from dy=-1 through dy=+4 and the top height (+4) are unchanged.
+        double[] radii = {1.95D, 1.70D, 2.35D, 2.45D, 2.00D, 1.45D, 0.85D};
+        for (int dy = minDy; dy <= 4; dy++) {
+            if (anchor.getY() + dy - groundY < 3) {
+                continue; // Retain the olive's two-block walking clearance.
+            }
+            double r = radii[dy + 2] * scale;
             double jitterX = (random.nextDouble() - 0.5D) * 0.30D;
             double jitterZ = (random.nextDouble() - 0.5D) * 0.30D;
 
