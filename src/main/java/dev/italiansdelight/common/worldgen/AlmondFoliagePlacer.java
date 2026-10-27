@@ -146,6 +146,39 @@ public final class AlmondFoliagePlacer extends FoliagePlacer {
         // The core crown's last taper is the highest point. Do not add
         // a separate leaf at y+5: it looked like a lone vertical antenna.
 
+        // A curved Almond stem may lean one or two blocks between the
+        // lower fork and the final tip. A canopy centered only on that tip
+        // leaves naked wooden elbows (visible from below in planted trees).
+        // Follow the ACTUAL upper wood rather than guessing which side the
+        // randomly rotated trunk bends towards. This adds a small leafy
+        // collar to the upper branch segments, not a second low tree crown.
+        for (int dy = -3; dy <= -1; dy++) {
+            int y = anchor.getY() + dy;
+            if (y - groundY < 3) {
+                continue; // The olive/almond two-block ground clearance.
+            }
+            for (int dx = -3; dx <= 3; dx++) {
+                for (int dz = -3; dz <= 3; dz++) {
+                    BlockPos wood = anchor.offset(dx, dy, dz);
+                    if (!isAlmondWood(level.getBlockState(wood))) {
+                        continue;
+                    }
+                    for (Direction side : Direction.Plane.HORIZONTAL) {
+                        BlockPos leaf = wood.relative(side);
+                        // Prevent a nearby tree or outlying branch from
+                        // widening the outline beyond the approved canopy.
+                        if (Math.abs(leaf.getX() - anchor.getX()) > 3
+                            || Math.abs(leaf.getZ() - anchor.getZ()) > 3) {
+                            continue;
+                        }
+                        if (clearBelow(level, leaf)) {
+                            planned.add(leaf); // Face-adjacent to REAL logs.
+                        }
+                    }
+                }
+            }
+        }
+
         // A complete connectivity and Minecraft leaves-distance check:
         // no floating wisps, and tips at >6 steps from actual logs decay.
         Map<BlockPos, Integer> distanceFromWood = new HashMap<>();

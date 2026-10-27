@@ -152,12 +152,38 @@ def main():
     assert "dy <= 5" not in foliage
     assert "anchor.above(5)" not in foliage
     assert "OLIVE_LEAVES" not in foliage and "OLIVE_TRUNK" not in trunk
+    # Regression: cover upper bends even when the final trunk log has
+    # shifted laterally. Each new leaf borders actual Almond wood, never
+    # an assumed straight pole, and the collar stays below the old apex.
+    assert "for (int dy = -3; dy <= -1; dy++)" in foliage
+    assert "BlockPos wood = anchor.offset(dx, dy, dz)" in foliage
+    assert "isAlmondWood(level.getBlockState(wood))" in foliage
+    assert "for (Direction side : Direction.Plane.HORIZONTAL)" in foliage
+    assert "BlockPos leaf = wood.relative(side)" in foliage
+    assert "planned.add(leaf); // Face-adjacent to REAL logs." in foliage
+    assert "y - groundY < 3" in foliage
+    assert "for (int dy = minDy; dy <= 4; dy++)" in foliage
+    assert "anchor.above(5)" not in foliage
+
+    # The block stays a standard vanilla-tinted leaf model, but the
+    # biome adapter is CLIENT ONLY and touches strictly Almond leaves.
+    client=(SRC/"ItaliansDelightClient.java").read_text()
+    assert "BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);" in client
+    assert "BlockTintSources.foliage().colorInWorld(state, level, pos)" in client
+    assert "private static int softenAlmondTint(int biome)" in client
+    assert "255 * 7" in client and "* 3" in client
+    assert "ModBlocks.OLIVE_LEAVES" not in client
+    assert "ModBlocks.ALMOND_SAPLING" not in client
+    assert "ColorProviderRegistry" not in (SRC/"common/registry/ModBlocks.java").read_text()
+
     for class_name in ("AlmondTrunkPlacer","AlmondFoliagePlacer"):
         assert (SRC/f"common/worldgen/{class_name}.java").exists()
     assert "ALMOND_TREE" not in (SRC/"common/registry/ModWorldGeneration.java").read_text()
     assert not (D/"italiansdelight/worldgen/placed_feature/almond_tree_wild.json").exists()
     print("OK: Almond vanilla-density foliage: 197 opaque, 59 transparent, 37/60 opaque border, unchanged six-color palette")
     print("OK: approved Almond sapling unchanged; crown begins at Olive height (-2 tall/-1 short), apex stays +4")
+    print("OK: Almond-only soft vanilla biome tint registered on the client; Olive untouched")
+    print("OK: real upper-wood collars fill shifted elbows below canopy; original apex and ground clearance preserved")
     print("OK: No fruit drops or wild Almond worldgen until later phases")
 
 if __name__=="__main__":

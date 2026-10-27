@@ -1,6 +1,14 @@
 package dev.italiansdelight;
 
 import net.fabricmc.api.ClientModInitializer;
+import dev.italiansdelight.common.registry.ModBlocks;
+import java.util.List;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
+import net.minecraft.client.color.block.BlockTintSource;
+import net.minecraft.client.color.block.BlockTintSources;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.state.BlockState;
 
 import dev.italiansdelight.client.gui.CheeseVatScreen;
 import dev.italiansdelight.client.gui.PizzaOvenScreen;
@@ -41,8 +49,38 @@ public class ItaliansDelightClient implements ClientModInitializer {
         new ModelLayerLocation(ModRegistries.id("chest_boat/olive"), "main");
 
 
+    /**
+     * Soft biome variation only for Almond leaves. Keep the original approved
+     * green texture; a 30% vanilla foliage influence gives restrained warm
+     * savanna foliage and cooler greens in cold biomes rather than turning
+     * the six-color art into a dark, fully multiplied oak-style texture.
+     */
+    private static final BlockTintSource ALMOND_BIOME_FOLIAGE = new BlockTintSource() {
+        @Override
+        public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
+            int biome = BlockTintSources.foliage().colorInWorld(state, level, pos);
+            return softenAlmondTint(biome);
+        }
+
+        @Override
+        public int color(BlockState state) {
+            return 0xFFFFFFFF; // Inventory keeps the approved leaf color.
+        }
+    };
+
+    private static int softenAlmondTint(int biome) {
+        int red = (255 * 7 + ((biome >>> 16) & 255) * 3) / 10;
+        int green = (255 * 7 + ((biome >>> 8) & 255) * 3) / 10;
+        int blue = (255 * 7 + (biome & 255) * 3) / 10;
+        return 0xFF000000 | red << 16 | green << 8 | blue;
+    }
+
     @Override
     public void onInitializeClient() {
+        // Affect only Almond leaves. Olive foliage, all other trees, and the
+        // Almond sapling retain their existing untinted appearances.
+        BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);
+
         ModelLayerRegistry.registerModelLayer(
             OLIVE_BOAT_LAYER, BoatModel::createBoatModel);
         ModelLayerRegistry.registerModelLayer(

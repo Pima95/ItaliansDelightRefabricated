@@ -740,6 +740,33 @@ troppi vuoti anche sui bordi e la chioma partiva più in alto di quella dell'uli
 **Non modificati** germoglio approvato, forma del tronco, ulivo e colori
 in base ai biomi (ancora in attesa di decisione). `main` intatta.
 
+### Mandorlo — ombreggiatura biomi e rami sottochioma (27 ottobre 2026)
+
+L'autore ha approvato l'adattamento cromatico delle **sole foglie
+di mandorlo** al bioma e ha documentato un difetto di generazione:
+quando il tronco è curvo, il suo gomito sotto la chioma rimane nudo.
+
+- [x] In `ItaliansDelightClient` registrata una sorgente tinta
+  **solo per `ALMOND_LEAVES`** mediante la foliage colormap vanilla
+  di Minecraft 26.2. Un fattore del 30% mescola la tinta ambientale
+  con il bianco per non oscurare la palette verde approvata; effetto
+  più caldo nei biomi aridi e più fresco/verde nei climi freddi.
+  L'item rimane con il colore originale. L'ulivo e il germoglio non
+  ricevono tinting; nessuna dipendenza client introdotta nel common.
+- [x] `AlmondFoliagePlacer`: il mantello inferiore cerca ora i
+  **veri blocchi di tronco** sopra il fusto (da -3 a -1 rispetto
+  all'ancora della chioma), disponendo piccoli gruppi di foglie
+  direttamente sui quattro lati. Questo copre i gomiti laterali
+  sotto l'apice anziché ipotizzare un fusto verticale.
+  La chioma conserva la quota superiore +4, le nuove ramificazioni
+  non hanno speroni oltre due blocchi e rimangono liberi due
+  blocchi sopra il terreno.
+- [x] Test di regressione ampliati per tinta isolata al mandorlo,
+  posizione effettiva dei rami, continuità/decadimento delle foglie,
+  limiti di altezza e terreno.
+- [ ] Test visivi in Minecraft nei biomi Plains, Savanna e Snowy Plains,
+  oltre a una crescita con tronco curvo e biforcato osservata dal basso.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
