@@ -664,6 +664,29 @@ non coerente con la venatura integrale.
 - [ ] **Verifica in gioco** della grafica e crescita con farina d'ossa,
   ostacoli, foglie e forme di tronco prima della messa in natura.
 
+### Mandorlo — revisione silhouette 27 ottobre 2026 su feedback autore
+
+Il primo mandorlo generato aveva tronco quasi verticale e foglie a cupola;
+il germoglio 16×16 era troppo diritto, schematico e graficamente rozzo.
+
+- [x] **Tronco:** sostituito il vecchio algoritmo con la struttura
+  dell'ulivo già verificata dall'autore: curva bassa, seconda svolta e
+  occasionali rami biforcati **ascendenti e connessi**, verificati prima
+  di collocare i blocchi. Per il mandorlo i rami doppi sono più frequenti
+  (circa 1 albero su 5); resta un singolo germoglio 1×1.
+- [x] **Chioma:** rimossa la cupola a 5 strati, incluse le proporzioni
+  dell'ulivo. Nuovo profilo ad almeno 7 livelli **stretto e alto**,
+  con tre getti laterali che salgono e un apice centrale slanciato.
+  Connessione foglie-legno e distanza massima 6 per evitare decadimento.
+- [x] **Sapling:** sprite 16×16 completamente ridisegnato. Fusto
+  curvo e nodoso, rami aperti asimmetricamente e gruppi di foglioline
+  affusolate; palette verde/bruna già approvata conservata, no Rustic.
+- [x] Test di regressione e protezione hash del nuovo germoglio aggiornati.
+- [ ] **Esame estetico in Minecraft ancora necessario**: sagoma della
+  chioma vista dai 4 lati, connessione effettiva delle fronde superiori,
+  germogli in vaso e con farina d'ossa.
+- [ ] Nessuna generazione naturale / fruttificazione in questa fase.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

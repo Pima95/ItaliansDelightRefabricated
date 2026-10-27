@@ -32,11 +32,18 @@ def main():
     assert 65<=sum(p[3]==255 for p in sapling)<=110
     stem={(87,58,48),(120,79,58),(156,110,78)}
     assert {p[:3] for p in sapling if p[3]==255}<=colors|stem
-    assert sum(p[:3] in stem for p in sapling if p[3])>=8
+    assert sum(p[:3] in stem for p in sapling if p[3])>=16
+    # Real saplings have a crooked S-shaped stem and secondary branches,
+    # not a straight trunk with a symmetric pixel cloud above it.
+    for x,y in ((8,15),(7,13),(6,11),(9,6)):
+        assert sapling[y*16+x][:3] in stem, ("missing crooked wooden stem",x,y)
+    assert len({x for y in range(6,16) for x in range(16)
+                if sapling[y*16+x][:3] in stem})>=5
+    assert {p[:3] for p in sapling if p[3]>0}==colors|stem
     assert hashlib.sha256((A/"textures/block/almond_leaves.png").read_bytes()).hexdigest()==(
         "0d18e28fb2be34731eb41b2d53c01514c0339ce8f216de5c6f08d64f6c31d726")
     assert hashlib.sha256((A/"textures/block/almond_sapling.png").read_bytes()).hexdigest()==(
-        "13511593773754a693aff73a64faba0e78c1cbef7b220e38662583a515628e3e")
+        "f033c642298211c138e08538587e4eac4d9a9caa9553c7406bd9ba0c37196606")
 
     for name in ("almond_sapling","almond_leaves"):
         block=j(A/f"blockstates/{name}.json")
@@ -83,7 +90,7 @@ def main():
     assert cfg["foliage_provider"]["state"]["Properties"]["persistent"]=="false"
     assert cfg["trunk_placer"]=={
         "type":"italiansdelight:almond_trunk_placer",
-        "base_height":5, "height_rand_a":2, "height_rand_b":0}
+        "base_height":6, "height_rand_a":0, "height_rand_b":0}
     assert cfg["foliage_placer"]["type"]=="italiansdelight:almond_foliage_placer"
     assert cfg["foliage_placer"]["radius"]==2
     blocks=(SRC/"common/registry/ModBlocks.java").read_text()
@@ -97,12 +104,28 @@ def main():
             f"output.accept(ModBlocks.{name});")==1
     for kind in ("almond_trunk_placer","almond_foliage_placer"):
         assert f'ModRegistries.id("{kind}")' in placers
+    # The ALMOND trunk reuses Olive's proven lower bend + rising double fork.
+    # The crown MUST NOT reuse the olive flattened dome: its vertical tuft
+    # structure extends from dy=-1 through +5, with 3 upward shoots.
+    trunk=(SRC/"common/worldgen/AlmondTrunkPlacer.java").read_text()
+    foliage=(SRC/"common/worldgen/AlmondFoliagePlacer.java").read_text()
+    assert "BlockPos lowSide = forkBase.relative(lean)" in trunk
+    assert "BlockPos outerFork = raisedFork.relative(secondary)" in trunk
+    assert "canPlacePlan(level, origin, plan.barkPositions())" in trunk
+    assert "FORK_VARIANT_CHANCE = 5" in trunk
+    assert "TALL_SINGLE_CHANCE = 4" in trunk
+    assert "new double" not in foliage
+    assert "anchor.above(5)" in foliage
+    assert "for (int dy = 1; dy <= 4; dy++)" in foliage
+    assert "distanceFromWood" in foliage and "nextDistance > 6" in foliage
+    assert "radii = {1.70D, 2.35D, 2.45D, 2.00D, 1.45D, 0.85D}" in foliage
+    assert "OLIVE_LEAVES" not in foliage and "OLIVE_TRUNK" not in trunk
     for class_name in ("AlmondTrunkPlacer","AlmondFoliagePlacer"):
         assert (SRC/f"common/worldgen/{class_name}.java").exists()
     assert "ALMOND_TREE" not in (SRC/"common/registry/ModWorldGeneration.java").read_text()
     assert not (D/"italiansdelight/worldgen/placed_feature/almond_tree_wild.json").exists()
     print("OK: Almond original leaves/sapling art, correct vanilla models, pot, drops and tags")
-    print("OK: Almond 1x1 sapling growth with bespoke trunk and foliage placers")
+    print("OK: Almond sapling has crooked hand-drawn stem; trunk reuses Olive bends/forks and crown has tall upward foliage")
     print("OK: No fruit drops or wild Almond worldgen until later phases")
 
 if __name__=="__main__":
