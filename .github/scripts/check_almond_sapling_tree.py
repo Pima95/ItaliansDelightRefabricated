@@ -28,13 +28,13 @@ def main():
     colors={(40,75,40),(58,99,49),(78,121,57),
             (103,148,71),(136,174,95),(166,192,119)}
     leaf_visible=[p for p in leaf if p[3]==255]
-    assert len(leaf_visible)==202 and {p[:3] for p in leaf_visible}==colors
+    assert len(leaf_visible)==209 and {p[:3] for p in leaf_visible}==colors
     assert 65<=sum(p[3]==255 for p in sapling)<=110
     stem={(87,58,48),(120,79,58),(156,110,78)}
     assert {p[:3] for p in sapling if p[3]==255}<=colors|stem
     assert sum(p[:3] in stem for p in sapling if p[3])>=8
     assert hashlib.sha256((A/"textures/block/almond_leaves.png").read_bytes()).hexdigest()==(
-        "bbe13d99cde46a0b0eff5c6c23eead04d0c2335d05f7fa5eb6f509619f121cd7")
+        "0d18e28fb2be34731eb41b2d53c01514c0339ce8f216de5c6f08d64f6c31d726")
     assert hashlib.sha256((A/"textures/block/almond_sapling.png").read_bytes()).hexdigest()==(
         "13511593773754a693aff73a64faba0e78c1cbef7b220e38662583a515628e3e")
 
