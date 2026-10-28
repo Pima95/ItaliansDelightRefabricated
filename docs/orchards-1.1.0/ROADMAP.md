@@ -802,6 +802,28 @@ quando il tronco è curvo, il suo gomito sotto la chioma rimane nudo.
   con inventari e formaggi. Le texture sono originali e sono una prima
   proposta grafica, non ancora approvate dall'autore.
 
+### Mandorlo — revisione texture vanilla e compatibilità client (28 ottobre 2026)
+
+- [x] Rifatti cartello e cartello appeso secondo i layout UV 32×32
+  vanilla 26.2 (modelli, hitbox, orientamenti e registrazioni invariati).
+  Aggiornate icone 16×16 e texture GUI dedicate: cartello normale 24×26,
+  appeso 16×16.
+- [x] Nuova texture della mensola 32×32: base cromatica e fibra del
+  tronco **scortecciato di mandorlo**, cinque regioni frontali previste
+  dal modello vanilla, cornici e scavi delicati; tre slot, inventario e
+  redstone invariati.
+- [x] Foglie leggermente desaturate (23% verso la luminanza neutra) senza
+  cambiare silhouette (197 pixel visibili, 59 trasparenti), maturazione,
+  altezza della chioma o tinting dei biomi.
+- [x] Test sulle texture aggiornati, incluse dimensioni per le GUI, palette
+  della pianta mantenuta e modellistica vanilla.
+- [ ] Revisione estetica in Minecraft dei cartelli, mensola e barche.
+- [ ] Errore Gradle locale `processResources: Failed to clean up stale outputs`
+  riportato dall'autore: richiede arresto dei processi Java/VSC che
+  mantengono lock, poi `--stop` e cancellazione della sola cartella
+  `build/resources/main` prima di `--no-daemon runClient`.
+  Non è un errore Java del mod (il passo `compileJava` ha successo).
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

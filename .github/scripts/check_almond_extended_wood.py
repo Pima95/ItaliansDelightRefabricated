@@ -74,6 +74,7 @@ for t, count in (("sign",16),("hanging_sign",32)):
     assert len(read(A/f"blockstates/almond_{t}.json")["variants"])==count
 for filename,size in {
     "block/almond_sign.png":(32,32),"block/almond_hanging_sign.png":(32,32),
+    "gui/signs/almond.png":(24,26),"gui/hanging_signs/almond.png":(16,16),
     "block/almond_shelf.png":(32,32),
     "block/almond_cabinet_front.png":(16,16),
     "block/almond_cabinet_front_open.png":(16,16),
@@ -100,5 +101,15 @@ for loc in ("it_it","en_us"):
     for name in ("sign","hanging_sign","shelf","cabinet","cheese_aging_rack"):
         assert f"block.italiansdelight.almond_{name}" in data or f"item.italiansdelight.almond_{name}" in data
 print("OK: Almond sign + hanging sign, boats + chest boats, native shelf, FD cabinet, aging rack")
-print("OK: 13 original RGBA textures, item models, entity models, blockstates, craft/drop and tags")
+print("OK: 15 original RGBA textures, sign GUI atlases, models, blockstates, craft/drop and tags")
 print("OK: shelf BE, cabinet BE, signs and boat entity renderers are functional")
+
+# Match vanilla 26.2 sign/shelf model families: no custom geometry,
+# because orientation, hitboxes, writing and redstone must stay vanilla.
+for block in ("almond_sign_rot_0", "almond_hanging_sign_rot_0"):
+    model=read(A/f"models/block/{block}.json")
+    assert model["parent"].startswith("minecraft:block/template_")
+assert read(A/"models/block/almond_shelf_inventory.json")["parent"]=="minecraft:block/template_shelf_inventory"
+# GUIs must exist separately from the 32x32 world block textures.
+assert (A/"textures/gui/signs/almond.png").is_file()
+assert (A/"textures/gui/hanging_signs/almond.png").is_file()
