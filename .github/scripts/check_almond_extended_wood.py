@@ -14,7 +14,10 @@ def png(path,size):
     assert struct.unpack_from(">II",data,16)==size,(path,size)
     # Vanilla Minecraft 26.2 uses indexed PNGs for boats and some wood atlases.
     # Both 8-bit RGBA (type 6) and indexed PLTE+tRNS (type 3) are supported.
-    assert data[24]==8 and data[25] in (3,6) and data[26]==0,(path,"unsupported vanilla PNG format")
+    depth,kind,compression=data[24:27]
+    assert (kind==6 and depth==8 or kind==3 and depth in (1,2,4,8)) and compression==0, (
+        path,"unsupported vanilla PNG format",depth,kind
+    )
     if data[25]==3:
         assert b"PLTE" in data,(path,"indexed PNG missing palette")
     # PNG CRC validation for every chunk, including indexed palette and alpha.
