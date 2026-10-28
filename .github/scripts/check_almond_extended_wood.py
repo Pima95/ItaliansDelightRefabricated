@@ -143,11 +143,11 @@ ASSET_BLOBS={
     "entity/chest_boat/almond.png":"9a1e18b6f49668300518ff4e24ba3884b4d79426",
     "item/almond_boat.png":"0f85db269abc5d872309fb0ac513a09fe440cea8",
     "item/almond_chest_boat.png":"263cfc3a34f536bd8cea025007d4078fd8e81300",
-    "block/almond_sign.png":"958159d11790e52d0dca7b44d0ade1111de77e6e",
+    "block/almond_sign.png":"7e2ef9d663eae0b046d36e7b34f5821eea95d723",
     "block/almond_hanging_sign.png":"e33ea68327c6672e75e0ecef9e09600054253ef2",
-    "block/almond_shelf.png":"db520dea81a4e8744a089334badb02db9f5d2005",
-    "item/almond_sign.png":"09c1ebe9eac228f64a34393030ac0762dedad3bf",
-    "item/almond_hanging_sign.png":"b795de005e2210e1e086bb180c9643000e3813a5",
+    "block/almond_shelf.png":"9737b63a80847be5038490e164a3d92c1ad36f63",
+    "item/almond_sign.png":"86d4c3508f59863958aca0f30345580115369629",
+    "item/almond_hanging_sign.png":"0f49a19ab4d074ade5f7421acc631673f6b1f366",
     "block/almond_cabinet_front.png":"9869de32b9af82e5f69a09420944a1d8b801bd5f",
     "block/almond_cabinet_front_open.png":"6e2e5c487929941f0fee1c4947228ea646a2471f",
     "block/almond_cabinet_side.png":"da41ed62ee61bb3f229c0734472dfc8e63a6cce8",
@@ -188,7 +188,7 @@ hanging_item=check_rgba_pixel_art(A/"textures/item/almond_hanging_sign.png",(16,
 # The 24x12 sign face is a DIRECT pixel repeat of approved Almond planks.
 for y in range(12):
     for x in range(24):
-        approved=planks[(y+1)%16][x%16]
+        approved=planks[y%16][x%16]
         assert normal[y+16][x]==approved
         assert normal[y+2][x]==approved
         assert g_normal[y][x]==normal[y+16][x]
@@ -222,6 +222,38 @@ for row in hanging:
             # darker exposed edges are allowed, but not a new orange palette.
             assert p[0]>=80 and p[1]>=55 and p[2]>=40
 assert len(exposed_colors)>=5
+# Exact one-pixel vertical shift: old approved planks sampling was y+1,
+# now y. Geometric 32x32 UV layout and the user's approved sign post are intact.
+assert all(normal[16+y][x]==planks[y%16][x%16] for x in range(24) for y in range(12))
+assert all(normal[2+y][x]==planks[y%16][x%16] for x in range(24) for y in range(12))
+assert any(normal[16+y][x]!=planks[(y+1)%16][x%16] for x in range(24) for y in range(12))
+
+# The standalone inventory item is recolored directly from the canonical
+# Minecraft 26.2 sign sprite's arrangement, including glyph-like dark inlays.
+# The author-approved hanging sign item is restored byte-for-byte (verified
+# above by its original Git object checksum).
+assert normal_item[2][2][3]==255 and normal_item[10][14][3]==255
+assert normal_item[4][6][:3] != normal_item[4][7][:3]
+assert len({p[:3] for row in normal_item[:11] for p in row if p[3]})>=9
+assert "0f49a19ab4d074ade5f7421acc631673f6b1f366" in ASSET_BLOBS.values()
+
+# Minecraft 26.2 overlay face UVs (32x32 atlas, 16x8 each):
+# unpowered=(0,4), left=(0,16), right=(16,16),
+# center=(0,24), unconnected=(16,24). These independent images must
+# have individual Almond kernel-and-branch carvings rather than a
+# single recolored Spruce shelf sprite.
+shelf=check_rgba_pixel_art(A/"textures/block/almond_shelf.png",(32,32))
+regions=[(0,4),(0,16),(16,16),(0,24),(16,24)]
+faces=[tuple(tuple(shelf[y+dy][x+dx] for dx in range(16) for dy in range(8))
+             for x,y in [coord])[0] for coord in regions]
+assert len(set(faces))==5, "Five native Shelf overlays must be distinct"
+assert all(len(set(face))>=6 for face in faces), "Carved Almond motif lost"
+assert shelf[4+3][0+3]!=shelf[4+3][0+4], "Unpowered shelf kernel missing"
+assert shelf[16+3][0+9]!=shelf[16+3][0+10], "Left branch motif missing"
+assert shelf[16+3][16+6]!=shelf[16+3][16+7], "Right branch motif missing"
+assert shelf[24+3][0+5]!=shelf[24+3][0+6], "Center motif missing"
+assert shelf[24+3][16+8]!=shelf[24+3][16+9], "Disconnected shelf motif missing"
+print("OK: native shelf has five distinct carved Almond branches, correct UV positions")
 print("OK: Almond standing sign plank faces equal approved planks, retained world post")
 print("OK: vanilla hanging chain metal, all 632 pixels and coherent block/GUI/item masks")
 print("OK: approved Almond boats byte-identical; signs keep 26.2 UV support silhouettes; native shelf overlays and door-motif FD cabinet")

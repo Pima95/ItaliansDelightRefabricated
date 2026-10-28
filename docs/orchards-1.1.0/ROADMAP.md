@@ -924,6 +924,39 @@ Correzione richiesta dall'autore a seguito dei test:
 Riferimento: note ufficiali Minecraft Java 26.2 su nuovi modelli di
 cartelli e GUI, e atlas vanilla estratti dalla versione 26.2.
 
+### Mandorlo — correzione mensola e cartelli (28 ottobre 2026)
+
+- [x] **Mensola: motivo esclusivo di mandorlo.** Verificata la
+  disposizione UV dei modelli vanilla Minecraft 26.2: ogni stato ha
+  un volto 16×8 diverso nell'atlante 32×32:
+  `unpowered=(0,4)`, `left=(0,16)`, `right=(16,16)`,
+  `center=(0,24)`, `unconnected=(16,24)`.
+  Ridisegnate da `stripped_almond_log.png` **tutte e cinque le facce**
+  con semi di mandorla incisi e rametti che si raccordano negli stati
+  collegati. Non si tratta più del pattern dell'abete semplicemente
+  ricolorato. Telaio, rivetti e tutti i modelli, 3 slot e la logica
+  redstone rimangono invariati.
+- [x] **Cartello normale**: pannello 24×12 di entrambe le facce
+  spostato **esattamente di un pixel in basso** nella mappa delle
+  `almond_planks.png`, senza spostare modello, UV, paletto, supporti
+  o cambiare il colore. GUI di modifica del testo aggiornata in
+  corrispondenza pixel per pixel con la faccia frontale.
+- [x] **Item cartello normale**: ricavato dalla **silhouette,
+  disposizione dei segni scuri e trama dell'item vanilla 26.2**
+  (riferimento `oak_sign.png`), ricolorato con le tonalità del
+  legno di mandorlo e del paletto, conservando tutti i 132 pixel
+  opachi dell'icona vanilla.
+- [x] **Item cartello appeso ripristinato** byte per byte all'asset
+  approvato dall'autore prima della revisione del 28 ottobre:
+  Git blob `0f49a19ab4d074ade5f7421acc631673f6b1f366`.
+  La texture del blocco appeso, il modello e la sua GUI non cambiano.
+- [x] Test automatizzati estesi per controllare offset del pannello,
+  paletto preservato, checksum dell'item appeso e cinque disegni
+  indipendenti delle regioni native della mensola.
+- [ ] Da approvare **visivamente in gioco**: incisioni della mensola
+  sia isolata sia collegata, nuova icona del cartello normale e
+  il bordo superiore della tavola dopo il cambio di un pixel.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
