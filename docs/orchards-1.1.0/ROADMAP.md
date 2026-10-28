@@ -890,6 +890,40 @@ confermati nel commit `1152df0`.
   automatica non certifica l'approvazione estetica; non integrare
   in `main` prima della verifica.
 
+### Mandorlo — cartelli 26.2 sincronizzati fra mondo, item e GUI (28 ottobre 2026)
+
+Correzione richiesta dall'autore a seguito dei test:
+- [x] **Cartello normale:** il pannello 24×12 sulle due facce dell'atlante
+  32×32 ora usa **esattamente i pixel di `almond_planks.png`**,
+  ripetuti alla risoluzione originale. Nessuna imitazione o riduzione della
+  texture delle assi. Il paletto già approvato (tutti i pixel UV
+  `x=28..31`) rimane identico, protetto da hash.
+- [x] **Icona normale 16×16:** ripresa l'alpha originale dell'item vanilla
+  (pannello largo 13 px e paletto 3 px), con i pixel del **vero pannello**
+  della texture del mondo. Niente finte scritte nel disegno dell'item.
+- [x] **GUI normale 24×26:** pannello nei primi 12 px **pixel per pixel
+  uguale alla faccia frontale** (`x=0..23,y=16..27`) del blocco;
+  stelo ripreso dalla texture del paletto nel mondo. Forma/alpha
+  esattamente vanilla. Test esplicito d'identità fra sprite.
+- [x] **Cartello appeso:** atlante 32×32 ricostruito dalla maschera alpha
+  di `oak_hanging_sign.png` di Minecraft 26.2, con parte in legno
+  trattata usando `stripped_almond_log.png` e **96 pixel di catene e
+  componenti metallici originali** intatti. Preservate facce, supporto
+  a muro e variante sospesa; nessun modello cambiato.
+- [x] **Icona appesa e GUI 16×16:** stessa sagoma alpha vanilla;
+  faccia della GUI direttamente identica ai 14×10 pixel della faccia
+  del blocco; catene metalliche vanilla.
+- [x] Test CI estesi per coerenza del disegno del pannello, stelo intatto,
+  silhouette, GUI e UV. Non modificati barche, mensola, cabinet,
+  foglie e algoritmo dell'albero.
+- [ ] **Verifica dell'autore in Minecraft:** scrittura su cartelli da
+  terra/a parete, catene nelle tre varianti di sospensione e leggibilità
+  del pannello da distanza di gioco. Il controllo statico non sostituisce
+  questa approvazione visiva.
+
+Riferimento: note ufficiali Minecraft Java 26.2 su nuovi modelli di
+cartelli e GUI, e atlas vanilla estratti dalla versione 26.2.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
