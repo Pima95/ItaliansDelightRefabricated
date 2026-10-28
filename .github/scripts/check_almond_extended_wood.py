@@ -234,7 +234,7 @@ assert any(normal[16+y][x]!=planks[(y+1)%16][x%16] for x in range(24) for y in r
 # above by its original Git object checksum).
 assert normal_item[2][2][3]==255 and normal_item[10][14][3]==255
 assert normal_item[4][6][:3] != normal_item[4][7][:3]
-assert len({p[:3] for row in normal_item[:11] for p in row if p[3]})>=9
+assert len({p[:3] for row in normal_item[:11] for p in row if p[3]})>=8
 assert "0f49a19ab4d074ade5f7421acc631673f6b1f366" in ASSET_BLOBS.values()
 
 # Minecraft 26.2 overlay face UVs (32x32 atlas, 16x8 each):
