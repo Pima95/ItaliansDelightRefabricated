@@ -824,6 +824,41 @@ quando il tronco è curvo, il suo gomito sotto la chioma rimane nudo.
   `build/resources/main` prima di `--no-daemon runClient`.
   Non è un errore Java del mod (il passo `compileJava` ha successo).
 
+### Mandorlo — revisione vanilla richiesta dall'autore (28 ottobre 2026)
+
+**Problemi segnalati dal test in gioco:** barche con texture non vanilla,
+supporti del cartello appeso parzialmente invisibili, paletto e pannelli
+del cartello normale sbagliati, mensola senza differenze leggibili tra
+i suoi stati, cabinet non coerente con porta/botola.
+
+- [x] Barche 128×64 e barche con baule 128×128 ricostruite **dall'atlante
+  vanilla 26.2**, mantenendo pixel, alpha, UV, remi e scafo originali.
+  Variati unicamente i colori del legno per accordarli alla palette
+  mandorlo; la parte del baule è identica all'originale vanilla.
+  Aggiornate anche le icone 16×16 con lo stesso procedimento.
+- [x] Cartello normale su layout 32×32 esatto vanilla 26.2:
+  due facce senza finti pannelli orizzontali, fibra del legno scortecciato,
+  bordi, **paletto in marroni più scuri** coerenti con la porta.
+  Trasparenza UV originale conservata (836 pixel opachi).
+- [x] Cartello appeso 32×32 ricreato sul layout UV di quello vanilla:
+  tavola ricavata dal mandorlo scortecciato, **tutti i supporti e
+  le catene presenti**, con silhouette/alpha dell'atlante originale
+  (632 pixel opachi). Modelli e orientamenti 26.2 non toccati.
+- [x] Mensola 32×32 rivista sui colori del legno **scortecciato**
+  già approvato. Frontali e finiture separate per i 5 overlay
+  ufficiali: `unpowered`, `unconnected`, `left`, `right`,
+  `center`. Restano slot, connessioni e redstone vanilla.
+- [x] Cabinet Farmer's Delight con ante a due pannelli e cornici
+  richiamanti porta e botola mandorlo, maniglie metalliche sobrie,
+  lato e coperchio con stessa palette; frontale aperto con vani.
+  Block entity, ricette e comportamento FD invariati.
+- [x] Test di regressione aggiornati con CRC PNG, formati indicizzati
+  supportati da Minecraft, modelli ufficiali e checksum delle texture.
+- [ ] Prova visiva finale in Minecraft delle catene e delle staffe da
+  ogni orientamento, delle 5 mensole, dei due stati cabinet e delle barche.
+  La CI certifica compatibilità e presenza degli asset, non la qualità
+  estetica della resa in gioco.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

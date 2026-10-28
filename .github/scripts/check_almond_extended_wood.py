@@ -12,7 +12,23 @@ def png(path,size):
     data=path.read_bytes()
     assert data.startswith(b"\x89PNG\r\n\x1a\n"),path
     assert struct.unpack_from(">II",data,16)==size,(path,size)
-    assert data[24:27]==bytes((8,6,0)),(path,"must have RGBA 8bit")
+    # Vanilla Minecraft 26.2 uses indexed PNGs for boats and some wood atlases.
+    # Both 8-bit RGBA (type 6) and indexed PLTE+tRNS (type 3) are supported.
+    assert data[24]==8 and data[25] in (3,6) and data[26]==0,(path,"unsupported vanilla PNG format")
+    if data[25]==3:
+        assert b"PLTE" in data,(path,"indexed PNG missing palette")
+    # PNG CRC validation for every chunk, including indexed palette and alpha.
+    import zlib
+    off=8
+    while off<len(data):
+        length=struct.unpack_from(">I",data,off)[0]
+        assert off+length+12<=len(data),(path,"truncated PNG")
+        typ=data[off+4:off+8]
+        body=data[off+8:off+8+length]
+        stored=struct.unpack_from(">I",data,off+8+length)[0]
+        assert stored==zlib.crc32(typ+body),(path,typ,"bad CRC")
+        off+=12+length
+    assert off==len(data),(path,"invalid PNG trailer")
 def tag(kind,name,key):
     values=read(D/f"minecraft/tags/{kind}/{name}.json")["values"]
     assert "italiansdelight:"+key in values,(kind,name,key)
@@ -113,3 +129,43 @@ assert read(A/"models/block/almond_shelf_inventory.json")["parent"]=="minecraft:
 # GUIs must exist separately from the 32x32 world block textures.
 assert (A/"textures/gui/signs/almond.png").is_file()
 assert (A/"textures/gui/hanging_signs/almond.png").is_file()
+
+# Texture layouts are now derived from Minecraft 26.2 vanilla:
+# boats and chest boats preserve the exact UV mapping, transparent regions
+# and paddles. We record their Git blob checksums to reject accidental
+# overwrites with the former all-over plank patterns.
+import hashlib
+ASSET_BLOBS={
+    "entity/boat/almond.png":"14d28a0fe1e1db9a233e50715b4c0fb34a2f0371",
+    "entity/chest_boat/almond.png":"9a1e18b6f49668300518ff4e24ba3884b4d79426",
+    "item/almond_boat.png":"0f85db269abc5d872309fb0ac513a09fe440cea8",
+    "item/almond_chest_boat.png":"263cfc3a34f536bd8cea025007d4078fd8e81300",
+    "block/almond_sign.png":"6274f3f7a60f1f1bc030e9a8c405bfd5a98b6c68",
+    "block/almond_hanging_sign.png":"c7a02a11c8fd2bd0ded62967fe4bb3963df557fd",
+    "block/almond_shelf.png":"c2b36ec30ed10a1f569d21fdc33886983093a3a8",
+    "block/almond_cabinet_front.png":"6503e5520be4a87b47b4a2015ecc070330776750",
+    "block/almond_cabinet_front_open.png":"9cc5ec0c08e96dedda431fed2932583a802fd651",
+    "block/almond_cabinet_side.png":"a413d7147ec122bcd37923529002bd94f0fa683e",
+    "block/almond_cabinet_top.png":"af5238fcb4f727fb987aaaa8a07f4848543ad489",
+}
+for file,expected in ASSET_BLOBS.items():
+    payload=(A/"textures"/file).read_bytes()
+    sha=hashlib.sha1(b"blob "+str(len(payload)).encode("ascii")+b"\0"+payload).hexdigest()
+    assert sha==expected,(file,"unexpected texture data")
+# Vanilla models reference one 32×32 atlas for the full sign, and it must
+# cover all face, post, bracket and hanging-chain coordinates.
+for n in ("almond_sign_rot_0","almond_hanging_sign_rot_0",
+          "almond_hanging_sign_attached_rot_0","almond_wall_hanging_sign"):
+    m=read(A/f"models/block/{n}.json")
+    assert m["parent"].startswith("minecraft:block/template_"),n
+    assert m["textures"]["all"] in {
+        "italiansdelight:block/almond_sign",
+        "italiansdelight:block/almond_hanging_sign",
+    }
+# Every distinct shelf overlay uses the official native template and a
+# dedicated 32x32 atlas region: unpowered, unconnected, left, right, center.
+for name in ("unpowered","unconnected","left","right","center"):
+    m=read(A/f"models/block/almond_shelf_{name}.json")
+    assert m["parent"]==f"minecraft:block/template_shelf_{name}"
+    assert m["textures"]["all"]=="italiansdelight:block/almond_shelf"
+print("OK: Minecraft vanilla 26.2 UV-mapped Almond boat/sign textures, detailed shelf states and FD cabinet motifs")
