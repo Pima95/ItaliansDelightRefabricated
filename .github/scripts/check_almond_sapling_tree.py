@@ -26,11 +26,12 @@ def main():
     leaf=png("almond_leaves")
     sapling=png("almond_sapling")
     # Keep the approved six-color sapling untouched. Only leaf blocks
-    # were desaturated 23%, keeping their 197 opaque positions unchanged.
+    # were desaturated a further 13% from the prior approved foliage,
+    # keeping their 197 opaque positions and 59 fully transparent ones.
     sapling_colors={(40,75,40),(58,99,49),(78,121,57),
                     (103,148,71),(136,174,95),(166,192,119)}
-    leaf_colors={(46,73,46),(65,96,58),(85,118,68),
-                 (110,145,85),(142,171,110),(169,189,133)}
+    leaf_colors={(49,72,49),(68,95,62),(88,117,73),
+                 (113,143,91),(144,170,117),(171,188,139)}
     leaf_visible=[p for p in leaf if p[3]==255]
     assert len(leaf_visible)==197 and {p[:3] for p in leaf_visible}==leaf_colors
     # Vanilla leaves are dense in the center, but their outer edges remain
@@ -64,7 +65,7 @@ def main():
                 if sapling[y*16+x][:3] in stem})>=5
     assert {p[:3] for p in sapling if p[3]>0}==sapling_colors|stem
     assert hashlib.sha256((A/"textures/block/almond_leaves.png").read_bytes()).hexdigest()==(
-        "f8e312b03614c5d9125f8cdfdb655ad21b71871cc627664fe84079750c29c19c")
+        "7fcfcb85a8f561c114f294650a764969df8aaac2306e6232324c23df90176c39")
     assert hashlib.sha256((A/"textures/block/almond_sapling.png").read_bytes()).hexdigest()==(
         "f8c52ac0088cacf0584afaad9240bfcc96fa96e328e61791d31bc706d07a14a7")
 
@@ -187,7 +188,7 @@ def main():
         assert (SRC/f"common/worldgen/{class_name}.java").exists()
     assert "ALMOND_TREE" not in (SRC/"common/registry/ModWorldGeneration.java").read_text()
     assert not (D/"italiansdelight/worldgen/placed_feature/almond_tree_wild.json").exists()
-    print("OK: Almond vanilla-density foliage: 197 opaque, 59 transparent, 37/60 opaque border, 23% reduced foliage saturation, preserved six-tone palette")
+    print("OK: Almond vanilla-density foliage: 197 opaque, 59 transparent, 37/60 opaque border, additional 13% reduced foliage saturation, preserved six-tone palette")
     print("OK: approved Almond sapling unchanged; crown begins at Olive height (-2 tall/-1 short), apex now +3")
     print("OK: Almond-only soft vanilla biome tint registered on the client; Olive untouched")
     print("OK: real upper-wood collars fill shifted elbows; crown apex lowered exactly one block (+3)")

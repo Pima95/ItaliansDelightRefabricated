@@ -859,6 +859,37 @@ i suoi stati, cabinet non coerente con porta/botola.
   La CI certifica compatibilità e presenza degli asset, non la qualità
   estetica della resa in gioco.
 
+### Mandorlo — revisione finale dei materiali vanilla (28 ottobre 2026)
+
+L'autore ha **approvato le barche**: texture, modelli, icone e gameplay
+di `almond_boat` / `almond_chest_boat` rimangono identici ai file
+confermati nel commit `1152df0`.
+
+- [x] **Cartelli** rifatti sulle mappe reali 32×32 `oak_sign.png` /
+  `oak_hanging_sign.png` di Minecraft 26.2, mantenendo esattamente
+  le aperture e le regioni UV; pannelli con tonalità di mandorlo
+  scortecciato, paletto in corteccia più scura. Cartello appeso con
+  catene e supporti visibili secondo la silhouette vanilla.
+  Anche gli item 16×16 riprendono le sagome vanilla.
+- [x] **Mensola** rifatta dall'atlante reale `spruce_shelf.png` di
+  Minecraft 26.2, ricolorando con i toni legnosi del mandorlo,
+  senza cambiare il disegno degli slot e dei 5 stati redstone/catena
+  `unpowered`, `unconnected`, `left`, `right`, `center`.
+  Sono preservate block entity, connessioni, comparatori e hotbar swap.
+- [x] **Armadietto** ridisegnato a due ante con intarsi concentrici
+  verticali ripresi dalla porta/botola di mandorlo approvate,
+  piccole maniglie metalliche, fibra naturale del tronco scortecciato.
+  Aperti: tre vani interni, con fronte, lato e coperchio coerenti.
+  Il block model, block entity e inventario di Farmer's Delight non cambiano.
+- [x] **Foglie** meno sature di un ulteriore **13%** rispetto al precedente
+  valore, stessi 197 pixel opachi, 59 trasparenti, sei colori e tinting
+  ambientale solo per il mandorlo; germoglio e algoritmo di crescita intatti.
+- [x] Aggiornati i test sui checksum delle texture, mantenendo i digest
+  delle **barche approvate** identici a prima.
+- [ ] **Verifica visiva dell'autore in Minecraft** richiesta. La build
+  automatica non certifica l'approvazione estetica; non integrare
+  in `main` prima della verifica.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.

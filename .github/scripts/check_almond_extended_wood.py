@@ -143,13 +143,15 @@ ASSET_BLOBS={
     "entity/chest_boat/almond.png":"9a1e18b6f49668300518ff4e24ba3884b4d79426",
     "item/almond_boat.png":"0f85db269abc5d872309fb0ac513a09fe440cea8",
     "item/almond_chest_boat.png":"263cfc3a34f536bd8cea025007d4078fd8e81300",
-    "block/almond_sign.png":"6274f3f7a60f1f1bc030e9a8c405bfd5a98b6c68",
-    "block/almond_hanging_sign.png":"c7a02a11c8fd2bd0ded62967fe4bb3963df557fd",
-    "block/almond_shelf.png":"c2b36ec30ed10a1f569d21fdc33886983093a3a8",
-    "block/almond_cabinet_front.png":"6503e5520be4a87b47b4a2015ecc070330776750",
-    "block/almond_cabinet_front_open.png":"9cc5ec0c08e96dedda431fed2932583a802fd651",
-    "block/almond_cabinet_side.png":"a413d7147ec122bcd37923529002bd94f0fa683e",
-    "block/almond_cabinet_top.png":"af5238fcb4f727fb987aaaa8a07f4848543ad489",
+    "block/almond_sign.png":"50e03de008d942e018d3b42e1a3f3f7ba77c79c9",
+    "block/almond_hanging_sign.png":"5dff7ff9a6038cff549e6199b0c334f8bb470b06",
+    "block/almond_shelf.png":"db520dea81a4e8744a089334badb02db9f5d2005",
+    "item/almond_sign.png":"ab0ea8735bf8ef0feabbb5d955d332af0894bc4a",
+    "item/almond_hanging_sign.png":"0f49a19ab4d074ade5f7421acc631673f6b1f366",
+    "block/almond_cabinet_front.png":"9869de32b9af82e5f69a09420944a1d8b801bd5f",
+    "block/almond_cabinet_front_open.png":"6e2e5c487929941f0fee1c4947228ea646a2471f",
+    "block/almond_cabinet_side.png":"da41ed62ee61bb3f229c0734472dfc8e63a6cce8",
+    "block/almond_cabinet_top.png":"898d71607f4139b1aee94ee59188938cf3132754",
 }
 for file,expected in ASSET_BLOBS.items():
     payload=(A/"textures"/file).read_bytes()
@@ -171,4 +173,4 @@ for name in ("unpowered","unconnected","left","right","center"):
     m=read(A/f"models/block/almond_shelf_{name}.json")
     assert m["parent"]==f"minecraft:block/template_shelf_{name}"
     assert m["textures"]["all"]=="italiansdelight:block/almond_shelf"
-print("OK: Minecraft vanilla 26.2 UV-mapped Almond boat/sign textures, detailed shelf states and FD cabinet motifs")
+print("OK: approved Almond boats byte-identical; signs keep 26.2 UV support silhouettes; native shelf overlays and door-motif FD cabinet")
