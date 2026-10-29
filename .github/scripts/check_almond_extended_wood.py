@@ -145,7 +145,7 @@ ASSET_BLOBS={
     "item/almond_chest_boat.png":"263cfc3a34f536bd8cea025007d4078fd8e81300",
     "block/almond_sign.png":"7e2ef9d663eae0b046d36e7b34f5821eea95d723",
     "block/almond_hanging_sign.png":"e33ea68327c6672e75e0ecef9e09600054253ef2",
-    "block/almond_shelf.png":"9737b63a80847be5038490e164a3d92c1ad36f63",
+    "block/almond_shelf.png":"0625ec9d0d102dbcf27bd55cb4fcaa52364c926b",
     "item/almond_sign.png":"86d4c3508f59863958aca0f30345580115369629",
     "item/almond_hanging_sign.png":"0f49a19ab4d074ade5f7421acc631673f6b1f366",
     "block/almond_cabinet_front.png":"9869de32b9af82e5f69a09420944a1d8b801bd5f",
@@ -237,23 +237,49 @@ assert normal_item[4][6][:3] != normal_item[4][7][:3]
 assert len({p[:3] for row in normal_item[:11] for p in row if p[3]})>=8
 assert "0f49a19ab4d074ade5f7421acc631673f6b1f366" in ASSET_BLOBS.values()
 
-# Minecraft 26.2 overlay face UVs (32x32 atlas, 16x8 each):
-# unpowered=(0,4), left=(0,16), right=(16,16),
-# center=(0,24), unconnected=(16,24). These independent images must
-# have individual Almond kernel-and-branch carvings rather than a
-# single recolored Spruce shelf sprite.
+# Vanilla 26.2 shelf atlas: 5 independent 16x8 front overlays, not
+# five decorative stickers. Every powered segment must visibly JOIN the
+# adjacent segment along all 8 seam pixels, while the unpowered face
+# still has three visible inventory compartments.
 shelf=check_rgba_pixel_art(A/"textures/block/almond_shelf.png",(32,32))
-regions=[(0,4),(0,16),(16,16),(0,24),(16,24)]
-faces=[tuple(tuple(shelf[y+dy][x+dx] for dx in range(16) for dy in range(8))
-             for x,y in [coord])[0] for coord in regions]
-assert len(set(faces))==5, "Five native Shelf overlays must be distinct"
-assert all(len(set(face))>=6 for face in faces), "Carved Almond motif lost"
-assert shelf[4+3][0+3]!=shelf[4+3][0+4], "Unpowered shelf kernel missing"
-assert shelf[16+3][0+9]!=shelf[16+3][0+10], "Left branch motif missing"
-assert shelf[16+3][16+6]!=shelf[16+3][16+7], "Right branch motif missing"
-assert shelf[24+3][0+5]!=shelf[24+3][0+6], "Center motif missing"
-assert shelf[24+3][16+8]!=shelf[24+3][16+9], "Disconnected shelf motif missing"
-print("OK: native shelf has five distinct carved Almond branches, correct UV positions")
+states={
+    "unpowered":(0,4), "left":(0,16), "right":(16,16),
+    "center":(0,24), "unconnected":(16,24)
+}
+faces={
+    state:tuple(tuple(shelf[y+dy][x+dx] for dx in range(16))
+                for dy in range(8))
+    for state,(x,y) in states.items()
+}
+assert len({face for face in faces.values()})==5
+left,right,center=faces["left"],faces["right"],faces["center"]
+single,plain=faces["unconnected"],faces["unpowered"]
+for y in range(8):
+    # Left+center+right are a continuous wooden band without disconnected
+    # circular Almond insignias along the front.
+    assert left[y][15]==center[y][0]==center[y][15]==right[y][0], (
+        "Shelf connected front seam",y
+    )
+for y in (2,3,4,5):
+    # Native powered states differ by genuine end stile placement.
+    assert left[y][0]==single[y][0]
+    assert right[y][15]==single[y][15]
+    assert left[y][0]!=center[y][0]
+    assert right[y][15]!=center[y][15]
+    # Unpowered remains divided into three accessible item bays.
+    assert plain[y][5]==plain[y][10] and plain[y][5]!=plain[y][7]
+
+# Keep the shelf's solid geometry, particle texture, top and rails
+# untouched: only the native five 16x8 face overlays were revised.
+changed=set((x+dx,y+dy) for x,y in states.values()
+            for dy in range(8) for dx in range(16))
+untouched=bytes(c for y in range(32) for x in range(32)
+                if (x,y) not in changed for c in shelf[y][x])
+assert hashlib.sha256(untouched).hexdigest()==(
+    "cacb63d351e8851f588ace6cdda6092adde3e04105e5bbd1df3263f721e4c146"
+)
+print("OK: shelf three inventory bays and single mitered trim with seamless linked ends")
+print("OK: only the five native shelf overlays changed; wood body and rails unchanged")
 print("OK: Almond standing sign plank faces equal approved planks, retained world post")
 print("OK: vanilla hanging chain metal, all 632 pixels and coherent block/GUI/item masks")
 print("OK: approved Almond boats byte-identical; signs keep 26.2 UV support silhouettes; native shelf overlays and door-motif FD cabinet")

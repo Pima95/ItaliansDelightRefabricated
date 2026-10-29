@@ -957,6 +957,37 @@ cartelli e GUI, e atlas vanilla estratti dalla versione 26.2.
   sia isolata sia collegata, nuova icona del cartello normale e
   il bordo superiore della tavola dopo il cambio di un pixel.
 
+### Mandorlo — mensola: corretta la logica visiva delle cornici (29 ottobre 2026)
+
+L'autore ha approvato tutti gli altri blocchi; l'unica revisione richiesta
+è la **decorazione della mensola**. La diagnosi estetica è che il tentativo
+precedente sovrapponeva vistosi simboli di mandorle e rametti a cinque
+riquadri, che nel gioco sono invece *segmenti di una cornice continua*
+e non cinque quadri indipendenti. Quando si collegavano le mensole,
+i simboli venivano troncati o ripetuti e i tre scomparti sparivano
+visivamente sotto le decorazioni.
+
+- [x] Rifatte **solo** le cinque aree UV (16×8 px) già previste
+  dai modelli vanilla: `unpowered`, `left`, `right`,
+  `center`, `unconnected`. Tutto il resto dell'atlante,
+  incluse superfici del corpo della mensola, top e bordi,
+  resta invariato.
+- [x] `unpowered` recupera le **tre suddivisioni degli oggetti**.
+  Nelle versioni alimentate il disegno si sviluppa come piccolo
+  intarsio a cornice e giunzione lignea, ispirato ai profili
+  del legno mandorlo, senza simboli disegnati sopra i vani.
+- [x] Cornici terminate solo agli **estremi reali**:
+  `left` ha il montante sinistro, `right` quello destro,
+  `center` nessun montante, `unconnected` entrambi.
+  Le interfacce tra mensole adiacenti hanno **otto pixel su otto**
+  identici per altezza, senza interruzioni cromatiche.
+- [x] Aggiunti test specifici per continuità delle cinque
+  facce, tre vani, integrità delle parti non modificate
+  dell'atlante e checksum della texture finale.
+- [ ] Verifica *in Minecraft* con una mensola non alimentata e
+  una fila di mensole alimentate `left-center-right`, da vicino
+  e da una distanza di gioco normale.
+
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
