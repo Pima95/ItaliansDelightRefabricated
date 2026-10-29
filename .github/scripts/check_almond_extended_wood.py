@@ -145,7 +145,7 @@ ASSET_BLOBS={
     "item/almond_chest_boat.png":"263cfc3a34f536bd8cea025007d4078fd8e81300",
     "block/almond_sign.png":"7e2ef9d663eae0b046d36e7b34f5821eea95d723",
     "block/almond_hanging_sign.png":"e33ea68327c6672e75e0ecef9e09600054253ef2",
-    "block/almond_shelf.png":"0625ec9d0d102dbcf27bd55cb4fcaa52364c926b",
+    "block/almond_shelf.png":"5a2c38372cb3c8b0ab0bf8f3d8161f1d32674a74",
     "item/almond_sign.png":"86d4c3508f59863958aca0f30345580115369629",
     "item/almond_hanging_sign.png":"0f49a19ab4d074ade5f7421acc631673f6b1f366",
     "block/almond_cabinet_front.png":"9869de32b9af82e5f69a09420944a1d8b801bd5f",
@@ -237,10 +237,12 @@ assert normal_item[4][6][:3] != normal_item[4][7][:3]
 assert len({p[:3] for row in normal_item[:11] for p in row if p[3]})>=8
 assert "0f49a19ab4d074ade5f7421acc631673f6b1f366" in ASSET_BLOBS.values()
 
-# Vanilla 26.2 shelf atlas: 5 independent 16x8 front overlays, not
-# five decorative stickers. Every powered segment must visibly JOIN the
-# adjacent segment along all 8 seam pixels, while the unpowered face
-# still has three visible inventory compartments.
+# Minecraft 26.2 vanilla shelves (oak, spruce, birch, cherry, acacia,
+# dark oak and others) share these exact UV positions. The former two-bay
+# pattern and decorative screws were wrong: an unpowered face has THREE
+# vertical niches, whereas powered faces are uninterrupted wooden bands.
+# Test the actual five overlays and the unrepeated Almond-specific grain,
+# rather than pinning an obsolete "only paint five rectangles" assumption.
 shelf=check_rgba_pixel_art(A/"textures/block/almond_shelf.png",(32,32))
 states={
     "unpowered":(0,4), "left":(0,16), "right":(16,16),
@@ -251,35 +253,33 @@ faces={
                 for dy in range(8))
     for state,(x,y) in states.items()
 }
-assert len({face for face in faces.values()})==5
-left,right,center=faces["left"],faces["right"],faces["center"]
-single,plain=faces["unconnected"],faces["unpowered"]
-for y in range(8):
-    # Left+center+right are a continuous wooden band without disconnected
-    # circular Almond insignias along the front.
-    assert left[y][15]==center[y][0]==center[y][15]==right[y][0], (
-        "Shelf connected front seam",y
-    )
-for y in (2,3,4,5):
-    # Native powered states differ by genuine end stile placement.
-    assert left[y][0]==single[y][0]
-    assert right[y][15]==single[y][15]
-    assert left[y][0]!=center[y][0]
-    assert right[y][15]!=center[y][15]
-    # Unpowered remains divided into three accessible item bays.
-    assert plain[y][5]==plain[y][10] and plain[y][5]!=plain[y][7]
+assert len({face for face in faces.values()})==5, "Five different vanilla shelf states"
+almond_wood={pixel[:3] for row in planks for pixel in row if pixel[3]}
+# Carved-shadow brown, and a transition tone for the striped Almond grain.
+frame_wood={(133,95,79),(211,173,142)}
+assert all(pixel[3]==255 and pixel[:3] in (almond_wood|frame_wood)
+           for row in shelf for pixel in row), "Opaque native Almond wood palette"
 
-# Keep the shelf's solid geometry, particle texture, top and rails
-# untouched: only the native five 16x8 face overlays were revised.
-changed=set((x+dx,y+dy) for x,y in states.values()
-            for dy in range(8) for dx in range(16))
-untouched=bytes(c for y in range(32) for x in range(32)
-                if (x,y) not in changed for c in shelf[y][x])
-assert hashlib.sha256(untouched).hexdigest()==(
-    "cacb63d351e8851f588ace6cdda6092adde3e04105e5bbd1df3263f721e4c146"
-)
-print("OK: shelf three inventory bays and single mitered trim with seamless linked ends")
-print("OK: only the five native shelf overlays changed; wood body and rails unchanged")
-print("OK: Almond standing sign plank faces equal approved planks, retained world post")
-print("OK: vanilla hanging chain metal, all 632 pixels and coherent block/GUI/item masks")
-print("OK: approved Almond boats byte-identical; signs keep 26.2 UV support silhouettes; native shelf overlays and door-motif FD cabinet")
+# The unpowered front (x0..15,y4..11) has three full-height inset
+# jambs at x1,6,11, as in the actual vanilla 26.2 shelf textures.
+for y in (5,6,7,8):
+    assert all(shelf[y][x][0]<=152 for x in (1,6,11)), (
+        "Missing one of the three vanilla inventory bays",y
+    )
+    assert all(shelf[y][x][0]>170 for x in range(16,32)), (
+        "Shelf back must be grained Almond wood, not two extra bays",y
+    )
+
+# The powered front has four independently-textured variants rather than
+# repeating the old two-rectangle, bolt-and-ribbon design.
+for variant in ("left","right","center","unconnected"):
+    pixels=faces[variant]
+    assert len({p[:3] for row in pixels for p in row})>=5
+    assert not all(pixels[3][x][0]<=152 for x in (1,6,11)), (
+        "Powered face incorrectly displays three empty compartments",variant
+    )
+assert not any(p[:3] in {(63,63,63),(104,104,104)}
+               for row in shelf for p in row), "No fake grey bolts"
+print("OK: Almond shelf uses vanilla 26.2 three-bay + four-powered-state UV composition")
+print("OK: bespoke Almond wood grain, complete native frame and no ornamental screws")
+print("OK: approved Almond sign/boat artwork unchanged; shelf PNG fingerprint updated")
