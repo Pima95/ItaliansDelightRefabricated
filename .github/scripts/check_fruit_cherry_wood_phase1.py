@@ -76,5 +76,34 @@ for a,b in (("FRUIT_CHERRY_LOG","STRIPPED_FRUIT_CHERRY_LOG"),("FRUIT_CHERRY_WOOD
     assert f"StrippableBlockRegistry.register({a}, {b})" in java
 for n in blocks:
     assert "fire.add("+n.upper()+", 5, "+("20" if n=="fruit_cherry_planks" else "5")+")" in java
+# Reject the nearly uniform 5/6-tone cherry bark and stripped log.
+# Count true contiguous identical-color areas: this measures the visible
+# flat islands, not merely the overall number of distinct colors.
+def largest_flat_area(rows):
+    seen=set()
+    greatest=0
+    for y in range(16):
+        for x in range(16):
+            if (x,y) in seen:
+                continue
+            wanted=rows[y][x]
+            stack=[(x,y)]
+            seen.add((x,y))
+            size=0
+            while stack:
+                xx,yy=stack.pop()
+                size+=1
+                for nx,ny in ((xx+1,yy),(xx-1,yy),(xx,yy+1),(xx,yy-1)):
+                    if 0<=nx<16 and 0<=ny<16 and (nx,ny) not in seen and rows[ny][nx]==wanted:
+                        seen.add((nx,ny))
+                        stack.append((nx,ny))
+            greatest=max(greatest,size)
+    return greatest
+
+for key,limit in (("fruit_cherry_log",13),("stripped_fruit_cherry_log",10)):
+    texture=pixels[key]
+    assert len({px for row in texture for px in row})>=9, (key,"insufficient shading steps")
+    assert largest_flat_area(texture)<=limit, (key,"oversized uniform-color patch")
+print("OK: cherry bark and stripped grain have no oversized flat-color islands")
 print("OK: five original fruit cherry blocks, 5 PNGs, trunk rings, vanilla models")
 print("OK: creative, axe stripping, flammability, crafting, tags and translations")

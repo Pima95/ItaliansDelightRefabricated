@@ -24,6 +24,25 @@ queste due sole superfici laterali, su richiesta dell'autore.
 
 ---
 
+## Seconda revisione — chiaroscuro delle fibre (30 ottobre 2026)
+
+**Motivo:** l'autore ha respinto le grandi isole di colore quasi uniforme
+nella corteccia e nel tronco scortecciato, giudicando la resa troppo piatta.
+
+- Nuovo `fruit_cherry_log.png`: 10 tonalità castano-ramate con solchi corti
+  ombreggiati, creste illuminate e lenticelle sfalsate. La distribuzione
+  dei chiaroscuri è stata studiata confrontandola con il mandorlo approvato;
+  non viene mantenuta la precedente geometria uniforme a bande.
+- Nuovo `stripped_fruit_cherry_log.png`: 9 tonalità coordinate alle assi;
+  fibre variate in lunghezza, piccole curve e accenti chiaroscuri.
+- Test automatico sulle regioni 4-connesse di pixel identici: limite
+  massimo 13 pixel per la corteccia e 10 per lo scortecciato.
+- Entrambi i PNG restano opachi, 16×16, senza antialiasing.
+- Gli altri tre PNG del ciliegio, il codice, il crafting, i blocchi
+  di ulivo/mandorlo e `main` sono **immutati**.
+- **Da approvare:** risultato estetico e ripetizione della texture in gioco,
+  soprattutto sui tronchi affiancati e orientati orizzontalmente.
+
 ## Versione storica superata — recolor completo della quercia
 
 **Stato: proposta grafica implementata; attesa di approvazione in Minecraft.**
