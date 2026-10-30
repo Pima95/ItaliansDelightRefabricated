@@ -38,6 +38,18 @@ def png(path):
     return rows
 tex=("fruit_cherry_planks","fruit_cherry_log","fruit_cherry_log_top","stripped_fruit_cherry_log","stripped_fruit_cherry_log_top")
 pixels={k:png(a/f"textures/block/{k}.png") for k in tex}
+# Distinctive vanilla-scale fruit cherry artwork: fine horizontal bark
+# lenticels and lighter continuous stripped grain, both opaque 16x16.
+bark=pixels["fruit_cherry_log"]
+stripped=pixels["stripped_fruit_cherry_log"]
+assert len({p[:3] for row in bark for p in row})<=8, "Bark palette too noisy"
+assert len({p[:3] for row in stripped for p in row})<=10, "Stripped palette too noisy"
+assert sum(bark[y][x][0]<=91 and bark[y][x+1][0]<=91
+           for y in range(16) for x in range(15))>=6, "Horizontal bark lenticels missing"
+assert sum(p[0] for row in stripped for p in row)>sum(p[0] for row in bark for p in row), (
+    "Stripped fruit cherry must be lighter than bark"
+)
+
 normal,skinned=pixels["fruit_cherry_log_top"],pixels["stripped_fruit_cherry_log_top"]
 assert all(normal[y][x]==skinned[y][x] for y in range(1,15) for x in range(1,15))
 assert any(normal[y][x]!=skinned[y][x] for y in range(16) for x in range(16) if x in (0,15) or y in (0,15))

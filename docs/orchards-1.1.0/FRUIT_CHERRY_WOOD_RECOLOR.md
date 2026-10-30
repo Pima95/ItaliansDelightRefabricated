@@ -1,4 +1,30 @@
-# Ciliegio da frutto — revisione vanilla oak, 30 ottobre 2026
+# Ciliegio da frutto — stato texture
+
+## Revisione successiva — tronchi originali, 30 ottobre 2026
+
+**Stato attuale:** `fruit_cherry_log.png` e
+`stripped_fruit_cherry_log.png` **non sono più un semplice recolor
+della quercia**. La prima versione ispirata a oak è stata superata per
+queste due sole superfici laterali, su richiesta dell'autore.
+
+- Corteccia: forma 16×16 con rilievi rosso-castani longitudinali e
+  **brevi lenticelle orizzontali sfalsate**, carattere riconoscibile
+  dei ciliegi fruttiferi. Nessun simbolo o decorazione applicata.
+- Legno scortecciato: **fibre più continue, sottili e dolcemente curve**
+  con leggere variazioni ambrate, senza i grandi solchi della corteccia.
+- Restano invariati i due tagli `fruit_cherry_log_top.png` e
+  `stripped_fruit_cherry_log_top.png`, come pure `fruit_cherry_planks.png`.
+- Entrambi i nuovi PNG usano 16×16 pixel RGBA completamente opachi,
+  la palette castano-ramata già scelta, nessun filtraggio/antialias.
+- Nessuna variazione a registrazioni, crafting, alberi, item, tag,
+  `main`, ulivo o mandorlo.
+
+**Esito:** validazione tecnica dei due PNG completata, ma
+**approvazione estetica e prova in Minecraft ancora da fare**.
+
+---
+
+## Versione storica superata — recolor completo della quercia
 
 **Stato: proposta grafica implementata; attesa di approvazione in Minecraft.**
 **Branch:** `feature/orchards-1.1.0`.
