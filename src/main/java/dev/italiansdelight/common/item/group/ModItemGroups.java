@@ -112,6 +112,13 @@ public final class ModItemGroups {
                 output.accept(ModBoats.ALMOND_BOAT_ITEM);
                 output.accept(ModBoats.ALMOND_CHEST_BOAT_ITEM);
 
+                // FRUIT CHERRY: the first five original wood blocks.
+                output.accept(ModBlocks.FRUIT_CHERRY_LOG);
+                output.accept(ModBlocks.FRUIT_CHERRY_WOOD);
+                output.accept(ModBlocks.STRIPPED_FRUIT_CHERRY_LOG);
+                output.accept(ModBlocks.STRIPPED_FRUIT_CHERRY_WOOD);
+                output.accept(ModBlocks.FRUIT_CHERRY_PLANKS);
+
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);
                 output.accept(ModItems.ROLLING_PIN);

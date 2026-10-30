@@ -281,5 +281,10 @@
   "block.italiansdelight.almond_cabinet": "Almond Cabinet",
   "item.italiansdelight.almond_sign": "Almond Sign",
   "item.italiansdelight.almond_hanging_sign": "Almond Hanging Sign",
-  "block.italiansdelight.almond_shelf": "Almond Shelf"
+  "block.italiansdelight.almond_shelf": "Almond Shelf",
+  "block.italiansdelight.fruit_cherry_log": "Fruit Cherry Log",
+  "block.italiansdelight.fruit_cherry_wood": "Fruit Cherry Wood",
+  "block.italiansdelight.stripped_fruit_cherry_log": "Stripped Fruit Cherry Log",
+  "block.italiansdelight.stripped_fruit_cherry_wood": "Stripped Fruit Cherry Wood",
+  "block.italiansdelight.fruit_cherry_planks": "Fruit Cherry Planks"
 }

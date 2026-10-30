@@ -107,6 +107,40 @@ public final class ModBlocks {
 
 
 
+
+    // Original, non-vanilla fruit cherry wood family (Orchard 1.1.0).
+    // Leaves, sapling, fruits, natural generation are deliberately deferred.
+    public static final ResourceKey<Block> FRUIT_CHERRY_LOG_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_log"));
+    public static final Block FRUIT_CHERRY_LOG = register(
+        FRUIT_CHERRY_LOG_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_LOG).setId(FRUIT_CHERRY_LOG_KEY))
+    );
+    public static final ResourceKey<Block> FRUIT_CHERRY_WOOD_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_wood"));
+    public static final Block FRUIT_CHERRY_WOOD = register(
+        FRUIT_CHERRY_WOOD_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.OAK_WOOD).setId(FRUIT_CHERRY_WOOD_KEY))
+    );
+    public static final ResourceKey<Block> STRIPPED_FRUIT_CHERRY_LOG_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("stripped_fruit_cherry_log"));
+    public static final Block STRIPPED_FRUIT_CHERRY_LOG = register(
+        STRIPPED_FRUIT_CHERRY_LOG_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).setId(STRIPPED_FRUIT_CHERRY_LOG_KEY))
+    );
+    public static final ResourceKey<Block> STRIPPED_FRUIT_CHERRY_WOOD_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("stripped_fruit_cherry_wood"));
+    public static final Block STRIPPED_FRUIT_CHERRY_WOOD = register(
+        STRIPPED_FRUIT_CHERRY_WOOD_KEY,
+        new RotatedPillarBlock(Block.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD).setId(STRIPPED_FRUIT_CHERRY_WOOD_KEY))
+    );
+    public static final ResourceKey<Block> FRUIT_CHERRY_PLANKS_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_planks"));
+    public static final Block FRUIT_CHERRY_PLANKS = register(
+        FRUIT_CHERRY_PLANKS_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS).setId(FRUIT_CHERRY_PLANKS_KEY))
+    );
+
     // Almond originals: log, stripped log and planks (art approved).
     public static final ResourceKey<Block> ALMOND_LOG_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_log"));
@@ -794,6 +828,8 @@ public final class ModBlocks {
         StrippableBlockRegistry.register(OLIVE_WOOD, STRIPPED_OLIVE_WOOD);
         StrippableBlockRegistry.register(ALMOND_LOG, STRIPPED_ALMOND_LOG);
         StrippableBlockRegistry.register(ALMOND_WOOD, STRIPPED_ALMOND_WOOD);
+        StrippableBlockRegistry.register(FRUIT_CHERRY_LOG, STRIPPED_FRUIT_CHERRY_LOG);
+        StrippableBlockRegistry.register(FRUIT_CHERRY_WOOD, STRIPPED_FRUIT_CHERRY_WOOD);
         FlammableBlockRegistry fire = FlammableBlockRegistry.getDefaultInstance();
         fire.add(OLIVE_LOG, 5, 5);
         fire.add(OLIVE_WOOD, 5, 5);
@@ -805,6 +841,11 @@ public final class ModBlocks {
         fire.add(ALMOND_PLANKS, 5, 20);
         fire.add(ALMOND_WOOD, 5, 5);
         fire.add(STRIPPED_ALMOND_WOOD, 5, 5);
+        fire.add(FRUIT_CHERRY_LOG, 5, 5);
+        fire.add(FRUIT_CHERRY_WOOD, 5, 5);
+        fire.add(STRIPPED_FRUIT_CHERRY_LOG, 5, 5);
+        fire.add(STRIPPED_FRUIT_CHERRY_WOOD, 5, 5);
+        fire.add(FRUIT_CHERRY_PLANKS, 5, 20);
         fire.add(ALMOND_STAIRS, 5, 20);
         fire.add(ALMOND_SLAB, 5, 20);
         fire.add(ALMOND_FENCE, 5, 20);
