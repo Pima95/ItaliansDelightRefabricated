@@ -80,8 +80,8 @@ for kind in ("block","item"):
 assert "italiansdelight:fruit_cherry_planks" in load(d/"minecraft/tags/item/planks.json")["values"]
 for n in ("fruit_cherry_planks","fruit_cherry_wood","stripped_fruit_cherry_wood"):
     assert load(d/f"italiansdelight/recipe/{n}.json")["result"]["id"]=="italiansdelight:"+n
-for a,b in (("FRUIT_CHERRY_LOG","STRIPPED_FRUIT_CHERRY_LOG"),("FRUIT_CHERRY_WOOD","STRIPPED_FRUIT_CHERRY_WOOD")):
-    assert f"StrippableBlockRegistry.register({a}, {b})" in java
+for source_block, target_block in (("FRUIT_CHERRY_LOG","STRIPPED_FRUIT_CHERRY_LOG"),("FRUIT_CHERRY_WOOD","STRIPPED_FRUIT_CHERRY_WOOD")):
+    assert f"StrippableBlockRegistry.register({source_block}, {target_block})" in java
 for n in blocks:
     assert "fire.add("+n.upper()+", 5, "+("20" if n=="fruit_cherry_planks" else "5")+")" in java
 # Controlled clusters can be longer than the previous noise-forcing
