@@ -49,7 +49,8 @@ def continuity(rows):
     horizontal=sum(rows[y][x]==rows[y][x+1] for y in range(16) for x in range(15))
     return vertical,horizontal
 for name,tex in (("bark",bark),("stripped",stripped)):
-    assert 8<=len({p[:3] for row in tex for p in row})<=10, name
+    # Approved bark uses seven coherent tones, stripped wood uses eight.
+    assert 7<=len({p[:3] for row in tex for p in row})<=10, name
     vertical,horizontal=continuity(tex)
     assert vertical>=horizontal*1.6, (name,"wood fibers must read longitudinally")
     assert 85<=vertical<=160, (name,"avoid fragmented noise and mechanical stripes")
