@@ -165,8 +165,20 @@ planks=pixels["fruit_cherry_planks"]
 def average_luma(row):
     return sum(sum(p[:3])/3 for p in row)/len(row)
 for y in (3,7,11,15):
-    assert 17 < average_luma(planks[y-1])-average_luma(planks[y]) < 28, (
-        "Plank borders should be visible but not too dark",y)
+    assert 14 < average_luma(planks[y-1])-average_luma(planks[y]) < 24, (
+        "Cherry plank seam should remain visible without an excessive dark line",y)
+# The five-shade wood grain geometry is approved: only its palette may soften.
+palette=sorted({px[:3] for row in planks for px in row},key=lambda rgb:sum(rgb))
+rank={rgb:index for index,rgb in enumerate(palette)}
+grain=bytes(rank[px[:3]] for row in planks for px in row)
+assert hashlib.sha256(grain).hexdigest()=="77244b3d13323cf30f8298ec682e3ab01ebfd21a8876bd9878dc377b2a44bcc5", (
+    "Cherry plank pixel pattern must remain unchanged"
+)
+def tone(px): return sum(px[:3])/3
+max_jump=max(abs(tone(planks[y][x])-tone(planks[ny][nx]))
+             for y in range(16) for x in range(16)
+             for nx,ny in ((x+1,y),(x,y+1)) if nx<16 and ny<16)
+assert max_jump <= 40, ("Cherry planks have excessive adjacent-pixel contrast",max_jump)
 print("OK: immutable 1px cherry bark perimeter, coherent internal grain and visible moderate plank joints")
 print("OK: cleaned disconnected bark specks; approved stripped texture unchanged")
 print("OK: tested both repeated 2x2 log textures; no extended continuous dark lines")

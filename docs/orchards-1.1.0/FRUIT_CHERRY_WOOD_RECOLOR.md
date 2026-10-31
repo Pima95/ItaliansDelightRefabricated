@@ -1,5 +1,20 @@
 # Ciliegio da frutto — stato texture
 
+## Settima revisione — armonizzazione colori delle assi (31 ottobre 2026)
+
+Le cinque tonalità delle sole `fruit_cherry_planks.png` avevano uno
+stacco eccessivo fra zone illuminate e in ombra. La palette è stata
+riavvicinata mantenendo **esattamente le posizioni di tutti i 256 pixel**,
+le venature, le quattro tavole e le loro fughe. L'estremo di luminosità
+passa da circa 117–178 a circa 123–166; il massimo salto fra pixel
+adiacenti scende da circa 61 a 43. Le fughe rimangono riconoscibili.
+
+Il controllo statico registra il fingerprint della disposizione dei cinque
+toni, verifica il contrasto locale e la visibilità delle fughe. **Nessun
+altro asset è stato modificato**: corteccia ed estremità del ciliegio,
+scortecciato, tutte le texture di mandorlo e branch `main` restano
+invariati. La resa finale va valutata in Minecraft.
+
 ## Sesta revisione — venature interne ordinate e fughe leggibili (31 ottobre 2026)
 
 L'autore ha chiesto di distinguere meglio le fughe delle **sole assi di ciliegio**
