@@ -124,6 +124,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.FRUIT_CHERRY_FENCE_GATE);
                 output.accept(ModBlocks.FRUIT_CHERRY_BUTTON);
                 output.accept(ModBlocks.FRUIT_CHERRY_PRESSURE_PLATE);
+                output.accept(ModBlocks.FRUIT_CHERRY_DOOR);
+                output.accept(ModBlocks.FRUIT_CHERRY_TRAPDOOR);
 
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_trapdoor",
+  "pattern": [
+    "PPP",
+    "PPP"
+  ],
+  "key": {
+    "P": "italiansdelight:fruit_cherry_planks"
+  },
+  "result": {
+    "id": "italiansdelight:fruit_cherry_trapdoor",
+    "count": 2
+  }
+}

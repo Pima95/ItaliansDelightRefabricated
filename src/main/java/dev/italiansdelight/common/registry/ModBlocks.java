@@ -198,6 +198,24 @@ public final class ModBlocks {
 
 
     
+    // Fruit cherry door and trapdoor: standard wooden behavior and approved WoodType.
+    // Thin door models control the visible hinge edge, preventing mirrored hinges.
+    public static final ResourceKey<Block> FRUIT_CHERRY_DOOR_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_door"));
+    public static final Block FRUIT_CHERRY_DOOR = register(
+        FRUIT_CHERRY_DOOR_KEY,
+        new DoorBlock(FRUIT_CHERRY_BLOCK_SET_TYPE,
+            Block.Properties.ofFullCopy(Blocks.OAK_DOOR).setId(FRUIT_CHERRY_DOOR_KEY))
+    );
+
+    public static final ResourceKey<Block> FRUIT_CHERRY_TRAPDOOR_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_trapdoor"));
+    public static final Block FRUIT_CHERRY_TRAPDOOR = register(
+        FRUIT_CHERRY_TRAPDOOR_KEY,
+        new TrapDoorBlock(FRUIT_CHERRY_BLOCK_SET_TYPE,
+            Block.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).setId(FRUIT_CHERRY_TRAPDOOR_KEY))
+    );
+
     // Almond originals: log, stripped log and planks (art approved).
     public static final ResourceKey<Block> ALMOND_LOG_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_log"));
@@ -909,6 +927,8 @@ public final class ModBlocks {
         fire.add(FRUIT_CHERRY_FENCE_GATE, 5, 20);
         fire.add(FRUIT_CHERRY_BUTTON, 5, 20);
         fire.add(FRUIT_CHERRY_PRESSURE_PLATE, 5, 20);
+        fire.add(FRUIT_CHERRY_DOOR, 5, 20);
+        fire.add(FRUIT_CHERRY_TRAPDOOR, 5, 20);
         fire.add(ALMOND_STAIRS, 5, 20);
         fire.add(ALMOND_SLAB, 5, 20);
         fire.add(ALMOND_FENCE, 5, 20);
