@@ -90,6 +90,46 @@ for path,(dims,filled) in assets.items():
     pixels=check_rgba_pixel_art(A/"textures"/path,dims)
     assert sum(p[3]==255 for row in pixels for p in row)==filled,path
     assert len({p[:3] for row in pixels for p in row if p[3]==255})>=5,path
+# Freeze the UV/alpha masks of all eight vanilla-compatible atlases.
+# Only grain and wood shading were redrawn, not sign geometry or metal chains.
+alpha_checks={
+    "block/fruit_cherry_sign.png":"14a809f59cb0066b3c92c2853be5940afdb338858dfa043ed6179e8cc4346fba",
+    "block/fruit_cherry_hanging_sign.png":"8891e87cfca5c59a4f1c8dcec4bae192e93a3c29ed52c48e30c35475b59a67db",
+    "item/fruit_cherry_sign.png":"0680e022b903c50de3e543253779bc225c14e802fe12c5d174581189acb9aa5b",
+    "item/fruit_cherry_hanging_sign.png":"f3acbeb2c1574628720d5e4a09ea772afb28f32a25b2072bca8f48c5a1cbe9d1",
+    "gui/signs/fruit_cherry.png":"40f2bbec67865c5b8ad356fe729c8208b37fae198f0896acbbeb6cf8642dc17c",
+    "gui/hanging_signs/fruit_cherry.png":"78a626d250553172f1ef7125d0818634ea17779cc7ba0ba70562bd2066ab1634",
+    "entity/sign/fruit_cherry.png":"ae740014329219e3d434f465fb2e023136ca141c1d01d14f07d1649168325949",
+    "entity/sign/hanging/fruit_cherry.png":"b78da22b2c336545626dac22fb36e9faa6f1a6764a8978a402100c4b1c661469",
+}
+for path,expect in alpha_checks.items():
+    dims=assets[path][0]
+    pixels=check_rgba_pixel_art(A/"textures"/path,dims)
+    silhouette=bytes(px[3] for row in pixels for px in row)
+    assert hashlib.sha256(silhouette).hexdigest()==expect,(
+        path,"sign or chain silhouette shifted"
+    )
+# A sign is not an array of planks: forbid full-width dark horizontal
+# joins in the actual front UV of either sign.
+def strongest_horizontal_seam(pixels,x0,y0,w,h):
+    def light(px):return sum(px[:3])/3
+    return max(
+        sum(abs(light(pixels[y0+y][x])-light(pixels[y0+y-1][x]))
+            for x in range(x0+1,x0+w-1))/(w-2)
+        for y in range(1,h)
+    )
+front=check_rgba_pixel_art(A/"textures/block/fruit_cherry_sign.png",(32,32))
+hf=check_rgba_pixel_art(A/"textures/block/fruit_cherry_hanging_sign.png",(32,32))
+assert strongest_horizontal_seam(front,0,0,24,14)<16,(
+    "The normal sign face has conspicuous plank-like horizontal seams"
+)
+assert strongest_horizontal_seam(hf,0,16,16,10)<16,(
+    "The hanging sign face has conspicuous horizontal plank seams"
+)
+# Cherry sign and hanging sign must be two distinct decorations, not the
+# same planks motif resized to the second UV.
+assert front[4][5][:3]!=hf[20][4][:3] or front[8][14][:3]!=hf[23][9][:3]
+
 normal=check_rgba_pixel_art(A/"textures/item/fruit_cherry_sign.png",(16,16))
 hanging=check_rgba_pixel_art(A/"textures/item/fruit_cherry_hanging_sign.png",(16,16))
 assert all(p[3]==0 for p in normal[0]+normal[1])
@@ -122,5 +162,6 @@ for filename,sha in approved.items():
     assert current==sha,(filename,"Approved asset modified unexpectedly")
 
 print("OK: cherry normal/wall/hanging/ceiling signs, 26.2 rotations and loot")
-print("OK: vanilla item silhouettes, GUI/editor and entity UVs; original copper artwork")
+print("OK: unchanged sign/chain silhouettes and four synchronized art contexts")
+print("OK: short vanilla-like wood fibers, no long plank seams on either face")
 print("OK: all previously approved cherry base wood, door and trapdoor textures unchanged")

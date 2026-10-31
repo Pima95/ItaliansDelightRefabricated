@@ -20,10 +20,25 @@ The **8 new PNGs** are separately authored textures for block atlas (32×32),
 inventory (16×16), GUI (24×26 and 16×16), and entity rendering (64×32).
 They preserve only the working Minecraft 26.2 UV transparency layout and the
 physical steel-chain design, not any almond wood colors, pixel motif, or glyph.
-A warm copper-cherry board is carved into three gentle horizontal bands,
-with a hand-shaped knot, short continuous fibers and restrained edge shading.
-The standing sign's pole is vertical stripped-cherry grain. The hanging sign
-uses its own beveled board with two inset pegs and metallic suspension.
+### Revised vanilla-friendly drawing (31 October 2026)
+The original horizontal plank joins and the prominent repeated decorative
+knot were removed from **both signs**. The standing sign is now a single
+smooth wooden face, with short staggered horizontal cherry-grain fibers,
+muted edge light and a matching vertical post. The hanging sign has its
+**own separate** more compact grain rhythm, a subtly highlighted center
+and unobtrusive bevel; neither sign copies the other's decorative pattern.
+Both remain clear enough for the in-game text.
+
+The item thumbnails, text-entry GUIs and 64×32 sign entity atlases were
+redrawn consistently. All 8 alpha masks, both sign silhouettes and the
+metallic chain pixels retain their previous positions and transparency.
+The artwork is original, while the coordinate layouts and block models
+remain the approved Minecraft 26.2 vanilla-compatible ones.
+
+New regression checks assert the eight unchanged transparency masks and
+limit cross-row brightness jumps to prevent a return of strong, full-width
+board separations. This is a visual redesign only: no item IDs, models,
+recipes, translations or gameplay logic were changed.
 
 ## Test and artistic review
 The new script `.github/scripts/check_fruit_cherry_signs.py` checks 4 block
