@@ -147,6 +147,18 @@ def isolated_contrast_pixels(texture):
 assert isolated_contrast_pixels(bark)<=5,"Bark has random detached pixels"
 approved_stripped=(a/"textures/block/stripped_fruit_cherry_log.png").read_bytes()
 assert hashlib.sha256(approved_stripped).hexdigest()=="27fca296d9ee001f05d5b24c56e0116b2ff8b9ccf0406c34465d0104c3c99546","Do not modify approved stripped Cherry wood"
+# User-requested seamless stacked bark and milder horizontal plank joints:
+# measure the exact 16px texture boundary that repeats under each log.
+def average_luma_diff(left,right):
+    return sum(abs(sum(a[:3])/3-sum(b[:3])/3) for a,b in zip(left,right))/len(left)
+assert average_luma_diff(bark[0],bark[15]) < 14, "Stacked Cherry bark has a visible horizontal seam"
+planks=pixels["fruit_cherry_planks"]
+def average_luma(row):
+    return sum(sum(p[:3])/3 for p in row)/len(row)
+for y in (3,7,11,15):
+    assert 5 < average_luma(planks[y-1])-average_luma(planks[y]) < 28, (
+        "Plank borders should be visible but not too dark",y)
+print("OK: stacked bark transition and restrained fruit cherry plank joints")
 print("OK: cleaned disconnected bark specks; approved stripped texture unchanged")
 print("OK: tested both repeated 2x2 log textures; no extended continuous dark lines")
 print("OK: long directional Cherry grain, short coherent lenticels, limited flat fields")

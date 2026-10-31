@@ -56,9 +56,9 @@ assert len(models) >= 17
 
 # Approved original artwork is identical, including the revised bark and stripped log.
 approved = {
-    "fruit_cherry_log.png":"4e54a2b0117b85a3d0f75eb0bdd302cd7b4fa820",
+    "fruit_cherry_log.png":"4c8ad22bb40d054e1fb67f5dd843ad59fee4784e",
     "stripped_fruit_cherry_log.png":"3ebad8726bf7a0fe64cd6ffde7546ef7e6dd2184",
-    "fruit_cherry_planks.png":"b32682ee45e449b64aad5d918a0f870fad1464d7",
+    "fruit_cherry_planks.png":"9aa242b9f67f635b48bb6c99321d8003df2381db",
     "fruit_cherry_log_top.png":"7a44276cce4f6d3d30ebee10383c2649c45136f2",
     "stripped_fruit_cherry_log_top.png":"a95a0fade44f58854bbfd5560f41d2e4e7daef21",
 }

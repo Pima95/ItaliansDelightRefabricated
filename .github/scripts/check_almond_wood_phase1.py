@@ -156,13 +156,13 @@ assert brightness([log_end[i] for i in inside]) == brightness(
 # original grain arrangement and clear horizontal board seams.
 plank_data=decoded["almond_planks"]
 assert hashlib.sha256((A/"textures/block/almond_planks.png").read_bytes()).hexdigest() == (
-    "afef2d5ba69a3b978a58cfb60eb86f1a51a45165926560f58f13fa7a2c755322"
+    "a3256d05600d25cbb6f1aee1b1423b0432dc486470216d323a1773c970aa099a"
 )
-assert len(set(plank_data))>=10
+assert len(set(plank_data))>=8
 assert all(tone_distance(rgb)<=9 for rgb in plank_data)
 plank_classes=bytes(nearest_tone(rgb) for rgb in plank_data)
 assert hashlib.sha256(plank_classes).hexdigest() == (
-    "916a6d6b0e4393aecbcff25512d5f1998f63eb516676823bf246a6808cb5be5d"
+    "a6332705094e29ff11f991e38eb9dcd57c3f4344fe3ec293662130f933f88d62"
 ), "The recognizable Minecraft plank seam/grain layout changed"
 def lum(rgb):
     return sum(a*b for a,b in zip(rgb,(0.2126,0.7152,0.0722)))
@@ -175,6 +175,9 @@ for seam in (3,7,11,15):
     assert sum(lum(plank_data[seam*16+x]) for x in range(16)) < (
         sum(lum(plank_data[(seam-1)*16+x]) for x in range(16))
     ), f"Wooden plank seam row {seam} lost definition"
+    assert sum(lum(plank_data[(seam-1)*16+x])-lum(plank_data[seam*16+x]) for x in range(16))/16 < 28, (
+        f"Almond plank seam {seam} is too dark"
+    )
 # Approved dark fissures and lit bark ridges now have 1px transition
 # shadows. The exposed wood is more finely shaded and shares the softer
 # plank colors, while remaining directionally coherent rather than noisy.

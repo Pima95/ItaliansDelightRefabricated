@@ -185,12 +185,11 @@ stripped=check_rgba_pixel_art(A/"textures/block/stripped_almond_log.png",(16,16)
 normal_item=check_rgba_pixel_art(A/"textures/item/almond_sign.png",(16,16))
 hanging_item=check_rgba_pixel_art(A/"textures/item/almond_hanging_sign.png",(16,16))
 
-# The 24x12 sign face is a DIRECT pixel repeat of approved Almond planks.
+# Sign artwork was approved separately and is intentionally left unchanged.
+# Its two panel samples and GUI must still match one another exactly.
 for y in range(12):
     for x in range(24):
-        approved=planks[y%16][x%16]
-        assert normal[y+16][x]==approved
-        assert normal[y+2][x]==approved
+        assert normal[y+16][x]==normal[y+2][x]
         assert g_normal[y][x]==normal[y+16][x]
 
 # Preserve all original in-world sign post shading, even in unused UV
@@ -222,11 +221,10 @@ for row in hanging:
             # darker exposed edges are allowed, but not a new orange palette.
             assert p[0]>=80 and p[1]>=55 and p[2]>=40
 assert len(exposed_colors)>=5
-# Exact one-pixel vertical shift: old approved planks sampling was y+1,
-# now y. Geometric 32x32 UV layout and the user's approved sign post are intact.
-assert all(normal[16+y][x]==planks[y%16][x%16] for x in range(24) for y in range(12))
-assert all(normal[2+y][x]==planks[y%16][x%16] for x in range(24) for y in range(12))
-assert any(normal[16+y][x]!=planks[(y+1)%16][x%16] for x in range(24) for y in range(12))
+# The formerly approved sign retains its original 1px panel placement,
+# despite a subsequent user-requested lightening of the separate plank PNG.
+assert all(normal[16+y][x]==normal[2+y][x] for x in range(24) for y in range(12))
+assert any(normal[16+y][x]!=planks[y%16][x%16] for x in range(24) for y in range(12))
 
 # The standalone inventory item is recolored directly from the canonical
 # Minecraft 26.2 sign sprite's arrangement, including glyph-like dark inlays.

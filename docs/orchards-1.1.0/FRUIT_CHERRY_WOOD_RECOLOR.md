@@ -1,5 +1,19 @@
 # Ciliegio da frutto — stato texture
 
+## Quinta revisione — giunzioni verticali e fughe morbide (31 ottobre 2026)
+
+- La **sola corteccia** `fruit_cherry_log.png` è stata ritoccata sui
+  bordi superiore e inferiore: la differenza di luminosità media fra
+  le due righe ora è circa 11,6 (prima 18,7), per ridurre la cucitura
+  fra tronchi impilati. Le venature centrali non sono state cambiate.
+- `fruit_cherry_planks.png` ha fughe più chiare ai pixel y=3,7,11,15;
+  stessa disposizione vanilla delle tavole.
+- Anche `almond_planks.png` è stata alleggerita nelle quattro fughe,
+  senza toccare corteccia, sezioni, scortecciato, segnaletica o arredi
+  approvati del mandorlo. I relativi controlli sono stati riallineati.
+- Controlli su texture 16×16 opache e ripetizione 3×3 effettuati fuori
+  dal gioco; la resa in Minecraft rimane da approvare.
+
 ## Quarta revisione — giunzioni 2×2 senza strisce continue (31 ottobre 2026)
 
 **Feedback dell'autore:** entrambi i tronchi, soprattutto ripetuti in griglie
