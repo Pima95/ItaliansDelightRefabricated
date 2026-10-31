@@ -1,5 +1,32 @@
 # Ciliegio da frutto — stato texture
 
+## Terza revisione — organizzazione delle venature (31 ottobre 2026)
+
+**Feedback:** l'autore ha respinto la seconda revisione perché il
+chiaroscuro era distribuito in frammenti troppo casuali.
+
+- Sono state riprogettate soltanto le **due texture laterali**,
+  `fruit_cherry_log.png` e `stripped_fruit_cherry_log.png`.
+- Si è ripartiti dal ritmo delle venature delle texture del mandorlo
+  già approvate, mantenendo gruppi connessi di pixel e ricomponendoli
+  in **pannelli di corteccia più larghi e direzionali**, con quattro
+  piccole lenticelle orizzontali, ombreggiate in modo coerente.
+- La versione scortecciata ha fibre più chiare, con segmenti lunghi,
+  lievi scostamenti e chiaroscuri coordinati anziché puntini isolati.
+- Palette: nove tonalità per la corteccia, otto per lo scortecciato.
+  Niente antialias, alfa uniforme, dimensioni 16×16; la quantità di
+  colori non è usata come surrogato della qualità grafica.
+- Nuove verifiche statiche di **continuità verticale rispetto a quella
+  orizzontale**, più un tetto a campiture uniformi troppo grandi.
+  I vecchi limiti sulle isole identiche di 13/10 pixel sono stati
+  rimossi, perché favorivano l'aggiunta artificiale di rumore.
+- **Immutati**: assi e due sezioni superiori, blocchi, modelli,
+  ricette, alberi, mandorlo, ulivo e `main`.
+
+**Stato:** proposta da verificare e approvare in Minecraft, non ancora
+conclusa sul piano estetico. Non procedere ai derivati prima
+dell'approvazione.
+
 ## Revisione successiva — tronchi originali, 30 ottobre 2026
 
 **Stato attuale:** `fruit_cherry_log.png` e
