@@ -40,6 +40,31 @@ limit cross-row brightness jumps to prevent a return of strong, full-width
 board separations. This is a visual redesign only: no item IDs, models,
 recipes, translations or gameplay logic were changed.
 
+## Rebuild from the approved wood textures (31 October 2026)
+
+The earlier two attempts were visually unlike Minecraft signs because they
+painted a flat, invented panel and short decorative strokes disconnected
+from the actual wooden materials. The approved Almond procedure was recovered:
+**ordinary sign boards follow the genuine planks, shifted to match
+the vanilla sign UV row alignment**; the post follows stripped log.
+The **hanging sign uses the genuine stripped log** for the body and support,
+and keeps vanilla iron chain pixels and suspension silhouettes unchanged.
+These two signs therefore have recognizably different wood structures.
+
+The 16×16 sign and hanging-sign items now reproduce the **actual Minecraft
+vanilla item sprite silhouettes and shading layout** (the user-approved
+Almond method), recolored to the authentic Fruit Cherry material palette.
+The GUI/editor, 32×32 block atlases and compatibility 64×32 entity sprites
+have all been rebuilt consistently. The 8 silhouettes/alpha fingerprints,
+the hanging chains and original model geometry remain intact.
+
+Tests now *require* authentic Cherry planks on the normal face and
+authentic stripped Cherry grain on the hanging face. Dark joining rows
+1,5,9 with their highlights replace the previous incorrect
+prohibition of any visible horizontal board joins. The 5 approved
+base wood textures, door, trapdoor, all Almond and Olive textures,
+blocks, crafting and Java classes have not been modified.
+
 ## Test and artistic review
 The new script `.github/scripts/check_fruit_cherry_signs.py` checks 4 block
 forms, 2 items, 16 rotations and 16 attached hanging states, data recipes,

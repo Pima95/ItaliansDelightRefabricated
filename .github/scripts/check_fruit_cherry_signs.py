@@ -109,26 +109,34 @@ for path,expect in alpha_checks.items():
     assert hashlib.sha256(silhouette).hexdigest()==expect,(
         path,"sign or chain silhouette shifted"
     )
-# A sign is not an array of planks: forbid full-width dark horizontal
-# joins in the actual front UV of either sign.
-def strongest_horizontal_seam(pixels,x0,y0,w,h):
-    def light(px):return sum(px[:3])/3
-    return max(
-        sum(abs(light(pixels[y0+y][x])-light(pixels[y0+y-1][x]))
-            for x in range(x0+1,x0+w-1))/(w-2)
-        for y in range(1,h)
-    )
+# Compare with previously approved Almond sign: normal sign is made from
+# real cherry PLANKS, exactly as the user established for the Almond stage.
+# The dark separator strokes y=1,5,9,13 and immediately highlighted
+# next row must be present rather than a flat invented smooth surface.
 front=check_rgba_pixel_art(A/"textures/block/fruit_cherry_sign.png",(32,32))
+planks=check_rgba_pixel_art(A/"textures/block/fruit_cherry_planks.png",(16,16))
+stripped=check_rgba_pixel_art(A/"textures/block/stripped_fruit_cherry_log.png",(16,16))
+plank_colors={p[:3] for row in planks for p in row}
+stripped_colors={p[:3] for row in stripped for p in row}
+assert {front[y][x][:3] for y in range(14) for x in range(24)} <= plank_colors, (
+    "Normal sign face must be constructed from authentic approved Cherry planks"
+)
+def mean_luma(seq):
+    return sum(sum(p[:3])/3 for p in seq)/len(seq)
+for seam in (1,5,9):
+    dark=mean_luma([front[seam][x] for x in range(2,22)])
+    lighter=mean_luma([front[seam+1][x] for x in range(2,22)])
+    assert 17 < lighter-dark < 42, (
+        "Approved vanilla wood-board alignments (y1,5,9) missing", seam,lighter-dark
+    )
+assert {front[y][x][:3] for y in range(16,30) for x in range(24)} <= plank_colors
 hf=check_rgba_pixel_art(A/"textures/block/fruit_cherry_hanging_sign.png",(32,32))
-assert strongest_horizontal_seam(front,0,0,24,14)<16,(
-    "The normal sign face has conspicuous plank-like horizontal seams"
+assert {hf[y][x][:3] for y in range(16,26) for x in range(16)} <= stripped_colors, (
+    "Hanging sign must use actual stripped Fruit Cherry log tones"
 )
-assert strongest_horizontal_seam(hf,0,16,16,10)<16,(
-    "The hanging sign face has conspicuous horizontal plank seams"
-)
-# Cherry sign and hanging sign must be two distinct decorations, not the
-# same planks motif resized to the second UV.
-assert front[4][5][:3]!=hf[20][4][:3] or front[8][14][:3]!=hf[23][9][:3]
+# Hanging sign is intentionally DIFFERENT from four-board standing sign.
+assert len({hf[y][x][:3] for y in range(16,26) for x in range(16)})>=7
+assert len({front[y][x][:3] for y in range(14) for x in range(24)})==5
 
 normal=check_rgba_pixel_art(A/"textures/item/fruit_cherry_sign.png",(16,16))
 hanging=check_rgba_pixel_art(A/"textures/item/fruit_cherry_hanging_sign.png",(16,16))
@@ -163,5 +171,6 @@ for filename,sha in approved.items():
 
 print("OK: cherry normal/wall/hanging/ceiling signs, 26.2 rotations and loot")
 print("OK: unchanged sign/chain silhouettes and four synchronized art contexts")
-print("OK: short vanilla-like wood fibers, no long plank seams on either face")
+print("OK: authentic cherry planks on normal sign, stripped log on hanging sign")
+print("OK: board separation rows match approved vanilla/Almond atlas alignment")
 print("OK: all previously approved cherry base wood, door and trapdoor textures unchanged")
