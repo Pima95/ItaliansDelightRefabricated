@@ -98,7 +98,7 @@ for name,folder in [
 assert sum(p[3]==0 for row in textures["fruit_cherry_door_top"] for p in row)==38
 assert all(p[3]==255 for row in textures["fruit_cherry_door_bottom"] for p in row)
 assert sum(p[3]==0 for row in textures["fruit_cherry_trapdoor"] for p in row)==24
-assert sum(p[3]==0 for row in textures["fruit_cherry_door"] for p in row)==114
+assert sum(p[3]==0 for row in textures["fruit_cherry_door"] for p in row)==130
 
 # Only the hinge-end texture has hinge pins: never show them also on the latch end.
 for half,positions in (("bottom",{(0,0),(0,10),(0,11)}),
@@ -134,7 +134,38 @@ assert t[13][7][:3]==(87,91,99) and t[13][8][:3]==(152,159,163), (
 item=textures["fruit_cherry_door"]
 assert all(item[y][x][3]==0 for y in range(16) for x in range(16)
            if x<3 or x>12)
-assert item[4][7][3]==0 and item[10][7][3]==255
+# Inventory door icon follows the vanilla item bounding box: 10x14 pixels,
+# exactly two top transparent rows (the old custom art filled all 16 rows).
+assert all(item[y][x][3]==0 for y in (0,1) for x in range(16)), (
+    "Door item should have vanilla-like empty top margin"
+)
+assert all(item[y][x][3]==255 for y in range(2,16) for x in (3,12)), (
+    "Door item vertical silhouette must match vanilla oak (x=3..12, y=2..15)"
+)
+assert item[4][7][3]==255 and item[6][7][3]==0 and item[10][7][3]==255, (
+    "The miniature arched window should be inset into the vanilla-sized icon"
+)
+
+# The user approved the lower half: freeze its exact PNG including the hinges.
+original_lower=A/"textures/block/fruit_cherry_door_bottom.png"
+payload=original_lower.read_bytes()
+lower_sha=hashlib.sha1(b"blob "+str(len(payload)).encode()+b"\0"+payload).hexdigest()
+assert lower_sha=="40311b22fb74b57718a5e7e9a2c0ee61e798293a", (
+    "Do not alter the already-approved lower door panel"
+)
+
+# Upper arch and transparent opening remain; structured wood grain now
+# appears along the two stiles and the bottom relief.
+assert len({top[y][2] for y in range(3,15)})>=3
+assert len({top[y][12] for y in range(3,15)})>=3
+assert len({top[13][x] for x in range(4,12)})>=2
+
+# The trapdoor border must never revert to a solid monochrome frame.
+assert len({t[0][x] for x in range(16)})>=3
+assert len({t[15][x] for x in range(16)})>=3
+assert len({t[y][0] for y in range(16)})>=2
+assert len({t[y][15] for y in range(16)})>=2
+
 
 
 # Do not touch any wood sprite already reviewed in earlier phases.
@@ -151,5 +182,5 @@ for filename,expected in approved.items():
     assert sha==expected,(filename,"approved sprite was changed",sha)
 print("OK: fruit cherry door/trapdoor vanilla rotation states, 26.2 models, redstone behavior and recipes")
 print("OK: cherry-only original door design: arched window, V-brace, diamond trapdoor")
-print("OK: handmade door inventory sprite, one-edge hinges and correctly placed latches")
+print("OK: vanilla-format door inventory icon, finer upper joinery and varied trapdoor frame")
 print("OK: the five approved fruit cherry wood textures remain byte-for-byte identical")

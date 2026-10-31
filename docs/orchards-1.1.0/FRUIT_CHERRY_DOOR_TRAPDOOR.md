@@ -23,6 +23,22 @@
 - Sono inclusi Creative, traduzioni, loot (porta soltanto metà inferiore),
   ricette, tag da legno e minabilità con ascia.
 
+## Revisione delle texture — 31 ottobre 2026
+
+- **Item porta:** riposizionato nella sagoma 10×14 pixel standard degli
+  item porta vanilla, lasciando trasparenti le prime due righe. Mantiene
+  però un'unica apertura ad arco e il rinforzo inferiore originale.
+- **Porta superiore:** aggiunti rilievi intagliati, chiaroscuri e venature
+  direzionali sui montanti e sulle traverse. La forma dell'arco e le
+  parti metalliche non sono cambiate.
+- **Porta inferiore:** **invariata byte per byte**, perché già approvata.
+- **Botola:** spezzate le campiture monocromatiche dei bordi esterni e
+  della cornice interna mediante passaggi di tono che seguono le fibre.
+  I due fori a losanga, la traversa e gli elementi metallici conservano
+  le stesse posizioni; nessun effetto rumore casuale.
+- Tutti i disegni restano 16×16 con trasparenze nette e palette legno
+  approvata; l'effetto estetico va ancora verificato in gioco.
+
 ## Controlli
 
 Il test `.github/scripts/check_fruit_cherry_door_trapdoor.py` verifica
