@@ -124,6 +124,29 @@ for name,tex in (("bark",bark),("stripped",stripped)):
     longest,joined=repeated_vertical_streaks(tex)
     assert longest<=7, (name,"continuous streak visible in 2x2 tiling",longest)
     assert joined==0, (name,"dark crevice joins at 16px tile boundary")
+# Surface texture cleanup: avoid detached high-contrast bark specks
+# without breaking the short grooves already tested above. The stripped
+# texture has been expressly approved and is protected byte-for-byte.
+from statistics import median
+import hashlib
+palette=sorted({px for row in bark for px in row},key=lambda p:sum(p[:3]))
+ordinal={px:i for i,px in enumerate(palette)}
+def isolated_contrast_pixels(texture):
+    values=[[ordinal[texture[y][x]] for x in range(16)] for y in range(16)]
+    total=0
+    for y in range(16):
+        for x in range(16):
+            value=values[y][x]
+            neighbours=[values[ny][nx]
+                for dx,dy in ((0,-1),(0,1),(-1,0),(1,0),(-1,-1),(1,-1),(-1,1),(1,1))
+                if 0<=(nx:=x+dx)<16 and 0<=(ny:=y+dy)<16]
+            if len(neighbours)>=3 and sum(abs(v-value)<=1 for v in neighbours)<=1 and abs(value-round(median(neighbours)))>=2:
+                total+=1
+    return total
+assert isolated_contrast_pixels(bark)<=5,"Bark has random detached pixels"
+approved_stripped=(a/"textures/block/stripped_fruit_cherry_log.png").read_bytes()
+assert hashlib.sha256(approved_stripped).hexdigest()=="27fca296d9ee001f05d5b24c56e0116b2ff8b9ccf0406c34465d0104c3c99546","Do not modify approved stripped Cherry wood"
+print("OK: cleaned disconnected bark specks; approved stripped texture unchanged")
 print("OK: tested both repeated 2x2 log textures; no extended continuous dark lines")
 print("OK: long directional Cherry grain, short coherent lenticels, limited flat fields")
 print("OK: five original fruit cherry blocks, 5 PNGs, trunk rings, vanilla models")
