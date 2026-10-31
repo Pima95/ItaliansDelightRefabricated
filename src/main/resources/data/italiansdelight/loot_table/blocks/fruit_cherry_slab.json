@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "italiansdelight:fruit_cherry_slab",
+                  "properties": {
+                    "type": "double"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "italiansdelight:fruit_cherry_slab"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "italiansdelight:blocks/fruit_cherry_slab"
+}

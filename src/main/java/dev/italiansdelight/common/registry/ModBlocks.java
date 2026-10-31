@@ -141,6 +141,63 @@ public final class ModBlocks {
         new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS).setId(FRUIT_CHERRY_PLANKS_KEY))
     );
 
+    // Fruit cherry vanilla-style derivatives: reuse only approved fruit_cherry_planks art.
+    public static final BlockSetType FRUIT_CHERRY_BLOCK_SET_TYPE =
+        BlockSetTypeBuilder.copyOf(BlockSetType.OAK).register(ModRegistries.id("fruit_cherry"));
+    public static final WoodType FRUIT_CHERRY_WOOD_TYPE =
+        new WoodTypeBuilder().register(ModRegistries.id("fruit_cherry"), FRUIT_CHERRY_BLOCK_SET_TYPE);
+
+    public static final ResourceKey<Block> FRUIT_CHERRY_STAIRS_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_stairs")
+    );
+    public static final Block FRUIT_CHERRY_STAIRS = register(
+        FRUIT_CHERRY_STAIRS_KEY,
+        new StairBlock(FRUIT_CHERRY_PLANKS.defaultBlockState(), Block.Properties.ofFullCopy(Blocks.OAK_STAIRS).setId(FRUIT_CHERRY_STAIRS_KEY))
+    );
+
+    public static final ResourceKey<Block> FRUIT_CHERRY_SLAB_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_slab")
+    );
+    public static final Block FRUIT_CHERRY_SLAB = register(
+        FRUIT_CHERRY_SLAB_KEY,
+        new SlabBlock(Block.Properties.ofFullCopy(Blocks.OAK_SLAB).setId(FRUIT_CHERRY_SLAB_KEY))
+    );
+
+    public static final ResourceKey<Block> FRUIT_CHERRY_FENCE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_fence")
+    );
+    public static final Block FRUIT_CHERRY_FENCE = register(
+        FRUIT_CHERRY_FENCE_KEY,
+        new FenceBlock(Block.Properties.ofFullCopy(Blocks.OAK_FENCE).setId(FRUIT_CHERRY_FENCE_KEY))
+    );
+
+    public static final ResourceKey<Block> FRUIT_CHERRY_FENCE_GATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_fence_gate")
+    );
+    public static final Block FRUIT_CHERRY_FENCE_GATE = register(
+        FRUIT_CHERRY_FENCE_GATE_KEY,
+        new FenceGateBlock(FRUIT_CHERRY_WOOD_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE).setId(FRUIT_CHERRY_FENCE_GATE_KEY))
+    );
+
+    public static final ResourceKey<Block> FRUIT_CHERRY_BUTTON_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_button")
+    );
+    public static final Block FRUIT_CHERRY_BUTTON = register(
+        FRUIT_CHERRY_BUTTON_KEY,
+        new ButtonBlock(FRUIT_CHERRY_BLOCK_SET_TYPE, 30, Block.Properties.ofFullCopy(Blocks.OAK_BUTTON).setId(FRUIT_CHERRY_BUTTON_KEY))
+    );
+
+    public static final ResourceKey<Block> FRUIT_CHERRY_PRESSURE_PLATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_pressure_plate")
+    );
+    public static final Block FRUIT_CHERRY_PRESSURE_PLATE = register(
+        FRUIT_CHERRY_PRESSURE_PLATE_KEY,
+        new PressurePlateBlock(FRUIT_CHERRY_BLOCK_SET_TYPE, Block.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE).setId(FRUIT_CHERRY_PRESSURE_PLATE_KEY))
+    );
+
+
+
+    
     // Almond originals: log, stripped log and planks (art approved).
     public static final ResourceKey<Block> ALMOND_LOG_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_log"));
@@ -846,6 +903,12 @@ public final class ModBlocks {
         fire.add(STRIPPED_FRUIT_CHERRY_LOG, 5, 5);
         fire.add(STRIPPED_FRUIT_CHERRY_WOOD, 5, 5);
         fire.add(FRUIT_CHERRY_PLANKS, 5, 20);
+        fire.add(FRUIT_CHERRY_STAIRS, 5, 20);
+        fire.add(FRUIT_CHERRY_SLAB, 5, 20);
+        fire.add(FRUIT_CHERRY_FENCE, 5, 20);
+        fire.add(FRUIT_CHERRY_FENCE_GATE, 5, 20);
+        fire.add(FRUIT_CHERRY_BUTTON, 5, 20);
+        fire.add(FRUIT_CHERRY_PRESSURE_PLATE, 5, 20);
         fire.add(ALMOND_STAIRS, 5, 20);
         fire.add(ALMOND_SLAB, 5, 20);
         fire.add(ALMOND_FENCE, 5, 20);
