@@ -90,7 +90,7 @@ for name,folder in [
     ("fruit_cherry_trapdoor","block"),
     ("fruit_cherry_door","item"),
 ]:
-    pix=png(A/f"textures/{folder}/{name}.png")
+    pix=png(A/f"textures/{folder}/{name}.png",require_opaque=False)
     textures[name]=pix
     assert all(p[3] in (0,255) for row in pix for p in row),name
     assert {p[:3] for row in pix for p in row if p[3]}<=WOOD|IRON,(name,"non-cherry palette")

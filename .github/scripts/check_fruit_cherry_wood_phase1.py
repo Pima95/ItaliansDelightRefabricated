@@ -8,7 +8,7 @@ d=root/"data"
 def load(path):
     assert path.is_file(),path
     return json.loads(path.read_text(encoding="utf-8"))
-def png(path):
+def png(path, require_opaque=True):
     raw=path.read_bytes()
     assert raw.startswith(b"\x89PNG\r\n\x1a\n")
     assert struct.unpack(">IIBBBBB",raw[16:29])==(16,16,8,6,0,0,0)
@@ -33,7 +33,8 @@ def png(path):
             cur[i]=(enc+predictor)&255
         rows.append(tuple(tuple(cur[i:i+4]) for i in range(0,64,4)))
         prev=cur
-    assert all(px[3]==255 for row in rows for px in row),path
+    if require_opaque:
+        assert all(px[3]==255 for row in rows for px in row),path
     assert len({px[:3] for row in rows for px in row})>=4,path
     return rows
 tex=("fruit_cherry_planks","fruit_cherry_log","fruit_cherry_log_top","stripped_fruit_cherry_log","stripped_fruit_cherry_log_top")
