@@ -294,5 +294,9 @@
   "block.italiansdelight.fruit_cherry_fence": "Fruit Cherry Fence",
   "block.italiansdelight.fruit_cherry_fence_gate": "Fruit Cherry Fence Gate",
   "block.italiansdelight.fruit_cherry_button": "Fruit Cherry Button",
-  "block.italiansdelight.fruit_cherry_pressure_plate": "Fruit Cherry Pressure Plate"
+  "block.italiansdelight.fruit_cherry_pressure_plate": "Fruit Cherry Pressure Plate",
+  "block.italiansdelight.fruit_cherry_sign": "Fruit Cherry Sign",
+  "block.italiansdelight.fruit_cherry_hanging_sign": "Fruit Cherry Hanging Sign",
+  "item.italiansdelight.fruit_cherry_sign": "Fruit Cherry Sign",
+  "item.italiansdelight.fruit_cherry_hanging_sign": "Fruit Cherry Hanging Sign"
 }

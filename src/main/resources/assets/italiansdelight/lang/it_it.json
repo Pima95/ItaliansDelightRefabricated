@@ -294,5 +294,9 @@
   "block.italiansdelight.fruit_cherry_fence": "Recinzione di Ciliegio da Frutto",
   "block.italiansdelight.fruit_cherry_fence_gate": "Cancelletto di Ciliegio da Frutto",
   "block.italiansdelight.fruit_cherry_button": "Pulsante di Ciliegio da Frutto",
-  "block.italiansdelight.fruit_cherry_pressure_plate": "Pedana a Pressione di Ciliegio da Frutto"
+  "block.italiansdelight.fruit_cherry_pressure_plate": "Pedana a Pressione di Ciliegio da Frutto",
+  "block.italiansdelight.fruit_cherry_sign": "Cartello di Ciliegio da Frutto",
+  "block.italiansdelight.fruit_cherry_hanging_sign": "Cartello Appeso di Ciliegio da Frutto",
+  "item.italiansdelight.fruit_cherry_sign": "Cartello di Ciliegio da Frutto",
+  "item.italiansdelight.fruit_cherry_hanging_sign": "Cartello Appeso di Ciliegio da Frutto"
 }

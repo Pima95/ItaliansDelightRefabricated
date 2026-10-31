@@ -53,6 +53,27 @@ public final class ModSigns {
     );
 
 
+    // Both signs place their standing/wall counterparts with one inventory item.
+    public static final ResourceKey<Item> FRUIT_CHERRY_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("fruit_cherry_sign"));
+    public static final Item FRUIT_CHERRY_SIGN = Registry.register(
+        BuiltInRegistries.ITEM, FRUIT_CHERRY_SIGN_KEY,
+        new SignItem(ModBlocks.FRUIT_CHERRY_SIGN, ModBlocks.FRUIT_CHERRY_WALL_SIGN,
+            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
+                .setId(FRUIT_CHERRY_SIGN_KEY))
+    );
+
+    public static final ResourceKey<Item> FRUIT_CHERRY_HANGING_SIGN_KEY =
+        ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("fruit_cherry_hanging_sign"));
+    public static final Item FRUIT_CHERRY_HANGING_SIGN = Registry.register(
+        BuiltInRegistries.ITEM, FRUIT_CHERRY_HANGING_SIGN_KEY,
+        new HangingSignItem(ModBlocks.FRUIT_CHERRY_HANGING_SIGN,
+            ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN,
+            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
+                .setId(FRUIT_CHERRY_HANGING_SIGN_KEY))
+    );
+
+
     public static void register() {
     }
 }

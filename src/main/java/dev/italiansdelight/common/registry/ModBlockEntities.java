@@ -99,10 +99,14 @@ public final class ModBlockEntities {
         BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_WALL_SIGN);
         BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_SIGN);
         BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_WALL_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_HANGING_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_WALL_HANGING_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_HANGING_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_WALL_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN);
 
         // Reuse Farmer's Delight 27-slot cabinet BE: it already implements
         // screen, automation, sounds, comparator, save and open/close state.

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_attached_hanging_sign_rot_3",
+  "textures": {
+    "all": "italiansdelight:block/fruit_cherry_hanging_sign",
+    "particle": "italiansdelight:block/stripped_fruit_cherry_log"
+  }
+}
