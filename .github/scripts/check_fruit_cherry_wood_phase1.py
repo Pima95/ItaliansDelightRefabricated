@@ -49,8 +49,10 @@ def continuity(rows):
     horizontal=sum(rows[y][x]==rows[y][x+1] for y in range(16) for x in range(15))
     return vertical,horizontal
 for name,tex in (("bark",bark),("stripped",stripped)):
-    # Approved bark uses seven coherent tones, stripped wood uses eight.
-    assert 7<=len({p[:3] for row in tex for p in row})<=10, name
+    # Natural Cherry bark uses six deliberate wood shades rather than isolated extra dark specks.
+    # The separately approved stripped Cherry still uses its eight original tones.
+    color_count=len({p[:3] for row in tex for p in row})
+    assert 6<=color_count<=10 if name=='bark' else 7<=color_count<=10, (name,color_count)
     vertical,horizontal=continuity(tex)
     assert vertical>=horizontal*1.6, (name,"wood fibers must read longitudinally")
     assert 85<=vertical<=160, (name,"avoid fragmented noise and mechanical stripes")
@@ -102,7 +104,7 @@ def largest_flat_area(rows):
                         seen.add((nx,ny));todo.append((nx,ny))
             greatest=max(greatest,size)
     return greatest
-assert largest_flat_area(bark)<=12
+assert largest_flat_area(bark)<=24  # coherent connected bark plates, not artificially noisy
 assert largest_flat_area(stripped)<=12
 # The user found objectionable vertical line artifacts when this 16x16
 # side was repeated over a 2x2 wall. Inspect the *repeated* texture, not
@@ -152,13 +154,20 @@ assert hashlib.sha256(approved_stripped).hexdigest()=="27fca296d9ee001f05d5b24c5
 def average_luma_diff(left,right):
     return sum(abs(sum(a[:3])/3-sum(b[:3])/3) for a,b in zip(left,right))/len(left)
 assert average_luma_diff(bark[0],bark[15]) < 14, "Stacked Cherry bark has a visible horizontal seam"
+# This entire border was expressly approved by the author and MUST NOT move.
+outer=bytes(channel for y in range(16) for x in range(16)
+            if x in (0,15) or y in (0,15)
+            for channel in bark[y][x])
+assert hashlib.sha256(outer).hexdigest()=="063376484236f42e9ed88c11f678f674b97e7bb80c62cc436068fb5e0f58057a", (
+    "User-approved cherry log 1px perimeter must not change"
+)
 planks=pixels["fruit_cherry_planks"]
 def average_luma(row):
     return sum(sum(p[:3])/3 for p in row)/len(row)
 for y in (3,7,11,15):
-    assert 5 < average_luma(planks[y-1])-average_luma(planks[y]) < 28, (
+    assert 17 < average_luma(planks[y-1])-average_luma(planks[y]) < 28, (
         "Plank borders should be visible but not too dark",y)
-print("OK: stacked bark transition and restrained fruit cherry plank joints")
+print("OK: immutable 1px cherry bark perimeter, coherent internal grain and visible moderate plank joints")
 print("OK: cleaned disconnected bark specks; approved stripped texture unchanged")
 print("OK: tested both repeated 2x2 log textures; no extended continuous dark lines")
 print("OK: long directional Cherry grain, short coherent lenticels, limited flat fields")

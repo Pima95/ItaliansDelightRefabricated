@@ -1,5 +1,29 @@
 # Ciliegio da frutto — stato texture
 
+## Sesta revisione — venature interne ordinate e fughe leggibili (31 ottobre 2026)
+
+L'autore ha chiesto di distinguere meglio le fughe delle **sole assi di ciliegio**
+e di riorganizzare il **solo tronco naturale di ciliegio**, mantenendone
+assolutamente invariata la cornice.
+
+- `fruit_cherry_log.png`: 162 pixel modificati **esclusivamente nell'area
+  interna 14×14**; tutti i 60 pixel dei bordi conservati esattamente,
+  verificati anche tramite SHA-256 del perimetro.
+- Le ombre interne formano piccoli solchi longitudinali sfalsati e rilievi
+  organizzati; niente punti scuri aggiunti senza una funzione strutturale.
+  La palette naturale è stata volutamente contenuta a sei tonalità;
+  la vena scura più lunga nella prova 2×2 non supera 6 pixel.
+- `fruit_cherry_planks.png`: 49 pixel modificati, principalmente sui
+  bordi orizzontali delle quattro assi, per contrasto leggibile ma
+  non nero. Il dislivello medio di luminanza tra le file y=2/3,
+  6/7, 10/11, 14/15 è circa 24,4 / 19,2 / 22,5 / 18,1;
+  in precedenza era 13,6 / 10,9 / 12,1 / 10,0.
+- Restano **intatti** tutte le texture di mandorlo (incluse le assi
+  ripristinate), il tronco di ciliegio scortecciato, le due estremità
+  del tronco, gli altri blocchi e `main`.
+- Le texture sono 16×16 opache; l'anteprima 3×3 è una verifica
+  preliminare, non sostituisce il giudizio in Minecraft.
+
 ## Rettifica — 31 ottobre 2026
 
 La precedente modifica a `almond_planks.png` era stata un errore

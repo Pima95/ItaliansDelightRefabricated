@@ -54,11 +54,11 @@ for path in models:
             assert tex == "italiansdelight:block/fruit_cherry_planks", (path,tex)
 assert len(models) >= 17
 
-# Approved original artwork is identical, including the revised bark and stripped log.
+# Only the two user-requested Cherry PNGs are updated; remaining approved artwork is identical.
 approved = {
-    "fruit_cherry_log.png":"4c8ad22bb40d054e1fb67f5dd843ad59fee4784e",
+    "fruit_cherry_log.png":"630180b174460c2c53e2a75d3b29efe0fa403da8",
     "stripped_fruit_cherry_log.png":"3ebad8726bf7a0fe64cd6ffde7546ef7e6dd2184",
-    "fruit_cherry_planks.png":"54e68e1ad0a7d48addfd7147f7669d1c032fffb9",
+    "fruit_cherry_planks.png":"3094e93d469fed31e37517ec37b9f62a5419d34e",
     "fruit_cherry_log_top.png":"7a44276cce4f6d3d30ebee10383c2649c45136f2",
     "stripped_fruit_cherry_log_top.png":"a95a0fade44f58854bbfd5560f41d2e4e7daef21",
 }
@@ -68,4 +68,4 @@ for filename, expected in approved.items():
     assert sha == expected, (filename, "approved texture changed", sha)
 
 print("OK: six fruit cherry building derivatives, vanilla states, recipes, models, tags and loot")
-print("OK: all five approved fruit cherry wood PNGs remain byte-for-byte identical")
+print("OK: revised cherry bark/planks pinned; stripped wood and both cut ends remain unchanged")
