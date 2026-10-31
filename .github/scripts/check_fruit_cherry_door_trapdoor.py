@@ -166,6 +166,43 @@ assert len({t[15][x] for x in range(16)})>=3
 assert len({t[y][0] for y in range(16)})>=2
 assert len({t[y][15] for y in range(16)})>=2
 
+# Preserve the EXACT two ventilation diamonds and every hinge/latch
+# position, while allowing intentional cherry-grain relief on the wood.
+alpha=bytes(px[3] for row in t for px in row)
+assert hashlib.sha256(alpha).hexdigest()=="b586802aa4ab24f43fd969893fc25ddfab114681826ec7b07218bdd47ca0ab0f", (
+    "Trapdoor design changed: cutout positions must remain identical"
+)
+metal={(x,y,px[:3]) for y,row in enumerate(t) for x,px in enumerate(row) if px[:3] in IRON and px[3]==255}
+assert metal=={
+    (4,1,(115,121,128)), (5,1,(115,121,128)),
+    (10,1,(115,121,128)), (11,1,(115,121,128)),
+    (7,13,(87,91,99)), (8,13,(152,159,163))
+}, "Hinges or lower metal latch were altered"
+wood={px[:3] for row in t for px in row if px[3]==255 and px[:3] not in IRON}
+assert len(wood)>=5, "Wood border has too few coherent shading levels"
+def largest_solid_color_region(rows):
+    seen=set()
+    maximum=0
+    for y in range(16):
+        for x in range(16):
+            if (x,y) in seen or rows[y][x][3]==0: continue
+            target=rows[y][x]
+            stack=[(x,y)]
+            seen.add((x,y))
+            size=0
+            while stack:
+                xx,yy=stack.pop()
+                size+=1
+                for nx,ny in ((xx-1,yy),(xx+1,yy),(xx,yy-1),(xx,yy+1)):
+                    if 0<=nx<16 and 0<=ny<16 and (nx,ny) not in seen and rows[ny][nx]==target:
+                        seen.add((nx,ny))
+                        stack.append((nx,ny))
+            maximum=max(maximum,size)
+    return maximum
+assert largest_solid_color_region(t)<=16, "Flat color patch reappeared on trapdoor wood"
+print("OK: original trapdoor design, diamonds, hinges and latch unchanged; wood relief enhanced")
+
+
 
 
 # Do not touch any wood sprite already reviewed in earlier phases.

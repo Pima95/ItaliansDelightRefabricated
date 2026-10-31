@@ -39,6 +39,27 @@
 - Tutti i disegni restano 16×16 con trasparenze nette e palette legno
   approvata; l'effetto estetico va ancora verificato in gioco.
 
+## Rilievo del legno sulla botola — 31 ottobre 2026
+
+L'utente ha chiesto di eliminare la sensazione di superficie piatta,
+**senza modificare il motivo** già realizzato. La texture
+`fruit_cherry_trapdoor.png` ora ha nuove ombre di incasso intorno
+ai trafori, riflessi differenziati sulla traversa centrale e venature
+direzionali sulle quattro sezioni della cornice.
+
+Sono rimasti **identici pixel per pixel** i due ritagli trasparenti
+(24 pixel), le quattro posizioni della cerniera superiore e i due
+pixel metallici della chiusura inferiore. La tavolozza usa soltanto
+i colori già appartenenti al ciliegio. Le campiture uniformi
+più estese passano da 21 a 13 pixel, senza inserire rumore casuale.
+La porta (parte superiore, parte inferiore e icona), gli altri legni
+e tutti i modelli/ricette restano invariati.
+
+Il nuovo audit verifica l'impronta delle trasparenze, le posizioni
+della ferramenta, la varietà delle sfumature e la dimensione
+massima delle campiture monocromatiche. Resta da confermare
+la resa estetica direttamente nel gioco.
+
 ## Controlli
 
 Il test `.github/scripts/check_fruit_cherry_door_trapdoor.py` verifica
