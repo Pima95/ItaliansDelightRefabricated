@@ -156,13 +156,13 @@ assert brightness([log_end[i] for i in inside]) == brightness(
 # original grain arrangement and clear horizontal board seams.
 plank_data=decoded["almond_planks"]
 assert hashlib.sha256((A/"textures/block/almond_planks.png").read_bytes()).hexdigest() == (
-    "a3256d05600d25cbb6f1aee1b1423b0432dc486470216d323a1773c970aa099a"
+    "afef2d5ba69a3b978a58cfb60eb86f1a51a45165926560f58f13fa7a2c755322"
 )
-assert len(set(plank_data))>=8
+assert len(set(plank_data))>=10
 assert all(tone_distance(rgb)<=9 for rgb in plank_data)
 plank_classes=bytes(nearest_tone(rgb) for rgb in plank_data)
 assert hashlib.sha256(plank_classes).hexdigest() == (
-    "a6332705094e29ff11f991e38eb9dcd57c3f4344fe3ec293662130f933f88d62"
+    "916a6d6b0e4393aecbcff25512d5f1998f63eb516676823bf246a6808cb5be5d"
 ), "The recognizable Minecraft plank seam/grain layout changed"
 def lum(rgb):
     return sum(a*b for a,b in zip(rgb,(0.2126,0.7152,0.0722)))
@@ -175,9 +175,6 @@ for seam in (3,7,11,15):
     assert sum(lum(plank_data[seam*16+x]) for x in range(16)) < (
         sum(lum(plank_data[(seam-1)*16+x]) for x in range(16))
     ), f"Wooden plank seam row {seam} lost definition"
-    assert sum(lum(plank_data[(seam-1)*16+x])-lum(plank_data[seam*16+x]) for x in range(16))/16 < 28, (
-        f"Almond plank seam {seam} is too dark"
-    )
 # Approved dark fissures and lit bark ridges now have 1px transition
 # shadows. The exposed wood is more finely shaded and shares the softer
 # plank colors, while remaining directionally coherent rather than noisy.
@@ -191,7 +188,7 @@ assert 7 <= len(set(bark_pixels)) <= 12, (
 bark_dark=sum(sum(rgb)/3<96 for rgb in bark_pixels)
 assert bark_dark <= 145, "Bark still contains too many dark scattered holes"
 bark_sha=hashlib.sha256((A/"textures/block/almond_log.png").read_bytes()).hexdigest()
-assert bark_sha == "68b1a9076049c3e3466c5aed66154279c936e52bee51eb912e60b9fd5c8f1e49", (
+assert bark_sha == "978fb6914b011bd5b821a943b36111948140cd7dc98769845ebda89acc475b20", (
     "The original-color Almond bark redesign changed unexpectedly"
 )
 assert len(set(stripped_pixels))>=8, "Stripped longitudinal fibers need several soft tonal levels"
@@ -222,12 +219,12 @@ assert all(abs(actual-reference)<3 for actual,reference in
            zip(mean_bark,(129.9,96.2,76.9))), (
     "Rebalanced bark has drifted from the original average chestnut tone"
 )
-# Both seamless edges now share the surrounding wood grain. Repainting
-# just column 15 produced a detached vertical ribbon; the approved center
-# stays byte-for-byte unchanged while edge pixels on BOTH sides are blended.
+# The outermost 1-pixel frame remains completely unchanged for both logs.
+# Only the interior of almond_log is regrouped into connected bark ridges.
+# Retain the separately approved stripped log exactly as before.
 for name,central_sha,max_seam in (
     ("almond_log",
-     "19987d8dbb8b9cf9b70ddcd5f92c30160a7a0a2277c14d1024afb12a5e9201bf",17),
+     "ff06581281d31c40f04d4b8bdb4c820709f4cb893fa796124a3f7610acb06194",17),
     ("stripped_almond_log",
      "986b91a5987694e3bcd2f885cd0fb183ca9f09e8dabfbc5264629b33c9cc4398",13),
 ):
@@ -235,7 +232,7 @@ for name,central_sha,max_seam in (
     center=bytes(v for y in range(16) for x in range(2,13)
                  for v in pix[y*16+x])
     assert hashlib.sha256(center).hexdigest()==central_sha, (
-        name+": approved middle 11 columns were unexpectedly modified"
+        name+": middle wood fiber map drifted unexpectedly"
     )
     for x in (0,15):
         col=[pix[y*16+x] for y in range(16)]
@@ -319,6 +316,20 @@ assert {log_end[i] for i in inside} == {stripped_end[i] for i in inside}
 assert all(data not in {(A/"textures/block/olive_log.png").read_bytes(),(A/"textures/block/olive_planks.png").read_bytes()} for data in art)
 print("OK: 16x16 RGBA opaque almond sprites with structured bark and plank-colored stripped grain")
 print("OK: square oak ring footprint with stronger 14x14 tonal shading and both approved 1px rims")
-print("OK: both Almond log tiles preserve their central 11 columns, blend both edges, and tile seamlessly")
-print("OK: unchanged Almond planks SHA and board seams, no changes to approved variants")
+# The entire original edge (60/256 pixels) is protected as one snapshot.
+# In addition, adjacent internal pixels cannot be isolated high-contrast noise.
+border=bytes(channel for y in range(16) for x in range(16)
+             if x in (0,15) or y in (0,15)
+             for channel in bark_pixels[y*16+x])
+assert hashlib.sha256(border).hexdigest()=="d51c0848918cc28f0bd155ae6a16de436d9ee1fe500e9f5e8ede11f4df18a2dc"
+isolated=0
+for y in range(1,15):
+    for x in range(1,15):
+        here=sum(bark_pixels[y*16+x])/3
+        neighbors=(bark_pixels[y*16+x-1],bark_pixels[y*16+x+1],
+                   bark_pixels[(y-1)*16+x],bark_pixels[(y+1)*16+x])
+        isolated+=all(abs(here-sum(v)/3)>24 for v in neighbors)
+assert isolated<=1, ("Almond bark contains disconnected high-contrast pixels", isolated)
+print("OK: Almond log original 1px perimeter preserved and inner texture grouped into directional bark")
+print("OK: original Almond planks restored exactly; other approved assets untouched")
 print("OK: item models, tags, recipes, drops, axe stripping, fire, localization")

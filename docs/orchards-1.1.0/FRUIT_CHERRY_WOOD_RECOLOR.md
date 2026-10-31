@@ -1,5 +1,24 @@
 # Ciliegio da frutto — stato texture
 
+## Rettifica — 31 ottobre 2026
+
+La precedente modifica a `almond_planks.png` era stata un errore
+di interpretazione: l'utente aveva indicato le assi di mandorlo soltanto
+come riferimento. Le assi di mandorlo sono state ripristinate
+**byte per byte** alla versione anteriore alle modifiche del 31/10
+(oggetto Git `88bec8504bc672595a3f52ec93f8a2764c1c4003`).
+
+Le fughe di `fruit_cherry_planks.png` sono state corrette localmente
+con variazioni non uniformi di ombra, senza cambiare le altre texture
+del ciliegio da frutto.
+
+Separatamente, la texture laterale `almond_log.png` è stata
+riorganizzata **solo internamente**, riducendo le isole cromatiche
+scollegate e favorendo fibre coerenti. Il perimetro di 1 pixel
+(60 pixel) rimane identico. La versione scortecciata e gli altri
+asset approvati di mandorlo restano invariati. Collaudo estetico
+in Minecraft ancora da effettuare.
+
 ## Quinta revisione — giunzioni verticali e fughe morbide (31 ottobre 2026)
 
 - La **sola corteccia** `fruit_cherry_log.png` è stata ritoccata sui

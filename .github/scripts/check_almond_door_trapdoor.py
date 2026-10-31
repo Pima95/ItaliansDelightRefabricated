@@ -47,17 +47,13 @@ def png(path):
     assert len(pixels)==256 and at==len(decoded),path
     return pixels
 palette={p[:3] for p in png(A/"textures/block/almond_planks.png")}
-# Previously-approved door and trapdoor artwork may still use the original
-# darker grain, even though the separate planks now have softer seams.
-legacy_plank_shades={(152,111,92),(167,126,102),(183,143,116)}
-palette |= legacy_plank_shades
 # Restrained iron highlights appear ONLY in small edge-integrated pins
 # and handles, modeled on the oak/spruce/cherry vanilla 16x16 hardware.
 # The old oversized 3x3 metal patches must never return.
 METAL={(77,76,71),(99,100,95),(145,147,137),(187,188,174)}
 assert __import__("hashlib").sha256(
     (A/"textures/block/almond_planks.png").read_bytes()
-).hexdigest()=="a3256d05600d25cbb6f1aee1b1423b0432dc486470216d323a1773c970aa099a"
+).hexdigest()=="afef2d5ba69a3b978a58cfb60eb86f1a51a45165926560f58f13fa7a2c755322"
 imgs={}
 for name,path in (
  ("door_top","textures/block/almond_door_top.png"),

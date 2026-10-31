@@ -58,7 +58,7 @@ assert len(models) >= 17
 approved = {
     "fruit_cherry_log.png":"4c8ad22bb40d054e1fb67f5dd843ad59fee4784e",
     "stripped_fruit_cherry_log.png":"3ebad8726bf7a0fe64cd6ffde7546ef7e6dd2184",
-    "fruit_cherry_planks.png":"9aa242b9f67f635b48bb6c99321d8003df2381db",
+    "fruit_cherry_planks.png":"54e68e1ad0a7d48addfd7147f7669d1c032fffb9",
     "fruit_cherry_log_top.png":"7a44276cce4f6d3d30ebee10383c2649c45136f2",
     "stripped_fruit_cherry_log_top.png":"a95a0fade44f58854bbfd5560f41d2e4e7daef21",
 }
