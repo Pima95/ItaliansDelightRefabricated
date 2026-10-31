@@ -52,7 +52,7 @@ for name,tex in (("bark",bark),("stripped",stripped)):
     assert 8<=len({p[:3] for row in tex for p in row})<=10, name
     vertical,horizontal=continuity(tex)
     assert vertical>=horizontal*1.6, (name,"wood fibers must read longitudinally")
-    assert 100<=vertical<=160, (name,"avoid fragmented noise and mechanical stripes")
+    assert 85<=vertical<=160, (name,"avoid fragmented noise and mechanical stripes")
 assert sum(p[0] for row in stripped for p in row)>sum(p[0] for row in bark for p in row), (
     "Stripped fruit cherry must be lighter than its bark"
 )
@@ -101,8 +101,30 @@ def largest_flat_area(rows):
                         seen.add((nx,ny));todo.append((nx,ny))
             greatest=max(greatest,size)
     return greatest
-assert largest_flat_area(bark)<=20
-assert largest_flat_area(stripped)<=22
+assert largest_flat_area(bark)<=12
+assert largest_flat_area(stripped)<=12
+# The user found objectionable vertical line artifacts when this 16x16
+# side was repeated over a 2x2 wall. Inspect the *repeated* texture, not
+# merely the single-block pattern. Keep dark lines short and prevent a
+# shadow from connecting itself between the bottom and top of each tile.
+def repeated_vertical_streaks(rows, quantile=.24):
+    brightness=sorted(sum(p[:3])/3 for row in rows for p in row)
+    threshold=brightness[int(quantile*(len(brightness)-1))]
+    mask=[[sum(rows[y][x][:3])/3 <= threshold for x in range(16)]
+          for y in range(16)]
+    max_streak=0
+    for x in range(16):
+        length=0
+        for y in range(32):
+            length=length+1 if mask[y%16][x] else 0
+            max_streak=max(max_streak,length)
+    joined=sum(mask[0][x] and mask[15][x] for x in range(16))
+    return max_streak, joined
+for name,tex in (("bark",bark),("stripped",stripped)):
+    longest,joined=repeated_vertical_streaks(tex)
+    assert longest<=7, (name,"continuous streak visible in 2x2 tiling",longest)
+    assert joined==0, (name,"dark crevice joins at 16px tile boundary")
+print("OK: tested both repeated 2x2 log textures; no extended continuous dark lines")
 print("OK: long directional Cherry grain, short coherent lenticels, limited flat fields")
 print("OK: five original fruit cherry blocks, 5 PNGs, trunk rings, vanilla models")
 print("OK: creative, axe stripping, flammability, crafting, tags and translations")

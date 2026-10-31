@@ -1,5 +1,31 @@
 # Ciliegio da frutto — stato texture
 
+## Quarta revisione — giunzioni 2×2 senza strisce continue (31 ottobre 2026)
+
+**Feedback dell'autore:** entrambi i tronchi, soprattutto ripetuti in griglie
+2×2, mostrano linee verticali molto evidenti. Le texture singole non sono
+sufficienti per il collaudo: occorre osservare le ripetizioni.
+
+- Rifatte **soltanto** le texture laterali `fruit_cherry_log.png` e
+  `stripped_fruit_cherry_log.png` a 16×16 RGBA.
+- Ristrutturati i profili delle fibre con variazioni di direzione
+  brevi e motivate dal disegno; la corteccia presenta piccole
+  lenticelle orizzontali e solchi più corti, lo scortecciato
+  un chiaroscuro più delicato.
+- Sui campioni **2×2**, la striscia scura verticale più lunga
+  è al massimo di **6 pixel** per entrambe (in precedenza 13
+  per la corteccia); nessuna striscia scura passa direttamente
+  dal margine inferiore a quello superiore.
+- Integrato un controllo di regressione che valuta le due texture
+  ripetute, oltre a opacità, palette, fibra ed estensione delle
+  campiture; i confronti estetici rimangono da fare in Minecraft.
+- Assi, tagli superiori, asset di mandorlo e ulivo, modelli, codice,
+  ricette, worldgen e branch `main` restano invariati.
+
+**Stato:** nuova proposta da approvare nel gioco, anche su pareti 2×2.
+Non confondere il test sulla continuità delle linee con un
+collaudo estetico già approvato dall'autore.
+
 ## Terza revisione — organizzazione delle venature (31 ottobre 2026)
 
 **Feedback:** l'autore ha respinto la seconda revisione perché il
