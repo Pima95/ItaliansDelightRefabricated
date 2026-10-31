@@ -80,7 +80,7 @@ for suffix in ("bottom","top","open"):
 
 WOOD={(163,104,78),(174,112,83),(184,122,91),(194,132,99),
       (204,144,107),(215,156,116)}
-IRON={(107,111,122),(111,111,111),(128,139,149)}
+IRON={(87,91,99),(115,121,128),(152,159,163)}
 textures={}
 for name,folder in [
     ("fruit_cherry_door_bottom","block"),
@@ -95,10 +95,10 @@ for name,folder in [
     assert all(p[3] in (0,255) for row in pix for p in row),name
     assert {p[:3] for row in pix for p in row if p[3]}<=WOOD|IRON,(name,"non-cherry palette")
     assert all(len(row)==16 for row in pix)
-assert sum(p[3]==0 for row in textures["fruit_cherry_door_top"] for p in row)==48
+assert sum(p[3]==0 for row in textures["fruit_cherry_door_top"] for p in row)==38
 assert all(p[3]==255 for row in textures["fruit_cherry_door_bottom"] for p in row)
-assert sum(p[3]==0 for row in textures["fruit_cherry_trapdoor"] for p in row)==39
-assert sum(p[3]==0 for row in textures["fruit_cherry_door"] for p in row)==140
+assert sum(p[3]==0 for row in textures["fruit_cherry_trapdoor"] for p in row)==24
+assert sum(p[3]==0 for row in textures["fruit_cherry_door"] for p in row)==114
 
 # Only the hinge-end texture has hinge pins: never show them also on the latch end.
 for half,positions in (("bottom",{(0,0),(0,10),(0,11)}),
@@ -108,9 +108,34 @@ for half,positions in (("bottom",{(0,0),(0,10),(0,11)}),
     actual={(x,y) for y in range(16) for x in range(16) if src[y][x]!=edge[y][x]}
     assert actual==positions,(half,"hinge pixels leaked or face changed",actual)
     assert all(src[y][x][:3] in IRON and edge[y][x][:3] in WOOD for x,y in positions)
-# The tiny metallic pull must be on the central brace, not the window.
+# Unique artwork (not recolored oak): ONE arch and an inset wooden V-brace.
+top=textures["fruit_cherry_door_top"]
+assert [sum(px[3]==0 for px in top[y]) for y in range(16)] == [
+    0,0,0,0,4,6,6,6,6,6,4,0,0,0,0,0
+], "Single arched opening was altered"
+bottom=textures["fruit_cherry_door_bottom"]
+for k in range(4):
+    assert bottom[5+k][4+k][:3]==(174,112,83)
+    assert bottom[5+k][11-k][:3]==(174,112,83)
+    assert bottom[4+k][4+k][:3]==(204,144,107)
+    assert bottom[4+k][11-k][:3]==(204,144,107)
+
+# Custom two-diamond trapdoor: central rail must remain solid across 16 px.
 t=textures["fruit_cherry_trapdoor"]
-assert t[8][7][:3]==(107,111,122) and t[8][8][:3]==(128,139,149)
+assert [sum(px[3]==0 for px in t[y]) for y in range(16)] == [
+    0,0,0,0,2,4,6,0,0,6,4,2,0,0,0,0
+], "Diamond ventilation or central wooden rail changed"
+assert t[1][4][:3] in IRON and t[1][10][:3] in IRON, "Only one hinge-side band"
+assert t[13][7][:3]==(87,91,99) and t[13][8][:3]==(152,159,163), (
+    "Custom wooden trapdoor's metal latch must be under the diamond"
+)
+
+# Original icon is intentionally different from oak's four-window item.
+item=textures["fruit_cherry_door"]
+assert all(item[y][x][3]==0 for y in range(16) for x in range(16)
+           if x<3 or x>12)
+assert item[4][7][3]==0 and item[10][7][3]==255
+
 
 # Do not touch any wood sprite already reviewed in earlier phases.
 approved={
@@ -125,5 +150,6 @@ for filename,expected in approved.items():
     sha=hashlib.sha1(b"blob "+str(len(payload)).encode()+b"\0"+payload).hexdigest()
     assert sha==expected,(filename,"approved sprite was changed",sha)
 print("OK: fruit cherry door/trapdoor vanilla rotation states, 26.2 models, redstone behavior and recipes")
-print("OK: handles and hinge endcaps match the intended sides; item is vanilla-style")
+print("OK: cherry-only original door design: arched window, V-brace, diamond trapdoor")
+print("OK: handmade door inventory sprite, one-edge hinges and correctly placed latches")
 print("OK: the five approved fruit cherry wood textures remain byte-for-byte identical")

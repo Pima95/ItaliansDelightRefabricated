@@ -11,12 +11,15 @@
   prossimità del traverso centrale.
 - I due blocchi usano `FRUIT_CHERRY_BLOCK_SET_TYPE` già registrato,
   quindi i suoni e il comportamento redstone sono quelli del legno.
-- Asset dedicati 16×16 ricolorati usando la palette **delle assi di
-  ciliegio approvate** e la silhouette ufficiale della quercia vanilla
-  26.2, senza simboli copiati dal mandorlo.
+- **Nuova grafica originale** 16×16, disegnata appositamente per il
+  ciliegio da frutto: un unico finestrino ad arco, un rinforzo ligneo
+  a V sul pannello inferiore e una botola con due trafori a losanga,
+  separati da una traversa centrale. Non sono recolor della quercia
+  né imitazioni delle decorazioni del mandorlo.
 - Per la porta sono state create due sprite delle estremità senza
   cerniere: questo evita che i rivetti appaiano anche sul lato
-  della maniglia. L'icona proviene dalla disposizione item vanilla.
+  della maniglia. Anche l'icona inventario è un disegno specifico,
+  coerente con l'arco e il pannello inferiore della nuova porta.
 - Sono inclusi Creative, traduzioni, loot (porta soltanto metà inferiore),
   ricette, tag da legno e minabilità con ascia.
 
@@ -25,7 +28,8 @@
 Il test `.github/scripts/check_fruit_cherry_door_trapdoor.py` verifica
 registrazioni, tag, loot, modelli e orientamenti, i tre pixel di
 cerniera esclusivamente sul lato corretto, l'opacità/trasparenza dei
-sprite e l'assenza di modifiche alle texture base approvate.
+sprite, la geometria esclusiva degli intagli ad arco/losanga e l'assenza
+di modifiche alle texture base approvate.
 
 ## Collaudo manuale ancora necessario
 
