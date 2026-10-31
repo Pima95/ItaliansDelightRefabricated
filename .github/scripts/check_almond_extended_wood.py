@@ -255,7 +255,10 @@ assert len({face for face in faces.values()})==5, "Five different vanilla shelf 
 almond_wood={pixel[:3] for row in planks for pixel in row if pixel[3]}
 # Carved-shadow brown, and a transition tone for the striped Almond grain.
 frame_wood={(133,95,79),(211,173,142)}
-assert all(pixel[3]==255 and pixel[:3] in (almond_wood|frame_wood)
+# Shelf is approved independently and still contains former dark plank shades.
+# Do not recolor its painted three-bay front when only plank seams are revised.
+historical_plank_wood={(152,111,92),(167,126,102),(183,143,116)}
+assert all(pixel[3]==255 and pixel[:3] in (almond_wood|frame_wood|historical_plank_wood)
            for row in shelf for pixel in row), "Opaque native Almond wood palette"
 
 # The unpowered front (x0..15,y4..11) has three full-height inset
