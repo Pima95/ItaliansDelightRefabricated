@@ -54,6 +54,8 @@ jobs:
         run: python3 .github/scripts/check_all_crafting_26_2.py
       - name: Verify original Fruit Cherry standing and hanging signs
         run: python3 .github/scripts/check_fruit_cherry_signs.py
+      - name: Verify Fruit Cherry shelf, cabinet and cheese-aging rack
+        run: python3 .github/scripts/check_fruit_cherry_furniture.py
       - name: Verify vanilla Fruit Cherry boats, texture palette and approved sign preservation
         run: python3 .github/scripts/check_fruit_cherry_boats.py
       - name: Validate 26.2 Olive signs cabinet and Cutting Board

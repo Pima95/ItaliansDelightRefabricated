@@ -65,6 +65,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.OLIVE_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.ALMOND_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK);
 
                 // ORCHARD WOOD: construction blocks (saplings and fruit later).
                 output.accept(ModBlocks.OLIVE_LOG);
@@ -128,6 +129,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.FRUIT_CHERRY_TRAPDOOR);
                 output.accept(ModSigns.FRUIT_CHERRY_SIGN);
                 output.accept(ModSigns.FRUIT_CHERRY_HANGING_SIGN);
+                output.accept(ModBlocks.FRUIT_CHERRY_CABINET);
+                output.accept(ModBlocks.FRUIT_CHERRY_SHELF);
                 output.accept(ModBoats.FRUIT_CHERRY_BOAT_ITEM);
                 output.accept(ModBoats.FRUIT_CHERRY_CHEST_BOAT_ITEM);
 

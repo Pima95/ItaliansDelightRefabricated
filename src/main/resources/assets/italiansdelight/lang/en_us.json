@@ -302,5 +302,8 @@
   "item.italiansdelight.fruit_cherry_boat": "Fruit Cherry Boat",
   "entity.italiansdelight.fruit_cherry_boat": "Fruit Cherry Boat",
   "item.italiansdelight.fruit_cherry_chest_boat": "Fruit Cherry Boat with Chest",
-  "entity.italiansdelight.fruit_cherry_chest_boat": "Fruit Cherry Boat with Chest"
+  "entity.italiansdelight.fruit_cherry_chest_boat": "Fruit Cherry Boat with Chest",
+  "block.italiansdelight.fruit_cherry_shelf": "Fruit Cherry Shelf",
+  "block.italiansdelight.fruit_cherry_cabinet": "Fruit Cherry Cabinet",
+  "block.italiansdelight.fruit_cherry_cheese_aging_rack": "Fruit Cherry Cheese Aging Rack"
 }

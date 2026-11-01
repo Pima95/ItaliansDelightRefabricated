@@ -302,5 +302,8 @@
   "item.italiansdelight.fruit_cherry_boat": "Barca di Ciliegio da Frutto",
   "entity.italiansdelight.fruit_cherry_boat": "Barca di Ciliegio da Frutto",
   "item.italiansdelight.fruit_cherry_chest_boat": "Barca di Ciliegio da Frutto con Baule",
-  "entity.italiansdelight.fruit_cherry_chest_boat": "Barca di Ciliegio da Frutto con Baule"
+  "entity.italiansdelight.fruit_cherry_chest_boat": "Barca di Ciliegio da Frutto con Baule",
+  "block.italiansdelight.fruit_cherry_shelf": "Mensola di Ciliegio da Frutto",
+  "block.italiansdelight.fruit_cherry_cabinet": "Armadietto di Ciliegio da Frutto",
+  "block.italiansdelight.fruit_cherry_cheese_aging_rack": "Scaffale di Stagionatura di Ciliegio da Frutto"
 }

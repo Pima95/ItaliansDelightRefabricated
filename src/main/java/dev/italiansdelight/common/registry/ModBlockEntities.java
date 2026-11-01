@@ -71,7 +71,8 @@ public final class ModBlockEntities {
             ModBlocks.CRIMSON_CHEESE_AGING_RACK,
             ModBlocks.WARPED_CHEESE_AGING_RACK,
             ModBlocks.OLIVE_CHEESE_AGING_RACK,
-            ModBlocks.ALMOND_CHEESE_AGING_RACK
+            ModBlocks.ALMOND_CHEESE_AGING_RACK,
+            ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK
         );
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
@@ -92,6 +93,7 @@ public final class ModBlockEntities {
         // existing shelf item renderer work on modded olive blocks.
         BlockEntityTypes.SHELF.addValidBlock(ModBlocks.OLIVE_SHELF);
         BlockEntityTypes.SHELF.addValidBlock(ModBlocks.ALMOND_SHELF);
+        BlockEntityTypes.SHELF.addValidBlock(ModBlocks.FRUIT_CHERRY_SHELF);
 
         // Vanilla sign block entities keep writable text, both sides and dye.
         // Keep their four modded block variants in the vanilla BE type.
@@ -114,5 +116,7 @@ public final class ModBlockEntities {
             .addValidBlock(ModBlocks.OLIVE_CABINET);
         vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
             .addValidBlock(ModBlocks.ALMOND_CABINET);
+        vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
+            .addValidBlock(ModBlocks.FRUIT_CHERRY_CABINET);
     }
 }

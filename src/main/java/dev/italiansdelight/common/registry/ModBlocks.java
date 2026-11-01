@@ -481,6 +481,8 @@ public final class ModBlocks {
         registerRack("olive", OLIVE_PLANKS);
     public static final Block ALMOND_CHEESE_AGING_RACK =
         registerRack("almond", ALMOND_PLANKS);
+    public static final Block FRUIT_CHERRY_CHEESE_AGING_RACK =
+        registerRack("fruit_cherry", FRUIT_CHERRY_PLANKS);
 
     // Olive signs (Minecraft 26.2 ordinary block models) and Farmer's Delight
     // cabinet. Sign block-items are registered as two SignItem variants,
@@ -619,6 +621,21 @@ public final class ModBlocks {
     public static final Block ALMOND_CABINET = register(
         ALMOND_CABINET_KEY,
         new CabinetBlock(Block.Properties.ofFullCopy(Blocks.BARREL).setId(ALMOND_CABINET_KEY))
+    );
+
+    // Fruit Cherry: native three-slot vanilla shelf and Farmer's Delight 27-slot cabinet.
+    public static final ResourceKey<Block> FRUIT_CHERRY_SHELF_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_shelf"));
+    public static final Block FRUIT_CHERRY_SHELF = register(
+        FRUIT_CHERRY_SHELF_KEY,
+        new ShelfBlock(Block.Properties.ofFullCopy(Blocks.OAK_SHELF).setId(FRUIT_CHERRY_SHELF_KEY))
+    );
+
+    public static final ResourceKey<Block> FRUIT_CHERRY_CABINET_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_cabinet"));
+    public static final Block FRUIT_CHERRY_CABINET = register(
+        FRUIT_CHERRY_CABINET_KEY,
+        new CabinetBlock(Block.Properties.ofFullCopy(Blocks.BARREL).setId(FRUIT_CHERRY_CABINET_KEY))
     );
 
     public static final ResourceKey<Block> CARDOON_KEY = ResourceKey.create(
@@ -985,5 +1002,7 @@ public final class ModBlocks {
         fire.add(ALMOND_CABINET, 5, 20);
         fire.add(ALMOND_SHELF, 5, 20);
         fire.add(OLIVE_SHELF, 5, 20);
+        fire.add(FRUIT_CHERRY_SHELF, 5, 20);
+        fire.add(FRUIT_CHERRY_CABINET, 5, 20);
     }
 }
