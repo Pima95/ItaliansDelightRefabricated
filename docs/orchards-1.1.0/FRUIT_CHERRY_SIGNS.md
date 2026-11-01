@@ -89,3 +89,26 @@ plus every existing Almond, Olive, other mod asset. No changes to `main`.
 - **Standing sign editor (24×26)**: the 24×12 wood face is pixel-for-pixel the same as the world atlas; its stem uses normal bark. The `entity/sign/fruit_cherry.png` atlas is synchronized with the same plank material and bark.
 - **Hanging sign (32×32, 16×16 inventory, 16×16 editor, 64×32 entity atlas)**: all wood receives pixels sampled from **`stripped_fruit_cherry_log`**, preserving the iron chains, model geometry and original alpha silhouettes.
 - Added material-identity regression tests across inventory, world, editor and entity textures, including normal-bark vs stripped-log distinction. No approved base, door, trapdoor, Almond or Olive file was modified.
+
+## Icon and reverse-face correction (1 November 2026, revision 2)
+
+The previous algorithm replaced the two item sprites with generic wood panels and removed
+the distinctive dark vanilla sign inscriptions. Both **16×16 item sprites** now follow
+the already approved Almond/Olive vanilla item silhouettes and ink-pattern placements:
+the standing sign has its original 25-pixel two-shade inscription, authentic Cherry
+plank colors and an unstripped bark-colored stem; the hanging item reproduces the
+canonical lettering/shading using the authentic stripped Cherry log color palette
+while retaining metallic chain geometry.
+
+For the **standing sign only**, the reverse board's 24×14 atlas island at
+`block/fruit_cherry_sign.png` y=16…29 has been raised **two pixels**, while the
+original front-face board pixels are untouched. The writing editor background
+`gui/signs/fruit_cherry.png` uses that exact corrected reverse-face alignment,
+and its post uses original Cherry bark. Both standalone/world post UV strips
+are resampled from the normal, *unstripped* `fruit_cherry_log.png`.
+
+**Frozen and unchanged:** `block/fruit_cherry_hanging_sign.png`,
+`gui/hanging_signs/fruit_cherry.png`, `entity/sign/hanging/fruit_cherry.png`,
+all foundational/approved wood, all models/recipes/Java, Olive and Almond.
+The only hanging-sign asset changed in this revision is
+`item/fruit_cherry_hanging_sign.png`.

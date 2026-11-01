@@ -164,12 +164,31 @@ for y in list(range(14))+list(range(16,32)):
         if px[3]:
             assert px[:3] in bark_colors, ("Standing sign UV pole must use normal log bark",x,y)
 gui=check_rgba_pixel_art(A/"textures/gui/signs/fruit_cherry.png",(24,26))
-assert all(gui[y][x]==front[y][x] for y in range(12) for x in range(24)), (
-    "Sign editor board must match the exact world-model board pixels"
+assert all(gui[y][x]==front[y+16][x] for y in range(12) for x in range(24)), (
+    "Sign editor must display the back-face board after its two-pixel upward shift"
 )
 assert all(gui[y][x][:3] in bark_colors for y in range(12,26) for x in (11,12))
-assert all(normal[y][x][:3] in plank_colors for y in range(2,11) for x in range(2,15)), (
-    "Sign inventory icon must show real Cherry plank seams instead of a flat board"
+# Vanilla icons have a stylized 25-pixel inscription, not a blank plank board.
+# The approved olive sprite encodes the precise 26.2 positions and two shades.
+olive_item=check_rgba_pixel_art(A/"textures/item/olive_sign.png",(16,16))
+ink_colors={(86,49,25),(126,68,34)}
+ink_positions=[(y,x) for y in range(2,10) for x in range(2,15)
+               if olive_item[y][x][:3] in ink_colors]
+assert len(ink_positions)==25
+for y,x in ink_positions:
+    expected=(104,59,45) if olive_item[y][x][:3]==(86,49,25) else (124,70,52)
+    assert normal[y][x][:3]==expected, ("Vanilla item sign inscription lost",x,y)
+assert all(normal[y][x][:3] in plank_colors | bark_colors
+           for y in range(2,11) for x in range(2,15)), (
+    "The inventory sprite must use approved cherry plank and bark tones"
+)
+almond_hanging=check_rgba_pixel_art(A/"textures/item/almond_hanging_sign.png",(16,16))
+assert all(hanging[y][x][3]==almond_hanging[y][x][3]
+           for y in range(16) for x in range(16)),(
+    "Hanging inventory icon must preserve vanilla item geometry"
+)
+assert sum(hanging[y][x][:3]==(143,91,66) for y in range(6,14) for x in range(2,14))>0,(
+    "Hanging item must reproduce the engraved vanilla sign design"
 )
 assert all(normal[y][x][:3] in bark_colors for y in range(11,16) for x in range(7,10))
 entity=check_rgba_pixel_art(A/"textures/entity/sign/fruit_cherry.png",(64,32))
@@ -188,6 +207,24 @@ for asset,dimensions in (
             r,g,b,a=rgba
             if a and r>g+14 and g>b+9 and r>110:
                 assert (r,g,b) in stripped_colors,(asset,"Not genuine stripped-log wood",rgba)
+
+# Only the standing sign reverse-face plank UV rows move upward by 2px.
+# The front board preserves the approved grain and board join positions.
+for seam in (3,7,11):
+    dark=mean_luma([front[16+seam][x] for x in range(2,22)])
+    lighter=mean_luma([front[17+seam][x] for x in range(2,22)])
+    assert 17 < lighter-dark < 42,("Reverse face needs 2px upward offset",seam)
+# Regression lock: approved hanging sign block, editing GUI and legacy atlas.
+hanging_frozen={
+    "block/fruit_cherry_hanging_sign.png":"91a63387c6db8ef89bdfd34f18a87501ec099717",
+    "gui/hanging_signs/fruit_cherry.png":"51c01ef1270629e315f41f429a636ea7fa76ed19",
+    "entity/sign/hanging/fruit_cherry.png":"8314478a68d52d0b16a501494b45c9fb9aaa9e9f",
+}
+for path,sha in hanging_frozen.items():
+    b=(A/"textures"/path).read_bytes()
+    assert hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()==sha,(
+        "Approved hanging sign asset must not be modified",path
+    )
 
 # Keep every previously approved fruit cherry base, door and trapdoor unchanged.
 approved={
@@ -208,7 +245,7 @@ for filename,sha in approved.items():
     assert current==sha,(filename,"Approved asset modified unexpectedly")
 
 print("OK: cherry normal/wall/hanging/ceiling signs, 26.2 rotations and loot")
-print("OK: unchanged sign/chain silhouettes and four synchronized art contexts")
+print("OK: approved hanging sign block/GUI unchanged; item vanilla glyphs restored")
 print("OK: authentic cherry planks on normal sign, stripped log on hanging sign")
-print("OK: board separation rows match approved vanilla/Almond atlas alignment")
+print("OK: normal sign reverse UV and text-editor board shifted 2px up")
 print("OK: all previously approved cherry base wood, door and trapdoor textures unchanged")
