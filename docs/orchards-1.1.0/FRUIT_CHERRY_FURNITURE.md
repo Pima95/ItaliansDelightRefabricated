@@ -35,3 +35,33 @@ The cheese aging rack requires **no new PNG**: its block model references the ap
 - [ ] Verify dedicated server and multiplayer operation.
 
 CI: `.github/scripts/check_fruit_cherry_furniture.py` verifies registrations, entity types, 5 PNGs and correct texture formats, recipes, all shelf model variants, tags, and SHA protection of approved artwork. Builds and these checks do **not** substitute for in-game testing.
+
+## Original Cherry furniture redesign (November 1, 2026)
+
+The earlier Fruit Cherry shelf and cabinet were predominantly recolors of
+Almond. All **five decorative PNGs** are now independently redrawn, while
+retaining Minecraft's exact models and functional UV layout:
+
+- **Shelf 32×32:** the three original vanilla storage niches remain, with new
+  triangular inner supports, short routed strokes, a subtle branching detail,
+  staggered knots and distinctive lower wooden panels, avoiding Almond's
+  uniform grain and continuous repeated motifs.
+- **Cabinet front 16×16:** twin doors with three *horizontal* wooden slats
+  each, restrained Cherry grain, and two readable muted-metal handles;
+  no Almond-style vertically nested inset rectangles.
+- **Cabinet open front 16×16:** matching frame and open storage compartments
+  with two wood shelf dividers. The actual 27-slot cabinet behavior is unchanged.
+- **Cabinet side 16×16:** joined horizontal boards with small wooden pegs and
+  staggered grain rather than a single centered square.
+- **Cabinet top 16×16:** four lengthwise planks with uneven end-grain joints,
+  replacing the old Almond-like centered square.
+
+All textures remain at authentic 16×16/32×32 pixel resolutions with opaque
+alpha, pixel-level highlights/shadows and the approved muted copper-red
+Fruit Cherry palette, without image interpolation.
+
+**Frozen:** the cheese-aging rack's model/texture/behavior, every Almond and
+Olive asset, all existing Cherry planks, signs, doors, boats, and the public
+`main` and released v1.0.0. Static CI now validates that the *arrangement*
+of tones (not merely the RGB palette) differs substantially from Almond,
+and checks the cabinet's metal handles and short wooden slats.

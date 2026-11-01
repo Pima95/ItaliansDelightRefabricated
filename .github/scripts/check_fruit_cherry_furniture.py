@@ -101,6 +101,32 @@ for name,size in new_assets.items():
     original=png(A/"textures"/name.replace("fruit_cherry","almond"),size)
     assert new!=original,("Furniture not recolored",name)
 
+
+# Prevent mere palette recolors of Almond. Compare spatial rank patterns,
+# not RGB, and preserve key details of the original Cherry design.
+from check_orchard_signs_and_cutting import check_rgba_pixel_art
+
+def ordered_tone_signature(pixels):
+    tones = sorted({px[:3] for row in pixels for px in row if px[3]}, key=lambda col: (sum(col), col))
+    groups = {col:min(4, 5*i//len(tones)) for i, col in enumerate(tones)}
+    return [groups[px[:3]] if px[3] else -1 for row in pixels for px in row]
+
+for name, size in new_assets.items():
+    new_pixels = check_rgba_pixel_art(A/"textures"/name, size)
+    almond_pixels = check_rgba_pixel_art(A/"textures"/name.replace("fruit_cherry","almond"), size)
+    new_sig, almond_sig = ordered_tone_signature(new_pixels), ordered_tone_signature(almond_pixels)
+    mismatches = sum(a != b for a, b in zip(new_sig, almond_sig))
+    assert mismatches >= (250 if size == (32, 32) else 94), (
+        "Cherry panel design too similar to Almond; recoloring is insufficient", name, mismatches
+    )
+front_closed = check_rgba_pixel_art(A/"textures/block/fruit_cherry_cabinet_front.png", (16,16))
+assert front_closed[7][6][:3] == (84,82,78) and front_closed[7][9][:3] == (84,82,78), (
+    "Cabinet must retain two readable iron handles"
+)
+assert len({front_closed[y][4][:3] for y in (4,5,6,7,8,9,10,11)}) >= 4, (
+    "Cabinet doors must retain short horizontal slats, not flat Almond recesses"
+)
+
 # No previously approved assets should change during this furniture-only phase.
 approved={
     "block/fruit_cherry_planks.png":"d45def1e1a00bb93f2372f11b4dc79185ab343ff",
@@ -118,4 +144,5 @@ for name,sha in approved.items():
 
 print("OK: functional vanilla shelf, FD cabinet, cheese-aging rack and associated block entity types")
 print("OK: valid 24-part shelf, 8-state cabinet, rack models, 5 new PNGs, recipes, tags and names")
+print("OK: newly carved Cherry furniture motifs distinct from Almond even without colors")
 print("OK: approved cherry planks and sign artwork unchanged")
