@@ -51,6 +51,10 @@ public class ItaliansDelightClient implements ClientModInitializer {
         new ModelLayerLocation(ModRegistries.id("boat/almond"), "main");
     private static final ModelLayerLocation ALMOND_CHEST_BOAT_LAYER =
         new ModelLayerLocation(ModRegistries.id("chest_boat/almond"), "main");
+    private static final ModelLayerLocation FRUIT_CHERRY_BOAT_LAYER =
+        new ModelLayerLocation(ModRegistries.id("boat/fruit_cherry"), "main");
+    private static final ModelLayerLocation FRUIT_CHERRY_CHEST_BOAT_LAYER =
+        new ModelLayerLocation(ModRegistries.id("chest_boat/fruit_cherry"), "main");
 
 
     /**
@@ -99,6 +103,12 @@ public class ItaliansDelightClient implements ClientModInitializer {
             context -> new BoatRenderer(context, ALMOND_BOAT_LAYER));
         EntityRenderers.register(ModBoats.ALMOND_CHEST_BOAT_ENTITY,
             context -> new BoatRenderer(context, ALMOND_CHEST_BOAT_LAYER));
+        ModelLayerRegistry.registerModelLayer(FRUIT_CHERRY_BOAT_LAYER, BoatModel::createBoatModel);
+        ModelLayerRegistry.registerModelLayer(FRUIT_CHERRY_CHEST_BOAT_LAYER, BoatModel::createChestBoatModel);
+        EntityRenderers.register(ModBoats.FRUIT_CHERRY_BOAT_ENTITY,
+            context -> new BoatRenderer(context, FRUIT_CHERRY_BOAT_LAYER));
+        EntityRenderers.register(ModBoats.FRUIT_CHERRY_CHEST_BOAT_ENTITY,
+            context -> new BoatRenderer(context, FRUIT_CHERRY_CHEST_BOAT_LAYER));
 
         // Wrap ONLY the already-baked peel item model; keep its 3D geometry
         // and all approved transforms. On loaded peels the wrapper appends

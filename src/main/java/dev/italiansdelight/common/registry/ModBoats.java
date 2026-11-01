@@ -112,6 +112,53 @@ public final class ModBoats {
     private static Item getAlmondChestBoatItem() { return ALMOND_CHEST_BOAT_ITEM; }
 
 
+    public static final ResourceKey<EntityType<?>> FRUIT_CHERRY_BOAT_ENTITY_KEY =
+        ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(), ModRegistries.id("fruit_cherry_boat"));
+    public static final ResourceKey<EntityType<?>> FRUIT_CHERRY_CHEST_BOAT_ENTITY_KEY =
+        ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(), ModRegistries.id("fruit_cherry_chest_boat"));
+
+    public static final EntityType<Boat> FRUIT_CHERRY_BOAT_ENTITY = Registry.register(
+        BuiltInRegistries.ENTITY_TYPE,
+        FRUIT_CHERRY_BOAT_ENTITY_KEY,
+        EntityType.Builder.<Boat>of(
+            (type, level) -> new Boat(type, level, ModBoats::getFruitCherryBoatItem),
+            MobCategory.MISC
+        ).noLootTable().sized(1.375F, 0.5625F).eyeHeight(0.5625F)
+            .clientTrackingRange(10).build(FRUIT_CHERRY_BOAT_ENTITY_KEY)
+    );
+
+    public static final EntityType<ChestBoat> FRUIT_CHERRY_CHEST_BOAT_ENTITY = Registry.register(
+        BuiltInRegistries.ENTITY_TYPE,
+        FRUIT_CHERRY_CHEST_BOAT_ENTITY_KEY,
+        EntityType.Builder.<ChestBoat>of(
+            (type, level) -> new ChestBoat(type, level, ModBoats::getFruitCherryChestBoatItem),
+            MobCategory.MISC
+        ).noLootTable().sized(1.375F, 0.5625F).eyeHeight(0.5625F)
+            .clientTrackingRange(10).build(FRUIT_CHERRY_CHEST_BOAT_ENTITY_KEY)
+    );
+
+    public static final ResourceKey<Item> FRUIT_CHERRY_BOAT_ITEM_KEY =
+        ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("fruit_cherry_boat"));
+    public static final Item FRUIT_CHERRY_BOAT_ITEM = Registry.register(
+        BuiltInRegistries.ITEM,
+        FRUIT_CHERRY_BOAT_ITEM_KEY,
+        new BoatItem(FRUIT_CHERRY_BOAT_ENTITY, new Item.Properties().stacksTo(1).setId(FRUIT_CHERRY_BOAT_ITEM_KEY))
+    );
+
+    public static final ResourceKey<Item> FRUIT_CHERRY_CHEST_BOAT_ITEM_KEY =
+        ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("fruit_cherry_chest_boat"));
+    public static final Item FRUIT_CHERRY_CHEST_BOAT_ITEM = Registry.register(
+        BuiltInRegistries.ITEM,
+        FRUIT_CHERRY_CHEST_BOAT_ITEM_KEY,
+        new BoatItem(FRUIT_CHERRY_CHEST_BOAT_ENTITY, new Item.Properties().stacksTo(1).setId(FRUIT_CHERRY_CHEST_BOAT_ITEM_KEY))
+    );
+
+    // Lazy getters avoid illegal Java static forward references while retaining
+    // the correct boat items for damage drops and entity persistence.
+    private static Item getFruitCherryBoatItem() { return FRUIT_CHERRY_BOAT_ITEM; }
+    private static Item getFruitCherryChestBoatItem() { return FRUIT_CHERRY_CHEST_BOAT_ITEM; }
+
+
     public static void register() {
         // Force registration of boat entities and their placeable inventory items.
     }

@@ -298,5 +298,9 @@
   "block.italiansdelight.fruit_cherry_sign": "Cartello di Ciliegio da Frutto",
   "block.italiansdelight.fruit_cherry_hanging_sign": "Cartello Appeso di Ciliegio da Frutto",
   "item.italiansdelight.fruit_cherry_sign": "Cartello di Ciliegio da Frutto",
-  "item.italiansdelight.fruit_cherry_hanging_sign": "Cartello Appeso di Ciliegio da Frutto"
+  "item.italiansdelight.fruit_cherry_hanging_sign": "Cartello Appeso di Ciliegio da Frutto",
+  "item.italiansdelight.fruit_cherry_boat": "Barca di Ciliegio da Frutto",
+  "entity.italiansdelight.fruit_cherry_boat": "Barca di Ciliegio da Frutto",
+  "item.italiansdelight.fruit_cherry_chest_boat": "Barca di Ciliegio da Frutto con Baule",
+  "entity.italiansdelight.fruit_cherry_chest_boat": "Barca di Ciliegio da Frutto con Baule"
 }
