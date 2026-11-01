@@ -19,7 +19,7 @@ def recipe(wood):
         "group": "italiansdelight_cheese_aging_racks",
         "key": {
             "S": f"{'italiansdelight' if wood in ('olive', 'almond', 'fruit_cherry') else 'minecraft'}:{wood}_fence",
-            "B": f"{'italiansdelight' if wood in ('olive', 'almond') else 'minecraft'}:{wood}_planks",
+            "B": f"{'italiansdelight' if wood in ('olive', 'almond', 'fruit_cherry') else 'minecraft'}:{wood}_planks",
         },
         "pattern": ["S S", " B ", "S S"],
         "result": {"id": f"italiansdelight:{wood}_cheese_aging_rack", "count": 1},
