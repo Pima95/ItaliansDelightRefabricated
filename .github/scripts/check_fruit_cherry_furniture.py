@@ -119,13 +119,65 @@ for name, size in new_assets.items():
     assert mismatches >= (250 if size == (32, 32) else 94), (
         "Cherry panel design too similar to Almond; recoloring is insufficient", name, mismatches
     )
-front_closed = check_rgba_pixel_art(A/"textures/block/fruit_cherry_cabinet_front.png", (16,16))
-assert front_closed[7][6][:3] == (84,82,78) and front_closed[7][9][:3] == (84,82,78), (
-    "Cabinet must retain two readable iron handles"
+# Precise vanilla 26.2 shelf atlas -- five different frontal UV portions,
+# not decorative repetitions or invented slots in the BACK texture.
+shelf = check_rgba_pixel_art(A/"textures/block/fruit_cherry_shelf.png", (32,32))
+stripped = check_rgba_pixel_art(A/"textures/block/stripped_fruit_cherry_log.png", (16,16))
+for y in range(16):
+    for x in range(16,32):
+        assert shelf[y][x] == stripped[y][x-16], (
+            "Shelf rear must be real Fruit Cherry stripped-log grain",x,y
+        )
+five_uv={
+    "unpowered-three-slots": (0,4,16,12),
+    "left":(0,16,16,24),
+    "right":(16,16,32,24),
+    "center":(0,24,16,32),
+    "standalone":(16,24,32,32),
+}
+for label,(x0,y0,x1,y1) in five_uv.items():
+    assert len({shelf[y][x][:3] for y in range(y0,y1) for x in range(x0,x1)}) >= 5, label
+for y in range(8):
+    for x in range(1,15):
+        assert shelf[y+24][x] == shelf[y+16][x], (
+            "Powered center must share the same continuous wooden panel",x,y
+        )
+    assert shelf[y+24][0] == shelf[y+16][2]
+    assert shelf[y+24][15] == shelf[y+16][12]
+    for x in range(15):
+        assert shelf[y+24][16+x] == shelf[y+16][x], (
+            "Standalone shelf must inherit the left board and side seam",x,y
+        )
+    assert shelf[y+24][31] == shelf[y+16][31]
+# Three (not two or four) dimmed openings, at precisely the unpowered UV.
+for y in (6,7,8,9,10):
+    for border,inside in ((1,3),(6,8),(11,13)):
+        assert sum(shelf[y][border][:3]) < sum(shelf[y][inside][:3]), (
+            "Native unpowered shelf needs exactly three recessed bays",y,border
+        )
+# Retain the real FD 2-door closed style, symmetric metal handles
+# and OPEN cabinet's single upper compartment and two lower cubbies.
+front_closed = check_rgba_pixel_art(A/"textures/block/fruit_cherry_cabinet_front.png",(16,16))
+metal={(175,167,144),(113,111,102)}
+assert all(front_closed[y][x][:3] in metal for y in (7,8) for x in (7,8)), (
+    "Farmer's Delight cabinet requires central metallic door handles"
 )
-assert len({front_closed[y][4][:3] for y in (4,5,6,7,8,9,10,11)}) >= 4, (
-    "Cabinet doors must retain short horizontal slats, not flat Almond recesses"
+front_open = check_rgba_pixel_art(A/"textures/block/fruit_cherry_cabinet_front_open.png",(16,16))
+assert sum(front_open[8][6][:3]) > sum(front_open[7][6][:3]), (
+    "Open cabinet requires a visible wooden middle shelf"
 )
+assert sum(front_open[10][7][:3]) > sum(front_open[10][6][:3]), (
+    "Open cabinet requires a solid divider between its two lower cubbies"
+)
+for path, size in new_assets.items():
+    if size != (16,16): continue
+    pix=check_rgba_pixel_art(A/"textures"/path, size)
+    assert len({p[:3] for row in pix for p in row}) >= 9, (path,"wood needs varied tones")
+    assert all(len({pix[yy][xx][:3] for yy in range(y,y+3) for xx in range(x,x+3)}) > 1
+               for y in range(14) for x in range(14)), (
+        path,"no 3x3 monochromatic wood patches"
+    )
+
 
 # No previously approved assets should change during this furniture-only phase.
 approved={
@@ -144,5 +196,6 @@ for name,sha in approved.items():
 
 print("OK: functional vanilla shelf, FD cabinet, cheese-aging rack and associated block entity types")
 print("OK: valid 24-part shelf, 8-state cabinet, rack models, 5 new PNGs, recipes, tags and names")
-print("OK: newly carved Cherry furniture motifs distinct from Almond even without colors")
+print("OK: precise 5-UV vanilla shelf connectivity, natural stripped-log back and three recessed slots")
+print("OK: Farmer\'s Delight cabinet door handles, correct open compartments and no monochromatic zones")
 print("OK: approved cherry planks and sign artwork unchanged")

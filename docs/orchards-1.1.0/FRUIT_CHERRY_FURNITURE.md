@@ -65,3 +65,62 @@ Olive asset, all existing Cherry planks, signs, doors, boats, and the public
 `main` and released v1.0.0. Static CI now validates that the *arrangement*
 of tones (not merely the RGB palette) differs substantially from Almond,
 and checks the cabinet's metal handles and short wooden slats.
+
+## Corrective redesign: vanilla UV shelves and authentic Farmer's Delight cabinet references
+
+**This section supersedes the earlier cabinet/shelf visual descriptions above.**
+In particular, the former Fruit Cherry shelf's triangular supports, branching motif,
+freestanding bottom panels and powered-state decorations were placed incorrectly
+relative to Minecraft 26.2's texture atlas and have been **removed**.
+
+### Vanilla shelf `block/fruit_cherry_shelf.png` — 32×32
+
+Follow the same accepted five-region UV layout as the native Olive/Almond shelves
+and the Minecraft `template_shelf_*` models, including a real **three-niche unpowered front**.
+
+| Model region | Inclusive atlas coordinates | Use |
+| --- | --- | --- |
+| Unpowered shelf face | x=0..15, y=4..11 | Three vertical item recesses, correctly located |
+| Rear and underlying wooden side | x=16..31, y=0..15 | **Exact pixels of approved `stripped_fruit_cherry_log.png`** |
+| Connected left | x=0..15, y=16..23 | Powered left-facing front |
+| Connected right | x=16..31, y=16..23 | Powered right-facing front |
+| Connected center | x=0..15, y=24..31 | Identical interior to left, but seamless side edges |
+| Powered standalone | x=16..31, y=24..31 | Same wooden interior plus both side jambs |
+
+Native slots use depth, bevelled sides and restrained grain; the additional
+powered state variants copy the same wooden pixel rows where their border
+geometry meets. **Do not add fake bolts, oversized symbols, angled brackets or
+decorations to the back UV.** Use original stripped Fruit Cherry grain rather than
+a freehand image; front shading uses genuine Cherry wood hues, and variations
+stay inside the correct surface regions. The six existing native block model
+parents and all gameplay logic are unchanged.
+
+### Farmer's Delight Refabricated cabinet — four 16×16 textures
+
+Studied the actual `cherry_cabinet_front.png`, `cherry_cabinet_front_open.png`,
+`cherry_cabinet_side.png` and `cherry_cabinet_top.png` from upstream
+`MehVahdJukaar/FarmersDelightRefabricated` on `fabric/1.21.1-3.0.0`.
+The references establish structural styling, not copied texture art.
+Our four textures use the independently developed muted russet Fruit Cherry
+palette, avoiding an inappropriately pink vanilla Cherry recolor.
+
+- Front: two recognizable **fielded wooden doors** and a central pair of metal
+  handles; handmade stepped grain and irregular wood light/shadows.
+- Open front: one continuous upper chamber with a horizontal middle shelf and
+  two **separate lower compartments**, reproducing the functional appearance
+  of the reference without copying its pixels.
+- Side: vertical wooden staves with subtle joining grooves and variegated grain,
+  **not** the previously incorrect horizontal boards.
+- Top: transverse horizontal panels with visible joints and bevel highlights,
+  **not** the previously incorrect vertical plank array.
+- All five newly revised PNGs use 16×16 or 32×32 pixel art with no
+  antialiasing and more than eight color/shadow values; cabinet PNGs are
+  specifically checked for **no flat 3×3 single-color area**.
+
+### Protected work
+
+The **already approved cheese-aging rack** is not modified.
+The approved wood planks, other fruit Cherry blocks, vehicles, signs, textures
+of Olive and Almond, all gameplay code and release v1.0.0 are unchanged.
+Only the five shelf/cabinet PNGs, this document and targeted art-regression tests
+are updated. Testing in Minecraft remains necessary for final artistic approval.
