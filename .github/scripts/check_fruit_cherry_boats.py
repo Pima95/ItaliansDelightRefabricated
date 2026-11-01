@@ -37,7 +37,7 @@ def png_parts(path):
         assert zlib.crc32(kind + data) & 0xffffffff == stored_crc, (path, kind)
         if kind == b"IHDR":
             width, height, depth, colortype, _, _, interlace = struct.unpack(">IIBBBBB", data)
-            assert depth == 8 and colortype == 3 and interlace == 0, (path, "must be indexed pixel art")
+            assert depth in (4, 8) and colortype == 3 and interlace == 0, (path, "must be indexed pixel art")
             size = (width, height)
         elif kind == b"PLTE":
             assert len(data) % 3 == 0, path
