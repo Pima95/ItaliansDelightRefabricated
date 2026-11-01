@@ -46,7 +46,7 @@ The earlier two attempts were visually unlike Minecraft signs because they
 painted a flat, invented panel and short decorative strokes disconnected
 from the actual wooden materials. The approved Almond procedure was recovered:
 **ordinary sign boards follow the genuine planks, shifted to match
-the vanilla sign UV row alignment**; the post follows stripped log.
+the vanilla sign UV row alignment**; the post follows the normal, unstripped log bark.
 The **hanging sign uses the genuine stripped log** for the body and support,
 and keeps vanilla iron chain pixels and suspension silhouettes unchanged.
 These two signs therefore have recognizably different wood structures.
@@ -81,3 +81,11 @@ The workflow executes this validation before the Java 25 build.
 
 **Frozen:** all five approved Fruit Cherry foundational textures, door/botola,
 plus every existing Almond, Olive, other mod asset. No changes to `main`.
+
+## Vanilla-material correction (1 November 2026)
+
+- **Standing sign inventory sprite (16×16)**: the sign board is made from the authentic Fruit Cherry planks, with visible vanilla-style board seams, rather than the earlier flat placeholder. The stem uses **normal `fruit_cherry_log` bark**, not stripped wood.
+- **Standing sign world model (32×32)**: the pole UV island at x=28..31 uses genuine Fruit Cherry bark. The approved plank board and geometry are unchanged.
+- **Standing sign editor (24×26)**: the 24×12 wood face is pixel-for-pixel the same as the world atlas; its stem uses normal bark. The `entity/sign/fruit_cherry.png` atlas is synchronized with the same plank material and bark.
+- **Hanging sign (32×32, 16×16 inventory, 16×16 editor, 64×32 entity atlas)**: all wood receives pixels sampled from **`stripped_fruit_cherry_log`**, preserving the iron chains, model geometry and original alpha silhouettes.
+- Added material-identity regression tests across inventory, world, editor and entity textures, including normal-bark vs stripped-log distinction. No approved base, door, trapdoor, Almond or Olive file was modified.

@@ -89,7 +89,9 @@ assets={
 for path,(dims,filled) in assets.items():
     pixels=check_rgba_pixel_art(A/"textures"/path,dims)
     assert sum(p[3]==255 for row in pixels for p in row)==filled,path
-    # A 16px vanilla item / editor thumbnail intentionally uses fewer shades.\n    min_tones=4 if path.startswith(("item/","gui/")) else 5\n    assert len({p[:3] for row in pixels for p in row if p[3]==255})>=min_tones,path
+    # A 16px vanilla item / editor thumbnail intentionally uses fewer shades.
+    min_tones=4 if path.startswith(("item/","gui/")) else 5
+    assert len({p[:3] for row in pixels for p in row if p[3]==255})>=min_tones,path
 # Freeze the UV/alpha masks of all eight vanilla-compatible atlases.
 # Only grain and wood shading were redrawn, not sign geometry or metal chains.
 alpha_checks={
@@ -150,6 +152,42 @@ assert len({sign[y][x] for y in range(3,12) for x in range(2,22)})>=4
 hang=check_rgba_pixel_art(A/"textures/block/fruit_cherry_hanging_sign.png",(32,32))
 metal={(37,44,61),(62,68,83),(73,80,101),(91,100,124)}
 assert sum(p[:3] in metal and p[3] for row in hang for p in row)>=90
+
+
+# Material identity is intentional, not an independent recoloring.
+# World, inventory, editor and entity must agree with original approved woods.
+bark=check_rgba_pixel_art(A/"textures/block/fruit_cherry_log.png",(16,16))
+bark_colors={p[:3] for row in bark for p in row}
+for y in list(range(14))+list(range(16,32)):
+    for x in range(28,32):
+        px=front[y][x]
+        if px[3]:
+            assert px[:3] in bark_colors, ("Standing sign UV pole must use normal log bark",x,y)
+gui=check_rgba_pixel_art(A/"textures/gui/signs/fruit_cherry.png",(24,26))
+assert all(gui[y][x]==front[y][x] for y in range(12) for x in range(24)), (
+    "Sign editor board must match the exact world-model board pixels"
+)
+assert all(gui[y][x][:3] in bark_colors for y in range(12,26) for x in (11,12))
+assert all(normal[y][x][:3] in plank_colors for y in range(2,11) for x in range(2,15)), (
+    "Sign inventory icon must show real Cherry plank seams instead of a flat board"
+)
+assert all(normal[y][x][:3] in bark_colors for y in range(11,16) for x in range(7,10))
+entity=check_rgba_pixel_art(A/"textures/entity/sign/fruit_cherry.png",(64,32))
+assert all(entity[y][x][:3] in bark_colors for y in range(16,30) for x in range(8))
+# Steel chains are neutral-grey; all visually wooden pixels on *every*
+# hanging-sign asset must originate from the approved stripped Cherry log.
+for asset,dimensions in (
+    ("block/fruit_cherry_hanging_sign.png",(32,32)),
+    ("item/fruit_cherry_hanging_sign.png",(16,16)),
+    ("gui/hanging_signs/fruit_cherry.png",(16,16)),
+    ("entity/sign/hanging/fruit_cherry.png",(64,32)),
+):
+    pixels=check_rgba_pixel_art(A/"textures"/asset,dimensions)
+    for row in pixels:
+        for rgba in row:
+            r,g,b,a=rgba
+            if a and r>g+14 and g>b+9 and r>110:
+                assert (r,g,b) in stripped_colors,(asset,"Not genuine stripped-log wood",rgba)
 
 # Keep every previously approved fruit cherry base, door and trapdoor unchanged.
 approved={
