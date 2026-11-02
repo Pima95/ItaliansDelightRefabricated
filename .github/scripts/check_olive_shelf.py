@@ -150,29 +150,34 @@ for name,(x0,y0,x1,y1) in five_front_uvs.items():
     assert any(p[:3] in accent_rgb for p in patch), f"{name}: no dark recesses"
 assert len(mask)==5*16*8
 
-# Center and isolated powered variants share the understated lateral wood
-# grain. Center removes both jambs for seamless joining; standalone uses
-# the LEFT jamb and the RIGHT jamb from the matching right-side model.
+# The center panel must be a natural continuation of the wood grain in
+# the preceding powered-left tile. Never replace a jamb by cloning one
+# entire column: that made ugly horizontal stripes in three-shelf chains.
+# Only the tiny x0..4 transitional seam is intentionally remapped.
 for y in range(8):
-    # The center overlay (lower-left tile) must NOT inherit the left jamb
-    # from powered_left. Its x=1 column had an unwanted vertical separator
-    # visible only when three shelves join.
-    assert atlas_pixels[(24+y)*32+1] == atlas_pixels[(24+y)*32+2], (
-        "Center shelf has a stray dark vertical divider at atlas x=1"
-    )
-    for x in range(2,15):
-        assert atlas_pixels[(24+y)*32+x] == atlas_pixels[(16+y)*32+x], (
-            "Center shelf must blend into the side shelves, with no bold V veins"
+    if y < 7:
+        for x, previous_x in ((0,15),(1,13),(2,14)):
+            assert atlas_pixels[(24+y)*32+x] == atlas_pixels[(16+y)*32+previous_x], (
+                "Triple-chain center join must inherit existing timber grain",y,x
+            )
+        assert atlas_pixels[(24+y)*32+3] == atlas_pixels[(16+y)*32+4]
+        assert atlas_pixels[(24+y)*32+4] == atlas_pixels[(16+y)*32+5]
+        assert len({atlas_pixels[(24+y)*32+x] for x in range(5)}) >= (1 if y==0 else 2), (
+            "No uniformly colored horizontal stripes in the center connection",y
         )
-    assert atlas_pixels[(24+y)*32] == atlas_pixels[(16+y)*32+2]
-    assert atlas_pixels[(24+y)*32+15] == atlas_pixels[(16+y)*32+12]
+    else:
+        assert all(atlas_pixels[(24+y)*32+x] == atlas_pixels[(24+y)*32+1] for x in range(4)), (
+            "Keep vanilla bottom bevel continuous",y
+        )
+    for x in range(5,15):
+        assert atlas_pixels[(24+y)*32+x] == atlas_pixels[(16+y)*32+x], (
+            "Center shelf must retain approved middle grain",y,x
+        )
     for x in range(15):
         assert atlas_pixels[(24+y)*32+16+x] == atlas_pixels[(16+y)*32+x], (
-            "Standalone powered shelf requires the same recessed wood texture"
+            "Standalone powered shelf must preserve the original wooden inset"
         )
-    assert atlas_pixels[(24+y)*32+31] == atlas_pixels[(16+y)*32+31], (
-        "Standalone powered shelf must have a complete right-side frame"
-    )
+    assert atlas_pixels[(24+y)*32+31] == atlas_pixels[(16+y)*32+31]
 
 rear = bytes(c for x,y in coords(16,0,32,16)
              for c in atlas_pixels[y*32+x][:3])

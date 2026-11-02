@@ -110,3 +110,18 @@ is still required before the texture is considered approved.
 ## Three-shelf chain seam fix (2 November 2026)
 
 In the bottom-left 16×8 UV rectangle (x=0..15, y=24..31), the center variant inherited a one-pixel dark left jamb at x=1. This was visible as a false vertical divider in triple shelf chains. Corrected only x=1 using the existing x=2 wood grain: seven pixels for Olive and six for Fruit Cherry (the remaining rows were already correct). No other art, gameplay, cheese-aging rack, or released content changed. Both shelf CI checkers now explicitly reject a reintroduced seam.
+
+## Second triple-chain seam correction — wood grain continuity
+
+The previous one-column correction removed the vertical jamb, but cloned the
+neighbouring column and accidentally created short horizontal stripes. The
+corrected Olive and Fruit Cherry atlases now remap just the **first 5 columns
+of the powered center tile** (atlas x=0..4, y=24..30) using the existing
+wood grain from the powered-left neighbour. The left boundary matches the
+previous tile's right edge, while the first rows have natural, staggered
+subtle two-tone grain. The rest of the powered atlas, bottom bevel, rear,
+floral motifs and all gameplay are untouched.
+
+A pixel-level regression test checks this exact join for both wood types,
+without enforcing the defective single-column copy. In-game inspection of
+a powered three-shelf chain remains necessary for final aesthetic approval.

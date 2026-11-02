@@ -124,19 +124,22 @@ for name,(x0,y0,x1,y1) in uv.items():
     assert len({shelf[y][x][:3] for y in range(y0,y1) for x in range(x0,x1)})>=5, (
         "Shelf overlay lacks vanilla wood bevels",name
     )
-# Consecutive shelf faces must join without suddenly changing the timber
-# grain across the powered center/standalone segments.
+# The powered center shelf has no left jamb. The first five columns must
+# flow naturally from the neighboring left panel's authentic wood grain,
+# rather than duplicating one column and creating ugly horizontal bars.
 for y in range(8):
-    # No left-side divider in the center shelf's bottom-left atlas tile.
-    # x=1 must blend with x=0 and x=2 instead of preserving the left jamb.
-    assert shelf[24+y][1]==shelf[24+y][2], (
-        "Center shelf has a stray separator at atlas x=1", y
-    )
-    assert all(shelf[24+y][x]==shelf[16+y][x] for x in range(2,15))
-    assert shelf[24+y][0]==shelf[16+y][2]
-    assert shelf[24+y][15]==shelf[16+y][12]
-    assert all(shelf[24+y][16+x]==shelf[16+y][x] for x in range(15))
-    assert shelf[24+y][31]==shelf[16+y][31]
+    if y < 7:
+        assert shelf[24+y][0] == shelf[16+y][15]
+        assert shelf[24+y][1] == shelf[16+y][13]
+        assert shelf[24+y][2] == shelf[16+y][14]
+        assert shelf[24+y][3] == shelf[16+y][4]
+        assert shelf[24+y][4] == shelf[16+y][5]
+        assert len({shelf[24+y][x] for x in range(5)}) >= (1 if y==0 else 2)
+    else:
+        assert all(shelf[24+y][x] == shelf[24+y][1] for x in range(4))
+    assert all(shelf[24+y][x] == shelf[16+y][x] for x in range(5,15))
+    assert all(shelf[24+y][16+x] == shelf[16+y][x] for x in range(15))
+    assert shelf[24+y][31] == shelf[16+y][31]
 # Three physical recesses: depth at the jamb, inset at the center.
 for y in (7,9,10):
     for x in (1,6,11):
