@@ -154,7 +154,13 @@ assert len(mask)==5*16*8
 # grain. Center removes both jambs for seamless joining; standalone uses
 # the LEFT jamb and the RIGHT jamb from the matching right-side model.
 for y in range(8):
-    for x in range(1,15):
+    # The center overlay (lower-left tile) must NOT inherit the left jamb
+    # from powered_left. Its x=1 column had an unwanted vertical separator
+    # visible only when three shelves join.
+    assert atlas_pixels[(24+y)*32+1] == atlas_pixels[(24+y)*32+2], (
+        "Center shelf has a stray dark vertical divider at atlas x=1"
+    )
+    for x in range(2,15):
         assert atlas_pixels[(24+y)*32+x] == atlas_pixels[(16+y)*32+x], (
             "Center shelf must blend into the side shelves, with no bold V veins"
         )

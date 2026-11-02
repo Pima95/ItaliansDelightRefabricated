@@ -33,9 +33,7 @@ The shelf remains a 32×32 atlas with these exact regions:
 | x0–15, y24–31 | Powered center |
 | x16–31, y24–31 | Powered standalone |
 
-All powered center panel pixels x1..14 are copied from the left panel,
-and the edge/standalone transitions have the same approved vanilla side-chain
-relationships as Olive. The front preserves the three distinct recesses,
+For the powered center panel, atlas columns x2..14 mirror the matching left-panel grain; column x1 instead matches x2, and x0 also draws from x2. This avoids the dark left jamb appearing as a vertical separator when three shelves connect. The same single-column correction applies to Olive. All remaining edge/standalone transitions preserve the vanilla UV relationships. The front preserves the three distinct recesses,
 correct jamb/shadow/floor hierarchy, and uses coherent, short horizontal timber
 grain following the atlas's actual solid surfaces. There are no arbitrary
 symbols, bolted decorations, diagonal supports or pseudo-vines.
@@ -108,3 +106,7 @@ its correct Minecraft 26.2 model/UV geometry.
 documentation. The approved cheese-aging rack, cabinet, all other Fruit
 Cherry blocks and the `main` branch remain unchanged. In-game acceptance
 is still required before the texture is considered approved.
+
+## Three-shelf chain seam fix (2 November 2026)
+
+In the bottom-left 16×8 UV rectangle (x=0..15, y=24..31), the center variant inherited a one-pixel dark left jamb at x=1. This was visible as a false vertical divider in triple shelf chains. Corrected only x=1 using the existing x=2 wood grain: seven pixels for Olive and six for Fruit Cherry (the remaining rows were already correct). No other art, gameplay, cheese-aging rack, or released content changed. Both shelf CI checkers now explicitly reject a reintroduced seam.

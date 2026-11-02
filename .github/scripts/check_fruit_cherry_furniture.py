@@ -127,7 +127,12 @@ for name,(x0,y0,x1,y1) in uv.items():
 # Consecutive shelf faces must join without suddenly changing the timber
 # grain across the powered center/standalone segments.
 for y in range(8):
-    assert all(shelf[24+y][x]==shelf[16+y][x] for x in range(1,15))
+    # No left-side divider in the center shelf's bottom-left atlas tile.
+    # x=1 must blend with x=0 and x=2 instead of preserving the left jamb.
+    assert shelf[24+y][1]==shelf[24+y][2], (
+        "Center shelf has a stray separator at atlas x=1", y
+    )
+    assert all(shelf[24+y][x]==shelf[16+y][x] for x in range(2,15))
     assert shelf[24+y][0]==shelf[16+y][2]
     assert shelf[24+y][15]==shelf[16+y][12]
     assert all(shelf[24+y][16+x]==shelf[16+y][x] for x in range(15))
