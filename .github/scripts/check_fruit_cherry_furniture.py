@@ -139,6 +139,28 @@ for y in (7,9,10):
             "Unpowered shelf must have three correctly placed slots",x,y
         )
 
+# Regressions requested for the Fruit Cherry native shelf:
+# 1. The wood behind the actual 3 empty-item niches must be a soft,
+#    continuous 2-shade gradient, not a checkerboard of unrelated contrasts.
+cherry_tones={(143,91,66),(154,99,72),(166,109,79),(180,119,86),
+              (191,129,94),(202,138,102),(213,149,112),(225,162,122)}
+assert {pixel[:3] for row in shelf for pixel in row}<=cherry_tones
+for i in (0,5,10):
+    niche=[shelf[y][x][:3] for y in range(6,10) for x in range(i+1,i+5)]
+    assert set(niche)=={(166,109,79),(180,119,86)},(
+        "Interior pixels must use only adjacent soft wood shades",i
+    )
+    assert max(sum(c) for c in niche)-min(sum(c) for c in niche)==31
+# 2. Top/bottom fascia each carry a matching low-contrast 3×3 carved
+#    cherry-blossom motif, but never in the item openings or the rear UV.
+for cx in (4,11):
+    for cy in (1,13):
+        assert shelf[cy][cx][:3]==(166,109,79),("Cherry blossom engraving missing",cx,cy)
+        assert shelf[cy][cx-1][:3]==(180,119,86)
+        assert shelf[cy][cx+1][:3]==(180,119,86)
+# 3. No model, recipe or block entity change needed: all 5 native
+#    connected/unconnected atlas locations are still stitched pixel-perfectly.
+
 front=check_rgba_pixel_art(A/"textures/block/fruit_cherry_cabinet_front.png",(16,16))
 opened=check_rgba_pixel_art(A/"textures/block/fruit_cherry_cabinet_front_open.png",(16,16))
 side=check_rgba_pixel_art(A/"textures/block/fruit_cherry_cabinet_side.png",(16,16))

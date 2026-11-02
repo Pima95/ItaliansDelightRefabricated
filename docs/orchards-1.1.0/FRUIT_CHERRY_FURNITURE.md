@@ -79,3 +79,32 @@ It no longer rewards arbitrary differences from Almond, nor requires every
 In-game review required: check all three shelf slots and the powered
 left/center/right/standalone variants; rotate cabinet through all four facings,
 open and close it and confirm storage persists across a reload.
+
+## Final shelf art revision — restored blossoms, softer slot shading
+
+This supersedes the previous shelf's visual palette, not its gameplay or
+its correct Minecraft 26.2 model/UV geometry.
+
+- The atlas remains exactly **32×32** with all five vanilla shelf-face
+  variants, and the original 3-slot frontal arrangement.
+- **True stripped Fruit Cherry log on the rear:** atlas pixels x16..31,
+  y0..15 are byte-for-byte equal to the approved 16×16
+  `stripped_fruit_cherry_log.png`. No post-processing or invented grain.
+- **Reintroduced decorative pattern:** two small stylized cherry-blossom
+  carvings on each of the top and bottom 4-pixel wood fascia strips. The
+  pattern is wood-tone-on-wood-tone, integrated with the carpentry and is
+  never drawn over an item recess, rear face or connection seam.
+- **Reduced contrast inside the niches:** the actual interior wood uses
+  *only* the two neighboring approved RGB tones (166,109,79) and
+  (180,119,86), i.e. a summed-channel difference of 31, rather than
+  sharply contrasted individual pixels. Frame bevels remain visible.
+- The connected left/center/right and powered standalone faces share
+  their approved native pixels on overlapping UV regions, to avoid
+  discontinuities when multiple shelves are placed next to each other.
+- A dedicated regression check rejects missing blossom centers, strong
+  slot-interior contrast, wrong rear texture, and disconnected UV seams.
+
+**Scope:** only `textures/block/fruit_cherry_shelf.png` and its checks and
+documentation. The approved cheese-aging rack, cabinet, all other Fruit
+Cherry blocks and the `main` branch remain unchanged. In-game acceptance
+is still required before the texture is considered approved.
