@@ -20,9 +20,10 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
 /**
- * Rounded fruit-cherry canopy distinct from both the Olive's low dome and
- * Almond's upright shoots. Overlapping leafy shoulders surround actual
- * timber boughs, and only blocks within six face-steps of live wood survive.
+ * Rounded fruit-cherry canopy on the shared Olive/Almond crooked trunk,
+ * slightly broader than Almond's narrow crown while avoiding tall leaf
+ * spikes. Leafy shoulders cover real boughs, and only blocks within six
+ * face-steps of Fruit Cherry wood survive.
  * No fruit appears until the shared fruiting phase.
  */
 public final class FruitCherryFoliagePlacer extends FoliagePlacer {
@@ -84,10 +85,11 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
         int trunkHeightAboveGround = anchor.getY() - groundY;
         int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;
 
-        // Keep the approved lower canopy and all existing widths, but
-        // remove the single highest layer: the crown stops at dy=+3
-        // instead of dy=+4 above the final FruitCherry log.
-        double[] radii = {1.70D, 2.35D, 2.95D, 2.75D, 2.20D, 1.35D};
+        // Maintain the Almond/Olive lower canopy clearance and height,
+        // but give Fruit Cherry a gently wider, rounded crown. The middle
+        // layer extends about 0.4 blocks beyond Almond's 2.45 radius,
+        // allowing occasional diagonals without a large blocky canopy.
+        double[] radii = {2.10D, 1.90D, 2.60D, 2.86D, 2.26D, 1.60D};
         for (int dy = minDy; dy <= 3; dy++) {
             if (anchor.getY() + dy - groundY < 3) {
                 continue; // Retain the olive's two-block walking clearance.
@@ -118,8 +120,8 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
         // antennae. The natural shoulders and secondary bough shape come
         // from layered rings centered on the actual trunk attachments.
 
-        // FruitCherry branches may turn between the lower fork and final tip. A canopy centered only on that tip
-        // leaves naked wooden elbows (visible from below in planted trees).
+        // The shared crooked trunk bends twice before its main attachment.
+        // Keep the wooden elbows naturally covered by a subtle leaf collar.
         // Follow the ACTUAL upper wood rather than guessing which side the
         // randomly rotated trunk bends towards. This adds a small leafy
         // collar to the upper branch segments, not a second low tree crown.

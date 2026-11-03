@@ -18,17 +18,17 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
 /**
- * Cultivated fruit-cherry: mostly upright crown-bearing trunk with an
- * occasional short lateral fruiting bough. The trunk has genuinely different
- * geometry from Almond's low two-bend form. Growth is sapling-only;
- * wild/worldgen placement remains disabled until approved.
+ * The same approved, face-connected Mediterranean trunk geometry used by
+ * Almond and Olive: low bend, rising second turn and an occasional fork.
+ * The only wood placed is the Fruit Cherry log from the configured feature,
+ * never Almond or Olive logs. This is a planted sapling feature only.
  *
- * We preflight all log positions and rotate the complete structure around
- * obstacles; avoid leaving partially placed branches on blocked growth.
+ * An entire trunk is planned and clearance-checked before any placement,
+ * preserving the familiar 4-6-block silhouette and connected branches.
  */
 public final class FruitCherryTrunkPlacer extends TrunkPlacer {
-    private static final int FORK_VARIANT_CHANCE = 3;
-    private static final int TALL_SINGLE_CHANCE = 3;
+    private static final int FORK_VARIANT_CHANCE = 5;
+    private static final int TALL_SINGLE_CHANCE = 4;
 
     public static final MapCodec<FruitCherryTrunkPlacer> CODEC =
         RecordCodecBuilder.mapCodec(instance ->
@@ -53,17 +53,18 @@ public final class FruitCherryTrunkPlacer extends TrunkPlacer {
         TreeConfiguration config
     ) {
         List<FoliagePlacer.FoliageAttachment> crowns = new ArrayList<>(2);
-        // Select the shape before checking placement; do not silently change
-        // a blocked two-bough tree into a single-stem variant.
+        // Select the shape BEFORE checking placement, rather than silently
+        // changing an obstructed bifurcated tree into a single tree.
         boolean forked = random.nextInt(FORK_VARIANT_CHANCE) == 0;
         int trunkHeight = !forked && random.nextInt(TALL_SINGLE_CHANCE) == 0
-            ? 6 : 5 + random.nextInt(2);
+            ? 6 : 4 + random.nextInt(2);
 
         Direction firstLean = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         boolean clockwise = random.nextBoolean();
         boolean upperKink = random.nextBoolean();
 
-        // Try four rotations of the connected, preflighted tree plan.
+        // Try four rotations of the complete plan. In a clear area the first
+        // orientation works, ensuring the planned 20% fork rate is preserved.
         for (int attempt = 0; attempt < 4; attempt++) {
             Direction lean = firstLean;
             for (int rotation = 0; rotation < attempt; rotation++) {
@@ -102,10 +103,10 @@ public final class FruitCherryTrunkPlacer extends TrunkPlacer {
     }
 
     /**
-     * Central upright stem, optional single one-block lean at mid-height,
-     * and a short upward secondary branch (never a detached horizontal beam).
-     * This gives the fruit cherry a rounded, orchard-style crown rather than
-     * Almond's low zig-zag and upright tufts.
+     * Assemble the entire connected tree before placing any wood.
+     * The main trunk leans at y=1 and bends again at y=3.
+     * y=3, 4 and 5 are the uppermost possible wood levels respectively
+     * for 4-, 5- and 6-block trunks (counting the planted block as level 1).
      */
     private FruitCherryPlan planTree(
         BlockPos origin,
@@ -115,38 +116,52 @@ public final class FruitCherryTrunkPlacer extends TrunkPlacer {
         Direction turn,
         boolean upperKink
     ) {
-        List<BlockPos> bark = new ArrayList<>(12);
-        BlockPos stem = origin.above();
-        bark.add(stem);
-        stem = stem.above();
-        bark.add(stem);
-        stem = stem.above();
-        bark.add(stem);
-        if (upperKink) {
-            stem = stem.relative(lean);
-            bark.add(stem);
+        List<BlockPos> bark = new ArrayList<>(16);
+        BlockPos forkBase = origin.above();
+        bark.add(forkBase);
+        BlockPos lowSide = forkBase.relative(lean);
+        bark.add(lowSide);
+        BlockPos raisedStem = lowSide.above();
+        bark.add(raisedStem);
+
+        // The first main limb rises and THEN turns; no two-block-long
+        // horizontal beam. The y=3 bend also hides its end grain.
+        BlockPos mainTip = raisedStem.above();
+        bark.add(mainTip);
+        mainTip = mainTip.relative(turn);
+        bark.add(mainTip);
+
+        if (height >= 5) {
+            mainTip = mainTip.above();
+            bark.add(mainTip);
         }
-        stem = stem.above();
-        bark.add(stem);
-        if (height >= 6) {
-            stem = stem.above();
-            bark.add(stem);
+        if (height == 6) {
+            // An optional third gentle bend, always remaining below y=6.
+            if (upperKink) {
+                mainTip = mainTip.relative(lean);
+                bark.add(mainTip);
+            }
+            mainTip = mainTip.above();
+            bark.add(mainTip);
         }
 
         BlockPos secondaryTip = null;
         if (forked) {
-            // Branch originates from y=3 and curves gradually away from the
-            // main crown, staying face-connected to the central stem.
-            BlockPos side = origin.above(3).relative(turn);
-            bark.add(side);
-            side = side.above();
-            bark.add(side);
-            side = side.relative(turn);
-            bark.add(side);
-            secondaryTip = side.above();
+            // The secondary limb starts at the SECOND trunk block, not at
+            // the canopy. Its path curves outward and rises at each stage.
+            // This separates the two visible limbs by roughly 3-4 blocks.
+            Direction secondary = turn.getOpposite();
+            BlockPos lowerFork = forkBase.relative(secondary);
+            bark.add(lowerFork);
+            BlockPos raisedFork = lowerFork.above();
+            bark.add(raisedFork);
+            BlockPos outerFork = raisedFork.relative(secondary);
+            bark.add(outerFork);
+            secondaryTip = outerFork.above();
             bark.add(secondaryTip);
         }
-        return new FruitCherryPlan(bark, stem, secondaryTip);
+
+        return new FruitCherryPlan(bark, mainTip, secondaryTip);
     }
 
     private static boolean canPlacePlan(

@@ -138,12 +138,41 @@ assert "fire.add(FRUIT_CHERRY_LEAVES, 30, 60);" in blocks
 for name in ("fruit_cherry_trunk_placer", "fruit_cherry_foliage_placer"):
     assert f'ModRegistries.id("{name}")' in placers
 
-# Unique orchard silhouette rather than Almond's standing sprays.
-assert "FORK_VARIANT_CHANCE = 3" in trunk
-assert "for (int y = 1" not in trunk
+# Exact same APPROVED trunk topology as Almond and Olive, with cherry's
+# own log texture supplied by the configured tree feature. Cloning only the
+# geometry preserves all connected bends, forks, placement preflight, and
+# single/forked/tall proportions. An unrelated vertical pole must never return.
+almond_trunk = (JAVA / "common/worldgen/AlmondTrunkPlacer.java").read_text(encoding="utf-8")
+normalized = almond_trunk.replace("Almond", "FruitCherry").replace("ALMOND", "FRUIT_CHERRY").replace("almond", "fruit cherry")
+marker = "public final class FruitCherryTrunkPlacer"
+assert trunk[trunk.index(marker):] == normalized[normalized.index(marker):], (
+    "Fruit Cherry trunks must have the same tested face-connected geometry as Almond/Olive"
+)
+assert "FORK_VARIANT_CHANCE = 5" in trunk
+assert "TALL_SINGLE_CHANCE = 4" in trunk
+assert "4 + random.nextInt(2)" in trunk
 assert "canPlacePlan(level, origin, plan.barkPositions())" in trunk
+assert "BlockPos lowSide = forkBase.relative(lean)" in trunk
+assert "BlockPos outerFork = raisedFork.relative(secondary)" in trunk
 assert "private FruitCherryPlan planTree(" in trunk
-assert "double[] radii = {1.70D, 2.35D, 2.95D, 2.75D, 2.20D, 1.35D};" in crown
+assert "double[] radii = {2.10D, 1.90D, 2.60D, 2.86D, 2.26D, 1.60D};" in crown
+# The broader crown should be a modest, proportional increase over Almond:
+# radii at ALL six levels expand, but no layer grows more than half a block.
+def radii(source):
+    line = next((row for row in source.splitlines() if "double[] radii = {" in row), None)
+    assert line is not None, "Missing foliage radii profile"
+    values = line.split("{", 1)[1].split("}", 1)[0]
+    return [float(x.strip().removesuffix("D")) for x in values.split(",")]
+almond_crown = (JAVA / "common/worldgen/AlmondFoliagePlacer.java").read_text(encoding="utf-8")
+cherry_widths, almond_widths = radii(crown), radii(almond_crown)
+assert len(cherry_widths) == len(almond_widths) == 6
+assert all(0.10 <= cherry - almond <= 0.45 for cherry, almond in zip(cherry_widths, almond_widths))
+assert 1.12 <= max(cherry_widths) / max(almond_widths) <= 1.19
+# Preserve the low 2-block walking clearance, support under real wooden bends
+# and six-step leaf connectivity rather than placing floating canopy clusters.
+assert "int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;" in crown
+assert "for (int dy = minDy; dy <= 3; dy++)" in crown
+assert "anchor.getY() + dy - groundY < 3" in crown
 assert "for (int arm = 0; arm < 3; arm++)" not in crown
 assert "distanceFromWood" in crown and "nextDistance > 6" in crown
 assert "tryPlaceLeaf(level, setter, random, config, pos)" in crown
@@ -154,5 +183,6 @@ assert not (D / "italiansdelight/worldgen/placed_feature/fruit_cherry_tree_wild.
 print("OK: unique 157-pixel cherry leaflet silhouette, six muted green shades, not Olive/Almond recolor")
 print("OK: client-side biome foliage colors registered for Fruit Cherry; Almond tint preserved")
 print("OK: sapling retains trunk geometry and uses six visibly varied leaf shades")
-print("OK: planted tree grows with bone meal using custom trunk and rounded canopy")
+print("OK: cherry uses proven Almond/Olive trunk topology and a 12–19% wider rounded canopy")
+print("OK: planted sapling growth remains enabled; branch/foliage clearance maintained")
 print("OK: no fruit harvest, fruit drops, or wild worldgen before review")

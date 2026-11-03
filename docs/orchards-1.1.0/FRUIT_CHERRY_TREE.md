@@ -31,16 +31,21 @@ Almond species.
 ### Tree geometry
 
 The wood is `italiansdelight:fruit_cherry_log` (not `minecraft:cherry_log`).
-A relatively upright 5–6 block trunk sometimes leans a single block at
-mid-height. One in three trees has a short, face-connected lateral bough.
-Trunk positions are planned and checked *before* placement. A blocked
-position causes the placement attempt to rotate/retry, rather than
-constructing an obviously detached branch.
+The Fruit Cherry now uses the **exact same face-connected Mediterranean
+trunk shape as Almond and Olive**: a low sideways bend, another upward turn,
+and occasional ascending side fork, with a 4–6 block trunk. The Fruit Cherry
+variant uses the same Almond fork frequency (one in five) and tall-single
+probability (one in four of eligible single trunks). The underlying wood
+remains exclusively `fruit_cherry_log`, never Olive, Almond or vanilla
+ornamental Cherry. The complete planned log structure is checked before
+placement to prevent a detached fork or a partially grown blocked tree.
 
-The foliage is **rounded with layered rings** instead of Olive's low dome
-or Almond's upright sprays. Planned leaves are filtered to <=6 face steps
-from real fruit-cherry wood and keep vanilla distance/decay semantics.
-Two blocks of clear space are retained near the lower canopy.
+The foliage keeps a **rounded, gently broader crown** rather than Almond's
+upright sprays. Its six ring radii are **0.15–0.41 blocks larger** than the
+equivalent Almond layers, peaking at 2.86 versus 2.45 (about 17% wider).
+It retains the same overall vertical range and two-block clearance below
+the canopy. Planned leaves are limited to six face steps from actual
+fruit-cherry wood, preserving natural Minecraft decay.
 
 ### Intentionally not included
 
@@ -100,3 +105,30 @@ For review, test in at least a temperate forest, savanna, and cold biome;
 compare the world-placed leaves and their untinted inventory item. The
 branch remains development-only, with natural generation and cherry
 fruit harvesting intentionally unimplemented.
+
+
+## Tree geometry alignment — 3 November 2026
+
+After approving the **unique biome-tinted leaf texture** and the sapling,
+the tree growth itself was aligned with Olive and Almond. Only
+`FruitCherryTrunkPlacer.java` and `FruitCherryFoliagePlacer.java` are
+changed in gameplay: the old almost-vertical stem is replaced with the
+already accepted Almond/Olive low-bend and second-turn branching topology.
+The Fruit Cherry configured feature continues placing ONLY the approved
+Fruit Cherry logs and leaves. Both short and tall versions use the same
+face-connected fork and all-or-nothing clearance logic.
+
+Compared with Almond's crown profile
+`{1.95,1.70,2.35,2.45,2.00,1.45}`, Fruit Cherry uses
+`{2.10,1.90,2.60,2.86,2.26,1.60}`. The rounded silhouette is
+noticeably but **only slightly wider** than Almond, with no taller
+vertical leaf columns. Olive and Almond trunk/foliage code and all
+wood/material textures are untouched. The fruit cherry's leaf artwork,
+biome tint, sapling artwork, recipes, drops, and existing blocks remain
+unchanged as approved.
+
+This remains planted-tree generation from saplings (including bone meal).
+**Natural biome spawning and fruit harvest are still disabled.**
+A Minecraft playtest should grow several saplings on clear ground and
+near obstacles, verify both trunk fork variants and inspect the canopy
+from above/side, including checking leaf persistence after reload.
