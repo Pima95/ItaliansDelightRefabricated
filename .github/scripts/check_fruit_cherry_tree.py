@@ -19,7 +19,7 @@ for name in names:
     pixels = check_rgba_pixel_art(A / f"textures/block/{name}.png", (16, 16))
     assert all(p[3] in (0, 255) for row in pixels for p in row), name
     count = sum(p[3] == 255 for row in pixels for p in row)
-    assert count == (114 if name.endswith("sapling") else 168), (name, count)
+    assert count == (114 if name.endswith("sapling") else 157), (name, count)
     assert read(A / f"blockstates/{name}.json")["variants"][""]["model"] == f"italiansdelight:block/{name}"
     assert read(A / f"items/{name}.json")["model"]["model"] == f"italiansdelight:item/{name}"
     assert read(D / f"italiansdelight/loot_table/blocks/{name}.json")["type"] == "minecraft:block"
@@ -29,20 +29,30 @@ for name in names:
     for locale in ("en_us", "it_it"):
         assert read(A / f"lang/{locale}.json")[f"block.italiansdelight.{name}"]
 
-assert hashlib.sha256((A / "textures/block/fruit_cherry_leaves.png").read_bytes()).hexdigest() == "363f220a1cefb96c5399f8ad746365de62fbc1a40965530facad84df3b4db0fd"
+assert hashlib.sha256((A / "textures/block/fruit_cherry_leaves.png").read_bytes()).hexdigest() == "1d4b76bbd78358e48203f89551f3ff56c4d658827fd0b013e59aebc0bc108514"
 assert hashlib.sha256((A / "textures/block/fruit_cherry_sapling.png").read_bytes()).hexdigest() == "7b2228956073169b8a27c50b4c616e337cb22618898e272ef2edf24c1eca5337"
 
-# The approved Olive *shape* is the reference: identical cutout opacity,
-# but the Fruit Cherry is green, not an olive/silver recolor.
+# Distinct, deliberately grouped Fruit Cherry leaflets -- NOT a palette
+# swap of Olive, Almond or the earlier Fruit Cherry foliage.
 olive = check_rgba_pixel_art(A / "textures/block/olive_leaves.png", (16, 16))
+almond = check_rgba_pixel_art(A / "textures/block/almond_leaves.png", (16, 16))
 cherry = check_rgba_pixel_art(A / "textures/block/fruit_cherry_leaves.png", (16, 16))
-assert all(olive[y][x][3] == cherry[y][x][3] for y in range(16) for x in range(16)), (
-    "Fruit Cherry must have the same airy cutout shape as approved Olive"
+alpha = lambda pixels: tuple(p[3] for row in pixels for p in row)
+assert alpha(cherry) != alpha(olive) and alpha(cherry) != alpha(almond), (
+    "Fruit Cherry leaves must have their own cutout silhouette"
 )
-leaf_green = {px[:3] for row in cherry for px in row if px[3]}
-assert leaf_green == {(56,98,47),(96,141,65),(117,162,79),(165,195,117)}
-assert leaf_green.isdisjoint({px[:3] for row in olive for px in row if px[3]})
-assert sum(px[3]==0 for row in cherry for px in row) == 88
+assert sum(p[3] == 0 for row in cherry for p in row) == 99
+assert 140 <= sum(p[3] == 255 for row in cherry for p in row) <= 180
+def mask_difference(a, b):
+    return sum(x != y for x, y in zip(alpha(a), alpha(b)))
+assert mask_difference(cherry, olive) >= 20
+assert mask_difference(cherry, almond) >= 20
+cherry_colors = {px[:3] for row in cherry for px in row if px[3]}
+assert cherry_colors == {
+    (61,81,58),(78,102,72),(99,124,86),
+    (121,146,100),(144,167,114),(169,190,135)
+}
+assert len(cherry_colors) == 6
 
 # Preserve the approved sapling shape and all twenty exact woody pixels,
 # introducing a six-tone leaf pattern instead of plain green panels.
@@ -110,7 +120,20 @@ for symbol in ("FRUIT_CHERRY_LEAVES", "FRUIT_CHERRY_SAPLING"):
 assert "new SaplingBlock(FRUIT_CHERRY_TREE_GROWER" in blocks
 assert "Optional.of(FRUIT_CHERRY_TREE_FEATURE)" in blocks
 assert "Optional.empty()" in blocks
+# The block class is unchanged: exactly like Almond, the biome tint is
+# applied through Fabric's client BlockColorRegistry, not by replacing the
+# foliage particle block with a new server-facing renderer.
 assert "new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES" in blocks
+client = (JAVA / "ItaliansDelightClient.java").read_text(encoding="utf-8")
+assert 'BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);' in client
+assert 'BlockColorRegistry.register(List.of(FRUIT_CHERRY_BIOME_FOLIAGE), ModBlocks.FRUIT_CHERRY_LEAVES);' in client
+assert "BlockTintSources.foliage().colorInWorld(state, level, pos)" in client
+assert "return softenFruitCherryTint(biome);" in client
+for part in ("red", "green", "blue"):
+    assert f"int {part} = (255 * 5 +" in client
+assert "return 0xFFFFFFFF; // Inventory has its consistent untinted base palette." in client
+assert "FRUIT_CHERRY_SAPLING" not in client
+assert "BlockTintSources.foliage()" in client
 assert "fire.add(FRUIT_CHERRY_LEAVES, 30, 60);" in blocks
 for name in ("fruit_cherry_trunk_placer", "fruit_cherry_foliage_placer"):
     assert f'ModRegistries.id("{name}")' in placers
@@ -128,7 +151,8 @@ assert "isFruitCherryWood" in crown and "isFruitCherryWood" not in trunk
 assert not any(f"fruit_cherry_tree" in x for x in world.splitlines()), "Do not activate wild generation yet"
 assert not (D / "italiansdelight/worldgen/placed_feature/fruit_cherry_tree_wild.json").exists()
 
-print("OK: Fruit Cherry leafy silhouette matches Olive alpha (168 opaque) with distinct bright greens")
+print("OK: unique 157-pixel cherry leaflet silhouette, six muted green shades, not Olive/Almond recolor")
+print("OK: client-side biome foliage colors registered for Fruit Cherry; Almond tint preserved")
 print("OK: sapling retains trunk geometry and uses six visibly varied leaf shades")
 print("OK: planted tree grows with bone meal using custom trunk and rounded canopy")
 print("OK: no fruit harvest, fruit drops, or wild worldgen before review")

@@ -83,11 +83,38 @@ public class ItaliansDelightClient implements ClientModInitializer {
         return 0xFF000000 | red << 16 | green << 8 | blue;
     }
 
+    /**
+     * Fruit Cherry: vanilla foliage-biome colors blended into the original
+     * subdued leaf sprites. Keep the approved sapling completely untinted.
+     * A 50% biome contribution is clearer than Almond's 30% soft variation.
+     * This is a client-only BlockTintSource: no server-side color code.
+     */
+    private static final BlockTintSource FRUIT_CHERRY_BIOME_FOLIAGE = new BlockTintSource() {
+        @Override
+        public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
+            int biome = BlockTintSources.foliage().colorInWorld(state, level, pos);
+            return softenFruitCherryTint(biome);
+        }
+
+        @Override
+        public int color(BlockState state) {
+            return 0xFFFFFFFF; // Inventory has its consistent untinted base palette.
+        }
+    };
+
+    private static int softenFruitCherryTint(int biome) {
+        int red = (255 * 5 + ((biome >>> 16) & 255) * 5) / 10;
+        int green = (255 * 5 + ((biome >>> 8) & 255) * 5) / 10;
+        int blue = (255 * 5 + (biome & 255) * 5) / 10;
+        return 0xFF000000 | red << 16 | green << 8 | blue;
+    }
+
     @Override
     public void onInitializeClient() {
-        // Affect only Almond leaves. Olive foliage, all other trees, and the
-        // Almond sapling retain their existing untinted appearances.
+        // Almond and Fruit Cherry react to foliage biome colors independently.
+        // Olive, both saplings, and the rest of the orchard art remain untinted.
         BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);
+        BlockColorRegistry.register(List.of(FRUIT_CHERRY_BIOME_FOLIAGE), ModBlocks.FRUIT_CHERRY_LEAVES);
 
         ModelLayerRegistry.registerModelLayer(
             OLIVE_BOAT_LAYER, BoatModel::createBoatModel);
