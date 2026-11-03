@@ -46,6 +46,18 @@ public final class ModTreePlacers {
         new FoliagePlacerType<>(AlmondFoliagePlacer.CODEC)
     );
 
+    public static final TrunkPlacerType<FruitCherryTrunkPlacer> FRUIT_CHERRY_TRUNK = Registry.register(
+        BuiltInRegistries.TRUNK_PLACER_TYPE,
+        ModRegistries.id("fruit_cherry_trunk_placer"),
+        new TrunkPlacerType<>(FruitCherryTrunkPlacer.CODEC)
+    );
+
+    public static final FoliagePlacerType<FruitCherryFoliagePlacer> FRUIT_CHERRY_FOLIAGE = Registry.register(
+        BuiltInRegistries.FOLIAGE_PLACER_TYPE,
+        ModRegistries.id("fruit_cherry_foliage_placer"),
+        new FoliagePlacerType<>(FruitCherryFoliagePlacer.CODEC)
+    );
+
     public static void register() {
         // Trigger the static registrations before the datapack loads.
     }

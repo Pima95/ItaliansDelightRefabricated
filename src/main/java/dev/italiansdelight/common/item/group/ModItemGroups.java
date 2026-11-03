@@ -119,6 +119,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.STRIPPED_FRUIT_CHERRY_LOG);
                 output.accept(ModBlocks.STRIPPED_FRUIT_CHERRY_WOOD);
                 output.accept(ModBlocks.FRUIT_CHERRY_PLANKS);
+                output.accept(ModBlocks.FRUIT_CHERRY_LEAVES);
+                output.accept(ModBlocks.FRUIT_CHERRY_SAPLING);
                 output.accept(ModBlocks.FRUIT_CHERRY_STAIRS);
                 output.accept(ModBlocks.FRUIT_CHERRY_SLAB);
                 output.accept(ModBlocks.FRUIT_CHERRY_FENCE);

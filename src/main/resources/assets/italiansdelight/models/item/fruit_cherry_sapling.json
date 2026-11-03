@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "italiansdelight:block/fruit_cherry_sapling"
+  }
+}

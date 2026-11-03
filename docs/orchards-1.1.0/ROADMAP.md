@@ -1006,3 +1006,8 @@ visivamente sotto le decorazioni.
 4. **Grafica:** chiome (normali/fiorite/fruttifere) e livello di differenza visiva per i tre alberi.
 
 **Vincoli:** non modificare la `main` stabile né le texture già approvate della 1.0.0 senza richiesta; nessun incremento della versione pubblicata in questa fase.
+
+
+### Ciliegio da frutto — primo albero coltivabile (3 novembre 2026)
+
+Il branch di sviluppo include ora `fruit_cherry_leaves`, `fruit_cherry_sapling`, il germoglio in vaso, loot e tag vanilla e un `fruit_cherry_tree` configurato con tronco prevalentemente verticale e chioma arrotondata originali. Le texture verdi 16×16 e il germoglio ramato sono nuovi e non provengono da Rustic; i legni e gli arredi approvati sono invariati. **La generazione spontanea e la raccolta di ciliegie restano disabilitate.** L'albero richiede prova in gioco e non si considera approvato con la sola build. Specifiche e checklist: [FRUIT_CHERRY_TREE.md](FRUIT_CHERRY_TREE.md).

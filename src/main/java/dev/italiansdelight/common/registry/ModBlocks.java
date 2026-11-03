@@ -109,7 +109,7 @@ public final class ModBlocks {
 
 
     // Original, non-vanilla fruit cherry wood family (Orchard 1.1.0).
-    // Leaves, sapling, fruits, natural generation are deliberately deferred.
+    // Fruit leaves and sapling are registered below; fruiting and natural generation remain deferred.
     public static final ResourceKey<Block> FRUIT_CHERRY_LOG_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_log"));
     public static final Block FRUIT_CHERRY_LOG = register(
@@ -322,6 +322,38 @@ public final class ModBlocks {
         ALMOND_TRAPDOOR_KEY,
         new TrapDoorBlock(ALMOND_BLOCK_SET_TYPE,
             Block.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).setId(ALMOND_TRAPDOOR_KEY))
+    );
+
+    // Fruit Cherry: green, non-ornamental foliage and cultivated 1x1
+    // sapling. Reuses the approved Fruit Cherry log (never vanilla cherry).
+    // Fruit-bearing leaf states and wild generation come in later phases.
+    public static final ResourceKey<Block> FRUIT_CHERRY_LEAVES_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_leaves"));
+    public static final Block FRUIT_CHERRY_LEAVES = register(
+        FRUIT_CHERRY_LEAVES_KEY,
+        new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES,
+            Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(FRUIT_CHERRY_LEAVES_KEY))
+    );
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FRUIT_CHERRY_TREE_FEATURE =
+        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("fruit_cherry_tree"));
+    public static final TreeGrower FRUIT_CHERRY_TREE_GROWER = new TreeGrower(
+        "italiansdelight:fruit_cherry", Optional.empty(),
+        Optional.of(FRUIT_CHERRY_TREE_FEATURE), Optional.empty()
+    );
+    public static final ResourceKey<Block> FRUIT_CHERRY_SAPLING_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_sapling"));
+    public static final Block FRUIT_CHERRY_SAPLING = register(
+        FRUIT_CHERRY_SAPLING_KEY,
+        new SaplingBlock(FRUIT_CHERRY_TREE_GROWER,
+            Block.Properties.ofFullCopy(Blocks.OAK_SAPLING).setId(FRUIT_CHERRY_SAPLING_KEY))
+    );
+    public static final ResourceKey<Block> POTTED_FRUIT_CHERRY_SAPLING_KEY =
+        ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("potted_fruit_cherry_sapling"));
+    public static final Block POTTED_FRUIT_CHERRY_SAPLING = registerBlockOnly(
+        POTTED_FRUIT_CHERRY_SAPLING_KEY,
+        new FlowerPotBlock(FRUIT_CHERRY_SAPLING,
+            Block.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING).setId(POTTED_FRUIT_CHERRY_SAPLING_KEY))
     );
 
     // Almond (Orchard 1.1.0): original fixed-color foliage, conventional
@@ -988,6 +1020,7 @@ public final class ModBlocks {
         fire.add(ALMOND_PRESSURE_PLATE, 5, 20);
         fire.add(ALMOND_DOOR, 5, 20);
         fire.add(ALMOND_TRAPDOOR, 5, 20);
+        fire.add(FRUIT_CHERRY_LEAVES, 30, 60);
         fire.add(ALMOND_LEAVES, 30, 60);
         fire.add(OLIVE_LEAVES, 30, 60);
         fire.add(OLIVE_STAIRS, 5, 20);
