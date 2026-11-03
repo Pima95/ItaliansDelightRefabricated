@@ -12,11 +12,11 @@ Almond species.
 ### New resources
 
 - `fruit_cherry_leaves`: original 16×16 green-toned opaque/cutout pixel art,
-  219 solid pixels and 37 fully transparent; five restrained foliage colors,
+  168 solid pixels and 88 fully transparent, using the approved Olive's cutout shape with four distinct bright green shades,
   no semi-transparency or missing texture. Native leaves distance, decay,
   waterlogging and silk touch/shears loot behavior remain vanilla.
 - `fruit_cherry_sapling`: original 16×16 sapling with asymmetric branching,
-  bent copper-colored trunk and green lateral leaf clusters; vanilla cross
+  bent copper-colored trunk and green lateral leaf clusters now detailed with six deliberately placed leaf-shading tones; vanilla cross
   block/item and matching potted version. TreeGrower enables random growth
   and bone meal through normal Minecraft logic.
 - `fruit_cherry_tree`: registered configured feature with a custom
@@ -66,3 +66,23 @@ Two blocks of clear space are retained near the lower canopy.
 
 CI test: `.github/scripts/check_fruit_cherry_tree.py`.
 Compilation and static checks are not a substitute for a Minecraft playtest.
+
+### Art correction — 3 November 2026
+
+The first Fruit Cherry foliage was too opaque and looked like a solid
+green wall. Its replacement uses the **approved Olive leaf alpha/cutout
+mask** (168 opaque, 88 transparent), but replaces the silver-grey Olive
+colors with a separate green palette. This follows the Olive's leaf
+*shape* rather than its color.
+
+The sapling retains its entire original 114-pixel opaque silhouette and
+all 20 exact reddish trunk pixels. Its **94 green leaf pixels** have
+been redrawn with six coherent shades: dark undersides, midtones and
+several grouped sunlight highlights across the leaf sprays. No random
+multicolored confetti and no new palette on the trunk.
+
+Only `textures/block/fruit_cherry_leaves.png` and
+`textures/block/fruit_cherry_sapling.png` have changed; all other
+approved artwork, models, growth logic and behavior are frozen.
+CI checks the exact foliage cutout mask, both PNG hashes, the stem,
+and the six green shades. A final in-game appearance review is required.

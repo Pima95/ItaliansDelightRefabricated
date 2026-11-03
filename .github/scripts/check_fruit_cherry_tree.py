@@ -19,7 +19,7 @@ for name in names:
     pixels = check_rgba_pixel_art(A / f"textures/block/{name}.png", (16, 16))
     assert all(p[3] in (0, 255) for row in pixels for p in row), name
     count = sum(p[3] == 255 for row in pixels for p in row)
-    assert count == (114 if name.endswith("sapling") else 219), (name, count)
+    assert count == (114 if name.endswith("sapling") else 168), (name, count)
     assert read(A / f"blockstates/{name}.json")["variants"][""]["model"] == f"italiansdelight:block/{name}"
     assert read(A / f"items/{name}.json")["model"]["model"] == f"italiansdelight:item/{name}"
     assert read(D / f"italiansdelight/loot_table/blocks/{name}.json")["type"] == "minecraft:block"
@@ -29,8 +29,46 @@ for name in names:
     for locale in ("en_us", "it_it"):
         assert read(A / f"lang/{locale}.json")[f"block.italiansdelight.{name}"]
 
-assert hashlib.sha256((A / "textures/block/fruit_cherry_leaves.png").read_bytes()).hexdigest() == "44b9797e3cdfe67d3c631420caf1d5bbc859e2ade0f65a2dbdd2fd976ce9dfea"
-assert hashlib.sha256((A / "textures/block/fruit_cherry_sapling.png").read_bytes()).hexdigest() == "1bb82b22e1f327049c8af2e373ec48c3bb7794d1fc464595a41d0bbd8c436868"
+assert hashlib.sha256((A / "textures/block/fruit_cherry_leaves.png").read_bytes()).hexdigest() == "363f220a1cefb96c5399f8ad746365de62fbc1a40965530facad84df3b4db0fd"
+assert hashlib.sha256((A / "textures/block/fruit_cherry_sapling.png").read_bytes()).hexdigest() == "7b2228956073169b8a27c50b4c616e337cb22618898e272ef2edf24c1eca5337"
+
+# The approved Olive *shape* is the reference: identical cutout opacity,
+# but the Fruit Cherry is green, not an olive/silver recolor.
+olive = check_rgba_pixel_art(A / "textures/block/olive_leaves.png", (16, 16))
+cherry = check_rgba_pixel_art(A / "textures/block/fruit_cherry_leaves.png", (16, 16))
+assert all(olive[y][x][3] == cherry[y][x][3] for y in range(16) for x in range(16)), (
+    "Fruit Cherry must have the same airy cutout shape as approved Olive"
+)
+leaf_green = {px[:3] for row in cherry for px in row if px[3]}
+assert leaf_green == {(56,98,47),(96,141,65),(117,162,79),(165,195,117)}
+assert leaf_green.isdisjoint({px[:3] for row in olive for px in row if px[3]})
+assert sum(px[3]==0 for row in cherry for px in row) == 88
+
+# Preserve the approved sapling shape and all twenty exact woody pixels,
+# introducing a six-tone leaf pattern instead of plain green panels.
+sapling = check_rgba_pixel_art(A / "textures/block/fruit_cherry_sapling.png", (16, 16))
+stem = {
+    (9,5):(125,75,57), (9,6):(125,75,57), (8,7):(125,75,57),
+    (7,8):(91,57,46), (8,8):(125,75,57), (9,8):(125,75,57),
+    (6,9):(125,75,57), (7,9):(91,57,46),
+    (6,10):(91,57,46), (7,10):(167,103,75),
+    (6,11):(91,57,46), (7,11):(125,75,57),
+    (6,12):(91,57,46), (7,12):(167,103,75),
+    (7,13):(91,57,46), (8,13):(125,75,57),
+    (7,14):(91,57,46), (8,14):(167,103,75),
+    (7,15):(91,57,46), (8,15):(125,75,57),
+}
+for (x,y),rgb in stem.items():
+    assert sapling[y][x] == (*rgb,255), ("Approved stem changed",x,y)
+sapling_green = [px[:3] for row in sapling for px in row
+                 if px[3] and px[:3] not in set(stem.values())]
+assert len(sapling_green) == 94
+assert set(sapling_green) == {
+    (56,98,47),(76,119,56),(96,141,65),
+    (117,162,79),(139,178,96),(165,195,117)}
+assert sapling_green.count((165,195,117)) >= 16
+assert sapling_green.count((56,98,47)) >= 8
+
 assert read(A / "models/block/fruit_cherry_leaves.json") == {
     "parent": "minecraft:block/leaves", "textures": {"all": "italiansdelight:block/fruit_cherry_leaves"}
 }
@@ -90,6 +128,7 @@ assert "isFruitCherryWood" in crown and "isFruitCherryWood" not in trunk
 assert not any(f"fruit_cherry_tree" in x for x in world.splitlines()), "Do not activate wild generation yet"
 assert not (D / "italiansdelight/worldgen/placed_feature/fruit_cherry_tree_wild.json").exists()
 
-print("OK: original green Fruit Cherry foliage and sapling, both binary alpha 16x16")
+print("OK: Fruit Cherry leafy silhouette matches Olive alpha (168 opaque) with distinct bright greens")
+print("OK: sapling retains trunk geometry and uses six visibly varied leaf shades")
 print("OK: planted tree grows with bone meal using custom trunk and rounded canopy")
 print("OK: no fruit harvest, fruit drops, or wild worldgen before review")
