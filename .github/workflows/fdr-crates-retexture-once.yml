@@ -1,0 +1,41 @@
+name: One-time FDR original crate artwork retouch
+
+on:
+  push:
+    branches:
+      - feature/orchards-1.1.0
+    paths:
+      - .github/workflows/fdr-crates-retexture-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  retexture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout current feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/orchards-1.1.0
+      - name: Install pixel-art processing
+        run: python3 -m pip install --disable-pip-version-check pillow==11.3.0
+      - name: Fetch pinned original FDR crates and recolor crop pixels only
+        run: python3 .github/scripts/retexture_fdr_crates_once.py
+      - name: Validate every crate and existing orchard art
+        run: |
+          python3 .github/scripts/check_orchard_crates.py
+          python3 .github/scripts/check_orchard_fruits_creative.py
+          python3 .github/scripts/check_creative_tab.py
+          python3 .github/scripts/check_all_crafting_26_2.py
+          python3 .github/scripts/check_almond_wood_derivatives.py
+          python3 .github/scripts/audit_project_consistency.py
+      - name: Commit only new crop pixels and cherry offset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "art(orchards): adapt authentic FDR crate textures and offset right cherry"
+          git push origin HEAD:feature/orchards-1.1.0
