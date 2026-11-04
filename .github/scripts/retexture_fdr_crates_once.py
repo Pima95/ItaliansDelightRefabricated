@@ -186,7 +186,7 @@ needle = 'assert sum(p[3]==255 for row in pix for p in row)==76'
 assert check_src.count(needle)==1, "Unknown existing cherry QA fixture"
 check_src=check_src.replace(needle,'''assert sum(p[3]==255 for row in pix for p in row)==77
 assert pix[8][4][3]==255 and pix[8][10][3]==255
-assert pix[8][11][3]==0 and pix[14][10][3]==255
+assert pix[8][11][3]==0 and pix[14][11][3]==255
 # One berry must begin lower, but the upper foliage remains unchanged.
 assert pix[9][11][:3]!=pix[8][11][:3]''')
 needle = 'print("OK: smaller 76-pixel cherry sprite retained with alpha 0/255")'
