@@ -146,11 +146,17 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CULTIVATED_CARDOON); // harvested crop item
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
-                // Fruits are Creative-only until harvesting, drops and food
-                // mechanics are designed together for all orchard trees.
+                // Orchard fruits still lack natural harvesting and food mechanics;
+                // crates only pack and unpack the existing inventory items.
                 output.accept(ModItems.OLIVES);
                 output.accept(ModItems.ALMONDS);
                 output.accept(ModItems.CHERRIES);
+                // Reversible orchard/field crop storage blocks.
+                output.accept(ModBlocks.OLIVE_CRATE);
+                output.accept(ModBlocks.ALMOND_CRATE);
+                output.accept(ModBlocks.CHERRY_CRATE);
+                output.accept(ModBlocks.BASIL_CRATE);
+                output.accept(ModBlocks.CARDOON_CRATE);
                 output.accept(ModItems.SALT);
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.CARROT_SLICE);

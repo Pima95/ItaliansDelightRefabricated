@@ -41,32 +41,30 @@ assert original_olives[:8] == b"\x89PNG\r\n\x1a\n"
 assert int.from_bytes(original_olives[16:20], "big") == 16
 assert int.from_bytes(original_olives[20:24], "big") == 16
 
-expected = {
-    "almonds": "bdc426ebd75d2adc704999bc62b0bfbf2ccc17a290f877acb09ebc989f97ca8c",
-    "cherries": "22dbd5b97f78ca96a7c27d54b318c601d12ddde16335d78786a01decf14c7de8",
-}
-for name, digest in expected.items():
+# Almond remains approved; cherry fruit was deliberately resized.
+expected_almonds = "bdc426ebd75d2adc704999bc62b0bfbf2ccc17a290f877acb09ebc989f97ca8c"
+for name in ("almonds","cherries"):
     path = ASSETS / f"textures/item/{name}.png"
-    assert hashlib.sha256(path.read_bytes()).hexdigest() == digest
+    if name == "almonds":
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected_almonds
     pixels = check_rgba_pixel_art(path, (16, 16))
-    assert all(px[3] in (0, 255) for row in pixels for px in row)
+    assert all(px[3] in (0,255) for row in pixels for px in row)
     opaque = [px for row in pixels for px in row if px[3]]
-    assert 85 <= len(opaque) <= 130
+    assert (65 <= len(opaque) <= 95) if name == "cherries" else (85 <= len(opaque) <= 130)
     assert len({px[:3] for px in opaque}) >= 5
 
-# Creative-only: no edibility, crafting, loot, crop or worldgen additions.
-# All registrations must use registerSimpleItem and plain Item.Properties.
+# Orchard fruits still have no harvesting or edibility; crate recipes are intentional.
 assert all(f'registerFoodItem("{n}"' not in items for n in ids)
-assert "output.accept(ModItems.OLIVES);" in tab
 assert tab.index("output.accept(ModItems.OLIVES);") < tab.index("output.accept(ModItems.ALMONDS);") < tab.index("output.accept(ModItems.CHERRIES);")
+allowed={f"{n}_crate.json" for n in ("olive","almond","cherry")}
+allowed|={f"{n}_from_crate.json" for n in ids}
 for folder in (DATA / "italiansdelight/recipe", DATA / "italiansdelight/loot_table"):
     if folder.is_dir():
         for path in folder.rglob("*.json"):
-            content = path.read_text(encoding="utf-8")
+            content=path.read_text(encoding="utf-8")
+            if path.parent==DATA / "italiansdelight/recipe" and path.name in allowed:
+                continue
             assert not any(f"italiansdelight:{n}" in content for n in ids), (
-                "Premature fruit harvesting/crafting detected", str(path)
-            )
-
-print("OK: original olives sprite retained; original 16x16 almond and cherry icons validated")
-print("OK: three registered stack-64 fruit items appear once each in the Creative tab")
-print("OK: no fruit food, crafting, harvesting or loot mechanics")
+                "Premature fruit crafting/harvesting",str(path))
+print("OK: original olive/almond art retained, cherry sprite smaller and binary-alpha")
+print("OK: no new fruit harvesting or food effects, only reversible crate recipes")

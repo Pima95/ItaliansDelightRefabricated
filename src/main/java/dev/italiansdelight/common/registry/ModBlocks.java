@@ -701,6 +701,47 @@ public final class ModBlocks {
             Block.Properties.ofFullCopy(Blocks.POTTED_ALLIUM).setId(POTTED_CARDOON_KEY))
     );
 
+    // Reversible nine-crop Farmer's Delight-style storage crates.
+    public static final ResourceKey<Block> OLIVE_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_crate"));
+    public static final Block OLIVE_CRATE = register(
+        OLIVE_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(OLIVE_CRATE_KEY))
+    );
+
+    public static final ResourceKey<Block> ALMOND_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_crate"));
+    public static final Block ALMOND_CRATE = register(
+        ALMOND_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(ALMOND_CRATE_KEY))
+    );
+
+    public static final ResourceKey<Block> CHERRY_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("cherry_crate"));
+    public static final Block CHERRY_CRATE = register(
+        CHERRY_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(CHERRY_CRATE_KEY))
+    );
+
+    public static final ResourceKey<Block> BASIL_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("basil_crate"));
+    public static final Block BASIL_CRATE = register(
+        BASIL_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(BASIL_CRATE_KEY))
+    );
+
+    public static final ResourceKey<Block> CARDOON_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("cardoon_crate"));
+    public static final Block CARDOON_CRATE = register(
+        CARDOON_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(CARDOON_CRATE_KEY))
+    );
+
     // -------------------- Basil --------------------
     // The cultivated crop uses the same registry id for its BlockItem, so the
     // harvested basil itself can be replanted directly on farmland.
@@ -1037,5 +1078,10 @@ public final class ModBlocks {
         fire.add(OLIVE_SHELF, 5, 20);
         fire.add(FRUIT_CHERRY_SHELF, 5, 20);
         fire.add(FRUIT_CHERRY_CABINET, 5, 20);
+        fire.add(OLIVE_CRATE, 5, 20);
+        fire.add(ALMOND_CRATE, 5, 20);
+        fire.add(CHERRY_CRATE, 5, 20);
+        fire.add(BASIL_CRATE, 5, 20);
+        fire.add(CARDOON_CRATE, 5, 20);
     }
 }

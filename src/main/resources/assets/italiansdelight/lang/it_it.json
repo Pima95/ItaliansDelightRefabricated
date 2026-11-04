@@ -311,5 +311,10 @@
   "block.italiansdelight.potted_fruit_cherry_sapling": "Germoglio di Ciliegio da Frutto in Vaso",
   "item.italiansdelight.olives": "Olive",
   "item.italiansdelight.almonds": "Mandorle",
-  "item.italiansdelight.cherries": "Ciliegie"
+  "item.italiansdelight.cherries": "Ciliegie",
+  "block.italiansdelight.olive_crate": "Cassa di Olive",
+  "block.italiansdelight.almond_crate": "Cassa di Mandorle",
+  "block.italiansdelight.cherry_crate": "Cassa di Ciliegie",
+  "block.italiansdelight.basil_crate": "Cassa di Basilico",
+  "block.italiansdelight.cardoon_crate": "Cassa di Cardi"
 }

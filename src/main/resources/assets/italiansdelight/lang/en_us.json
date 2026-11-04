@@ -311,5 +311,10 @@
   "block.italiansdelight.potted_fruit_cherry_sapling": "Potted Fruit Cherry Sapling",
   "item.italiansdelight.olives": "Olives",
   "item.italiansdelight.almonds": "Almonds",
-  "item.italiansdelight.cherries": "Cherries"
+  "item.italiansdelight.cherries": "Cherries",
+  "block.italiansdelight.olive_crate": "Olive Crate",
+  "block.italiansdelight.almond_crate": "Almond Crate",
+  "block.italiansdelight.cherry_crate": "Cherry Crate",
+  "block.italiansdelight.basil_crate": "Basil Crate",
+  "block.italiansdelight.cardoon_crate": "Cardoon Crate"
 }
