@@ -308,5 +308,8 @@
   "block.italiansdelight.fruit_cherry_cheese_aging_rack": "Scaffale di Stagionatura di Ciliegio da Frutto",
   "block.italiansdelight.fruit_cherry_leaves": "Foglie di Ciliegio da Frutto",
   "block.italiansdelight.fruit_cherry_sapling": "Germoglio di Ciliegio da Frutto",
-  "block.italiansdelight.potted_fruit_cherry_sapling": "Germoglio di Ciliegio da Frutto in Vaso"
+  "block.italiansdelight.potted_fruit_cherry_sapling": "Germoglio di Ciliegio da Frutto in Vaso",
+  "item.italiansdelight.olives": "Olive",
+  "item.italiansdelight.almonds": "Mandorle",
+  "item.italiansdelight.cherries": "Ciliegie"
 }

@@ -30,7 +30,7 @@ for name in names:
         assert read(A / f"lang/{locale}.json")[f"block.italiansdelight.{name}"]
 
 assert hashlib.sha256((A / "textures/block/fruit_cherry_leaves.png").read_bytes()).hexdigest() == "1d4b76bbd78358e48203f89551f3ff56c4d658827fd0b013e59aebc0bc108514"
-assert hashlib.sha256((A / "textures/block/fruit_cherry_sapling.png").read_bytes()).hexdigest() == "7b2228956073169b8a27c50b4c616e337cb22618898e272ef2edf24c1eca5337"
+assert hashlib.sha256((A / "textures/block/fruit_cherry_sapling.png").read_bytes()).hexdigest() == "854e12bde405e998efa0f6b2c9a39619b426523dc258f07f87ea052fe294d12d"
 
 # Distinct, deliberately grouped Fruit Cherry leaflets -- NOT a palette
 # swap of Olive, Almond or the earlier Fruit Cherry foliage.
@@ -54,8 +54,8 @@ assert cherry_colors == {
 }
 assert len(cherry_colors) == 6
 
-# Preserve the approved sapling shape and all twenty exact woody pixels,
-# introducing a six-tone leaf pattern instead of plain green panels.
+# Preserve the entire approved sapling silhouette, all twenty wood pixels and
+# the original six green shades. Only eight green pixels become red accents.
 sapling = check_rgba_pixel_art(A / "textures/block/fruit_cherry_sapling.png", (16, 16))
 stem = {
     (9,5):(125,75,57), (9,6):(125,75,57), (8,7):(125,75,57),
@@ -70,13 +70,24 @@ stem = {
 }
 for (x,y),rgb in stem.items():
     assert sapling[y][x] == (*rgb,255), ("Approved stem changed",x,y)
-sapling_green = [px[:3] for row in sapling for px in row
-                 if px[3] and px[:3] not in set(stem.values())]
-assert len(sapling_green) == 94
+# Four small paired red points embedded in existing leaf clusters.
+# All other green/wood pixels remain in their established palette.
+fruit_pixels = {
+    (3,5):(133,39,43), (4,5):(196,65,60),
+    (10,3):(148,41,47), (11,3):(215,84,71),
+    (12,6):(150,37,47), (13,6):(204,64,61),
+    (4,8):(144,39,48), (5,8):(209,77,65)
+}
+for (x,y),rgb in fruit_pixels.items():
+    assert sapling[y][x] == (*rgb,255), ("Cherry accent moved",x,y)
+sapling_green = [px[:3] for y,row in enumerate(sapling)
+                 for x,px in enumerate(row) if px[3]
+                 and (x,y) not in fruit_pixels and px[:3] not in set(stem.values())]
+assert len(sapling_green) == 86
 assert set(sapling_green) == {
     (56,98,47),(76,119,56),(96,141,65),
     (117,162,79),(139,178,96),(165,195,117)}
-assert sapling_green.count((165,195,117)) >= 16
+assert sapling_green.count((165,195,117)) >= 10
 assert sapling_green.count((56,98,47)) >= 8
 
 assert read(A / "models/block/fruit_cherry_leaves.json") == {
@@ -155,9 +166,10 @@ assert "canPlacePlan(level, origin, plan.barkPositions())" in trunk
 assert "BlockPos lowSide = forkBase.relative(lean)" in trunk
 assert "BlockPos outerFork = raisedFork.relative(secondary)" in trunk
 assert "private FruitCherryPlan planTree(" in trunk
-assert "double[] radii = {2.15D, 1.95D, 2.72D, 3.00D, 2.38D, 1.72D};" in crown
-# The broader crown should be a modest, proportional increase over Almond:
-# radii at ALL six levels expand, peaking at 3.00 rather than Almond's 2.45.
+assert "double[] radii = {2.55D, 2.70D, 3.65D, 4.10D, 3.50D, 2.55D};" in crown
+# The larger crown is intentionally visible from below and from the side.
+# The scan must cover x/z +/-4 (and a small margin), rather than the
+# previous +/-3 loop that clipped every radius above 3.0.
 def radii(source):
     line = next((row for row in source.splitlines() if "double[] radii = {" in row), None)
     assert line is not None, "Missing foliage radii profile"
@@ -166,8 +178,13 @@ def radii(source):
 almond_crown = (JAVA / "common/worldgen/AlmondFoliagePlacer.java").read_text(encoding="utf-8")
 cherry_widths, almond_widths = radii(crown), radii(almond_crown)
 assert len(cherry_widths) == len(almond_widths) == 6
-assert all(0.15 <= cherry - almond <= 0.60 for cherry, almond in zip(cherry_widths, almond_widths))
-assert 1.20 <= max(cherry_widths) / max(almond_widths) <= 1.25
+assert all(0.35 <= cherry - almond <= 1.70 for cherry, almond in zip(cherry_widths, almond_widths))
+assert max(cherry_widths) == 4.10
+assert 1.60 <= max(cherry_widths) / max(almond_widths) <= 1.70
+assert "final int canopyExtent = 5;" in crown
+assert "for (int dx = -canopyExtent; dx <= canopyExtent; dx++)" in crown
+assert "for (int dz = -canopyExtent; dz <= canopyExtent; dz++)" in crown
+assert "double r = radii[dy + 2] * scale;" in crown
 # Preserve the low 2-block walking clearance, support under real wooden bends
 # and six-step leaf connectivity rather than placing floating canopy clusters.
 assert "int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;" in crown
@@ -182,7 +199,7 @@ assert not (D / "italiansdelight/worldgen/placed_feature/fruit_cherry_tree_wild.
 
 print("OK: unique 157-pixel cherry leaflet silhouette, six muted green shades, not Olive/Almond recolor")
 print("OK: client-side biome foliage colors registered for Fruit Cherry; Almond tint preserved")
-print("OK: sapling retains trunk geometry and uses six visibly varied leaf shades")
-print("OK: cherry uses proven Almond/Olive trunk topology and a 20–25% wider rounded canopy")
+print("OK: sapling retains its 114-pixel silhouette, copper trunk, six greens and eight subtle red accents")
+print("OK: cherry keeps Almond/Olive trunk and grows a visible radius-4.10 canopy on an 11x11 scan")
 print("OK: planted sapling growth remains enabled; branch/foliage clearance maintained")
 print("OK: no fruit harvest, fruit drops, or wild worldgen before review")

@@ -893,6 +893,13 @@ public final class ModItems {
         public static final Item SPECK_SLICE =
                 registerFoodItem("speck_slice", 2, 0.6f);
 
+        // Orchard fruits: Creative-only placeholder ingredients for a later
+        // shared harvesting system. No food components, recipes, drops,
+        // or special interactions are registered at this stage.
+        public static final Item OLIVES = registerSimpleItem("olives", 64);
+        public static final Item ALMONDS = registerSimpleItem("almonds", 64);
+        public static final Item CHERRIES = registerSimpleItem("cherries", 64);
+
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),

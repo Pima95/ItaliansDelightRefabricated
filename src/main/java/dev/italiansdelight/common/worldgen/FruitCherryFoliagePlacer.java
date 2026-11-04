@@ -21,7 +21,7 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
 
 /**
  * Rounded fruit-cherry canopy on the shared Olive/Almond crooked trunk,
- * slightly broader than Almond's narrow crown while avoiding tall leaf
+ * significantly broader than Almond's narrow crown while avoiding tall leaf
  * spikes. Leafy shoulders cover real boughs, and only blocks within six
  * face-steps of Fruit Cherry wood survive.
  * No fruit appears until the shared fruiting phase.
@@ -85,11 +85,13 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
         int trunkHeightAboveGround = anchor.getY() - groundY;
         int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;
 
-        // Maintain the Almond/Olive lower canopy clearance and height,
-        // but give Fruit Cherry a gently wider, rounded crown. The middle
-        // layer reaches radius 3.00 vs Almond's 2.45 (about 22% wider),
-        // allowing occasional diagonals without a large blocky canopy.
-        double[] radii = {2.15D, 1.95D, 2.72D, 3.00D, 2.38D, 1.72D};
+        // Keep the approved trunk, vertical profile and walking clearance.
+        // Grow a broader rounded crown: the middle layer reaches radius 4.10
+        // versus Almond's 2.45, with shoulder layers tapered around it.
+        // The scan MUST include the new outer ring; a fixed 7x7 grid
+        // previously clipped radius 3.00+ and concealed visual changes.
+        double[] radii = {2.55D, 2.70D, 3.65D, 4.10D, 3.50D, 2.55D};
+        final int canopyExtent = 5; // Covers even a mildly scaled 4.1-radius ring.
         for (int dy = minDy; dy <= 3; dy++) {
             if (anchor.getY() + dy - groundY < 3) {
                 continue; // Retain the olive's two-block walking clearance.
@@ -98,8 +100,8 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
             double jitterX = (random.nextDouble() - 0.5D) * 0.30D;
             double jitterZ = (random.nextDouble() - 0.5D) * 0.30D;
 
-            for (int dx = -3; dx <= 3; dx++) {
-                for (int dz = -3; dz <= 3; dz++) {
+            for (int dx = -canopyExtent; dx <= canopyExtent; dx++) {
+                for (int dz = -canopyExtent; dz <= canopyExtent; dz++) {
                     double distance = Math.hypot(dx - jitterX, dz - jitterZ);
                     if (distance > r) {
                         continue;

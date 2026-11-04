@@ -67,7 +67,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.ALMOND_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK);
 
-                // ORCHARD WOOD: construction blocks (saplings and fruit later).
+                // ORCHARD WOOD: construction blocks, saplings and shelves.
                 output.accept(ModBlocks.OLIVE_LOG);
                 output.accept(ModBlocks.OLIVE_WOOD);
                 output.accept(ModBlocks.STRIPPED_OLIVE_LOG);
@@ -146,6 +146,11 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CULTIVATED_CARDOON); // harvested crop item
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
+                // Fruits are Creative-only until harvesting, drops and food
+                // mechanics are designed together for all orchard trees.
+                output.accept(ModItems.OLIVES);
+                output.accept(ModItems.ALMONDS);
+                output.accept(ModItems.CHERRIES);
                 output.accept(ModItems.SALT);
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.CARROT_SLICE);

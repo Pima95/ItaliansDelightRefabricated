@@ -41,8 +41,10 @@ ornamental Cherry. The complete planned log structure is checked before
 placement to prevent a detached fork or a partially grown blocked tree.
 
 The foliage keeps a **rounded, gently broader crown** rather than Almond's
-upright sprays. Its six ring radii are **0.20–0.55 blocks larger** than the
-equivalent Almond layers, peaking at 3.00 versus 2.45 (about 22% wider).
+upright sprays. Its six ring radii now use a broader, rounded profile peaking at
+**4.10** versus Almond's **2.45** (approximately 67% larger maximum radius).
+The canopy placement scan was expanded to 11×11 instead of the old 7×7
+area, which previously clipped the largest radii.
 It retains the same overall vertical range and two-block clearance below
 the canopy. Planned leaves are limited to six face steps from actual
 fruit-cherry wood, preserving natural Minecraft decay.
@@ -91,8 +93,8 @@ Fruit Cherry blends **50% local biome foliage RGB / 50% white**, retaining
 the 16×16 texture's details while visibly responding to warm, temperate
 and cold biome foliage colors. Almond's separate 30% biome influence
 and Olive's fixed colors are unchanged. The base texture is displayed
-without biome tint in the inventory; the approved sapling is also
-unchanged. The existing `UntintedParticleLeavesBlock` *block class* is
+without biome tint in the inventory; the sapling retains its original
+shape but now has eight subtle red pixels arranged in four tiny pairs. The existing `UntintedParticleLeavesBlock` *block class* is
 still appropriate: biome tint is client-side block rendering, not a
 property of that particle-handling class.
 
@@ -120,15 +122,46 @@ face-connected fork and all-or-nothing clearance logic.
 
 Compared with Almond's crown profile
 `{1.95,1.70,2.35,2.45,2.00,1.45}`, Fruit Cherry uses
-`{2.15,1.95,2.72,3.00,2.38,1.72}`. The rounded silhouette is
-approximately **22% wider in maximum radius** than Almond, with no taller
+`{2.55,2.70,3.65,4.10,3.50,2.55}`. The rounded silhouette is
+approximately **67% wider in maximum radius** than Almond, with no taller
 vertical leaf columns. Olive and Almond trunk/foliage code and all
 wood/material textures are untouched. The fruit cherry's leaf artwork,
-biome tint, sapling artwork, recipes, drops, and existing blocks remain
-unchanged as approved.
+biome tint, original green foliage, recipes, drops and existing blocks remain
+unchanged. Only eight green pixels in the sapling artwork were replaced
+with small red cherry accents; its silhouette and trunk are untouched.
 
 This remains planted-tree generation from saplings (including bone meal).
 **Natural biome spawning and fruit harvest are still disabled.**
 A Minecraft playtest should grow several saplings on clear ground and
 near obstacles, verify both trunk fork variants and inspect the canopy
 from above/side, including checking leaf persistence after reload.
+
+## Visual expansion and Creative-only orchard fruits — 4 November 2026
+
+The prior radius 3.00 crown still appeared too compact because the
+`FruitCherryFoliagePlacer` scanned only x/z -3 to +3. The expanded
+six-layer profile is `{2.55, 2.70, 3.65, 4.10, 3.50, 2.55}`; its main
+scan now covers x/z -5 to +5. The highest/middle rings flare out into
+a visibly wider, rounded crown while retaining the **existing crooked
+Olive/Almond trunk**, tree height, leaf-distance checks and understory
+clearance. The planted sapling still controls tree growth.
+
+The sapling's 16×16 green silhouette (114 opaque pixels), six approved
+leaf greens and twenty copper trunk pixels are preserved. Exactly **eight
+former green pixels**, in four small pairs near the outer leaves, are
+now dark-to-bright cherry red. These are only decorative pixels on the
+sapling. They do not represent any harvestable crop state.
+
+Three plain, stackable **Creative-only items** are registered:
+`italiansdelight:olives`, `italiansdelight:almonds` and
+`italiansdelight:cherries`. The olives item reuses the existing
+`textures/item/olives.png` unchanged. Almonds and cherries each have
+new hand-crafted 16×16 RGBA pixel artwork and ordinary generated
+inventory models. All three use simple Item properties (stack size 64),
+without food components, recipes, loot/drop tables, harvesting logic,
+right-click interactions, or worldgen. They appear together in the
+Italian's Delight Creative tab under crops.
+
+In-game review: grow several Cherry saplings (with bone meal) and inspect
+the radius of the middle canopy, plus the small red sapling details and
+all three 16×16 fruit inventory icons at their actual size.
