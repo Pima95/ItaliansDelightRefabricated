@@ -46,6 +46,12 @@ for k in ("block","item"):
     for tag in (D/f"minecraft/tags/{k}/logs_that_burn.json",D/f"italiansdelight/tags/{k}/almond_logs.json"):
         assert {"italiansdelight:almond_wood","italiansdelight:stripped_almond_wood"} <= set(j(tag)["values"])
 for p in (A/"models/block").glob("*almond*.json"):
+    # The newly introduced almond_crate intentionally reuses the native FDR
+    # crate_bottom texture. Its complete model and PNGs are covered by the
+    # separate check_orchard_crates.py; protect original wood art here.
+    if p.stem == "almond_crate":
+        assert j(p)["textures"]["bottom"] == "farmersdelight:block/crate_bottom"
+        continue
     data=j(p)
     textures=data.get("textures",{})
     for key,reference in textures.items():
