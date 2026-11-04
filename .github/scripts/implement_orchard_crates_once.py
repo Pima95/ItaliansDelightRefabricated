@@ -202,12 +202,7 @@ print("OK: original olive/almond art retained, cherry sprite smaller and binary-
 print("OK: no new fruit harvesting or food effects, only reversible crate recipes")
 '''
 test.write_text(s,encoding="utf-8")
-# Add new static regression checks to the existing GitHub Java 25 build.
-patch(Path(".github/workflows/pizza-build.yml"),
-      "      - name: Validate Creative-only orchard fruit items and original artwork\n",
-      "      - name: Validate five reversible Orchard crates and their artwork\n"
-      "        run: python3 .github/scripts/check_orchard_crates.py\n"
-      "      - name: Validate Creative-only orchard fruit items and original artwork\n")
+# CI check runs in one-time workflow; normal CI workflow edited separately.
 write(Path(".github/scripts/check_orchard_crates.py"),'''#!/usr/bin/env python3
 """Static validation of all FDR-style Orchard crates and 9-to-1 recipes."""
 import json
