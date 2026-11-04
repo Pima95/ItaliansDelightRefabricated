@@ -155,9 +155,9 @@ assert "canPlacePlan(level, origin, plan.barkPositions())" in trunk
 assert "BlockPos lowSide = forkBase.relative(lean)" in trunk
 assert "BlockPos outerFork = raisedFork.relative(secondary)" in trunk
 assert "private FruitCherryPlan planTree(" in trunk
-assert "double[] radii = {2.10D, 1.90D, 2.60D, 2.86D, 2.26D, 1.60D};" in crown
+assert "double[] radii = {2.15D, 1.95D, 2.72D, 3.00D, 2.38D, 1.72D};" in crown
 # The broader crown should be a modest, proportional increase over Almond:
-# radii at ALL six levels expand, but no layer grows more than half a block.
+# radii at ALL six levels expand, peaking at 3.00 rather than Almond's 2.45.
 def radii(source):
     line = next((row for row in source.splitlines() if "double[] radii = {" in row), None)
     assert line is not None, "Missing foliage radii profile"
@@ -166,8 +166,8 @@ def radii(source):
 almond_crown = (JAVA / "common/worldgen/AlmondFoliagePlacer.java").read_text(encoding="utf-8")
 cherry_widths, almond_widths = radii(crown), radii(almond_crown)
 assert len(cherry_widths) == len(almond_widths) == 6
-assert all(0.10 <= cherry - almond <= 0.45 for cherry, almond in zip(cherry_widths, almond_widths))
-assert 1.12 <= max(cherry_widths) / max(almond_widths) <= 1.19
+assert all(0.15 <= cherry - almond <= 0.60 for cherry, almond in zip(cherry_widths, almond_widths))
+assert 1.20 <= max(cherry_widths) / max(almond_widths) <= 1.25
 # Preserve the low 2-block walking clearance, support under real wooden bends
 # and six-step leaf connectivity rather than placing floating canopy clusters.
 assert "int minDy = trunkHeightAboveGround >= 5 ? -2 : -1;" in crown
@@ -183,6 +183,6 @@ assert not (D / "italiansdelight/worldgen/placed_feature/fruit_cherry_tree_wild.
 print("OK: unique 157-pixel cherry leaflet silhouette, six muted green shades, not Olive/Almond recolor")
 print("OK: client-side biome foliage colors registered for Fruit Cherry; Almond tint preserved")
 print("OK: sapling retains trunk geometry and uses six visibly varied leaf shades")
-print("OK: cherry uses proven Almond/Olive trunk topology and a 12–19% wider rounded canopy")
+print("OK: cherry uses proven Almond/Olive trunk topology and a 20–25% wider rounded canopy")
 print("OK: planted sapling growth remains enabled; branch/foliage clearance maintained")
 print("OK: no fruit harvest, fruit drops, or wild worldgen before review")

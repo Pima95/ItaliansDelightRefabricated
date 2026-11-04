@@ -87,9 +87,9 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
 
         // Maintain the Almond/Olive lower canopy clearance and height,
         // but give Fruit Cherry a gently wider, rounded crown. The middle
-        // layer extends about 0.4 blocks beyond Almond's 2.45 radius,
+        // layer reaches radius 3.00 vs Almond's 2.45 (about 22% wider),
         // allowing occasional diagonals without a large blocky canopy.
-        double[] radii = {2.10D, 1.90D, 2.60D, 2.86D, 2.26D, 1.60D};
+        double[] radii = {2.15D, 1.95D, 2.72D, 3.00D, 2.38D, 1.72D};
         for (int dy = minDy; dy <= 3; dy++) {
             if (anchor.getY() + dy - groundY < 3) {
                 continue; // Retain the olive's two-block walking clearance.

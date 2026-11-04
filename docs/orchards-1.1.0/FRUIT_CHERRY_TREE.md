@@ -41,8 +41,8 @@ ornamental Cherry. The complete planned log structure is checked before
 placement to prevent a detached fork or a partially grown blocked tree.
 
 The foliage keeps a **rounded, gently broader crown** rather than Almond's
-upright sprays. Its six ring radii are **0.15–0.41 blocks larger** than the
-equivalent Almond layers, peaking at 2.86 versus 2.45 (about 17% wider).
+upright sprays. Its six ring radii are **0.20–0.55 blocks larger** than the
+equivalent Almond layers, peaking at 3.00 versus 2.45 (about 22% wider).
 It retains the same overall vertical range and two-block clearance below
 the canopy. Planned leaves are limited to six face steps from actual
 fruit-cherry wood, preserving natural Minecraft decay.
@@ -120,8 +120,8 @@ face-connected fork and all-or-nothing clearance logic.
 
 Compared with Almond's crown profile
 `{1.95,1.70,2.35,2.45,2.00,1.45}`, Fruit Cherry uses
-`{2.10,1.90,2.60,2.86,2.26,1.60}`. The rounded silhouette is
-noticeably but **only slightly wider** than Almond, with no taller
+`{2.15,1.95,2.72,3.00,2.38,1.72}`. The rounded silhouette is
+approximately **22% wider in maximum radius** than Almond, with no taller
 vertical leaf columns. Olive and Almond trunk/foliage code and all
 wood/material textures are untouched. The fruit cherry's leaf artwork,
 biome tint, sapling artwork, recipes, drops, and existing blocks remain
