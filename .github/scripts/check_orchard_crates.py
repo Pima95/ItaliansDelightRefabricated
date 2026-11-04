@@ -30,6 +30,11 @@ for crop,item in crops.items():
     for face in ("side","top"):
         pix=check_rgba_pixel_art(A/f"textures/block/{name}_{face}.png",(16,16))
         assert all(p[3]==255 for row in pix for p in row)
+        wood={(0x78,0x58,0x36),(0x80,0x5e,0x36),(0x8b,0x67,0x3c),
+              (0x55,0x3a,0x1f),(0x40,0x29,0x13),(0x99,0x71,0x40),
+              (0x66,0x4d,0x28)}
+        assert 80 <= sum(p[:3] in wood for row in pix for p in row) <= 236
+        assert len({p[:3] for row in pix for p in row}) >= 10
     pack=json.loads((D/f"italiansdelight/recipe/{name}.json").read_text())
     unpack=json.loads((D/f"italiansdelight/recipe/{item}_from_crate.json").read_text())
     assert pack=={"type":"minecraft:crafting_shaped","category":"building",
@@ -47,7 +52,11 @@ for crop,item in crops.items():
         assert specific["values"]==[rid] and rid in general["values"]
 pix=check_rgba_pixel_art(A/"textures/item/cherries.png",(16,16))
 assert all(p[3] in (0,255) for row in pix for p in row)
-assert sum(p[3]==255 for row in pix for p in row)==76
+assert sum(p[3]==255 for row in pix for p in row)==77
+assert pix[8][4][3]==255 and pix[8][10][3]==255
+assert pix[8][11][3]==0 and pix[14][11][3]==255
+# One berry must begin lower, but the upper foliage remains unchanged.
+assert pix[9][11][:3]!=pix[8][11][:3]
 print("OK: five registered crates, ten opaque textures, block/item assets, drops, tags")
 print("OK: 9-in and 9-out recipes for olives, almonds, cherries, basil and cultivated cardoon")
-print("OK: smaller 76-pixel cherry sprite retained with alpha 0/255")
+print("OK: cherry berry lowered 1px (77 opaque pixels) while size remains unchanged")
