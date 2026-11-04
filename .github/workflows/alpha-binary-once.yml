@@ -1,0 +1,138 @@
+name: One-time binary alpha normalization (non-fluids)
+
+on:
+  push:
+    branches:
+      - feature/orchards-1.1.0
+    paths:
+      - .github/workflows/alpha-binary-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    name: Correct 56 non-fluid PNGs and push to feature branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact orchard branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/orchards-1.1.0
+      - name: Install PNG processing dependency
+        run: python3 -m pip install --disable-pip-version-check pillow==11.3.0
+      - name: Normalize alpha with RGB, fluid and PNG assertions
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import hashlib
+          import re
+          
+          root = Path("src/main/resources/assets/italiansdelight/textures")
+          audit = Path("docs/orchards-1.1.0/ALPHA_AUDIT_2026-11-04.md")
+          txt = audit.read_text(encoding="utf-8")
+          sections = {}
+          current = None
+          for line in txt.splitlines():
+              m = re.match(r"^## ([1-5])\.", line)
+              if m:
+                  current = int(m.group(1))
+                  sections[current] = []
+                  continue
+              if current is None:
+                  continue
+              m = re.match(r"^\|\s*\x60([^\x60]+\.png)\x60\s*\|", line)
+              if m:
+                  sections[current].append(m.group(1))
+          expected = {1: 17, 2: 3, 3: 48, 4: 2, 5: 3}
+          actual = {n: len(sections.get(n, [])) for n in expected}
+          if actual != expected:
+              raise AssertionError(f"Unexpected audit structure: {actual} != {expected}")
+          targets = (
+              [root / "gui" / p for p in sections[2]]
+              + [root / "item" / p for p in sections[3]]
+              + [root / p for p in sections[4]]
+              + [Path(p) for p in sections[5]]
+          )
+          if len(targets) != 56 or len(set(targets)) != 56:
+              raise AssertionError("There must be exactly 56 unique non-fluid targets")
+          fluid_root = root / "block" / "fluids"
+          fluid_paths = list(fluid_root.rglob("*.png"))
+          fluid_hashes = {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in fluid_paths}
+          results = []
+          for path in targets:
+              if not path.is_file() or fluid_root in path.parents:
+                  raise AssertionError(f"Invalid or excluded target: {path}")
+              with Image.open(path) as im:
+                  im.load()
+                  original = im.convert("RGBA")
+                  original_pixels = list(original.getdata())
+                  size = im.size
+              count = sum(0 < a < 255 for r,g,b,a in original_pixels)
+              if count < 1:
+                  raise AssertionError(f"Audit target lacks intermediate alpha: {path}")
+              is_logo = path not in (set(root / "item" / p for p in sections[3]) |
+                                     set(root / "gui" / p for p in sections[2]))
+              fixed_pixels = []
+              for r,g,b,a in original_pixels:
+                  if a == 0 or a == 255:
+                      new_a = a
+                  elif is_logo:
+                      new_a = 255  # Keep faded icon/logo artwork visible, not erased.
+                  else:
+                      new_a = 255 if a >= 128 else 0  # Remove soft alpha antialiasing.
+                  fixed_pixels.append((r,g,b,new_a))
+              fixed = Image.new("RGBA", size)
+              fixed.putdata(fixed_pixels)
+              fixed.save(path, format="PNG")
+              with Image.open(path) as check:
+                  written = list(check.convert("RGBA").getdata())
+              if written != fixed_pixels:
+                  raise AssertionError(f"PNG round trip failed: {path}")
+              if not all(a in (0,255) for r,g,b,a in written):
+                  raise AssertionError(f"Intermediate alpha remained: {path}")
+              if any(x[:3] != y[:3] for x,y in zip(written,original_pixels)):
+                  raise AssertionError(f"RGB was altered: {path}")
+              results.append((path, count))
+          for p, h in fluid_hashes.items():
+              if hashlib.sha256(p.read_bytes()).hexdigest() != h:
+                  raise AssertionError(f"Fluid changed unexpectedly: {p}")
+          doc = Path("docs/orchards-1.1.0/ALPHA_FIX_2026-11-04.md")
+          lines = [
+              "# Normalizzazione alpha binario — esito",
+              "",
+              "- Branch: \x60feature/orchards-1.1.0\x60.",
+              "- Base: audit \x60ALPHA_AUDIT_2026-11-04.md\x60 (73 PNG, 17 fluidi esclusi).",
+              "- File corretti: **56** (48 item, 3 GUI, 5 icone/loghi).",
+              f"- Pixel alpha intermedio normalizzati: **{sum(n for _,n in results):,}**.",
+              "- Regola: alpha finale **0 o 255**; canali RGB conservati esattamente.",
+              "- Item/GUI: alpha intermedi < 128 → 0, altrimenti → 255.",
+              "- Icone/loghi: alpha non nullo → 255 per non cancellare elementi grafici.",
+              "- Fluidi: **nessuna modifica**; SHA-256 verificati invariati.",
+              "- Le texture già conformi e il codice non sono stati modificati.",
+              "",
+              "## File corretti",
+              "",
+              "| Percorso | Pixel normalizzati |",
+              "|---|---:|",
+          ]
+          lines.extend(f"| \x60{p.as_posix()}\x60 | {n} |" for p,n in results)
+          doc.write_text("\n".join(lines) + "\n", encoding="utf-8")
+          print(f"Corrected {len(results)} PNG; {sum(n for _,n in results)} pixels; fluids untouched.")
+          PY
+      - name: Commit only corrected PNGs and audit result
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u src/main/resources/assets/italiansdelight/textures
+          git add -u icon.png src/main/resources/assets/italiansdelight/logo.png src/main/resources/assets/italiansdelight/italians_delight_refabricated.png
+          git add docs/orchards-1.1.0/ALPHA_FIX_2026-11-04.md
+          git diff --cached --name-only > /tmp/alpha-changed.txt
+          test "$(wc -l < /tmp/alpha-changed.txt)" -eq 57
+          ! grep -E '/fluids/' /tmp/alpha-changed.txt
+          git commit -m "art(orchards): normalize binary alpha in 56 non-fluid PNGs"
+          git push origin HEAD:feature/orchards-1.1.0
