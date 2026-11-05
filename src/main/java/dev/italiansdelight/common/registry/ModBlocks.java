@@ -9,6 +9,7 @@ import dev.italiansdelight.common.block.CardoonBlock;
 import dev.italiansdelight.common.block.CultivatedCardoonCropBlock;
 import dev.italiansdelight.common.block.OliveLeavesBlock;
 import dev.italiansdelight.common.block.AlmondLeavesBlock;
+import dev.italiansdelight.common.block.FruitCherryLeavesBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
@@ -328,13 +329,13 @@ public final class ModBlocks {
 
     // Fruit Cherry: green, non-ornamental foliage and cultivated 1x1
     // sapling. Reuses the approved Fruit Cherry log (never vanilla cherry).
-    // Fruit-bearing leaf states and wild generation come in later phases.
+    // Fruiting leaves: three WHITE blossom phases, green cherry and red harvest.
+    // Natural world generation remains deferred.
     public static final ResourceKey<Block> FRUIT_CHERRY_LEAVES_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_leaves"));
     public static final Block FRUIT_CHERRY_LEAVES = register(
         FRUIT_CHERRY_LEAVES_KEY,
-        new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES,
-            Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(FRUIT_CHERRY_LEAVES_KEY))
+        new FruitCherryLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(FRUIT_CHERRY_LEAVES_KEY))
     );
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FRUIT_CHERRY_TREE_FEATURE =

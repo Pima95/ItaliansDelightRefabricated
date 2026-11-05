@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "italiansdelight:block/fruit_cherry_leaves_fruiting"
+  }
+}

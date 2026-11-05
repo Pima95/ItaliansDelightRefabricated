@@ -2,6 +2,7 @@ package dev.italiansdelight;
 
 import net.fabricmc.api.ClientModInitializer;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.block.FruitCherryLeavesBlock;
 import java.util.List;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 import net.minecraft.client.color.block.BlockTintSource;
@@ -92,6 +93,13 @@ public class ItaliansDelightClient implements ClientModInitializer {
     private static final BlockTintSource FRUIT_CHERRY_BIOME_FOLIAGE = new BlockTintSource() {
         @Override
         public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
+            // Fruit-cherry blossoms MUST stay white, and ripe cherries red:
+            // applying the usual 50% biome tint to flower pixels turns them
+            // green. Keep biome foliage tint at stage 0 only.
+            if (state.hasProperty(FruitCherryLeavesBlock.STAGE)
+                    && state.getValue(FruitCherryLeavesBlock.STAGE) > 0) {
+                return 0xFFFFFFFF;
+            }
             int biome = BlockTintSources.foliage().colorInWorld(state, level, pos);
             return softenFruitCherryTint(biome);
         }

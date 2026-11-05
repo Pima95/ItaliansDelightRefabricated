@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cultivable Fruit Cherry tree (no natural generation or fruit harvest yet)."""
+"""Cultivable Fruit Cherry tree, approved original foliage, six-stage white blossom and red cherry harvest."""
 from pathlib import Path
 import hashlib
 import json
@@ -20,7 +20,15 @@ for name in names:
     assert all(p[3] in (0, 255) for row in pixels for p in row), name
     count = sum(p[3] == 255 for row in pixels for p in row)
     assert count == (114 if name.endswith("sapling") else 157), (name, count)
-    assert read(A / f"blockstates/{name}.json")["variants"][""]["model"] == f"italiansdelight:block/{name}"
+    variants=read(A / f"blockstates/{name}.json")["variants"]
+    if name.endswith("sapling"):
+        assert variants[""]["model"] == f"italiansdelight:block/{name}"
+    else:
+        stages=("fruit_cherry_leaves","fruit_cherry_leaves_buds",
+                "fruit_cherry_leaves_flowers_early","fruit_cherry_leaves_flowers",
+                "fruit_cherry_leaves_unripe","fruit_cherry_leaves_fruiting")
+        assert variants=={f"stage={i}":{"model":f"italiansdelight:block/{s}"}
+                         for i,s in enumerate(stages)}
     assert read(A / f"items/{name}.json")["model"]["model"] == f"italiansdelight:item/{name}"
     assert read(D / f"italiansdelight/loot_table/blocks/{name}.json")["type"] == "minecraft:block"
     for cat in ("block", "item"):
@@ -134,7 +142,7 @@ assert "Optional.empty()" in blocks
 # The block class is unchanged: exactly like Almond, the biome tint is
 # applied through Fabric's client BlockColorRegistry, not by replacing the
 # foliage particle block with a new server-facing renderer.
-assert "new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES" in blocks
+assert "new FruitCherryLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(FRUIT_CHERRY_LEAVES_KEY))" in blocks
 client = (JAVA / "ItaliansDelightClient.java").read_text(encoding="utf-8")
 assert 'BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);' in client
 assert 'BlockColorRegistry.register(List.of(FRUIT_CHERRY_BIOME_FOLIAGE), ModBlocks.FRUIT_CHERRY_LEAVES);' in client
@@ -202,4 +210,4 @@ print("OK: client-side biome foliage colors registered for Fruit Cherry; Almond 
 print("OK: sapling retains its 114-pixel silhouette, copper trunk, six greens and eight subtle red accents")
 print("OK: cherry keeps Almond/Olive trunk and grows a visible radius-4.10 canopy on an 11x11 scan")
 print("OK: planted sapling growth remains enabled; branch/foliage clearance maintained")
-print("OK: no fruit harvest, fruit drops, or wild worldgen before review")
+print("OK: fruit cherry harvest on right-click only, no leaf-break fruit drops and no wild worldgen")

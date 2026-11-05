@@ -146,8 +146,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CULTIVATED_CARDOON); // harvested crop item
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
-                // Olive and almond trees now produce harvestable fruit;
-                // fruit-cherry harvest remains in a later phase.
+                // Olive, almond and fruit-cherry tree leaves now produce fruit;
+                // Serene Seasons integration follows after in-game testing.
                 // Crates pack the existing orchard fruit items.
                 output.accept(ModItems.OLIVES);
                 output.accept(ModItems.ALMONDS);
