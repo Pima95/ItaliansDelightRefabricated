@@ -7,6 +7,7 @@ import dev.italiansdelight.common.block.CheeseAgingRackBlock;
 import dev.italiansdelight.common.block.AgingCheeseBlock;
 import dev.italiansdelight.common.block.CardoonBlock;
 import dev.italiansdelight.common.block.CultivatedCardoonCropBlock;
+import dev.italiansdelight.common.block.OliveLeavesBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
@@ -388,8 +389,9 @@ public final class ModBlocks {
     );
 
     // First Orchard foliage block: use the existing non-Rustic 16x16
-    // olive_leaves.png. The concrete UntintedParticleLeavesBlock preserves
-    // its original fixed green palette while vanilla leaves handle decay,
+    // olive_leaves.png. OliveLeavesBlock extends UntintedParticleLeavesBlock
+    // and preserves its fixed silver-green palette while adding fruit ripening.
+    // Vanilla leaves continue to handle decay,
     // waterlogging, persistent placement and log distance. Particle chance
     // 0 avoids inappropriate vanilla cherry/pale-leaf falling particles.
     // Olive logs are already in #minecraft:logs via logs_that_burn.
@@ -397,8 +399,7 @@ public final class ModBlocks {
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_leaves"));
     public static final Block OLIVE_LEAVES = register(
         OLIVE_LEAVES_KEY,
-        new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES,
-            Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(OLIVE_LEAVES_KEY))
+        new OliveLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(OLIVE_LEAVES_KEY))
     );
 
 

@@ -55,7 +55,22 @@ def main():
                   "textures":{"all":"italiansdelight:block/olive_leaves"}}:
         raise ValueError("Olive leaves must use vanilla leaves geometry and approved art")
     state=read(A/"blockstates/olive_leaves.json")
-    assert state=={"variants":{"":{"model":"italiansdelight:block/olive_leaves"}}}
+    assert state == {"variants":{
+        "fruiting=false":{"model":"italiansdelight:block/olive_leaves"},
+        "fruiting=true":{"model":"italiansdelight:block/olive_leaves_fruiting"}
+    }}, "The existing olive leaf block must render its ripe and unripe states"
+    fruit_model=read(A/"models/block/olive_leaves_fruiting.json")
+    assert fruit_model == {"parent":"minecraft:block/leaves",
+        "textures":{"all":"italiansdelight:block/olive_leaves_fruiting"}}
+    fruit_pixels=[p for row in check_rgba_pixel_art(
+        A/"textures/block/olive_leaves_fruiting.png",(16,16)) for p in row]
+    # Same leaf silhouette, all four original silver/green colors retained.
+    # Dark olives may recolor *opaque* pixels only; never introduce alpha 1..254.
+    assert [px[3] for px in fruit_pixels] == [px[3] for px in pixels]
+    assert all(px[3] in (0,255) for px in fruit_pixels)
+    assert len([1 for p,q in zip(pixels,fruit_pixels) if p!=q])==16
+    assert all(p==q for p,q in zip(pixels,fruit_pixels) if p[3]==0)
+    assert len({p[:3] for p in fruit_pixels if p[3]}) >= 7
     item=read(A/"items/olive_leaves.json")
     assert item["model"]["model"]=="italiansdelight:item/olive_leaves"
     assert read(A/"models/item/olive_leaves.json")["parent"]=="italiansdelight:block/olive_leaves"
@@ -68,9 +83,20 @@ def main():
     assert all("italiansdelight:"+name in logs["values"]
                for name in ("olive_log","olive_wood","stripped_olive_log","stripped_olive_wood"))
     srcjava=Path("src/main/java/dev/italiansdelight/common/registry/ModBlocks.java").read_text()
-    assert "new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES" in srcjava
+    assert "new OliveLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)" in srcjava
     assert "OLIVE_LEAVES" in srcjava
     assert "fire.add(OLIVE_LEAVES, 30, 60)" in srcjava
+    harvest=Path("src/main/java/dev/italiansdelight/common/block/OliveLeavesBlock.java").read_text()
+    assert "extends UntintedParticleLeavesBlock" in harvest
+    assert 'BooleanProperty.create("fruiting")' in harvest
+    assert "super.randomTick(state, level, pos, random)" in harvest
+    assert "super.isRandomlyTicking(state)" in harvest
+    assert "RIPEN_CHANCE = 12" in harvest
+    assert "server.setBlock(pos, state.setValue(FRUITING, false), 2)" in harvest
+    assert "new ItemStack(ModItems.OLIVES, 1 + server.random.nextInt(3))" in harvest
+    assert "!state.getValue(PERSISTENT)" in harvest and "state.getValue(DISTANCE) < 7" in harvest
+    assert "!state.getValue(WATERLOGGED)" in harvest
+    assert "level instanceof ServerLevel" in harvest
     group=Path("src/main/java/dev/italiansdelight/common/item/group/ModItemGroups.java").read_text()
     assert group.count("output.accept(ModBlocks.OLIVE_LEAVES);")==1
     loot=read(D/"italiansdelight/loot_table/blocks/olive_leaves.json")
@@ -88,12 +114,13 @@ def main():
     assert sapling_drop[0]["conditions"][-1]["chances"]==[0.05,0.0625,0.083333336,0.1]
     assert not any(e.get("name","") in ("minecraft:apple","italiansdelight:olives")
                    for pool in loot["pools"] for e in pool["entries"])
-    print("OK: concrete untinted olive leaves registered; textures and model use approved non-Rustic 16x16 art")
-    print("OK: vanilla distance via logs_that_burn, leaf tags, fire, Silk Touch/shears, sticks, no fruit yet; sapling drop introduced with tree growth")
+    print("OK: olive leaves now ripen and can be right-click harvested on the server for 1-3 olives")
+    print("OK: fruit overlay retains approved silver-leaf silhouette, 16 colored opaque pixels, and alpha 0/255")
+    print("OK: vanilla distance/decay/loot unchanged; olive fruit harvest never duplicates leaf-break loot")
     print("OK: 16x16 hard-alpha leaves recolored sage and silver, original 168px silhouette unchanged")
     print("OK: both Rustic leaves_olive.png and sapling_olive.png are absent from branch")
     print("OK: alternative olive_sapling.png retained for separate functional tree-growth development")
-    print("NOTE: silver-green palette needs manual in-game approval")
+    print("NOTE: fruit maturity, harvesting, and regrowth need manual in-game verification")
 
 if __name__=="__main__":
     main()

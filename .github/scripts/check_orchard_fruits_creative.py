@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Creative-only Orchard fruit items, with no premature harvesting mechanics."""
+"""Orchard items: only olive foliage now harvestable; almond/cherry still Creative-only."""
 import hashlib
 import json
 from pathlib import Path
@@ -53,7 +53,8 @@ for name in ("almonds","cherries"):
     assert (65 <= len(opaque) <= 95) if name == "cherries" else (85 <= len(opaque) <= 130)
     assert len({px[:3] for px in opaque}) >= 5
 
-# Orchard fruits still have no harvesting or edibility; crate recipes are intentional.
+# Almond/cherry harvesting is still pending. Olive right-click harvest exists in Java;
+# it must NOT be duplicated by an olive leaf-break loot entry. Crate recipes remain intentional.
 assert all(f'registerFoodItem("{n}"' not in items for n in ids)
 assert tab.index("output.accept(ModItems.OLIVES);") < tab.index("output.accept(ModItems.ALMONDS);") < tab.index("output.accept(ModItems.CHERRIES);")
 allowed={f"{n}_crate.json" for n in ("olive","almond","cherry")}
@@ -67,4 +68,4 @@ for folder in (DATA / "italiansdelight/recipe", DATA / "italiansdelight/loot_tab
             assert not any(f"italiansdelight:{n}" in content for n in ids), (
                 "Premature fruit crafting/harvesting",str(path))
 print("OK: original olive/almond art retained, cherry sprite smaller and binary-alpha")
-print("OK: no new fruit harvesting or food effects, only reversible crate recipes")
+print("OK: olive harvest uses the block interaction, no fruit-breaking loot duplication; almond/cherry harvesting pending")

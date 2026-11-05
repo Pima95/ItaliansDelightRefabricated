@@ -146,8 +146,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CULTIVATED_CARDOON); // harvested crop item
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
-                // Orchard fruits still lack natural harvesting and food mechanics;
-                // crates only pack and unpack the existing inventory items.
+                // Olive trees now produce harvestable olives; almond/cherry harvests
+                // remain in later phases. Crates pack the existing fruit items.
                 output.accept(ModItems.OLIVES);
                 output.accept(ModItems.ALMONDS);
                 output.accept(ModItems.CHERRIES);

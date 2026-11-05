@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "fruiting=false": {
       "model": "italiansdelight:block/olive_leaves"
+    },
+    "fruiting=true": {
+      "model": "italiansdelight:block/olive_leaves_fruiting"
     }
   }
 }
