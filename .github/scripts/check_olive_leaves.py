@@ -93,7 +93,7 @@ def main():
     assert "super.isRandomlyTicking(state)" in harvest
     assert "RIPEN_CHANCE = 12" in harvest
     assert "server.setBlock(pos, state.setValue(FRUITING, false), 2)" in harvest
-    assert "new ItemStack(ModItems.OLIVES, 1 + server.random.nextInt(3))" in harvest
+    assert "new ItemStack(ModItems.OLIVES, 1 + server.getRandom().nextInt(3))" in harvest
     assert "!state.getValue(PERSISTENT)" in harvest and "state.getValue(DISTANCE) < 7" in harvest
     assert "!state.getValue(WATERLOGGED)" in harvest
     assert "level instanceof ServerLevel" in harvest

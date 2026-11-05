@@ -86,9 +86,9 @@ public final class OliveLeavesBlock extends UntintedParticleLeavesBlock {
                 return InteractionResult.PASS;
             }
             server.setBlock(pos, state.setValue(FRUITING, false), 2);
-            Block.popResource(server, pos, new ItemStack(ModItems.OLIVES, 1 + server.random.nextInt(3)));
+            Block.popResource(server, pos, new ItemStack(ModItems.OLIVES, 1 + server.getRandom().nextInt(3)));
             server.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
-                    SoundSource.BLOCKS, 0.75F, 0.9F + server.random.nextFloat() * 0.2F);
+                    SoundSource.BLOCKS, 0.75F, 0.9F + server.getRandom().nextFloat() * 0.2F);
         }
         return InteractionResult.SUCCESS;
     }
