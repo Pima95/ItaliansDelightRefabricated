@@ -1,9 +1,18 @@
 {
   "variants": {
-    "fruiting=false": {
+    "stage=0": {
       "model": "italiansdelight:block/olive_leaves"
     },
-    "fruiting=true": {
+    "stage=1": {
+      "model": "italiansdelight:block/olive_leaves_buds"
+    },
+    "stage=2": {
+      "model": "italiansdelight:block/olive_leaves_flowers"
+    },
+    "stage=3": {
+      "model": "italiansdelight:block/olive_leaves_unripe"
+    },
+    "stage=4": {
       "model": "italiansdelight:block/olive_leaves_fruiting"
     }
   }
