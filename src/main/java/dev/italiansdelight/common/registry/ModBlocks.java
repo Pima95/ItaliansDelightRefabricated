@@ -8,6 +8,7 @@ import dev.italiansdelight.common.block.AgingCheeseBlock;
 import dev.italiansdelight.common.block.CardoonBlock;
 import dev.italiansdelight.common.block.CultivatedCardoonCropBlock;
 import dev.italiansdelight.common.block.OliveLeavesBlock;
+import dev.italiansdelight.common.block.AlmondLeavesBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
@@ -357,14 +358,15 @@ public final class ModBlocks {
             Block.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING).setId(POTTED_FRUIT_CHERRY_SAPLING_KEY))
     );
 
-    // Almond (Orchard 1.1.0): original fixed-color foliage, conventional
-    // leaf decay and a plantable sapling. Natural biome generation is deferred.
+    // Almond (Orchard 1.1.0): approved natural foliage with a five-stage
+    // pink-white blossom -> green husk -> dry almond harvest cycle.
+    // Conventional decay, planted saplings, and client-only biome tint persist.
+    // Natural biome generation is still deferred.
     public static final ResourceKey<Block> ALMOND_LEAVES_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_leaves"));
     public static final Block ALMOND_LEAVES = register(
         ALMOND_LEAVES_KEY,
-        new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES,
-            Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(ALMOND_LEAVES_KEY))
+        new AlmondLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(ALMOND_LEAVES_KEY))
     );
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ALMOND_TREE_FEATURE =

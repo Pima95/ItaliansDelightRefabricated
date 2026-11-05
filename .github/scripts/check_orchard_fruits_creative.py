@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Orchard items: only olive foliage now harvestable; almond/cherry still Creative-only."""
+"""Orchard items: olive and almond right-click harvest; cherry still Creative-only."""
 import hashlib
 import json
 from pathlib import Path
@@ -53,7 +53,7 @@ for name in ("almonds","cherries"):
     assert (65 <= len(opaque) <= 95) if name == "cherries" else (85 <= len(opaque) <= 130)
     assert len({px[:3] for px in opaque}) >= 5
 
-# Almond/cherry harvesting is still pending. Olive right-click harvest exists in Java;
+# Cherry harvesting is still pending. Olive and almond right-click harvests exist in Java;
 # it must NOT be duplicated by an olive leaf-break loot entry. Crate recipes remain intentional.
 assert all(f'registerFoodItem("{n}"' not in items for n in ids)
 assert tab.index("output.accept(ModItems.OLIVES);") < tab.index("output.accept(ModItems.ALMONDS);") < tab.index("output.accept(ModItems.CHERRIES);")
@@ -68,4 +68,4 @@ for folder in (DATA / "italiansdelight/recipe", DATA / "italiansdelight/loot_tab
             assert not any(f"italiansdelight:{n}" in content for n in ids), (
                 "Premature fruit crafting/harvesting",str(path))
 print("OK: original olive/almond art retained, cherry sprite smaller and binary-alpha")
-print("OK: olive harvest uses the block interaction, no fruit-breaking loot duplication; almond/cherry harvesting pending")
+print("OK: olive and almond harvests use block interactions, no fruit-breaking loot duplication; cherry pending")

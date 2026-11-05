@@ -15,7 +15,9 @@ COUNTS={"almond_wood":3,"stripped_almond_wood":3,"almond_stairs":40,
 ALLOWED={"almond_log","almond_log_top","stripped_almond_log",
          "stripped_almond_log_top","almond_planks","almond_door_bottom","almond_door_top","almond_door_bottom_edge",
          "almond_door_top_edge","almond_trapdoor",
-         "almond_leaves","almond_sapling","almond_sign","almond_hanging_sign",
+         "almond_leaves","almond_leaves_buds","almond_leaves_flowers",
+         "almond_leaves_unripe","almond_leaves_fruiting",
+         "almond_sapling","almond_sign","almond_hanging_sign",
          "almond_cabinet_front","almond_cabinet_front_open",
          "almond_cabinet_side","almond_cabinet_top","almond_shelf"}
 def j(p):
@@ -80,4 +82,4 @@ for name in ("almond_log","almond_wood"):
 # Almond shelf is now a registered native Minecraft 26.2 storage shelf.
 assert 'ModRegistries.id("almond_shelf")' in B
 print("OK: eight Almond wood derivatives with vanilla states, crafting, loot, tags and FD Cutting Board")
-print("OK: models use only previously approved Almond wood PNGs")
+print("OK: all Almond wood textures remain approved; separate derived leaf-stage models are whitelisted")

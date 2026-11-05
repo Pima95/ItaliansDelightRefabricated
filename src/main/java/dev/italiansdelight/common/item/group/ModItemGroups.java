@@ -146,8 +146,9 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CULTIVATED_CARDOON); // harvested crop item
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
-                // Olive trees now produce harvestable olives; almond/cherry harvests
-                // remain in later phases. Crates pack the existing fruit items.
+                // Olive and almond trees now produce harvestable fruit;
+                // fruit-cherry harvest remains in a later phase.
+                // Crates pack the existing orchard fruit items.
                 output.accept(ModItems.OLIVES);
                 output.accept(ModItems.ALMONDS);
                 output.accept(ModItems.CHERRIES);

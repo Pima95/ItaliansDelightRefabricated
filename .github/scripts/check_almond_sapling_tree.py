@@ -71,7 +71,16 @@ def main():
 
     for name in ("almond_sapling","almond_leaves"):
         block=j(A/f"blockstates/{name}.json")
-        assert block["variants"][""]["model"]==f"italiansdelight:block/{name}"
+        if name=="almond_sapling":
+            assert block["variants"][""]["model"]==f"italiansdelight:block/{name}"
+        else:
+            # Almond leaves keep their existing block ID, but now have five stages.
+            assert block["variants"]=={
+                f"stage={stage}":{"model":f"italiansdelight:block/almond_leaves{suffix}"}
+                for stage,suffix in (
+                    (0,""),(1,"_buds"),(2,"_flowers"),
+                    (3,"_unripe"),(4,"_fruiting"))
+            }
         assert j(A/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
         assert j(D/f"italiansdelight/loot_table/blocks/{name}.json")["type"]=="minecraft:block"
         for kind in ("block","item"):
@@ -121,7 +130,7 @@ def main():
     placers=(SRC/"common/worldgen/ModTreePlacers.java").read_text()
     assert "new SaplingBlock(ALMOND_TREE_GROWER" in blocks
     assert "Optional.of(ALMOND_TREE_FEATURE)" in blocks
-    assert "new UntintedParticleLeavesBlock(0.0F, ParticleTypes.CHERRY_LEAVES" in blocks
+    assert "new AlmondLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(ALMOND_LEAVES_KEY))" in blocks
     assert "fire.add(ALMOND_LEAVES, 30, 60);" in blocks
     for name in ("ALMOND_LEAVES","ALMOND_SAPLING"):
         assert (SRC/"common/item/group/ModItemGroups.java").read_text().count(
@@ -192,7 +201,7 @@ def main():
     print("OK: approved Almond sapling unchanged; crown begins at Olive height (-2 tall/-1 short), apex now +3")
     print("OK: Almond-only soft vanilla biome tint registered on the client; Olive untouched")
     print("OK: real upper-wood collars fill shifted elbows; crown apex lowered exactly one block (+3)")
-    print("OK: No fruit drops or wild Almond worldgen until later phases")
+    print("OK: Almond fruit harvest by right-click only, leaf-break loot unchanged; no wild worldgen")
 
 if __name__=="__main__":
     main()
