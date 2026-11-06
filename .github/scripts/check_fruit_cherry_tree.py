@@ -29,7 +29,7 @@ for name in names:
                 "fruit_cherry_leaves_unripe","fruit_cherry_leaves_fruiting")
         assert variants=={
             f"stage={i},seasonal={seasonal}":{
-                "model":f"italiansdelight:block/{s if seasonal==0 else ('fruit_cherry_leaves_autumn' if seasonal==1 else 'fruit_cherry_leaves_winter')}"}
+                "model":f"italiansdelight:block/{s if seasonal==0 else 'fruit_cherry_leaves_autumn'}"}
             for i,s in enumerate(stages) for seasonal in range(3)}
     assert read(A / f"items/{name}.json")["model"]["model"] == f"italiansdelight:item/{name}"
     assert read(D / f"italiansdelight/loot_table/blocks/{name}.json")["type"] == "minecraft:block"

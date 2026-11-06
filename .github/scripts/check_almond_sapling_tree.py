@@ -77,7 +77,7 @@ def main():
             # Almond leaves keep their existing block ID, but now have five stages.
             assert block["variants"]=={
                 f"stage={stage},seasonal={seasonal}":{
-                    "model":f"italiansdelight:block/almond_leaves{suffix if seasonal==0 else ('_autumn' if seasonal==1 else '_winter')}"}
+                    "model":f"italiansdelight:block/almond_leaves{suffix if seasonal==0 else '_autumn'}"}
                 for stage,suffix in (
                     (0,""),(1,"_buds"),(2,"_flowers"),
                     (3,"_unripe"),(4,"_fruiting"))

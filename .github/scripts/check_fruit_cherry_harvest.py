@@ -37,7 +37,7 @@ assert set(p[3] for p in original)=={0,255}
 states=read(A/f"blockstates/{name}.json")["variants"]
 assert states == {
     f"stage={i},seasonal={seasonal}":{"model":"italiansdelight:block/"+
-        (model if seasonal==0 else ("fruit_cherry_leaves_autumn" if seasonal==1 else "fruit_cherry_leaves_winter"))}
+        (model if seasonal==0 else "fruit_cherry_leaves_autumn")}
     for i,model in STAGES.items() for seasonal in range(3)
 }, "Cherry stage 0-5 needs normal, autumn and winter foliage variants"
 

@@ -7,7 +7,7 @@
       "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=0,seasonal=2": {
-      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=1,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_buds"
@@ -16,7 +16,7 @@
       "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=1,seasonal=2": {
-      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=2,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_flowers_early"
@@ -25,7 +25,7 @@
       "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=2,seasonal=2": {
-      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=3,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_flowers"
@@ -34,7 +34,7 @@
       "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=3,seasonal=2": {
-      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=4,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_unripe"
@@ -43,7 +43,7 @@
       "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=4,seasonal=2": {
-      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=5,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_fruiting"
@@ -52,7 +52,7 @@
       "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     },
     "stage=5,seasonal=2": {
-      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
     }
   }
 }

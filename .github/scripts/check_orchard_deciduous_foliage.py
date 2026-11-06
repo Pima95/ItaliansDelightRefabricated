@@ -37,29 +37,24 @@ for tree,maxstage in trees.items():
                 name+("_buds","_flowers","_unripe","_fruiting")[stage-1]
                 if tree=="almond" else
                 name+("_buds","_flowers_early","_flowers","_unripe","_fruiting")[stage-1])
-            model=expected if visual==0 else name+("_autumn" if visual==1 else "_winter")
+            model=expected if visual==0 else name+"_autumn"
             assert variants[state]=={"model":"italiansdelight:block/"+model},state
     autumn_name=f"{name}_autumn"
-    winter_name=f"{name}_winter"
     autumn_path=ROOT/f"textures/block/{autumn_name}.png"
-    winter_path=ROOT/f"textures/block/{winter_name}.png"
     autumn=[p for row in check_rgba_pixel_art(autumn_path,(16,16)) for p in row]
-    winter=[p for row in check_rgba_pixel_art(winter_path,(16,16)) for p in row]
     assert [p[3] for p in normal]==[p[3] for p in autumn], "Keep approved leaf silhouette"
-    assert all(p[3] in (0,255) for p in autumn+winter)
-    assert 35<=sum(p[3]==255 for p in winter)<=60, "Winter must show sparse twigs"
-    # Autumn foliage is gold/orange and winter twigs are distinctly brown.
+    assert all(p[3] in (0,255) for p in autumn)
     assert sum(p[0]>p[1]>p[2] for p in autumn if p[3])>100
-    assert all(p[0]>p[2] and p[0]<200 for p in winter if p[3])
     autumn_model=json.loads((ROOT/f"models/block/{autumn_name}.json").read_text())
-    winter_model=json.loads((ROOT/f"models/block/{winter_name}.json").read_text())
     assert autumn_model=={
       "parent":"minecraft:block/leaves",
       "textures":{"all":f"italiansdelight:block/{autumn_name}"}
     }
-    assert winter_model["parent"]=="minecraft:block/cross"
-    assert winter_model["textures"]["cross"]==f"italiansdelight:block/{winter_name}"
-    assert winter_model["ambientocclusion"] is False
+    # Never reference the rejected winter twig model: winter uses the
+    # *identical* autumn model and PNG across all states.
+    assert all(not v["model"].endswith("_winter") for v in variants.values())
+    assert not (ROOT/f"models/block/{name}_winter.json").exists()
+    assert not (ROOT/f"textures/block/{name}_winter.png").exists()
     # Keep real leaf blocks in place with no breakage, no regeneration.
     java=(SRC/f"common/block/{'AlmondLeavesBlock' if tree=='almond' else 'FruitCherryLeavesBlock'}.java").read_text()
     assert 'IntegerProperty.create("seasonal", 0, 2)' in java
@@ -85,7 +80,7 @@ assert all(term not in policy+bridge for term in ("Homeostatic","Seasonfall","Fa
 orchard=(SRC/"common/orchard/OrchardSeasonPolicy.java").read_text()
 assert "BASIL" not in orchard and "CARDOON" not in orchard
 
-print("OK: almond and cherry foliage have autumn gold textures and bare winter twig models")
+print("OK: almond and cherry reuse the EXACT autumn gold model in winter; no bare twigs")
 print("OK: 15 almond + 18 cherry state variants preserve the approved spring/fruit models")
 print("OK: no block destruction; leaves transition back to green in spring via random ticks")
 print("OK: olive remains evergreen; optional Serene Seasons only; cardoon/basil unmodified")

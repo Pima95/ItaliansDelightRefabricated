@@ -108,49 +108,82 @@ modificare la colorazione del fogliame secondo la sua configurazione.
 ancora necessario. Le finestre e i valori definitivi si stabiliscono
 dopo il collaudo, senza toccare l'artwork approvato.
 
-## Fenologia delle foglie — mandorlo, ciliegio, ulivo
+## Fenologia delle foglie — mandorlo, ciliegio, ulivo (correzione approvata)
 
-Implementazione aggiunta dopo la raccolta dei tre alberi:
+Le foglie del mandorlo e del ciliegio **restano visibili anche in inverno**
+e **utilizzano esattamente lo stesso modello e la stessa texture dell'autunno**.
+I precedenti modelli di rami spogli e i relativi PNG sono stati eliminati.
 
 | Specie | Primavera/estate | Autunno | Inverno |
 |---|---|---|---|
-| Ulivo | Foglie verdi / fruttificazione | **Sempreverde**, frutti autunnali | **Sempreverde**, senza frutti |
-| Mandorlo | Foglie verdi e frutti | Foglie ocra **a fine autunno**, dopo la raccolta (inizio/metà autunno ancora con frutti) | **Rami spogli**, nessuna foglia verde |
-| Ciliegio da frutto | Foglie verdi, fiori bianchi e ciliegie rosse | **Foglie giallo-arancio** dall'inizio dell'autunno | **Rami spogli** |
+| Ulivo | Sempreverde e fruttificazione | Sempreverde | Sempreverde |
+| Mandorlo | Foglie verdi e frutti | Colori ocra dalla fine dell'autunno | **Stesse foglie ocra autunnali** |
+| Ciliegio | Foglie verdi, fiori bianchi e ciliegie rosse | Foglie giallo-arancio dall'inizio dell'autunno | **Stesse foglie giallo-arancio autunnali** |
 
-Gli stadi delle foglie sono indipendenti dagli stadi di maturazione:
-`seasonal=0` verde/normale, `seasonal=1` ocra autunnale,
-`seasonal=2` rami spogli invernali.
-Il blocco `almond_leaves` e `fruit_cherry_leaves` **rimane in posizione**:
-cambia il modello, non si spezza e non disperde germogli o altri oggetti.
-Le texture invernali, 16×16, sono piccoli rami marroni con alpha
-binario; le autunnali conservano esattamente le maschere dei pixel
-delle foglie originali, ma diventano giallo/ocra/arancio.
+`seasonal=0` usa l'aspetto normale verde, `seasonal=1` e
+`seasonal=2` **puntano allo stesso modello autunnale**. Le proprietà
+di stato sono conservate per compatibilità dei mondi salvati, ma non ci
+sono più differenze grafiche tra fase autunnale e invernale.
 
-Il cambio avviene tramite **random tick**. Nel passaggio a un'altra
-sottostagione, alcune foglie possono cambiare prima di altre (con
-`random_tick_speed 200` l'aggiornamento è più rapido). Le foglie
-piazzate manualmente vengono aggiornate come quelle coltivate,
-ma non producono frutti grazie a `persistent=true`.
-I blocchi già in uno stadio fruttifero non consentito
-ritornano allo stadio 0 tramite la regola stagionale esistente.
+I blocchi della chioma non vengono distrutti. Il cambiamento visivo
+avviene al successivo random tick; i blocchi tornano verdi quando
+Serene Seasons raggiunge il periodo favorevole. Non è stata aggiunta
+alcuna altra mod stagionale.
 
-Quando Serene Seasons manca o il bioma è tropicale/senza stagioni
-standard, `seasonal=0`: nessuna perdita di foglie, comportamento
-di crescita precedente. Nessuna altra mod stagionale viene letta.
+## Fertilità delle colture — basilico e cardoon (approvato)
 
-### Stagioni basilico e cardoon — SOLO PROPOSTA, NON IMPLEMENTATA
+Le colture **non muoiono e non si rompono per la sola stagione
+sfavorevole**. Si utilizzano esclusivamente i tag ufficiali di
+Serene Seasons 26.2, senza un secondo sistema di random tick:
 
-**Basilico:** coltura termofila annuale, crescita piena dalla tarda
-primavera all'inizio autunno; raccolta soprattutto in estate, senza
-crescita in inverno. Eventuale serra da valutare.
+| Coltura | Stagioni fertili | Fuori stagione |
+|---|---|---|
+| Basilico coltivato `italiansdelight:basil` | Primavera ed estate | Autunno e inverno: crescita più lenta |
+| Cardoon coltivato `italiansdelight:cultivated_cardoon` | Primavera, estate e autunno | Inverno: crescita più lenta |
 
-**Cardoon / cardo coltivato:** semina primavera, crescita in primavera
-ed estate, resa e raccolta soprattutto autunno-inizio inverno. Essendo
-pianta perenne, la sopravvivenza alla stagione sfavorevole può essere
-diversa da quella del basilico. Non è stato modificato il comportamento
-né del cardoon coltivato né di quello spontaneo.
+Serene Seasons gestisce **quattro stagioni**, non singole
+sottostagioni, nei suoi tag nativi di fertilità. Di conseguenza
+non si possono rappresentare con questi soli tag l'inizio
+della crescita alla *tarda* primavera, la raccolta a *inizio*
+autunno o a *inizio* inverno. I frutti/crop maturi possono
+comunque essere raccolti anche fuori stagione.
 
-Questi intervalli sono da **concordare prima** di aggiungere tag o
-modifiche al gameplay. Nessun supporto a Homeostatic Seasons,
-Seasonfall o altre mod è incluso.
+Il comportamento predefinito `general.out_of_season_crop_behavior=0`
+è crescita a **1/6 della velocità normale** quando il raccolto
+non è fertile. Se il giocatore cambia la configurazione globale in
+`1`, la mod può fermare completamente la crescita; se la imposta
+a `2`, distrugge normalmente i raccolti non protetti.
+Per **basilico e cardoon coltivati** il tag
+`sereneseasons:unbreakable_infertile_crops` impedisce la
+distruzione in modalità `2`; la modalità `0` resta
+necessaria per garantire il solo rallentamento.
+
+I tag per **blocchi** regolano la fertilità e quelli per **item**
+permettono a Serene Seasons di indicare le stagioni fertili
+nei tooltip. Il sistema conserva serre (vetro entro 16 blocchi
+sopra), coltivazione sotterranea e bone meal di Serene Seasons,
+non modifica le età 0–7, gli item, i drop o i modelli.
+
+**Piante selvatiche:** `italiansdelight:wild_basil` e
+`italiansdelight:cardoon` non hanno età di crescita;
+la loro diffusione tramite bone meal rimane invariata. Non
+vengono inserite nei tag di fertilità delle colture.
+
+Senza Serene Seasons non si applica alcun rallentamento
+e i tag di compatibilità sono innocui.
+
+## Punti di coerenza ancora aperti
+
+Vedi `SERENE_SEASONS_COMPATIBILITY_AUDIT.md`:
+- alberi da frutto limitati a **stadi massimi stagionali** (fuori
+  stagione spesso non crescono affatto, invece di rallentare);
+- condizioni di serra/terreno sotterraneo **non interpretate**
+  dall'integrazione dei frutti arborei;
+- crescita dei **germogli** di ulivo, mandorlo e ciliegio ancora
+  senza periodi di fertilità Serene Seasons;
+- bonemeal sulle piante **selvatiche** non rallentato dalle stagioni;
+- distinguere fasi di raccolta per sottostagione da fertilità
+  a quattro stagioni delle colture.
+
+Questi punti sono documentati e **non modificati** in questa
+revisione. I test statici non sostituiscono il collaudo in gioco.
