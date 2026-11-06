@@ -15,7 +15,7 @@ gradle=Path("build.gradle").read_text()
 mod=json.loads(Path("src/main/resources/fabric.mod.json").read_text())
 workflow=Path(".github/workflows/pizza-build.yml").read_text()
 
-assert 'modCompileOnly "curse.maven:serene-seasons-291874:8938283"' in gradle
+assert 'compileOnly "curse.maven:serene-seasons-291874:8938283"' in gradle
 assert "modImplementation \"curse.maven:serene-seasons" not in gradle
 assert "sereneseasons" not in mod["depends"], "Serene Seasons must stay optional"
 assert mod["suggests"]["sereneseasons"]=="*"
