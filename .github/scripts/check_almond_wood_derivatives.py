@@ -17,6 +17,8 @@ ALLOWED={"almond_log","almond_log_top","stripped_almond_log",
          "almond_door_top_edge","almond_trapdoor",
          "almond_leaves","almond_leaves_buds","almond_leaves_flowers",
          "almond_leaves_unripe","almond_leaves_fruiting",
+         "almond_leaves_buds_overlay","almond_leaves_flowers_overlay",
+         "almond_leaves_unripe_overlay","almond_leaves_fruiting_overlay",
          "almond_sapling","almond_sign","almond_hanging_sign",
          "almond_cabinet_front","almond_cabinet_front_open",
          "almond_cabinet_side","almond_cabinet_top","almond_shelf"}

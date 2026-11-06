@@ -41,8 +41,10 @@ changed_counts={}
 for stage,name in TYPES.items():
     if stage==0:continue
     m=load(A/f"models/block/{name}.json")
-    assert m=={"parent":"minecraft:block/leaves",
-               "textures":{"all":f"italiansdelight:block/{name}"}}
+    assert m["parent"]=="minecraft:block/leaves"
+    assert m["textures"]["all"]=="italiansdelight:block/almond_leaves"
+    assert m["textures"]["overlay"]==f"italiansdelight:block/{name}_overlay"
+    assert len(m["elements"])==2, "Foliage must be tinted separately from flowers/nuts"
     current=[p for row in check_rgba_pixel_art(
         A/f"textures/block/{name}.png",(16,16)) for p in row]
     assert [p[3] for p in current]==[p[3] for p in base],name
@@ -106,5 +108,5 @@ assert not (D/"worldgen/placed_feature/almond_tree_wild.json").exists()
 print("OK: Almond original foliage preserved, 4 derived growth sprites, full binary alpha")
 print("OK: pink/white blooms -> green husk -> dried almond shell, 5 stages in blockstates")
 print("OK: exposed-air-only flowering and harvesting, natural-only growth, 1-3 almonds")
-print("OK: almond/olive/cherry artwork and almond biome tint unaffected")
+print("OK: Almond biome tint applies to foliage at EVERY stage, while flowers and almonds remain untinted")
 print("NOTE: in-game visuals, interaction and timings require user confirmation")

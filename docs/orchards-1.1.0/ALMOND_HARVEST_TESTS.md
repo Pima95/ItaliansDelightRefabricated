@@ -21,8 +21,8 @@ Le quattro nuove texture sono originali, **16×16**, con soli pixel alpha **0/25
 tutte conservano gli stessi **197 pixel opachi e 59 pixel trasparenti**
 della texture `almond_leaves.png`, esattamente alle stesse coordinate.
 Non sono stati modificati foglie base, sapling, tronchi, asset delle olive,
-ciliegie o crate. L'attenuazione del colore del bioma specifica del mandorlo
-(30%) resta applicata dal client anche alle foglie fiorite/fruttifere.
+ciliegie o crate. Il colore del bioma del mandorlo (30%) viene ora applicato al **solo fogliame**
+anche nelle fasi con boccioli, fiori e frutti; i loro colori restano invariati.
 
 ## Stessa meccanica delle olive
 
@@ -49,8 +49,8 @@ invariato (cesoie, Silk Touch, bastoni e germoglio).
 per tutti gli alberi verranno decisi **dopo** aver completato le texture
 di tutte e tre le specie, secondo le indicazioni dell'autore.
 
-La raccolta delle **ciliegie** resta da implementare. Compatibilità opzionale
-con **Serene Seasons** soltanto dopo il completamento delle tre raccolte.
+La raccolta delle **ciliegie** è stata implementata. La compatibilità opzionale
+con **Serene Seasons** resta una fase successiva, dopo il collaudo.
 
 ## Checklist del collaudo in Minecraft
 
@@ -77,3 +77,40 @@ con **Serene Seasons** soltanto dopo il completamento delle tre raccolte.
   ripristinare `3` alla fine; ricordare che accelera anche altre piante.
 
 **I test automatici e la compilazione non sostituiscono il test in Minecraft.**
+
+## Revisione delle texture e della tinta del bioma — 6 novembre 2026
+
+Il nuovo **mandorlo fruttifero** mantiene **8 gruppi di mandorle** asimmetrici,
+senza righe regolari o distribuzioni specchiate, alle stesse coordinate
+attraverso tutte le fasi: ciascuno nasce come bocciolo rosa, diventa un fiore
+rosa-bianco, si trasforma in un mallo verde e poi in una mandorla secca con
+guscio color nocciola. I piccioli rimangono fermi; il corpo verde e quello
+marrone coincidono **pixel per pixel**. Per ogni fase sono stati ridisegnati
+gli originali PNG 16×16; la foglia base resta intatta (197 pixel opachi,
+59 trasparenti), con alpha esclusivamente 0/255.
+
+La colorazione dei **biomi**, attiva sulle foglie del mandorlo (influenza
+30%) e del ciliegio da frutto (50%), ora agisce sul **fogliame in ogni
+stadio**. Il modello di ciascuna fase usa due superfici:
+- il **cubo interno delle foglie**, con gli stessi pixel della foglia
+  originale e `tintindex: 0`, quindi identica risposta al bioma;
+- il **cubo esterno lievemente rialzato**, con una texture *overlay*
+  trasparente eccetto dove compaiono boccioli, fiori, piccioli e frutti,
+  senza alcun tint index. Così i fiori rosa/bianchi, le mandorle verdi
+  e i gusci secchi mantengono la propria palette senza virare al verde.
+
+I cubi hanno `cullface` sulle sei facce, il rivestimento esterno ha un
+offset minimo per evitare sovrapposizioni depth-buffer e tutti gli
+overlay rispettano alpha 0/255. Il modello conserva il parent vanilla
+`minecraft:block/leaves`. Sono **invariati** ID del blocco,
+crescita, distanze di decay, raccolta con clic destro, spawn, legno,
+sapling, altri item e texture dell'ulivo.
+
+**Controllo automatico:** `check_orchard_biome_overlay_layers.py`
+verifica per entrambi gli alberi i modelli a doppio livello, ogni
+posizione delle 8 mandorle, i pixel comuni tra malle verde e guscio
+secco e l'assenza di colorazione sul livello fiore/frutto.
+
+**Da provare in gioco:** stessa tonalità di fogliame di una foglia
+senza frutti accanto a una foglia con frutti, in biomi caldi e freddi.
+I petali devono restare rosa/bianco e le mandorle verdi/marroni.

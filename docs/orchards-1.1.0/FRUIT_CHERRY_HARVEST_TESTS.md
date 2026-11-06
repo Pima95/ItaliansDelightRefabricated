@@ -30,13 +30,12 @@ i blocchi del legno, la generazione dell'albero, le altre specie o i crate.
 
 ### Colorazione dei biomi
 
-La regolazione dei colori del bioma, già presente solo per le foglie del
-ciliegio da frutto, è mantenuta per lo **stato 0**. Negli stati 1–5
-viene disattivata sul blocco per evitare che la tinta verde del bioma
-trasformi i petali bianchi in fiori verdi o le ciliegie rosse in colori
-diversi. Per rendere il bioma visibile anche durante la fioritura senza
-alterare i petali sarà necessario, eventualmente, un sistema di overlay
-con foglie e fiori su strati di tint separati.
+La regolazione del bioma (50%) ora si applica al **fogliame di tutte
+le fasi 0–5**, anche mentre l'albero è in fiore o ha i frutti.
+L'aspetto bianco/avorio dei petali e il colore verde/rosso delle
+ciliegie sono protetti tramite un **overlay non colorato** collocato
+su un secondo livello del modello. Si evitano così foglie di tonalità
+diversa fra gli stadi senza trasformare fiori bianchi in verdi.
 
 ## Logica identica alle olive e alle mandorle
 
@@ -173,3 +172,17 @@ fruttificazioni durante le fasi 1–4**, i piccioli invariati, la
 fioritura progressiva e l'identità completa dei pixel occupati
 tra la ciliegia verde e quella rossa. Questo test impedisce che
 fiori e frutti tornino a spostarsi nelle successive revisioni.
+
+## Coerenza colore fogliame/bioma — 6 novembre 2026
+
+Ogni fase con boccioli, fiori o ciliegie mantiene la **stessa
+colorazione del bioma** delle foglie senza frutti. Il modello presenta
+un cubo fogliare con `tintindex:0` e, appena all'esterno, un
+secondo cubo cutout con soli pixel di fiori/frutti, **senza tint**.
+Il vecchio caso nel client `stage > 0 → bianco` è stato eliminato.
+Sono stati lasciati invariati **tutti e sei i PNG completi** delle
+foglie e i nove gruppi delle ciliegie mature; i nuovi overlay sono
+ottenuti estraendo solo le differenze rispetto alla foglia base.
+Le due texture per ogni fase rispettano alpha 0/255; nessuna
+meccanica Java, distribuzione, animazione o tempistica è stata toccata.
+La resa cromatica va verificata in gioco in biomi diversi.

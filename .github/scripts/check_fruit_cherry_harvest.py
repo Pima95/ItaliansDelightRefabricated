@@ -44,10 +44,11 @@ changes={}
 for stage,model in STAGES.items():
     if stage==0:continue
     asset=A/f"textures/block/{model}.png"
-    assert read(A/f"models/block/{model}.json")=={
-        "parent":"minecraft:block/leaves",
-        "textures":{"all":"italiansdelight:block/"+model}
-    },model
+    stage_model=read(A/f"models/block/{model}.json")
+    assert stage_model["parent"]=="minecraft:block/leaves",model
+    assert stage_model["textures"]["all"]=="italiansdelight:block/fruit_cherry_leaves",model
+    assert stage_model["textures"]["overlay"]=="italiansdelight:block/"+model+"_overlay",model
+    assert len(stage_model["elements"])==2,model
     pixlist=px(asset)
     assert [p[3] for p in pixlist]==[p[3] for p in original],model
     assert all(p[3] in (0,255) for p in pixlist),model
@@ -180,9 +181,9 @@ assert "new ItemStack(ModItems.CHERRIES, 1 + server.getRandom().nextInt(3))" in 
 assert "new FruitCherryLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)" in blocks
 assert "fire.add(FRUIT_CHERRY_LEAVES, 30, 60);" in blocks
 assert "BlockColorRegistry.register(List.of(FRUIT_CHERRY_BIOME_FOLIAGE), ModBlocks.FRUIT_CHERRY_LEAVES)" in client
-assert "state.hasProperty(FruitCherryLeavesBlock.STAGE)" in client
-assert "state.getValue(FruitCherryLeavesBlock.STAGE) > 0" in client
-assert "return 0xFFFFFFFF;" in client, "Flowers must stay white in tinted biomes"
+assert "state.getValue(FruitCherryLeavesBlock.STAGE)" not in client, (
+    "Stage-based untinting caused green discontinuity between ripe and bare leaves")
+assert "return 0xFFFFFFFF;" in client, "Inventory keeps untinted sprites"
 
 # Leaf-break drops remain vanilla-like: shears/Silk Touch leaves, otherwise
 # possible sapling/sticks. Never duplicate cherries when breaking a block.
@@ -198,5 +199,5 @@ print("OK: approved 157px fruit-cherry leaves unchanged; 5 new 16x16 sprites use
 print("OK: three WHITE blossoming phases grow at SAME 9 fruit sites; flowers increase without drifting")
 print("OK: green and red cherries occupy identical 23 pixels and 9 stems; approved red sprite unchanged")
 print("OK: natural supported leaves, any exposed air face, server-side 1-3 cherries, reset and regrowth")
-print("OK: biome tint kept for stage 0, disabled while flowering/fruiting to preserve white petals")
+print("OK: SAME biome foliage tint at every stage; white petals and red fruit use separate untinted overlay quads")
 print("NOTE: in-game growth, visuals, 6-face exposure and multi-player harvesting not yet tested")
