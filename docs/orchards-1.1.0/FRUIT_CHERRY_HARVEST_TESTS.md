@@ -114,3 +114,23 @@ Su richiesta dell'autore è stata modificata **soltanto**
 Il controllo `check_fruit_cherry_harvest.py` ora verifica densità ridotta,
 colore cremisi privo di arancione, cinque gruppi asimmetrici e maschera
 alpha originale. La resa in Minecraft richiede ancora prova in gioco.
+
+## Densità ciliegie mature — secondo ritocco
+
+Su richiesta dell'autore, alla variante `fruit_cherry_leaves_fruiting.png`
+sono stati aggiunti **quattro ulteriori piccoli gruppi di ciliegie**, conservando
+**esattamente** i cinque precedenti. Il totale passa da cinque a **nove**
+gruppi, disposti senza simmetrie: in alto al centro, verso il lato sinistro,
+nella porzione inferiore centrale e sul lato destro in basso.
+
+- **23 pixel rossi** (erano 13) e **9 pixel di picciolo verde** (erano 5):
+  32 pixel decorativi complessivi sui 157 opachi originali.
+- Aggiunti esattamente **14 pixel** al PNG precedente: 10 rossi e 4 verdi;
+  nessuno dei pixel già approvati è stato alterato.
+- Tutti i gruppi restano piccoli, da **2 a 3 pixel rossi**, con palette
+  **rosso ciliegia/cremisi/bordeaux**, senza arancione.
+- **Invariati**: maschera 16×16 con alpha esclusivamente 0/255, tutte le
+  altre fasi, grafica delle foglie base, meccanica di raccolta e tempi.
+
+Il test per lo stadio 5 richiede esattamente **9 gruppi asimmetrici**,
+23 pixel rossi e 9 piccioli, impedendo regressioni alla vecchia disposizione.

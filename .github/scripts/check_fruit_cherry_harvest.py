@@ -74,15 +74,15 @@ for stage,model in STAGES.items():
     if stage==5:
         # Mature cherries: fewer, smaller, deliberately uneven and crimson.
         # No orange (highlights must be ruby-pink, blue channel > green).
-        assert 16<=len(changed)<=24, "Too many mature cherry pixels"
+        assert len(changed)==32, "Expected 23 crimson cherry pixels plus 9 stems"
         berries={(index % 16,index // 16)
                  for index,(old,p) in enumerate(zip(original,pixlist))
                  if old != p and p[0]>=100 and p[0]>p[1]*1.35 and p[0]>p[2]*1.20}
-        assert 11<=len(berries)<=16, "Mature cherries must remain sparse"
+        assert len(berries)==23, "Four added cherries should bring the total to 23 red pixels"
         for x,y in berries:
             r,g,b,_=pixlist[y*16+x]
             assert b>=g+15 and r>b+15, ("Orange cherry pixel",x,y,(r,g,b))
-        # Count connected red clusters; five irregular groups, each <=3px.
+        # Count connected red clusters: five originals and FOUR added; each <=3px.
         pending=set(berries)
         groups=[]
         while pending:
@@ -97,13 +97,16 @@ for stage,model in STAGES.items():
                 pending.difference_update(found)
                 stack.extend(found)
             groups.append(group)
-        assert len(groups)==5 and all(2<=len(g)<=3 for g in groups), groups
+        assert len(groups)==9 and all(2<=len(g)<=3 for g in groups), groups
+        assert {min(group,key=lambda p:(p[1],p[0])) for group in groups}=={
+            (8,1),(2,2),(5,4),(12,6),(1,7),(5,9),(8,11),(14,11),(10,14)
+        }, "The 9 crimson bunches should be scattered asymmetrically"
         assert berries != {(15-x,y) for x,y in berries}, "Mirrored cherry arrangement"
         assert sum(1 for p in changed if
-                   p[0]<100 and p[1]>p[0] and p[1]>p[2])>=4, (
+                   p[0]<100 and p[1]>p[0] and p[1]>p[2])==9, (
             "Keep thin green fruit stems")
 assert changes[1]<changes[2]<changes[3], ("Flower density needs 3 increasing phases",changes)
-assert changes[4]==57 and 16<=changes[5]<=24
+assert changes[4]==57 and changes[5]==32
 
 src=(JAVA/"common/block/FruitCherryLeavesBlock.java").read_text()
 blocks=(JAVA/"common/registry/ModBlocks.java").read_text()
@@ -143,7 +146,7 @@ assert not (D/"worldgen/placed_feature/fruit_cherry_tree_wild.json").exists()
 
 print("OK: approved 157px fruit-cherry leaves unchanged; 5 new 16x16 sprites use identical hard-alpha mask")
 print("OK: 3 WHITE bloom phases (buds, early flowers, full bloom) with pale yellow centers")
-print("OK: 5 sparse, asymmetric ruby-red cherry clusters, no orange highlights; green unripe cherries unchanged")
+print("OK: 9 asymmetric ruby-red cherry clusters (5 original + 4 new), 23 red pixels, 9 stems; no orange")
 print("OK: natural supported leaves, any exposed air face, server-side 1-3 cherries, reset and regrowth")
 print("OK: biome tint kept for stage 0, disabled while flowering/fruiting to preserve white petals")
 print("NOTE: in-game growth, visuals, 6-face exposure and multi-player harvesting not yet tested")
