@@ -92,3 +92,25 @@ separatamente dopo la verifica delle tre raccolte.
   `/gamerule random_tick_speed 3` al termine.
 
 **Nota:** la riuscita della build GitHub non equivale al collaudo in gioco.
+
+## Ritocco delle ciliegie mature — 6 novembre 2026
+
+Su richiesta dell'autore è stata modificata **soltanto**
+`textures/block/fruit_cherry_leaves_fruiting.png` (stadio 5):
+
+- I pixel decorativi modificati rispetto alle foglie originali passano da
+  **57 a 18**: **13 pixel rossi** in **5 piccoli gruppi irregolari**
+  e **5 pixel verdi di picciolo**.
+- I frutti non sono specchiati e non hanno una disposizione a griglia:
+  sono distribuiti ad altezze diverse, con sagome di 2–3 pixel.
+- Tutti i colori dei frutti sono stati riportati verso il **rosso ciliegia,
+  cremisi e bordeaux**, con riflessi rubino anziché arancione.
+- Rimangono inalterati 16×16, i 157 pixel opachi e i 99 trasparenti nella
+  maschera originale, alpha esclusivamente 0/255, la texture delle foglie
+  normali e le altre quattro fasi di crescita.
+- Le meccaniche di maturazione, esposizione all'aria, resa dei frutti e
+  raccolta non sono state modificate.
+
+Il controllo `check_fruit_cherry_harvest.py` ora verifica densità ridotta,
+colore cremisi privo di arancione, cinque gruppi asimmetrici e maschera
+alpha originale. La resa in Minecraft richiede ancora prova in gioco.
