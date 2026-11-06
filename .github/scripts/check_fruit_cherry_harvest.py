@@ -56,7 +56,7 @@ for stage,model in STAGES.items():
     changes[stage]=len(changed)
     if stage==1:
         assert 15 <= len(changed) <= 30, "Buds need sparse pale/ivory pixels"
-        assert sum(r>200 and g>200 and b>165 for r,g,b,a in changed)>=10
+        assert sum(r>200 and g>200 and b>165 for r,g,b,a in changed)>=9
     if stage in (2,3):
         # Sweet cherry blossoms are white, not sakura's pink. The centers
         # may be ochre/yellow; all petals must be white, pale ivory or cool grey.
@@ -68,9 +68,9 @@ for stage,model in STAGES.items():
         assert sum(r>=185 and r>g*1.24 and b>g*.83
                    for r,g,b,a in changed)==0, "Pink cherry petals are forbidden"
     if stage==4:
-        assert 40<=len(changed)<=80
+        assert len(changed)==32, "Green fruit must have same exact 23px fruit + 9px stem geometry as ripe"
         assert sum(g>=90 and g>=r*1.05 and g>b*1.10
-                   for r,g,b,a in changed)>=20, "Unripe cherries must be green"
+                   for r,g,b,a in changed)>=23, "Unripe cherries must be green"
     if stage==5:
         # Mature cherries: fewer, smaller, deliberately uneven and crimson.
         # No orange (highlights must be ruby-pink, blue channel > green).
@@ -105,8 +105,52 @@ for stage,model in STAGES.items():
         assert sum(1 for p in changed if
                    p[0]<100 and p[1]>p[0] and p[1]>p[2])==9, (
             "Keep thin green fruit stems")
+
+# Strict cross-stage positional continuity. The approved RARE, ASYMMETRIC
+# ripe sprite is the geometry master; green fruit and all blossoms follow
+# exactly the same nine physical sites, rather than appearing elsewhere.
+ripe_path=A/"textures/block/fruit_cherry_leaves_fruiting.png"
+assert hashlib.sha256(ripe_path.read_bytes()).hexdigest()==(
+    "59890443d80d27b46bd1782093a62e7dc3ef3d1e7cb23af1cfd09ba91ded00ca"
+), "The user-approved ripe cherry texture must not be changed by alignment work"
+ripe=px(ripe_path)
+fruit_pixels={(i%16,i//16) for i,(old,p) in enumerate(zip(original,ripe))
+              if old!=p and p[0]>=100 and p[0]>p[1]*1.35 and p[0]>p[2]*1.20}
+stems={(8,0),(3,1),(5,3),(12,5),(2,6),(5,8),(9,10),(14,10),(10,13)}
+sites=((8,1),(3,2),(5,4),(12,6),(2,7),(5,9),(9,11),(14,11),(10,14))
+pollen=(225,199,95,255)
+assert len(fruit_pixels)==23 and len(stems)==9
+ripe_changed={(i%16,i//16) for i,(a,b) in enumerate(zip(original,ripe)) if a!=b}
+assert ripe_changed == fruit_pixels | stems
+for stage in range(1,5):
+    pixels=px(A/f"textures/block/{STAGES[stage]}.png")
+    occupied={(i%16,i//16) for i,(a,b) in enumerate(zip(original,pixels)) if a!=b}
+    assert all(pixels[y*16+x]==ripe[y*16+x] for x,y in stems), (
+        "Stems must stay at the same pixels for ALL stages",stage)
+    assert set(sites)<=occupied, ("Every eventual fruit needs a bud or bloom",stage)
+    # Petals may surround their fruit, but must stay directly next to it.
+    assert all(p in stems or min(max(abs(p[0]-x),abs(p[1]-y))
+             for x,y in fruit_pixels)<=1 for p in occupied), (
+             "A flower/fruit moved away from approved fruit positions",stage)
+    if stage==1:
+        assert occupied==set(sites)|stems, "Only 9 buds and 9 stems in the bud phase"
+        assert all(pixels[y*16+x][0]>=200 for x,y in sites)
+    elif stage==2:
+        assert {p for p in sites if pixels[p[1]*16+p[0]]==pollen}==set(sites[::2]), (
+            "Five early white flowers must open where fruit will appear")
+        assert all(pixels[y*16+x][0]>=200 for x,y in sites)
+    elif stage==3:
+        assert all(pixels[y*16+x]==pollen for x,y in sites), (
+            "All nine yellow centers must align with their fruit positions")
+    elif stage==4:
+        # The fruit changes ONLY its palette between stage 4 and stage 5.
+        # Both pixel locations and the 9 stems are pixel-perfect matches.
+        assert occupied==ripe_changed, "Green cherries cannot move when turning red"
+        assert all(pixels[y*16+x][1]>pixels[y*16+x][0] for x,y in fruit_pixels), (
+            "Every future red cherry pixel must be green in stage 4")
+
 assert changes[1]<changes[2]<changes[3], ("Flower density needs 3 increasing phases",changes)
-assert changes[4]==57 and changes[5]==32
+assert changes[4]==32 and changes[5]==32
 
 src=(JAVA/"common/block/FruitCherryLeavesBlock.java").read_text()
 blocks=(JAVA/"common/registry/ModBlocks.java").read_text()
@@ -145,8 +189,8 @@ assert "italiansdelight:cherries" not in drops
 assert not (D/"worldgen/placed_feature/fruit_cherry_tree_wild.json").exists()
 
 print("OK: approved 157px fruit-cherry leaves unchanged; 5 new 16x16 sprites use identical hard-alpha mask")
-print("OK: 3 WHITE bloom phases (buds, early flowers, full bloom) with pale yellow centers")
-print("OK: 9 asymmetric ruby-red cherry clusters (5 original + 4 new), 23 red pixels, 9 stems; no orange")
+print("OK: three WHITE blossoming phases grow at SAME 9 fruit sites; flowers increase without drifting")
+print("OK: green and red cherries occupy identical 23 pixels and 9 stems; approved red sprite unchanged")
 print("OK: natural supported leaves, any exposed air face, server-side 1-3 cherries, reset and regrowth")
 print("OK: biome tint kept for stage 0, disabled while flowering/fruiting to preserve white petals")
 print("NOTE: in-game growth, visuals, 6-face exposure and multi-player harvesting not yet tested")

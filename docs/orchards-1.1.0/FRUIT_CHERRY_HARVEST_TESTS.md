@@ -134,3 +134,42 @@ nella porzione inferiore centrale e sul lato destro in basso.
 
 Il test per lo stadio 5 richiede esattamente **9 gruppi asimmetrici**,
 23 pixel rossi e 9 piccioli, impedendo regressioni alla vecchia disposizione.
+
+## Allineamento completo delle sei fasi — 6 novembre 2026
+
+**Problema risolto:** fiori e frutti acerbi comparivano in punti diversi
+dalle **nove ciliegie rosse** finali, dando l'impressione di frutti che
+si spostassero durante la maturazione.
+
+La texture dell'ultima fase (`fruit_cherry_leaves_fruiting.png`) diventa
+l'esatto **riferimento spaziale** ed è rimasta invariata, approvata
+con nove piccoli gruppetti rosso cremisi asimmetrici.
+
+- **Stadio 0 — foglie:** texture originale, invariata.
+- **Stadio 1 — boccioli:** nove piccoli boccioli sui centri degli stessi
+  nove gruppi che produrranno ciliegie, con i relativi piccioli.
+- **Stadio 2 — primi fiori:** cinque dei nove boccioli si aprono in
+  fiori bianchi/avorio a centro giallo; i quattro rimanenti restano
+  in boccio, **nelle stesse posizioni**.
+- **Stadio 3 — piena fioritura:** i nove gruppi si aprono; i petali
+  bianchi si estendono solo attorno ai rispettivi centri, senza
+  creare fiori isolati in posizioni che non produrranno frutti.
+- **Stadio 4 — ciliegie verdi:** i 23 pixel di frutto sono collocati
+  **alle stesse esatte coordinate** delle 23 celle rosse mature, con
+  i **medesimi nove pixel di picciolo**. Cambia soltanto la palette.
+- **Stadio 5 — ciliegie rosse:** asset precedentemente approvato,
+  **invariato byte per byte**.
+
+I quattro PNG intermedi sono stati rigenerati conservando sempre
+la stessa maschera delle foglie (16×16, 157 pixel opachi e 99
+trasparenti; alpha solo 0 o 255). Le tre fasi di fioritura conservano
+colori naturali **crema e bianco**, nessun rosa ornamentale.
+La meccanica Java, le probabilità di maturazione, la raccolta con
+clic destro, il controllo delle sei facce e l'item ciliegie non sono
+stati modificati.
+
+La CI verifica ora **l'esatta posizione di tutte le nove
+fruttificazioni durante le fasi 1–4**, i piccioli invariati, la
+fioritura progressiva e l'identità completa dei pixel occupati
+tra la ciliegia verde e quella rossa. Questo test impedisce che
+fiori e frutti tornino a spostarsi nelle successive revisioni.
