@@ -167,7 +167,8 @@ assert "extends UntintedParticleLeavesBlock" in src
 assert 'IntegerProperty.create("stage", 0, 5)' in src
 assert "RIPE_STAGE = 5" in src and "ADVANCE_CHANCE = 3" in src
 assert "super.randomTick(state, level, pos, random)" in src
-assert "super.isRandomlyTicking(state)" in src
+assert "protected boolean isRandomlyTicking(BlockState state)" in src
+assert "return true;" in src, "All foliage must receive ticks to change seasonal appearance"
 assert "current.setValue(STAGE, stage + 1)" in src
 assert "for (Direction face : Direction.values())" in src
 assert "level.getBlockState(pos.relative(face))" in src

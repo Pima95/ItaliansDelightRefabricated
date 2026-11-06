@@ -80,7 +80,8 @@ assert "extends UntintedParticleLeavesBlock" in java
 assert 'IntegerProperty.create("stage", 0, 4)' in java
 assert "RIPE_STAGE = 4" in java and "ADVANCE_CHANCE = 3" in java
 assert "super.randomTick(state, level, pos, random)" in java
-assert "super.isRandomlyTicking(state)" in java
+assert "protected boolean isRandomlyTicking(BlockState state)" in java
+assert "return true;" in java, "All foliage must receive ticks to change seasonal appearance"
 assert "current.setValue(STAGE, stage + 1)" in java
 assert "for (Direction face : Direction.values())" in java
 assert "level.getBlockState(pos.relative(face))" in java
