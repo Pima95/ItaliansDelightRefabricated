@@ -13,13 +13,13 @@ BASIL="italiansdelight:basil"
 CARDOON="italiansdelight:cultivated_cardoon"
 
 expected={
-    ("block","spring_crops"):{BASIL,CARDOON},
+    ("block","spring_crops"):{BASIL,CARDOON,"italiansdelight:almond_sapling","italiansdelight:fruit_cherry_sapling"},
     ("block","summer_crops"):{BASIL,CARDOON},
-    ("block","autumn_crops"):{CARDOON},
-    ("item","spring_crops"):{BASIL,CARDOON},
+    ("block","autumn_crops"):{CARDOON,"italiansdelight:almond_sapling"},
+    ("item","spring_crops"):{BASIL,CARDOON,"italiansdelight:almond_sapling","italiansdelight:fruit_cherry_sapling"},
     ("item","summer_crops"):{BASIL,CARDOON},
-    ("item","autumn_crops"):{CARDOON},
-    ("block","unbreakable_infertile_crops"):{BASIL,CARDOON}
+    ("item","autumn_crops"):{CARDOON,"italiansdelight:almond_sapling"},
+    ("block","unbreakable_infertile_crops"):{BASIL,CARDOON,"italiansdelight:olive_sapling","italiansdelight:almond_sapling","italiansdelight:fruit_cherry_sapling"}
 }
 for (kind,name),values in expected.items():
     path=R/kind/(name+".json")
@@ -39,9 +39,11 @@ for java in ("BasilCropBlock.java","CultivatedCardoonCropBlock.java"):
 
 # Crop/seed tags are deliberately aligned for both tooltip and fertility.
 for kind in ("block","item"):
-    for name in ("winter_crops","year_round_crops"):
-        path=R/kind/(name+".json")
-        assert not path.exists(), "Neither cultivated crop is winter-fertile"
+    assert not (R/kind/"winter_crops.json").exists()
+    # Olive saplings follow vanilla OAK_SAPLING and grow year-round;
+    # neither cultivated crop is winter-fertile or year-round.
+    year=json.loads((R/kind/"year_round_crops.json").read_text())["values"]
+    assert year==["italiansdelight:olive_sapling"]
     for name in ("spring_crops","summer_crops"):
         entries=json.loads((R/kind/(name+".json")).read_text())["values"]
         assert BASIL in entries and CARDOON in entries
@@ -53,7 +55,9 @@ for kind in ("block","item"):
         assert "italiansdelight:cardoon" not in entries, "Wild cardoon not a crop"
 # Protect against the upstream optional mode 'break inferrtile crop'.
 survive=json.loads((R/"block/unbreakable_infertile_crops.json").read_text())["values"]
-assert set(survive)=={BASIL,CARDOON}
+assert set(survive)=={BASIL,CARDOON,
+    "italiansdelight:olive_sapling","italiansdelight:almond_sapling",
+    "italiansdelight:fruit_cherry_sapling"}
 build=Path("build.gradle").read_text()
 assert 'compileOnly "curse.maven:serene-seasons-291874:8938283"' in build
 mod=json.loads(Path("src/main/resources/fabric.mod.json").read_text())

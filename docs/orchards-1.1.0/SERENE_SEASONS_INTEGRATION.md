@@ -172,18 +172,90 @@ vengono inserite nei tag di fertilità delle colture.
 Senza Serene Seasons non si applica alcun rallentamento
 e i tag di compatibilità sono innocui.
 
-## Punti di coerenza ancora aperti
+## Serre per gli alberi e crescita dei sapling (scelte approvate)
 
-Vedi `SERENE_SEASONS_COMPATIBILITY_AUDIT.md`:
-- alberi da frutto limitati a **stadi massimi stagionali** (fuori
-  stagione spesso non crescono affatto, invece di rallentare);
-- condizioni di serra/terreno sotterraneo **non interpretate**
-  dall'integrazione dei frutti arborei;
-- crescita dei **germogli** di ulivo, mandorlo e ciliegio ancora
-  senza periodi di fertilità Serene Seasons;
-- bonemeal sulle piante **selvatiche** non rallentato dalle stagioni;
-- distinguere fasi di raccolta per sottostagione da fertilità
-  a quattro stagioni delle colture.
+**Serra (anche per olive, mandorle, ciliegie):** si usa esattamente
+la regola presente in Serene Seasons 26.2 in
+`SeasonalCropGrowthHandler.isGlassAboveBlock`: un blocco appartenente
+al tag `sereneseasons:greenhouse_glass` in una delle **16 posizioni
+verticali soprastanti** il blocco da coltivare. Il tag upstream comprende
+`#c:glass_blocks` e `#forge:glass`: non creiamo un tag proprietario.
 
-Questi punti sono documentati e **non modificati** in questa
-revisione. I test statici non sostituiscono il collaudo in gioco.
+Per le foglie degli alberi, questa regola agisce sullo stesso
+`OrchardSeasonPolicy.maxStage` già usato sia per avanzare gli stadi
+sia per la raccolta con clic destro:
+- **All'aperto:** mantiene i limiti stagionali originari; non si
+  producono ciliegie, mandorle o olive mature fuori stagione.
+- **In serra:** abilita gli stadi fino a maturazione per le tre specie
+  anche fuori stagione, come eccezione deliberata.
+- **Aspetto della serra:** la chioma sotto vetro mantiene il modello
+  normale `seasonal=0`, così fiori/frutti non risultano nascosti
+  dalla texture autunnale/invernale. All'aperto rimangono immutate
+  le texture e le regole approvate.
+
+**Germogli (`SaplingBlock` vanilla, nessuna logica custom):**
+
+| Albero | Tag Serene Seasons | Riferimento vanilla |
+|---|---|---|
+| `olive_sapling` | `year_round_crops` | `oak_sapling`: cresce normalmente tutto l'anno |
+| `almond_sapling` | `spring_crops`, `autumn_crops` | `birch_sapling`: primavera/autunno |
+| `fruit_cherry_sapling` | `spring_crops` | `cherry_sapling`: primavera |
+
+**Le stagioni più favorevoli non aumentano artificialmente la
+velocità vanilla:** consentono crescita normale, mentre fuori stagione
+Serene Seasons riduce la velocità (configurazione predefinita:
+1 successo ogni 6 tentativi) o agisce secondo la configurazione
+del modpack. Il bonus *relativo* è quindi la fertilità stagionale,
+senza nuovi timer. Il vetro della serra elimina il rallentamento anche
+per i sapling grazie alla meccanica nativa di Serene Seasons.
+
+I tre sapling sono aggiunti a
+`sereneseasons:unbreakable_infertile_crops`: nessun germoglio
+viene distrutto quando il giocatore cambia la modalità fuori stagione.
+I tag **block e item** rimangono sincronizzati; l'ulivo è inserito
+nei tag `year_round_crops` aggiuntivi, senza sovrascrivere quelli
+di Serene Seasons.
+
+**Confronto Farmer's Delight Refabricated 26.2:** la mod upstream
+dichiara le colture fertili tramite gli stessi tag Serene Seasons
+(`tomatoes`, `rice`, `onions`, `cabbages` e relativa forma item);
+le erbe selvatiche usano `WildCropBlock` e la normale propagazione
+con bonemeal, senza un calendario aggiuntivo. Seguendo quella struttura,
+**basilico coltivato e cardoon coltivato restano tag-based** e le
+piante selvatiche non ricevono un nuovo controllo stagionale.
+
+Nessuna nuova logica di sottostagioni è stata introdotta per le
+colture o i sapling: sono impiegate esclusivamente le **quattro
+stagioni native** di Serene Seasons. Il calendario arboreo delle
+fasi di fioritura già presente nel progetto è lasciato invariato.
+
+### Verifiche gameplay ancora necessarie
+
+- [ ] Vetro del tag `greenhouse_glass` entro 16 blocchi sopra la
+  chioma: ulivo, mandorlo e ciliegio fruttificano fuori stagione,
+  con foglie verdi e raccolta con clic destro funzionante.
+- [ ] Allontanare/togliere il vetro: fuori dalla finestra di
+  raccolta lo stadio maturo non è più raccoglibile e ritorna a 0
+  al successivo random tick; nessun item viene generato da solo.
+- [ ] Vetro posto a 17 blocchi, oppure vetro non appartenente
+  al tag: nessun effetto serra.
+- [ ] Sapling: nel periodo fertile crescono normalmente;
+  fuori stagione rallentano in base alla configurazione;
+  in serra tornano alla velocità normale.
+- [ ] Con `out_of_season_crop_behavior=2`, basilico,
+  cardoon e i tre sapling non si rompono.
+- [ ] Senza Serene Seasons e GlitchCore il mod avvia ancora
+  normalmente e le piante crescono come prima.
+- [ ] Verificare i test su mondo singleplayer e server dedicato.
+
+## Punti ancora aperti
+
+L'unica eccezione deliberata al comportamento standard delle
+colture riguarda il calendario dei **frutti degli alberi**:
+fuori periodo sono bloccati all'aperto ma fruttificano sotto
+serra, come richiesto. La fertilità nel sottosuolo delle chiome
+non è stata equiparata al comportamento delle colture su farmland:
+non aggiungiamo logiche non richieste. La propagazione delle piante
+selvatiche continua a seguire Farmer's Delight Refabricated.
+
+Vedi `SERENE_SEASONS_COMPATIBILITY_AUDIT.md` per i dettagli.

@@ -31,86 +31,45 @@ o tentare di distruggere colture non protette.
 5. Nessuna nuova dipendenza obbligatoria, compatibilità aggiuntiva
    o modifica alle texture coltivate.
 
-## Incoerenze / scelte ancora da decidere
+## Stato delle precedenti incoerenze — verifica aggiornata
 
-### 1. Crescita dei frutti negli alberi — da armonizzare
+| Tema | Decisione attuale | Stato |
+|---|---|---|
+| Frutti fuori stagione | **No, all'aperto**; sì sotto vetro-serra | Risolto |
+| Serre per alberi | Tag ufficiale `sereneseasons:greenhouse_glass` sopra le foglie entro 16 blocchi | Risolto |
+| Sapling | Tag stagionali vanilla; ulivo tutto l'anno, mandorlo primavera/autunno, ciliegio primavera | Risolto |
+| Basilico e cardoon coltivati | Rallentamento con tag nativi Serene Seasons | Già risolto |
+| Piante selvatiche | Non si forzano stagioni sulla propagazione con bonemeal, come `WildCropBlock` in Farmer's Delight | Coerente |
+| Granularità del calendario | **Quattro stagioni**, nessuna nuova logica di sottostagione per colture o sapling | Deciso |
+| Tropicale / dimensioni senza stagioni | Mantengono il precedente fallback degli alberi; i crop usano Serene Seasons | Invariato |
+| Sottosuolo per gli alberi | Non aggiunto alcun bypass sotterraneo; unica eccezione è la serra | Non richiesto |
 
-I blocchi `OliveLeavesBlock`, `AlmondLeavesBlock`,
-`FruitCherryLeavesBlock` usano `OrchardSeasonPolicy.stageCap()`:
-fuori dalla finestra stagionale non avanzano e, se lo stadio
-supera il tetto stagionale, i fiori e frutti tornano subito
-a `stage=0` al successivo random tick. Questo è un calendario
-di fruttificazione **più rigido della crescita lenta** delle
-colture standard di Serene Seasons. Non è un problema di
-distruzione della pianta, ma una differenza di gameplay.
-**Proposta:** valutare un rallentamento della produzione
-fuori stagione invece del blocco totale, oppure mantenere
-le finestre botaniche come eccezione deliberata.
+### Note tecniche
 
-### 2. Serre e fertilità sotterranea non coprono gli alberi
+Il calendario dei frutti arborei già implementato viene mantenuto
+esattamente com'era; `maxStage()` è consultato dal tick e dal
+raccoglitore lato server. Solo la **presenza del vetro-serra** consente
+di oltrepassare i tetti stagionali. Il livello grafico delle foglie
+diventa verde sotto vetro-serra anche in autunno/inverno affinché i
+frutti rimangano visibili.
 
-Gli alberi interrogano direttamente `SeasonHelper`;
-non utilizzano le normali regole di fertilità Serene Seasons.
-Pertanto vetro-serra e coltivazione sottoterra non permettono
-di anticipare la fruttificazione o derogare ai tetti degli
-stadi, a differenza dei crop tradizionali.
-**Proposta:** definire se la serra debba influenzare
-anche ulivo, mandorlo e ciliegio, e con quali dimensioni.
+I sapling rimangono blocchi **vanilla `SaplingBlock`**. Nessuna nuova
+classe che modifica i random tick o gestisce le 12 sottostagioni è stata
+aggiunta. Il loro rallentamento fuori stagione e il bonus relativo
+nei periodi fertili derivano dai tag `spring_crops`,
+`autumn_crops` e `year_round_crops` propri di Serene Seasons.
 
-### 3. Crescita dei germogli non vincolata alle stagioni
+La propagazione del cardoon e basilico selvatico è allineata a
+`WildCropBlock` di Farmer's Delight Refabricated 26.2: bonemeal
+diffonde piante, senza crescita progressiva stagionale.
 
-`olive_sapling`, `almond_sapling`,
-`fruit_cherry_sapling` non sono elencati nei tag nativi
-della fertilità Serene Seasons; i germogli possono quindi
-formare alberi in qualunque stagione.
-**Proposta:** assegnare periodi fertili specifici ai
-germogli quando si definiranno tutte le finestre.
+**Configurazione da ricordare:** Serene Seasons con
+`out_of_season_crop_behavior=0` rallenta a 1/6 per impostazione
+predefinita; il tag `unbreakable_infertile_crops` protegge
+basilico, cardoon e i tre sapling da eventuali modalità distruttive.
+Non cambia le preferenze globali scelte dal giocatore.
 
-### 4. Basilico selvatico e cardoon selvatico
-
-`WildBasilBlock` e `CardoonBlock` non sono `CropBlock`
-con stadi di crescita: la bonemeal li moltiplica in zona.
-La moltiplicazione resta attiva in tutte le stagioni,
-mentre le rispettive colture su farmland rallentano.
-**Proposta:** decidere se il comportamento naturale del
-selvatico debba essere diverso dalla coltivazione o
-se rallentare anche la diffusione con bone meal.
-
-### 5. Stagioni e sottostagioni non hanno la stessa granularità
-
-I tag ufficiali di Serene Seasons supportano solo
-**primavera/estate/autunno/inverno**. Non esprimono
-autonomamente `LATE_SPRING` o `EARLY_WINTER`.
-I periodi "tarda primavera" e "inizio autunno/inverno"
-sono indicazioni fenologiche, non finestre esatte
-rappresentate dal tag. Per basilico e cardoon questo è
-coerente con la scelta di crescita lenta fuori stagione,
-ma non permette un cambio di velocità a metà stagione.
-
-### 6. Mondi tropicali e dimensioni senza stagioni
-
-L'integrazione dei frutti arborei ritorna al calendario
-vanilla quando non vi sono quattro stagioni standard.
-Le colture Serene Seasons usano invece una regola
-specifica per i biomi tropicali: i crop inclusi tra
-quelli estivi sono fertili. Basilico/cardoon hanno entrambi
-il tag `summer_crops`. La differenza non crea crash
-ma è da valutare se si desidera un calendario tropicale
-personalizzato per gli alberi.
-
-### 7. Configurazione di Serene Seasons (da comunicare)
-
-`out_of_season_crop_behavior=0` (predefinito): crescita
-rallentata a 1/6; `1`: crescita bloccata; `2`:
-potenziale rottura delle colture non protette.
-Il tag `unbreakable_infertile_crops` impedisce a
-Serene Seasons di rompere basilico e cardoon coltivati
-in modalità 2, **ma non cambia il comportamento globale
-della mod configurata dall'utente**. Per ottenere la
-scelta "crescono soltanto più lentamente" deve restare 0.
-
-## Nessun cambiamento ulteriore automatico
-
-Le decisioni non ancora approvate sono state soltanto
-**documentate**. Il collaudo in gioco resta necessario
-(con/senza Serene Seasons, con serra e in biomi differenti).
+**Da testare in Minecraft:** estensione verticale della serra,
+disposizione delle chiome, raccolta fuori stagione, eventuali
+modpack che alterano il tag del vetro, sapling e comportamento
+senza Serene Seasons. I test GitHub sono statici e di compilazione.
