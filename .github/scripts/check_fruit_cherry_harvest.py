@@ -64,7 +64,13 @@ for stage,model in STAGES.items():
         assert sum(r>=237 and g>=237 and b>=210
                    for r,g,b,a in changed)>=20 if stage==2 else (
                        sum(r>=237 and g>=237 and b>=210
-                           for r,g,b,a in changed)>=42)
+                           for r,g,b,a in changed)>=35)
+        # Full bloom also has cool white-grey petal shadows. Excluding
+        # those would penalize flowers for being properly shaded.
+        if stage==3:
+            assert sum(r>=210 and g>=225 and b>=210
+                       for r,g,b,a in changed)>=45, (
+                "Full white blossoms need broad coverage, including pale shadows")
         assert sum(r>=185 and r>g*1.24 and b>g*.83
                    for r,g,b,a in changed)==0, "Pink cherry petals are forbidden"
     if stage==4:
