@@ -1,22 +1,58 @@
 {
   "variants": {
-    "stage=0": {
+    "stage=0,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves"
     },
-    "stage=1": {
+    "stage=0,seasonal=1": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
+    },
+    "stage=0,seasonal=2": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+    },
+    "stage=1,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_buds"
     },
-    "stage=2": {
+    "stage=1,seasonal=1": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
+    },
+    "stage=1,seasonal=2": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+    },
+    "stage=2,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_flowers_early"
     },
-    "stage=3": {
+    "stage=2,seasonal=1": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
+    },
+    "stage=2,seasonal=2": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+    },
+    "stage=3,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_flowers"
     },
-    "stage=4": {
+    "stage=3,seasonal=1": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
+    },
+    "stage=3,seasonal=2": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+    },
+    "stage=4,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_unripe"
     },
-    "stage=5": {
+    "stage=4,seasonal=1": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
+    },
+    "stage=4,seasonal=2": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
+    },
+    "stage=5,seasonal=0": {
       "model": "italiansdelight:block/fruit_cherry_leaves_fruiting"
+    },
+    "stage=5,seasonal=1": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_autumn"
+    },
+    "stage=5,seasonal=2": {
+      "model": "italiansdelight:block/fruit_cherry_leaves_winter"
     }
   }
 }

@@ -19,6 +19,28 @@ public final class OrchardSeasonPolicy {
 
     private OrchardSeasonPolicy() {}
 
+    /**
+     * Seasonal foliage model only. Unlike fruit maturity, this also applies
+     * to natural inner-canopy and player-placed foliage. 0=green,
+     * 1=autumn colors, 2=bare winter twigs.
+     */
+    public static int foliagePhase(Level level, BlockPos pos, Fruit fruit) {
+        if (fruit == Fruit.OLIVE || !FabricLoader.getInstance().isModLoaded("sereneseasons")) {
+            return 0;
+        }
+        return SereneSeasonsOrchardBridge.foliagePhase(level, pos, fruit);
+    }
+
+    /** User-approved visual calendar, separate from fruiting stage caps. */
+    public static int deciduousFoliagePhase(Fruit fruit, String subSeason) {
+        if (fruit == Fruit.OLIVE) return 0;
+        if (subSeason.endsWith("_WINTER")) return 2;
+        if (fruit == Fruit.CHERRY && subSeason.endsWith("_AUTUMN")) return 1;
+        // Almond nuts are still harvestable in early/mid autumn.
+        if (fruit == Fruit.ALMOND && "LATE_AUTUMN".equals(subSeason)) return 1;
+        return 0;
+    }
+
     public static int maxStage(Level level, BlockPos pos, Fruit fruit, int vanillaMax) {
         if (!FabricLoader.getInstance().isModLoaded("sereneseasons")) {
             return vanillaMax;

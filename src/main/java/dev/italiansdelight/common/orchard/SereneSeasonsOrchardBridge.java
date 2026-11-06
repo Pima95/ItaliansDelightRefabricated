@@ -14,6 +14,14 @@ import sereneseasons.api.season.SeasonHelper;
 final class SereneSeasonsOrchardBridge {
     private SereneSeasonsOrchardBridge() {}
 
+    /** Keep autumn/winter foliage visual phases decoupled from fruit stages. */
+    static int foliagePhase(Level level, BlockPos pos, OrchardSeasonPolicy.Fruit fruit) {
+        if (!SeasonHelper.usesStandardSeasons(level, pos)) return 0;
+        ISeasonState season = SeasonHelper.getSeasonState(level);
+        if (season == null || season.getSubSeason() == null) return 0;
+        return OrchardSeasonPolicy.deciduousFoliagePhase(fruit, season.getSubSeason().name());
+    }
+
     static int maxStage(Level level, BlockPos pos, OrchardSeasonPolicy.Fruit fruit,
                         int fallbackMax) {
         // Dimensions with disabled seasons, and tropical biomes with wet/dry

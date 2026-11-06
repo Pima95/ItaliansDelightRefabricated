@@ -33,18 +33,19 @@ import net.minecraft.world.phys.BlockHitResult;
  */
 public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock {
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 4);
+    public static final IntegerProperty SEASONAL_VISUAL = IntegerProperty.create("seasonal", 0, 2);
     public static final int RIPE_STAGE = 4;
     private static final int ADVANCE_CHANCE = 3; // one advance in three random ticks
 
     public AlmondLeavesBlock(Properties properties) {
         super(0.0F, ParticleTypes.CHERRY_LEAVES, properties);
-        registerDefaultState(defaultBlockState().setValue(STAGE, 0));
+        registerDefaultState(defaultBlockState().setValue(STAGE, 0).setValue(SEASONAL_VISUAL, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(STAGE);
+        builder.add(STAGE, SEASONAL_VISUAL);
     }
 
     /** Foliage placed by players, decaying leaves, and underwater leaves do not flower. */
@@ -79,7 +80,9 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock {
     protected boolean isRandomlyTicking(BlockState state) {
         // Vanilla decay remains active. Mature exposed foliage also ticks to
         // correct stale fruit if a neighboring block changes while unloaded.
-        return super.isRandomlyTicking(state) || canDevelop(state);
+        // Season changes must reach EVERY leaf, even enclosed/placed leaves.
+        // Random-tick selection frequency is unchanged; only eligibility grows.
+        return true;
     }
 
     @Override
@@ -89,6 +92,13 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock {
         BlockState current = level.getBlockState(pos);
         if (!current.is(this)) {
             return; // vanilla decay removed this block
+        }
+
+        int visual = OrchardSeasonPolicy.foliagePhase(level, pos,
+                OrchardSeasonPolicy.Fruit.ALMOND);
+        if (current.getValue(SEASONAL_VISUAL) != visual) {
+            current = current.setValue(SEASONAL_VISUAL, visual);
+            level.setBlock(pos, current, 2);
         }
 
         if (!canDevelop(current) || !hasAirFace(level, pos)) {

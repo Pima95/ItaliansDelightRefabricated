@@ -107,3 +107,50 @@ modificare la colorazione del fogliame secondo la sua configurazione.
 **Stato:** implementazione e verifiche statiche; collaudo in gioco
 ancora necessario. Le finestre e i valori definitivi si stabiliscono
 dopo il collaudo, senza toccare l'artwork approvato.
+
+## Fenologia delle foglie — mandorlo, ciliegio, ulivo
+
+Implementazione aggiunta dopo la raccolta dei tre alberi:
+
+| Specie | Primavera/estate | Autunno | Inverno |
+|---|---|---|---|
+| Ulivo | Foglie verdi / fruttificazione | **Sempreverde**, frutti autunnali | **Sempreverde**, senza frutti |
+| Mandorlo | Foglie verdi e frutti | Foglie ocra **a fine autunno**, dopo la raccolta (inizio/metà autunno ancora con frutti) | **Rami spogli**, nessuna foglia verde |
+| Ciliegio da frutto | Foglie verdi, fiori bianchi e ciliegie rosse | **Foglie giallo-arancio** dall'inizio dell'autunno | **Rami spogli** |
+
+Gli stadi delle foglie sono indipendenti dagli stadi di maturazione:
+`seasonal=0` verde/normale, `seasonal=1` ocra autunnale,
+`seasonal=2` rami spogli invernali.
+Il blocco `almond_leaves` e `fruit_cherry_leaves` **rimane in posizione**:
+cambia il modello, non si spezza e non disperde germogli o altri oggetti.
+Le texture invernali, 16×16, sono piccoli rami marroni con alpha
+binario; le autunnali conservano esattamente le maschere dei pixel
+delle foglie originali, ma diventano giallo/ocra/arancio.
+
+Il cambio avviene tramite **random tick**. Nel passaggio a un'altra
+sottostagione, alcune foglie possono cambiare prima di altre (con
+`random_tick_speed 200` l'aggiornamento è più rapido). Le foglie
+piazzate manualmente vengono aggiornate come quelle coltivate,
+ma non producono frutti grazie a `persistent=true`.
+I blocchi già in uno stadio fruttifero non consentito
+ritornano allo stadio 0 tramite la regola stagionale esistente.
+
+Quando Serene Seasons manca o il bioma è tropicale/senza stagioni
+standard, `seasonal=0`: nessuna perdita di foglie, comportamento
+di crescita precedente. Nessuna altra mod stagionale viene letta.
+
+### Stagioni basilico e cardoon — SOLO PROPOSTA, NON IMPLEMENTATA
+
+**Basilico:** coltura termofila annuale, crescita piena dalla tarda
+primavera all'inizio autunno; raccolta soprattutto in estate, senza
+crescita in inverno. Eventuale serra da valutare.
+
+**Cardoon / cardo coltivato:** semina primavera, crescita in primavera
+ed estate, resa e raccolta soprattutto autunno-inizio inverno. Essendo
+pianta perenne, la sopravvivenza alla stagione sfavorevole può essere
+diversa da quella del basilico. Non è stato modificato il comportamento
+né del cardoon coltivato né di quello spontaneo.
+
+Questi intervalli sono da **concordare prima** di aggiungere tag o
+modifiche al gameplay. Nessun supporto a Homeostatic Seasons,
+Seasonfall o altre mod è incluso.

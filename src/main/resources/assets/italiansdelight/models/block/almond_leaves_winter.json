@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cross",
+  "ambientocclusion": false,
+  "textures": {
+    "cross": "italiansdelight:block/almond_leaves_winter",
+    "particle": "italiansdelight:block/almond_leaves_winter"
+  }
+}

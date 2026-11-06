@@ -76,10 +76,12 @@ def main():
         else:
             # Almond leaves keep their existing block ID, but now have five stages.
             assert block["variants"]=={
-                f"stage={stage}":{"model":f"italiansdelight:block/almond_leaves{suffix}"}
+                f"stage={stage},seasonal={seasonal}":{
+                    "model":f"italiansdelight:block/almond_leaves{suffix if seasonal==0 else ('_autumn' if seasonal==1 else '_winter')}"}
                 for stage,suffix in (
                     (0,""),(1,"_buds"),(2,"_flowers"),
                     (3,"_unripe"),(4,"_fruiting"))
+                for seasonal in range(3)
             }
         assert j(A/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
         assert j(D/f"italiansdelight/loot_table/blocks/{name}.json")["type"]=="minecraft:block"

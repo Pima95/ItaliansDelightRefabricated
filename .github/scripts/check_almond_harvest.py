@@ -33,8 +33,8 @@ assert sum(p[3]==0 for p in base)==59
 
 state=load(A/"blockstates/almond_leaves.json")
 assert state == {"variants":{
-    f"stage={i}":{"model":f"italiansdelight:block/{name}"}
-    for i,name in TYPES.items()
+    f"stage={i},seasonal={seasonal}":{"model":f"italiansdelight:block/{name if seasonal==0 else ('almond_leaves_autumn' if seasonal==1 else 'almond_leaves_winter')}"}
+    for i,name in TYPES.items() for seasonal in range(3)
 }}, state
 
 changed_counts={}
