@@ -2,6 +2,7 @@ package dev.italiansdelight.common.block;
 
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.orchard.OrchardSeasonPolicy;
+import dev.italiansdelight.common.orchard.OrchardFruitingCycle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -105,7 +106,11 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock impleme
             level.setBlock(pos, current, 2);
         }
 
-        if (!canDevelop(current) || !hasAirFace(level, pos)) {
+        // About 70% of naturally eligible, exposed leaves bear fruit.
+        // The selection rotates per leaf over staggered four-day windows.
+        if (!canDevelop(current) || !hasAirFace(level, pos)
+                || !OrchardFruitingCycle.isSelected(level, pos,
+                        OrchardSeasonPolicy.Fruit.ALMOND)) {
             if (current.getValue(STAGE) != 0) {
                 level.setBlock(pos, current.setValue(STAGE, 0), 2);
             }
@@ -157,6 +162,8 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock impleme
             return false;
         }
         return level instanceof Level world
+                && OrchardFruitingCycle.isSelected(world, pos,
+                        OrchardSeasonPolicy.Fruit.ALMOND)
                 && state.getValue(STAGE) < OrchardSeasonPolicy.maxStage(world, pos,
                         OrchardSeasonPolicy.Fruit.ALMOND, RIPE_STAGE);
     }
@@ -202,6 +209,13 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock impleme
                     || current.getValue(STAGE) != RIPE_STAGE
                     || !canDevelop(current)
                     || !hasAirFace(server, pos)) {
+                return InteractionResult.PASS;
+            }
+            // If the staggered fruiting window changed before the next
+            // random tick, do not permit harvesting stale ripe fruit.
+            if (!OrchardFruitingCycle.isSelected(server, pos,
+                    OrchardSeasonPolicy.Fruit.ALMOND)) {
+                server.setBlock(pos, current.setValue(STAGE, 0), 2);
                 return InteractionResult.PASS;
             }
             // Reset FIRST to avoid double-harvest by two players on the same tick.

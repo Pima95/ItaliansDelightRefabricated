@@ -58,9 +58,11 @@ for name,fruit,steps,roll,success,quick,balanced in FRUITS:
     assert "super.randomTick(state, level, pos, random)" in s
     assert "server.setBlock(pos, current.setValue(STAGE, 0), 2)" in s, "Harvest regrowth unchanged"
     assert "new ItemStack(ModItems." in s
-    # No additional eligibility gates: 70% rotating fruiting leaf selection
-    # is explicitly deferred.
-    assert "FRUIT_ELIGIBILITY" not in s and "ELIGIBLE_PERCENT" not in s
+    # Rotating selection is checked by both natural growth and bonemeal,
+    # and the ripe harvest path rechecks it before producing item drops.
+    assert s.count("OrchardFruitingCycle.isSelected(")==3
+    assert "OrchardFruitingCycle.isSelected(world, pos," in validator
+    assert "OrchardFruitingCycle.isSelected(server, pos," in s
     print(f"OK: {fruit} expected {time_minutes:.1f} min/leaf; bonemeal 1 growth phase on natural foliage only")
 
 # Keep existing vanilla crop behavior and saplings unchanged.
@@ -71,5 +73,5 @@ for name in ("BasilCropBlock.java","CultivatedCardoonCropBlock.java"):
     assert "ADVANCE_CHANCE" not in s
 assert "check_orchard_growth_bonemeal.py" in WF
 print("OK: basil/cardoon not rebalanced; season/greenhouse caps still apply")
-print("OK: no rotating 70% eligibility introduced; retained for future decision")
+print("OK: rotating ~70% eligibility shared by natural growth, bonemeal and harvesting")
 print("NOTE: in-game bonemeal and simulated growth timing must be tested")

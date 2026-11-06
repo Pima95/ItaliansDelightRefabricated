@@ -67,10 +67,10 @@ crescita.
 - **Texture**, colore del bioma, foglie autunnali/invernali,
   sistema serre, frutti/drop e ricrescita dopo la raccolta:
   invariati.
-- **Selezione del 70% di foglie produttive**: **NON IMPLEMENTATA**.
-  Per ora ogni foglia naturale valida può fruttificare;
-  l'eventuale selezione variabile per ciclo di raccolta
-  sarà progettata e approvata separatamente.
+- **Selezione del 70% di foglie produttive**: **IMPLEMENTATA**.
+  Circa il 70% delle foglie naturali esposte può portare fiori e
+  frutti in una finestra di crescita; la selezione cambia nel tempo.
+  La percentuale è statistica, non una quota esatta per ogni albero.
 
 ## Verifiche da fare in gioco
 
@@ -85,3 +85,90 @@ crescita.
 - [ ] Provare senza Serene Seasons, anche su server dedicato.
 - [ ] A `randomTickSpeed 3`, misurare più blocchi di foglie;
       i tempi reali sono statistici e dipendono dal tick rate.
+
+## Rotazione del 70% delle foglie produttive — implementazione approvata
+
+**Scopo:** rendere i raccolti equilibrati e l'aspetto naturale, evitando
+che tutte le foglie della superficie dell'albero maturino insieme.
+
+### Come vengono scelte le foglie
+
+Un blocco è inizialmente *idoneo* solo se è naturale
+(`PERSISTENT=false`), collegato al legno (`DISTANCE<7`),
+non è sommerso ed è esposto ad almeno una faccia d'aria. Queste
+condizioni continuano a escludere sia le foglie interne
+sia quelle posizionate manualmente dal giocatore.
+
+Fra le sole foglie così idonee, una selezione pseudocasuale
+deterministica sceglie **circa il 70%** come *produttive*
+e lascia temporaneamente il rimanente **30% inattivo**.
+
+- La selezione è stabile per ogni singola foglia durante una
+  finestra di **quattro giorni Minecraft** (`96.000 game tick`:
+  circa **80 minuti** a 20 TPS), più lunga del tempo medio di
+  maturazione di una foglia (23–28 minuti).
+- Ogni posizione ha un **offset temporale diverso**, quindi
+  i cambiamenti sono distribuiti nel tempo e non avvengono
+  contemporaneamente in tutta la chioma.
+- Ad ogni finestra ciascuna foglia riceve un nuovo risultato.
+  Un albero non conserverà quindi sempre le stesse foglie fruttifere:
+  per ogni passaggio di finestra circa il 42% delle posizioni
+  cambia stato in media.
+- La probabilità è **indipendente per ogni foglia**, non viene
+  calcolata una lista precisa di blocchi per singolo albero.
+  Un albero piccolo può quindi avere, in un dato momento, una
+  percentuale superiore o inferiore al 70%.
+- L'algoritmo usa la **posizione**, la specie e il **tempo di gioco
+  persistente**, non un numero random ad ogni tick.
+  La selezione è stabile tra salvataggi e ricariche e coerente
+  fra client e server. Nessun blockstate o dato salvato aggiuntivo.
+
+### Effetti sulla crescita e sulla raccolta
+
+Se una foglia viene deselezionata dopo il passaggio di ciclo,
+al **successivo random tick** torna alla texture normale
+(`stage=0`) senza lasciare oggetti. Non viene spezzato
+il blocco e non vengono eliminati i normali colori di bioma.
+Un eventuale frutto maturo diventato inattivo **non può essere
+raccolto** durante il breve periodo prima del prossimo tick.
+
+La farina d'ossa può far avanzare di un singolo stadio
+**solo le foglie naturali esposte che risultano selezionate**
+nell'attuale finestra. Le altre foglie non sono bersagli validi
+per la fertilizzazione. Non viene mai saltato il controllo
+dello stadio massimo di Serene Seasons: all'aperto si
+rispettano le finestre stagionali; in serra funziona la
+maturazione fuori stagione secondo la regola già approvata.
+
+La resa rimane **1–3 frutti per clic destro** e la foglia
+raccolta riparte da zero. Il limite **non introduce
+cooldown obbligatori tra raccolte**, quindi una stessa
+foglia può maturare nuovamente più volte nella sua
+finestra produttiva di quattro giorni. Durante le
+finestre successive la selezione varierà.
+
+### Come verificare in Minecraft
+
+- [ ] Controllare un albero con molte foglie naturali esposte:
+      alcune restano verdi mentre altre fioriscono e maturano.
+- [ ] Fertilizzare una foglia selezionata: uno stadio per
+      applicazione. Provare poi una foglia naturale inattiva:
+      nessuna fertilizzazione fino alla prossima rotazione.
+- [ ] Provare le foglie piazzate dal giocatore e quelle interne:
+      continuano a non fruttificare né accettare farina d'ossa.
+- [ ] Usare `/time add 96000` **non** come prova della rotazione:
+      il gioco può modificare il tempo del giorno senza cambiare
+      il contatore `gameTime`. Per verificare la rotazione,
+      lasciare passare il tempo di gioco (o usare tick
+      accelerati in un ambiente di test).
+- [ ] Nel passaggio di ciclo, le foglie perdono o acquisiscono
+      produttività gradualmente, non tutte nello stesso istante.
+- [ ] Controllare che Serene Seasons blocchi la maturazione
+      all'aperto fuori stagione e che la consenta in serra.
+- [ ] Verificare che rompere una foglia non lasci cadere frutti
+      aggiuntivi e che il clic destro dia ancora 1–3 frutti.
+
+**Automazione:** lo script
+`.github/scripts/check_orchard_fruiting_rotation.py`
+verifica la distribuzione pseudocasuale, le transizioni e i tre
+controlli di eleggibilità (random tick, farina d'ossa e raccolta).

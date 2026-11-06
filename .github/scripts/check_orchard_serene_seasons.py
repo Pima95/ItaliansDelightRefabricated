@@ -77,8 +77,10 @@ for name,fruit,ripe in (
 ):
     source=(J/f"common/block/{name}.java").read_text()
     token=f"OrchardSeasonPolicy.Fruit.{fruit}"
-    count=3 if fruit=="OLIVE" else 4  # growth, harvest, bonemeal (+foliage for deciduous)
-    assert source.count(token)==count,(name,"growth, harvest, foliage season checks")
+    # The species identifier is also used by the rotating eligibility
+    # in the natural tick, bonemeal and harvest checks.
+    count=6 if fruit=="OLIVE" else 7
+    assert source.count(token)==count,(name,"growth, harvest, bonemeal, eligibility (+foliage)")
     assert "super.randomTick(state, level, pos, random)" in source
     assert "int seasonalMax = OrchardSeasonPolicy.maxStage" in source
     assert "if (stage > seasonalMax)" in source
