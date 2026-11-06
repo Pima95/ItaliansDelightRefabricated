@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -31,11 +32,14 @@ import net.minecraft.world.phys.BlockHitResult;
  * at least one orthogonally adjacent air block (any of six faces).
  * Occlusion/leaf decay removes the fruit stage, never the vanilla foliage.
  */
-public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock {
+public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock implements BonemealableBlock {
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 4);
     public static final IntegerProperty SEASONAL_VISUAL = IntegerProperty.create("seasonal", 0, 2);
     public static final int RIPE_STAGE = 4;
-    private static final int ADVANCE_CHANCE = 3; // one advance in three random ticks
+    // No-Serene-Seasons balance: expected time from stage 0 to ripe at
+    // randomTickSpeed=3, 20 TPS: ~25.0 real minutes per exposed naturally grown leaf.
+    private static final int ADVANCE_CHANCE = 11;
+    private static final int ADVANCE_SUCCESSES = 2;
 
     public AlmondLeavesBlock(Properties properties) {
         super(0.0F, ParticleTypes.CHERRY_LEAVES, properties);
@@ -117,7 +121,7 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock {
             level.setBlock(pos, current.setValue(STAGE, 0), 2);
             return;
         }
-        if (stage < seasonalMax && random.nextInt(ADVANCE_CHANCE) == 0) {
+        if (stage < seasonalMax && random.nextInt(ADVANCE_CHANCE) < ADVANCE_SUCCESSES) {
             level.setBlock(pos, current.setValue(STAGE, stage + 1), 2);
         }
     }
@@ -136,6 +140,45 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock {
             return updated.setValue(STAGE, 0);
         }
         return updated;
+    }
+
+    /**
+     * Bone meal may advance only NATURAL, connected, exposed foliage.
+     * Leaves placed by a player are persistent and are never fertilizable.
+     * The server-side seasonal cap still applies; greenhouse fruiting uses
+     * the same existing Serene Seasons bridge as random-tick growth.
+     */
+    @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+        if (!state.is(this)
+                || !canDevelop(state)
+                || !hasAirFace(level, pos)
+                || state.getValue(STAGE) >= RIPE_STAGE) {
+            return false;
+        }
+        return level instanceof Level world
+                && state.getValue(STAGE) < OrchardSeasonPolicy.maxStage(world, pos,
+                        OrchardSeasonPolicy.Fruit.ALMOND, RIPE_STAGE);
+    }
+
+    @Override
+    public boolean isBonemealSuccess(Level level, RandomSource random,
+                                     BlockPos pos, BlockState state) {
+        // One fertilizer application advances a single visible growth phase,
+        // just like a crop, without changing other leaves or spawning drops.
+        return true;
+    }
+
+    @Override
+    public void performBonemeal(ServerLevel level, RandomSource random,
+                                BlockPos pos, BlockState state) {
+        // Re-read everything on the server to prevent stale client target
+        // or an out-of-season interaction from bypassing growth restrictions.
+        BlockState current = level.getBlockState(pos);
+        if (!isValidBonemealTarget(level, pos, current)) {
+            return;
+        }
+        level.setBlock(pos, current.setValue(STAGE, current.getValue(STAGE) + 1), 2);
     }
 
     @Override

@@ -33,8 +33,9 @@ Una foglia avanza di fase se e solo se:
 - **almeno una delle sei facce** (su, giù, nord, sud, est, ovest) tocca
   un blocco d'aria. Le diagonali non sono considerate.
 
-La progressione avviene un passo per volta con i random tick (parametro
-provvisorio identico all'ulivo: probabilità 1/3 di avanzare per random tick).
+La progressione avviene un passo per volta con i random tick (bilanciamento aggiornato: probabilità **2/11** per random tick).
+La farina d'ossa avanza di una fase solo sulle foglie naturali esposte;
+per i dettagli vedi `GROWTH_AND_BONEMEAL_BALANCE.md`.
 Se la foglia viene circondata completamente, fiori e frutti scompaiono
 immediatamente e `stage` torna a 0; un tick successivo corregge anche
 eventuali blocchi diventati non idonei dopo il caricamento.

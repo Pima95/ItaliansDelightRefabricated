@@ -53,7 +53,9 @@ Una foglia completamente circondata perde immediatamente fiori/frutti
 e ritorna allo stadio 0 quando cambiano i blocchi confinanti.
 La stessa condizione viene controllata durante la crescita e la raccolta.
 
-Probabilità temporanea di **1/3 di avanzare di una fase per random tick**
+Probabilità aggiornata di **1/5 di avanzare di una fase per random tick**;
+la farina d'ossa avanza di uno stadio solo sulle foglie naturali esposte
+(vedi `GROWTH_AND_BONEMEAL_BALANCE.md`)
 ricevuto dalla foglia, senza saltare fasi. Al raggiungimento dello
 stadio 5, **clic destro** → **1–3 `italiansdelight:cherries`**,
 la foglia resta sul posto e torna a `stage=0` per ricrescere.

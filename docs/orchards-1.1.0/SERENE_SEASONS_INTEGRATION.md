@@ -18,8 +18,10 @@
 ## Calendario iniziale (non definitivo)
 
 **I periodi seguenti sono impostazioni provvisorie da collaudare e
-bilanciare in seguito.** Non cambiano la probabilità per random tick
-(ancora 1/3), il numero di frutti per raccolta (1–3), la dimensione
+bilanciare in seguito.** La crescita naturale è stata ribilanciata nella revisione successiva; vedi
+`GROWTH_AND_BONEMEAL_BALANCE.md`. La presente integrazione stagionale
+non cambia ulteriormente la probabilità per random tick
+(ora 1/5 ulivo, 2/11 mandorlo, 1/5 ciliegio), il numero di frutti per raccolta (1–3), la dimensione
 degli alberi o le texture.
 
 | Specie | Inizio boccioli | Fioritura | Frutto acerbo | Raccolta |

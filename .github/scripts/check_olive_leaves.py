@@ -111,7 +111,7 @@ def main():
     assert "extends UntintedParticleLeavesBlock" in harvest
     assert 'IntegerProperty.create("stage", 0, 4)' in harvest
     assert "RIPE_STAGE = 4" in harvest
-    assert "ADVANCE_CHANCE = 3" in harvest
+    assert "ADVANCE_CHANCE = 5" in harvest
     assert "super.randomTick(state, level, pos, random)" in harvest
     assert "super.isRandomlyTicking(state)" in harvest
     assert "hasAirFace(level, pos)" in harvest

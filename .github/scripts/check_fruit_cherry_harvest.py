@@ -165,7 +165,7 @@ blocks=(JAVA/"common/registry/ModBlocks.java").read_text()
 client=(JAVA/"ItaliansDelightClient.java").read_text()
 assert "extends UntintedParticleLeavesBlock" in src
 assert 'IntegerProperty.create("stage", 0, 5)' in src
-assert "RIPE_STAGE = 5" in src and "ADVANCE_CHANCE = 3" in src
+assert "RIPE_STAGE = 5" in src and "ADVANCE_CHANCE = 5" in src
 assert "super.randomTick(state, level, pos, random)" in src
 assert "protected boolean isRandomlyTicking(BlockState state)" in src
 assert "return true;" in src, "All foliage must receive ticks to change seasonal appearance"

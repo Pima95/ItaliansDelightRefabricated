@@ -87,7 +87,10 @@ for name,fruit,ripe in (
     assert "if (OrchardSeasonPolicy.maxStage(server, pos," in source
     assert "return InteractionResult.PASS;" in source
     assert f"RIPE_STAGE = {ripe}" in source
-    assert "ADVANCE_CHANCE = 3" in source, "Do not change growth speed yet"
+    expected_chance = 11 if fruit=="ALMOND" else 5
+    assert f"ADVANCE_CHANCE = {expected_chance}" in source, "Expected medium-fast orchard balance"
+    if fruit=="ALMOND":
+        assert "ADVANCE_SUCCESSES = 2" in source, "Almond needs 2/11 growth chance"
     assert "hasAirFace(server, pos)" in source
     assert "new ItemStack(ModItems." in source
     assert "boolean canDevelop" in source
@@ -95,5 +98,5 @@ assert "check_orchard_serene_seasons.py" in workflow
 print("OK: Serene Seasons Fabric 26.2 uses compileOnly API, optional Fabric mod metadata")
 print("OK: ALL 12 sub-seasons checked for olive, almond, cherry calendar stages")
 print("OK: both growing and harvesting respect season cap on server, vanilla fallback safe")
-print("OK: growth chance, drops, textures, air exposure and decay remain unchanged")
+print("OK: rebalanced orchard growth (olive 1/5, almond 2/11, cherry 1/5), drops and leaf decay intact")
 print("NOTE: in-game verification with and without Serene Seasons/GlitchCore required")

@@ -52,6 +52,8 @@ jobs:
         run: python3 .github/scripts/check_orchard_serene_seasons.py
       - name: Check orchard greenhouses and native Serene Seasons 4-season sapling growth
         run: python3 .github/scripts/check_orchard_greenhouse_saplings.py
+      - name: Verify balanced orchard fruit growth and natural-only leaf bonemeal
+        run: python3 .github/scripts/check_orchard_growth_bonemeal.py
       - name: Check Serene Seasons basil and cardoon fertility tags and off-season survival
         run: python3 .github/scripts/check_orchard_serene_crops.py
       - name: Check almond/cherry autumn foliage and bare winter twig states
