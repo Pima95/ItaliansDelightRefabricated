@@ -48,6 +48,8 @@ jobs:
         run: python3 .github/scripts/check_almond_harvest.py
       - name: Verify tinted foliage and untinted blossom/fruit layers across Almond and Cherry
         run: python3 .github/scripts/check_orchard_biome_overlay_layers.py
+      - name: Check optional Serene Seasons 26.2 integration, calendar and safe fallback
+        run: python3 .github/scripts/check_orchard_serene_seasons.py
       - name: Validate Almond extended wood (signs, boats, shelves, cabinets and cheese racks)
         run: python3 .github/scripts/check_almond_extended_wood.py
       - name: Validate initial Almond wood, crafting and original art

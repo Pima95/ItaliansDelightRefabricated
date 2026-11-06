@@ -46,6 +46,11 @@ dependencies {
 
     // JEI
     implementation "curse.maven:jei-238222:9068092"
+
+    // OPTIONAL: Serene Seasons Fabric 26.2, version 26.1.2.0.6.
+    // Compile API calls without shipping the mod, and never require it at runtime.
+    // Users must install Serene Seasons + GlitchCore separately if desired.
+    modCompileOnly "curse.maven:serene-seasons-291874:8938283"
 }
 
 // Replaces the version placeholder inside fabric.mod.json during the build.

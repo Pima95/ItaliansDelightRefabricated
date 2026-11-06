@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.block;
 
 import dev.italiansdelight.common.registry.ModItems;
+import dev.italiansdelight.common.orchard.OrchardSeasonPolicy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -100,7 +101,15 @@ public final class FruitCherryLeavesBlock extends UntintedParticleLeavesBlock {
         }
 
         int stage = current.getValue(STAGE);
-        if (stage < RIPE_STAGE && random.nextInt(ADVANCE_CHANCE) == 0) {
+        int seasonalMax = OrchardSeasonPolicy.maxStage(level, pos,
+                OrchardSeasonPolicy.Fruit.CHERRY, RIPE_STAGE);
+        // Stages above the seasonal window must not carry ripe fruit into
+        // winter (or back into spring when /season set changes the calendar).
+        if (stage > seasonalMax) {
+            level.setBlock(pos, current.setValue(STAGE, 0), 2);
+            return;
+        }
+        if (stage < seasonalMax && random.nextInt(ADVANCE_CHANCE) == 0) {
             level.setBlock(pos, current.setValue(STAGE, stage + 1), 2);
         }
     }
@@ -131,6 +140,12 @@ public final class FruitCherryLeavesBlock extends UntintedParticleLeavesBlock {
         }
 
         if (level instanceof ServerLevel server) {
+            // Always ask the *server's* season before allowing a harvest.
+            // Without Serene Seasons this check is a no-op.
+            if (OrchardSeasonPolicy.maxStage(server, pos,
+                    OrchardSeasonPolicy.Fruit.CHERRY, RIPE_STAGE) < RIPE_STAGE) {
+                return InteractionResult.PASS;
+            }
             BlockState current = server.getBlockState(pos);
             if (!current.is(this)
                     || current.getValue(STAGE) != RIPE_STAGE
