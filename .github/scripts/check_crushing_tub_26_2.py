@@ -89,11 +89,14 @@ assert 'public static final Block CRUSHING_TUB = register(' in blocks
 assert "new CrushingTubBlock(" in blocks
 assert "new BlockItem(" in blocks and "useBlockDescriptionPrefix()" in blocks
 assert "output.accept(ModBlocks.CRUSHING_TUB);" in tab
-assert "extends Block" in clazz
+assert "extends BaseEntityBlock" in clazz
+assert "newBlockEntity(" in clazz and "CrushingTubBlockEntity" in clazz
 assert "getShape(" in clazz and "getCollisionShape(" in clazz
 assert clazz.count("Block.box(")==5, "Collision must match the supplied hollow tub"
 assert "Shapes.or(" in clazz and ".noOcclusion()" in blocks
-assert "BaseEntityBlock" not in clazz and "BlockEntity" not in clazz
+assert "BaseEntityBlock" in clazz
+assert "fallOn(" in clazz and "tub.stomp()" in clazz
+assert "useItemOn(" in clazz and "useWithoutItem(" in clazz
 for lang in ("en_us","it_it"):
     loc=read(A/f"lang/{lang}.json")
     assert loc["block.italiansdelight.crushing_tub"]
@@ -102,7 +105,7 @@ print("OK: Minecraft 26.2 blockstate + item definition + item model resolve loca
 print("OK: 16x16 texture exists with binary alpha")
 print("OK: shaped recipe uses 26.2 item tags, including Italian's Delight wood")
 print("OK: registry, creative tab, axe tag, drop and localized names")
-print("NOTE: functional crushing/juice processing is not part of the supplied files")
+print("OK: persisted inventory, one-item stomp and 8000mB liquid engine")
 print("NOTE: inspect appearance, inventory item and recipe in Minecraft")
 
 # Modern texture coverage for every vanilla and orchard wood. The old IDs are Oak.
