@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -58,6 +59,13 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
                                         CollisionContext context) { return SHAPE; }
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
                                                  CollisionContext context) { return SHAPE; }
+
+    // Middle-click on the filled state must return the NORMAL vanilla cauldron
+    // item; this technical block has no BlockItem and must never return air.
+    @Override protected ItemStack getCloneItemStack(
+            LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        return new ItemStack(Items.CAULDRON);
+    }
 
     @Override protected InteractionResult useItemOn(ItemStack held, BlockState state, Level world,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

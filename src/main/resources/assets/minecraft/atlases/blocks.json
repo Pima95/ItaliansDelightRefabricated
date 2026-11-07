@@ -1,0 +1,16 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/milk"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/sheep_milk"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/whey"
+    }
+  ]
+}

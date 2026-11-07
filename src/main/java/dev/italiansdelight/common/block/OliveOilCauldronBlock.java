@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -44,6 +45,12 @@ public final class OliveOilCauldronBlock extends Block {
                                          CollisionContext ctx) { return SHAPE; }
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
                                                   CollisionContext ctx) { return SHAPE; }
+
+    // Backward compatibility with filled cauldrons saved by earlier mod builds.
+    @Override protected ItemStack getCloneItemStack(
+            LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        return new ItemStack(Items.CAULDRON);
+    }
 
     @Override protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

@@ -1,6 +1,8 @@
 package dev.italiansdelight.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.color.block.BlockTintSources;
+import net.minecraft.world.level.block.Blocks;
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -23,15 +25,19 @@ public final class FluidCauldronRenderer
             entity, state, partialTicks, cameraPosition, breaking);
         state.amount = entity.getAmount();
         state.fluidId = entity.getFluidId();
+        // The same biome tint vanilla uses on a water cauldron.
+        state.waterTint = BlockTintSources.water().colorInWorld(
+            Blocks.WATER_CAULDRON.defaultBlockState(), entity.getLevel(), entity.getBlockPos());
     }
     @Override public void submit(State state, PoseStack stack, SubmitNodeCollector queue,
                                  CameraRenderState camera) {
         LiquidSurfaceVisuals.submit(state.fluidId, state.amount, FluidCauldronBlockEntity.CAPACITY,
             2.02F/16F, 13.98F/16F, 2.02F/16F, 13.98F/16F,
-            4.02F/16F, 11.95F/16F, state.lightCoords, stack, queue);
+            7.00F/16F, 15.00F/16F, state.waterTint, state.lightCoords, stack, queue);
     }
     public static final class State extends BlockEntityRenderState {
         private String fluidId = "";
         private int amount;
+        private int waterTint = 0xFF3F76E4;
     }
 }
