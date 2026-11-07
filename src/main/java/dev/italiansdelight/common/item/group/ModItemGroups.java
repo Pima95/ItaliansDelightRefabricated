@@ -48,6 +48,7 @@ public final class ModItemGroups {
                 // 12 wooden rack variants (no non-obtainable technical blocks).
                 output.accept(ModBlocks.CHEESE_VAT);
                 output.accept(ModBlocks.CRUSHING_TUB);
+                 output.accept(ModBlocks.BARREL);
                 output.accept(ModBlocks.CHEESE_HOOK);
                 output.accept(ModBlocks.PIZZA_OVEN);
 
@@ -151,6 +152,8 @@ public final class ModItemGroups {
                 // Serene Seasons integration follows after in-game testing.
                 // Crates pack the existing orchard fruit items.
                 output.accept(ModItems.OLIVES);
+                 output.accept(ModItems.OLIVE_OIL_BUCKET);
+                 output.accept(ModItems.OLIVE_OIL_BOTTLE);
                 output.accept(ModItems.ALMONDS);
                 output.accept(ModItems.CHERRIES);
                 // Reversible orchard/field crop storage blocks.

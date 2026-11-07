@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
+import dev.italiansdelight.common.registry.ModFluids;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModSigns;
 import dev.italiansdelight.common.registry.ModBoats;
@@ -42,6 +43,7 @@ public class ItaliansDelight implements ModInitializer {
         // This ensures BlockEntities, menus, recipes, and events can already find
         // all registered items and blocks when they are configured.
         ModDataComponents.register();
+        ModFluids.register();
         ModItems.register();
         ModBlocks.register();
         ModSigns.register();

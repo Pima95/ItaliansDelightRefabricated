@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CrushingTubBlock;
+import dev.italiansdelight.common.block.BarrelBlock;
 import dev.italiansdelight.common.block.CheeseVatBlock;
 import dev.italiansdelight.common.block.CheeseHookBlock;
 import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
@@ -813,6 +815,24 @@ public final class ModBlocks {
             .setId(CRUSHING_TUB_KEY)
             .noOcclusion()
             .strength(2.0F, 3.0F))
+    );
+
+    // Rustic Barrel: persistent storage and a placeable BlockItem.
+    public static final ResourceKey<Block> BARREL_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("barrel"));
+    public static final Block BARREL = register(
+        BARREL_KEY,
+        new BarrelBlock(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .setId(BARREL_KEY).noOcclusion().strength(2.0F, 3.0F))
+    );
+
+    // The fluid block itself is technical; only the bucket is visible in Creative.
+    public static final ResourceKey<Block> OLIVE_OIL_FLUID_BLOCK_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_oil_fluid"));
+    public static final Block OLIVE_OIL_FLUID_BLOCK = registerBlockOnly(
+        OLIVE_OIL_FLUID_BLOCK_KEY,
+        new LiquidBlock(ModFluids.OLIVE_OIL_STILL,
+            Block.Properties.ofFullCopy(Blocks.WATER).setId(OLIVE_OIL_FLUID_BLOCK_KEY))
     );
 
     // Cheese Vat Block

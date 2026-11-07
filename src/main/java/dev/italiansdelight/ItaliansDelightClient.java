@@ -2,6 +2,11 @@ package dev.italiansdelight;
 
 import net.fabricmc.api.ClientModInitializer;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.registry.ModFluids;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
+import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.util.ARGB;
 import java.util.List;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 import net.minecraft.client.color.block.BlockTintSource;
@@ -113,6 +118,17 @@ public class ItaliansDelightClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        // The authored Rustic oil frames are already under textures/block/fluids.
+        FluidRenderingRegistry.register(
+            ModFluids.OLIVE_OIL_STILL,
+            ModFluids.OLIVE_OIL_FLOWING,
+            new FluidModel.Unbaked(
+                new Material(ModRegistries.id("block/fluids/olive_oil_still")),
+                new Material(ModRegistries.id("block/fluids/olive_oil_flow")),
+                new Material(ModRegistries.id("block/fluids/olive_oil_overlay")),
+                BlockTintSources.constant(ARGB.opaque(0xFFFFFF))
+            )
+        );
         // Almond and Fruit Cherry react to foliage biome colors independently.
         // Olive, both saplings, and the rest of the orchard art remain untinted.
         BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);

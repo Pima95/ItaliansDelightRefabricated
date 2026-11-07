@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PSP",
+    "I I",
+    "PSP"
+  ],
+  "key": {
+    "P": "#minecraft:planks",
+    "S": "#minecraft:wooden_slabs",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "italiansdelight:barrel",
+    "count": 2
+  }
+}

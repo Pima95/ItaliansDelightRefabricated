@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
+import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaOvenBlockEntity;
 import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
@@ -33,6 +34,8 @@ public final class ModBlockEntities {
     public static final BlockEntityType<PizzaOvenBlockEntity> PIZZA_OVEN =
         register("pizza_oven", PizzaOvenBlockEntity::new, ModBlocks.PIZZA_OVEN);
 
+    public static final BlockEntityType<BarrelBlockEntity> BARREL =
+        register("barrel", BarrelBlockEntity::new, ModBlocks.BARREL);
     public static final BlockEntityType<CheeseVatBlockEntity> CHEESE_VAT =
         register(
             "cheese_vat",

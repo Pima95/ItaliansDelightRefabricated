@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.food.FoodProperties;
@@ -898,6 +899,19 @@ public final class ModItems {
         public static final Item OLIVES = registerSimpleItem("olives", 64);
         public static final Item ALMONDS = registerSimpleItem("almonds", 64);
         public static final Item CHERRIES = registerSimpleItem("cherries", 64);
+
+        // Olive oil: a placeable fluid bucket and a non-drinkable bottle.
+        public static final ResourceKey<Item> OLIVE_OIL_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_oil_bucket"));
+        public static final Item OLIVE_OIL_BUCKET = register(
+                OLIVE_OIL_BUCKET_KEY,
+                properties -> new BucketItem(ModFluids.OLIVE_OIL_STILL, properties),
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+        public static final ResourceKey<Item> OLIVE_OIL_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_oil_bottle"));
+        public static final Item OLIVE_OIL_BOTTLE = register(
+                OLIVE_OIL_BOTTLE_KEY,
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
 
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(
