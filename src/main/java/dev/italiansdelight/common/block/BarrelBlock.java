@@ -6,6 +6,8 @@ import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
 import dev.italiansdelight.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -67,8 +69,11 @@ public final class BarrelBlock extends BaseEntityBlock {
     }
 
     private static void reportAmount(Player player, BarrelBlockEntity barrel) {
-        player.displayClientMessage(Component.translatable("message.italiansdelight.barrel.amount",
-            barrel.getOliveOilAmount(), BarrelBlockEntity.CAPACITY), true);
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(
+                Component.translatable("message.italiansdelight.barrel.amount",
+                    barrel.getOliveOilAmount(), BarrelBlockEntity.CAPACITY)));
+        }
     }
 
     @Override
