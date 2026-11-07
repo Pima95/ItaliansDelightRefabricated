@@ -1,6 +1,7 @@
 package dev.italiansdelight.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.world.level.block.Blocks;
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
@@ -26,8 +27,11 @@ public final class FluidCauldronRenderer
         state.amount = entity.getAmount();
         state.fluidId = entity.getFluidId();
         // The same biome tint vanilla uses on a water cauldron.
-        state.waterTint = BlockTintSources.water().colorInWorld(
-            Blocks.WATER_CAULDRON.defaultBlockState(), entity.getLevel(), entity.getBlockPos());
+        // ClientLevel implements BlockAndTintGetter; generic Level does not.
+        state.waterTint = Minecraft.getInstance().level == null ? 0xFF3F76E4 :
+            BlockTintSources.water().colorInWorld(
+                Blocks.WATER_CAULDRON.defaultBlockState(),
+                Minecraft.getInstance().level, entity.getBlockPos());
     }
     @Override public void submit(State state, PoseStack stack, SubmitNodeCollector queue,
                                  CameraRenderState camera) {
