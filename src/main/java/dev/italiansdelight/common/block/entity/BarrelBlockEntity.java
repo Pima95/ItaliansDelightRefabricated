@@ -3,6 +3,11 @@ package dev.italiansdelight.common.block.entity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -32,14 +37,14 @@ public final class BarrelBlockEntity extends BlockEntity {
             (amount > 0 && !fluidId.equals(id))) return false;
         fluidId = id;
         amount += volume;
-        setChanged();
+        changedAndSync();
         return true;
     }
     public boolean extract(int volume) {
         if (volume <= 0 || volume > amount) return false;
         amount -= volume;
         if (amount == 0) fluidId = "";
-        setChanged();
+        changedAndSync();
         return true;
     }
     public void preserveContents(ItemStack stack, HolderLookup.Provider registries) {
@@ -49,6 +54,22 @@ public final class BarrelBlockEntity extends BlockEntity {
         data.putInt("Amount", amount);
         BlockItem.setBlockEntityData(stack, getType(), data);
     }
+    private void changedAndSync() {
+        setChanged();
+        if (level != null && !level.isClientSide()) {
+            BlockState state = level.getBlockState(worldPosition);
+            level.sendBlockUpdated(worldPosition, state, state, Block.UPDATE_CLIENTS);
+        }
+    }
+
+    @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
+    }
+
+    @Override public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
     @Override protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         output.putString("FluidId", fluidId);
