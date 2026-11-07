@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Orchards: medium-fast random-tick fruiting and natural-only bonemeal (Fabric 26.2).
 
-No 70% foliage exclusion is implemented yet (separately approved later).
+Only naturally eligible leaves can fruit; the rotating eligibility is 65%.
 For default randomTickSpeed=3, 20 TPS, a single given leaf is selected
 on average once every 4096/(3*20) = ~68.27 real seconds.
 """
@@ -73,5 +73,5 @@ for name in ("BasilCropBlock.java","CultivatedCardoonCropBlock.java"):
     assert "ADVANCE_CHANCE" not in s
 assert "check_orchard_growth_bonemeal.py" in WF
 print("OK: basil/cardoon not rebalanced; season/greenhouse caps still apply")
-print("OK: rotating ~70% eligibility shared by natural growth, bonemeal and harvesting")
+print("OK: rotating ~65% eligibility shared by natural growth, bonemeal and harvesting")
 print("NOTE: in-game bonemeal and simulated growth timing must be tested")

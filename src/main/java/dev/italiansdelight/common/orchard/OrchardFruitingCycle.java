@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
 /**
- * Deterministic, rotating fruit-bearing leaves: about 70% of naturally
+ * Deterministic, rotating fruit-bearing leaves: about 65% of naturally
  * eligible canopy surface leaves are productive in any one cycle.
  *
  * <p>There is no permanent "fruitful" flag or per-block save data.
@@ -17,7 +17,7 @@ import net.minecraft.world.level.Level;
  * callers must check canDevelop and air exposure first.
  */
 public final class OrchardFruitingCycle {
-    public static final int ELIGIBILITY_PERCENT = 70;
+    public static final int ELIGIBILITY_PERCENT = 65;
     public static final long CYCLE_TICKS = 4L * 24_000L;
 
     private OrchardFruitingCycle() {}

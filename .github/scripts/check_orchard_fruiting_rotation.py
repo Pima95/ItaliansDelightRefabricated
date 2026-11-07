@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Regression: rotating 70% fruiting eligibility for natural orchard leaves.
+"""Regression: rotating 65% fruiting eligibility for natural orchard leaves.
 
 The pure-Python 64-bit simulation mirrors the Java avalanche/unsigned
 selection so we can detect broken distributions or windows without loading
-Minecraft. Counts are *expected* 70%, not an exact per-tree quota.
+Minecraft. Counts are *expected* 65%, not an exact per-tree quota.
 """
 from pathlib import Path
 
@@ -24,9 +24,9 @@ def selected(x,y,z,fruit,game_time):
     offset=base % WINDOW
     window=(game_time+offset)//WINDOW
     value=mix(base ^ ((window*0x9E3779B97F4A7C15) & MASK))
-    return value%100 <70
+    return value%100 <65
 
-assert "public static final int ELIGIBILITY_PERCENT = 70;" in helper
+assert "public static final int ELIGIBILITY_PERCENT = 65;" in helper
 assert "public static final long CYCLE_TICKS = 4L * 24_000L;" in helper
 assert "long offset = Long.remainderUnsigned(base, CYCLE_TICKS);" in helper
 assert "long window = Math.floorDiv(level.getGameTime() + offset, CYCLE_TICKS);" in helper
@@ -43,11 +43,11 @@ for fruit,name in enumerate(("OLIVE","ALMOND","CHERRY")):
     samples=[(x,65,z) for x in range(-16,16) for z in range(-16,16)]
     for tick in (0,WINDOW,2*WINDOW,8*WINDOW):
         count=sum(selected(*p,fruit,tick) for p in samples)
-        assert 620<=count<=820,(name,tick,count)
+        assert 570<=count<=760,(name,tick,count)
     first=[selected(*p,fruit,0) for p in samples]
     next_cycle=[selected(*p,fruit,WINDOW) for p in samples]
     flips=sum(a!=b for a,b in zip(first,next_cycle))
-    assert 260<=flips<=600,(name,"No rotation",flips)
+    assert 300<=flips<=630,(name,"No rotation",flips)
     for p in samples[:100]:
         state=selected(*p,fruit,1200)
         assert selected(*p,fruit,1200)==state
@@ -74,7 +74,7 @@ for fruit,name in enumerate(("OLIVE","ALMOND","CHERRY")):
     assert "return InteractionResult.PASS;" in harvest
     assert "server.getRandom().nextInt(3)" in harvest, "Yields unchanged"
     assert "BooleanProperty" not in src and "fruiting_cycle" not in src
-    print(f"OK: {name}: ~70% selected, rotating per leaf; bone meal and stale-fruit harvest gated")
+    print(f"OK: {name}: ~65% selected, rotating per leaf; bone meal and stale-fruit harvest gated")
 
 for crop in ("BasilCropBlock.java","CultivatedCardoonCropBlock.java"):
     text=(JAVA/"common/block"/crop).read_text()
