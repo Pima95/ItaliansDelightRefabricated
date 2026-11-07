@@ -896,11 +896,27 @@ public final class ModItems {
 
         // Orchard fruits: Creative-only acquisition until harvesting is added.
         // Only reversible storage crafting is provided; no foods or tree drops.
+        // Rustic byproduct: apple pips. Tree planting will be added with the apple orchard.
+        public static final Item APPLE_SEEDS = registerSimpleItem("apple_seeds", 64);
+
         public static final Item OLIVES = registerSimpleItem("olives", 64);
         public static final Item ALMONDS = registerSimpleItem("almonds", 64);
         public static final Item CHERRIES = registerSimpleItem("cherries", 64);
 
         // Olive oil: a placeable fluid bucket and a non-drinkable bottle.
+        public static final ResourceKey<Item> APPLE_JUICE_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bucket"));
+        public static final Item APPLE_JUICE_BUCKET = register(
+                APPLE_JUICE_BUCKET_KEY,
+                properties -> new BucketItem(ModFluids.APPLE_JUICE_STILL, properties),
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+
+        public static final ResourceKey<Item> APPLE_JUICE_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bottle"));
+        public static final Item APPLE_JUICE_BOTTLE = register(
+                APPLE_JUICE_BOTTLE_KEY,
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+
         public static final ResourceKey<Item> OLIVE_OIL_BUCKET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_oil_bucket"));
         public static final Item OLIVE_OIL_BUCKET = register(

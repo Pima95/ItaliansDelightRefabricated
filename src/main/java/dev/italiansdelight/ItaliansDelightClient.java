@@ -132,6 +132,16 @@ public class ItaliansDelightClient implements ClientModInitializer {
                 BlockTintSources.constant(ARGB.opaque(0xFFFFFF))
             )
         );
+        FluidRenderingRegistry.register(
+            ModFluids.APPLE_JUICE_STILL,
+            ModFluids.APPLE_JUICE_FLOWING,
+            new FluidModel.Unbaked(
+                new Material(ModRegistries.id("block/fluids/apple_juice_still")),
+                new Material(ModRegistries.id("block/fluids/apple_juice_flow")),
+                new Material(ModRegistries.id("block/fluids/apple_juice_overlay")),
+                BlockTintSources.constant(ARGB.opaque(0xFFFFFF))
+            )
+        );
         // Almond and Fruit Cherry react to foliage biome colors independently.
         // Olive, both saplings, and the rest of the orchard art remain untinted.
         BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);

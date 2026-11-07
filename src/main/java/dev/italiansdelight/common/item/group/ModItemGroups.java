@@ -181,6 +181,9 @@ public final class ModItemGroups {
                 // Serene Seasons integration follows after in-game testing.
                 // Crates pack the existing orchard fruit items.
                 output.accept(ModItems.OLIVES);
+                output.accept(ModItems.APPLE_SEEDS);
+                output.accept(ModItems.APPLE_JUICE_BUCKET);
+                output.accept(ModItems.APPLE_JUICE_BOTTLE);
                  output.accept(ModItems.OLIVE_OIL_BUCKET);
                  output.accept(ModItems.OLIVE_OIL_BOTTLE);
                 output.accept(ModItems.ALMONDS);

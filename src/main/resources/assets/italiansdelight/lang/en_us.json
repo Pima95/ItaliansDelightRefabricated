@@ -358,5 +358,9 @@
   "block.italiansdelight.almond_barrel": "Almond Liquid Barrel",
   "block.italiansdelight.almond_crushing_tub": "Almond Crushing Tub",
   "block.italiansdelight.fruit_cherry_barrel": "Fruit Cherry Liquid Barrel",
-  "block.italiansdelight.fruit_cherry_crushing_tub": "Fruit Cherry Crushing Tub"
+  "block.italiansdelight.fruit_cherry_crushing_tub": "Fruit Cherry Crushing Tub",
+  "item.italiansdelight.apple_seeds": "Apple Seeds",
+  "item.italiansdelight.apple_juice_bucket": "Apple Juice Bucket",
+  "item.italiansdelight.apple_juice_bottle": "Apple Juice Bottle",
+  "block.italiansdelight.apple_juice_fluid": "Apple Juice"
 }

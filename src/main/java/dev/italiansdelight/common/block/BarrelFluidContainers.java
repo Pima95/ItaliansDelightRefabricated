@@ -19,6 +19,8 @@ public final class BarrelFluidContainers {
     public record Portion(String id, int amount, Item empty) {}
 
     public static Portion filledContainer(ItemStack stack) {
+        if (stack.is(ModItems.APPLE_JUICE_BOTTLE))
+            return new Portion("italiansdelight:apple_juice", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.OLIVE_OIL_BOTTLE))
             return new Portion("italiansdelight:olive_oil", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.WHEY_BOTTLE))
@@ -48,6 +50,8 @@ public final class BarrelFluidContainers {
 
     public static ItemStack makeFilled(String id, int size) {
         if (size == 250) {
+            if ("italiansdelight:apple_juice".equals(id))
+                return new ItemStack(ModItems.APPLE_JUICE_BOTTLE);
             if ("italiansdelight:olive_oil".equals(id)) return new ItemStack(ModItems.OLIVE_OIL_BOTTLE);
             if ("italiansdelight:whey".equals(id)) return new ItemStack(ModItems.WHEY_BOTTLE);
             if ("minecraft:water".equals(id)) return PotionContents.createItemStack(Items.POTION, Potions.WATER);

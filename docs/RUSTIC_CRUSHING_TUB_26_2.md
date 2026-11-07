@@ -20,7 +20,7 @@ Original Rustic 1.12.2 repository `src/main/java/rustic/common/crafting/Recipes.
 Source: https://github.com/cadaverous-eris/Rustic/blob/master/src/main/java/rustic/common/crafting/Recipes.java
 
 ## Engine in this commit
-- **Already operable:** olive -> 250mB olive oil; sugar cane -> 250mB water and 2 sugar.
+- **Already operable:** olive -> 250mB olive oil; apple -> 250mB apple juice and one apple seed; sugar cane -> 250mB water and 2 sugar.
 - One ingredient per landing; only server processes an actual living entity fall.
 - Up to 64 same-type ingredients, and up to 8,000mB one fluid in the same tub.
 - Right-click with ingredients to deposit; right-click empty hand to retrieve unprocessed items;
@@ -30,8 +30,7 @@ Source: https://github.com/cadaverous-eris/Rustic/blob/master/src/main/java/rust
   on insert; input stack and fluid are persisted and synchronized by the block entity.
 - Original hollow collision and all 15 wood assets unchanged.
 - Dropped block returns unprocessed input; consumed ingredients remain consumed.
-- Apple juice and other missing fluids are **not** approximated as water/oil.
-  Their recipes are deferred until their real fluid IDs and assets are added.
+- Apple juice is a distinct registered still/flowing fluid with Rustic's animated sprites, own vanilla-shaped recolored bucket and potion-style bottle. The seed byproduct is currently an item; planting apple trees is a separate future feature. Other missing fruits remain deferred, never approximated as water.
 - The old static `check_crushing_tub_26_2.py` needs updating: the tub is no longer an empty
   decorative `Block`, but a `BaseEntityBlock` with persistent state.
 
@@ -42,3 +41,5 @@ Source: https://github.com/cadaverous-eris/Rustic/blob/master/src/main/java/rust
 4. Put sugar cane into an empty tub; every jump adds 250mB water and drops 2 sugar.
 5. Use bottles, empty hand and shift-empty-hand with 15 wood tubs.
 6. Reload the world while the tub holds items and fluid; verify exact quantities.
+
+- Fluid PNG sprites imported from Rustic 1.12.2 (source: https://github.com/cadaverous-eris/Rustic) consistent with the existing olive-oil art. Vanilla water bucket recolored ONLY in the liquid palette for apple juice; metal kept identical. All new bucket/item pixels alpha 0/255.

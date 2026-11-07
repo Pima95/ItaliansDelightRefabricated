@@ -358,5 +358,9 @@
   "block.italiansdelight.almond_barrel": "Barile per liquidi in mandorlo",
   "block.italiansdelight.almond_crushing_tub": "Tino di pigiatura in mandorlo",
   "block.italiansdelight.fruit_cherry_barrel": "Barile per liquidi in ciliegio da frutto",
-  "block.italiansdelight.fruit_cherry_crushing_tub": "Tino di pigiatura in ciliegio da frutto"
+  "block.italiansdelight.fruit_cherry_crushing_tub": "Tino di pigiatura in ciliegio da frutto",
+  "item.italiansdelight.apple_seeds": "Semi di mela",
+  "item.italiansdelight.apple_juice_bucket": "Secchio di succo di mela",
+  "item.italiansdelight.apple_juice_bottle": "Bottiglia di succo di mela",
+  "block.italiansdelight.apple_juice_fluid": "Succo di mela"
 }

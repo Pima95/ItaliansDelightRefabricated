@@ -828,6 +828,15 @@ public final class ModBlocks {
             .setId(BARREL_KEY).noOcclusion().randomTicks().strength(2.0F, 3.0F))
     );
 
+    // Apple juice created by the Rustic Crushing Tub; real source/flowing liquid.
+    public static final ResourceKey<Block> APPLE_JUICE_FLUID_BLOCK_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("apple_juice_fluid"));
+    public static final Block APPLE_JUICE_FLUID_BLOCK = registerBlockOnly(
+        APPLE_JUICE_FLUID_BLOCK_KEY,
+        new LiquidBlock(ModFluids.APPLE_JUICE_STILL,
+            Block.Properties.ofFullCopy(Blocks.WATER).setId(APPLE_JUICE_FLUID_BLOCK_KEY))
+    );
+
     // Keep the old IDs as Oak; register fourteen additional Rustic vessel wood types.
     public static final Block SPRUCE_CRUSHING_TUB = registerCrushingTubVariant("spruce");
     public static final Block SPRUCE_BARREL = registerBarrelVariant("spruce");

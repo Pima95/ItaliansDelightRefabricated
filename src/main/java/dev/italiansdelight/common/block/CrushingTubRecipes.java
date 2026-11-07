@@ -30,6 +30,9 @@ public final class CrushingTubRecipes {
         if (stack.isEmpty()) return null;
         if (stack.is(ModItems.OLIVES))
             return new Recipe("italiansdelight:olive_oil", STANDARD_AMOUNT, ItemStack.EMPTY);
+        if (stack.is(Items.APPLE))
+            return new Recipe("italiansdelight:apple_juice", STANDARD_AMOUNT,
+                new ItemStack(ModItems.APPLE_SEEDS));
         if (stack.is(Items.SUGAR_CANE))
             return new Recipe("minecraft:water", STANDARD_AMOUNT, new ItemStack(Items.SUGAR, 2));
         return null;

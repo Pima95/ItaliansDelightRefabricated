@@ -31,6 +31,8 @@ public final class LiquidSurfaceVisuals {
         Identifier.withDefaultNamespace("block/water_still"), 0xFFFFFFFF);
     private static final Map<String, Surface> SURFACES = new ConcurrentHashMap<>(Map.of(
         "minecraft:water", WATER,
+        "italiansdelight:apple_juice",
+            new Surface(ModRegistries.id("block/fluids/apple_juice_still"), 0xFFFFFFFF),
         "italiansdelight:olive_oil",
             new Surface(ModRegistries.id("block/fluids/olive_oil_still"), 0xFFFFFFFF),
         "minecraft:milk", staticSurface("milk"),
