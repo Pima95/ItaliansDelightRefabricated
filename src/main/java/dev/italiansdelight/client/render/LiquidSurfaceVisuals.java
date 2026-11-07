@@ -49,7 +49,12 @@ public final class LiquidSurfaceVisuals {
         SURFACES.put(fluidId, new Surface(stillSprite, tint));
     }
 
-    /** Opaque, textured top face: same colored atlas sprite as the world fluid. */
+    /**
+     * Animated fluid surface from the vanilla blocks atlas.
+     * Water in Minecraft 26.2 has a native sprite opacity of 180/255;
+     * use a translucent pass so this alpha is preserved (as in vanilla
+     * water cauldrons). Other liquids keep their prior cutout pass.
+     */
     public static void submit(
         String fluidId, int amount, int capacity, float x0, float x1,
         float z0, float z1, float minY, float maxY, int waterTint,
@@ -61,14 +66,20 @@ public final class LiquidSurfaceVisuals {
         TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager()
             .getAtlasOrThrow(AtlasIds.BLOCKS).getSprite(surface.sprite());
         float y = minY + (maxY - minY) * Math.min(1F, (float) amount / capacity);
-        int color = "minecraft:water".equals(fluidId)
+        boolean water = "minecraft:water".equals(fluidId);
+        // Preserve native water-sprite alpha (180/255) instead of forcing
+        // opaque pixels. Its biome tint only adjusts RGB, not opacity.
+        int color = water
             ? 0xFF000000 | (waterTint & 0xFFFFFF)
             : surface.tint();
 
-        // The cutout atlas render path follows the vanilla cauldron model.
-        // Never blend this opaque liquid plane with the wood/iron below.
+        // entityCutout discards/blunts the fractional alpha of water_still.
+        // The translucent atlas pass retains it, revealing the wooden bottom
+        // of all Barrel variants exactly as the vanilla cauldron reveals iron.
+        // Keep all non-water fluids on the previous rendering path.
         queue.submitCustomGeometry(stack,
-            RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS),
+            water ? RenderTypes.entityTranslucent(TextureAtlas.LOCATION_BLOCKS)
+                  : RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS),
             (pose, out) -> {
                 // Counter-clockwise looking from above (upward winding).
                 vertex(pose, out, x0, y, z1, sprite.getU0(), sprite.getV1(), color, packedLight);
