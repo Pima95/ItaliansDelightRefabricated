@@ -76,6 +76,8 @@ jobs:
         run: python3 .github/scripts/check_orchard_wood_assets.py
       - name: Audit every standard crafting recipe and all Olive Wood craft patterns
         run: python3 .github/scripts/check_all_crafting_26_2.py
+      - name: Verify Rustic Crushing Tub model, item, recipe and physical block
+        run: python3 .github/scripts/check_crushing_tub_26_2.py
       - name: Verify original Fruit Cherry standing and hanging signs
         run: python3 .github/scripts/check_fruit_cherry_signs.py
       - name: Verify Fruit Cherry shelf, cabinet and cheese-aging rack

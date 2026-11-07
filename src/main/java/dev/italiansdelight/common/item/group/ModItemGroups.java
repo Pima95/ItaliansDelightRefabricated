@@ -47,6 +47,7 @@ public final class ModItemGroups {
                 // WORKSTATIONS: preparation blocks first, followed by all
                 // 12 wooden rack variants (no non-obtainable technical blocks).
                 output.accept(ModBlocks.CHEESE_VAT);
+                output.accept(ModBlocks.CRUSHING_TUB);
                 output.accept(ModBlocks.CHEESE_HOOK);
                 output.accept(ModBlocks.PIZZA_OVEN);
 

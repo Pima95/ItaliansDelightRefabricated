@@ -1,5 +1,6 @@
 package dev.italiansdelight.common.registry;
 
+import dev.italiansdelight.common.block.CrushingTubBlock;
 import dev.italiansdelight.common.block.CheeseVatBlock;
 import dev.italiansdelight.common.block.CheeseHookBlock;
 import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
@@ -800,6 +801,19 @@ public final class ModBlocks {
         PIZZA_OVEN_KEY,
         new PizzaOvenBlock(Block.Properties.ofFullCopy(Blocks.FURNACE)
             .setId(PIZZA_OVEN_KEY).strength(3.5F)));
+
+    // Rustic-inspired Crushing Tub — geometry and crafting only.
+    // Registry helper automatically creates the matching placeable BlockItem.
+    public static final ResourceKey<Block> CRUSHING_TUB_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("crushing_tub")
+    );
+    public static final Block CRUSHING_TUB = register(
+        CRUSHING_TUB_KEY,
+        new CrushingTubBlock(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .setId(CRUSHING_TUB_KEY)
+            .noOcclusion()
+            .strength(2.0F, 3.0F))
+    );
 
     // Cheese Vat Block
     public static final ResourceKey<Block> CHEESE_VAT_KEY =
