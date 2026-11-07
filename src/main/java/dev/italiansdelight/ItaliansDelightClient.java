@@ -6,6 +6,10 @@ import dev.italiansdelight.common.registry.ModFluids;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
 import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.resources.model.sprite.Material;
+import dev.italiansdelight.common.registry.ModFluids;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
+import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.util.ARGB;
 import java.util.List;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
@@ -118,6 +122,16 @@ public class ItaliansDelightClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        // Author's Rustic olive-oil textures: actual fluid blocks are visible in the world.
+        FluidRenderingRegistry.register(
+            ModFluids.OLIVE_OIL_STILL, ModFluids.OLIVE_OIL_FLOWING,
+            new FluidModel.Unbaked(
+                new Material(ModRegistries.id("block/fluids/olive_oil_still")),
+                new Material(ModRegistries.id("block/fluids/olive_oil_flow")),
+                new Material(ModRegistries.id("block/fluids/olive_oil_overlay")),
+                BlockTintSources.constant(0xFFFFFFFF)
+            )
+        );
         // The authored Rustic oil frames are already under textures/block/fluids.
         FluidRenderingRegistry.register(
             ModFluids.OLIVE_OIL_STILL,

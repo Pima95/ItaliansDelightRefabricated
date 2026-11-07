@@ -8,6 +8,7 @@ import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModFluids;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.block.OliveOilCauldronInteractions;
 import dev.italiansdelight.common.registry.ModSigns;
 import dev.italiansdelight.common.registry.ModBoats;
 import dev.italiansdelight.common.item.group.ModItemGroups;
@@ -63,6 +64,7 @@ public class ItaliansDelight implements ModInitializer {
         ModWorldGeneration.register();
 
         SaltCauldronManager.register();
+        OliveOilCauldronInteractions.register();
 
         LOGGER.info("[Italian's Delight] Pronta! Buon appetito.");
     }

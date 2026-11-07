@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CrushingTubBlock;
+import dev.italiansdelight.common.block.OliveOilCauldronBlock;
 import dev.italiansdelight.common.block.BarrelBlock;
 import dev.italiansdelight.common.block.CheeseVatBlock;
 import dev.italiansdelight.common.block.CheeseHookBlock;
@@ -833,6 +834,15 @@ public final class ModBlocks {
         OLIVE_OIL_FLUID_BLOCK_KEY,
         new LiquidBlock(ModFluids.OLIVE_OIL_STILL,
             Block.Properties.ofFullCopy(Blocks.WATER).setId(OLIVE_OIL_FLUID_BLOCK_KEY))
+    );
+
+    // Filled olive-oil cauldron is a technical block, not a separately crafted item.
+    public static final ResourceKey<Block> OLIVE_OIL_CAULDRON_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_oil_cauldron"));
+    public static final Block OLIVE_OIL_CAULDRON = registerBlockOnly(
+        OLIVE_OIL_CAULDRON_KEY,
+        new OliveOilCauldronBlock(Block.Properties.ofFullCopy(Blocks.CAULDRON)
+            .setId(OLIVE_OIL_CAULDRON_KEY).noOcclusion())
     );
 
     // Cheese Vat Block

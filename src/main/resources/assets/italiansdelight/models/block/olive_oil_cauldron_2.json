@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "minecraft:block/cauldron_side",
+    "oil": "italiansdelight:block/fluids/olive_oil_still"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        7,
+        2
+      ],
+      "to": [
+        14,
+        7.1,
+        14
+      ],
+      "faces": {
+        "up": {
+          "texture": "#oil",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      }
+    }
+  ]
+}
