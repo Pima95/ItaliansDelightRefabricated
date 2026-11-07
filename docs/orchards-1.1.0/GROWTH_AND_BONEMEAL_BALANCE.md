@@ -67,8 +67,8 @@ crescita.
 - **Texture**, colore del bioma, foglie autunnali/invernali,
   sistema serre, frutti/drop e ricrescita dopo la raccolta:
   invariati.
-- **Selezione del 70% di foglie produttive**: **IMPLEMENTATA**.
-  Circa il 70% delle foglie naturali esposte può portare fiori e
+- **Selezione del 65% di foglie produttive**: **IMPLEMENTATA**.
+  Circa il 65% delle foglie naturali esposte può portare fiori e
   frutti in una finestra di crescita; la selezione cambia nel tempo.
   La percentuale è statistica, non una quota esatta per ogni albero.
 
@@ -86,7 +86,7 @@ crescita.
 - [ ] A `randomTickSpeed 3`, misurare più blocchi di foglie;
       i tempi reali sono statistici e dipendono dal tick rate.
 
-## Rotazione del 70% delle foglie produttive — implementazione approvata
+## Rotazione del 65% delle foglie produttive — implementazione approvata
 
 **Scopo:** rendere i raccolti equilibrati e l'aspetto naturale, evitando
 che tutte le foglie della superficie dell'albero maturino insieme.
@@ -100,8 +100,8 @@ condizioni continuano a escludere sia le foglie interne
 sia quelle posizionate manualmente dal giocatore.
 
 Fra le sole foglie così idonee, una selezione pseudocasuale
-deterministica sceglie **circa il 70%** come *produttive*
-e lascia temporaneamente il rimanente **30% inattivo**.
+deterministica sceglie **circa il 65%** come *produttive*
+e lascia temporaneamente il rimanente **35% inattivo**.
 
 - La selezione è stabile per ogni singola foglia durante una
   finestra di **quattro giorni Minecraft** (`96.000 game tick`:
@@ -112,12 +112,12 @@ e lascia temporaneamente il rimanente **30% inattivo**.
   contemporaneamente in tutta la chioma.
 - Ad ogni finestra ciascuna foglia riceve un nuovo risultato.
   Un albero non conserverà quindi sempre le stesse foglie fruttifere:
-  per ogni passaggio di finestra circa il 42% delle posizioni
+  per ogni passaggio di finestra circa il 45,5% delle posizioni
   cambia stato in media.
 - La probabilità è **indipendente per ogni foglia**, non viene
   calcolata una lista precisa di blocchi per singolo albero.
   Un albero piccolo può quindi avere, in un dato momento, una
-  percentuale superiore o inferiore al 70%.
+  percentuale superiore o inferiore al 65%.
 - L'algoritmo usa la **posizione**, la specie e il **tempo di gioco
   persistente**, non un numero random ad ogni tick.
   La selezione è stabile tra salvataggi e ricariche e coerente
