@@ -67,6 +67,9 @@ public final class BarrelBlock extends BaseEntityBlock {
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         BarrelFluidContainers.Portion fluid = BarrelFluidContainers.filledContainer(held);
         boolean emptyBucket = held.is(Items.BUCKET), emptyBottle = held.is(Items.GLASS_BOTTLE);
+        // Rustic barrels reject hot lava. Do not pass to BucketItem: that
+        // would spill an otherwise rejected lava bucket beside the wooden tank.
+        if (held.is(Items.LAVA_BUCKET)) return InteractionResult.SUCCESS;
         if (fluid == null && !emptyBucket && !emptyBottle) return InteractionResult.PASS;
         if (player.isSpectator()) return InteractionResult.PASS;
         if (level.isClientSide()) return InteractionResult.SUCCESS;

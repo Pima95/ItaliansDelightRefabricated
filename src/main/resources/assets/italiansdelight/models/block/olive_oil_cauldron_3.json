@@ -3,7 +3,7 @@
   "ambientocclusion": false,
   "textures": {
     "particle": "minecraft:block/cauldron_side",
-    "oil": "italiansdelight:block/fluids/olive_oil_still"
+    "oil": "italiansdelight:block/liquid_surface/olive_oil"
   },
   "elements": [
     {

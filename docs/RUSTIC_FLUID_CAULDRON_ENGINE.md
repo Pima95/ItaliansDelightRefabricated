@@ -19,3 +19,11 @@
 6. Confirm no transfer into a tank already holding a different liquid.
 7. Confirm the oil source fluid remains placeable in the world like Rustic.
 8. Inspect exact metal colors and pixel geometry of the recolored vanilla bucket.
+
+## Rustic source parity and limitations
+- The uploaded `barrel.json` was Rustic's CLOSED barrel (6 elements). Rustic's actual `liquid_barrel.json` has 5 elements; ours matches the liquid one.
+- Rustic's fluid top surface height was exactly 2/16 + 13/16 * (amount / 16000); the renderer now uses that formula.
+- Oil and the Rustic juices/honey have world fluid blocks in Rustic 1.12.2; some fermented beverages are only tank/fluid objects.
+- Vanilla water surface uses vanilla `minecraft:textures/block/water_still.png`; oil renders the author's own `olive_oil_still` texture.
+- `LiquidSurfaceVisuals.registerSurface(fluidId, texture, frameCount, tint)` enables future fluid art without modifying vessel renderer code.
+- The filled legacy `olive_oil_cauldron` block is retained for existing worlds. The new generic block is used for all newly filled custom-fluid cauldrons.

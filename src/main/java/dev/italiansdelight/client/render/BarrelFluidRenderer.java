@@ -28,7 +28,7 @@ public final class BarrelFluidRenderer
                                  CameraRenderState camera) {
         LiquidSurfaceVisuals.submit(state.fluidId, state.amount, BarrelBlockEntity.CAPACITY,
             3.01F/16F, 12.99F/16F, 3.01F/16F, 12.99F/16F,
-            2.02F/16F, 13.90F/16F, state.lightCoords, stack, queue);
+            2.00F/16F, 15.00F/16F, state.lightCoords, stack, queue);
     }
     public static final class State extends BlockEntityRenderState {
         private String fluidId = "";
