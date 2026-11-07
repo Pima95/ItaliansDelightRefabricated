@@ -20,7 +20,7 @@ assert model["parent"]=="minecraft:block/block"
 assert model["textures"]=={
     "0":"minecraft:block/oak_planks",
     "1":"italiansdelight:block/crushing_tub_oak",
-    "particle":"italiansdelight:block/crushing_tub"
+    "particle":"italiansdelight:block/crushing_tub_oak"
 }
 assert set(model["textures"].values()) == {
     "minecraft:block/oak_planks","italiansdelight:block/crushing_tub_oak"
