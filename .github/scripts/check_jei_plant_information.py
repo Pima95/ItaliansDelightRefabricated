@@ -58,7 +58,12 @@ for content,key in entries:
         txt=lang[key]
         assert isinstance(txt,str) and len(txt)>150,(locale,plant)
         assert "\n\n" in txt,(locale,plant,"must have paragraphs and natural JEI scroll")
-        assert "65%" in txt if plant in {"olive","almond","fruit_cherry"} else "farina d'ossa" in txt if locale=="it_it" else "bone meal" in txt
+        if plant in {"olive", "almond", "fruit_cherry"}:
+            assert "65%" in txt, (locale, plant)
+        elif locale=="it_it":
+            assert "farina d'ossa" in txt.lower(), (locale, plant)
+        else:
+            assert "bone meal" in txt.lower(), (locale, plant)
         assert "Serene Seasons" in txt,(locale,plant)
         assert "Crushing Tub" not in txt and "crushing tub" not in txt.lower(),(locale,plant)
 
