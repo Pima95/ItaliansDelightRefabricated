@@ -36,7 +36,7 @@ public final class BarrelFluidContainers {
             // Minecraft 26.2 has no public BucketItem.getFluid(): resolve by the
             // registered SOURCE fluid's actual bucket item, supporting future fluids.
             for (Fluid fluid : BuiltInRegistries.FLUID) {
-                if (fluid.isSource(fluid.defaultFluidState()) &&
+                if (fluid != Fluids.LAVA && fluid.isSource(fluid.defaultFluidState()) &&
                     fluid.getBucket() == stack.getItem()) {
                     Identifier id = BuiltInRegistries.FLUID.getKey(fluid);
                     if (id != null) return new Portion(id.toString(), 1000, Items.BUCKET);

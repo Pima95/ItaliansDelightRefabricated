@@ -1,6 +1,6 @@
 # Rustic barrel / olive oil — Minecraft 26.2
 - Open Barrel: bottom + four walls; 16,000 mB; single fluid type, no mixing.
-- All standard BucketItem fluids (water, lava, oil and future registered source fluids), plus vanilla water bottles, milk, sheep milk and whey.
+- All standard BucketItem fluids (water, oil and future registered compatible source fluids), plus vanilla water bottles, milk, sheep milk and whey.
 - 250 mB bottles; 1,000 mB buckets. Save, reload, and dropped Barrel item retain type and amount; old OliveOilAmount is migrated.
 - Rainwater in empty/water barrels. No mixing rainwater into other fluids.
 - Bucket uses a vanilla empty bucket metal sprite with a yellow olive liquid overlay; bottle uses vanilla potion sprite with constant golden olive tint.
@@ -17,3 +17,5 @@
 7. Creative inventory and JEI remain intact. Check no crashes with the previous world save.
 
 Known limitation: custom modded bottle item types require an explicit container adapter; most fluid buckets work automatically.
+
+- Rustic safety behavior: vanilla lava is not accepted by the wooden liquid barrel; future hot/gaseous modded fluids need explicit classification before they are enabled.
