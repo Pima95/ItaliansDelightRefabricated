@@ -7,8 +7,8 @@
     "PSP"
   ],
   "key": {
-    "P": "#minecraft:planks",
-    "S": "#minecraft:wooden_slabs",
+    "P": "minecraft:oak_planks",
+    "S": "minecraft:oak_slab",
     "I": "minecraft:iron_ingot"
   },
   "result": {

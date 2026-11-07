@@ -47,8 +47,37 @@ public final class ModItemGroups {
                 // WORKSTATIONS: preparation blocks first, followed by all
                 // 12 wooden rack variants (no non-obtainable technical blocks).
                 output.accept(ModBlocks.CHEESE_VAT);
+                // The original workstation IDs are Oak variants.
                 output.accept(ModBlocks.CRUSHING_TUB);
-                 output.accept(ModBlocks.BARREL);
+                output.accept(ModBlocks.SPRUCE_CRUSHING_TUB);
+                output.accept(ModBlocks.BIRCH_CRUSHING_TUB);
+                output.accept(ModBlocks.JUNGLE_CRUSHING_TUB);
+                output.accept(ModBlocks.ACACIA_CRUSHING_TUB);
+                output.accept(ModBlocks.DARK_OAK_CRUSHING_TUB);
+                output.accept(ModBlocks.MANGROVE_CRUSHING_TUB);
+                output.accept(ModBlocks.CHERRY_CRUSHING_TUB);
+                output.accept(ModBlocks.PALE_OAK_CRUSHING_TUB);
+                output.accept(ModBlocks.BAMBOO_CRUSHING_TUB);
+                output.accept(ModBlocks.CRIMSON_CRUSHING_TUB);
+                output.accept(ModBlocks.WARPED_CRUSHING_TUB);
+                output.accept(ModBlocks.OLIVE_CRUSHING_TUB);
+                output.accept(ModBlocks.ALMOND_CRUSHING_TUB);
+                output.accept(ModBlocks.FRUIT_CHERRY_CRUSHING_TUB);
+                output.accept(ModBlocks.BARREL);
+                output.accept(ModBlocks.SPRUCE_BARREL);
+                output.accept(ModBlocks.BIRCH_BARREL);
+                output.accept(ModBlocks.JUNGLE_BARREL);
+                output.accept(ModBlocks.ACACIA_BARREL);
+                output.accept(ModBlocks.DARK_OAK_BARREL);
+                output.accept(ModBlocks.MANGROVE_BARREL);
+                output.accept(ModBlocks.CHERRY_BARREL);
+                output.accept(ModBlocks.PALE_OAK_BARREL);
+                output.accept(ModBlocks.BAMBOO_BARREL);
+                output.accept(ModBlocks.CRIMSON_BARREL);
+                output.accept(ModBlocks.WARPED_BARREL);
+                output.accept(ModBlocks.OLIVE_BARREL);
+                output.accept(ModBlocks.ALMOND_BARREL);
+                output.accept(ModBlocks.FRUIT_CHERRY_BARREL);
                 output.accept(ModBlocks.CHEESE_HOOK);
                 output.accept(ModBlocks.PIZZA_OVEN);
 

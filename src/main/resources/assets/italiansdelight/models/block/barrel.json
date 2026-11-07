@@ -1,10 +1,10 @@
 {
-  "__comment": "Rustic model: four walls and visible bottom; intentionally no lid.",
+  "__comment": "Current Minecraft 26.2 oak plank palette; iron bands cover all sampled corner pixels; Rustic geometry retained.",
   "parent": "minecraft:block/block",
   "textures": {
     "0": "minecraft:block/oak_planks",
-    "1": "italiansdelight:block/brewing_barrel_side",
-    "particle": "italiansdelight:block/brewing_barrel_side"
+    "1": "italiansdelight:block/barrel_oak",
+    "particle": "italiansdelight:block/barrel_oak"
   },
   "elements": [
     {

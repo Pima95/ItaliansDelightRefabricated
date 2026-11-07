@@ -4,10 +4,7 @@ import java.util.List;
 import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -50,17 +47,10 @@ public final class BarrelBlock extends BaseEntityBlock {
                                          CollisionContext ctx) { return SHAPE; }
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
                                                   CollisionContext ctx) { return SHAPE; }
+    // Full/mixed barrels silently reject insertion; no debug action-bar messages.
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level,
             BlockPos pos, Player player, BlockHitResult hit) {
-        if (!level.isClientSide() && level.getBlockEntity(pos) instanceof BarrelBlockEntity tank)
-            report(player, tank);
         return InteractionResult.SUCCESS;
-    }
-    private static void report(Player player, BarrelBlockEntity tank) {
-        if (player instanceof ServerPlayer server)
-            server.connection.send(new ClientboundSetActionBarTextPacket(
-                Component.translatable("message.italiansdelight.barrel.contents",
-                    tank.isEmpty() ? "-" : tank.getFluidId(), tank.getAmount(), BarrelBlockEntity.CAPACITY)));
     }
 
     @Override protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level,
@@ -80,7 +70,6 @@ public final class BarrelBlock extends BaseEntityBlock {
         ItemStack result = deposit ? new ItemStack(fluid.empty()) :
             BarrelFluidContainers.makeFilled(tank.getFluidId(), volume);
         if (result.isEmpty() || !(deposit ? tank.insert(fluid.id(), volume) : tank.extract(volume))) {
-            report(player, tank);
             return InteractionResult.SUCCESS;
         }
         player.setItemInHand(hand, ItemUtils.createFilledResult(held, player, result));

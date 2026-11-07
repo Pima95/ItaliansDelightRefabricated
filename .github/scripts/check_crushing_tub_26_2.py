@@ -19,11 +19,11 @@ model=read(A/"models/block/crushing_tub.json")
 assert model["parent"]=="minecraft:block/block"
 assert model["textures"]=={
     "0":"minecraft:block/oak_planks",
-    "1":"italiansdelight:block/crushing_tub",
+    "1":"italiansdelight:block/crushing_tub_oak",
     "particle":"italiansdelight:block/crushing_tub"
 }
 assert set(model["textures"].values()) == {
-    "minecraft:block/oak_planks","italiansdelight:block/crushing_tub"
+    "minecraft:block/oak_planks","italiansdelight:block/crushing_tub_oak"
 }
 assert [e.get("name") for e in model["elements"]]==[
     "Base","SideNorth","SideSouth","SideWest","SideEast"
@@ -53,16 +53,16 @@ assert "rustic:" not in (A/"models/item/crushing_tub.json").read_text()
 
 # The user added this 16x16 RGBA asset before supplying the source JSON.
 # Enforce existing project rule: only alpha 0 or 255, never partial alpha.
-pixels=check_rgba_pixel_art(A/"textures/block/crushing_tub.png",(16,16))
+pixels=check_rgba_pixel_art(A/"textures/block/crushing_tub_oak.png",(16,16))
 assert any(p[3]==255 for row in pixels for p in row)
 
 recipe=read(D/"italiansdelight/recipe/crushing_tub.json")
 assert recipe=={
     "type":"minecraft:crafting_shaped","category":"misc",
     "pattern":["P P","I I","SSS"],
-    "key":{"P":"#minecraft:planks",
+    "key":{"P":"minecraft:oak_planks",
            "I":"minecraft:iron_ingot",
-           "S":"#minecraft:wooden_slabs"},
+           "S":"minecraft:oak_slab"},
     "result":{"id":"italiansdelight:crushing_tub","count":1}
 }
 # Vanilla tags already include Italian's Delight's own orchard plank/slab families.
@@ -104,3 +104,24 @@ print("OK: shaped recipe uses 26.2 item tags, including Italian's Delight wood")
 print("OK: registry, creative tab, axe tag, drop and localized names")
 print("NOTE: functional crushing/juice processing is not part of the supplied files")
 print("NOTE: inspect appearance, inventory item and recipe in Minecraft")
+
+# Modern texture coverage for every vanilla and orchard wood. The old IDs are Oak.
+WOODS = ["oak","spruce","birch","jungle","acacia","dark_oak","mangrove","cherry","pale_oak","bamboo","crimson","warped","olive","almond","fruit_cherry"]
+for wood in WOODS:
+    namespace = "minecraft" if wood not in ("olive", "almond", "fruit_cherry") else "italiansdelight"
+    for kind in ("barrel", "crushing_tub"):
+        block_id = kind if wood == "oak" else wood + "_" + kind
+        model = read(A / "models/block" / (block_id + ".json"))
+        assert model["textures"]["0"] == namespace + ":block/" + wood + "_planks"
+        assert model["textures"]["1"] == "italiansdelight:block/" + kind + "_" + wood
+        pic = check_rgba_pixel_art(A / "textures/block" / (kind + "_" + wood + ".png"), (16,16))
+        assert all(px[3] == 255 for row in pic for px in row)
+        recipe = read(D / "italiansdelight/recipe" / (block_id + ".json"))
+        assert recipe["key"]["P"] == namespace + ":" + wood + "_planks"
+        assert recipe["key"]["S"] == namespace + ":" + wood + "_slab"
+        assert recipe["result"]["id"] == "italiansdelight:" + block_id
+        if wood != "oak":
+            assert read(A / "models/item" / (block_id + ".json"))["parent"] == "italiansdelight:block/" + block_id
+            assert read(A / "items" / (block_id + ".json"))["model"]["model"] == "italiansdelight:item/" + block_id
+            assert "italiansdelight:" + block_id in read(D / "minecraft/tags/block/mineable/axe.json")["values"]
+print("OK: 15 Rustic vessel wood variants, modern 26.2 art and iron-capped corners")

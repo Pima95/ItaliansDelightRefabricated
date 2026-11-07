@@ -1,11 +1,11 @@
 {
-  "__comment": "Adapted from the Rustic Crushing Tub model supplied by the project author (originally generated with MrCrayfish's Model Creator).",
+  "__comment": "Current Minecraft 26.2 oak plank palette; iron bands cover all sampled corner pixels; Rustic geometry retained.",
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
     "0": "minecraft:block/oak_planks",
-    "1": "italiansdelight:block/crushing_tub",
-    "particle": "italiansdelight:block/crushing_tub"
+    "1": "italiansdelight:block/crushing_tub_oak",
+    "particle": "italiansdelight:block/crushing_tub_oak"
   },
   "elements": [
     {

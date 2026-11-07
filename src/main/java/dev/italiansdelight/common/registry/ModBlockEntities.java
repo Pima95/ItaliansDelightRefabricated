@@ -98,6 +98,21 @@ public final class ModBlockEntities {
         // Native 26.2 shelf: register our wood variant with the same type as
         // the vanilla shelves, so three-item storage, persistence and the
         // existing shelf item renderer work on modded olive blocks.
+        BARREL.addValidBlock(ModBlocks.SPRUCE_BARREL);
+        BARREL.addValidBlock(ModBlocks.BIRCH_BARREL);
+        BARREL.addValidBlock(ModBlocks.JUNGLE_BARREL);
+        BARREL.addValidBlock(ModBlocks.ACACIA_BARREL);
+        BARREL.addValidBlock(ModBlocks.DARK_OAK_BARREL);
+        BARREL.addValidBlock(ModBlocks.MANGROVE_BARREL);
+        BARREL.addValidBlock(ModBlocks.CHERRY_BARREL);
+        BARREL.addValidBlock(ModBlocks.PALE_OAK_BARREL);
+        BARREL.addValidBlock(ModBlocks.BAMBOO_BARREL);
+        BARREL.addValidBlock(ModBlocks.CRIMSON_BARREL);
+        BARREL.addValidBlock(ModBlocks.WARPED_BARREL);
+        BARREL.addValidBlock(ModBlocks.OLIVE_BARREL);
+        BARREL.addValidBlock(ModBlocks.ALMOND_BARREL);
+        BARREL.addValidBlock(ModBlocks.FRUIT_CHERRY_BARREL);
+
         BlockEntityTypes.SHELF.addValidBlock(ModBlocks.OLIVE_SHELF);
         BlockEntityTypes.SHELF.addValidBlock(ModBlocks.ALMOND_SHELF);
         BlockEntityTypes.SHELF.addValidBlock(ModBlocks.FRUIT_CHERRY_SHELF);

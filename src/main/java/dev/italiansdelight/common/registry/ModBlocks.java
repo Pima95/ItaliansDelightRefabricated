@@ -828,6 +828,36 @@ public final class ModBlocks {
             .setId(BARREL_KEY).noOcclusion().randomTicks().strength(2.0F, 3.0F))
     );
 
+    // Keep the old IDs as Oak; register fourteen additional Rustic vessel wood types.
+    public static final Block SPRUCE_CRUSHING_TUB = registerCrushingTubVariant("spruce");
+    public static final Block SPRUCE_BARREL = registerBarrelVariant("spruce");
+    public static final Block BIRCH_CRUSHING_TUB = registerCrushingTubVariant("birch");
+    public static final Block BIRCH_BARREL = registerBarrelVariant("birch");
+    public static final Block JUNGLE_CRUSHING_TUB = registerCrushingTubVariant("jungle");
+    public static final Block JUNGLE_BARREL = registerBarrelVariant("jungle");
+    public static final Block ACACIA_CRUSHING_TUB = registerCrushingTubVariant("acacia");
+    public static final Block ACACIA_BARREL = registerBarrelVariant("acacia");
+    public static final Block DARK_OAK_CRUSHING_TUB = registerCrushingTubVariant("dark_oak");
+    public static final Block DARK_OAK_BARREL = registerBarrelVariant("dark_oak");
+    public static final Block MANGROVE_CRUSHING_TUB = registerCrushingTubVariant("mangrove");
+    public static final Block MANGROVE_BARREL = registerBarrelVariant("mangrove");
+    public static final Block CHERRY_CRUSHING_TUB = registerCrushingTubVariant("cherry");
+    public static final Block CHERRY_BARREL = registerBarrelVariant("cherry");
+    public static final Block PALE_OAK_CRUSHING_TUB = registerCrushingTubVariant("pale_oak");
+    public static final Block PALE_OAK_BARREL = registerBarrelVariant("pale_oak");
+    public static final Block BAMBOO_CRUSHING_TUB = registerCrushingTubVariant("bamboo");
+    public static final Block BAMBOO_BARREL = registerBarrelVariant("bamboo");
+    public static final Block CRIMSON_CRUSHING_TUB = registerCrushingTubVariant("crimson");
+    public static final Block CRIMSON_BARREL = registerBarrelVariant("crimson");
+    public static final Block WARPED_CRUSHING_TUB = registerCrushingTubVariant("warped");
+    public static final Block WARPED_BARREL = registerBarrelVariant("warped");
+    public static final Block OLIVE_CRUSHING_TUB = registerCrushingTubVariant("olive");
+    public static final Block OLIVE_BARREL = registerBarrelVariant("olive");
+    public static final Block ALMOND_CRUSHING_TUB = registerCrushingTubVariant("almond");
+    public static final Block ALMOND_BARREL = registerBarrelVariant("almond");
+    public static final Block FRUIT_CHERRY_CRUSHING_TUB = registerCrushingTubVariant("fruit_cherry");
+    public static final Block FRUIT_CHERRY_BARREL = registerBarrelVariant("fruit_cherry");
+
     // The fluid block itself is technical; only the bucket is visible in Creative.
     public static final ResourceKey<Block> OLIVE_OIL_FLUID_BLOCK_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_oil_fluid"));
@@ -1078,6 +1108,20 @@ public final class ModBlocks {
         );
     }
 
+    private static Block registerCrushingTubVariant(String wood) {
+        ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(),
+            ModRegistries.id(wood + "_crushing_tub"));
+        return register(key, new CrushingTubBlock(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .setId(key).noOcclusion().strength(2.0F, 3.0F)));
+    }
+
+    private static Block registerBarrelVariant(String wood) {
+        ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(),
+            ModRegistries.id(wood + "_barrel"));
+        return register(key, new BarrelBlock(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .setId(key).noOcclusion().randomTicks().strength(2.0F, 3.0F)));
+    }
+
     public static void register() {
         // Vanilla-style log stripping and fire spread: performed only after
         // the registered block fields are initialized.
@@ -1141,5 +1185,33 @@ public final class ModBlocks {
         fire.add(CHERRY_CRATE, 5, 20);
         fire.add(BASIL_CRATE, 5, 20);
         fire.add(CARDOON_CRATE, 5, 20);
+        fire.add(SPRUCE_BARREL, 5, 20);
+        fire.add(SPRUCE_CRUSHING_TUB, 5, 20);
+        fire.add(BIRCH_BARREL, 5, 20);
+        fire.add(BIRCH_CRUSHING_TUB, 5, 20);
+        fire.add(JUNGLE_BARREL, 5, 20);
+        fire.add(JUNGLE_CRUSHING_TUB, 5, 20);
+        fire.add(ACACIA_BARREL, 5, 20);
+        fire.add(ACACIA_CRUSHING_TUB, 5, 20);
+        fire.add(DARK_OAK_BARREL, 5, 20);
+        fire.add(DARK_OAK_CRUSHING_TUB, 5, 20);
+        fire.add(MANGROVE_BARREL, 5, 20);
+        fire.add(MANGROVE_CRUSHING_TUB, 5, 20);
+        fire.add(CHERRY_BARREL, 5, 20);
+        fire.add(CHERRY_CRUSHING_TUB, 5, 20);
+        fire.add(PALE_OAK_BARREL, 5, 20);
+        fire.add(PALE_OAK_CRUSHING_TUB, 5, 20);
+        fire.add(BAMBOO_BARREL, 5, 20);
+        fire.add(BAMBOO_CRUSHING_TUB, 5, 20);
+        fire.add(CRIMSON_BARREL, 5, 20);
+        fire.add(CRIMSON_CRUSHING_TUB, 5, 20);
+        fire.add(WARPED_BARREL, 5, 20);
+        fire.add(WARPED_CRUSHING_TUB, 5, 20);
+        fire.add(OLIVE_BARREL, 5, 20);
+        fire.add(OLIVE_CRUSHING_TUB, 5, 20);
+        fire.add(ALMOND_BARREL, 5, 20);
+        fire.add(ALMOND_CRUSHING_TUB, 5, 20);
+        fire.add(FRUIT_CHERRY_BARREL, 5, 20);
+        fire.add(FRUIT_CHERRY_CRUSHING_TUB, 5, 20);
     }
 }

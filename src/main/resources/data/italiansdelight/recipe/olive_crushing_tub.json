@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "P P",
+    "I I",
+    "SSS"
+  ],
+  "key": {
+    "P": "italiansdelight:olive_planks",
+    "S": "italiansdelight:olive_slab",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "italiansdelight:olive_crushing_tub",
+    "count": 1
+  }
+}
