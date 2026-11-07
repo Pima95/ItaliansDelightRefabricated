@@ -9,6 +9,7 @@ import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModFluids;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.block.FluidCauldronInteractions;
+import dev.italiansdelight.common.block.LegacyOilCauldronMigration;
 import dev.italiansdelight.common.registry.ModSigns;
 import dev.italiansdelight.common.registry.ModBoats;
 import dev.italiansdelight.common.item.group.ModItemGroups;
@@ -65,6 +66,7 @@ public class ItaliansDelight implements ModInitializer {
 
         SaltCauldronManager.register();
         FluidCauldronInteractions.register();
+        LegacyOilCauldronMigration.register();
 
         LOGGER.info("[Italian's Delight] Pronta! Buon appetito.");
     }

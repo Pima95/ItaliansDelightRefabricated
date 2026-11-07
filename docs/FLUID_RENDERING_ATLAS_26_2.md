@@ -8,3 +8,6 @@
 - **Creative middle click:** `getCloneItemStack` returns `minecraft:cauldron` from both the generic filled cauldron and legacy olive-oil cauldron.
 - **Native behavior:** no global overwrite of vanilla cauldrons; regular vanilla empty, water, and lava cauldrons still work. A custom fluid temporarily uses one technical filled block with the native metal model, as in other modded-cauldron implementations. This technical block is necessary to store arbitrary fluid type/volume without overwriting vanilla block classes.
 - **Manual verification:** check water in vanilla cauldron versus barrel in same biome/light, animated oil in all 3 positions, surface 15/16 and creative middle click; recheck existing saves and mixed liquids. The build alone cannot prove the visual result.
+
+## Old-world compatibility
+On server chunk load, `LegacyOilCauldronMigration` discovers only `italiansdelight:olive_oil_cauldron` palettes and upgrades old filled oil cauldrons after the chunk has loaded. The previous level (1–4) becomes 250–1000 mB of olive oil in `italiansdelight:fluid_cauldron`; vanilla cauldrons and unrelated blocks are untouched. Existing test worlds therefore gain animation without requiring players to break and replace cauldrons.
