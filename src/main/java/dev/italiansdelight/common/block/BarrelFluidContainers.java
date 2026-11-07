@@ -32,11 +32,15 @@ public final class BarrelFluidContainers {
             return new Portion("italiansdelight:sheep_milk", 1000, Items.BUCKET);
         if (stack.is(ModItems.WHEY_BUCKET))
             return new Portion("italiansdelight:whey", 1000, Items.BUCKET);
-        if (stack.getItem() instanceof BucketItem bucket) {
-            Fluid fluid = bucket.getFluid();
-            if (fluid != Fluids.EMPTY) {
-                Identifier id = BuiltInRegistries.FLUID.getKey(fluid);
-                if (id != null) return new Portion(id.toString(), 1000, Items.BUCKET);
+        if (stack.getItem() instanceof BucketItem) {
+            // Minecraft 26.2 has no public BucketItem.getFluid(): resolve by the
+            // registered SOURCE fluid's actual bucket item, supporting future fluids.
+            for (Fluid fluid : BuiltInRegistries.FLUID) {
+                if (fluid.isSource(fluid.defaultFluidState()) &&
+                    fluid.getBucket() == stack.getItem()) {
+                    Identifier id = BuiltInRegistries.FLUID.getKey(fluid);
+                    if (id != null) return new Portion(id.toString(), 1000, Items.BUCKET);
+                }
             }
         }
         return null;
