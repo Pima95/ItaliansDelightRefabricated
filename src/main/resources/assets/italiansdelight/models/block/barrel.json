@@ -1,5 +1,5 @@
 {
-  "__comment": "Rustic 1.12.2 supplied model port. Temporary face texture brewing_barrel_side until author's barrel.png is committed.",
+  "__comment": "Rustic model: four walls and visible bottom; intentionally no lid.",
   "parent": "minecraft:block/block",
   "textures": {
     "0": "minecraft:block/oak_planks",
@@ -210,75 +210,6 @@
             15,
             13,
             16
-          ]
-        }
-      }
-    },
-    {
-      "name": "Top",
-      "from": [
-        3,
-        14,
-        3
-      ],
-      "to": [
-        13,
-        15,
-        13
-      ],
-      "faces": {
-        "north": {
-          "texture": "#0",
-          "uv": [
-            0,
-            0,
-            10,
-            1
-          ]
-        },
-        "east": {
-          "texture": "#0",
-          "uv": [
-            0,
-            0,
-            10,
-            1
-          ]
-        },
-        "south": {
-          "texture": "#0",
-          "uv": [
-            0,
-            0,
-            10,
-            1
-          ]
-        },
-        "west": {
-          "texture": "#0",
-          "uv": [
-            0,
-            0,
-            10,
-            1
-          ]
-        },
-        "up": {
-          "texture": "#0",
-          "uv": [
-            0,
-            0,
-            10,
-            10
-          ]
-        },
-        "down": {
-          "texture": "#0",
-          "uv": [
-            0,
-            0,
-            10,
-            10
           ]
         }
       }

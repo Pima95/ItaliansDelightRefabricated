@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "italiansdelight:item/olive_oil_bottle"
-  }
+  "parent": "minecraft:item/potion"
 }

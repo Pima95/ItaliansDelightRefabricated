@@ -327,5 +327,6 @@
   "item.italiansdelight.olive_oil_bucket": "Olive Oil Bucket",
   "item.italiansdelight.olive_oil_bottle": "Olive Oil Bottle",
   "block.italiansdelight.olive_oil_fluid": "Olive Oil",
-  "message.italiansdelight.barrel.amount": "Olive oil: %s / %s mB"
+  "message.italiansdelight.barrel.amount": "Olive oil: %s / %s mB",
+  "message.italiansdelight.barrel.contents": "Fluid: %s — %s / %s mB"
 }

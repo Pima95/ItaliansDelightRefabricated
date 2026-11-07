@@ -823,7 +823,7 @@ public final class ModBlocks {
     public static final Block BARREL = register(
         BARREL_KEY,
         new BarrelBlock(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
-            .setId(BARREL_KEY).noOcclusion().strength(2.0F, 3.0F))
+            .setId(BARREL_KEY).noOcclusion().randomTicks().strength(2.0F, 3.0F))
     );
 
     // The fluid block itself is technical; only the bucket is visible in Creative.

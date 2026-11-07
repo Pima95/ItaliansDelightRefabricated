@@ -12,52 +12,54 @@ import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
-/** Persistent single-fluid storage; capacity matches Rustic's 16,000 mB barrel. */
+/** One kind of liquid at a time, 16 buckets total, persistent when moved. */
 public final class BarrelBlockEntity extends BlockEntity {
     public static final int CAPACITY = 16_000;
     public static final int BUCKET_AMOUNT = 1_000;
     public static final int BOTTLE_AMOUNT = 250;
-    private int oliveOilAmount;
+    private String fluidId = "";
+    private int amount;
 
     public BarrelBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BARREL, pos, state);
     }
+    public int getAmount() { return amount; }
+    public String getFluidId() { return fluidId; }
+    public boolean isEmpty() { return amount == 0; }
 
-    public int getOliveOilAmount() {
-        return oliveOilAmount;
-    }
-
-    public boolean insertOliveOil(int amount) {
-        if (amount <= 0 || amount > CAPACITY - oliveOilAmount) return false;
-        oliveOilAmount += amount;
+    public boolean insert(String id, int volume) {
+        if (id == null || id.isBlank() || volume <= 0 || volume > CAPACITY - amount ||
+            (amount > 0 && !fluidId.equals(id))) return false;
+        fluidId = id;
+        amount += volume;
         setChanged();
         return true;
     }
-
-    public boolean extractOliveOil(int amount) {
-        if (amount <= 0 || oliveOilAmount < amount) return false;
-        oliveOilAmount -= amount;
+    public boolean extract(int volume) {
+        if (volume <= 0 || volume > amount) return false;
+        amount -= volume;
+        if (amount == 0) fluidId = "";
         setChanged();
         return true;
     }
-
-    /** Keep contents on the dropped barrel item, not just across world reloads. */
     public void preserveContents(ItemStack stack, HolderLookup.Provider registries) {
-        if (oliveOilAmount <= 0) return;
-        TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
-        output.putInt("OliveOilAmount", oliveOilAmount);
-        BlockItem.setBlockEntityData(stack, getType(), output);
+        if (amount == 0) return;
+        TagValueOutput data = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
+        data.putString("FluidId", fluidId);
+        data.putInt("Amount", amount);
+        BlockItem.setBlockEntityData(stack, getType(), data);
     }
-
-    @Override
-    protected void saveAdditional(ValueOutput output) {
+    @Override protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
-        output.putInt("OliveOilAmount", oliveOilAmount);
+        output.putString("FluidId", fluidId);
+        output.putInt("Amount", amount);
     }
-
-    @Override
-    protected void loadAdditional(ValueInput input) {
+    @Override protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        oliveOilAmount = Math.max(0, Math.min(CAPACITY, input.getIntOr("OliveOilAmount", 0)));
+        // Migrate old olive-only barrels and keep their liquids.
+        int oliveLegacy = input.getIntOr("OliveOilAmount", 0);
+        amount = Math.max(0, Math.min(CAPACITY, input.getIntOr("Amount", oliveLegacy)));
+        fluidId = input.getStringOr("FluidId", oliveLegacy > 0 ? "italiansdelight:olive_oil" : "");
+        if (amount == 0 || fluidId.isBlank()) { amount = 0; fluidId = ""; }
     }
 }
