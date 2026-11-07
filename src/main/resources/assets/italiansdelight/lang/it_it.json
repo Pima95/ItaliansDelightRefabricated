@@ -329,5 +329,6 @@
   "block.italiansdelight.olive_oil_fluid": "Olio d'oliva",
   "message.italiansdelight.barrel.amount": "Olio d'oliva: %s / %s mB",
   "message.italiansdelight.barrel.contents": "Fluido: %s — %s / %s mB",
-  "block.italiansdelight.olive_oil_cauldron": "Calderone con olio d'oliva"
+  "block.italiansdelight.olive_oil_cauldron": "Calderone con olio d'oliva",
+  "block.italiansdelight.fluid_cauldron": "Calderone con liquido"
 }

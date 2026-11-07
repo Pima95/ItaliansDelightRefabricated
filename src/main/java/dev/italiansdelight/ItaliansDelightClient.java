@@ -26,6 +26,7 @@ import dev.italiansdelight.client.render.PizzaDivisionOverlay;
 import dev.italiansdelight.client.render.PizzaToppingRenderer;
 import dev.italiansdelight.client.render.CookedPizzaRenderer;
 import dev.italiansdelight.client.render.BarrelFluidRenderer;
+import dev.italiansdelight.client.render.FluidCauldronRenderer;
 import dev.italiansdelight.client.render.PizzaPeelItemModel;
 import dev.italiansdelight.common.registry.ModRegistries;
 import dev.italiansdelight.common.registry.ModBoats;
@@ -182,6 +183,7 @@ public class ItaliansDelightClient implements ClientModInitializer {
         BlockEntityRenderers.register(ModBlockEntities.PIZZA_DOUGH, PizzaToppingRenderer::new);
         BlockEntityRenderers.register(ModBlockEntities.COOKED_PIZZA, CookedPizzaRenderer::new);
         BlockEntityRenderers.register(ModBlockEntities.BARREL, BarrelFluidRenderer::new);
+        BlockEntityRenderers.register(ModBlockEntities.FLUID_CAULDRON, FluidCauldronRenderer::new);
         // Links the server-synchronized MenuType to the client-side screen.
         MenuScreens.register(
             ModMenuTypes.CHEESE_VAT,

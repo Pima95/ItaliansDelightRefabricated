@@ -2,6 +2,7 @@ package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.CrushingTubBlock;
 import dev.italiansdelight.common.block.OliveOilCauldronBlock;
+import dev.italiansdelight.common.block.FluidCauldronBlock;
 import dev.italiansdelight.common.block.BarrelBlock;
 import dev.italiansdelight.common.block.CheeseVatBlock;
 import dev.italiansdelight.common.block.CheeseHookBlock;
@@ -843,6 +844,15 @@ public final class ModBlocks {
         OLIVE_OIL_CAULDRON_KEY,
         new OliveOilCauldronBlock(Block.Properties.ofFullCopy(Blocks.CAULDRON)
             .setId(OLIVE_OIL_CAULDRON_KEY).noOcclusion())
+    );
+
+    // One generic technical filled state, preserving the original vanilla empty cauldron.
+    public static final ResourceKey<Block> FLUID_CAULDRON_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("fluid_cauldron"));
+    public static final Block FLUID_CAULDRON = registerBlockOnly(
+        FLUID_CAULDRON_KEY,
+        new FluidCauldronBlock(Block.Properties.ofFullCopy(Blocks.CAULDRON)
+            .setId(FLUID_CAULDRON_KEY).noOcclusion())
     );
 
     // Cheese Vat Block

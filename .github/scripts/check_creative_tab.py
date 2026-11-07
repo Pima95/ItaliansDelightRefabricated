@@ -33,7 +33,8 @@ INTERNAL_BLOCKS = {
     "AGING_CHEESE",
     "SALT_CAULDRON",
     "OLIVE_OIL_FLUID_BLOCK",  # Technical liquid state: it has no BlockItem.
-    "OLIVE_OIL_CAULDRON",  # Technical filled cauldron; no standalone BlockItem.
+    "OLIVE_OIL_CAULDRON",  # Legacy filled oil cauldron, no standalone BlockItem.
+    "FLUID_CAULDRON",  # Generic custom-fluid cauldron, visually vanilla.
     # These 4 sign blocks are placed by two SignItem instances, not BlockItems.
     "OLIVE_SIGN", "OLIVE_WALL_SIGN", "OLIVE_HANGING_SIGN", "OLIVE_WALL_HANGING_SIGN",
     "ALMOND_SIGN", "ALMOND_WALL_SIGN", "ALMOND_HANGING_SIGN", "ALMOND_WALL_HANGING_SIGN",
