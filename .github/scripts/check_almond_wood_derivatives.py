@@ -22,7 +22,8 @@ ALLOWED={"almond_log","almond_log_top","stripped_almond_log",
          "almond_leaves_unripe_overlay","almond_leaves_fruiting_overlay",
          "almond_sapling","almond_sign","almond_hanging_sign",
          "almond_cabinet_front","almond_cabinet_front_open",
-         "almond_cabinet_side","almond_cabinet_top","almond_shelf"}
+         "almond_cabinet_side","almond_cabinet_top","almond_shelf",
+         "barrel_almond","crushing_tub_almond"}
 def j(p):
     assert p.is_file(),f"Missing {p}"
     return json.loads(p.read_text(encoding="utf-8"))
