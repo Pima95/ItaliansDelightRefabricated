@@ -2,6 +2,7 @@ package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
 import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
+import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaOvenBlockEntity;
@@ -34,6 +35,9 @@ public final class ModBlockEntities {
 
     public static final BlockEntityType<PizzaOvenBlockEntity> PIZZA_OVEN =
         register("pizza_oven", PizzaOvenBlockEntity::new, ModBlocks.PIZZA_OVEN);
+
+    public static final BlockEntityType<CrushingTubBlockEntity> CRUSHING_TUB =
+        register("crushing_tub", CrushingTubBlockEntity::new, ModBlocks.CRUSHING_TUB);
 
     public static final BlockEntityType<BarrelBlockEntity> BARREL =
         register("barrel", BarrelBlockEntity::new, ModBlocks.BARREL);
@@ -98,6 +102,21 @@ public final class ModBlockEntities {
         // Native 26.2 shelf: register our wood variant with the same type as
         // the vanilla shelves, so three-item storage, persistence and the
         // existing shelf item renderer work on modded olive blocks.
+        CRUSHING_TUB.addValidBlock(ModBlocks.SPRUCE_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.BIRCH_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.JUNGLE_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.ACACIA_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.DARK_OAK_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.MANGROVE_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.CHERRY_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.PALE_OAK_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.BAMBOO_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.CRIMSON_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.WARPED_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.OLIVE_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.ALMOND_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.FRUIT_CHERRY_CRUSHING_TUB);
+
         BARREL.addValidBlock(ModBlocks.SPRUCE_BARREL);
         BARREL.addValidBlock(ModBlocks.BIRCH_BARREL);
         BARREL.addValidBlock(ModBlocks.JUNGLE_BARREL);
