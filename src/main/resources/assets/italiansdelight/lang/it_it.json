@@ -368,5 +368,13 @@
   "jei.italiansdelight.fluids.sheep_milk": "Il latte di pecora si ottiene usando un secchio vuoto su una pecora adulta, come si fa con le mucche vanilla. Le pecore piccole non possono essere munte.\n\nNel tavolo da lavoro combina un secchio di latte di pecora con quattro bottiglie di vetro vuote per ottenere quattro bottiglie di latte da 250 mB ciascuna, recuperando il secchio. Il latte di pecora è utilizzato nella produzione dei formaggi.",
   "jei.italiansdelight.fluids.whey": "Il siero di latte (whey) si ottiene come sottoprodotto di alcune preparazioni nel Cheese Vat. Il recipiente raccoglie il siero in un serbatoio interno fino a 4.000 mB.\n\nInserisci una bottiglia di vetro o un secchio vuoto nello slot dedicato ai contenitori del siero: vengono riempiti con 250 mB o 1.000 mB quando il siero è sufficiente. Puoi anche ottenere quattro bottiglie con un secchio di siero e quattro bottiglie vuote al tavolo da lavoro. Il siero viene impiegato in ulteriori preparazioni del formaggio.",
   "item.italiansdelight.rennet_bucket": "Secchio di caglio",
-  "item.italiansdelight.apple_cider_vinegar_bucket": "Secchio di aceto di mele"
+  "item.italiansdelight.apple_cider_vinegar_bucket": "Secchio di aceto di mele",
+  "fluid.italiansdelight.cow_milk": "Latte vaccino",
+  "fluid.italiansdelight.sheep_milk": "Latte di pecora",
+  "fluid.italiansdelight.whey": "Siero di latte",
+  "fluid.italiansdelight.rennet": "Caglio",
+  "fluid.italiansdelight.apple_cider_vinegar": "Aceto di mele",
+  "jei.italiansdelight.fluids.cow_milk": "Il latte vaccino si ottiene mungendo una mucca con un secchio. Farmer's Delight Refabricated permette anche di conservarlo in bottiglie. Il Barrel e il calderone gestiscono il latte come fluido registrato, senza renderlo posizionabile nel mondo.",
+  "jei.italiansdelight.fluids.rennet": "Il caglio è un ingrediente liquido della lavorazione casearia. La bottiglia contiene 250 mB e il secchio 1.000 mB; entrambi possono essere travasati nel Barrel o nel calderone. Il caglio non è versabile nel mondo.",
+  "jei.italiansdelight.fluids.apple_cider_vinegar": "L'aceto di mele è un ingrediente liquido della mod. La bottiglia contiene 250 mB e il secchio 1.000 mB; può essere conservato nel Barrel o nel calderone. L'aceto non è versabile nel mondo."
 }

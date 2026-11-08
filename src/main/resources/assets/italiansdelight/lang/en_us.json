@@ -368,5 +368,13 @@
   "jei.italiansdelight.fluids.sheep_milk": "Get sheep milk by using an empty bucket on an adult sheep, like milking a vanilla cow. Baby sheep cannot be milked.\n\nAt a crafting table, combine one sheep milk bucket with four empty glass bottles to get four sheep milk bottles (250 mB each) and the empty bucket back. Sheep milk is used in cheese making.",
   "jei.italiansdelight.fluids.whey": "Whey is a byproduct of some Cheese Vat recipes. The vat stores up to 4,000 mB of whey in its internal tank.\n\nPlace an empty glass bottle or bucket in the dedicated whey-container slot. It fills with 250 mB or 1,000 mB when sufficient whey is available. You can also craft four whey bottles from a whey bucket and four empty bottles. Whey is used in further cheese recipes.",
   "item.italiansdelight.rennet_bucket": "Rennet Bucket",
-  "item.italiansdelight.apple_cider_vinegar_bucket": "Apple Cider Vinegar Bucket"
+  "item.italiansdelight.apple_cider_vinegar_bucket": "Apple Cider Vinegar Bucket",
+  "fluid.italiansdelight.cow_milk": "Cow Milk",
+  "fluid.italiansdelight.sheep_milk": "Sheep Milk",
+  "fluid.italiansdelight.whey": "Whey",
+  "fluid.italiansdelight.rennet": "Rennet",
+  "fluid.italiansdelight.apple_cider_vinegar": "Apple Cider Vinegar",
+  "jei.italiansdelight.fluids.cow_milk": "Cow milk is obtained by milking a cow with a bucket. Farmer's Delight Refabricated also provides milk bottles. Barrels and cauldrons can handle milk as a registered fluid, without world placement.",
+  "jei.italiansdelight.fluids.rennet": "Rennet is a liquid ingredient used in cheese making. Bottles contain 250 mB and buckets 1,000 mB; both can transfer into Barrels and cauldrons. It is not placeable in the world.",
+  "jei.italiansdelight.fluids.apple_cider_vinegar": "Apple cider vinegar is a liquid ingredient from the mod. Bottles hold 250 mB and buckets 1,000 mB; it can be stored in Barrels and cauldrons. It is not placeable in the world."
 }

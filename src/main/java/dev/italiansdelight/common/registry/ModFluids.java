@@ -2,6 +2,7 @@ package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.fluid.OliveOilFluid;
 import dev.italiansdelight.common.fluid.AppleJuiceFluid;
+import dev.italiansdelight.common.fluid.ContainedFluid;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -27,6 +28,38 @@ public final class ModFluids {
         Registry.register(BuiltInRegistries.FLUID, APPLE_JUICE_STILL_KEY, new AppleJuiceFluid.Source());
     public static final FlowingFluid APPLE_JUICE_FLOWING =
         Registry.register(BuiltInRegistries.FLUID, APPLE_JUICE_FLOWING_KEY, new AppleJuiceFluid.Flowing());
+
+    // Portable domain IDs, backed by actual Minecraft Fluid entries. These five
+    // cannot exist as world fluid blocks: they are for tanks and containers.
+    public static final ResourceKey<Fluid> COW_MILK_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("cow_milk"));
+    public static final Fluid COW_MILK = Registry.register(
+        BuiltInRegistries.FLUID, COW_MILK_KEY,
+        new ContainedFluid(() -> net.minecraft.world.item.Items.MILK_BUCKET));
+
+    public static final ResourceKey<Fluid> SHEEP_MILK_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("sheep_milk"));
+    public static final Fluid SHEEP_MILK = Registry.register(
+        BuiltInRegistries.FLUID, SHEEP_MILK_KEY,
+        new ContainedFluid(() -> ModItems.SHEEP_MILK_BUCKET));
+
+    public static final ResourceKey<Fluid> WHEY_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("whey"));
+    public static final Fluid WHEY = Registry.register(
+        BuiltInRegistries.FLUID, WHEY_KEY,
+        new ContainedFluid(() -> ModItems.WHEY_BUCKET));
+
+    public static final ResourceKey<Fluid> RENNET_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("rennet"));
+    public static final Fluid RENNET = Registry.register(
+        BuiltInRegistries.FLUID, RENNET_KEY,
+        new ContainedFluid(() -> ModItems.RENNET_BUCKET));
+
+    public static final ResourceKey<Fluid> APPLE_CIDER_VINEGAR_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("apple_cider_vinegar"));
+    public static final Fluid APPLE_CIDER_VINEGAR = Registry.register(
+        BuiltInRegistries.FLUID, APPLE_CIDER_VINEGAR_KEY,
+        new ContainedFluid(() -> ModItems.APPLE_CIDER_VINEGAR_BUCKET));
 
     public static void register() {}
 }

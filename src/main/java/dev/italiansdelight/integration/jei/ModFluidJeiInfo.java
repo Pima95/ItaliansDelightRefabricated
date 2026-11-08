@@ -25,6 +25,11 @@ public final class ModFluidJeiInfo {
             Component.translatable("jei.italiansdelight.fluids.apple_juice"));
 
         registration.addItemStackInfo(List.of(
+                new ItemStack(net.minecraft.world.item.Items.MILK_BUCKET),
+                new ItemStack(vectorwing.farmersdelight.common.registry.ModItems.MILK_BOTTLE.get())),
+            Component.translatable("jei.italiansdelight.fluids.cow_milk"));
+
+        registration.addItemStackInfo(List.of(
                 new ItemStack(ModItems.SHEEP_MILK_BOTTLE),
                 new ItemStack(ModItems.SHEEP_MILK_BUCKET)),
             Component.translatable("jei.italiansdelight.fluids.sheep_milk"));
@@ -33,5 +38,14 @@ public final class ModFluidJeiInfo {
                 new ItemStack(ModItems.WHEY_BOTTLE),
                 new ItemStack(ModItems.WHEY_BUCKET)),
             Component.translatable("jei.italiansdelight.fluids.whey"));
+        registration.addItemStackInfo(List.of(
+                new ItemStack(ModItems.RENNET),
+                new ItemStack(ModItems.RENNET_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.rennet"));
+
+        registration.addItemStackInfo(List.of(
+                new ItemStack(ModItems.APPLE_CIDER_VINEGAR),
+                new ItemStack(ModItems.APPLE_CIDER_VINEGAR_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.apple_cider_vinegar"));
     }
 }

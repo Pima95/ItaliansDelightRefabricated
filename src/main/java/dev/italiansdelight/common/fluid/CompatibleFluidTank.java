@@ -14,9 +14,9 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 /**
- * One content-aware Fabric fluid tank. Legacy virtual liquids (milk, whey,
- * rennet and vinegar) retain their historic string IDs and bottle/bucket
- * behavior, without incorrectly masquerading as minecraft:water.
+ * One component-aware Fabric fluid tank. The historic virtual fields remain
+ * only as a recovery path for missing/unregistered fluids and old saved worlds.
+ * Registered dairy and condiment liquids now travel as FluidVariant.
  *
  * Registered fluids from ANY Fabric mod use FluidVariant, including component
  * data from custom tanks/buckets. 81 droplets equal 1 mB.
@@ -70,7 +70,7 @@ public final class CompatibleFluidTank extends SingleFluidStorage {
 
     private static FluidVariant known(String fluidId) {
         if (fluidId == null || fluidId.isBlank()) return FluidVariant.blank();
-        Identifier id = Identifier.tryParse(fluidId);
+        Identifier id = Identifier.tryParse(FluidCatalog.canonicalId(fluidId));
         if (id == null || !BuiltInRegistries.FLUID.containsKey(id))
             return FluidVariant.blank();
         Fluid value = BuiltInRegistries.FLUID.getValue(id);
@@ -81,6 +81,7 @@ public final class CompatibleFluidTank extends SingleFluidStorage {
     public boolean insertMb(String id, int volume) {
         if (!enabled.getAsBoolean() || id == null || id.isBlank() ||
             volume <= 0 || (long) volume * PER_MB > limit - amountDroplets()) return false;
+        id = FluidCatalog.canonicalId(id);
         FluidVariant fluid = known(id);
         if (!fluid.isBlank()) {
             if (hasVirtualFluid()) return false;
@@ -130,7 +131,7 @@ public final class CompatibleFluidTank extends SingleFluidStorage {
         long requested = input.getLongOr("AmountDroplets", Math.max(0, original) * PER_MB);
         requested = Math.clamp(requested, 0L, limit);
         String fallback = oliveLegacy && original > 0 ? "italiansdelight:olive_oil" : "";
-        String id = input.getStringOr("FluidId", fallback);
+        String id = FluidCatalog.canonicalId(input.getStringOr("FluidId", fallback));
         FluidVariant found = input.read("FluidVariant", FluidVariant.CODEC)
             .orElse(FluidVariant.blank());
         if (found.isBlank()) found = known(id);
