@@ -40,18 +40,14 @@ public final class LiquidSurfaceVisuals {
             new Surface(ModRegistries.id("block/fluids/apple_juice_still"), 0xFFFFFFFF),
         "italiansdelight:olive_oil",
             new Surface(ModRegistries.id("block/fluids/olive_oil_still"), 0xFFFFFFFF),
-        "minecraft:milk", staticSurface("milk"),
-        "italiansdelight:sheep_milk", staticSurface("sheep_milk"),
-        "italiansdelight:whey", staticSurface("whey"),
+        "minecraft:milk", new Surface(ModRegistries.id("block/fluids/milk_still"), 0xFFFFFFFF),
+        "italiansdelight:sheep_milk", new Surface(ModRegistries.id("block/fluids/sheep_milk_still"), 0xFFFFFFFF),
+        "italiansdelight:whey", new Surface(ModRegistries.id("block/fluids/whey_still"), 0xFFFFFFFF),
         "italiansdelight:rennet", new Surface(
-            ModRegistries.id("block/liquid_surface/rennet"), 0xFFFFFFFF),
+            ModRegistries.id("block/fluids/rennet_still"), 0xFFFFFFFF),
         "italiansdelight:apple_cider_vinegar", new Surface(
-            ModRegistries.id("block/liquid_surface/apple_cider_vinegar"), 0xFFFFFFFF)
+            ModRegistries.id("block/fluids/booze/cider_still"), 0xFFFFFFFF)
     ));
-
-    private static Surface staticSurface(String key) {
-        return new Surface(ModRegistries.id("block/liquid_surface/" + key), 0xFFFFFFFF);
-    }
 
     /** Other modded liquids only need a registered block-atlas still sprite. */
     public static void registerSurface(String fluidId, Identifier stillSprite, int tint) {

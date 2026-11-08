@@ -19,6 +19,26 @@
     {
       "type": "minecraft:single",
       "resource": "italiansdelight:block/liquid_surface/apple_cider_vinegar"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/milk_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/sheep_milk_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/whey_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/rennet_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/cider_still"
     }
   ]
 }
