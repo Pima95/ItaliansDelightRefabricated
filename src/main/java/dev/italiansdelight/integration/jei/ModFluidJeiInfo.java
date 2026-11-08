@@ -25,11 +25,6 @@ public final class ModFluidJeiInfo {
             Component.translatable("jei.italiansdelight.fluids.apple_juice"));
 
         registration.addItemStackInfo(List.of(
-                new ItemStack(net.minecraft.world.item.Items.MILK_BUCKET),
-                new ItemStack(vectorwing.farmersdelight.common.registry.ModItems.MILK_BOTTLE.get())),
-            Component.translatable("jei.italiansdelight.fluids.cow_milk"));
-
-        registration.addItemStackInfo(List.of(
                 new ItemStack(ModItems.SHEEP_MILK_BOTTLE),
                 new ItemStack(ModItems.SHEEP_MILK_BUCKET)),
             Component.translatable("jei.italiansdelight.fluids.sheep_milk"));

@@ -29,14 +29,8 @@ public final class ModFluids {
     public static final FlowingFluid APPLE_JUICE_FLOWING =
         Registry.register(BuiltInRegistries.FLUID, APPLE_JUICE_FLOWING_KEY, new AppleJuiceFluid.Flowing());
 
-    // Portable domain IDs, backed by actual Minecraft Fluid entries. These five
-    // cannot exist as world fluid blocks: they are for tanks and containers.
-    public static final ResourceKey<Fluid> COW_MILK_KEY =
-        ResourceKey.create(Registries.FLUID, ModRegistries.id("cow_milk"));
-    public static final Fluid COW_MILK = Registry.register(
-        BuiltInRegistries.FLUID, COW_MILK_KEY,
-        new ContainedFluid(() -> net.minecraft.world.item.Items.MILK_BUCKET));
-
+    // Four registered non-world fluids for storage and recipe APIs.
+    // Vanilla cow milk remains its historical virtual "minecraft:milk" ID.
     public static final ResourceKey<Fluid> SHEEP_MILK_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("sheep_milk"));
     public static final Fluid SHEEP_MILK = Registry.register(

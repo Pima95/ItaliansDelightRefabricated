@@ -1,12 +1,12 @@
 # Shared fluids — first multi-loader-friendly step (Minecraft 26.2)
 
 ## Scope and implementation
-- The loader-neutral `FluidCatalog` contains the seven stable fluid identifiers and distinguishes placeable olive oil / apple juice from non-world milk, sheep milk, whey, rennet and apple cider vinegar.
-- All seven are registered in the vanilla **Fluid registry** (Fluid is a Minecraft class, not Fabric-specific); the last five use `ContainedFluid`, which cannot generate world blocks or flow.
-- `italiansdelight:cow_milk` is a **namespaced adapter** for vanilla milk, which Minecraft itself does not register as a fluid. Older tanks holding virtual `minecraft:milk` are canonicalized when read. Do not claim that other mods' milk fluids are automatically identical.
+- The loader-neutral `FluidCatalog` contains the six stable fluid identifiers and distinguishes placeable olive oil / apple juice from non-world sheep milk, whey, rennet and apple cider vinegar.
+- All six are registered in the vanilla **Fluid registry** (Fluid is a Minecraft class, not Fabric-specific); the last four use `ContainedFluid`, which cannot generate world blocks or flow.
+- The vanilla milk bucket and Farmer's Delight cow-milk bottle remain untouched. Existing `minecraft:milk` Barrel/cauldron values retain their original ID and virtual-fluid behavior. Development worlds that briefly saved `italiansdelight:cow_milk` are restored to `minecraft:milk` when read.
 - Existing Barrel and cauldron `FluidVariant` storage migrates legacy `FluidId` + `Amount` data without changing item or block IDs. The old virtual tank path remains as a fallback for missing fluid mods.
 - Existing item buckets/bottles are kept as they are, not replaced with world-placeable BucketItems. This allows recipes, inventories and cheese-vat logic to remain stable.
-- JEI info tabs and locale names now also cover cow milk, rennet and vinegar.
+- JEI info tabs and locale names cover only our fluids; custom fluid icons use explicitly registered animated client fluid models.
 
 ## Loader portability
 - Fabric backend: `CompatibleFluidTank`, `FluidTransferBridge`, and `FluidStorage.ITEM` providers, with 81,000 droplets per 1,000 mB.
@@ -17,8 +17,8 @@
 - Never treat non-placeable registered liquids as flowing/world fluids. No new blockstates or liquid world blocks are registered for dairy/condiments.
 
 ## In-game migration tests
-1. Open an existing world with 1,000 mB `minecraft:milk` in a Barrel: it must become `italiansdelight:cow_milk` without loss, with the correct white animated surface.
+1. Open an existing world with 1,000 mB `minecraft:milk` in a Barrel: its ID and contents must remain exactly `minecraft:milk`, with the correct white animated surface.
 2. Repeat for existing sheep milk, whey, rennet and vinegar, with buckets and bottles.
-3. Use Fabric pipes to fill and empty these registered fluids in Barrel and filled cauldron, confirm variant ID and exact amount after reload.
-4. In JEI ensure all seven fluid entries and the associated container information appear.
-5. Confirm cow/sheep milk, whey, rennet and cider vinegar cannot be placed into the world using their original items.
+3. Use Fabric pipes to fill and empty the four registered non-world fluids in Barrel and filled cauldron, confirm variant ID and exact amount after reload.
+4. In JEI ensure the six registered fluid entries and the associated container information appear.
+5. Confirm sheep milk, whey, rennet and cider vinegar cannot be placed into the world using their original items.

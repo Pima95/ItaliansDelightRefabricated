@@ -70,7 +70,7 @@ public final class CompatibleFluidTank extends SingleFluidStorage {
 
     private static FluidVariant known(String fluidId) {
         if (fluidId == null || fluidId.isBlank()) return FluidVariant.blank();
-        Identifier id = Identifier.tryParse(FluidCatalog.canonicalId(fluidId));
+        Identifier id = Identifier.tryParse(fluidId);
         if (id == null || !BuiltInRegistries.FLUID.containsKey(id))
             return FluidVariant.blank();
         Fluid value = BuiltInRegistries.FLUID.getValue(id);
@@ -81,7 +81,6 @@ public final class CompatibleFluidTank extends SingleFluidStorage {
     public boolean insertMb(String id, int volume) {
         if (!enabled.getAsBoolean() || id == null || id.isBlank() ||
             volume <= 0 || (long) volume * PER_MB > limit - amountDroplets()) return false;
-        id = FluidCatalog.canonicalId(id);
         FluidVariant fluid = known(id);
         if (!fluid.isBlank()) {
             if (hasVirtualFluid()) return false;
@@ -131,7 +130,11 @@ public final class CompatibleFluidTank extends SingleFluidStorage {
         long requested = input.getLongOr("AmountDroplets", Math.max(0, original) * PER_MB);
         requested = Math.clamp(requested, 0L, limit);
         String fallback = oliveLegacy && original > 0 ? "italiansdelight:olive_oil" : "";
-        String id = FluidCatalog.canonicalId(input.getStringOr("FluidId", fallback));
+        String id = input.getStringOr("FluidId", fallback);
+        // Only undo the briefly introduced non-vanilla cow_milk ID from the
+        // previous development build. Never rewrite the historical
+        // "minecraft:milk" identifier in existing world saves.
+        if ("italiansdelight:cow_milk".equals(id)) id = "minecraft:milk";
         FluidVariant found = input.read("FluidVariant", FluidVariant.CODEC)
             .orElse(FluidVariant.blank());
         if (found.isBlank()) found = known(id);

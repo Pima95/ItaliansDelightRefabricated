@@ -119,6 +119,19 @@ public class ItaliansDelightClient implements ClientModInitializer {
         return 0xFF000000 | red << 16 | green << 8 | blue;
     }
 
+    /**
+     * Loader-specific JEI/Fabric fluid display adapter: one animated atlas
+     * sprite is enough for a storage-only Fluid; no liquid block is required.
+     */
+    private static void registerContainedFluid(
+            net.minecraft.world.level.material.Fluid fluid,
+            net.minecraft.resources.Identifier stillSprite) {
+        Material material = new Material(stillSprite);
+        FluidRenderingRegistry.register(fluid, new FluidModel.Unbaked(
+            material, material, material,
+            BlockTintSources.constant(ARGB.opaque(0xFFFFFF))));
+    }
+
     @Override
     public void onInitializeClient() {
         // The authored Rustic oil frames are already under textures/block/fluids.
@@ -142,6 +155,19 @@ public class ItaliansDelightClient implements ClientModInitializer {
                 BlockTintSources.constant(ARGB.opaque(0xFFFFFF))
             )
         );
+        // These four fluids do not flow in the world, but JEI and every
+        // Fabric fluid ingredient renderer still need an explicit fluid model.
+        // Reuse the SAME animated still sprites already used by our Barrel and
+        // cauldron, so JEI does not display a missing-texture checkerboard.
+        registerContainedFluid(ModFluids.SHEEP_MILK,
+            ModRegistries.id("block/fluids/sheep_milk_still"));
+        registerContainedFluid(ModFluids.WHEY,
+            ModRegistries.id("block/fluids/whey_still"));
+        registerContainedFluid(ModFluids.RENNET,
+            ModRegistries.id("block/fluids/rennet_still"));
+        registerContainedFluid(ModFluids.APPLE_CIDER_VINEGAR,
+            ModRegistries.id("block/fluids/booze/cider_still"));
+
         // Almond and Fruit Cherry react to foliage biome colors independently.
         // Olive, both saplings, and the rest of the orchard art remain untinted.
         BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);

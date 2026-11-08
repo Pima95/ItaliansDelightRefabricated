@@ -12,8 +12,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 
 /**
- * FABRIC-ONLY adapter: register the seven existing bottle families and the five
- * storage-only bucket families with FluidStorage.ITEM.
+ * FABRIC-ONLY adapter: register our own six fluid families with FluidStorage.ITEM.
+ * Milk buckets and Farmer's Delight milk bottles are deliberately left untouched.
  *
  * Uses combined providers on vanilla bucket/bottle items to avoid clobbering
  * Fabric's water/lava/potion handlers or another mod's registrations.
@@ -25,8 +25,6 @@ public final class FabricFluidItemContainers {
     public static void register() {
         // Registered (non-world) fluids: buckets and bottles are first-class
         // fluid containers; no hardcoded hand logic is needed in other mods.
-        storageOnly(ModFluids.COW_MILK, Items.MILK_BUCKET,
-            vectorwing.farmersdelight.common.registry.ModItems.MILK_BOTTLE.get());
         storageOnly(ModFluids.SHEEP_MILK, ModItems.SHEEP_MILK_BUCKET, ModItems.SHEEP_MILK_BOTTLE);
         storageOnly(ModFluids.WHEY, ModItems.WHEY_BUCKET, ModItems.WHEY_BOTTLE);
         storageOnly(ModFluids.RENNET, ModItems.RENNET_BUCKET, ModItems.RENNET);

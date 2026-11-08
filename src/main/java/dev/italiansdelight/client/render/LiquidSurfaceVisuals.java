@@ -41,7 +41,6 @@ public final class LiquidSurfaceVisuals {
         "italiansdelight:olive_oil",
             new Surface(ModRegistries.id("block/fluids/olive_oil_still"), 0xFFFFFFFF),
         "minecraft:milk", new Surface(ModRegistries.id("block/fluids/milk_still"), 0xFFFFFFFF),
-        "italiansdelight:cow_milk", new Surface(ModRegistries.id("block/fluids/milk_still"), 0xFFFFFFFF),
         "italiansdelight:sheep_milk", new Surface(ModRegistries.id("block/fluids/sheep_milk_still"), 0xFFFFFFFF),
         "italiansdelight:whey", new Surface(ModRegistries.id("block/fluids/whey_still"), 0xFFFFFFFF),
         "italiansdelight:rennet", new Surface(
