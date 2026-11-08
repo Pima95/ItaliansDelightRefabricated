@@ -72,10 +72,15 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (player.isSpectator()) return InteractionResult.PASS;
         if (FluidTransferBridge.itemStorage(player, hand) != null) {
-            if (!world.isClientSide() &&
-                world.getBlockEntity(pos) instanceof FluidCauldronBlockEntity tank)
-                FluidTransferBridge.transfer(player, hand, tank.getFluidStorage());
-            return InteractionResult.SUCCESS;
+            if (world.isClientSide()) return InteractionResult.SUCCESS;
+            if (!(world.getBlockEntity(pos) instanceof FluidCauldronBlockEntity storage))
+                return InteractionResult.FAIL;
+            if (FluidTransferBridge.transfer(player, hand, storage.getFluidStorage()))
+                return InteractionResult.SUCCESS;
+            if (!FluidTransferBridge.heldSource(player, hand).isBlank()
+                || storage.getFluidVariant().hasComponents())
+                return InteractionResult.SUCCESS;
+            // Empty vanilla container + virtual fluid uses the legacy adapter.
         }
         BarrelFluidContainers.Portion fluid = BarrelFluidContainers.filledContainer(held);
         boolean emptyBucket = held.is(Items.BUCKET);

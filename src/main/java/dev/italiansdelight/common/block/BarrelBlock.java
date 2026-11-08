@@ -97,13 +97,22 @@ public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterlog
     @Override protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (state.getValue(WATERLOGGED)) return InteractionResult.SUCCESS;
-        // Use any third-party Fabric fluid container first, preserving variant
-        // components through an atomic item+block transaction.
+        // Prefer Fabric transactions for registered fluids and component-aware
+        // containers, but DO NOT shadow old virtual milk/whey/rennet liquids
+        // when the player uses an empty bucket or bottle.
         if (FluidTransferBridge.itemStorage(player, hand) != null) {
-            if (!level.isClientSide() &&
-                level.getBlockEntity(pos) instanceof BarrelBlockEntity tank)
-                FluidTransferBridge.transfer(player, hand, tank.getFluidStorage());
-            return InteractionResult.SUCCESS;
+            if (level.isClientSide()) return InteractionResult.SUCCESS;
+            if (!(level.getBlockEntity(pos) instanceof BarrelBlockEntity storage))
+                return InteractionResult.FAIL;
+            if (FluidTransferBridge.transfer(player, hand, storage.getFluidStorage()))
+                return InteractionResult.SUCCESS;
+            // A registered fluid-bearing container must not fall through into
+            // the legacy ID-only path, which would lose its component patch.
+            if (!FluidTransferBridge.heldSource(player, hand).isBlank()
+                || storage.getFluidVariant().hasComponents())
+                return InteractionResult.SUCCESS;
+            // Empty bucket/bottle + legacy virtual fluid: let the original
+            // 250/1000 mB item-specific logic fill that container.
         }
         BarrelFluidContainers.Portion fluid = BarrelFluidContainers.filledContainer(held);
         boolean emptyBucket = held.is(Items.BUCKET), emptyBottle = held.is(Items.GLASS_BOTTLE);
