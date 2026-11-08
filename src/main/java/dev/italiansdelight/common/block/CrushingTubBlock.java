@@ -5,6 +5,18 @@ import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -34,7 +46,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * Hollow appearance is unchanged across all fifteen wood variants.
  * Collision follows the solid, 9/16-high landing plane used by original Rustic.
  */
-public final class CrushingTubBlock extends BaseEntityBlock {
+public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     private static final VoxelShape SHAPE = Shapes.or(
         Block.box(1, 0, 1, 15, 1, 15),
         Block.box(1, 0, 0, 15, 9, 1),
@@ -55,7 +67,35 @@ public final class CrushingTubBlock extends BaseEntityBlock {
     private static final VoxelShape RUSTIC_LANDING_COLLISION =
         Block.box(0, 0, 0, 16, 9, 16);
 
-    public CrushingTubBlock(Properties properties) { super(properties); }
+    public CrushingTubBlock(Properties properties) {
+        super(properties);
+        registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, false));
+    }
+
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(WATERLOGGED);
+    }
+
+    @Override public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState().setValue(WATERLOGGED,
+            context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER));
+    }
+
+    @Override public FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override protected BlockState updateShape(BlockState state, LevelReader level,
+            ScheduledTickAccess ticks, BlockPos pos, Direction direction,
+            BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (state.getValue(WATERLOGGED))
+            ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(state, level, ticks, pos, direction,
+            neighborPos, neighborState, random);
+    }
 
     @Override protected MapCodec<? extends BaseEntityBlock> codec() {
         return simpleCodec(CrushingTubBlock::new);
@@ -79,8 +119,17 @@ public final class CrushingTubBlock extends BaseEntityBlock {
         boolean bottle = held.is(Items.GLASS_BOTTLE);
         boolean bucket = held.is(Items.BUCKET);
         boolean ingredient = CrushingTubRecipes.find(held) != null;
-        if (!bottle && !bucket && !ingredient) return InteractionResult.PASS;
+        if (state.getValue(WATERLOGGED)) return InteractionResult.SUCCESS;
         if (player.isSpectator()) return InteractionResult.PASS;
+        // Right click with an unrelated item retrieves the existing inputs.
+        if (!bottle && !bucket && !ingredient) {
+            if (level.getBlockEntity(pos) instanceof CrushingTubBlockEntity contents
+                    && !contents.getInput().isEmpty()) {
+                if (!level.isClientSide()) returnInputs(level, pos, player, contents);
+                return InteractionResult.SUCCESS;
+            }
+            return InteractionResult.PASS;
+        }
         if (level.isClientSide()) return InteractionResult.SUCCESS;
         if (!(level.getBlockEntity(pos) instanceof CrushingTubBlockEntity tub))
             return InteractionResult.FAIL;
@@ -98,30 +147,37 @@ public final class CrushingTubBlock extends BaseEntityBlock {
 
         int inserted = tub.insert(held);
         if (inserted > 0 && !player.getAbilities().instabuild) held.shrink(inserted);
+        else if (inserted == 0 && !tub.getInput().isEmpty()
+                && !ItemStack.isSameItemSameComponents(tub.getInput(), held))
+            returnInputs(level, pos, player, tub);
         return InteractionResult.SUCCESS;
     }
 
     @Override protected InteractionResult useWithoutItem(
         BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit
     ) {
+        if (state.getValue(WATERLOGGED)) return InteractionResult.SUCCESS;
         if (player.isSpectator()) return InteractionResult.PASS;
         if (level.isClientSide()) return InteractionResult.SUCCESS;
         if (!(level.getBlockEntity(pos) instanceof CrushingTubBlockEntity tub))
             return InteractionResult.FAIL;
-        if (player.isShiftKeyDown()) {
-            tub.discardFluid();
-            return InteractionResult.SUCCESS;
-        }
-        ItemStack back = tub.takeInputs();
-        if (!back.isEmpty()) {
-            if (!player.addItem(back)) popResource(level, pos, back);
-        }
+        // Always return the unprocessed input on right-click. Only when
+        // empty, sneak-right-click may drain the remaining processed liquid.
+        if (!tub.getInput().isEmpty()) returnInputs(level, pos, player, tub);
+        if (player.isShiftKeyDown()) tub.discardFluid();
         return InteractionResult.SUCCESS;
+    }
+
+    private static void returnInputs(Level level, BlockPos pos, Player player,
+                                     CrushingTubBlockEntity tub) {
+        ItemStack back = tub.takeInputs();
+        if (!back.isEmpty() && !player.addItem(back)) popResource(level, pos, back);
     }
 
     @Override public void fallOn(Level level, BlockState state, BlockPos pos,
                                  Entity entity, double fallDistance) {
-        if (!level.isClientSide() && entity instanceof LivingEntity &&
+        if (!state.getValue(WATERLOGGED) && !level.isClientSide()
+                && entity instanceof LivingEntity &&
             level.getBlockEntity(pos) instanceof CrushingTubBlockEntity tub) {
             ItemStack byproduct = tub.stomp();
             if (byproduct != null) {

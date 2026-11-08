@@ -1,6 +1,7 @@
 package dev.italiansdelight.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.world.level.block.Blocks;
@@ -24,7 +25,8 @@ public final class BarrelFluidRenderer
         Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breaking) {
         BlockEntityRenderer.super.extractRenderState(
             entity, state, partialTicks, cameraPosition, breaking);
-        state.amount = entity.getAmount();
+        state.amount = entity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)
+            ? 0 : entity.getAmount();
         state.fluidId = entity.getFluidId();
         // The same biome tint vanilla uses on a water cauldron.
         // ClientLevel implements BlockAndTintGetter; generic Level does not.

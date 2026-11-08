@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "waterlogged=false": {
+      "model": "italiansdelight:block/warped_crushing_tub"
+    },
+    "waterlogged=true": {
       "model": "italiansdelight:block/warped_crushing_tub"
     }
   }

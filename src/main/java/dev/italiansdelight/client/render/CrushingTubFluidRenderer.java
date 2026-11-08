@@ -1,6 +1,7 @@
 package dev.italiansdelight.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -29,12 +30,14 @@ public final class CrushingTubFluidRenderer
             ModelFeatureRenderer.@Nullable CrumblingOverlay breaking) {
         BlockEntityRenderer.super.extractRenderState(entity, state, partialTicks, cameraPosition, breaking);
         ItemStack input = entity.getInput();
-        state.inputCount = input.getCount();
+        state.inputCount = entity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)
+            ? 0 : input.getCount();
         // Resolve the actual item model during extraction (never in submit).
         Minecraft.getInstance().getItemModelResolver().updateForTopItem(
             state.inputModel, input, ItemDisplayContext.NONE, entity.getLevel(), null,
             entity.getBlockPos().hashCode());
-        state.amount = entity.getAmount();
+        state.amount = entity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)
+            ? 0 : entity.getAmount();
         state.fluidId = entity.getFluidId();
         state.waterTint = Minecraft.getInstance().level == null ? 0xFF3F76E4 :
             BlockTintSources.water().colorInWorld(Blocks.WATER_CAULDRON.defaultBlockState(),

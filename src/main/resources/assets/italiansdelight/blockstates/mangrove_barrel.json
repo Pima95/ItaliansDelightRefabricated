@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "waterlogged=false": {
+      "model": "italiansdelight:block/mangrove_barrel"
+    },
+    "waterlogged=true": {
       "model": "italiansdelight:block/mangrove_barrel"
     }
   }
