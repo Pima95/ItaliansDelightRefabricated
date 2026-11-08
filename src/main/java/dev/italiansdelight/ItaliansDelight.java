@@ -8,6 +8,7 @@ import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModFluids;
 import dev.italiansdelight.common.fluid.FluidTransferBridge;
+import dev.italiansdelight.common.fluid.FabricFluidItemContainers;
 import dev.italiansdelight.common.registry.ModCompostables;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.block.FluidCauldronInteractions;
@@ -60,6 +61,7 @@ public class ItaliansDelight implements ModInitializer {
         PizzaDivisionSync.register();
         ModBlockEntities.register();
         FluidTransferBridge.register();
+        FabricFluidItemContainers.register();
         ModCompostables.register();
         ModMenuTypes.register();
         ModRecipes.register();
