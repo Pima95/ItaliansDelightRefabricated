@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModFluids;
+import dev.italiansdelight.common.fluid.FluidTransferBridge;
 import dev.italiansdelight.common.registry.ModCompostables;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.block.FluidCauldronInteractions;
@@ -58,6 +59,7 @@ public class ItaliansDelight implements ModInitializer {
         PizzaDoughPlacement.register();
         PizzaDivisionSync.register();
         ModBlockEntities.register();
+        FluidTransferBridge.register();
         ModCompostables.register();
         ModMenuTypes.register();
         ModRecipes.register();

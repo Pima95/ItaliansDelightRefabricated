@@ -2,6 +2,7 @@ package dev.italiansdelight.common.block;
 
 import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
+import dev.italiansdelight.common.fluid.FluidTransferBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -70,6 +71,12 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
     @Override protected InteractionResult useItemOn(ItemStack held, BlockState state, Level world,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (player.isSpectator()) return InteractionResult.PASS;
+        if (FluidTransferBridge.itemStorage(player, hand) != null) {
+            if (!world.isClientSide() &&
+                world.getBlockEntity(pos) instanceof FluidCauldronBlockEntity tank)
+                FluidTransferBridge.transfer(player, hand, tank.getFluidStorage());
+            return InteractionResult.SUCCESS;
+        }
         BarrelFluidContainers.Portion fluid = BarrelFluidContainers.filledContainer(held);
         boolean emptyBucket = held.is(Items.BUCKET);
         boolean emptyBottle = held.is(Items.GLASS_BOTTLE);

@@ -3,6 +3,7 @@ package dev.italiansdelight.common.block;
 import java.util.List;
 import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
+import dev.italiansdelight.common.fluid.FluidTransferBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -96,6 +97,14 @@ public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterlog
     @Override protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (state.getValue(WATERLOGGED)) return InteractionResult.SUCCESS;
+        // Use any third-party Fabric fluid container first, preserving variant
+        // components through an atomic item+block transaction.
+        if (FluidTransferBridge.itemStorage(player, hand) != null) {
+            if (!level.isClientSide() &&
+                level.getBlockEntity(pos) instanceof BarrelBlockEntity tank)
+                FluidTransferBridge.transfer(player, hand, tank.getFluidStorage());
+            return InteractionResult.SUCCESS;
+        }
         BarrelFluidContainers.Portion fluid = BarrelFluidContainers.filledContainer(held);
         boolean emptyBucket = held.is(Items.BUCKET), emptyBottle = held.is(Items.GLASS_BOTTLE);
         // Rustic barrels reject hot lava. Do not pass to BucketItem: that

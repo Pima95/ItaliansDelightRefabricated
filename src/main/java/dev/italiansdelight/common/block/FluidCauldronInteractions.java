@@ -2,6 +2,11 @@ package dev.italiansdelight.common.block;
 
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.fluid.FluidTransferBridge;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,6 +30,36 @@ public final class FluidCauldronInteractions {
                 !level.getBlockState(hit.getBlockPos()).is(Blocks.CAULDRON))
                 return InteractionResult.PASS;
             ItemStack held = player.getItemInHand(hand);
+            // Registered fluids from other mods, regardless of bucket/item
+            // implementation, arrive via ITEM storage. Vanilla water/lava
+            // continue to use the original cauldron maps.
+            Storage<FluidVariant> external = FluidTransferBridge.itemStorage(player, hand);
+            if (external != null) {
+                FluidVariant heldFluid = FluidTransferBridge.heldSource(player, hand);
+                if (!heldFluid.isBlank()
+                    && heldFluid.getFluid() != net.minecraft.world.level.material.Fluids.WATER
+                    && heldFluid.getFluid() != net.minecraft.world.level.material.Fluids.LAVA) {
+                    if (level.isClientSide()) return InteractionResult.SUCCESS;
+                    long available = 0;
+                    for (StorageView<FluidVariant> view : external.nonEmptyViews())
+                        if (heldFluid.equals(view.getResource())) available += view.getAmount();
+                    int levelCount = available >= FluidConstants.BUCKET ? 4 : 1;
+                    if (!level.setBlockAndUpdate(hit.getBlockPos(),
+                            ModBlocks.FLUID_CAULDRON.defaultBlockState()
+                                .setValue(FluidCauldronBlock.LEVEL, levelCount)))
+                        return InteractionResult.FAIL;
+                    if (!(level.getBlockEntity(hit.getBlockPos())
+                            instanceof FluidCauldronBlockEntity target) ||
+                        !FluidTransferBridge.transfer(player, hand, target.getFluidStorage())) {
+                        level.setBlockAndUpdate(hit.getBlockPos(), Blocks.CAULDRON.defaultBlockState());
+                        return InteractionResult.FAIL;
+                    }
+                    level.playSound(null, hit.getBlockPos(), levelCount == 4
+                        ? SoundEvents.BUCKET_EMPTY : SoundEvents.BOTTLE_EMPTY,
+                        SoundSource.BLOCKS, 1F, 1F);
+                    return InteractionResult.SUCCESS;
+                }
+            }
             BarrelFluidContainers.Portion fluid = BarrelFluidContainers.filledContainer(held);
             if (fluid == null ||
                 "minecraft:water".equals(fluid.id()) ||
