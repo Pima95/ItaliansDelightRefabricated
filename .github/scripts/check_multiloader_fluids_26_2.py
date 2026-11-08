@@ -20,7 +20,8 @@ assert 'new Definition("italiansdelight:olive_oil", true,' in catalog
 assert 'new Definition("italiansdelight:apple_juice", true,' in catalog
 assert 'return Blocks.AIR.defaultBlockState();' in model
 assert 'FluidVariant.CODEC' in tank
-assert 'FluidCatalog.canonicalId(input.getStringOr("FluidId", fallback))' in tank
+assert 'String id = input.getStringOr("FluidId", fallback);' in tank
+assert "FluidCatalog.canonicalId(" not in tank
 # No alias mapping, registry entry or fluid tag for vanilla cow milk.
 assert 'italiansdelight:cow_milk' not in catalog
 assert '"minecraft:milk".equals(id)' not in catalog
