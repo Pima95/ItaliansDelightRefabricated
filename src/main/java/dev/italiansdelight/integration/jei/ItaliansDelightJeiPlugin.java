@@ -76,6 +76,9 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new HangingAgingDryingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
+            new CrushingTubRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
             new SaltEvaporationRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
@@ -153,6 +156,11 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             java.util.List.of(
                 SaltEvaporationJeiRecipe.createDefault()
             )
+        );
+
+        registration.addRecipes(
+            CrushingTubJeiRecipeTypes.CRUSHING_TUB,
+            CrushingTubJeiRecipe.createExamples()
         );
 
         // Illustrative valid configurations for the dynamic crafting recipe.
