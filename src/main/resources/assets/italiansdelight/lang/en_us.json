@@ -374,5 +374,9 @@
   "fluid.italiansdelight.rennet": "Rennet",
   "fluid.italiansdelight.apple_cider_vinegar": "Apple Cider Vinegar",
   "jei.italiansdelight.fluids.rennet": "Rennet is a liquid ingredient used in cheese making. Bottles contain 250 mB and buckets 1,000 mB; both can transfer into Barrels and cauldrons. It is not placeable in the world.",
-  "jei.italiansdelight.fluids.apple_cider_vinegar": "Apple cider vinegar is a liquid ingredient from the mod. Bottles hold 250 mB and buckets 1,000 mB; it can be stored in Barrels and cauldrons. It is not placeable in the world."
+  "jei.italiansdelight.fluids.apple_cider_vinegar": "Apple cider vinegar is a liquid ingredient from the mod. Bottles hold 250 mB and buckets 1,000 mB; it can be stored in Barrels and cauldrons. It is not placeable in the world.",
+  "block.italiansdelight.sheep_milk": "Sheep Milk",
+  "block.italiansdelight.whey": "Whey",
+  "block.italiansdelight.rennet": "Rennet",
+  "block.italiansdelight.apple_cider_vinegar": "Apple Cider Vinegar"
 }

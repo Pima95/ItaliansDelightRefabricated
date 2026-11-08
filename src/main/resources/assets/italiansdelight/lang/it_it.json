@@ -374,5 +374,9 @@
   "fluid.italiansdelight.rennet": "Caglio",
   "fluid.italiansdelight.apple_cider_vinegar": "Aceto di mele",
   "jei.italiansdelight.fluids.rennet": "Il caglio è un ingrediente liquido della lavorazione casearia. La bottiglia contiene 250 mB e il secchio 1.000 mB; entrambi possono essere travasati nel Barrel o nel calderone. Il caglio non è versabile nel mondo.",
-  "jei.italiansdelight.fluids.apple_cider_vinegar": "L'aceto di mele è un ingrediente liquido della mod. La bottiglia contiene 250 mB e il secchio 1.000 mB; può essere conservato nel Barrel o nel calderone. L'aceto non è versabile nel mondo."
+  "jei.italiansdelight.fluids.apple_cider_vinegar": "L'aceto di mele è un ingrediente liquido della mod. La bottiglia contiene 250 mB e il secchio 1.000 mB; può essere conservato nel Barrel o nel calderone. L'aceto non è versabile nel mondo.",
+  "block.italiansdelight.sheep_milk": "Latte di pecora",
+  "block.italiansdelight.whey": "Siero di latte",
+  "block.italiansdelight.rennet": "Caglio",
+  "block.italiansdelight.apple_cider_vinegar": "Aceto di mele"
 }

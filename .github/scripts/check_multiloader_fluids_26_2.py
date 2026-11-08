@@ -47,3 +47,27 @@ assert "new EmptyItemFluidStorage(" in adapters
 assert "FabricFluidItemContainers.register();" in init
 assert "FluidTransferBridge.register();" in init
 print("OK: six registered fluid families; four non-world liquids; legacy milk migration and item transfer adapters")
+
+# Fabric 26.2 FluidVariantAttributeHandler derives "block.<namespace>.<id>"
+# for non-placeable fluids (createLegacyBlock() -> Blocks.AIR). JEI shows the
+# raw key if only "fluid.<namespace>.<id>" is translated.
+import json
+for lang, expected in {
+    "it_it": {
+        "sheep_milk": "Latte di pecora",
+        "whey": "Siero di latte",
+        "rennet": "Caglio",
+        "apple_cider_vinegar": "Aceto di mele",
+    },
+    "en_us": {
+        "sheep_milk": "Sheep Milk",
+        "whey": "Whey",
+        "rennet": "Rennet",
+        "apple_cider_vinegar": "Apple Cider Vinegar",
+    },
+}.items():
+    translations=json.loads((RES / f"assets/italiansdelight/lang/{lang}.json").read_text())
+    for fluid_id, display in expected.items():
+        assert translations[f"block.italiansdelight.{fluid_id}"] == display
+        assert translations[f"fluid.italiansdelight.{fluid_id}"] == display
+print("OK: four storage-only liquid JEI display names translated in Italian and English")
