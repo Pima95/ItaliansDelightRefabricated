@@ -11,6 +11,14 @@
     {
       "type": "minecraft:single",
       "resource": "italiansdelight:block/liquid_surface/whey"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/rennet"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/apple_cider_vinegar"
     }
   ]
 }
