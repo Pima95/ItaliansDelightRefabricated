@@ -31,7 +31,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
  * Rustic 1.12.2 Crushing Tub interaction adapted to Minecraft 26.2.
- * Geometry is unchanged across all fifteen wood variants.
+ * Hollow appearance is unchanged across all fifteen wood variants.
+ * Collision follows the solid, 9/16-high landing plane used by original Rustic.
  */
 public final class CrushingTubBlock extends BaseEntityBlock {
     private static final VoxelShape SHAPE = Shapes.or(
@@ -41,6 +42,18 @@ public final class CrushingTubBlock extends BaseEntityBlock {
         Block.box(0, 0, 1, 1, 9, 15),
         Block.box(15, 0, 1, 16, 9, 15)
     ).optimize();
+
+    /**
+     * Rustic 1.12.2 BlockCrushingTub returns TUB_AABB (0,0,0 -> 1,9/16,1)
+     * for collision, despite the hollow five-part appearance. Its single flat
+     * landing surface causes fallOn to fire in the CENTER as well as on the rim.
+     *
+     * Keep SHAPE for selection and the approved hollow model/texture. Do not
+     * use SHAPE for actual collision: the 1/16-high center floor could make
+     * Minecraft resolve fallOn against the ground underneath the tub instead.
+     */
+    private static final VoxelShape RUSTIC_LANDING_COLLISION =
+        Block.box(0, 0, 0, 16, 9, 16);
 
     public CrushingTubBlock(Properties properties) { super(properties); }
 
@@ -55,7 +68,9 @@ public final class CrushingTubBlock extends BaseEntityBlock {
     @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos,
                                          CollisionContext context) { return SHAPE; }
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
-                                                  CollisionContext context) { return SHAPE; }
+                                                  CollisionContext context) {
+        return RUSTIC_LANDING_COLLISION;
+    }
 
     @Override protected InteractionResult useItemOn(
         ItemStack held, BlockState state, Level level, BlockPos pos, Player player,

@@ -92,10 +92,15 @@ assert "output.accept(ModBlocks.CRUSHING_TUB);" in tab
 assert "extends BaseEntityBlock" in clazz
 assert "newBlockEntity(" in clazz and "CrushingTubBlockEntity" in clazz
 assert "getShape(" in clazz and "getCollisionShape(" in clazz
-assert clazz.count("Block.box(")==5, "Collision must match the supplied hollow tub"
+assert clazz.count("Block.box(")==6, "Hollow selection plus Rustic full-width landing collision"
+assert "RUSTIC_LANDING_COLLISION" in clazz and "Block.box(0, 0, 0, 16, 9, 16)" in clazz
+assert "return RUSTIC_LANDING_COLLISION;" in clazz
 assert "Shapes.or(" in clazz and ".noOcclusion()" in blocks
 assert "BaseEntityBlock" in clazz
 assert "fallOn(" in clazz and "tub.stomp()" in clazz
+renderer=(JAVA/"client/render/CrushingTubFluidRenderer.java").read_text()
+assert "ItemDisplayContext.NONE" in renderer and "Axis.XP.rotationDegrees(-90.0f)" in renderer
+assert "state.inputModel.submit(" in renderer and "state.inputCount" in renderer
 assert "useItemOn(" in clazz and "useWithoutItem(" in clazz
 for lang in ("en_us","it_it"):
     loc=read(A/f"lang/{lang}.json")

@@ -32,7 +32,7 @@ public final class CrushingTubFluidRenderer
         state.inputCount = input.getCount();
         // Resolve the actual item model during extraction (never in submit).
         Minecraft.getInstance().getItemModelResolver().updateForTopItem(
-            state.inputModel, input, ItemDisplayContext.FIXED, entity.getLevel(), null,
+            state.inputModel, input, ItemDisplayContext.NONE, entity.getLevel(), null,
             entity.getBlockPos().hashCode());
         state.amount = entity.getAmount();
         state.fluidId = entity.getFluidId();
@@ -43,16 +43,21 @@ public final class CrushingTubFluidRenderer
     @Override public void submit(State state, PoseStack stack, SubmitNodeCollector collector,
             CameraRenderState camera) {
         // Rustic shows the pending solid ingredients in a short stack on the
-        // bottom of the tub (one representative model for every eight items).
-        // The content is a render snapshot and is never a dropped world entity.
+        // visible wooden bottom (one representative model per eight items).
+        // The collision plane is intentionally higher than these item sprites:
+        // it is NOT geometry, so it cannot occlude the rendered contents.
         if (state.inputCount > 0 && !state.inputModel.isEmpty()) {
             int layers = Math.min(8, (state.inputCount + 7) / 8);
             for (int i = 0; i < layers; ++i) {
                 stack.pushPose();
-                stack.translate(0.5, 0.105 + i * 0.045, 0.5);
+                // Model space is centered on the origin; lay the item face
+                // UP, just above the modeled 1/16-high wooden bottom.
+                // NONE skips the Item Frame FIXED transformation, which was
+                // tipping/displacing the sprite below the visible floor.
+                stack.translate(0.5, 0.09 + i * 0.0625, 0.5);
                 stack.mulPose(Axis.YP.rotationDegrees(i * 37.0f));
-                stack.mulPose(Axis.XP.rotationDegrees(90.0f));
-                stack.scale(0.45f, 0.45f, 0.45f);
+                stack.mulPose(Axis.XP.rotationDegrees(-90.0f));
+                stack.scale(0.50f, 0.50f, 0.50f);
                 state.inputModel.submit(stack, collector,
                     state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
                 stack.popPose();
