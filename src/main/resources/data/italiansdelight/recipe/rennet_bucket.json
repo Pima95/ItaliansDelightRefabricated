@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:bucket",
+    "italiansdelight:rennet",
+    "italiansdelight:rennet",
+    "italiansdelight:rennet",
+    "italiansdelight:rennet"
+  ],
+  "result": {
+    "id": "italiansdelight:rennet_bucket",
+    "count": 1
+  }
+}

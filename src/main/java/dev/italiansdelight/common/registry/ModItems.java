@@ -379,6 +379,13 @@ public final class ModItems {
                         .craftRemainder(net.minecraft.world.item.Items.GLASS_BOTTLE)
                         .stacksTo(16));
 
+        // Four 250 mB rennet bottles combine into one 1000 mB bucket.
+        public static final ResourceKey<Item> RENNET_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("rennet_bucket"));
+        public static final Item RENNET_BUCKET = register(
+                RENNET_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+
         // Curd
         public static final ResourceKey<Item> CURD_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
@@ -438,6 +445,13 @@ public final class ModItems {
                 new Item.Properties()
                         .craftRemainder(Items.GLASS_BOTTLE)
                         .stacksTo(16));
+
+        // Four 250 mB apple_cider_vinegar bottles combine into one 1000 mB bucket.
+        public static final ResourceKey<Item> APPLE_CIDER_VINEGAR_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_cider_vinegar_bucket"));
+        public static final Item APPLE_CIDER_VINEGAR_BUCKET = register(
+                APPLE_CIDER_VINEGAR_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
 
         // Ricotta
         public static final ResourceKey<Item> RICOTTA_KEY = ResourceKey.create(

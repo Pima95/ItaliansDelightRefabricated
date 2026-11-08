@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "italiansdelight:apple_cider_vinegar_bucket",
+    "minecraft:glass_bottle",
+    "minecraft:glass_bottle",
+    "minecraft:glass_bottle",
+    "minecraft:glass_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:apple_cider_vinegar",
+    "count": 4
+  }
+}

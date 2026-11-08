@@ -205,10 +205,12 @@ public final class ModItemGroups {
                 output.accept(ModItems.WHEY_BUCKET);
                 output.accept(ModItems.WHEY_BOTTLE);
                 output.accept(ModItems.RENNET);
+                 output.accept(ModItems.RENNET_BUCKET);
                 output.accept(ModItems.CURD);
                 output.accept(ModItems.CREAM_BOWL);
                 output.accept(ModItems.BLUE_MOLD_CULTURE);
                 output.accept(ModItems.APPLE_CIDER_VINEGAR);
+                 output.accept(ModItems.APPLE_CIDER_VINEGAR_BUCKET);
 
                 // CHEESES: fresh products followed by each family's stages.
                 output.accept(ModItems.MOZZARELLA);
