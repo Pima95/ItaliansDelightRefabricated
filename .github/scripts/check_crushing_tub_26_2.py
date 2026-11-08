@@ -46,7 +46,10 @@ assert read(A/"items/crushing_tub.json")=={
     "model":{"type":"minecraft:model","model":"italiansdelight:item/crushing_tub"}
 }
 assert read(A/"blockstates/crushing_tub.json")=={
-    "variants":{"":{"model":"italiansdelight:block/crushing_tub"}}
+    "variants":{
+        "waterlogged=false":{"model":"italiansdelight:block/crushing_tub"},
+        "waterlogged=true":{"model":"italiansdelight:block/crushing_tub"}
+    }
 }
 assert "rustic:" not in json.dumps(model), "No obsolete Rustic texture namespace"
 assert "rustic:" not in (A/"models/item/crushing_tub.json").read_text()
@@ -133,3 +136,21 @@ for wood in WOODS:
             assert read(A / "items" / (block_id + ".json"))["model"]["model"] == "italiansdelight:item/" + block_id
             assert "italiansdelight:" + block_id in read(D / "minecraft/tags/block/mineable/axe.json")["values"]
 print("OK: 15 Rustic vessel wood variants, modern 26.2 art and iron-capped corners")
+
+# Waterlogged variants preserve each existing geometry and texture model:
+# true/false share the same physical JSON model; all input/output use is
+# disabled while waterlogged by the corresponding Java block methods.
+for wood in WOODS:
+    for kind in ("barrel","crushing_tub"):
+        block_id = kind if wood == "oak" else wood+"_"+kind
+        variants = read(A/"blockstates"/(block_id+".json"))["variants"]
+        expected = {"model":"italiansdelight:block/"+block_id}
+        assert variants == {"waterlogged=false":expected, "waterlogged=true":expected}
+for block_name in ("BarrelBlock","CrushingTubBlock"):
+    src = (JAVA/"common/block"/(block_name+".java")).read_text()
+    assert "SimpleWaterloggedBlock" in src
+    assert "BlockStateProperties.WATERLOGGED" in src
+    assert "getFluidState(" in src
+    assert "getStateForPlacement(" in src
+    assert "state.getValue(WATERLOGGED)" in src
+print("OK: waterlog states and underwater safeguards for all vessel woods")
