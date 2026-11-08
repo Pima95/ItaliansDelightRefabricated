@@ -1,6 +1,7 @@
 package dev.italiansdelight.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockTintSources;
@@ -28,6 +29,7 @@ public final class BarrelFluidRenderer
         state.amount = entity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)
             ? 0 : entity.getAmount();
         state.fluidId = entity.getFluidId();
+        state.fluid = entity.getFluidVariant();
         // The same biome tint vanilla uses on a water cauldron.
         // ClientLevel implements BlockAndTintGetter; generic Level does not.
         state.waterTint = Minecraft.getInstance().level == null ? 0xFF3F76E4 :
@@ -37,12 +39,13 @@ public final class BarrelFluidRenderer
     }
     @Override public void submit(State state, PoseStack stack, SubmitNodeCollector queue,
                                  CameraRenderState camera) {
-        LiquidSurfaceVisuals.submit(state.fluidId, state.amount, BarrelBlockEntity.CAPACITY,
+        LiquidSurfaceVisuals.submit(state.fluidId, state.fluid, state.amount, BarrelBlockEntity.CAPACITY,
             3.01F/16F, 12.99F/16F, 3.01F/16F, 12.99F/16F,
             2.00F/16F, 15.00F/16F, state.waterTint, state.lightCoords, stack, queue);
     }
     public static final class State extends BlockEntityRenderState {
         private String fluidId = "";
+        private FluidVariant fluid = FluidVariant.blank();
         private int amount;
         private int waterTint = 0xFF3F76E4;
     }
