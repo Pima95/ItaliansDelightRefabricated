@@ -1,6 +1,8 @@
 package dev.italiansdelight.common.block.entity;
 
+import dev.italiansdelight.common.fluid.CompatibleFluidTank;
 import dev.italiansdelight.common.registry.ModBlockEntities;
+import dev.italiansdelight.common.block.BarrelBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -16,42 +18,33 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 
-/** One kind of liquid at a time, 16 buckets total, persistent when moved. */
+/** 16 buckets: registered Fabric fluids retain components; legacy milk/whey retain IDs. */
 public final class BarrelBlockEntity extends BlockEntity {
     public static final int CAPACITY = 16_000;
     public static final int BUCKET_AMOUNT = 1_000;
     public static final int BOTTLE_AMOUNT = 250;
-    private String fluidId = "";
-    private int amount;
+
+    private final CompatibleFluidTank tank = new CompatibleFluidTank(CAPACITY, false,
+        () -> !getBlockState().getValue(BarrelBlock.WATERLOGGED),
+        this::changedAndSync);
 
     public BarrelBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BARREL, pos, state);
     }
-    public int getAmount() { return amount; }
-    public String getFluidId() { return fluidId; }
-    public boolean isEmpty() { return amount == 0; }
+    public CompatibleFluidTank getFluidStorage() { return tank; }
+    public FluidVariant getFluidVariant() { return tank.currentVariant(); }
+    public int getAmount() { return tank.amountMb(); }
+    public String getFluidId() { return tank.id(); }
+    public boolean isEmpty() { return tank.isEmptyTank(); }
+    public boolean insert(String id, int volume) { return tank.insertMb(id, volume); }
+    public boolean extract(int volume) { return tank.extractMb(volume); }
 
-    public boolean insert(String id, int volume) {
-        if (id == null || id.isBlank() || volume <= 0 || volume > CAPACITY - amount ||
-            (amount > 0 && !fluidId.equals(id))) return false;
-        fluidId = id;
-        amount += volume;
-        changedAndSync();
-        return true;
-    }
-    public boolean extract(int volume) {
-        if (volume <= 0 || volume > amount) return false;
-        amount -= volume;
-        if (amount == 0) fluidId = "";
-        changedAndSync();
-        return true;
-    }
     public void preserveContents(ItemStack stack, HolderLookup.Provider registries) {
-        if (amount == 0) return;
+        if (tank.isEmptyTank()) return;
         TagValueOutput data = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
-        data.putString("FluidId", fluidId);
-        data.putInt("Amount", amount);
+        tank.save(data);
         BlockItem.setBlockEntityData(stack, getType(), data);
     }
     private void changedAndSync() {
@@ -61,26 +54,18 @@ public final class BarrelBlockEntity extends BlockEntity {
             level.sendBlockUpdated(worldPosition, state, state, Block.UPDATE_CLIENTS);
         }
     }
-
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         return saveWithoutMetadata(registries);
     }
-
     @Override public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
-
     @Override protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
-        output.putString("FluidId", fluidId);
-        output.putInt("Amount", amount);
+        tank.save(output);
     }
     @Override protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        // Migrate old olive-only barrels and keep their liquids.
-        int oliveLegacy = input.getIntOr("OliveOilAmount", 0);
-        amount = Math.max(0, Math.min(CAPACITY, input.getIntOr("Amount", oliveLegacy)));
-        fluidId = input.getStringOr("FluidId", oliveLegacy > 0 ? "italiansdelight:olive_oil" : "");
-        if (amount == 0 || fluidId.isBlank()) { amount = 0; fluidId = ""; }
+        tank.load(input, true);
     }
 }
