@@ -27,6 +27,12 @@ public final class BarrelFluidContainers {
             return new Portion("italiansdelight:rennet", 1000, Items.BUCKET);
         if (stack.is(ModItems.APPLE_CIDER_VINEGAR_BUCKET))
             return new Portion("italiansdelight:apple_cider_vinegar", 1000, Items.BUCKET);
+        // Farmer's Delight cow milk bottles must behave like our sheep milk.
+        if (stack.is(vectorwing.farmersdelight.common.registry.ModItems.MILK_BOTTLE.get()))
+            return new Portion("minecraft:milk", 250, Items.GLASS_BOTTLE);
+        // Honey is a real vanilla bottled liquid, though not placeable as fluid.
+        if (stack.is(Items.HONEY_BOTTLE))
+            return new Portion("minecraft:honey", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.SHEEP_MILK_BOTTLE))
             return new Portion("italiansdelight:sheep_milk", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.APPLE_JUICE_BOTTLE))
@@ -63,6 +69,9 @@ public final class BarrelFluidContainers {
             if ("italiansdelight:rennet".equals(id)) return new ItemStack(ModItems.RENNET);
             if ("italiansdelight:apple_cider_vinegar".equals(id)) return new ItemStack(ModItems.APPLE_CIDER_VINEGAR);
             if ("italiansdelight:sheep_milk".equals(id)) return new ItemStack(ModItems.SHEEP_MILK_BOTTLE);
+            if ("minecraft:milk".equals(id)) return new ItemStack(
+                vectorwing.farmersdelight.common.registry.ModItems.MILK_BOTTLE.get());
+            if ("minecraft:honey".equals(id)) return new ItemStack(Items.HONEY_BOTTLE);
             if ("italiansdelight:apple_juice".equals(id))
                 return new ItemStack(ModItems.APPLE_JUICE_BOTTLE);
             if ("italiansdelight:olive_oil".equals(id)) return new ItemStack(ModItems.OLIVE_OIL_BOTTLE);
