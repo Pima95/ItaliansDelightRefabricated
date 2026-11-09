@@ -28,9 +28,34 @@ Current features include:
 
 **Pizza Update 1.0.0** is now published. It introduces interactive dough stretching and topping placement, 18 recognized pizza flavors, Mixed Pizza, a reusable Pizza Peel, the Pizza Oven, vanilla furnace/smoker support, individual ingredient-bearing slices and searchable JEI guides. See the [v1.0.0 release](https://github.com/Pima95/ItaliansDelightRefabricated/releases/tag/v1.0.0).
 
-**Next update: Orchard Update 1.1.0** is under development on the [`feature/orchards-1.1.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/orchards-1.1.0). Olive Wood construction blocks, signs, boats/chest boats, a cabinet, cheese-aging rack, silvery leaves and a plantable sapling are implemented. Single saplings grow original procedural olive trees, visually accepted by the author; four saplings in a 2×2 square now grow a distinct **procedural ancient olive** with a monumental twisted 2×2 trunk and overlapping silvery crowns, awaiting in-game approval. **Natural olive world generation remains disabled** until the ancient shape is accepted. An olive-wood version of Minecraft's native Shelf (`olive_shelf`) offers 3-slot storage, redstone chaining through `#minecraft:wooden_shelves` (including mixed woods), and individually shaded front panels for its five UV states, with the original back and engraved trims retained. It is pending in-game acceptance and is separate from the cheese-aging rack. The approved Almond log, stripped log and planks now support eight vanilla-style derivatives: all-bark and stripped wood, stairs, slab, fence, gate, button and pressure plate. Doors, signs, shelf and boats await their own art pass; fruit-bearing Cherry wood families and trees will follow; a single shared fruit harvesting/regrowth mechanic comes afterwards, and natural world generation is deferred until all three species are ready. Identified obsolete Rustic leaf/sapling textures are not used. See the [Orchard roadmap](docs/orchards-1.1.0/ROADMAP.md). These new features are **not included in the published 1.0.0 release**.
+**In development: Orchard Update 1.1.0** — on the
+[`feature/orchards-1.1.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/orchards-1.1.0).
+It adds three complete orchard species with their own wood families:
+**Olive** (including the rare monumental 2×2 Ancient Olive), **Almond**,
+and a green-leaved **Fruit Cherry** distinct from vanilla pink Cherry.
+Each has its own sapling, original tree shapes, foliage stages, fruit
+harvesting and wood-derived furniture (signs, doors, shelves, cabinets,
+boats and aging racks). Natural generation in the chosen biomes is enabled
+and its lower density has been accepted in-game: normal Olives and Almonds
+each attempt 1/40 eligible Plains/Savanna chunks, Almonds attempt 1/100
+Meadow chunks; rare Ancient Olive 1/96 and Fruit Cherry 1/7 are unchanged.
 
-Additional pasta dishes will be introduced gradually as bonus content alongside future updates; grapes/wine and seasonal content remain longer-term plans.
+The update also provides Orchard fruit crates; Rustic-style
+**Crushing Tubs in all 15 wood variants**; **Barrels and cauldrons** with
+liquid handling, bottles and buckets; recipes for olives, apples, sugar
+cane, honeycombs and golden apples; JEI guidance; and optional
+**Serene Seasons** compatibility. Natural leaves use a rotating
+approximately **65% fruiting eligibility** rather than always ripening.
+**Grapes, grape juice and wine are reserved for a later version**, even
+though some unused texture resources are already present in the tree.
+
+The public release is still **1.0.0**. The branch has not yet been
+tagged or published as 1.1.0; it currently retains the 1.0.0 JAR
+version until the final release gate. See the
+[Orchard readiness checklist](docs/orchards-1.1.0/RELEASE_READINESS.md),
+[draft release notes](docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md)
+and [technical roadmap](docs/orchards-1.1.0/ROADMAP.md).
+These development features are **not part of the published 1.0.0 JAR**.
 
 ## Requirements
 

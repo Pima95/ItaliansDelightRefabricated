@@ -1,5 +1,20 @@
 # Italian's Delight Refabricated — Orchard Update 1.1.0
 
+> **Stato aggiornato — 9 novembre 2026:** le tre specie dell'Orchard
+> (ulivo, mandorlo, ciliegio da frutto), i set di legno, la
+> fruttificazione, le lavorazioni Rustic supportate e la
+> generazione naturale sono implementati. L'autore ha confermato
+> **la distribuzione naturale finale** dopo il bilanciamento:
+> 1/40 ulivo normale e mandorlo per le pianure e le savane,
+> 1/100 mandorlo nella meadow; ulivo secolare 1/96 e ciliegio
+> da frutto 1/7 invariati. Il progetto passa alla verifica
+> pre-release, senza pubblicazione né incremento del numero di
+> versione fino a una decisione dedicata. Le note sottostanti
+> che indicano funzionalità ancora assenti sono un **diario storico**
+> delle fasi precedenti e non rappresentano lo stato attuale.
+> [Checklist 1.1.0](RELEASE_READINESS.md) ·
+> [Bozza release notes](RELEASE_NOTES_DRAFT.md)
+>
 > **Aggiornamento — 9 novembre 2026:** worldgen naturale **ATTIVATO** sul branch
 > `feature/orchards-1.1.0`, riutilizzando le quattro feature già approvate:
 > ulivo normale, ulivo secolare 2×2 (raro), mandorlo, ciliegio da frutto.
@@ -1005,11 +1020,11 @@ visivamente sotto le decorazioni.
 ## 4. Fasi di sviluppo — ordine aggiornato
 
 - [x] **Fase 0 — Scelte iniziali e ulivo:** tre specie confermate, famiglia d'ulivo e alberi coltivabili 1×1 e secolare 2×2 sviluppati e verificati esteticamente; ulivo secolare raro in natura in una fase futura.
-- [ ] **Fase 1 — Legno e albero di mandorlo:** palette originale da approvare, famiglia edilizia completa, texture originali, germoglio, foglie e albero procedurale coltivabile, prove in gioco.
-- [ ] **Fase 2 — Legno e albero di ciliegio da frutto:** legno `fruit_cherry_*` autonomo, foglie verdi, germoglio, crescita procedurale e prove in gioco, senza modificare il ciliegio ornamentale vanilla.
-- [ ] **Fase 3 — Fruttificazione condivisa:** una meccanica comune a olive, mandorle e ciliegie: maturazione, clic destro, raccolta, ricrescita e persistenza, senza distruggere le foglie.
-- [ ] **Fase 4 — Generazione naturale e bilanciamento:** aggiungere le tre specie nei rispettivi biomi, con la variante secolare nettamente più rara, soltanto dopo la verifica di alberi e sistema frutti.
-- [ ] **Fase 5 — Ingredienti, preparazioni e integrazione:** ricette, eventuali lavorazioni specifiche, Farmer's Delight, JEI, lingue e bonus.
+- [x] **Fase 1 — Legno e albero di mandorlo:** palette originale da approvare, famiglia edilizia completa, texture originali, germoglio, foglie e albero procedurale coltivabile, prove in gioco.
+- [x] **Fase 2 — Legno e albero di ciliegio da frutto:** legno `fruit_cherry_*` autonomo, foglie verdi, germoglio, crescita procedurale e prove in gioco, senza modificare il ciliegio ornamentale vanilla.
+- [x] **Fase 3 — Fruttificazione condivisa:** una meccanica comune a olive, mandorle e ciliegie: maturazione, clic destro, raccolta, ricrescita e persistenza, senza distruggere le foglie.
+- [x] **Fase 4 — Generazione naturale e bilanciamento:** aggiungere le tre specie nei rispettivi biomi, con la variante secolare nettamente più rara, soltanto dopo la verifica di alberi e sistema frutti.
+- [x] **Fase 5 — Ingredienti, preparazioni e integrazione:** ricette, eventuali lavorazioni specifiche, Farmer's Delight, JEI, lingue e bonus.
 - [ ] **Fase 6 — Test e pubblicazione:** build, client, server dedicato, vecchi mondi, worldgen, performance, verifica asset e rilascio.
 
 ## 5. Decisioni confermate e aspetti ancora aperti

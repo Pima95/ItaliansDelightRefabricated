@@ -4,7 +4,53 @@ All notable changes to Italian's Delight Refabricated are documented here.
 
 ## Unreleased — Orchard Update 1.1.0 (development branch)
 
-Work on `feature/orchards-1.1.0` includes the Olive Wood building family, standard and hanging signs, cheese-aging rack, Farmer's Delight cabinet, boats with/without chests, silvery Olive Leaves and a plantable Olive Sapling. The sapling currently supports normal and ancient 2×2 growth using **temporary tree forms**. Original procedural trunk and foliage placers are the next milestone. **Natural olive world generation is disabled** until the original shapes are approved. Almond/Fruit Cherry trees, fruiting and harvesting are not yet implemented. Identified obsolete Rustic leaf/sapling artwork was removed from the development branch. The published 1.0.0 release is unchanged.
+**Development status (9 November 2026):** main functionality is implemented and
+the author has confirmed the final **natural-generation density** in-game.
+This is not a 1.1.0 release announcement. The branch still has
+`mod_version=1.0.0` until release-candidate validation and an explicit
+decision to change the shipped version and publish.
+
+### Orchard trees, fruiting and wood
+- Added separate, original **Olive, Almond and Fruit Cherry** tree and wood
+  families: logs and derivatives, saplings, doors, signs, boats and chest
+  boats, cabinets, vanilla-style shelves and cheese-aging racks.
+- Added a monumental **Ancient Olive** with a true irregular 2×2 trunk;
+  four Olive saplings in a 2×2 can grow one, and it occurs rarely in nature.
+- Added species-specific flowering/unripe/ripe foliage, seasonal appearance,
+  exposed-natural-leaf right-click harvesting (1–3 fruit), bone-meal rules,
+  regrowth and rotating **65% fruiting eligibility**.
+- Added optional Serene Seasons integration; it is not a required mod.
+
+### Natural generation — final approved balancing
+- Normal Olive: **1/40** attempts/chunk in Plains, Sunflower Plains and
+  Savanna variants, including Windswept Savanna.
+- Almond: **1/40** in Plains/Sunflower Plains/Savanna/Savanna Plateau;
+  **1/100** in Meadow using a distinct placed feature.
+- Ancient Olive: **1/96** in its original biomes (**unchanged**).
+- Fruit Cherry: **1/7** in Forest/Flower Forest/Cherry Grove (**unchanged**).
+- These are *placement attempts*, not guaranteed trees, and only apply to
+  **newly generated chunks**. The user approved the reduced density in-game.
+
+### Orchard processing and compatibility
+- Added five reversible fruit/herb crates and JEI recipes/information.
+- Added 15 wooden **Crushing Tub** variants, including the original
+  honeycomb, apple, olive, sugar cane and golden-apple processing paths.
+- Added Barrel and cauldron liquid transfer with 250 mB bottles and
+  1,000 mB buckets; new Golden Apple Juice and Honey buckets remain
+  **non-placeable** and preserve their existing liquid identities.
+- Reused provided Rustic fluid sprites and their animation metadata.
+- Added compatibility checks for fluid storage and neighboring mods;
+  kept the existing 1.0.0 Pizza Update behavior intact.
+- **Not part of 1.1.0:** grapes, grape juice and wine; any stored artwork
+  for these is unused and does not imply implemented gameplay.
+
+### Release preparation
+- Corrected Fabric mod-list icon metadata to point to the actual icon
+  under `assets/italiansdelight/textures/icon.png`.
+- Prepared [the 1.1.0 readiness checklist](docs/orchards-1.1.0/RELEASE_READINESS.md)
+  and [draft release notes](docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md).
+  A green CI build does not establish unperformed dedicated-server,
+  multiplayer or saved-world compatibility tests.
 
 ## 1.0.0 — Pizza Update (released 23 October 2026)
 

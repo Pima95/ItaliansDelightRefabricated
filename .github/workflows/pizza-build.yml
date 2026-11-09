@@ -138,6 +138,8 @@ jobs:
         run: python3 .github/scripts/check_cheese_support_drops.py
       - name: Verify 1.0.0 release metadata remains gated
         run: python3 .github/scripts/check_pizza_release_metadata.py
+      - name: Audit Orchard 1.1.0 release-candidate readiness without publishing
+        run: python3 .github/scripts/check_orchard_release_readiness.py
       - name: Verify JEI recipe access survives client world transitions
         run: python3 .github/scripts/check_jei_world_lifecycle.py
       - name: Verify dedicated-server entrypoint and common mixin side safety
