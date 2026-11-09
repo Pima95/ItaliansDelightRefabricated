@@ -195,7 +195,7 @@ assert "italiansdelight:fruit_cherry_leaves" in drops
 assert "italiansdelight:fruit_cherry_sapling" in drops
 assert "minecraft:stick" in drops
 assert "italiansdelight:cherries" not in drops
-assert not (D/"worldgen/placed_feature/fruit_cherry_tree_wild.json").exists()
+assert (D/"worldgen/placed_feature/fruit_cherry_tree_wild.json").exists(), "Natural Fruit Cherry generation must be present"
 
 print("OK: approved 157px fruit-cherry leaves unchanged; 5 new 16x16 sprites use identical hard-alpha mask")
 print("OK: three WHITE blossoming phases grow at SAME 9 fruit sites; flowers increase without drifting")
