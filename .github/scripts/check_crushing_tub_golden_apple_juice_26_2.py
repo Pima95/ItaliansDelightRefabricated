@@ -25,7 +25,7 @@ assert 'ModFluids.GOLDEN_APPLE_JUICE, 100,' in jei
 assert 'ModFluids.GOLDEN_APPLE_JUICE, 1000,' in jei
 assert 'public static final Item GOLDEN_APPLE_JUICE_BOTTLE' in items
 assert 'new ContainedFluid(() -> ModItems.GOLDEN_APPLE_JUICE_BUCKET)' in fluids
-assert 'bottle(ModFluids.GOLDEN_APPLE_JUICE, ModItems.GOLDEN_APPLE_JUICE_BOTTLE)' in adapter
+assert 'storageOnly(ModFluids.GOLDEN_APPLE_JUICE,' in adapter
 assert '"italiansdelight:golden_apple_juice", 250, Items.GLASS_BOTTLE' in bridge
 assert 'if ("italiansdelight:golden_apple_juice".equals(id))' in bridge
 assert 'registerContainedFluid(ModFluids.GOLDEN_APPLE_JUICE,' in client
