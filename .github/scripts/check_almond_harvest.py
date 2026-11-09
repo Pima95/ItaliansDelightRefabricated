@@ -105,7 +105,7 @@ assert "italiansdelight:almond_leaves" in drops
 assert "italiansdelight:almond_sapling" in drops
 assert "minecraft:stick" in drops
 assert "italiansdelight:almonds" not in drops
-assert not (D/"worldgen/placed_feature/almond_tree_wild.json").exists()
+assert (D/"worldgen/placed_feature/almond_tree_wild.json").exists(), "Natural Almond placement must exist"
 print("OK: Almond original foliage preserved, 4 derived growth sprites, full binary alpha")
 print("OK: pink/white blooms -> green husk -> dried almond shell, 5 stages in blockstates")
 print("OK: exposed-air-only flowering and harvesting, natural-only growth, 1-3 almonds")
