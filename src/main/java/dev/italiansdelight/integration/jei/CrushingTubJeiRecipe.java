@@ -24,7 +24,7 @@ public record CrushingTubJeiRecipe(ItemStack ingredient, Fluid fluid, long amoun
     public static List<CrushingTubJeiRecipe> createExamples() {
         return List.of(
             new CrushingTubJeiRecipe(new ItemStack(ModItems.OLIVES),
-                ModFluids.OLIVE_OIL_STILL, 250, ItemStack.EMPTY, ItemStack.EMPTY),
+                ModFluids.OLIVE_OIL_STILL, 250, new ItemStack(ModItems.OLIVE_SEED), ItemStack.EMPTY),
             new CrushingTubJeiRecipe(new ItemStack(Items.APPLE),
                 ModFluids.APPLE_JUICE_STILL, 250, new ItemStack(ModItems.APPLE_SEEDS), ItemStack.EMPTY),
             new CrushingTubJeiRecipe(new ItemStack(Items.SUGAR_CANE),

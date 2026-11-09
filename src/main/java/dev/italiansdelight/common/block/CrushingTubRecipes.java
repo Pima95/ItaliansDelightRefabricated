@@ -11,6 +11,8 @@ import net.minecraft.world.item.Items;
  * Rustic Recipes.addCrushingTubRecipes() produces 250 mB per OLIVE, APPLE,
  * SUGAR_CANE and HONEYCOMB. Honey is virtual and can be extracted in
  * vanilla honey bottles; it is not a placeable fluid or a honey bucket.
+ * Olives now return one olive pit, independently of the existing
+ * Cutting Board pitting recipe, only after an accepted stomp.
  * Golden apples produce their own 100/1000 mB registered non-world juice
  * and one apple seed, following the original Rustic Crushing Tub recipe.
  *
@@ -31,7 +33,8 @@ public final class CrushingTubRecipes {
     public static Recipe find(ItemStack stack) {
         if (stack.isEmpty()) return null;
         if (stack.is(ModItems.OLIVES))
-            return new Recipe("italiansdelight:olive_oil", STANDARD_AMOUNT, ItemStack.EMPTY);
+            return new Recipe("italiansdelight:olive_oil", STANDARD_AMOUNT,
+                new ItemStack(ModItems.OLIVE_SEED));
         if (stack.is(Items.APPLE))
             return new Recipe("italiansdelight:apple_juice", STANDARD_AMOUNT,
                 new ItemStack(ModItems.APPLE_SEEDS));

@@ -89,5 +89,39 @@ for lang in ("it_it","en_us"):
         assert f"item.italiansdelight.{id}" in l
     for id in ("mediterranea","olive_scamorza_bianca"):
         assert f"pizza.italiansdelight.taste.{id}" in l
+# The new pâté sprite is based on this mod's already-approved cream_bowl.
+# Its real pottery silhouette must remain, while the food itself differs.
+bowl=png(A/"textures/item/cream_bowl.png",16,16)
+pate_sprite=png(A/"textures/item/olive_pate.png",16,16)
+same_opaque=sum(
+    bowl[n:n+4] == pate_sprite[n:n+4] and bowl[n+3]==255
+    for n in range(0,len(bowl),4)
+)
+assert same_opaque >= 35, "Olive pâté must reuse the existing ceramic bowl silhouette"
+# Open bruschettas share a single lower bread; they must not acquire
+# an upper slice of bread covering their tomato or olive filling.
+tomato=png(A/"textures/item/bruschetta.png",16,16)
+olive=png(A/"textures/item/olive_bruschetta.png",16,16)
+same_bottom=sum(
+    tomato[(y*16+x)*4:(y*16+x)*4+4] == olive[(y*16+x)*4:(y*16+x)*4+4]
+    for y in range(11,16) for x in range(16)
+)
+assert same_bottom>=78, "Both bruschettas should share the same lower bread slice"
+assert all(tomato[(y*16+x)*4+3]==0 and olive[(y*16+x)*4+3]==0
+           for y in range(0,6) for x in range(16)), "No top bread layer"
+# Stomp accepts exactly one whole olive, produces the existing 250 mB
+# olive oil, and spawns one pit only after a successful input consumption.
+crushing=(SRC/"common/block/CrushingTubRecipes.java").read_text()
+jei=(SRC/"integration/jei/CrushingTubJeiRecipe.java").read_text()
+tub=(SRC/"common/block/entity/CrushingTubBlockEntity.java").read_text()
+block=(SRC/"common/block/CrushingTubBlock.java").read_text()
+assert 'if (stack.is(ModItems.OLIVES))' in crushing
+assert 'return new Recipe("italiansdelight:olive_oil", STANDARD_AMOUNT,\n                new ItemStack(ModItems.OLIVE_SEED));' in crushing
+assert "public static final int STANDARD_AMOUNT = 250;" in crushing
+assert 'ModFluids.OLIVE_OIL_STILL, 250, new ItemStack(ModItems.OLIVE_SEED), ItemStack.EMPTY)' in jei
+assert 'return recipe.byproduct().copy();' in tub
+assert 'if (!byproduct.isEmpty()) popResource(level, pos.above(), byproduct);' in block
+print("OK: olive processing in Crushing Tub returns one olive pit per accepted stomp, reflected in JEI")
+print("OK: pâté uses original cream-bowl pottery, bruschettas use common original lower bread")
 print("OK: olive pitting and pit, pate, two open bruschettas, stable recipes")
 print("OK: two new 20-preset pizza combinations, 32 native toppings, texture hard-alpha")
