@@ -387,5 +387,13 @@
   "jei.italiansdelight.fluids.golden_apple_juice": "Il succo di mela d'oro si ottiene nel tino di pigiatura: una mela d'oro produce 100 mB, una mela d'oro incantata 1.000 mB. Entrambe restituiscono un seme di mela. Accumula 250 mB per una bottiglia o 1.000 mB per un secchio; i contenitori non possono piazzare il liquido nel mondo. È un ingrediente liquido non piazzabile, senza effetti di pozione.",
   "item.italiansdelight.golden_apple_juice_bucket": "Secchio di succo di mela d'oro",
   "item.italiansdelight.honey_bucket": "Secchio di miele",
-  "jei.italiansdelight.fluids.honey": "Nel tino di pigiatura, un favo produce 250 mB di miele. Quattro favi producono 1.000 mB, da prelevare con un secchio vuoto; una bottiglia vuota raccoglie 250 mB. Il miele non è piazzabile nel mondo."
+  "jei.italiansdelight.fluids.honey": "Nel tino di pigiatura, un favo produce 250 mB di miele. Quattro favi producono 1.000 mB, da prelevare con un secchio vuoto; una bottiglia vuota raccoglie 250 mB. Il miele non è piazzabile nel mondo.",
+  "item.italiansdelight.olive_seed": "Nocciolo d'oliva",
+  "item.italiansdelight.olive_pitted": "Olive denocciolate",
+  "item.italiansdelight.olive_pate": "Paté di olive",
+  "item.italiansdelight.bruschetta": "Bruschetta al pomodoro",
+  "item.italiansdelight.olive_bruschetta": "Bruschetta al paté di olive",
+  "pizza.italiansdelight.ingredient.olive_pitted": "Olive denocciolate",
+  "pizza.italiansdelight.taste.mediterranea": "Mediterranea",
+  "pizza.italiansdelight.taste.olive_scamorza_bianca": "Bianca alle olive e scamorza affumicata"
 }

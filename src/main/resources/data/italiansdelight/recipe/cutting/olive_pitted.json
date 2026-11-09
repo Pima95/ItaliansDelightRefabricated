@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    "italiansdelight:olives"
+  ],
+  "tool": "#c:tools/knife",
+  "result": [
+    {
+      "item": {
+        "id": "italiansdelight:olive_pitted"
+      }
+    },
+    {
+      "item": {
+        "id": "italiansdelight:olive_seed"
+      }
+    }
+  ]
+}

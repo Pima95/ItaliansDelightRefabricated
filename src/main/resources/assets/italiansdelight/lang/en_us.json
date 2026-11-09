@@ -387,5 +387,13 @@
   "jei.italiansdelight.fluids.golden_apple_juice": "Golden apple juice is made in the Crushing Tub: one golden apple produces 100 mB, and an enchanted golden apple produces 1,000 mB. Each also yields an apple seed. Collect 250 mB with a bottle or 1,000 mB with a bucket; neither container places this liquid in the world. This is a non-placeable processing fluid, not a potion with status effects.",
   "item.italiansdelight.golden_apple_juice_bucket": "Golden Apple Juice Bucket",
   "item.italiansdelight.honey_bucket": "Honey Bucket",
-  "jei.italiansdelight.fluids.honey": "One honeycomb produces 250 mB of honey in the Crushing Tub. Four honeycombs produce 1,000 mB, collected with an empty bucket; an empty glass bottle collects 250 mB. Honey cannot be placed in the world."
+  "jei.italiansdelight.fluids.honey": "One honeycomb produces 250 mB of honey in the Crushing Tub. Four honeycombs produce 1,000 mB, collected with an empty bucket; an empty glass bottle collects 250 mB. Honey cannot be placed in the world.",
+  "item.italiansdelight.olive_seed": "Olive Pit",
+  "item.italiansdelight.olive_pitted": "Pitted Olives",
+  "item.italiansdelight.olive_pate": "Olive Pâté",
+  "item.italiansdelight.bruschetta": "Tomato Bruschetta",
+  "item.italiansdelight.olive_bruschetta": "Olive Pâté Bruschetta",
+  "pizza.italiansdelight.ingredient.olive_pitted": "Pitted Olives",
+  "pizza.italiansdelight.taste.mediterranea": "Mediterranean",
+  "pizza.italiansdelight.taste.olive_scamorza_bianca": "White Pizza with Olives and Smoked Scamorza"
 }

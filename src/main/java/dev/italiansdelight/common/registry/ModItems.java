@@ -913,6 +913,16 @@ public final class ModItems {
         // Rustic byproduct: apple pips. Tree planting will be added with the apple orchard.
         public static final Item APPLE_SEEDS = registerSimpleItem("apple_seeds", 64);
 
+        // Olive pitting: one edible flesh and one pit per whole Olive.
+        // The existing olive_seed texture is a non-plantable byproduct.
+        public static final Item OLIVE_SEED = registerSimpleItem("olive_seed", 64);
+        public static final Item OLIVE_PITTED = registerFoodItem("olive_pitted", 1, 0.2f);
+        // A bowl of pate returns the bowl when spread on the bread.
+        public static final Item OLIVE_PATE = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_pate")),
+                new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16));
+        public static final Item BRUSCHETTA = registerFoodItem("bruschetta", 5, 0.6f);
+        public static final Item OLIVE_BRUSCHETTA = registerFoodItem("olive_bruschetta", 5, 0.6f);
         public static final Item OLIVES = registerSimpleItem("olives", 64);
         public static final Item ALMONDS = registerSimpleItem("almonds", 64);
         public static final Item CHERRIES = registerSimpleItem("cherries", 64);

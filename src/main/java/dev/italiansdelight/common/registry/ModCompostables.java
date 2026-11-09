@@ -25,6 +25,11 @@ public final class ModCompostables {
         // Planting material and fruits: seeds (30%); fruit/nuts (65%).
         CompostableRegistry.INSTANCE.add(ModItems.APPLE_SEEDS, 0.30f);
         CompostableRegistry.INSTANCE.add(ModItems.OLIVES, 0.65f);
+        CompostableRegistry.INSTANCE.add(ModItems.OLIVE_SEED, 0.30f);
+        CompostableRegistry.INSTANCE.add(ModItems.OLIVE_PITTED, 0.65f);
+        CompostableRegistry.INSTANCE.add(ModItems.OLIVE_PATE, 0.65f);
+        CompostableRegistry.INSTANCE.add(ModItems.BRUSCHETTA, 0.65f);
+        CompostableRegistry.INSTANCE.add(ModItems.OLIVE_BRUSCHETTA, 0.65f);
         CompostableRegistry.INSTANCE.add(ModItems.ALMONDS, 0.65f);
         CompostableRegistry.INSTANCE.add(ModItems.CHERRIES, 0.65f);
 

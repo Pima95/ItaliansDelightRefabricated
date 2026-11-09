@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "minecraft:bread",
+    "italiansdelight:tomato_slice",
+    "italiansdelight:basil"
+  ],
+  "result": {
+    "id": "italiansdelight:bruschetta",
+    "count": 1
+  }
+}

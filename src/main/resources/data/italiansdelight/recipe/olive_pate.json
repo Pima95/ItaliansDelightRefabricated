@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "minecraft:bowl",
+    "italiansdelight:olive_pitted",
+    "italiansdelight:olive_pitted",
+    "italiansdelight:olive_pitted",
+    "italiansdelight:olive_oil_bottle",
+    "italiansdelight:salt"
+  ],
+  "result": {
+    "id": "italiansdelight:olive_pate",
+    "count": 1
+  }
+}

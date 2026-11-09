@@ -31,7 +31,7 @@ public final class PizzaJeiIngredientSamples {
      * in both baking states. Each slice has real nutrition and effects.
      */
     public static List<ItemStack> createAll() {
-        List<ItemStack> stacks = new ArrayList<>(3 * 18 + 2);
+        List<ItemStack> stacks = new ArrayList<>(3 * 20 + 2);
         for (Set<Identifier> recipe : PizzaDisplayNames.allPresets().keySet()) {
             stacks.add(PizzaCreativeSamples.create(recipe, false));
             stacks.add(PizzaCreativeSamples.create(recipe, true));
