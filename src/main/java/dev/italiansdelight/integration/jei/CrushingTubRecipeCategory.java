@@ -13,19 +13,35 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
-/** Dedicated pixel-art GUI: input and both independent outputs align to the texture. */
+/**
+ * Compact Crushing Tub JEI layout with no full-screen painted container or clock.
+ *
+ * The transparent 176x60 GUI contains only an input frame, arrow and fluid frame.
+ * A separate 22x22 sprite in the same PNG draws the optional byproduct frame.
+ * Slot contents are 3 pixels inside the frame and never touch the arrow.
+ */
 public final class CrushingTubRecipeCategory implements IRecipeCategory<CrushingTubJeiRecipe> {
     private static final int WIDTH = 176;
     private static final int HEIGHT = 60;
-    // Stomping recipes express amounts in mB; Fabric/JEI expects droplets.
+    private static final int INPUT_X = 14;
+    private static final int FLUID_X = 111;
+    private static final int BYPRODUCT_X = 145;
+    private static final int SLOT_Y = 22;
+    private static final int BYPRODUCT_FRAME_X = 142;
+    private static final int BYPRODUCT_FRAME_Y = 19;
     private static final long DROPLETS_PER_MB = FluidConstants.BUCKET / 1000L;
+
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "textures/gui/jei/crushing_tub.png");
+
     private final IDrawable background;
+    private final IDrawable byproductFrame;
     private final IDrawable icon;
 
     public CrushingTubRecipeCategory(IGuiHelper helper) {
-        background = helper.createDrawable(
-            Identifier.fromNamespaceAndPath("italiansdelight", "textures/gui/jei/crushing_tub.png"),
-            0, 0, WIDTH, HEIGHT);
+        background = helper.createDrawable(TEXTURE, 0, 0, WIDTH, HEIGHT);
+        // This sprite is outside the visible background and only drawn on demand.
+        byproductFrame = helper.createDrawable(TEXTURE, 0, 64, 22, 22);
         icon = helper.createDrawableItemLike(ModBlocks.CRUSHING_TUB);
     }
 
@@ -39,28 +55,23 @@ public final class CrushingTubRecipeCategory implements IRecipeCategory<Crushing
         return ModBlocks.CRUSHING_TUB.getName();
     }
 
-    @Override
-    public int getWidth() { return WIDTH; }
-
-    @Override
-    public int getHeight() { return HEIGHT; }
-
-    @Override
-    public IDrawable getIcon() { return icon; }
+    @Override public int getWidth() { return WIDTH; }
+    @Override public int getHeight() { return HEIGHT; }
+    @Override public IDrawable getIcon() { return icon; }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, CrushingTubJeiRecipe recipe, IFocusGroup focuses) {
-        // One input to the left of the arrow; all outputs remain to its right.
-        builder.addInputSlot(16, 21).add(recipe.ingredient());
+        builder.addInputSlot(INPUT_X, SLOT_Y).add(recipe.ingredient());
 
-        // Rendering capacity is one bucket, and the supplied amount is 250 mB in droplets.
-        builder.addOutputSlot(114, 21)
-            .setFluidRenderer(FluidConstants.BUCKET, false, 16, 16)
-            .add(recipe.fluid(), recipe.amount() * DROPLETS_PER_MB);
+        long fluidAmount = recipe.amount() * DROPLETS_PER_MB;
+        // One stomp outputs 250 mB: render its result as a full fluid slot,
+        // rather than a tiny 1/4-height strip for a 1000 mB bucket.
+        builder.addOutputSlot(FLUID_X, SLOT_Y)
+            .setFluidRenderer(fluidAmount, false, 16, 16)
+            .add(recipe.fluid(), fluidAmount);
 
-        // Optional byproduct has a dedicated slot; never rendered over the arrow.
         if (!recipe.byproduct().isEmpty()) {
-            builder.addOutputSlot(145, 21).add(recipe.byproduct());
+            builder.addOutputSlot(BYPRODUCT_X, SLOT_Y).add(recipe.byproduct());
         }
     }
 
@@ -68,5 +79,8 @@ public final class CrushingTubRecipeCategory implements IRecipeCategory<Crushing
     public void draw(CrushingTubJeiRecipe recipe, IRecipeSlotsView slots,
                      GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
         background.draw(graphics);
+        if (!recipe.byproduct().isEmpty()) {
+            byproductFrame.draw(graphics, BYPRODUCT_FRAME_X, BYPRODUCT_FRAME_Y);
+        }
     }
 }
