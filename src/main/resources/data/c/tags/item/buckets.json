@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "italiansdelight:rennet_bucket",
+    "italiansdelight:apple_cider_vinegar_bucket",
+    "italiansdelight:sheep_milk_bucket",
+    "italiansdelight:whey_bucket",
+    "italiansdelight:apple_juice_bucket",
+    "italiansdelight:olive_oil_bucket"
+  ]
+}
