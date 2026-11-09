@@ -107,6 +107,7 @@
   "item.italiansdelight.speck_slice": "Speck Slice",
   "gui.italiansdelight.jei.hanging_aging_drying": "Hanging Aging & Drying",
   "gui.italiansdelight.jei.crushing_tub": "Crushing Tub",
+  "gui.italiansdelight.jei.crushing_tub.honey_extraction": "Honeycomb produces 250 mB of honey in the tub. Use an empty glass bottle to collect it.",
   "gui.italiansdelight.jei.salt_evaporation": "Salt Evaporation",
   "gui.italiansdelight.jei.salt_evaporation.process": "Evaporation",
   "gui.italiansdelight.jei.salt_evaporation.yield": "Yield: %s–%s Salt",

@@ -36,6 +36,10 @@ public final class LiquidSurfaceVisuals {
         Identifier.withDefaultNamespace("block/water_still"), 0xFFFFFFFF);
     private static final Map<String, Surface> SURFACES = new ConcurrentHashMap<>(Map.of(
         "minecraft:water", WATER,
+        // Honey is a virtual liquid in this port (bottle-only, not a world fluid).
+        // Render its tank surface from vanilla honey art, never blue water.
+        "minecraft:honey", new Surface(
+            Identifier.withDefaultNamespace("block/honey_block_top"), 0xFFFFFFFF),
         "italiansdelight:apple_juice",
             new Surface(ModRegistries.id("block/fluids/apple_juice_still"), 0xFFFFFFFF),
         "italiansdelight:olive_oil",

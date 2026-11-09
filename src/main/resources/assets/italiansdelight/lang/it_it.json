@@ -107,6 +107,7 @@
   "item.italiansdelight.speck_slice": "Fetta di Speck",
   "gui.italiansdelight.jei.hanging_aging_drying": "Stagionatura e Asciugatura Appesa",
   "gui.italiansdelight.jei.crushing_tub": "Tino di pigiatura",
+  "gui.italiansdelight.jei.crushing_tub.honey_extraction": "Il favo produce 250 mB di miele nel tino. Usa una bottiglia di vetro vuota per prelevarlo.",
   "gui.italiansdelight.jei.salt_evaporation": "Evaporazione del Sale",
   "gui.italiansdelight.jei.salt_evaporation.process": "Evaporazione",
   "gui.italiansdelight.jei.salt_evaporation.yield": "Resa: %s–%s Sale",

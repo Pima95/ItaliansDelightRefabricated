@@ -9,7 +9,9 @@ import net.minecraft.world.item.Items;
  * Fixed starting set of Rustic 1.12.2 stomping recipes.
  *
  * Rustic Recipes.addCrushingTubRecipes() produces 250 mB per OLIVE, APPLE,
- * SUGAR_CANE and other standard fruit. A normal golden apple yields 100 mB
+ * SUGAR_CANE and HONEYCOMB. Honey is virtual and can be extracted in
+ * vanilla honey bottles; it is not a placeable fluid or a honey bucket.
+ * A normal golden apple yields 100 mB
  * and an enchanted golden apple yields 1000 mB (planned separately).
  *
  * Dedicated fruit fluids can be added here once registered. Never silently
@@ -35,6 +37,10 @@ public final class CrushingTubRecipes {
                 new ItemStack(ModItems.APPLE_SEEDS));
         if (stack.is(Items.SUGAR_CANE))
             return new Recipe("minecraft:water", STANDARD_AMOUNT, new ItemStack(Items.SUGAR, 2));
+        // Rustic's honeycomb recipe, using the vanilla honeycomb introduced since 1.15.
+        // Honey is an existing bottle-only virtual liquid shared with the Barrel.
+        if (stack.is(Items.HONEYCOMB))
+            return new Recipe("minecraft:honey", STANDARD_AMOUNT, ItemStack.EMPTY);
         return null;
     }
 }
