@@ -43,7 +43,7 @@ for name,(const,sapling,chance,biomes) in specs.items():
     constBlock=wg.index(f"private static final ResourceKey<PlacedFeature> {const} =")
     assert constBlock!=-1 and f'ModRegistries.id("{name}_wild")' in wg[constBlock:constBlock+180]
     match=re.search(
-        r"BiomeModifications\.addFeature\(\s*BiomeSelectors\.includeByKey\((.*?)\),"
+        r"BiomeModifications\.addFeature\(\s*BiomeSelectors\.includeByKey\(([^()]*)\),"
         r"\s*GenerationStep\.Decoration\.VEGETAL_DECORATION,\s*"+const+r"\s*\)",
         wg,re.S
     )
