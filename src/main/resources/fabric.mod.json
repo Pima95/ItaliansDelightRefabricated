@@ -12,7 +12,7 @@
     "sources": "https://github.com/Pima95/ItaliansDelightRefabricated"
   },
   "license": "MIT",
-  "icon": "assets/italiansdelight/icon.png",
+  "icon": "assets/italiansdelight/textures/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
