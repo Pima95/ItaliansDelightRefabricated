@@ -42,7 +42,14 @@ def png(path,w,h):
 for name in ("olive_seed","olive_pitted","olive_pate","bruschetta","olive_bruschetta"):
     assert j(A/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
     assert j(A/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:item/{name}"
-    png(A/f"textures/item/{name}.png",16,16)
+    if name=="olive_seed":
+        # Original rustic olive-pit texture is an indexed palette PNG.
+        # Preserve it rather than converting approved artwork to RGBA.
+        raw=(A/f"textures/item/{name}.png").read_bytes()
+        assert raw.startswith(bytes((137,80,78,71,13,10,26,10)))
+        assert struct.unpack(">II",raw[16:24])==(16,16)
+    else:
+        png(A/f"textures/item/{name}.png",16,16)
 for name in ("mediterranea","olive_scamorza_bianca"):
     for prefix in ("raw_pizza","cooked_pizza","pizza_slice"):
         id=f"{prefix}_{name}"
