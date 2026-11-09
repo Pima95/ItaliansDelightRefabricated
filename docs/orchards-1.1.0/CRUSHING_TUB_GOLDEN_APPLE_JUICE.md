@@ -14,7 +14,8 @@ Adapted from Rustic 1.12.2 `Recipes.addCrushingTubRecipes()` (both golden apple 
 - All Crushing Tubs: 8,000 mB capacity, no mixing, no loss when full; one input consumed per landing. The apple seed byproduct is dropped by the existing CrushingTubBlock.
 - Barrel and custom cauldron use the existing Fabric storage API for the registered fluid (same bottle, no special-case mix); reloading saves the original fluid ID and amount.
 - JEI shows **two distinct recipes** in the original approved Crushing Tub GUI, as fluid ingredients plus apple seed byproducts. JEI item information explains extraction.
-- Bottle model reuses the vanilla potion sprite with a unique amber tint. The contained-fluid rendering temporarily reuses vanilla honey block art with golden tint until bespoke fluid art is approved; no unrequested original texture asset is overwritten.
+- Bottle model reuses the vanilla potion sprite with a unique amber tint.
+- **Rendering corrected:** the contained liquid in Barrel/Cauldron/Crushing Tub and JEI now uses the original Rustic `block/fluids/golden_apple_juice_still.png` with its existing `.png.mcmeta` animation. The `golden_apple_juice_flow.png` and `golden_apple_juice_overlay.png` files are preserved intact for future placeable-fluid support; the fluid is still non-placeable. The custom still sprite is explicitly included in the block atlas.
 - No changes to existing fluid behavior, texture assets or GUI; the honey recipe remains virtual `minecraft:honey` and is not converted.
 
 ## In-game validation

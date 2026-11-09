@@ -41,7 +41,7 @@ public final class LiquidSurfaceVisuals {
         "minecraft:honey", new Surface(
             Identifier.withDefaultNamespace("block/honey_block_top"), 0xFFFFFFFF),
         "italiansdelight:golden_apple_juice", new Surface(
-            Identifier.withDefaultNamespace("block/honey_block_top"), 0xFFFFD471),
+            ModRegistries.id("block/fluids/golden_apple_juice_still"), 0xFFFFFFFF),
         "italiansdelight:apple_juice",
             new Surface(ModRegistries.id("block/fluids/apple_juice_still"), 0xFFFFFFFF),
         "italiansdelight:olive_oil",

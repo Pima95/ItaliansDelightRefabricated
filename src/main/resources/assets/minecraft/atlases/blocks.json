@@ -39,6 +39,10 @@
     {
       "type": "minecraft:single",
       "resource": "italiansdelight:block/fluids/booze/cider_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/golden_apple_juice_still"
     }
   ]
 }

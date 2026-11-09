@@ -167,10 +167,10 @@ public class ItaliansDelightClient implements ClientModInitializer {
             ModRegistries.id("block/fluids/rennet_still"));
         registerContainedFluid(ModFluids.APPLE_CIDER_VINEGAR,
             ModRegistries.id("block/fluids/booze/cider_still"));
-        // Separate non-placeable Golden Apple Juice, displayed with a
-        // vanilla gold-colored texture until a dedicated sprite is authored.
+        // The Rustic Golden Apple Juice still sprite is already present.
+        // Keep its authored animation and texture; non-placeable fluid for JEI.
         registerContainedFluid(ModFluids.GOLDEN_APPLE_JUICE,
-            net.minecraft.resources.Identifier.withDefaultNamespace("block/honey_block_top"));
+            ModRegistries.id("block/fluids/golden_apple_juice_still"));
 
         // Almond and Fruit Cherry react to foliage biome colors independently.
         // Olive, both saplings, and the rest of the orchard art remain untinted.

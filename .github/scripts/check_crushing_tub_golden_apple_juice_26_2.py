@@ -29,7 +29,19 @@ assert 'bottle(ModFluids.GOLDEN_APPLE_JUICE, ModItems.GOLDEN_APPLE_JUICE_BOTTLE)
 assert '"italiansdelight:golden_apple_juice", 250, Items.GLASS_BOTTLE' in bridge
 assert 'if ("italiansdelight:golden_apple_juice".equals(id))' in bridge
 assert 'registerContainedFluid(ModFluids.GOLDEN_APPLE_JUICE,' in client
+assert 'ModRegistries.id("block/fluids/golden_apple_juice_still")' in client
+assert 'Identifier.withDefaultNamespace("block/honey_block_top")' not in client
 assert '"italiansdelight:golden_apple_juice", new Surface(' in render
+assert 'ModRegistries.id("block/fluids/golden_apple_juice_still"), 0xFFFFFFFF' in render
+atlas = json.loads((res / "assets/minecraft/atlases/blocks.json").read_text())
+assert any(s.get("resource") == "italiansdelight:block/fluids/golden_apple_juice_still"
+           for s in atlas["sources"])
+for suffix in ("still", "flow"):
+    texture = res / f"assets/italiansdelight/textures/block/fluids/golden_apple_juice_{suffix}.png"
+    assert texture.is_file()
+    meta = texture.with_suffix(".png.mcmeta")
+    assert json.loads(meta.read_text()).get("animation") is not None
+assert (res / "assets/italiansdelight/textures/block/fluids/golden_apple_juice_overlay.png").is_file()
 assert 'output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);' in group
 assert 'new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BOTTLE)' in info
 assert 'private static final int WIDTH = 151;' in category
