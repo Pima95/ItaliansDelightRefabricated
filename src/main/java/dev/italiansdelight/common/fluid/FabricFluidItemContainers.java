@@ -35,8 +35,12 @@ public final class FabricFluidItemContainers {
         // additional 250mB bottle items are not automatically recognized.
         bottle(ModFluids.OLIVE_OIL_STILL, ModItems.OLIVE_OIL_BOTTLE);
         bottle(ModFluids.APPLE_JUICE_STILL, ModItems.APPLE_JUICE_BOTTLE);
-        // Golden apple juice is a non-world processing fluid: only bottles.
-        bottle(ModFluids.GOLDEN_APPLE_JUICE, ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
+        // Golden apple juice uses a non-placeable storage-only Item bucket,
+        // like whey; never register it as a vanilla placeable BucketItem.
+        storageOnly(ModFluids.GOLDEN_APPLE_JUICE,
+            ModItems.GOLDEN_APPLE_JUICE_BUCKET, ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
+        // Vanilla honey has NO registered Fluid, so HONEY_BUCKET deliberately
+        // remains an ID-only container handled by BarrelFluidContainers.
     }
 
     private static void storageOnly(Fluid fluid, Item fullBucket, Item fullBottle) {

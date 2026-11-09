@@ -931,13 +931,29 @@ public final class ModItems {
                 APPLE_JUICE_BOTTLE_KEY,
                 new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
 
-        // Golden Apple Juice is bottle-only: it is a liquid processing
-        // ingredient, NOT a placeable bucket or a potion with new effects.
+        // Golden Apple Juice is a non-placeable processing fluid without
+        // potion effects, available in both bottle and storage-only bucket.
         public static final ResourceKey<Item> GOLDEN_APPLE_JUICE_BOTTLE_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("golden_apple_juice_bottle"));
         public static final Item GOLDEN_APPLE_JUICE_BOTTLE = register(
                 GOLDEN_APPLE_JUICE_BOTTLE_KEY,
                 new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+
+        // These are NON-PLACEABLE container items: no BucketItem.placeLiquid.
+        // They still exchange 1000 mB in the Crushing Tub, Barrel and Cauldron.
+        public static final ResourceKey<Item> GOLDEN_APPLE_JUICE_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("golden_apple_juice_bucket"));
+        public static final Item GOLDEN_APPLE_JUICE_BUCKET = register(
+                GOLDEN_APPLE_JUICE_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+
+        // Existing virtual honey uses minecraft:honey, NOT a new registered
+        // world fluid. Its bucket is handled by the legacy liquid containers.
+        public static final ResourceKey<Item> HONEY_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("honey_bucket"));
+        public static final Item HONEY_BUCKET = register(
+                HONEY_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
 
         public static final ResourceKey<Item> OLIVE_OIL_BUCKET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_oil_bucket"));

@@ -1,4 +1,4 @@
-"""Crushing Tub honeycomb -> honey, 250 mB, bottle-only, JEI visual parity.
+"""Crushing Tub honeycomb -> honey, 250 mB, bottle and bucket, JEI parity.
 
 These static checks complement—not replace—survival/client testing.
 """
@@ -20,7 +20,8 @@ assert 'new Recipe("minecraft:honey", STANDARD_AMOUNT, ItemStack.EMPTY)' in REC
 assert 'STANDARD_AMOUNT = 250' in REC
 assert '"minecraft:honey", 250, Items.GLASS_BOTTLE' in CONTAINERS
 assert 'if ("minecraft:honey".equals(id)) return new ItemStack(Items.HONEY_BOTTLE)' in CONTAINERS
-assert 'return ItemStack.EMPTY;' in CONTAINERS  # there is no honey bucket fallback
+assert 'if ("minecraft:honey".equals(id)) return new ItemStack(ModItems.HONEY_BUCKET)' in CONTAINERS
+assert 'new Portion("minecraft:honey", 1000, Items.BUCKET)' in CONTAINERS
 assert 'recipe.amount() > CAPACITY - amount' in BE
 assert '(amount > 0 && !fluidId.equals(recipe.fluidId()))' in BE
 assert 'CrushingTubRecipes.find(held) != null' in TUB

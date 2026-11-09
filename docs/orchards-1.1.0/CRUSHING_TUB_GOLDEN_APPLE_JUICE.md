@@ -9,7 +9,7 @@ Adapted from Rustic 1.12.2 `Recipes.addCrushingTubRecipes()` (both golden apple 
 ## Gameplay and compatibility
 - This juice has its **own registered Fluid ID** (`italiansdelight:golden_apple_juice`), not regular apple juice, water or honey.
 - It is **storage-only**, via ContainedFluid: no world liquid block, movement physics or infinite-source generation.
-- The 250 mB `golden_apple_juice_bottle` is an empty-glass-bottle extraction container; no new bucket, no status effect, no direct drinking mechanic.
+- The 250 mB `golden_apple_juice_bottle` and new 1,000 mB `golden_apple_juice_bucket` are extraction containers; neither can place fluid in the world. No status effect or new drinking mechanic.
 - One ordinary golden apple yields only 100 mB; the player needs **at least 3 normal apples** for a first 250 mB bottle (50 mB remains), or **one enchanted apple** yields four bottles.
 - All Crushing Tubs: 8,000 mB capacity, no mixing, no loss when full; one input consumed per landing. The apple seed byproduct is dropped by the existing CrushingTubBlock.
 - Barrel and custom cauldron use the existing Fabric storage API for the registered fluid (same bottle, no special-case mix); reloading saves the original fluid ID and amount.
@@ -21,7 +21,7 @@ Adapted from Rustic 1.12.2 `Recipes.addCrushingTubRecipes()` (both golden apple 
 ## In-game validation
 1. Put 3 normal Golden Apples in one tub, stomp three times: amount **300 mB**. Fill **one bottle** (50 mB remains).
 2. Put 1 Enchanted Golden Apple into an empty tub; stomp once: **1,000 mB**, yielding four 250 mB bottles and one apple seed.
-3. Confirm no golden-apple-juice bucket exists and no fluid can be placed in the world.
+3. Fill the new golden-apple-juice bucket with 1,000 mB (one enchanted golden apple). Confirm it does not place fluid in the world.
 4. Try mixing with regular apple juice: refuse mixing, do not consume ingredients. Test full 8,000 mB tank and save/reload.
 5. Test bottle transfer into Barrel and cauldron, including exact 250 mB levels.
 6. In JEI check both recipe amounts and the seeds; GUI must look identical to the already-approved background.

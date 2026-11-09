@@ -107,7 +107,7 @@
   "item.italiansdelight.speck_slice": "Speck Slice",
   "gui.italiansdelight.jei.hanging_aging_drying": "Hanging Aging & Drying",
   "gui.italiansdelight.jei.crushing_tub": "Crushing Tub",
-  "gui.italiansdelight.jei.crushing_tub.honey_extraction": "Honeycomb produces 250 mB of honey in the tub. Use an empty glass bottle to collect it.",
+  "gui.italiansdelight.jei.crushing_tub.honey_extraction": "Honeycomb produces 250 mB of honey in the tub. Use an empty glass bottle (250 mB) or an empty bucket (1,000 mB) to collect it.",
   "gui.italiansdelight.jei.salt_evaporation": "Salt Evaporation",
   "gui.italiansdelight.jei.salt_evaporation.process": "Evaporation",
   "gui.italiansdelight.jei.salt_evaporation.yield": "Yield: %s–%s Salt",
@@ -384,5 +384,8 @@
   "item.italiansdelight.golden_apple_juice_bottle": "Golden Apple Juice Bottle",
   "block.italiansdelight.golden_apple_juice": "Golden Apple Juice",
   "fluid.italiansdelight.golden_apple_juice": "Golden Apple Juice",
-  "jei.italiansdelight.fluids.golden_apple_juice": "Golden apple juice is made in the Crushing Tub: one golden apple produces 100 mB, and an enchanted golden apple produces 1,000 mB. Each also yields an apple seed. Store at least 250 mB, then fill an empty glass bottle. This is a non-placeable processing fluid, not a potion with status effects."
+  "jei.italiansdelight.fluids.golden_apple_juice": "Golden apple juice is made in the Crushing Tub: one golden apple produces 100 mB, and an enchanted golden apple produces 1,000 mB. Each also yields an apple seed. Collect 250 mB with a bottle or 1,000 mB with a bucket; neither container places this liquid in the world. This is a non-placeable processing fluid, not a potion with status effects.",
+  "item.italiansdelight.golden_apple_juice_bucket": "Golden Apple Juice Bucket",
+  "item.italiansdelight.honey_bucket": "Honey Bucket",
+  "jei.italiansdelight.fluids.honey": "One honeycomb produces 250 mB of honey in the Crushing Tub. Four honeycombs produce 1,000 mB, collected with an empty bucket; an empty glass bottle collects 250 mB. Honey cannot be placed in the world."
 }

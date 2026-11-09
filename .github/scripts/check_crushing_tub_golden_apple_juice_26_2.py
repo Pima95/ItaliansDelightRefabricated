@@ -24,7 +24,7 @@ assert recipe.count('new ItemStack(ModItems.APPLE_SEEDS)') >= 3
 assert 'ModFluids.GOLDEN_APPLE_JUICE, 100,' in jei
 assert 'ModFluids.GOLDEN_APPLE_JUICE, 1000,' in jei
 assert 'public static final Item GOLDEN_APPLE_JUICE_BOTTLE' in items
-assert 'new ContainedFluid(() -> net.minecraft.world.item.Items.AIR)' in fluids
+assert 'new ContainedFluid(() -> ModItems.GOLDEN_APPLE_JUICE_BUCKET)' in fluids
 assert 'bottle(ModFluids.GOLDEN_APPLE_JUICE, ModItems.GOLDEN_APPLE_JUICE_BOTTLE)' in adapter
 assert '"italiansdelight:golden_apple_juice", 250, Items.GLASS_BOTTLE' in bridge
 assert 'if ("italiansdelight:golden_apple_juice".equals(id))' in bridge
@@ -47,7 +47,9 @@ assert 'new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BOTTLE)' in info
 assert 'private static final int WIDTH = 151;' in category
 assert 'builder.addOutputSlot(93, 26)' in category
 assert 'builder.addOutputSlot(126, 26)' in category
-assert 'GOLDEN_APPLE_JUICE_BUCKET' not in items
+assert 'public static final Item GOLDEN_APPLE_JUICE_BUCKET' in items
+assert 'storageOnly(ModFluids.GOLDEN_APPLE_JUICE,' in adapter
+assert 'ModItems.GOLDEN_APPLE_JUICE_BUCKET, ModItems.GOLDEN_APPLE_JUICE_BOTTLE)' in adapter
 assert '"italiansdelight:golden_apple_juice"' not in (
     res / "data/minecraft/tags/fluid/water.json").read_text()
 tag=json.loads((res / "data/italiansdelight/tags/fluid/golden_apple_juice.json").read_text())

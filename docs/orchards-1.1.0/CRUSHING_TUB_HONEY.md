@@ -10,7 +10,7 @@ Adds exactly one recipe to the already working tub in all fifteen wood variants:
 This adapts the verified [Rustic 1.12.2 Crushing Tub](https://github.com/cadaverous-eris/Rustic/blob/master/src/main/java/rustic/common/crafting/Recipes.java) honeycomb->honey recipe to modern vanilla honeycomb; Rustic's separate honeycomb item is not present.
 
 ### Rules
-- Honey is **not a registered placeable Fluid** and cannot be collected in a bucket; this is the same virtual `minecraft:honey` used by existing Barrel container compatibility. No new fluid IDs, liquid blocks, bucket items or source-creation behavior.
+- Honey is **not a registered or placeable Fluid**. Its historical virtual tank identifier remains `minecraft:honey` (never rename it to a modded ID). As of this update, it can be collected in a non-placeable `italiansdelight:honey_bucket` containing 1,000 mB. No new fluid ID, world block or source-generation behavior.
 - One jump consumes one honeycomb and stores 250 mB; as with other recipes, max 64 input items and 8,000 mB in the tank.
 - No mixing with olive oil, apple juice or water; at maximum capacity the next honeycomb is not consumed.
 - Fluid remains in the tub until manually bottled; it is **not an immediate honey bottle drop**.
@@ -20,7 +20,7 @@ This adapts the verified [Rustic 1.12.2 Crushing Tub](https://github.com/cadaver
 
 ### Test checklist in Minecraft
 1. Place an empty Crushing Tub, insert 4 honeycombs, jump four times. Liquid should reach 1,000 mB, with honey-colored surface and no byproduct drop.
-2. Collect exactly four vanilla honey bottles with four empty glass bottles. A bucket must **not** collect the honey.
+2. Collect exactly four vanilla honey bottles with four empty glass bottles, OR use a single empty bucket to collect 1,000 mB as the new Honey Bucket.
 3. Fill with 32 honeycombs to reach 8,000 mB. A 33rd stomp must not consume another honeycomb; verify counts before and after.
 4. Try an apple or olive recipe while honey remains in the tub: no mixing or loss. Shift-right-click empty hand when no inputs remain to discard honey.
 5. Save and reload a partially filled tub and confirm stored amount, no duplication and successful honey bottle extraction.

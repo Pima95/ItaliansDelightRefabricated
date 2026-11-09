@@ -33,6 +33,10 @@ public final class BarrelFluidContainers {
         // Honey is a real vanilla bottled liquid, though not placeable as fluid.
         if (stack.is(Items.HONEY_BOTTLE))
             return new Portion("minecraft:honey", 250, Items.GLASS_BOTTLE);
+        if (stack.is(ModItems.HONEY_BUCKET))
+            return new Portion("minecraft:honey", 1000, Items.BUCKET);
+        if (stack.is(ModItems.GOLDEN_APPLE_JUICE_BUCKET))
+            return new Portion("italiansdelight:golden_apple_juice", 1000, Items.BUCKET);
         if (stack.is(ModItems.SHEEP_MILK_BOTTLE))
             return new Portion("italiansdelight:sheep_milk", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.APPLE_JUICE_BOTTLE))
@@ -89,6 +93,9 @@ public final class BarrelFluidContainers {
         if ("minecraft:milk".equals(id)) return new ItemStack(Items.MILK_BUCKET);
         if ("italiansdelight:sheep_milk".equals(id)) return new ItemStack(ModItems.SHEEP_MILK_BUCKET);
         if ("italiansdelight:whey".equals(id)) return new ItemStack(ModItems.WHEY_BUCKET);
+        if ("minecraft:honey".equals(id)) return new ItemStack(ModItems.HONEY_BUCKET);
+        if ("italiansdelight:golden_apple_juice".equals(id))
+            return new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
         Identifier key = Identifier.tryParse(id);
         if (key == null) return ItemStack.EMPTY;
         Fluid fluid = BuiltInRegistries.FLUID.getValue(key);

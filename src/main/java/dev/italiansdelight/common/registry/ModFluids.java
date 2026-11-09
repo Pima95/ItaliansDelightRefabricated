@@ -55,13 +55,13 @@ public final class ModFluids {
         BuiltInRegistries.FLUID, APPLE_CIDER_VINEGAR_KEY,
         new ContainedFluid(() -> ModItems.APPLE_CIDER_VINEGAR_BUCKET));
 
-    // Golden Apple Juice: a non-placeable Fluid used by Fabric storage and JEI.
-    // No bucket item exists, and no vanilla water physics/source generation.
+    // Golden Apple Juice: a non-placeable Fluid with a storage-only bucket.
+    // It has no world block or vanilla water physics/source generation.
     public static final ResourceKey<Fluid> GOLDEN_APPLE_JUICE_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("golden_apple_juice"));
     public static final Fluid GOLDEN_APPLE_JUICE = Registry.register(
         BuiltInRegistries.FLUID, GOLDEN_APPLE_JUICE_KEY,
-        new ContainedFluid(() -> net.minecraft.world.item.Items.AIR));
+        new ContainedFluid(() -> ModItems.GOLDEN_APPLE_JUICE_BUCKET));
 
     public static void register() {}
 }

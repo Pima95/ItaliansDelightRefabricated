@@ -25,8 +25,14 @@ public final class ModFluidJeiInfo {
             Component.translatable("jei.italiansdelight.fluids.apple_juice"));
 
         registration.addItemStackInfo(List.of(
-                new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BOTTLE)),
+                new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BOTTLE),
+                new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BUCKET)),
             Component.translatable("jei.italiansdelight.fluids.golden_apple_juice"));
+
+        registration.addItemStackInfo(List.of(
+                new ItemStack(net.minecraft.world.item.Items.HONEY_BOTTLE),
+                new ItemStack(ModItems.HONEY_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.honey"));
 
         registration.addItemStackInfo(List.of(
                 new ItemStack(ModItems.SHEEP_MILK_BOTTLE),
