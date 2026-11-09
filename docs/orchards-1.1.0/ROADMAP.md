@@ -3,9 +3,12 @@
 > **Aggiornamento — 9 novembre 2026:** worldgen naturale **ATTIVATO** sul branch
 > `feature/orchards-1.1.0`, riutilizzando le quattro feature già approvate:
 > ulivo normale, ulivo secolare 2×2 (raro), mandorlo, ciliegio da frutto.
-> I valori di rarità iniziali sono 1/6, 1/96, 1/8 e 1/7 dei chunk
-> idonei *per tentativo*; il numero effettivo dipende dal terreno e dagli
-> ostacoli. I paragrafi sottostanti che parlano di generazione disattivata
+> **Bilanciamento aggiornato (9 novembre 2026):** ulivo normale e
+> mandorlo 1/40 ciascuno nelle pianure e savane (frequenza media congiunta
+> pari a 1/20, come le querce vanilla delle pianure); mandorlo 1/100
+> nella meadow, come gli alberi vanilla di quel bioma. Ulivo secolare
+> 1/96 e ciliegio da frutto 1/7 **invariati**. Sono tentativi per chunk
+> idoneo; il numero effettivo dipende dal terreno e dagli ostacoli. I paragrafi sottostanti che parlano di generazione disattivata
 > descrivono fasi **storiche** dello sviluppo. Solo i nuovi chunk possono
 > generare questi alberi; non si alterano le zone già esplorate.
 > Si rimanda a `docs/orchards-1.1.0/NATURAL_WORLDGEN_26_2.md`.
