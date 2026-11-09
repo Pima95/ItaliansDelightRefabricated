@@ -143,7 +143,7 @@ def main() -> None:
 
     names_src = (SRC / "PizzaDisplayNames.java").read_text()
     named = re.findall(r'add\(presets,\s*"([^"]+)"', names_src)
-    if len(named) != 18 or len(set(named)) != 18 or "principessa" in named:
+    if len(named) != 20 or len(set(named)) != 20 or "principessa" in named:
         raise ValueError("Expected 18 canonical presets, without Principessa")
     expected = [id for id in named if id != "margherita"] + ["custom"]
     hashes = {original}
@@ -164,7 +164,7 @@ def main() -> None:
             raise ValueError(f"Duplicate named slice artwork: {item}")
         hashes.add(texture)
         appearances[taste] = texture
-    if len(hashes) != 19:
+    if len(hashes) != 21:
         raise ValueError("Expected 18 named variants and a neutral fallback")
 
     # Matching only byte-for-byte misses the actual defect reported in game:

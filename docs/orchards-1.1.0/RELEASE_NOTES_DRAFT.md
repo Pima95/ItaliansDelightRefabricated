@@ -44,6 +44,17 @@ Minecraft **26.2**, Fabric Loader **0.20.1+**, Java **25**, Fabric API
 **26.2-3.6.29+refabricated**. JEI is supported; Serene Seasons is
 **optional** (with GlitchCore when installed).
 
+## New olive foods and pizzas (development additions)
+
+- Cutting Board yields 1 Pitted Olive and 1 Olive Pit from each Olive.
+- Olive Pâté with olive oil, salt and a reusable bowl.
+- Two open-faced bruschettas: Tomato & Basil, and Olive Pâté.
+  The original sandwich-style top bread is deliberately removed.
+- Two named pizzas: **Mediterranea** (tomato sauce, mozzarella,
+  pitted olives, basil) and **Olive & Smoked Scamorza Bianca**
+  (mozzarella, smoked scamorza, pitted olives).
+- **Focaccia is explicitly deferred** to a later update.
+
 ## Not included
 **Grapes, grape juice and wine** are planned for a later version.
 

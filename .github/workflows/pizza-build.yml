@@ -108,6 +108,8 @@ jobs:
         run: python3 .github/scripts/check_creative_tab.py
       - name: Verify 12x12 pizza textures (binary alpha, PNG CRC)
         run: python3 .github/scripts/check_pizza_topping_textures.py
+      - name: Verify Orchard olive food recipes and two recognized pizzas
+        run: python3 .github/scripts/check_orchard_olive_foods.py
       - name: Verify named whole-pizza models and 16x16 textures
         run: python3 .github/scripts/check_named_pizza_artwork.py
       - name: Verify named slice models and original slice crust
