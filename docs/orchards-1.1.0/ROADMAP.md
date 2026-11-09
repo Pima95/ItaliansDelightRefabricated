@@ -1,5 +1,16 @@
 # Italian's Delight Refabricated — Orchard Update 1.1.0
 
+> **Aggiornamento — 9 novembre 2026:** worldgen naturale **ATTIVATO** sul branch
+> `feature/orchards-1.1.0`, riutilizzando le quattro feature già approvate:
+> ulivo normale, ulivo secolare 2×2 (raro), mandorlo, ciliegio da frutto.
+> I valori di rarità iniziali sono 1/6, 1/96, 1/8 e 1/7 dei chunk
+> idonei *per tentativo*; il numero effettivo dipende dal terreno e dagli
+> ostacoli. I paragrafi sottostanti che parlano di generazione disattivata
+> descrivono fasi **storiche** dello sviluppo. Solo i nuovi chunk possono
+> generare questi alberi; non si alterano le zone già esplorate.
+> Si rimanda a `docs/orchards-1.1.0/NATURAL_WORLDGEN_26_2.md`.
+>
+
 **Stato:** il set edilizio d'ulivo (compresa la mensola vanilla), il germoglio e gli alberi procedurali **normale 1×1 e secolare 2×2** sono implementati e verificati esteticamente in gioco dall'autore. **Nuova priorità (25 ottobre 2026): completare mandorlo e ciliegio da frutto, con i rispettivi legni originali e alberi coltivabili, prima del worldgen naturale e del sistema condiviso di fruttificazione.** La generazione naturale resta disabilitata.  
 **Branch:** `feature/orchards-1.1.0`, creato da `main` dopo la pubblicazione della 1.0.0.  
 **Ambito:** tre alberi da frutto e relative coltivazioni. Le aggiunte di pasta, piatti e ricette saranno contenuti **bonus graduali** all'interno dei diversi aggiornamenti, non necessariamente una release dedicata.

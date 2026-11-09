@@ -57,24 +57,23 @@ def main():
             assert cfg["foliage_placer"]["type"]=="italiansdelight:ancient_olive_foliage_placer"
             assert cfg["foliage_placer"]["radius"]==2
         assert cfg["below_trunk_provider"]["type"]=="minecraft:rule_based_state_provider"
-    # Provisional oak/dark-oak shapes must NEVER appear by natural worldgen.
-    # Keep only configured features for sapling growth via bone meal or ticks.
+    # Natural worldgen uses precisely the already-approved configured trees,
+    # including the original monumental 2x2 ancient olive.
     for name in ("olive_tree", "ancient_olive_tree"):
-        assert not (D/f"italiansdelight/worldgen/placed_feature/{name}_wild.json").exists(), (
-            f"Provisional {name} placement must not be present in datapacks"
-        )
+        placed = D/f"italiansdelight/worldgen/placed_feature/{name}_wild.json"
+        assert placed.exists(), f"Missing natural {name} placement"
     code=(SRC/"common/registry/ModBlocks.java").read_text()
     assert "new SaplingBlock(OLIVE_TREE_GROWER" in code
     assert "Optional.of(ANCIENT_OLIVE_TREE_FEATURE)" in code
     assert "Optional.of(OLIVE_TREE_FEATURE)" in code
     wg=(SRC/"common/registry/ModWorldGeneration.java").read_text()
-    assert "OLIVE_TREE_WILD" not in wg and "ANCIENT_OLIVE_TREE_WILD" not in wg
-    assert "olive_tree_wild" not in wg and "ancient_olive_tree_wild" not in wg
+    assert "OLIVE_TREE_WILD" in wg and "ANCIENT_OLIVE_TREE_WILD" in wg
+    assert '"olive_tree_wild"' in wg and '"ancient_olive_tree_wild"' in wg
     tab=(SRC/"common/item/group/ModItemGroups.java").read_text()
     assert tab.count("output.accept(ModBlocks.OLIVE_SAPLING);")==1
     print("OK: sapling in Creative, loot and sapling tags; 26.2 vanilla TreeGrower recognizes 1x1 and 2x2")
     print("OK: normal and ancient olive trees use distinct original procedural placers")
-    print("OK: NO natural olive worldgen, no provisional olive placed features nor biome injection")
+    print("OK: natural olive worldgen present, using the approved normal and rare ancient 2x2 features")
     print("OK: silver-green sapling art preserves original 16x16 alpha and stem")
 if __name__=="__main__":
     main()

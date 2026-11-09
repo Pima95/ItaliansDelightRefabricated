@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the CURRENT olive tree layout and prevent premature world generation.
+"""Check the approved olive tree geometry and newly enabled natural world generation.
 
 This is a static regression check, not a substitute for compiling Java or
 inspecting the canopy and sapling growth in Minecraft.
@@ -143,12 +143,12 @@ assert ancient["config"]["foliage_placer"]["type"] == "italiansdelight:ancient_o
 assert ancient["config"]["foliage_placer"]["radius"] == 2
 assert "baseRadius = 3.75D;" not in ancient_foliage
 assert "for (int dx = -5; dx <= 5; dx++)" not in ancient_foliage
-assert not (DATA / "placed_feature/olive_tree_wild.json").exists()
-assert not (DATA / "placed_feature/ancient_olive_tree_wild.json").exists()
+assert (DATA / "placed_feature/olive_tree_wild.json").exists()
+assert (DATA / "placed_feature/ancient_olive_tree_wild.json").exists()
 wg = (SRC / "common/registry/ModWorldGeneration.java").read_text()
-assert "OLIVE_TREE_WILD" not in wg and "ANCIENT_OLIVE_TREE_WILD" not in wg
+assert "OLIVE_TREE_WILD" in wg and "ANCIENT_OLIVE_TREE_WILD" in wg
 
 print("OK: planned 4-6-block olive stems with connected, occasional low forks")
 print("OK: rounded tapering canopy, terrain clearance and connected leaves")
-print("OK: custom normal and monumental 2x2 placers registered; sapling-only")
-print("OK: natural olive world generation remains DISABLED")
+print("OK: custom normal and monumental 2x2 placers registered for saplings and natural trees")
+print("OK: natural olive world generation ENABLED, with rare monumental 2x2 trees")

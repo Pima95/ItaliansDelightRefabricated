@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Almond orchard stage 1: original leaves and plantable 1x1 tree (not wild)."""
+"""Almond orchard: original leaves, plantable 1x1 and natural-biome trees."""
 from pathlib import Path
 import json
 import hashlib
@@ -197,13 +197,13 @@ def main():
 
     for class_name in ("AlmondTrunkPlacer","AlmondFoliagePlacer"):
         assert (SRC/f"common/worldgen/{class_name}.java").exists()
-    assert "ALMOND_TREE" not in (SRC/"common/registry/ModWorldGeneration.java").read_text()
-    assert not (D/"italiansdelight/worldgen/placed_feature/almond_tree_wild.json").exists()
+    assert "ALMOND_TREE_WILD" in (SRC/"common/registry/ModWorldGeneration.java").read_text()
+    assert (D/"italiansdelight/worldgen/placed_feature/almond_tree_wild.json").exists()
     print("OK: Almond vanilla-density foliage: 197 opaque, 59 transparent, 37/60 opaque border, additional 13% reduced foliage saturation, preserved six-tone palette")
     print("OK: approved Almond sapling unchanged; crown begins at Olive height (-2 tall/-1 short), apex now +3")
     print("OK: Almond-only soft vanilla biome tint registered on the client; Olive untouched")
     print("OK: real upper-wood collars fill shifted elbows; crown apex lowered exactly one block (+3)")
-    print("OK: Almond fruit harvest by right-click only, leaf-break loot unchanged; no wild worldgen")
+    print("OK: Almond fruit harvest by right-click only, leaf-break loot unchanged; natural worldgen enabled")
 
 if __name__=="__main__":
     main()

@@ -204,12 +204,12 @@ assert "for (int arm = 0; arm < 3; arm++)" not in crown
 assert "distanceFromWood" in crown and "nextDistance > 6" in crown
 assert "tryPlaceLeaf(level, setter, random, config, pos)" in crown
 assert "isFruitCherryWood" in crown and "isFruitCherryWood" not in trunk
-assert not any(f"fruit_cherry_tree" in x for x in world.splitlines()), "Do not activate wild generation yet"
-assert not (D / "italiansdelight/worldgen/placed_feature/fruit_cherry_tree_wild.json").exists()
+assert "FRUIT_CHERRY_TREE_WILD" in world and '"fruit_cherry_tree_wild"' in world
+assert (D / "italiansdelight/worldgen/placed_feature/fruit_cherry_tree_wild.json").exists()
 
 print("OK: unique 157-pixel cherry leaflet silhouette, six muted green shades, not Olive/Almond recolor")
 print("OK: client-side biome foliage colors registered for Fruit Cherry; Almond tint preserved")
 print("OK: sapling retains its 114-pixel silhouette, copper trunk, six greens and eight subtle red accents")
 print("OK: cherry keeps Almond/Olive trunk and grows a visible radius-4.10 canopy on an 11x11 scan")
 print("OK: planted sapling growth remains enabled; branch/foliage clearance maintained")
-print("OK: fruit cherry harvest on right-click only, no leaf-break fruit drops and no wild worldgen")
+print("OK: fruit cherry harvest on right-click only, no leaf-break fruit drops and natural worldgen enabled")

@@ -26,7 +26,7 @@ jobs:
           java-version: '25'
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
-      - name: Verify procedural olive trunk and canopy remain sapling-only
+      - name: Verify approved procedural olive trunk and canopy shapes
         run: python3 .github/scripts/check_olive_procedural_placement.py
       - name: Verify Olive sapling normal and ancient tree definitions
         run: python3 .github/scripts/check_olive_sapling_trees.py
@@ -42,8 +42,10 @@ jobs:
         run: python3 .github/scripts/check_orchard_crates.py
       - name: Validate orchard fruit items and avoid leaf-break drop duplication
         run: python3 .github/scripts/check_orchard_fruits_creative.py
-      - name: Validate Almond leaves, sapling, tree growth and disabled worldgen
+      - name: Validate Almond leaves, sapling, tree growth and natural worldgen
         run: python3 .github/scripts/check_almond_sapling_tree.py
+      - name: Verify natural olive, rare ancient olive, almond and fruit-cherry trees in biomes
+        run: python3 .github/scripts/check_orchard_natural_worldgen_26_2.py
       - name: Validate Almond 5-stage flowering, green hull, dry shell and harvest
         run: python3 .github/scripts/check_almond_harvest.py
       - name: Verify tinted foliage and untinted blossom/fruit layers across Almond and Cherry
