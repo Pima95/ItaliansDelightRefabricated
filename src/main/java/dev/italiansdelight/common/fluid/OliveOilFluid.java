@@ -21,7 +21,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.FlowingFluid;
 
-/** Real olive oil source/flowing fluid; only manual buckets produce sources. */
+/** Water-like in-world movement (via minecraft:water fluid tag), but NEVER creates new sources. */
 public abstract class OliveOilFluid extends FlowingFluid {
     @Override public Fluid getFlowing() { return ModFluids.OLIVE_OIL_FLOWING; }
     @Override public Fluid getSource() { return ModFluids.OLIVE_OIL_STILL; }
@@ -33,13 +33,14 @@ public abstract class OliveOilFluid extends FlowingFluid {
         return ModBlocks.OLIVE_OIL_FLUID_BLOCK.defaultBlockState()
             .setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
     }
+    // Do not consult waterSourceConversion: unlike vanilla water, two sources never generate a third.
     @Override protected boolean canConvertToSource(ServerLevel world) { return false; }
     @Override protected void beforeDestroyingBlock(LevelAccessor world, BlockPos pos, BlockState state) {
         Block.dropResources(state, world, pos, world.getBlockEntity(pos));
     }
-    @Override protected int getSlopeFindDistance(LevelReader world) { return 2; }
-    @Override public int getDropOff(LevelReader world) { return 2; }
-    @Override public int getTickDelay(LevelReader world) { return 20; }
+    @Override protected int getSlopeFindDistance(LevelReader world) { return 4; }
+    @Override public int getDropOff(LevelReader world) { return 1; }
+    @Override public int getTickDelay(LevelReader world) { return 5; }
     @Override public boolean canBeReplacedWith(FluidState state, BlockGetter world, BlockPos pos,
                                                 Fluid other, Direction direction) {
         return direction == Direction.DOWN && !isSame(other);

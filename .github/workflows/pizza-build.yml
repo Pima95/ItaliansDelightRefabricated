@@ -138,5 +138,7 @@ jobs:
         run: python3 .github/scripts/audit_project_consistency.py
       - name: Check portable fluid IDs, old NBT migration and Fabric item adapters
         run: python3 .github/scripts/check_multiloader_fluids_26_2.py
+      - name: Verify water-like world fluid movement and non-infinite sources
+        run: python3 .github/scripts/check_world_fluid_physics_26_2.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace
