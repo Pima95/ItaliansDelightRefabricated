@@ -6,16 +6,29 @@ Previously all four tree configurations were available **only** to sapling growt
 
 | Tree | Biomes | Initial probability of one attempt per eligible chunk |
 | --- | --- | --- |
-| Normal Olive | Plains, Sunflower Plains, Savanna, Savanna Plateau, Windswept Savanna | 1/6 |
-| **Ancient Olive 2×2** | Same Olive biomes | **1/96** |
-| Almond | Plains, Sunflower Plains, Meadow, Savanna, Savanna Plateau | 1/8 |
-| Fruit Cherry | Forest, Flower Forest, Cherry Grove | 1/7 |
+| Normal Olive | Plains, Sunflower Plains, Savanna, Savanna Plateau, Windswept Savanna | **1/40** (balanced 9 Nov) |
+| **Ancient Olive 2×2** | Same Olive biomes | **1/96** (unchanged) |
+| Almond | Plains, Sunflower Plains, Savanna, Savanna Plateau | **1/40** (balanced 9 Nov) |
+| Almond — Meadow | Meadow only, separate placed feature | **1/100** (balanced 9 Nov) |
+| Fruit Cherry | Forest, Flower Forest, Cherry Grove | **1/7** (unchanged) |
 
-The 2×2 ancient tree uses `configured_feature/ancient_olive_tree.json`, exactly as for four olive saplings in a 2×2. It is **16 times less likely to attempt** placement than a normal olive, and often requires more open terrain. It does not introduce a separate fruit or wood type.
+The 2×2 ancient tree uses `configured_feature/ancient_olive_tree.json`, exactly as for four olive saplings in a 2×2. Its original rarity of **1/96** is preserved, as requested; it is now 2.4 times less frequent in attempts than normal olive, and often requires more open terrain. It does not introduce a separate fruit or wood type.
 
 Each natural placed feature applies, in order: rarity filter, random in-chunk X/Z, no standing water, `OCEAN_FLOOR` heightmap, `minecraft:would_survive` for the corresponding **stage-0 sapling**, biome filter. Survival excludes invalid substrates; tree placers and foliage placers retain their established terrain clearance checks. Attempts can fail; the fractions above are NOT a guaranteed tree density.
 
 The three tree families remain separate from vanilla pink ornamental cherry trees. No new fruit, grape, juice, item ID, block state or spawning in unrelated biomes has been added.
+
+## Density rebalance — 9 November 2026 (after in-game feedback)
+
+- **Plains / Sunflower Plains:** Minecraft 26.2 vanilla `trees_plains` uses a weighted 0/1 count with weights 19:1, equivalent to **one attempt per 20 eligible chunks**. Independent 1/40 Olive and 1/40 Almond rolls total **0.05 expected attempts per chunk**, the same average as the vanilla oak tree feature. They can very rarely both attempt in the same chunk, so this is an expected-rate match, not an identical probability distribution.
+- **Savanna / Savanna Plateau:** both species use the same sparse 1/40 per-species rates to avoid replacing grassland with dense orchard foliage. Windswept Savanna continues to have only the normal Olive + Ancient Olive.
+- **Meadow:** vanilla `trees_meadow` has a single `rarity_filter` 1/100. The Almond now uses its own placed feature `almond_tree_meadow_wild` with **1/100**, referencing the same unmodified `almond_tree` configured feature. Meadow cannot also use the ordinary 1/40 Almond placement.
+- **Ancient Olive 1/96** and **Fruit Cherry 1/7** retain their approved spawn frequencies and biomes. Tree shapes, sapling growth, fruiting and textures are untouched.
+- These are generation *attempt* frequencies and do not guarantee a successful tree; overlapping foliage, substrate and space can reject placement. Test in a **new world / new chunks**, because worldgen is not retroactive.
+
+Vanilla 26.2 reference data:
+- https://mcasset.cloud/26.2/data/minecraft/worldgen/placed_feature/trees_plains.json
+- https://mcasset.cloud/26.2/data/minecraft/worldgen/placed_feature/trees_meadow.json
 
 ## In-game validation (important)
 1. **Create a new world**, or travel far enough to generate **unexplored chunks**. Existing chunks remain unchanged.
