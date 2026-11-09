@@ -80,6 +80,8 @@ jobs:
         run: python3 .github/scripts/check_crushing_tub_26_2.py
       - name: Check Crushing Tub JEI uses pixel-perfect aging-based artwork
         run: python3 .github/scripts/check_crushing_tub_jei_gui_26_2.py
+      - name: Check JEI catalyst coverage for all 15 Crushing Tubs
+        run: python3 .github/scripts/check_crushing_tub_jei_variants_26_2.py
       - name: Verify original Fruit Cherry standing and hanging signs
         run: python3 .github/scripts/check_fruit_cherry_signs.py
       - name: Verify Fruit Cherry shelf, cabinet and cheese-aging rack

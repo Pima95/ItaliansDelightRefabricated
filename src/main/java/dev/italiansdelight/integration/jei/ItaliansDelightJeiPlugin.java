@@ -212,6 +212,31 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new ItemStack(ModBlocks.CHEESE_HOOK)
         );
 
+        // Every one of the fifteen actual Crushing Tub wood variants handles
+        // the same recipes. They must all open the JEI category via Uses (U).
+        for (net.minecraft.world.level.block.Block tub : new net.minecraft.world.level.block.Block[] {
+            ModBlocks.CRUSHING_TUB,
+            ModBlocks.SPRUCE_CRUSHING_TUB,
+            ModBlocks.BIRCH_CRUSHING_TUB,
+            ModBlocks.JUNGLE_CRUSHING_TUB,
+            ModBlocks.ACACIA_CRUSHING_TUB,
+            ModBlocks.DARK_OAK_CRUSHING_TUB,
+            ModBlocks.MANGROVE_CRUSHING_TUB,
+            ModBlocks.CHERRY_CRUSHING_TUB,
+            ModBlocks.PALE_OAK_CRUSHING_TUB,
+            ModBlocks.BAMBOO_CRUSHING_TUB,
+            ModBlocks.CRIMSON_CRUSHING_TUB,
+            ModBlocks.WARPED_CRUSHING_TUB,
+            ModBlocks.OLIVE_CRUSHING_TUB,
+            ModBlocks.ALMOND_CRUSHING_TUB,
+            ModBlocks.FRUIT_CHERRY_CRUSHING_TUB
+        }) {
+            registration.addCraftingStation(
+                CrushingTubJeiRecipeTypes.CRUSHING_TUB,
+                new ItemStack(tub)
+            );
+        }
+
         registration.addCraftingStation(
             SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
             new ItemStack(net.minecraft.world.level.block.Blocks.CAULDRON)

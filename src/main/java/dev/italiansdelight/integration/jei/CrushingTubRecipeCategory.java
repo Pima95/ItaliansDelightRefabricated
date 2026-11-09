@@ -44,7 +44,7 @@ public final class CrushingTubRecipeCategory implements IRecipeCategory<Crushing
 
     @Override
     public Component getTitle() {
-        return ModBlocks.CRUSHING_TUB.getName();
+        return Component.translatable("gui.italiansdelight.jei.crushing_tub");
     }
 
     @Override public int getWidth() { return WIDTH; }
