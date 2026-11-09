@@ -13,7 +13,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
-/** JEI display of the actual stomping results, using a dedicated clock-free GUI. */
+/** Dedicated pixel-art GUI: input and both independent outputs align to the texture. */
 public final class CrushingTubRecipeCategory implements IRecipeCategory<CrushingTubJeiRecipe> {
     private static final int WIDTH = 176;
     private static final int HEIGHT = 60;
@@ -51,16 +51,16 @@ public final class CrushingTubRecipeCategory implements IRecipeCategory<Crushing
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, CrushingTubJeiRecipe recipe, IFocusGroup focuses) {
         // One input to the left of the arrow; all outputs remain to its right.
-        builder.addInputSlot(13, 27).add(recipe.ingredient());
+        builder.addInputSlot(16, 21).add(recipe.ingredient());
 
         // Rendering capacity is one bucket, and the supplied amount is 250 mB in droplets.
-        builder.addOutputSlot(120, 27)
+        builder.addOutputSlot(114, 21)
             .setFluidRenderer(FluidConstants.BUCKET, false, 16, 16)
             .add(recipe.fluid(), recipe.amount() * DROPLETS_PER_MB);
 
         // Optional byproduct has a dedicated slot; never rendered over the arrow.
         if (!recipe.byproduct().isEmpty()) {
-            builder.addOutputSlot(148, 27).add(recipe.byproduct());
+            builder.addOutputSlot(145, 21).add(recipe.byproduct());
         }
     }
 
