@@ -31,7 +31,7 @@ for id, sha256 in [
     m=json.loads((res/f"assets/italiansdelight/models/item/{id}.json").read_text())
     assert m["textures"]["layer0"]==f"italiansdelight:item/{id}"
     png=(res/f"assets/italiansdelight/textures/item/{id}.png").read_bytes()
-    assert png[:8]==b"\\x89PNG\\r\\n\\x1a\\n"
+    assert png[:8]==b"\x89PNG\r\n\x1a\n"
     assert struct.unpack_from(">IIBBBBB",png,16)==(16,16,8,6,0,0,0)
     assert hashlib.sha256(png).hexdigest()==sha256
     for lang in ("it_it","en_us"):
