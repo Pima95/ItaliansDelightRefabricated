@@ -184,6 +184,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.APPLE_SEEDS);
                 output.accept(ModItems.APPLE_JUICE_BUCKET);
                 output.accept(ModItems.APPLE_JUICE_BOTTLE);
+                output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
                  output.accept(ModItems.OLIVE_OIL_BUCKET);
                  output.accept(ModItems.OLIVE_OIL_BOTTLE);
                 output.accept(ModItems.ALMONDS);

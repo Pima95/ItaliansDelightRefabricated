@@ -380,5 +380,9 @@
   "block.italiansdelight.sheep_milk": "Latte di pecora",
   "block.italiansdelight.whey": "Siero di latte",
   "block.italiansdelight.rennet": "Caglio",
-  "block.italiansdelight.apple_cider_vinegar": "Aceto di mele"
+  "block.italiansdelight.apple_cider_vinegar": "Aceto di mele",
+  "item.italiansdelight.golden_apple_juice_bottle": "Bottiglia di succo di mela d'oro",
+  "block.italiansdelight.golden_apple_juice": "Succo di mela d'oro",
+  "fluid.italiansdelight.golden_apple_juice": "Succo di mela d'oro",
+  "jei.italiansdelight.fluids.golden_apple_juice": "Il succo di mela d'oro si ottiene nel tino di pigiatura: una mela d'oro produce 100 mB, una mela d'oro incantata 1.000 mB. Entrambe restituiscono un seme di mela. Accumula almeno 250 mB, poi riempi una bottiglia di vetro. È un ingrediente liquido non piazzabile, senza effetti di pozione."
 }

@@ -167,6 +167,10 @@ public class ItaliansDelightClient implements ClientModInitializer {
             ModRegistries.id("block/fluids/rennet_still"));
         registerContainedFluid(ModFluids.APPLE_CIDER_VINEGAR,
             ModRegistries.id("block/fluids/booze/cider_still"));
+        // Separate non-placeable Golden Apple Juice, displayed with a
+        // vanilla gold-colored texture until a dedicated sprite is authored.
+        registerContainedFluid(ModFluids.GOLDEN_APPLE_JUICE,
+            net.minecraft.resources.Identifier.withDefaultNamespace("block/honey_block_top"));
 
         // Almond and Fruit Cherry react to foliage biome colors independently.
         // Olive, both saplings, and the rest of the orchard art remain untinted.

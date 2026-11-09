@@ -46,7 +46,11 @@ assert "new FullItemFluidStorage(" in adapters
 assert "new EmptyItemFluidStorage(" in adapters
 assert "FabricFluidItemContainers.register();" in init
 assert "FluidTransferBridge.register();" in init
-print("OK: six registered fluid families; four non-world liquids; legacy milk migration and item transfer adapters")
+assert 'new Definition("italiansdelight:golden_apple_juice", false,' in catalog
+assert 'ModRegistries.id("golden_apple_juice")' in reg
+assert (RES/"data/italiansdelight/tags/fluid/golden_apple_juice.json").exists()
+assert "ModFluids.GOLDEN_APPLE_JUICE" in adapters
+print("OK: seven registered fluid families; five non-world liquids; legacy milk migration and item transfer adapters")
 
 # Fabric 26.2 FluidVariantAttributeHandler derives "block.<namespace>.<id>"
 # for non-placeable fluids (createLegacyBlock() -> Blocks.AIR). JEI shows the

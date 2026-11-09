@@ -20,7 +20,8 @@ public final class FluidCatalog {
         new Definition("italiansdelight:sheep_milk", false, ""),
         new Definition("italiansdelight:whey", false, ""),
         new Definition("italiansdelight:rennet", false, ""),
-        new Definition("italiansdelight:apple_cider_vinegar", false, "")
+        new Definition("italiansdelight:apple_cider_vinegar", false, ""),
+        new Definition("italiansdelight:golden_apple_juice", false, "")
     );
 
     public static boolean canBePlaced(String id) {

@@ -931,6 +931,14 @@ public final class ModItems {
                 APPLE_JUICE_BOTTLE_KEY,
                 new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
 
+        // Golden Apple Juice is bottle-only: it is a liquid processing
+        // ingredient, NOT a placeable bucket or a potion with new effects.
+        public static final ResourceKey<Item> GOLDEN_APPLE_JUICE_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("golden_apple_juice_bottle"));
+        public static final Item GOLDEN_APPLE_JUICE_BOTTLE = register(
+                GOLDEN_APPLE_JUICE_BOTTLE_KEY,
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+
         public static final ResourceKey<Item> OLIVE_OIL_BUCKET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_oil_bucket"));
         public static final Item OLIVE_OIL_BUCKET = register(

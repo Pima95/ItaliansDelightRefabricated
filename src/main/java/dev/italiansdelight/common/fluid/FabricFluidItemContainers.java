@@ -12,7 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 
 /**
- * FABRIC-ONLY adapter: register our own six fluid families with FluidStorage.ITEM.
+ * FABRIC-ONLY adapter: register our supported fluid families with FluidStorage.ITEM.
  * Milk buckets and Farmer's Delight milk bottles are deliberately left untouched.
  *
  * Uses combined providers on vanilla bucket/bottle items to avoid clobbering
@@ -35,6 +35,8 @@ public final class FabricFluidItemContainers {
         // additional 250mB bottle items are not automatically recognized.
         bottle(ModFluids.OLIVE_OIL_STILL, ModItems.OLIVE_OIL_BOTTLE);
         bottle(ModFluids.APPLE_JUICE_STILL, ModItems.APPLE_JUICE_BOTTLE);
+        // Golden apple juice is a non-world processing fluid: only bottles.
+        bottle(ModFluids.GOLDEN_APPLE_JUICE, ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
     }
 
     private static void storageOnly(Fluid fluid, Item fullBucket, Item fullBottle) {

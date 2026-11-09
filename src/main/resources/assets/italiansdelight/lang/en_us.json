@@ -380,5 +380,9 @@
   "block.italiansdelight.sheep_milk": "Sheep Milk",
   "block.italiansdelight.whey": "Whey",
   "block.italiansdelight.rennet": "Rennet",
-  "block.italiansdelight.apple_cider_vinegar": "Apple Cider Vinegar"
+  "block.italiansdelight.apple_cider_vinegar": "Apple Cider Vinegar",
+  "item.italiansdelight.golden_apple_juice_bottle": "Golden Apple Juice Bottle",
+  "block.italiansdelight.golden_apple_juice": "Golden Apple Juice",
+  "fluid.italiansdelight.golden_apple_juice": "Golden Apple Juice",
+  "jei.italiansdelight.fluids.golden_apple_juice": "Golden apple juice is made in the Crushing Tub: one golden apple produces 100 mB, and an enchanted golden apple produces 1,000 mB. Each also yields an apple seed. Store at least 250 mB, then fill an empty glass bottle. This is a non-placeable processing fluid, not a potion with status effects."
 }

@@ -25,6 +25,10 @@ public final class ModFluidJeiInfo {
             Component.translatable("jei.italiansdelight.fluids.apple_juice"));
 
         registration.addItemStackInfo(List.of(
+                new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BOTTLE)),
+            Component.translatable("jei.italiansdelight.fluids.golden_apple_juice"));
+
+        registration.addItemStackInfo(List.of(
                 new ItemStack(ModItems.SHEEP_MILK_BOTTLE),
                 new ItemStack(ModItems.SHEEP_MILK_BUCKET)),
             Component.translatable("jei.italiansdelight.fluids.sheep_milk"));

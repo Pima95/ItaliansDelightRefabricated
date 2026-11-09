@@ -37,6 +37,8 @@ public final class BarrelFluidContainers {
             return new Portion("italiansdelight:sheep_milk", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.APPLE_JUICE_BOTTLE))
             return new Portion("italiansdelight:apple_juice", 250, Items.GLASS_BOTTLE);
+        if (stack.is(ModItems.GOLDEN_APPLE_JUICE_BOTTLE))
+            return new Portion("italiansdelight:golden_apple_juice", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.OLIVE_OIL_BOTTLE))
             return new Portion("italiansdelight:olive_oil", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.WHEY_BOTTLE))
@@ -74,6 +76,8 @@ public final class BarrelFluidContainers {
             if ("minecraft:honey".equals(id)) return new ItemStack(Items.HONEY_BOTTLE);
             if ("italiansdelight:apple_juice".equals(id))
                 return new ItemStack(ModItems.APPLE_JUICE_BOTTLE);
+            if ("italiansdelight:golden_apple_juice".equals(id))
+                return new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
             if ("italiansdelight:olive_oil".equals(id)) return new ItemStack(ModItems.OLIVE_OIL_BOTTLE);
             if ("italiansdelight:whey".equals(id)) return new ItemStack(ModItems.WHEY_BOTTLE);
             if ("minecraft:water".equals(id)) return PotionContents.createItemStack(Items.POTION, Potions.WATER);

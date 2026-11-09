@@ -84,6 +84,8 @@ jobs:
         run: python3 .github/scripts/check_crushing_tub_jei_variants_26_2.py
       - name: Verify honeycomb Crushing Tub processing, bottle-only output and JEI
         run: python3 .github/scripts/check_crushing_tub_honey_26_2.py
+      - name: Verify Golden Apple Juice Crushing Tub recipes and bottle-only interop
+        run: python3 .github/scripts/check_crushing_tub_golden_apple_juice_26_2.py
       - name: Verify original Fruit Cherry standing and hanging signs
         run: python3 .github/scripts/check_fruit_cherry_signs.py
       - name: Verify Fruit Cherry shelf, cabinet and cheese-aging rack

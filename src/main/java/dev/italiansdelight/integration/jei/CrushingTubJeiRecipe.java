@@ -30,7 +30,11 @@ public record CrushingTubJeiRecipe(ItemStack ingredient, Fluid fluid, long amoun
             new CrushingTubJeiRecipe(new ItemStack(Items.SUGAR_CANE),
                 Fluids.WATER, 250, new ItemStack(Items.SUGAR, 2), ItemStack.EMPTY),
             new CrushingTubJeiRecipe(new ItemStack(Items.HONEYCOMB),
-                Fluids.EMPTY, 250, ItemStack.EMPTY, new ItemStack(Items.HONEY_BOTTLE))
+                Fluids.EMPTY, 250, ItemStack.EMPTY, new ItemStack(Items.HONEY_BOTTLE)),
+            new CrushingTubJeiRecipe(new ItemStack(Items.GOLDEN_APPLE),
+                ModFluids.GOLDEN_APPLE_JUICE, 100, new ItemStack(ModItems.APPLE_SEEDS), ItemStack.EMPTY),
+            new CrushingTubJeiRecipe(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE),
+                ModFluids.GOLDEN_APPLE_JUICE, 1000, new ItemStack(ModItems.APPLE_SEEDS), ItemStack.EMPTY)
         );
     }
 }

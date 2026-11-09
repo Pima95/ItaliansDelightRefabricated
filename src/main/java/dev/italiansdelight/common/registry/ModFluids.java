@@ -29,7 +29,7 @@ public final class ModFluids {
     public static final FlowingFluid APPLE_JUICE_FLOWING =
         Registry.register(BuiltInRegistries.FLUID, APPLE_JUICE_FLOWING_KEY, new AppleJuiceFluid.Flowing());
 
-    // Four registered non-world fluids for storage and recipe APIs.
+    // Registered non-world fluids for storage and recipe APIs.
     // Vanilla cow milk remains its historical virtual "minecraft:milk" ID.
     public static final ResourceKey<Fluid> SHEEP_MILK_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("sheep_milk"));
@@ -54,6 +54,14 @@ public final class ModFluids {
     public static final Fluid APPLE_CIDER_VINEGAR = Registry.register(
         BuiltInRegistries.FLUID, APPLE_CIDER_VINEGAR_KEY,
         new ContainedFluid(() -> ModItems.APPLE_CIDER_VINEGAR_BUCKET));
+
+    // Golden Apple Juice: a non-placeable Fluid used by Fabric storage and JEI.
+    // No bucket item exists, and no vanilla water physics/source generation.
+    public static final ResourceKey<Fluid> GOLDEN_APPLE_JUICE_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("golden_apple_juice"));
+    public static final Fluid GOLDEN_APPLE_JUICE = Registry.register(
+        BuiltInRegistries.FLUID, GOLDEN_APPLE_JUICE_KEY,
+        new ContainedFluid(() -> net.minecraft.world.item.Items.AIR));
 
     public static void register() {}
 }

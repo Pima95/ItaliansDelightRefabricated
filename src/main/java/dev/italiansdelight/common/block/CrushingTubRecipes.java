@@ -11,8 +11,8 @@ import net.minecraft.world.item.Items;
  * Rustic Recipes.addCrushingTubRecipes() produces 250 mB per OLIVE, APPLE,
  * SUGAR_CANE and HONEYCOMB. Honey is virtual and can be extracted in
  * vanilla honey bottles; it is not a placeable fluid or a honey bucket.
- * A normal golden apple yields 100 mB
- * and an enchanted golden apple yields 1000 mB (planned separately).
+ * Golden apples produce their own 100/1000 mB registered non-world juice
+ * and one apple seed, following the original Rustic Crushing Tub recipe.
  *
  * Dedicated fruit fluids can be added here once registered. Never silently
  * substitute one liquid for another.
@@ -41,6 +41,14 @@ public final class CrushingTubRecipes {
         // Honey is an existing bottle-only virtual liquid shared with the Barrel.
         if (stack.is(Items.HONEYCOMB))
             return new Recipe("minecraft:honey", STANDARD_AMOUNT, ItemStack.EMPTY);
+        // Keep the golden apple juice separate from regular apple juice.
+        // Same output fluid for both variants, with Rustic's distinct yields.
+        if (stack.is(Items.GOLDEN_APPLE))
+            return new Recipe("italiansdelight:golden_apple_juice", 100,
+                new ItemStack(ModItems.APPLE_SEEDS));
+        if (stack.is(Items.ENCHANTED_GOLDEN_APPLE))
+            return new Recipe("italiansdelight:golden_apple_juice", 1000,
+                new ItemStack(ModItems.APPLE_SEEDS));
         return null;
     }
 }
