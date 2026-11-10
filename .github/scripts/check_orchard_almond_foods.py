@@ -187,3 +187,15 @@ assert jar_coords and max(x for x,y in jar_coords)-min(x for x,y in jar_coords)+
 assert all(px[3] in (0,255) for row in tomato_pixels for px in row)
 assert all(px[3] in (0,255) for row in jar_pixels for px in row)
 print("OK: tomato slice is reduced; jar/tart textures remain 16x16 binary alpha")
+
+# The placed tart uses 12x12 UV faces: avoid transparent holes and keep
+# its exterior single-layered (jam is visible only on top and cut faces).
+tart_top=check_rgba_pixel_art(A / "textures/block/cherry_tart_top.png", (16,16))
+tart_bottom=check_rgba_pixel_art(A / "textures/block/cherry_tart_bottom.png", (16,16))
+tart_side=check_rgba_pixel_art(A / "textures/block/cherry_tart_side.png", (16,16))
+assert all(tart_top[y][x][3] == 255 and tart_bottom[y][x][3] == 255
+           for y in range(2,14) for x in range(2,14))
+assert all(tart_side[y][x][3] == 255 for y in range(12,16) for x in range(2,14))
+assert all(tart_side[y][x][1] > tart_side[y][x][2]
+           for y in range(12,16) for x in range(2,14)), "Outer crust should not show red jam layers"
+print("OK: the tart fills its 12x12 block faces and its outside is pastry only")
