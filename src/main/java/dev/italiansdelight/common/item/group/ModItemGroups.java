@@ -172,45 +172,45 @@ public final class ModItemGroups {
                 output.accept(ModItems.ROLLING_PIN);
                 output.accept(ModItems.PIZZA_PEEL);
 
-                // CROPS AND PREPARED VEGETABLES.
-                output.accept(ModBlocks.CARDOON); // wild, historical ID
-                output.accept(ModBlocks.CULTIVATED_CARDOON); // harvested crop item
+                // CROPS AND WILD PLANTS.
+                output.accept(ModBlocks.CARDOON);
+                output.accept(ModBlocks.CULTIVATED_CARDOON);
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
-                // Olive, almond and fruit-cherry tree leaves now produce fruit;
-                // Serene Seasons integration follows after in-game testing.
-                // Crates pack the existing orchard fruit items.
+
+                // ORCHARD FRUITS AND RAW INGREDIENTS.
                 output.accept(ModItems.OLIVES);
                 output.accept(ModItems.OLIVE_SEED);
                 output.accept(ModItems.OLIVE_PITTED);
-                output.accept(ModItems.OLIVE_PATE);
-                output.accept(ModItems.BRUSCHETTA);
-                output.accept(ModItems.OLIVE_BRUSCHETTA);
-                output.accept(ModItems.APPLE_SEEDS);
-                output.accept(ModItems.APPLE_JUICE_BUCKET);
-                output.accept(ModItems.APPLE_JUICE_BOTTLE);
-                output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
-                output.accept(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
-                output.accept(ModItems.HONEY_BUCKET);
-                 output.accept(ModItems.OLIVE_OIL_BUCKET);
-                 output.accept(ModItems.OLIVE_OIL_BOTTLE);
                 output.accept(ModItems.ALMONDS);
                 output.accept(ModItems.CHOPPED_ALMONDS);
-                output.accept(ModItems.BASIL_PESTO);
-                output.accept(ModItems.ALMOND_PESTO);
-                output.accept(ModBlocks.ALMOND_CAKE);
-                output.accept(ModItems.ALMOND_CAKE_SLICE);
                 output.accept(ModItems.CHERRIES);
-                // Reversible orchard/field crop storage blocks.
+                output.accept(ModItems.APPLE_SEEDS);
+
+                // CRATES AND CROP STORAGE.
                 output.accept(ModBlocks.OLIVE_CRATE);
                 output.accept(ModBlocks.ALMOND_CRATE);
                 output.accept(ModBlocks.CHERRY_CRATE);
                 output.accept(ModBlocks.BASIL_CRATE);
                 output.accept(ModBlocks.CARDOON_CRATE);
+
+                // SAUCES, SEASONINGS AND PREPARED VEGETABLES.
+                output.accept(ModItems.OLIVE_PATE);
+                output.accept(ModItems.BASIL_PESTO);
+                output.accept(ModItems.ALMOND_PESTO);
                 output.accept(ModItems.SALT);
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.CARROT_SLICE);
                 output.accept(ModItems.POTATO_SLICE);
+
+                // OILS, JUICES AND OTHER STORED LIQUIDS.
+                output.accept(ModItems.OLIVE_OIL_BUCKET);
+                output.accept(ModItems.OLIVE_OIL_BOTTLE);
+                output.accept(ModItems.APPLE_JUICE_BUCKET);
+                output.accept(ModItems.APPLE_JUICE_BOTTLE);
+                output.accept(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
+                output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
+                output.accept(ModItems.HONEY_BUCKET);
 
                 // MILK, CULTURES AND CHEESE-PRODUCTION INGREDIENTS.
                 output.accept(ModItems.SHEEP_MILK_BUCKET);
@@ -328,6 +328,12 @@ public final class ModItemGroups {
                 output.accept(ModItems.RISOTTO_WITH_PARMIGIANO);
                 output.accept(ModItems.RISOTTO_WITH_SPECK_AND_GORGONZOLA);
                 output.accept(ModItems.MOZZARELLA_SALAD);
+
+                // READY-TO-EAT SNACKS AND DESSERTS.
+                output.accept(ModItems.BRUSCHETTA);
+                output.accept(ModItems.OLIVE_BRUSCHETTA);
+                output.accept(ModBlocks.ALMOND_CAKE);
+                output.accept(ModItems.ALMOND_CAKE_SLICE);
             })
             .build();
 
