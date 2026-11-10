@@ -56,7 +56,7 @@ def declared(path: Path, java_type: str) -> set[str]:
 def main() -> None:
     content = TAB.read_text(encoding="utf-8")
     matches = re.findall(
-        r"output\.accept\((Mod(?:Items|Blocks)\.[A-Z][A-Z0-9_]*)\);", content)]
+        r"output\.accept\(Mod(Items|Blocks|Signs)\.([A-Z][A-Z0-9_]*)\);",
         content,
     )
     entries = [(kind, name) for kind, name in matches]
@@ -119,9 +119,9 @@ def main() -> None:
     if min(offsets) < 0 or offsets != sorted(offsets) or len(set(offsets)) != len(offsets):
         raise ValueError("Creative tab categories must stay contiguous and ordered")
 
-    # Ingredients and containers precede ready-to-eat dishes; the cake follows the pasta/risotto recipes.
+    # Verify the Creative ordering without changing the available item set.
     ordered = [m.group(1) for m in re.finditer(
-        r"output\\.accept\\((Mod(?:Items|Blocks)\\.[A-Z][A-Z0-9_]*)\\);", content)]
+        r"output\.accept\((Mod(?:Items|Blocks)\.[A-Z][A-Z0-9_]*)\);", content)]
     def before(left, right):
         if ordered.index(left) >= ordered.index(right):
             raise ValueError(f"Creative order regression: {left} must precede {right}")
