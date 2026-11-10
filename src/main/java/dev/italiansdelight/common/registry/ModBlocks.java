@@ -21,6 +21,7 @@ import dev.italiansdelight.common.block.PizzaDoughBlock;
 import dev.italiansdelight.common.block.PizzaOvenBlock;
 import dev.italiansdelight.common.block.CookedPizzaBlock;
 import dev.italiansdelight.common.block.AlmondCakeBlock;
+import dev.italiansdelight.common.block.CherryTartBlock;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -720,6 +721,15 @@ public final class ModBlocks {
         ALMOND_CAKE_KEY,
         new AlmondCakeBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
             .setId(ALMOND_CAKE_KEY).noOcclusion().strength(0.5F))
+    );
+
+    // Placeable cherry tart with four edible or knife-cut servings.
+    public static final ResourceKey<Block> CHERRY_TART_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("cherry_tart"));
+    public static final Block CHERRY_TART = register(
+        CHERRY_TART_KEY,
+        new CherryTartBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
+            .setId(CHERRY_TART_KEY).noOcclusion().strength(0.5F))
     );
 
     // Reversible nine-crop Farmer's Delight-style storage crates.

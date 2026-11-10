@@ -946,6 +946,15 @@ public final class ModItems {
                         FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
         public static final Item CHERRIES = registerSimpleItem("cherries", 64);
 
+        // The Cooking Pot serves this jam into a glass bottle; crafting with
+        // it leaves an empty bottle.
+        public static final Item CHERRY_JAM_BOTTLE = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_jam_bottle")),
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+        public static final Item CHERRY_JAM_TOAST = registerFoodItem("cherry_jam_toast", 5, 0.6f);
+        // Cherry Tart itself is registered as a placeable BlockItem by ModBlocks.
+        public static final Item CHERRY_TART_SLICE = registerFoodItem("cherry_tart_slice", 4, 0.5f);
+
         // Olive oil: a placeable fluid bucket and a non-drinkable bottle.
         public static final ResourceKey<Item> APPLE_JUICE_BUCKET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bucket"));

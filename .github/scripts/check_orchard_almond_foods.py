@@ -107,3 +107,51 @@ print("OK: 7 pesto and almond food models, two distinct pastas, binary alpha")
 print("OK: Cutting Board, two FD Cooking Pot dishes and 4 edible cake slices")
 print("OK: placeable cake has four portions, knife interaction and remaining-slice drops")
 print("OK: 21 named pizza presets with chopped almond sprite and no uncut nut topping")
+
+
+# Cherry jam, placeable tart, and toast: resource/recipe regression checks.
+for name in ("cherry_jam_bottle", "cherry_jam_toast", "cherry_tart", "cherry_tart_slice"):
+    assert read(A / f"items/{name}.json")["model"]["model"] == f"italiansdelight:item/{name}"
+    assert read(A / f"models/item/{name}.json")["textures"]["layer0"] == f"italiansdelight:item/{name}"
+    check_rgba_pixel_art(A / f"textures/item/{name}.png", (16, 16))
+for suffix in ("top", "bottom", "side", "inner"):
+    check_rgba_pixel_art(A / f"textures/block/cherry_tart_{suffix}.png", (16, 16))
+jam = read(R / "cooking/cherry_jam_bottle.json")
+assert jam["type"] == "farmersdelight:cooking"
+assert jam["ingredients"].count("italiansdelight:cherries") == 3
+assert jam["ingredients"].count("minecraft:sugar") == 1
+assert jam["container"] == {"id": "minecraft:glass_bottle", "count": 1}
+assert jam["result"] == {"id": "italiansdelight:cherry_jam_bottle"}
+toast = read(R / "cherry_jam_toast.json")
+assert toast["type"] == "minecraft:crafting_shapeless"
+assert toast["ingredients"] == ["minecraft:bread", "italiansdelight:cherry_jam_bottle"]
+tart = read(R / "cherry_tart.json")
+assert tart["type"] == "minecraft:crafting_shaped"
+assert tart["key"]["J"] == "italiansdelight:cherry_jam_bottle"
+slices = read(R / "cutting/cherry_tart_slice.json")
+assert slices["tool"] == "#c:tools/knife"
+assert slices["result"] == [{"item": {"id": "italiansdelight:cherry_tart_slice", "count": 4}}]
+assert len(read(A / "blockstates/cherry_tart.json")["variants"]) == 16
+for suf in ("", "_slice1", "_slice2", "_slice3"):
+    model = read(A / f"models/block/cherry_tart{suf}.json")
+    assert model["parent"] == f"italiansdelight:block/template_almond_cake{suf}"
+    assert set(model["textures"]) == {"top", "bottom", "side", "inner"}
+for n in ("CHERRY_JAM_BOTTLE", "CHERRY_JAM_TOAST", "CHERRY_TART_SLICE"):
+    assert f"public static final Item {n}" in items
+    assert group.count(f"output.accept(ModItems.{n});") == 1
+assert group.count("output.accept(ModBlocks.CHERRY_TART);") == 1
+cherry_class = (JAVA / "common/block/CherryTartBlock.java").read_text()
+assert "IntegerProperty.create(\"bites\", 0, 3)" in cherry_class
+assert "ModItems.CHERRY_TART_SLICE" in cherry_class
+assert "ModBlocks.CHERRY_TART" in cherry_class
+assert "new CherryTartBlock(" in blocks
+assert "registerSimpleItem(\"cherry_tart\"" not in items
+for loc in ("it_it", "en_us"):
+    l = read(A / f"lang/{loc}.json")
+    assert all(l[k] for k in (
+        "item.italiansdelight.cherry_jam_bottle",
+        "item.italiansdelight.cherry_jam_toast",
+        "block.italiansdelight.cherry_tart",
+        "item.italiansdelight.cherry_tart_slice"))
+assert read(A / "lang/it_it.json")["item.italiansdelight.cherry_jam_bottle"] == "Marmellata di Ciliegie"
+print("OK: cherry jam bottle, tart with four portions, jam toast, all binary-alpha PNGs")

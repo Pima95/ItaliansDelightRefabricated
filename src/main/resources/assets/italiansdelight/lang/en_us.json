@@ -405,5 +405,10 @@
   "pizza.italiansdelight.taste.mortadella_ricotta_mandorle": "Mortadella, Ricotta and Almonds",
   "item.italiansdelight.basil_pesto": "Basil Pesto",
   "item.italiansdelight.pasta_with_almond_pesto": "Pasta with Almond and Basil Pesto",
-  "block.italiansdelight.almond_cake": "Almond Cake"
+  "block.italiansdelight.almond_cake": "Almond Cake",
+  "item.italiansdelight.cherry_jam_bottle": "Cherry Jam Bottle",
+  "item.italiansdelight.cherry_jam_toast": "Cherry Jam Toast",
+  "block.italiansdelight.cherry_tart": "Cherry Tart",
+  "item.italiansdelight.cherry_tart": "Cherry Tart",
+  "item.italiansdelight.cherry_tart_slice": "Cherry Tart Slice"
 }

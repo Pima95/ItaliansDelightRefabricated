@@ -198,6 +198,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.OLIVE_PATE);
                 output.accept(ModItems.BASIL_PESTO);
                 output.accept(ModItems.ALMOND_PESTO);
+                output.accept(ModItems.CHERRY_JAM_BOTTLE);
                 output.accept(ModItems.SALT);
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.CARROT_SLICE);
@@ -333,8 +334,11 @@ public final class ModItemGroups {
                 // READY-TO-EAT SNACKS AND DESSERTS.
                 output.accept(ModItems.BRUSCHETTA);
                 output.accept(ModItems.OLIVE_BRUSCHETTA);
+                output.accept(ModItems.CHERRY_JAM_TOAST);
                 output.accept(ModBlocks.ALMOND_CAKE);
                 output.accept(ModItems.ALMOND_CAKE_SLICE);
+                output.accept(ModBlocks.CHERRY_TART);
+                output.accept(ModItems.CHERRY_TART_SLICE);
             })
             .build();
 

@@ -405,5 +405,10 @@
   "pizza.italiansdelight.taste.mortadella_ricotta_mandorle": "Mortadella, ricotta e mandorle",
   "item.italiansdelight.basil_pesto": "Pesto di basilico",
   "item.italiansdelight.pasta_with_almond_pesto": "Pasta al pesto di mandorle e basilico",
-  "block.italiansdelight.almond_cake": "Torta alle mandorle"
+  "block.italiansdelight.almond_cake": "Torta alle mandorle",
+  "item.italiansdelight.cherry_jam_bottle": "Marmellata di Ciliegie",
+  "item.italiansdelight.cherry_jam_toast": "Fetta di Pane con Marmellata di Ciliegie",
+  "block.italiansdelight.cherry_tart": "Crostata di Ciliegie",
+  "item.italiansdelight.cherry_tart": "Crostata di Ciliegie",
+  "item.italiansdelight.cherry_tart_slice": "Fetta di Crostata di Ciliegie"
 }
