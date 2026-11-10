@@ -67,6 +67,10 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         IRecipeCategoryRegistration registration
     ) {
         registration.addRecipeCategories(
+            // Pizza Oven first, mirroring the Creative workstation section.
+            new PizzaBakingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
             new CheeseVatRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
@@ -83,9 +87,6 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
                 registration.getJeiHelpers().getGuiHelper()
             ),
             new PizzaCraftingRecipeCategory(
-                registration.getJeiHelpers().getGuiHelper()
-            ),
-            new PizzaBakingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
             new PizzaCuttingRecipeCategory(
@@ -195,6 +196,12 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
     public void registerRecipeCatalysts(
         IRecipeCatalystRegistration registration
     ) {
+        // The Pizza Oven is the first workstation in Creative and JEI.
+        registration.addCraftingStation(
+            PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
+            new ItemStack(ModBlocks.PIZZA_OVEN)
+        );
+
         registration.addCraftingStation(
             CheeseVatJeiRecipeTypes.CHEESE_VAT,
             new ItemStack(ModBlocks.CHEESE_VAT)
@@ -245,12 +252,6 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addCraftingStation(
             PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
             new ItemStack(net.minecraft.world.level.block.Blocks.CRAFTING_TABLE)
-        );
-
-        // Dedicated Pizza Oven catalyst for a vanilla-style 20-second cooking display.
-        registration.addCraftingStation(
-            PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
-            new ItemStack(ModBlocks.PIZZA_OVEN)
         );
 
         registration.addCraftingStation(

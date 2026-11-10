@@ -108,8 +108,12 @@ def main() -> None:
     # Enforce stable browsing categories and three contiguous pizza families.
     # They intentionally reuse the same THREE registered Item IDs.
     markers = [
-        "// WORKSTATIONS:", "// TOOLS:", "// CROPS AND WILD PLANTS.", "// ORCHARD FRUITS AND RAW INGREDIENTS.",
-        "// CRATES AND CROP STORAGE.", "// SAUCES, SEASONINGS AND PREPARED VEGETABLES.",
+        "// WORKSTATIONS AND STORAGE:",
+        "// CRATES AND CROP STORAGE.",
+        "// OLIVE WOOD:", "// ALMOND WOOD:", "// FRUIT CHERRY WOOD:",
+        "// TOOLS:", "// CROPS AND WILD PLANTS.",
+        "// ORCHARD FRUITS AND RAW INGREDIENTS.",
+        "// SAUCES, SEASONINGS AND PREPARED VEGETABLES.",
         "// OILS, JUICES AND OTHER STORED LIQUIDS.",
         "// MILK, CULTURES AND CHEESE-PRODUCTION INGREDIENTS.",
         "// CHEESES:", "// CURED MEATS:", "// RAW PIZZAS:",
@@ -135,6 +139,75 @@ def main() -> None:
         ("ModItems.BRUSCHETTA", "ModBlocks.ALMOND_CAKE"),
     ):
         before(left, right)
+
+    # Complete Creative order, including sign/boat instances not included in the
+    # basic registry-presence check above.
+    full_order = [m.group(1) for m in re.finditer(
+        r"output\.accept\((Mod(?:Items|Blocks|Signs|Boats)\.[A-Z0-9_]+)\);", content
+    )]
+    if full_order[0] != "ModBlocks.PIZZA_OVEN":
+        raise ValueError("Pizza oven must be the first Creative entry")
+    if not (
+        full_order.index("ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK")
+        < full_order.index("ModBlocks.OLIVE_CRATE")
+        < full_order.index("ModBlocks.CARDOON")
+    ):
+        raise ValueError("Storage crates belong with the blocks, before crops/ingredients")
+    crates = ("OLIVE", "ALMOND", "CHERRY", "BASIL", "CARDOON")
+    crate_indexes = [full_order.index(f"ModBlocks.{c}_CRATE") for c in crates]
+    if crate_indexes != list(range(crate_indexes[0], crate_indexes[0]+len(crates))):
+        raise ValueError("The five crate blocks must remain contiguous")
+    derivatives = (
+        "LOG", "WOOD", "STRIPPED_LOG", "STRIPPED_WOOD", "PLANKS",
+        "STAIRS", "SLAB", "FENCE", "FENCE_GATE", "DOOR", "TRAPDOOR",
+        "PRESSURE_PLATE", "BUTTON", "SIGN", "HANGING_SIGN",
+        "CABINET", "SHELF", "BOAT_ITEM", "CHEST_BOAT_ITEM",
+        "LEAVES", "SAPLING",
+    )
+    for species in ("OLIVE", "ALMOND", "FRUIT_CHERRY"):
+        wood_order = []
+        for derivative in derivatives:
+            symbol = f"STRIPPED_{species}_{derivative[9:]}" if derivative.startswith("STRIPPED_") else f"{species}_{derivative}"
+            prefix = ("ModBoats" if derivative.endswith("BOAT_ITEM")
+                      else "ModSigns" if derivative in ("SIGN", "HANGING_SIGN")
+                      else "ModBlocks")
+            wood_order.append(f"{prefix}.{symbol}")
+        positions = [full_order.index(item) for item in wood_order]
+        if positions != list(range(positions[0], positions[0]+len(positions))):
+            raise ValueError(f"{species} wood derivatives are non-contiguous/out of order")
+    fluid_pairs = (
+        ("OLIVE_OIL_BUCKET", "OLIVE_OIL_BOTTLE"),
+        ("APPLE_JUICE_BUCKET", "APPLE_JUICE_BOTTLE"),
+        ("GOLDEN_APPLE_JUICE_BUCKET", "GOLDEN_APPLE_JUICE_BOTTLE"),
+        ("SHEEP_MILK_BUCKET", "SHEEP_MILK_BOTTLE"),
+        ("WHEY_BUCKET", "WHEY_BOTTLE"),
+        ("RENNET_BUCKET", "RENNET"),
+        ("APPLE_CIDER_VINEGAR_BUCKET", "APPLE_CIDER_VINEGAR"),
+    )
+    for bucket, bottle in fluid_pairs:
+        if full_order.index(f"ModItems.{bucket}") + 1 != full_order.index(f"ModItems.{bottle}"):
+            raise ValueError(f"{bucket} must directly precede {bottle}")
+    # Pizza examples are added as extra JEI ingredients in the same three
+    # Creative families; JEI's user-configured sorting determines final display.
+    jei_samples = Path("src/main/java/dev/italiansdelight/integration/jei/PizzaJeiIngredientSamples.java").read_text(encoding="utf-8")
+    for snippet in (
+        "stacks.add(PizzaCreativeSamples.create(recipe, false));",
+        "stacks.add(PizzaCreativeSamples.createMixed(false));",
+        "stacks.add(PizzaCreativeSamples.create(recipe, true));",
+        "stacks.add(PizzaCreativeSamples.createMixed(true));",
+        "stacks.add(PizzaCreativeSamples.createSlice(recipe));",
+    ):
+        if snippet not in jei_samples:
+            raise ValueError(f"Missing JEI pizza sample: {snippet}")
+    jei_positions = [jei_samples.index(x) for x in (
+        "stacks.add(PizzaCreativeSamples.create(recipe, false));",
+        "stacks.add(PizzaCreativeSamples.createMixed(false));",
+        "stacks.add(PizzaCreativeSamples.create(recipe, true));",
+        "stacks.add(PizzaCreativeSamples.createMixed(true));",
+        "stacks.add(PizzaCreativeSamples.createSlice(recipe));",
+    )]
+    if jei_positions != sorted(jei_positions):
+        raise ValueError("JEI pizza extras must follow Creative raw/cooked/slice order")
 
     for expected in (
         "output.accept(PizzaCreativeSamples.createMixed(false));",
