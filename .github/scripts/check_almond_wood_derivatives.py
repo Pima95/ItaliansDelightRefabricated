@@ -54,7 +54,7 @@ for k in ("block","item"):
 for p in (A/"models/block").glob("*almond*.json"):
     # Pie/block food geometry is audited by check_orchard_almond_foods.py,
     # not restricted to the approved ALMOND WOOD texture allowlist.
-    if p.stem.startswith("almond_cake"):
+    if p.stem.startswith("almond_cake") or p.stem.startswith("template_almond_cake"):
         continue
     # The newly introduced almond_crate intentionally reuses the native FDR
     # crate_bottom texture. Its complete model and PNGs are covered by the
