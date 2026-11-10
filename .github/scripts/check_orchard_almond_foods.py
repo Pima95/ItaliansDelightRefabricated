@@ -215,3 +215,22 @@ for y in range(7,12):
         assert a==255 and r>g*1.6 and r>b*1.1, (
             "Cherry jam must be visible through the jar without a paper label")
 print("OK: squared tart faces and unobstructed red jam in the label-free jar")
+
+# Use crossed diagonal strips on the placed tart, not a right-angle grid.
+def is_pastry(px):
+    return px[3] == 255 and px[0] >= 145 and px[1] >= 100 and px[2] < 135
+for dx in (1, -1):
+    runs = 0
+    for y in range(4, 12):
+        for x in range(4, 12):
+            segment = [(x + i*dx, y + i) for i in range(4)]
+            if all(4 <= xx < 12 and 4 <= yy < 12 and is_pastry(tart_top[yy][xx])
+                   for xx, yy in segment):
+                runs += 1
+    assert runs >= 2, "Cherry tart must feature diagonal pastry in both directions"
+# White, wide plastic cap like a classic hazelnut spread jar; blue clear glass.
+assert all(all(component >= 185 for component in jar_pixels[2][x][:3])
+           for x in range(3, 13)), "Jam jar must have a full-width white cap"
+assert all(jar_pixels[7][x][2] > jar_pixels[7][x][0]
+           for x in (3, 4, 11, 12)), "Jam jar glass border must be blue"
+print("OK: diagonal cherry lattice and reference-style, wide white jar cap")
