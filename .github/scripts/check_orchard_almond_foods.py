@@ -199,3 +199,19 @@ assert all(tart_side[y][x][3] == 255 for y in range(12,16) for x in range(2,14))
 assert all(tart_side[y][x][1] > tart_side[y][x][2]
            for y in range(12,16) for x in range(2,14)), "Outer crust should not show red jam layers"
 print("OK: the tart fills its 12x12 block faces and its outside is pastry only")
+
+# The user-approved square geometry is non-negotiable for the placed tart:
+# top and bottom cover exactly the unrounded 12x12 world-model UV footprint.
+for name,pixels in (("top",tart_top),("bottom",tart_bottom)):
+    occupied=[(x,y) for y,row in enumerate(pixels) for x,px in enumerate(row) if px[3]==255]
+    assert occupied, f"Cherry tart {name} texture is empty"
+    assert (min(x for x,y in occupied),min(y for x,y in occupied),
+            max(x for x,y in occupied)+1,max(y for x,y in occupied)+1)==(2,2,14,14), (
+            f"Cherry tart {name} must have square corners and no rounded silhouette")
+# The jar label must not obscure the filling: its entire center panel is red jam.
+for y in range(7,12):
+    for x in range(5,11):
+        r,g,b,a=jar_pixels[y][x]
+        assert a==255 and r>g*1.6 and r>b*1.1, (
+            "Cherry jam must be visible through the jar without a paper label")
+print("OK: squared tart faces and unobstructed red jam in the label-free jar")
