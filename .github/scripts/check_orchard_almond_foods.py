@@ -172,15 +172,18 @@ assert read(A / "lang/it_it.json")["item.italiansdelight.cherry_jam_bottle"] == 
 print("OK: cherry jam bottle, tart with four portions, jam toast, all binary-alpha PNGs")
 
 # Art invariants: a smaller tomato sprite and a squat cherry jam jar.
-from PIL import Image
+# Use the standard-library PNG decoder shared with the rest of the CI
+# (GitHub's minimal Python environment intentionally has no Pillow).
 tomato_pixels=check_rgba_pixel_art(A / "textures/item/tomato_slice.png", (16,16))
-tomato_bbox=Image.open(A / "textures/item/tomato_slice.png").convert("RGBA").getchannel("A").getbbox()
-assert tomato_bbox is not None
-assert tomato_bbox[2] - tomato_bbox[0] <= 10
-assert tomato_bbox[3] - tomato_bbox[1] <= 10
+tomato_coords=[(x,y) for y,row in enumerate(tomato_pixels)
+               for x,pixel in enumerate(row) if pixel[3] == 255]
+assert tomato_coords
+assert max(x for x,y in tomato_coords)-min(x for x,y in tomato_coords)+1 <= 10
+assert max(y for x,y in tomato_coords)-min(y for x,y in tomato_coords)+1 <= 10
 jar_pixels=check_rgba_pixel_art(A / "textures/item/cherry_jam_bottle.png", (16,16))
-jar_bbox=Image.open(A / "textures/item/cherry_jam_bottle.png").convert("RGBA").getchannel("A").getbbox()
-assert jar_bbox and jar_bbox[2]-jar_bbox[0]>=8
+jar_coords=[(x,y) for y,row in enumerate(jar_pixels)
+            for x,pixel in enumerate(row) if pixel[3] == 255]
+assert jar_coords and max(x for x,y in jar_coords)-min(x for x,y in jar_coords)+1 >= 8
 assert all(px[3] in (0,255) for row in tomato_pixels for px in row)
 assert all(px[3] in (0,255) for row in jar_pixels for px in row)
 print("OK: tomato slice is reduced; jar/tart textures remain 16x16 binary alpha")
