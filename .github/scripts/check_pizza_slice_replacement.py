@@ -61,7 +61,7 @@ assert "PizzaSliceFactory.create(entity.sliceAt(q))" in cooked
 assert "PizzaSliceFactory.create(entity.sliceAt(q));" in cooked
 assert "entity.markServed(q);" in cooked
 assert "!served.servedEver()" in peel
-assert "PizzaSliceData.CODEC" in data
+assert "public static final Codec<PizzaSliceData> CODEC" in data
 assert "return create(PizzaSliceData.fromPizza(pizza, quarter));" in factory
 assert "public static ItemStack create(PizzaSliceData slice)" in factory
 
