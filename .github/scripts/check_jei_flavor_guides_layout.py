@@ -11,7 +11,7 @@ cutting=(root/"PizzaCuttingRecipeCategory.java").read_text(encoding="utf-8")
 vat=(root/"CheeseVatRecipeCategory.java").read_text(encoding="utf-8")
 presets=(Path("src/main/java/dev/italiansdelight/common/pizza/PizzaDisplayNames.java")
          .read_text(encoding="utf-8"))
-assert "presets.size() != 20" in presets
+assert "presets.size() != 21" in presets
 assert "PizzaDisplayNames.allPresets().entrySet()" in recipes
 assert "PizzaCreativeSamples.create(preset.getKey(), false)" in recipes
 assert "data.composition().applications().forEach(app ->" in recipes

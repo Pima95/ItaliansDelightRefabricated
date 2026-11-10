@@ -55,6 +55,18 @@ Minecraft **26.2**, Fabric Loader **0.20.1+**, Java **25**, Fabric API
   (mozzarella, smoked scamorza, pitted olives).
 - **Focaccia is explicitly deferred** to a later update.
 
+## Almond preparations (development additions)
+
+- Cutting Board converts each whole Almond into two portions of Granella.
+- Pesto from chopped almonds, fresh basil, Parmesan and Olive Oil.
+- Pasta with Almond & Basil Pesto cooked in the Farmer's Delight Cooking Pot.
+- Almond Cake with milk, wheat, sugar and egg, cut into four edible slices.
+- Recognized white pizza Mortadella, Ricotta and Almonds, without tomato sauce
+  and with **chopped almonds**, not whole almonds.
+- New 16×16 binary-alpha icons, plus a 12×12 granella topping atlas.
+  The original pasta-with-pesto artwork and the approved pizza crust stay intact.
+- Focaccia, grapes and grape juice remain excluded from 1.1.0.
+
 ## Not included
 **Grapes, grape juice and wine** are planned for a later version.
 
