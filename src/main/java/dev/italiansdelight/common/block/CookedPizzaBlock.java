@@ -175,9 +175,10 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
                 || !(server.getBlockEntity(pos) instanceof CookedPizzaBlockEntity entity)) {
             return InteractionResult.FAIL;
         }
-        PizzaItemData data = entity.pizza();
+        // A free-standing slice has no original whole-pizza orientation:
+        // always select by the actual visible block facing instead.
         int q = PizzaQuarterSelection.physicalQuarter(
-                data.composition().orientation(),
+                state.getValue(FACING).getName(),
                 hit.getLocation().x - pos.getX(),
                 hit.getLocation().z - pos.getZ());
         int bit = 1 << q;
