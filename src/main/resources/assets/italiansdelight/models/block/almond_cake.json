@@ -1,5 +1,5 @@
 {
-  "parent": "farmersdelight:block/template_pie",
+  "parent": "italiansdelight:block/template_almond_cake",
   "textures": {
     "bottom": "italiansdelight:block/almond_cake_bottom",
     "side": "italiansdelight:block/almond_cake_side",

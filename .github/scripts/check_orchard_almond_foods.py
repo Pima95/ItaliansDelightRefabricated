@@ -78,8 +78,10 @@ state=read(A/"blockstates/almond_cake.json")
 assert len(state["variants"])==16
 for n in ("almond_cake","almond_cake_slice1","almond_cake_slice2","almond_cake_slice3"):
     model=read(A/f"models/block/{n}.json")
-    assert model["parent"].startswith("farmersdelight:block/template_pie")
+    assert model["parent"].startswith("italiansdelight:block/template_almond_cake")
     assert set(model["textures"])=={"bottom","top","side","inner"}
+    template=read(A/f"models/block/template_{n}.json")
+    assert template["elements"] and template["textures"]["particle"]=="#top"
 for n in ("almond_cake_top","almond_cake_inner","almond_cake_side","almond_cake_bottom"):
     check_rgba_pixel_art(A/f"textures/block/{n}.png",(16,16))
 assert 'new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16)' in items
