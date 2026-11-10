@@ -232,5 +232,21 @@ for dx in (1, -1):
 assert all(all(component >= 185 for component in jar_pixels[2][x][:3])
            for x in range(3, 13)), "Jam jar must have a full-width white cap"
 assert all(jar_pixels[7][x][2] > jar_pixels[7][x][0]
-           for x in (3, 4, 11, 12)), "Jam jar glass border must be blue"
-print("OK: diagonal cherry lattice and reference-style, wide white jar cap")
+           for x in (3, 12)), "Jar glass walls must retain their blue tone"
+# The squat white screw cap is exactly two pixel rows high (y=2 and y=3).
+# The straight glass walls are one pixel wide (x=3 and x=12): adjacent
+# pixels x=4 and x=11 must show jam, never a second glass border.
+assert all(jar_pixels[1][x][3] == 0 for x in range(16)), "Jar cap became too tall"
+assert all(jar_pixels[2][x][3] == 255 for x in range(3, 13))
+assert all(jar_pixels[3][x][3] == 255 for x in range(2, 14))
+for y in range(5, 14):
+    for x in (3, 12):
+        r, g, b, a = jar_pixels[y][x]
+        assert a == 255 and b > r, "Glass wall must be exactly one blue pixel wide"
+    for x in (4, 11):
+        r, g, b, a = jar_pixels[y][x]
+        assert a == 255 and r > g * 1.5 and r > b * 1.1, "Jam must touch glass inner edges"
+for x in range(4, 12):
+    r, g, b, a = jar_pixels[4][x]
+    assert a == 255 and r > g * 1.5, "Jam must begin immediately below the short lid"
+print("OK: diagonal tart lattice, 2px white cap and 1px blue-glass jar walls")
