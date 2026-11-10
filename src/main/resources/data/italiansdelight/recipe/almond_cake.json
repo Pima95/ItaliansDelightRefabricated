@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "AAA",
+    "SMS",
+    "WEW"
+  ],
+  "key": {
+    "A": "italiansdelight:almonds",
+    "S": "minecraft:sugar",
+    "M": "minecraft:milk_bucket",
+    "W": "minecraft:wheat",
+    "E": "minecraft:egg"
+  },
+  "result": {
+    "id": "italiansdelight:almond_cake",
+    "count": 1
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#c:foods/pasta",
+    "italiansdelight:almond_pesto"
+  ],
+  "recipe_book_tab": "meals",
+  "container": {
+    "id": "minecraft:bowl",
+    "count": 1
+  },
+  "result": {
+    "id": "italiansdelight:pasta_with_pesto"
+  }
+}
