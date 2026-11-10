@@ -4,6 +4,34 @@
 **Branch:** `feature/pizza-1.0.0`  
 **Stato:** texture approvate dall'autore il 21 ottobre 2026; test funzionali estesi ancora da completare.
 
+## Correzione autorizzata — spicchi senza mozzarella filante (10 novembre 2026)
+
+L'autore ha autorizzato **esclusivamente** il ritocco delle texture di quattro
+spicchi privi di mozzarella o altri formaggi realmente filanti:
+`pizza_slice_bianca.png`, `pizza_slice_rossa.png`,
+`pizza_slice_guanciale_pecorino_rossa.png` e
+`pizza_slice_mortadella_ricotta_mandorle.png`.
+
+Le quattro icone avevano ereditato dalla Margherita originale due colature
+color crema lungo il bordo inferiore, anche quando la ricetta non conteneva
+mozzarella. Da ciascun PNG sono stati **rimossi nove pixel pendenti**
+(con alpha 0) e un singolo pixel rosso sulla punta è stato sostituito con
+l'impasto cotto marrone. Il risultato è una fetta con punta pulita e bordo
+di pane croccante. Tutti i **38 pixel di condimento di ogni gusto restano
+esattamente invariati**; il restante contorno mantiene gli stessi colori
+e posizioni del riferimento originale. Non cambiano modelli, item ID,
+salvataggi, nomi o dati delle pizze.
+
+**L'originale `margherita_slice.png` e tutti gli altri gusti, compreso
+`pizza_slice_custom.png`, rimangono immutati**. La texture personalizzata
+è ancora da valutare a parte.
+
+Lo script `.github/scripts/check_named_pizza_slices.py` ora ammette
+solo questi dieci interventi per ciascuno dei quattro gusti, verifica
+l'assenza delle colature, vincola i 38 pixel di farcitura con SHA-256,
+preserva tutti gli altri 208 pixel esterni e continua a impedire modifiche
+alla Margherita e agli spicchi non autorizzati.
+
 ## Approvazione finale delle texture — 21 ottobre 2026
 
 **Conferma dell'autore:** «Questi spicchi vanno bene, procediamo». La seconda serie delle **18 texture varianti degli spicchi** (17 gusti + fallback) è quindi **approvata in gioco per l'aspetto visivo e la distinguibilità**. La build funzionava già nei test precedenti. Anche le texture delle pizze intere erano già state approvate.

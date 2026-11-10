@@ -19,6 +19,28 @@ ASSETS = Path("src/main/resources/assets/italiansdelight")
 SRC = Path("src/main/java/dev/italiansdelight/common/pizza")
 GROUP = Path("src/main/java/dev/italiansdelight/common/item/group/ModItemGroups.java")
 ORIGINAL_GIT_SHA = "7dd166bec3bd3ddc7473d498ce0e78b3e785bc06"
+# Only these four exact presets lack any genuinely stretchy cheese.
+# Their dangling Mozzarella pixels may be replaced, while all other tastes
+# must retain the originally approved Margherita silhouette and crust.
+NO_MELT_PRESETS = frozenset({
+    "bianca", "rossa", "guanciale_pecorino_rossa",
+    "mortadella_ricotta_mandorle",
+})
+# Nine isolated cheese-drip pixels removed; a tenth pixel (3,10) becomes
+# golden-brown baked dough at the tip of the pizza instead of red mozzarella.
+DRIP_REMOVALS = frozenset({
+    (3, 11), (3, 12), (4, 12), (3, 13), (4, 13),
+    (3, 14), (3, 15), (9, 11), (9, 12),
+})
+TIP = (3, 10)
+TIP_DOUGH_RGBA = bytes((103, 65, 36, 255))
+# Safeguard the exact 38 original topping pixels for each revised flavor.
+TOPPING_HASHES = {
+    "bianca": "e9d2c90a3a29c4345189baecbea841feabc976c288456abf374a4715b9137f16",
+    "rossa": "1b38dfa46cf8ee49efd5d3054442e4a67b19aeff4e2c2f2c1a1421556921cf22",
+    "guanciale_pecorino_rossa": "1cc22628ad8c1984227f1bc96974218740ceedf5be56edfaa2f134333177aa69",
+    "mortadella_ricotta_mandorle": "df2d4b7080cdc272bbd20b8370e85d720c12b7433b79365214391742e90b868c",
+}
 MAGIC = b"\x89PNG\r\n\x1a\n"
 SURFACE = {
     (x, y)
@@ -157,9 +179,23 @@ def main() -> None:
             for x in range(16):
                 pos = (y * 16 + x) * 4
                 if (x, y) not in SURFACE:
-                    if texture[pos:pos + 4] != original[pos:pos + 4]:
+                    current = texture[pos:pos + 4]
+                    if taste in NO_MELT_PRESETS and (x, y) in DRIP_REMOVALS:
+                        if current != bytes((0, 0, 0, 0)):
+                            raise ValueError(f"{item}: cheese drip remains at {x},{y}")
+                    elif taste in NO_MELT_PRESETS and (x, y) == TIP:
+                        if current != TIP_DOUGH_RGBA:
+                            raise ValueError(f"{item}: tip is not baked pizza crust")
+                    elif current != original[pos:pos + 4]:
                         raise ValueError(
                             f"{item}: approved crust pixel changed at {x},{y}")
+        if taste in NO_MELT_PRESETS:
+            topping = b"".join(
+                texture[(y * 16 + x) * 4:(y * 16 + x + 1) * 4]
+                for x, y in sorted(SURFACE)
+            )
+            if hashlib.sha256(topping).hexdigest() != TOPPING_HASHES[taste]:
+                raise ValueError(f"{item}: original topping artwork must remain unchanged")
         if texture in hashes:
             raise ValueError(f"Duplicate named slice artwork: {item}")
         hashes.add(texture)
@@ -204,7 +240,8 @@ def main() -> None:
 
     print(f"OK: {len(expected)} distinctive 16x16 RGBA slices plus original Margherita")
     print("OK: 19 sprites checked pairwise for at least 10 pronounced pixel differences")
-    print("OK: 218 pixels (crust/background) immutable in every variant")
+    print("OK: 218 outside-topping pixels preserved except 10 approved edits on four cheeseless slices")
+    print("OK: nine cheese drips removed and tip recolored with baked dough, 38 topping pixels intact")
     print("OK: each quarter selects its own preset; examples are edible stacks")
 
 
