@@ -24,6 +24,7 @@ two named pizzas. Focaccia is **excluded** until a future version.
 ## Tests to do in-game
 - [ ] Cutting Board: one olive → one pitted olive + one pit; knife loses durability once, no duplication.
 - [ ] Crushing Tub: one olive → 250 mB olive oil + precisely **one** Olive Pit; JEI shows the pit; no pit is created for a rejected stomp (full tub, wrong fluid, or no input).
+- [ ] In all 15 Crushing Tub wood variants, walk **into the 1/16-high bottom of the hollow basin** without standing on an invisible slab. Jump and land inside to crush exactly one item; standing still, walking off the rim and landing on the rim must not crush anything. Underwater (waterlogged) tub remains inactive.
 - [ ] Pâté recipe returns one glass bottle, and using Pâté for bruschetta returns its bowl exactly once.
 - [ ] Both separate Bruschettas have no upper bread in the inventory artwork and are edible.
 - [ ] Raw/cooked/slice pizza visual distinction, in-world olive sprite, dynamic crafting and recipe JEI.

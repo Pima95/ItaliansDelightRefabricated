@@ -95,12 +95,31 @@ assert "output.accept(ModBlocks.CRUSHING_TUB);" in tab
 assert "extends BaseEntityBlock" in clazz
 assert "newBlockEntity(" in clazz and "CrushingTubBlockEntity" in clazz
 assert "getShape(" in clazz and "getCollisionShape(" in clazz
-assert clazz.count("Block.box(")==6, "Hollow selection plus Rustic full-width landing collision"
-assert "RUSTIC_LANDING_COLLISION" in clazz and "Block.box(0, 0, 0, 16, 9, 16)" in clazz
-assert "return RUSTIC_LANDING_COLLISION;" in clazz
+assert clazz.count("Block.box(")==5, "Collision must match the 5 hollow model pieces"
+assert "RUSTIC_LANDING_COLLISION" not in clazz
+assert "Block.box(0, 0, 0, 16, 9, 16)" not in clazz
+assert "return SHAPE;" in clazz and "getCollisionShape(" in clazz
+assert clazz.count("return SHAPE;")==2, "Outline and physical collision share the hollow shape"
+assert "BlockEntityTicker<T> getTicker(" in clazz
+assert "createTickerHelper(type, ModBlockEntities.CRUSHING_TUB" in clazz
+assert "CrushingTubBlockEntity.serverTick(server, pos, current, tub)" in clazz
+assert "CrushingTubBlock.finishStomp" not in clazz
+assert "public static void finishStomp(" in clazz and "tub.stomp()" in clazz
+assert "fallOn(" not in clazz, "Vanilla fallOn cannot reliably sample a 1/16 floor"
+entity_src=(JAVA/"common/block/entity/CrushingTubBlockEntity.java").read_text()
+for token in ("airborneInside", "Map<UUID, Long>", "getEntitiesOfClass(LivingEntity.class, area)",
+              "!entity.onGround() && feetY > RIM_CLEARANCE_Y",
+              "entity.onGround()", "Math.abs(feetY - BASIN_FLOOR_Y)",
+              "tub.airborneInside.remove(entity.getUUID())",
+              "now - armedAt <= 20",
+              "CrushingTubBlock.finishStomp(level, pos, tub)",
+              "state.getValue(CrushingTubBlock.WATERLOGGED) || tub.input.isEmpty()"):
+    assert token in entity_src, f"Missing one-stomp-per-jump basin guard: {token}"
+assert "return recipe.byproduct().copy();" in entity_src
+assert "recipe.amount() > CAPACITY - amount" in entity_src
 assert "Shapes.or(" in clazz and ".noOcclusion()" in blocks
 assert "BaseEntityBlock" in clazz
-assert "fallOn(" in clazz and "tub.stomp()" in clazz
+assert "public static void finishStomp(" in clazz and "tub.stomp()" in clazz
 renderer=(JAVA/"client/render/CrushingTubFluidRenderer.java").read_text()
 assert "ItemDisplayContext.NONE" in renderer and "Axis.XP.rotationDegrees(-90.0f)" in renderer
 assert "state.inputModel.submit(" in renderer and "state.inputCount" in renderer
@@ -113,7 +132,8 @@ print("OK: Minecraft 26.2 blockstate + item definition + item model resolve loca
 print("OK: 16x16 texture exists with binary alpha")
 print("OK: shaped recipe uses 26.2 item tags, including Italian's Delight wood")
 print("OK: registry, creative tab, axe tag, drop and localized names")
-print("OK: persisted inventory, one-item stomp and 8000mB liquid engine")
+print("OK: persisted inventory, one-item per *interior landing* stomp and 8000mB liquid engine")
+print("OK: physical collision matches 5-piece hollow model; no phantom 9/16 slab")
 print("NOTE: inspect appearance, inventory item and recipe in Minecraft")
 
 # Modern texture coverage for every vanilla and orchard wood. The old IDs are Oak.

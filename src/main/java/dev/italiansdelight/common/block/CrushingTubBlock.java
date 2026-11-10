@@ -2,6 +2,7 @@ package dev.italiansdelight.common.block;
 
 import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
+import dev.italiansdelight.common.registry.ModBlockEntities;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -22,8 +23,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
@@ -33,6 +32,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -43,8 +44,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
  * Rustic 1.12.2 Crushing Tub interaction adapted to Minecraft 26.2.
- * Hollow appearance is unchanged across all fifteen wood variants.
- * Collision follows the solid, 9/16-high landing plane used by original Rustic.
+ * Hollow five-piece model AND collision for all fifteen wood variants.
+ * The center is an actual 1/16-high floor: players can step inside and jump.
+ * The dedicated server ticker detects a landing in that hollow floor because
+ * vanilla's ~0.2-block foot sampling can miss fallOn for such shallow surfaces.
  */
 public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     private static final VoxelShape SHAPE = Shapes.or(
@@ -55,18 +58,8 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
         Block.box(15, 0, 1, 16, 9, 15)
     ).optimize();
 
-    /**
-     * Rustic 1.12.2 BlockCrushingTub returns TUB_AABB (0,0,0 -> 1,9/16,1)
-     * for collision, despite the hollow five-part appearance. Its single flat
-     * landing surface causes fallOn to fire in the CENTER as well as on the rim.
-     *
-     * Keep SHAPE for selection and the approved hollow model/texture. Do not
-     * use SHAPE for actual collision: the 1/16-high center floor could make
-     * Minecraft resolve fallOn against the ground underneath the tub instead.
-     */
-    private static final VoxelShape RUSTIC_LANDING_COLLISION =
-        Block.box(0, 0, 0, 16, 9, 16);
-
+    // SHAPE is shared by selection and physical collisions. No invisible
+    // slab/landing plane: the 1-pixel base and 9-pixel walls match the model.
     public CrushingTubBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, false));
@@ -109,7 +102,7 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
                                          CollisionContext context) { return SHAPE; }
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
                                                   CollisionContext context) {
-        return RUSTIC_LANDING_COLLISION;
+        return SHAPE;
     }
 
     @Override protected InteractionResult useItemOn(
@@ -174,19 +167,30 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
         if (!back.isEmpty() && !player.addItem(back)) popResource(level, pos, back);
     }
 
-    @Override public void fallOn(Level level, BlockState state, BlockPos pos,
-                                 Entity entity, double fallDistance) {
-        if (!state.getValue(WATERLOGGED) && !level.isClientSide()
-                && entity instanceof LivingEntity &&
-            level.getBlockEntity(pos) instanceof CrushingTubBlockEntity tub) {
-            ItemStack byproduct = tub.stomp();
-            if (byproduct != null) {
-                if (!byproduct.isEmpty()) popResource(level, pos.above(), byproduct);
-                level.playSound(null, pos, SoundEvents.SLIME_BLOCK_FALL,
-                    SoundSource.BLOCKS, 0.5f, 1.0f);
-            }
+    /**
+     * With an actual 1/16-high floor vanilla may call fallOn on the block
+     * underneath the tub (getOnPos samples 0.2 below the player's feet).
+     * Track a jump and subsequent grounded landing in the cavity instead.
+     * A stationary player, a step off the rim and a landing ON the rim do
+     * not stomp. The input and fluid are still mutated atomically by stomp().
+     */
+    @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level, BlockState state, BlockEntityType<T> type) {
+        if (level instanceof ServerLevel server) {
+            return createTickerHelper(type, ModBlockEntities.CRUSHING_TUB,
+                    (world, pos, current, tub) ->
+                            CrushingTubBlockEntity.serverTick(server, pos, current, tub));
         }
-        super.fallOn(level, state, pos, entity, fallDistance);
+        return null;
+    }
+
+    /** Called only after a server-confirmed landing inside the basin. */
+    public static void finishStomp(ServerLevel level, BlockPos pos, CrushingTubBlockEntity tub) {
+        ItemStack byproduct = tub.stomp();
+        if (byproduct == null) return; // no accepted recipe, fluid space, or fluid identity
+        if (!byproduct.isEmpty()) popResource(level, pos.above(), byproduct);
+        level.playSound(null, pos, SoundEvents.SLIME_BLOCK_FALL,
+                SoundSource.BLOCKS, 0.5f, 1.0f);
     }
 
     @Override protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
