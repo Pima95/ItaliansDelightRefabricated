@@ -1,26 +1,35 @@
-# Orchard 1.1.0 — Almond foods and pizza
+# Orchard 1.1.0 — Two pestos, two pastas and a placeable almond cake
 
-New almond preparations use existing Farmer's Delight and Italian's Delight systems. No new machines.
+## Recipes
 
-| Result | Method | Ingredients |
+| Result | Workstation | Ingredients |
 | --- | --- | --- |
-| 2 Chopped Almonds | FD Cutting Board, knife | 1 Almond |
-| 1 Almond & Basil Pesto | Shapeless crafting | Bowl, 2 Chopped Almonds, 2 Basil, Grated Parmigiano, Olive Oil Bottle |
-| 1 Pasta with Almond Pesto | FD Cooking Pot | Pasta (tag `c:foods/pasta`), Almond Pesto, serving Bowl |
-| 1 Almond Cake | 3×3 crafting | 3 Almonds, 2 Sugar, Milk Bucket, 2 Wheat, Egg |
-| 4 Almond Cake Slices | FD Cutting Board, knife | 1 whole Almond Cake |
-| Mortadella Ricotta & Almond Pizza | Existing dynamic pizza preparation | Ricotta, Mortadella Slices, Chopped Almonds, Wheat Dough; no tomato sauce |
+| 2 chopped almond portions | FD Cutting Board | 1 Almond + knife |
+| Basil Pesto | Crafting | Bowl, 3 Basil, grated Parmigiano, Olive Oil Bottle, Salt |
+| Almond & Basil Pesto | Crafting | Bowl, 2 Chopped Almonds, 2 Basil, grated Parmigiano, Olive Oil Bottle |
+| Pasta with Basil Pesto | FD Cooking Pot | Pasta (c:foods/pasta), Basil Pesto; serve with Bowl |
+| Pasta with Almond Pesto | FD Cooking Pot | Pasta (c:foods/pasta), Almond Pesto; serve with Bowl |
+| Placeable Almond Cake | Crafting 3x3 | 3 Almonds, 2 Sugar, 1 Milk Bucket, 2 Wheat, 1 Egg |
+| Four cake slices | FD Cutting Board | 1 Almond Cake + knife |
+| Mortadella, Ricotta & Almonds Pizza | Original dynamic pizza preparation | Ricotta, Mortadella Slices, Chopped Almonds |
 
-The full cake is a *cuttable intermediate*; only the four slices are edible. Vanilla crafting should return a bucket from Milk Bucket and a glass bottle from Olive Oil Bottle. Pesto is a non-edible bowl-based intermediate; it carries an empty Bowl remainder as in other bowl-based recipes in the project. Because the Cooking Pot is a separate handler, test bowl recovery in-game.
+## Corrected item identity
+- The already present `italiansdelight:pasta_with_pesto` item and **original texture** represent **Basil Pesto** pasta; its recipe now consumes `italiansdelight:basil_pesto`.
+- `italiansdelight:pasta_with_almond_pesto` is a brand-new separate item, cooking recipe, translation and 16×16 bowl sprite.
+- Two separate 16×16 bowls `basil_pesto` and `almond_pesto` use the visual silhouette of Farmer's Delight's dark `tomato_sauce` bowl, but have visibly different bright-green basil and olive/cream almond fillings.
+- `italiansdelight:almond_cake` remains the same ITEM identifier, but now is registered as a *placeable BlockItem*. ModItems must **not** separately register another Item with this identifier.
 
-**Artwork:** reuses original `pasta_with_pesto.png`, and gives the four new items their own 16×16 art. The named pizza uses original Mortadella/Ricotta shapes/crust with added almond fragments and a new 12×12 (4-variation) topping sprite atlas. Binary alpha 0 or 255 everywhere.
+## Placed cake
+The placeable cake uses the Farmer's Delight **Apple Pie** four-portion model family and has 4 saved `bites` states, rotation, and 12×12×4-height collision. Empty-hand right click while hungry consumes one edible serving (4 hunger, saturation modifier 0.5). Clicking with a knife (c:tools/knife) instead cuts and drops one Almond Cake Slice; the cake shows progressively fewer pieces. Removing the final piece removes the block; mining a whole cake returns the whole cake, while mining a partial cake returns only remaining slices. The existing FD Cutting Board recipe still converts a full cake into exactly four edible slices.
 
-**Scope and compatibility:** 21 recognizable pizza flavors (previously 20); 33 canonical pizza topping types and 37 native mappings. Whole Almonds, Pesto and Cake are *not* pizza toppings, only chopped Almonds. Existing food IDs, worldgen, Rustic Crushing Tub behavior and grapes/focaccia deferral remain unchanged.
+## Visual references and attribution
+The bowl and pie art are adaptations of original **Farmer's Delight** textures by vectorwing, branch `1.21` (MIT license): `textures/item/tomato_sauce.png`, `apple_pie.png`, `apple_pie_slice.png` and `textures/block/apple_pie_top.png`, `apple_pie_inner.png`, `pie_side.png`, `pie_bottom.png`. Block models reuse the original Farmer's Delight pie templates via parent model identifiers. The in-mod original `pasta_with_pesto.png` is unchanged. All newly created PNG assets must have strictly binary alpha (0 or 255).
 
-## In-game checks (not yet marked as passed)
-
-- [ ] Cutting Board: 1 Almond → 2 granella; cake → exactly 4 slices, with one knife action each
-- [ ] Pesto crafting returns 1 glass bottle; Cooking Pot uses pasta/pesto and serves in a bowl without duplicating containers
-- [ ] Cake craft returns 1 empty bucket; cake slices are edible and do not duplicate the whole cake
-- [ ] New pizza uses only chopped almonds; shape and placement render on all four quarters and survive save/reload
-- [ ] JEI, Italian/English names, Creative, dedicated server and original 20 pizza flavors remain functional
+## Manual tests before release
+- [ ] Both pesto bowl crafting recipes return the glass bottle from olive oil; basil pesto must not require almonds
+- [ ] FD Cooking Pot: each pesto produces the appropriate separate Pasta bowl, no lost or duplicated bowls
+- [ ] Craft/place Almond Cake, verify whole/partial 3D states and facing; eat four portions
+- [ ] Cut four portions with knife, break partially consumed block, verify exact remaining count
+- [ ] Cutting Board: whole Almond Cake -> 4 slices; no extra whole cakes or bowls
+- [ ] Check JEI/Creative, translations, older saves and dedicated server
+- [ ] Focaccia, grapes and grape juice remain out of scope

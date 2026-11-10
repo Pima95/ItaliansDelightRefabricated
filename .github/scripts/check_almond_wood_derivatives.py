@@ -52,6 +52,10 @@ for k in ("block","item"):
     for tag in (D/f"minecraft/tags/{k}/logs_that_burn.json",D/f"italiansdelight/tags/{k}/almond_logs.json"):
         assert {"italiansdelight:almond_wood","italiansdelight:stripped_almond_wood"} <= set(j(tag)["values"])
 for p in (A/"models/block").glob("*almond*.json"):
+    # Pie/block food geometry is audited by check_orchard_almond_foods.py,
+    # not restricted to the approved ALMOND WOOD texture allowlist.
+    if p.stem.startswith("almond_cake"):
+        continue
     # The newly introduced almond_crate intentionally reuses the native FDR
     # crate_bottom texture. Its complete model and PNGs are covered by the
     # separate check_orchard_crates.py; protect original wood art here.

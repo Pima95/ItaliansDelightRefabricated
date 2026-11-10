@@ -9,7 +9,8 @@ R=ROOT/"data/italiansdelight/recipe"
 JAVA=Path("src/main/java/dev/italiansdelight")
 read=lambda p:json.loads(p.read_text(encoding="utf-8"))
 
-for name in ("chopped_almonds","almond_pesto","almond_cake","almond_cake_slice","pasta_with_pesto"):
+for name in ("chopped_almonds","basil_pesto","almond_pesto","almond_cake",
+             "almond_cake_slice","pasta_with_pesto","pasta_with_almond_pesto"):
     assert read(A/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
     assert read(A/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:item/{name}"
     pixels=check_rgba_pixel_art(A/f"textures/item/{name}.png",(16,16))
@@ -33,11 +34,20 @@ assert pesto["ingredients"].count("italiansdelight:basil")==2
 assert {"minecraft:bowl","italiansdelight:olive_oil_bottle",
         "italiansdelight:grated_parmigiano_reggiano"}<=set(pesto["ingredients"])
 assert pesto["result"]["id"]=="italiansdelight:almond_pesto"
-cooking=read(R/"cooking/pasta_with_pesto.json")
-assert cooking["type"]=="farmersdelight:cooking"
-assert cooking["ingredients"]==["#c:foods/pasta","italiansdelight:almond_pesto"]
-assert cooking["container"]=={"id":"minecraft:bowl","count":1}
-assert cooking["result"]=={"id":"italiansdelight:pasta_with_pesto"}
+basil=read(R/"basil_pesto.json")
+assert basil["type"]=="minecraft:crafting_shapeless"
+assert basil["ingredients"].count("italiansdelight:basil")==3
+assert "italiansdelight:chopped_almonds" not in basil["ingredients"]
+assert {"minecraft:bowl","italiansdelight:salt","italiansdelight:olive_oil_bottle",
+        "italiansdelight:grated_parmigiano_reggiano"}<=set(basil["ingredients"])
+assert basil["result"]["id"]=="italiansdelight:basil_pesto"
+for name,pesto in (("pasta_with_pesto","basil_pesto"),
+                   ("pasta_with_almond_pesto","almond_pesto")):
+    cooking=read(R/f"cooking/{name}.json")
+    assert cooking["type"]=="farmersdelight:cooking"
+    assert cooking["ingredients"]==["#c:foods/pasta",f"italiansdelight:{pesto}"]
+    assert cooking["container"]=={"id":"minecraft:bowl","count":1}
+    assert cooking["result"]=={"id":f"italiansdelight:{name}"}
 cake=read(R/"almond_cake.json")
 assert cake["pattern"]==["AAA","SMS","WEW"]
 assert cake["key"]=={"A":"italiansdelight:almonds","S":"minecraft:sugar",
@@ -49,9 +59,29 @@ assert slices["tool"]=="#c:tools/knife"
 assert slices["result"]==[{"item":{"id":"italiansdelight:almond_cake_slice","count":4}}]
 items=(JAVA/"common/registry/ModItems.java").read_text()
 group=(JAVA/"common/item/group/ModItemGroups.java").read_text()
-for symbol in ("CHOPPED_ALMONDS","ALMOND_PESTO","ALMOND_CAKE","ALMOND_CAKE_SLICE","PASTA_WITH_PESTO"):
+for symbol in ("CHOPPED_ALMONDS","BASIL_PESTO","ALMOND_PESTO",
+               "ALMOND_CAKE_SLICE","PASTA_WITH_PESTO","PASTA_WITH_ALMOND_PESTO"):
     assert f"public static final Item {symbol}" in items
     assert group.count(f"output.accept(ModItems.{symbol});")==1
+blocks=(JAVA/"common/registry/ModBlocks.java").read_text()
+cake_class=(JAVA/"common/block/AlmondCakeBlock.java").read_text()
+assert 'public static final Block ALMOND_CAKE = register(' in blocks
+assert 'new AlmondCakeBlock(' in blocks
+assert 'registerSimpleItem("almond_cake"' not in items
+assert group.count("output.accept(ModBlocks.ALMOND_CAKE);")==1
+assert 'IntegerProperty.create("bites", 0, 3)' in cake_class
+for token in ("useWithoutItem(", "useItemOn(", "held.is(KNIVES)",
+              "player.getFoodData().eat(4, 0.5f)", "Block.popResource(",
+              "return List.of(new ItemStack(ModItems.ALMOND_CAKE_SLICE, remaining));"):
+    assert token in cake_class, token
+state=read(A/"blockstates/almond_cake.json")
+assert len(state["variants"])==16
+for n in ("almond_cake","almond_cake_slice1","almond_cake_slice2","almond_cake_slice3"):
+    model=read(A/f"models/block/{n}.json")
+    assert model["parent"].startswith("farmersdelight:block/template_pie")
+    assert set(model["textures"])=={"bottom","top","side","inner"}
+for n in ("almond_cake_top","almond_cake_inner","almond_cake_side","almond_cake_bottom"):
+    check_rgba_pixel_art(A/f"textures/block/{n}.png",(16,16))
 assert 'new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16)' in items
 assert 'registerBowlFoodItem("pasta_with_pesto", 10, 0.7f,' in items
 catalog=(JAVA/"common/pizza/PizzaToppingCatalog.java").read_text()
@@ -65,12 +95,13 @@ assert '"ricotta", "mortadella_slice", "chopped_almonds"' in pizza
 assert "presets.size() != 21" in pizza
 for locale in ("it_it","en_us"):
     loc=read(A/f"lang/{locale}.json")
-    for name in ("chopped_almonds","almond_pesto","almond_cake",
-                 "almond_cake_slice","pasta_with_pesto"):
+    for name in ("chopped_almonds","basil_pesto","almond_pesto","almond_cake",
+                 "almond_cake_slice","pasta_with_pesto","pasta_with_almond_pesto"):
         assert loc[f"item.italiansdelight.{name}"]
     assert loc["pizza.italiansdelight.taste.mortadella_ricotta_mandorle"]
     assert loc["pizza.italiansdelight.ingredient.chopped_almonds"]
 assert not (R/"focaccia.json").exists()
-print("OK: 5 almond food models and original pasta sprite, binary alpha")
-print("OK: Cutting Board, crafting, FD Cooking Pot and 4 edible cake slices")
+print("OK: 7 pesto and almond food models, two distinct pastas, binary alpha")
+print("OK: Cutting Board, two FD Cooking Pot dishes and 4 edible cake slices")
+print("OK: placeable cake has four portions, knife interaction and remaining-slice drops")
 print("OK: 21 named pizza presets with chopped almond sprite and no uncut nut topping")
