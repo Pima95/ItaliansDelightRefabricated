@@ -26,20 +26,22 @@ NO_MELT_PRESETS = frozenset({
     "bianca", "rossa", "guanciale_pecorino_rossa",
     "mortadella_ricotta_mandorle",
 })
-# Nine isolated cheese-drip pixels removed; a tenth pixel (3,10) becomes
-# golden-brown baked dough at the tip of the pizza instead of red mozzarella.
+# The earlier extended point curled upward because (1,10) and (2,10)
+# protruded well above the tip. Keep a straight diagonal taper instead,
+# ending at (1,13); the removed mozzarella stays transparent.
 DRIP_REMOVALS = frozenset({
-    (3, 13), (4, 13), (3, 14), (3, 15), (9, 11), (9, 12),
+    (1, 10), (2, 10), (2, 11), (6, 12),
+    (3, 13), (4, 13), (3, 14), (3, 15),
+    (9, 11), (9, 12),
 })
-# Six pixel-art edits turn the short slice nose into a longer triangular tip.
-# No melted cheese is restored; all colors come from baked pastry.
+# Only warm baked-dough colors: no mozzarella drips or translucent pixels.
 EXTENDED_TIP_PIXELS = {
-    (1, 10): bytes((76, 50, 31, 255)),
-    (2, 10): bytes((136, 88, 51, 255)),
-    (2, 11): bytes((165, 115, 70, 255)),
-    (3, 11): bytes((227, 164, 105, 255)),
-    (3, 12): bytes((130, 82, 47, 255)),
-    (4, 12): bytes((86, 55, 34, 255)),
+    (2, 12): bytes((130, 82, 47, 255)),
+    (3, 12): bytes((227, 164, 105, 255)),
+    (4, 12): bytes((240, 191, 131, 255)),
+    (5, 12): bytes((86, 55, 34, 255)),
+    (1, 13): bytes((76, 50, 31, 255)),
+    (2, 13): bytes((130, 82, 47, 255)),
 }
 TIP = (3, 10)
 TIP_DOUGH_RGBA = bytes((103, 65, 36, 255))
@@ -202,6 +204,22 @@ def main() -> None:
                         raise ValueError(
                             f"{item}: approved crust pixel changed at {x},{y}")
         if taste in NO_MELT_PRESETS:
+            # The lower edge narrows in a single direction. This also
+            # rejects the previous raised-left hook at (1,10).
+            for y, left, right in (
+                (10, 3, 11),
+                (11, 3, 8),
+                (12, 2, 5),
+                (13, 1, 2),
+            ):
+                occupied = [x for x in range(16)
+                            if texture[(y * 16 + x) * 4 + 3] == 255]
+                if occupied != list(range(left, right + 1)):
+                    raise ValueError(
+                        f"{item}: curled or broken triangular point at row {y}: {occupied}")
+            if any(texture[(y * 16 + x) * 4 + 3]
+                   for y in (14, 15) for x in range(16)):
+                raise ValueError(f"{item}: dangling pixels below triangular point")
             topping = b"".join(
                 texture[(y * 16 + x) * 4:(y * 16 + x + 1) * 4]
                 for x, y in sorted(SURFACE)
@@ -253,7 +271,7 @@ def main() -> None:
     print(f"OK: {len(expected)} distinctive 16x16 RGBA slices plus original Margherita")
     print("OK: 19 sprites checked pairwise for at least 10 pronounced pixel differences")
     print("OK: 218 outside-topping pixels preserved except approved crust-tip edits")
-    print("OK: extended triangular tip on four cheeseless slices; 38 topping pixels intact")
+    print("OK: straight diagonal tips, no raised hooks or cheese; 38 topping pixels intact")
     print("OK: each quarter selects its own preset; examples are edible stacks")
 
 

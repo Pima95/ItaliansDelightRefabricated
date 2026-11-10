@@ -131,3 +131,24 @@ Lo script `.github/scripts/check_named_pizza_slices.py`:
 **Limite da controllare:** eventuali `pizza_slice` creati in salvataggi precedenti, già presenti in un inventario senza `DataComponents.ITEM_MODEL`, continueranno temporaneamente a utilizzare il modello base predefinito finché non vengono ricreati tramite `PizzaSliceFactory.create`. Non introdurre una migrazione automatica senza una decisione separata dell'autore.
 
 **Fase seguente:** collaudare l'insieme in Minecraft prima di qualsiasi rebalancing o nuovo contenuto pizza; non apportare revisioni a immagini già approvate senza autorizzazione.
+
+
+## Revisione della punta — 11 novembre 2026
+
+L'autore ha verificato in Minecraft che il riposizionamento degli spicchi
+funziona, ma ha notato che il prolungamento precedente produceva una curva
+verso l'alto. La correzione approvata riguarda solo i quattro spicchi senza
+mozzarella filante: Bianca, Rossa, Guanciale e Pecorino rossa,
+Mortadella–Ricotta–Mandorle.
+
+La punta parte dal corpo senza la sporgenza alta ai pixel (1,10) e (2,10)
+e scende lungo un triangolo progressivo, con bordo inferiore netto ai pixel
+(1,13) e (2,13). Pixel di condimento modificati: **nessuno**; tutti i 38 pixel
+di farcitura rimangono invariati in ciascuna texture.
+La Margherita e gli altri gusti restano invariati. Il modello resta 16×16
+con alpha esclusivamente 0 o 255. Il controllo automatico
+`.github/scripts/check_named_pizza_slices.py` verifica la geometria
+delle ultime quattro righe e vieta nuove colature.
+
+Le meccaniche di pizza, ricollocamento, salvataggio, caduta degli spicchi
+e recupero della pizza intera non sono state alterate.
