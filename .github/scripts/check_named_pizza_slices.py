@@ -29,9 +29,18 @@ NO_MELT_PRESETS = frozenset({
 # Nine isolated cheese-drip pixels removed; a tenth pixel (3,10) becomes
 # golden-brown baked dough at the tip of the pizza instead of red mozzarella.
 DRIP_REMOVALS = frozenset({
-    (3, 11), (3, 12), (4, 12), (3, 13), (4, 13),
-    (3, 14), (3, 15), (9, 11), (9, 12),
+    (3, 13), (4, 13), (3, 14), (3, 15), (9, 11), (9, 12),
 })
+# Six pixel-art edits turn the short slice nose into a longer triangular tip.
+# No melted cheese is restored; all colors come from baked pastry.
+EXTENDED_TIP_PIXELS = {
+    (1, 10): bytes((76, 50, 31, 255)),
+    (2, 10): bytes((136, 88, 51, 255)),
+    (2, 11): bytes((165, 115, 70, 255)),
+    (3, 11): bytes((227, 164, 105, 255)),
+    (3, 12): bytes((130, 82, 47, 255)),
+    (4, 12): bytes((86, 55, 34, 255)),
+}
 TIP = (3, 10)
 TIP_DOUGH_RGBA = bytes((103, 65, 36, 255))
 # Safeguard the exact 38 original topping pixels for each revised flavor.
@@ -186,6 +195,9 @@ def main() -> None:
                     elif taste in NO_MELT_PRESETS and (x, y) == TIP:
                         if current != TIP_DOUGH_RGBA:
                             raise ValueError(f"{item}: tip is not baked pizza crust")
+                    elif taste in NO_MELT_PRESETS and (x, y) in EXTENDED_TIP_PIXELS:
+                        if current != EXTENDED_TIP_PIXELS[x, y]:
+                            raise ValueError(f"{item}: longer triangular crust tip changed at {x},{y}")
                     elif current != original[pos:pos + 4]:
                         raise ValueError(
                             f"{item}: approved crust pixel changed at {x},{y}")
@@ -240,8 +252,8 @@ def main() -> None:
 
     print(f"OK: {len(expected)} distinctive 16x16 RGBA slices plus original Margherita")
     print("OK: 19 sprites checked pairwise for at least 10 pronounced pixel differences")
-    print("OK: 218 outside-topping pixels preserved except 10 approved edits on four cheeseless slices")
-    print("OK: nine cheese drips removed and tip recolored with baked dough, 38 topping pixels intact")
+    print("OK: 218 outside-topping pixels preserved except approved crust-tip edits")
+    print("OK: extended triangular tip on four cheeseless slices; 38 topping pixels intact")
     print("OK: each quarter selects its own preset; examples are edible stacks")
 
 

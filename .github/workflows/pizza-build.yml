@@ -130,6 +130,8 @@ jobs:
         run: python3 .github/scripts/check_jei_plant_information.py
       - name: Audit pizza nutrition and baking consistency
         run: python3 .github/scripts/check_pizza_release_balance.py
+      - name: Verify replacing baked pizza slices keeps exact toppings and prevents whole recovery
+        run: python3 .github/scripts/check_pizza_slice_replacement.py
       - name: Verify pizza support-loss drops preserve data
         run: python3 .github/scripts/check_pizza_support_drops.py
       - name: Audit pizza oven hopper directions and bowl component safety

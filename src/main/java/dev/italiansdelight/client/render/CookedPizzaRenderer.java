@@ -37,8 +37,7 @@ public final class CookedPizzaRenderer
 
         int remaining = entity.getBlockState().getValue(CookedPizzaBlock.REMAINING);
         state.visuals = PizzaToppingVisuals.extract(
-                entity.pizza().composition(),
-                entity.pizza().legacyMozzarella(), remaining);
+                entity.renderComposition(), entity.renderLegacyMask(), remaining);
     }
 
     @Override

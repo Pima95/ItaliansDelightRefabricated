@@ -39,8 +39,8 @@ check("PizzaDoughBlock.java", (
 ))
 check("CookedPizzaBlock.java", (
     "LootContextParams.BLOCK_ENTITY",
-    "if (mask == PizzaQuarterSelection.ALL_QUARTERS)",
-    "drops.add(PizzaSliceFactory.create(pizza, q));",
+    "if (mask == PizzaQuarterSelection.ALL_QUARTERS && !entity.servedEver())",
+    "drops.add(PizzaSliceFactory.create(entity.sliceAt(q)));",
     "return remainingDrops(state,",
 ))
 print("NOTE: verify scheduled tick and item drops in Survival")

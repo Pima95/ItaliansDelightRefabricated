@@ -61,8 +61,16 @@ public final class PizzaToppingVisuals {
             PizzaComposition composition, boolean legacyMozzarella,
             int visibleQuarters
     ) {
+        return extract(composition, legacyMozzarella ? visibleQuarters : 0, visibleQuarters);
+    }
+
+    /** A moved legacy mozzarella quarter must not paint another quarter. */
+    public static Visuals extract(
+            PizzaComposition composition, int legacyMozzarellaMask,
+            int visibleQuarters
+    ) {
         int mask = visibleQuarters & ALL_QUARTERS;
-        if (mask == 0 || (composition.applications().isEmpty() && !legacyMozzarella)) {
+        if (mask == 0 || (composition.applications().isEmpty() && legacyMozzarellaMask == 0)) {
             return Visuals.EMPTY;
         }
 
@@ -99,10 +107,10 @@ public final class PizzaToppingVisuals {
                         covered, application.sequence()));
             }
         }
-        if (legacyMozzarella) {
+        if ((legacyMozzarellaMask & mask) != 0) {
             solids.add(new Solid(
                     texture(SPRITE_PREFIX, "legacy_mozzarella"),
-                    mask, 1_000_000L));
+                    legacyMozzarellaMask & mask, 1_000_000L));
         }
 
         List<Fragment> fragments = new ArrayList<>();
