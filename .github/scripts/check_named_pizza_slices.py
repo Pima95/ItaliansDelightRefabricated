@@ -36,6 +36,7 @@ DRIP_REMOVALS = frozenset({
 })
 # Only warm baked-dough colors: no mozzarella drips or translucent pixels.
 EXTENDED_TIP_PIXELS = {
+    (3, 11): bytes((227, 164, 105, 255)),
     (2, 12): bytes((130, 82, 47, 255)),
     (3, 12): bytes((227, 164, 105, 255)),
     (4, 12): bytes((240, 191, 131, 255)),
