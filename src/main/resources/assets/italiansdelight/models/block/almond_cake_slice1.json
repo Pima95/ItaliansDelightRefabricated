@@ -1,0 +1,9 @@
+{
+  "parent": "farmersdelight:block/template_pie_slice1",
+  "textures": {
+    "bottom": "italiansdelight:block/almond_cake_bottom",
+    "side": "italiansdelight:block/almond_cake_side",
+    "top": "italiansdelight:block/almond_cake_top",
+    "inner": "italiansdelight:block/almond_cake_inner"
+  }
+}
