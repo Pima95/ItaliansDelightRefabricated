@@ -930,11 +930,19 @@ public final class ModItems {
         public static final Item ALMOND_PESTO = register(
                 ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("almond_pesto")),
                 new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16));
-        // Four edible slices per whole cake, via FD Cutting Board.
-        public static final Item ALMOND_CAKE = registerSimpleItem("almond_cake", 16);
+        public static final Item BASIL_PESTO = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("basil_pesto")),
+                new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16));
+        // The almond_cake ITEM ID stays exactly the same, now registered as
+        // a placeable BlockItem by ModBlocks to serve 4 portions in-world.
+        // Registering an Item here as well would duplicate that registry ID.
         public static final Item ALMOND_CAKE_SLICE = registerFoodItem("almond_cake_slice", 4, 0.5f);
+        // Historical pasta_with_pesto art/ID = BASIL pesto, not almond.
         public static final Item PASTA_WITH_PESTO =
                 registerBowlFoodItem("pasta_with_pesto", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_WITH_ALMOND_PESTO =
+                registerBowlFoodItem("pasta_with_almond_pesto", 10, 0.7f,
                         FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
         public static final Item CHERRIES = registerSimpleItem("cherries", 64);
 

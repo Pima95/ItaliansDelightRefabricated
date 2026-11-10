@@ -398,9 +398,12 @@
   "pizza.italiansdelight.taste.olive_scamorza_bianca": "Bianca alle olive e scamorza affumicata",
   "item.italiansdelight.chopped_almonds": "Granella di mandorle",
   "item.italiansdelight.almond_pesto": "Pesto di mandorle e basilico",
-  "item.italiansdelight.pasta_with_pesto": "Pasta al pesto di mandorle e basilico",
+  "item.italiansdelight.pasta_with_pesto": "Pasta al pesto di basilico",
   "item.italiansdelight.almond_cake": "Torta alle mandorle",
   "item.italiansdelight.almond_cake_slice": "Fetta di torta alle mandorle",
   "pizza.italiansdelight.ingredient.chopped_almonds": "Granella di mandorle",
-  "pizza.italiansdelight.taste.mortadella_ricotta_mandorle": "Mortadella, ricotta e mandorle"
+  "pizza.italiansdelight.taste.mortadella_ricotta_mandorle": "Mortadella, ricotta e mandorle",
+  "item.italiansdelight.basil_pesto": "Pesto di basilico",
+  "item.italiansdelight.pasta_with_almond_pesto": "Pasta al pesto di mandorle e basilico",
+  "block.italiansdelight.almond_cake": "Torta alle mandorle"
 }

@@ -33,7 +33,8 @@ public final class ModCompostables {
         CompostableRegistry.INSTANCE.add(ModItems.ALMONDS, 0.65f);
         CompostableRegistry.INSTANCE.add(ModItems.CHOPPED_ALMONDS, 0.65f);
         CompostableRegistry.INSTANCE.add(ModItems.ALMOND_PESTO, 0.65f);
-        CompostableRegistry.INSTANCE.add(ModItems.ALMOND_CAKE, 0.85f);
+        CompostableRegistry.INSTANCE.add(ModItems.BASIL_PESTO, 0.65f);
+        CompostableRegistry.INSTANCE.add(ModBlocks.ALMOND_CAKE.asItem(), 0.85f);
         CompostableRegistry.INSTANCE.add(ModItems.ALMOND_CAKE_SLICE, 0.85f);
         CompostableRegistry.INSTANCE.add(ModItems.CHERRIES, 0.65f);
 

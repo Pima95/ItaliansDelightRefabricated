@@ -20,6 +20,7 @@ import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
 import dev.italiansdelight.common.block.PizzaOvenBlock;
 import dev.italiansdelight.common.block.CookedPizzaBlock;
+import dev.italiansdelight.common.block.AlmondCakeBlock;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -708,6 +709,17 @@ public final class ModBlocks {
         POTTED_CARDOON_KEY,
         new FlowerPotBlock(CARDOON,
             Block.Properties.ofFullCopy(Blocks.POTTED_ALLIUM).setId(POTTED_CARDOON_KEY))
+    );
+
+    // Farmer's Delight-style placeable four-portion Almond Cake. The
+    // corresponding BlockItem has the same "italiansdelight:almond_cake" ID
+    // previously used by the unplaceable intermediate, preserving saves.
+    public static final ResourceKey<Block> ALMOND_CAKE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_cake"));
+    public static final Block ALMOND_CAKE = register(
+        ALMOND_CAKE_KEY,
+        new AlmondCakeBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
+            .setId(ALMOND_CAKE_KEY).noOcclusion().strength(0.5F))
     );
 
     // Reversible nine-crop Farmer's Delight-style storage crates.

@@ -398,9 +398,12 @@
   "pizza.italiansdelight.taste.olive_scamorza_bianca": "White Pizza with Olives and Smoked Scamorza",
   "item.italiansdelight.chopped_almonds": "Chopped Almonds",
   "item.italiansdelight.almond_pesto": "Almond and Basil Pesto",
-  "item.italiansdelight.pasta_with_pesto": "Pasta with Almond and Basil Pesto",
+  "item.italiansdelight.pasta_with_pesto": "Pasta with Basil Pesto",
   "item.italiansdelight.almond_cake": "Almond Cake",
   "item.italiansdelight.almond_cake_slice": "Almond Cake Slice",
   "pizza.italiansdelight.ingredient.chopped_almonds": "Chopped Almonds",
-  "pizza.italiansdelight.taste.mortadella_ricotta_mandorle": "Mortadella, Ricotta and Almonds"
+  "pizza.italiansdelight.taste.mortadella_ricotta_mandorle": "Mortadella, Ricotta and Almonds",
+  "item.italiansdelight.basil_pesto": "Basil Pesto",
+  "item.italiansdelight.pasta_with_almond_pesto": "Pasta with Almond and Basil Pesto",
+  "block.italiansdelight.almond_cake": "Almond Cake"
 }
