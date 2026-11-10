@@ -250,3 +250,10 @@ for x in range(4, 12):
     r, g, b, a = jar_pixels[4][x]
     assert a == 255 and r > g * 1.5, "Jam must begin immediately below the short lid"
 print("OK: diagonal tart lattice, 2px white cap and 1px blue-glass jar walls")
+
+# The one-pixel blue glass outline should catch light, like the mod's bottles.
+assert any(jar_pixels[y][3][1] >= 200 and jar_pixels[y][3][2] >= 225
+           for y in range(4, 10)), "Missing cool glass edge highlight"
+assert any(all(jar_pixels[y][x][i] >= 195 for i in range(3))
+           for y in (5, 6) for x in (5, 6)), "Missing small front glass glint"
+print("OK: thin jar outline retains the glass edge and front glints")
