@@ -9,7 +9,8 @@
 | Almond & Basil Pesto | Crafting | Bowl, 2 Chopped Almonds, 2 Basil, grated Parmigiano, Olive Oil Bottle |
 | Pasta with Basil Pesto | FD Cooking Pot | Pasta (c:foods/pasta), Basil Pesto; serve with Bowl |
 | Pasta with Almond Pesto | FD Cooking Pot | Pasta (c:foods/pasta), Almond Pesto; serve with Bowl |
-| Placeable Almond Cake | Crafting 3x3 | 3 Almonds, 2 Sugar, 1 Milk Bucket, 2 Wheat, 1 Egg |
+| Placeable Almond Cake | Crafting 3x3 | 6 Almonds, 2 Milk drinks (#c:drinks/milk), 1 Farmer's Delight Pie Crust |
+| Whole cake from slices | Crafting 2x2 | 4 Almond Cake Slices, arranged in a square |
 | Four cake slices | FD Cutting Board | 1 Almond Cake + knife |
 | Mortadella, Ricotta & Almonds Pizza | Original dynamic pizza preparation | Ricotta, Mortadella Slices, Chopped Almonds |
 
@@ -33,3 +34,7 @@ The bowl and pie art are adaptations of original **Farmer's Delight** textures b
 - [ ] Cutting Board: whole Almond Cake -> 4 slices; no extra whole cakes or bowls
 - [ ] Check JEI/Creative, translations, older saves and dedicated server
 - [ ] Focaccia, grapes and grape juice remain out of scope
+
+## Pie crust and rebuilding whole cakes (10 November 2026)
+
+Follow the Farmer's Delight Refabricated Sweet Berry Cheesecake pattern: 6 Almonds in two rows; milk, `farmersdelight:pie_crust`, milk along the bottom. The milk input accepts `#c:drinks/milk`. Four slices in a 2×2 crafting pattern reconstruct one whole placeable Almond Cake. Cutting Board and in-world knife cutting still produce four edible slices. Test the milk container remainders in game.

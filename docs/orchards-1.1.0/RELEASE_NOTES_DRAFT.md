@@ -60,12 +60,20 @@ Minecraft **26.2**, Fabric Loader **0.20.1+**, Java **25**, Fabric API
 - Cutting Board converts each whole Almond into two portions of Granella.
 - Pesto from chopped almonds, fresh basil, Parmesan and Olive Oil.
 - Pasta with Almond & Basil Pesto cooked in the Farmer's Delight Cooking Pot.
-- Almond Cake with milk, wheat, sugar and egg, cut into four edible slices.
+- Almond Cake crafted from six almonds, two milk drinks and Farmer's Delight Pie Crust, cut into four edible slices; four slices can be crafted back into a whole cake.
 - Recognized white pizza Mortadella, Ricotta and Almonds, without tomato sauce
   and with **chopped almonds**, not whole almonds.
 - New 16×16 binary-alpha icons, plus a 12×12 granella topping atlas.
   The original pasta-with-pesto artwork and the approved pizza crust stay intact.
 - Focaccia, grapes and grape juice remain excluded from 1.1.0.
+
+## Cherry preserves and tart (development additions)
+
+- Cherry jam remains served from the Farmer's Delight Cooking Pot with a glass bottle. Its item uses a squat **jam jar** sprite, but the existing stable `cherry_jam_bottle` registry ID is preserved to protect saved inventories.
+- Cherry Tart: six cherries, two jam jars and Farmer's Delight Pie Crust, matching the cheesecake's two-row filling + central crust composition.
+- Cutting Board divides a full Cherry Tart into four slices; a 2×2 grid of four slices reconstructs a whole placeable tart.
+- The placed tart's top is a regular shortcrust lattice over dark cherry filling; outer side is solid baked pastry, without visible filling or layers.
+- Tomato Slice icon was redrawn smaller, with a 10×10 maximum occupied pixel footprint.
 
 ## Not included
 **Grapes, grape juice and wine** are planned for a later version.

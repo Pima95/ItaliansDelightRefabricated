@@ -49,9 +49,16 @@ for name,pesto in (("pasta_with_pesto","basil_pesto"),
     assert cooking["container"]=={"id":"minecraft:bowl","count":1}
     assert cooking["result"]=={"id":f"italiansdelight:{name}"}
 cake=read(R/"almond_cake.json")
-assert cake["pattern"]==["AAA","SMS","WEW"]
-assert cake["key"]=={"A":"italiansdelight:almonds","S":"minecraft:sugar",
-                     "M":"minecraft:milk_bucket","W":"minecraft:wheat","E":"minecraft:egg"}
+assert cake["type"] == "minecraft:crafting_shaped"
+assert cake["pattern"] == ["AAA","AAA","MPM"]
+assert cake["key"] == {"A":"italiansdelight:almonds",
+                       "M":"#c:drinks/milk",
+                       "P":"farmersdelight:pie_crust"}
+almond_from_slices=read(R/"almond_cake_from_slices.json")
+assert almond_from_slices["type"] == "minecraft:crafting_shaped"
+assert almond_from_slices["pattern"] == ["SS","SS"]
+assert almond_from_slices["key"] == {"S":"italiansdelight:almond_cake_slice"}
+assert almond_from_slices["result"] == {"id":"italiansdelight:almond_cake","count":1}
 slices=read(R/"cutting/almond_cake_slice.json")
 assert slices["type"]=="farmersdelight:cutting"
 assert slices["ingredients"]==["italiansdelight:almond_cake"]
@@ -127,7 +134,15 @@ assert toast["type"] == "minecraft:crafting_shapeless"
 assert toast["ingredients"] == ["minecraft:bread", "italiansdelight:cherry_jam_bottle"]
 tart = read(R / "cherry_tart.json")
 assert tart["type"] == "minecraft:crafting_shaped"
-assert tart["key"]["J"] == "italiansdelight:cherry_jam_bottle"
+assert tart["pattern"] == ["CCC","CCC","JPJ"]
+assert tart["key"] == {"C":"italiansdelight:cherries",
+                       "J":"italiansdelight:cherry_jam_bottle",
+                       "P":"farmersdelight:pie_crust"}
+cherry_from_slices=read(R/"cherry_tart_from_slices.json")
+assert cherry_from_slices["type"] == "minecraft:crafting_shaped"
+assert cherry_from_slices["pattern"] == ["SS","SS"]
+assert cherry_from_slices["key"] == {"S":"italiansdelight:cherry_tart_slice"}
+assert cherry_from_slices["result"] == {"id":"italiansdelight:cherry_tart","count":1}
 slices = read(R / "cutting/cherry_tart_slice.json")
 assert slices["tool"] == "#c:tools/knife"
 assert slices["result"] == [{"item": {"id": "italiansdelight:cherry_tart_slice", "count": 4}}]
@@ -155,3 +170,17 @@ for loc in ("it_it", "en_us"):
         "item.italiansdelight.cherry_tart_slice"))
 assert read(A / "lang/it_it.json")["item.italiansdelight.cherry_jam_bottle"] == "Marmellata di Ciliegie"
 print("OK: cherry jam bottle, tart with four portions, jam toast, all binary-alpha PNGs")
+
+# Art invariants: a smaller tomato sprite and a squat cherry jam jar.
+from PIL import Image
+tomato_pixels=check_rgba_pixel_art(A / "textures/item/tomato_slice.png", (16,16))
+tomato_bbox=Image.open(A / "textures/item/tomato_slice.png").convert("RGBA").getchannel("A").getbbox()
+assert tomato_bbox is not None
+assert tomato_bbox[2] - tomato_bbox[0] <= 10
+assert tomato_bbox[3] - tomato_bbox[1] <= 10
+jar_pixels=check_rgba_pixel_art(A / "textures/item/cherry_jam_bottle.png", (16,16))
+jar_bbox=Image.open(A / "textures/item/cherry_jam_bottle.png").convert("RGBA").getchannel("A").getbbox()
+assert jar_bbox and jar_bbox[2]-jar_bbox[0]>=8
+assert all(px[3] in (0,255) for row in tomato_pixels for px in row)
+assert all(px[3] in (0,255) for row in jar_pixels for px in row)
+print("OK: tomato slice is reduced; jar/tart textures remain 16x16 binary alpha")

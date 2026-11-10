@@ -2,16 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "WWW",
-    "CJC",
-    "SES"
+    "CCC",
+    "CCC",
+    "JPJ"
   ],
   "key": {
-    "W": "minecraft:wheat",
     "C": "italiansdelight:cherries",
     "J": "italiansdelight:cherry_jam_bottle",
-    "S": "minecraft:sugar",
-    "E": "minecraft:egg"
+    "P": "farmersdelight:pie_crust"
   },
   "result": {
     "id": "italiansdelight:cherry_tart",

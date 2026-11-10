@@ -3,15 +3,13 @@
   "category": "misc",
   "pattern": [
     "AAA",
-    "SMS",
-    "WEW"
+    "AAA",
+    "MPM"
   ],
   "key": {
     "A": "italiansdelight:almonds",
-    "S": "minecraft:sugar",
-    "M": "minecraft:milk_bucket",
-    "W": "minecraft:wheat",
-    "E": "minecraft:egg"
+    "M": "#c:drinks/milk",
+    "P": "farmersdelight:pie_crust"
   },
   "result": {
     "id": "italiansdelight:almond_cake",
