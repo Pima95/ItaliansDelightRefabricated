@@ -76,13 +76,13 @@ assert "new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16)" in items
 assert "new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16)" in items
 cat=(SRC/"common/pizza/PizzaToppingCatalog.java").read_text()
 assert '"olive_pitted", VEGETABLE, SOLID, "italiansdelight", "olive_pitted"' in cat
-assert "types.size() != 32 || nativeItems.size() != 36" in cat
+assert "types.size() != 33 || nativeItems.size() != 37" in cat
 for id in ("olives","olive_seed","olive_pate"):
     assert f'Identifier.parse("italiansdelight:{id}")' in cat
 names=(SRC/"common/pizza/PizzaDisplayNames.java").read_text()
 assert re.search(r'add\(presets,\s*"mediterranea",', names)
 assert re.search(r'add\(presets,\s*"olive_scamorza_bianca",', names)
-assert "presets.size() != 20" in names
+assert "presets.size() != 21" in names
 for lang in ("it_it","en_us"):
     l=j(A/f"lang/{lang}.json")
     for id in ("olive_seed","olive_pitted","olive_pate","bruschetta","olive_bruschetta"):
