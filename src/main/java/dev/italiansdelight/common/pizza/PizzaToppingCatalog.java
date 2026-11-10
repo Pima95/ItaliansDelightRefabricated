@@ -16,8 +16,8 @@ import static dev.italiansdelight.common.pizza.PizzaToppingType.Role.*;
 /**
  * Authoritative, read-only 1.0.0 pizza topping catalogue.
  *
- * <p>32 canonical ingredient kinds, backed by 36 native registered item
- * IDs (including carrot, potato and pitted olive portions). Only items
+ * <p>33 canonical ingredient kinds, backed by 37 native registered item
+ * IDs (including carrot, potato, pitted olive and chopped almond portions). Only items
  * listed here are native toppings. In particular, broad c: food tags NEVER
  * cause whole cheeses, whole meats or other unprepared items to be accepted.
  *
@@ -48,6 +48,10 @@ public final class PizzaToppingCatalog {
             Identifier.parse("italiansdelight:olives"),
             Identifier.parse("italiansdelight:olive_seed"),
             Identifier.parse("italiansdelight:olive_pate"),
+            Identifier.parse("italiansdelight:almonds"),
+            Identifier.parse("italiansdelight:almond_pesto"),
+            Identifier.parse("italiansdelight:almond_cake"),
+            Identifier.parse("italiansdelight:almond_cake_slice"),
             Identifier.parse("minecraft:air"),
             Identifier.parse("minecraft:egg"),
             Identifier.parse("minecraft:beef"),
@@ -111,10 +115,12 @@ public final class PizzaToppingCatalog {
         add(types, nativeItems, "potato_slice", VEGETABLE, SOLID, "italiansdelight", "potato_slice");
         // Whole olives and olive pate are NOT valid topping portions.
         add(types, nativeItems, "olive_pitted", VEGETABLE, SOLID, "italiansdelight", "olive_pitted");
+        // Chopped almonds are the only approved almond pizza topping.
+        add(types, nativeItems, "chopped_almonds", OILS_FATS, SOLID, "italiansdelight", "chopped_almonds");
 
         // Catch accidental omissions, aliases or newly added items before
         // anything relies on the canonical identity mapping.
-        if (types.size() != 32 || nativeItems.size() != 36
+        if (types.size() != 33 || nativeItems.size() != 37
                 || types.values().stream().filter(PizzaToppingType::planned).count() != 0) {
             throw new IllegalStateException("Unexpected pizza topping catalogue size: "
                     + types.size() + " types, " + nativeItems.size() + " native item IDs");
@@ -148,7 +154,7 @@ public final class PizzaToppingCatalog {
         return TYPES;
     }
 
-    /** Exactly the 36 approved native item IDs. Never mutable. */
+    /** Exactly the 37 approved native item IDs. Never mutable. */
     public static Map<Identifier, PizzaToppingType> nativeItems() {
         return NATIVE_ITEMS;
     }

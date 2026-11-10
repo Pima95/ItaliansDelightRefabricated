@@ -195,6 +195,10 @@ public final class ModItemGroups {
                  output.accept(ModItems.OLIVE_OIL_BUCKET);
                  output.accept(ModItems.OLIVE_OIL_BOTTLE);
                 output.accept(ModItems.ALMONDS);
+                output.accept(ModItems.CHOPPED_ALMONDS);
+                output.accept(ModItems.ALMOND_PESTO);
+                output.accept(ModItems.ALMOND_CAKE);
+                output.accept(ModItems.ALMOND_CAKE_SLICE);
                 output.accept(ModItems.CHERRIES);
                 // Reversible orchard/field crop storage blocks.
                 output.accept(ModBlocks.OLIVE_CRATE);
@@ -310,6 +314,7 @@ public final class ModItemGroups {
 
                 // PREPARED DISHES — pasta recipes first.
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
+                output.accept(ModItems.PASTA_WITH_PESTO);
                 output.accept(ModItems.PASTA_ALLA_CARBONARA);
                 output.accept(ModItems.PASTA_ALLA_GRICIA);
                 output.accept(ModItems.PASTA_ALL_AMATRICIANA);

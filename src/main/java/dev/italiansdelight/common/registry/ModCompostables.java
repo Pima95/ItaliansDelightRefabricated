@@ -31,6 +31,10 @@ public final class ModCompostables {
         CompostableRegistry.INSTANCE.add(ModItems.BRUSCHETTA, 0.65f);
         CompostableRegistry.INSTANCE.add(ModItems.OLIVE_BRUSCHETTA, 0.65f);
         CompostableRegistry.INSTANCE.add(ModItems.ALMONDS, 0.65f);
+        CompostableRegistry.INSTANCE.add(ModItems.CHOPPED_ALMONDS, 0.65f);
+        CompostableRegistry.INSTANCE.add(ModItems.ALMOND_PESTO, 0.65f);
+        CompostableRegistry.INSTANCE.add(ModItems.ALMOND_CAKE, 0.85f);
+        CompostableRegistry.INSTANCE.add(ModItems.ALMOND_CAKE_SLICE, 0.85f);
         CompostableRegistry.INSTANCE.add(ModItems.CHERRIES, 0.65f);
 
         // Wild and cultivated herbs: both variants are actual BlockItems.

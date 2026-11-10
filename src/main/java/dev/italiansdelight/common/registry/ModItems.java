@@ -925,6 +925,17 @@ public final class ModItems {
         public static final Item OLIVE_BRUSCHETTA = registerFoodItem("olive_bruschetta", 5, 0.6f);
         public static final Item OLIVES = registerSimpleItem("olives", 64);
         public static final Item ALMONDS = registerSimpleItem("almonds", 64);
+        // Orchard 1.1.0 almond preparations. Uncut almonds cannot go on pizzas.
+        public static final Item CHOPPED_ALMONDS = registerSimpleItem("chopped_almonds", 64);
+        public static final Item ALMOND_PESTO = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("almond_pesto")),
+                new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16));
+        // Four edible slices per whole cake, via FD Cutting Board.
+        public static final Item ALMOND_CAKE = registerSimpleItem("almond_cake", 16);
+        public static final Item ALMOND_CAKE_SLICE = registerFoodItem("almond_cake_slice", 4, 0.5f);
+        public static final Item PASTA_WITH_PESTO =
+                registerBowlFoodItem("pasta_with_pesto", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
         public static final Item CHERRIES = registerSimpleItem("cherries", 64);
 
         // Olive oil: a placeable fluid bucket and a non-drinkable bottle.
