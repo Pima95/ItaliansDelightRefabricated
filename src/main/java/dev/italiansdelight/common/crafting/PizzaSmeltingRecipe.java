@@ -24,7 +24,7 @@ import net.minecraft.world.item.crafting.RecipeBookCategories;
  */
 public final class PizzaSmeltingRecipe extends AbstractCookingRecipe {
     public static final MapCodec<PizzaSmeltingRecipe> CODEC =
-            AbstractCookingRecipe.cookingMapCodec(PizzaSmeltingRecipe::new, 1200);
+            AbstractCookingRecipe.cookingMapCodec(PizzaSmeltingRecipe::new);
     public static final StreamCodec<RegistryFriendlyByteBuf, PizzaSmeltingRecipe> STREAM_CODEC =
             AbstractCookingRecipe.cookingStreamCodec(PizzaSmeltingRecipe::new);
     public static final RecipeSerializer<PizzaSmeltingRecipe> SERIALIZER =

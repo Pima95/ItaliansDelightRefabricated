@@ -20,7 +20,7 @@ import net.minecraft.world.item.crafting.RecipeBookCategories;
 /** Smoker counterpart of PizzaSmeltingRecipe, with the same lossless result. */
 public final class PizzaSmokingRecipe extends AbstractCookingRecipe {
     public static final MapCodec<PizzaSmokingRecipe> CODEC =
-            AbstractCookingRecipe.cookingMapCodec(PizzaSmokingRecipe::new, 600);
+            AbstractCookingRecipe.cookingMapCodec(PizzaSmokingRecipe::new);
     public static final StreamCodec<RegistryFriendlyByteBuf, PizzaSmokingRecipe> STREAM_CODEC =
             AbstractCookingRecipe.cookingStreamCodec(PizzaSmokingRecipe::new);
     public static final RecipeSerializer<PizzaSmokingRecipe> SERIALIZER =
