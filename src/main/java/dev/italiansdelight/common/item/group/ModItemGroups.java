@@ -58,7 +58,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_CRUSHING_TUB);
                 output.accept(ModBlocks.CHERRY_CRUSHING_TUB);
                 output.accept(ModBlocks.PALE_OAK_CRUSHING_TUB);
-                output.accept(ModBlocks.POPLAR_CRUSHING_TUB);
                 output.accept(ModBlocks.BAMBOO_CRUSHING_TUB);
                 output.accept(ModBlocks.CRIMSON_CRUSHING_TUB);
                 output.accept(ModBlocks.WARPED_CRUSHING_TUB);
@@ -74,7 +73,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_BARREL);
                 output.accept(ModBlocks.CHERRY_BARREL);
                 output.accept(ModBlocks.PALE_OAK_BARREL);
-                output.accept(ModBlocks.POPLAR_BARREL);
                 output.accept(ModBlocks.BAMBOO_BARREL);
                 output.accept(ModBlocks.CRIMSON_BARREL);
                 output.accept(ModBlocks.WARPED_BARREL);
@@ -93,7 +91,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.CHERRY_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.PALE_OAK_CHEESE_AGING_RACK);
-                output.accept(ModBlocks.POPLAR_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.BAMBOO_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.CRIMSON_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);

@@ -875,9 +875,6 @@ public final class ModBlocks {
     public static final Block CHERRY_BARREL = registerBarrelVariant("cherry");
     public static final Block PALE_OAK_CRUSHING_TUB = registerCrushingTubVariant("pale_oak");
     public static final Block PALE_OAK_BARREL = registerBarrelVariant("pale_oak");
-    // Minecraft 26.3: Dappled Forest wood set.
-    public static final Block POPLAR_CRUSHING_TUB = registerCrushingTubVariant("poplar");
-    public static final Block POPLAR_BARREL = registerBarrelVariant("poplar");
     public static final Block BAMBOO_CRUSHING_TUB = registerCrushingTubVariant("bamboo");
     public static final Block BAMBOO_BARREL = registerBarrelVariant("bamboo");
     public static final Block CRIMSON_CRUSHING_TUB = registerCrushingTubVariant("crimson");
@@ -1015,9 +1012,6 @@ public final class ModBlocks {
 
     public static final Block PALE_OAK_CHEESE_AGING_RACK =
         registerRack("pale_oak", Blocks.PALE_OAK_PLANKS);
-
-    public static final Block POPLAR_CHEESE_AGING_RACK =
-        registerRack("poplar", Blocks.POPLAR_PLANKS);
 
     public static final Block BAMBOO_CHEESE_AGING_RACK =
         registerRack("bamboo", Blocks.BAMBOO_PLANKS);

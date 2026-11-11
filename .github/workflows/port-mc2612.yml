@@ -1,0 +1,52 @@
+name: Minecraft 26.1.2 Port - Build
+on:
+  push:
+    branches:
+      - feature/mc-26.1.2
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mc2612-build-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Verify version and prevent 26.3 resources
+        run: python3 .github/scripts/check_mc2612_port.py
+      - name: Audit recipes and JSON
+        run: python3 .github/scripts/audit_project_consistency.py
+      - name: Compile and build the playable JAR
+        run: bash ./gradlew build --no-daemon --max-workers=2 --console=plain
+      - name: Verify JAR metadata and Java version
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile, json
+          path = Path("build/libs/italiansdelight-1.1.0-mc26.1.2.jar")
+          assert path.is_file(), "Missing release JAR"
+          with zipfile.ZipFile(path) as jar:
+              m = json.loads(jar.read("fabric.mod.json"))
+              assert m["depends"]["minecraft"] == "26.1.2"
+              assert m["depends"]["java"] == ">=25"
+              assert m["version"] == "1.1.0-mc26.1.2"
+              c = jar.read("dev/italiansdelight/ItaliansDelight.class")
+              assert int.from_bytes(c[6:8], "big") == 69
+          print("OK: 26.1.2 playable JAR, Fabric metadata, Java 25")
+          PY
+      - name: Upload 26.1.2 JAR for testing
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: italiansdelight-mc26.1.2-test
+          path: build/libs/italiansdelight-1.1.0-mc26.1.2.jar
+          if-no-files-found: error
+          retention-days: 14

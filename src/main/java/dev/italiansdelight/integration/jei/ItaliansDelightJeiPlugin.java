@@ -219,7 +219,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new ItemStack(ModBlocks.CHEESE_HOOK)
         );
 
-        // Every Crushing Tub variant (including Minecraft 26.3 Poplar) handles
+        // Every available Minecraft 26.1.2 Crushing Tub variant handles
         // the same recipes. They must all open the JEI category via Uses (U).
         for (net.minecraft.world.level.block.Block tub : new net.minecraft.world.level.block.Block[] {
             ModBlocks.CRUSHING_TUB,
@@ -231,7 +231,6 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             ModBlocks.MANGROVE_CRUSHING_TUB,
             ModBlocks.CHERRY_CRUSHING_TUB,
             ModBlocks.PALE_OAK_CRUSHING_TUB,
-            ModBlocks.POPLAR_CRUSHING_TUB,
             ModBlocks.BAMBOO_CRUSHING_TUB,
             ModBlocks.CRIMSON_CRUSHING_TUB,
             ModBlocks.WARPED_CRUSHING_TUB,

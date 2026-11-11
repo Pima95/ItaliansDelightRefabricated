@@ -45,12 +45,12 @@ dependencies {
     }
 
     // JEI
-    implementation "curse.maven:jei-238222:9453340"
+    implementation "curse.maven:jei-238222:9384703"
 
-    // OPTIONAL: Serene Seasons Fabric 26.3, version 26.1.2.0.7.
+    // OPTIONAL: Serene Seasons Fabric Minecraft 26.1.2, version 26.1.2.0.4.
     // Compile API calls without shipping the mod, and never require it at runtime.
     // Users must install Serene Seasons + GlitchCore separately if desired.
-    compileOnly "curse.maven:serene-seasons-291874:8938724"
+    compileOnly "curse.maven:serene-seasons-291874:8351062"
 }
 
 // Replaces the version placeholder inside fabric.mod.json during the build.
@@ -62,7 +62,7 @@ processResources {
     }
 }
 
-// Minecraft 26.3 requires Java 25: the release target prevents accidental use
+// Minecraft 26.1.2 requires Java 25: the release target prevents accidental use
 // of bytecode or APIs from a different Java version.
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 25
