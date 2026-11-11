@@ -21,8 +21,8 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "italiansdelight:almond_sapling",
-          "Properties": {
+          "id": "italiansdelight:almond_sapling",
+          "properties": {
             "stage": "0"
           }
         }

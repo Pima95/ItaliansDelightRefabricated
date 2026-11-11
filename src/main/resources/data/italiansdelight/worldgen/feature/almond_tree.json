@@ -14,7 +14,7 @@
         "then": {
           "type": "minecraft:simple_state_provider",
           "state": {
-            "Name": "minecraft:dirt"
+            "id": "minecraft:dirt"
           }
         }
       }
@@ -29,8 +29,8 @@
   "foliage_provider": {
     "type": "minecraft:simple_state_provider",
     "state": {
-      "Name": "italiansdelight:almond_leaves",
-      "Properties": {
+      "id": "italiansdelight:almond_leaves",
+      "properties": {
         "distance": "7",
         "persistent": "false",
         "waterlogged": "false"
@@ -50,8 +50,8 @@
   "trunk_provider": {
     "type": "minecraft:simple_state_provider",
     "state": {
-      "Name": "italiansdelight:almond_log",
-      "Properties": {
+      "id": "italiansdelight:almond_log",
+      "properties": {
         "axis": "y"
       }
     }
