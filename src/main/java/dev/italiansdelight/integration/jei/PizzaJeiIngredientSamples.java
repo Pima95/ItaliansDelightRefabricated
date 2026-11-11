@@ -31,21 +31,14 @@ public final class PizzaJeiIngredientSamples {
      * in both baking states. Each slice has real nutrition and effects.
      */
     public static List<ItemStack> createAll() {
-        List<ItemStack> stacks = new ArrayList<>(3 * 21 + 2);
-        // Keep insertion order aligned with the Creative tab: all raw pizzas,
-        // then cooked pizzas, then edible slices. JEI may apply its own user
-        // sorting settings to the final sidebar presentation.
+        List<ItemStack> stacks = new ArrayList<>(3 * 18 + 2);
         for (Set<Identifier> recipe : PizzaDisplayNames.allPresets().keySet()) {
             stacks.add(PizzaCreativeSamples.create(recipe, false));
-        }
-        stacks.add(PizzaCreativeSamples.createMixed(false));
-        for (Set<Identifier> recipe : PizzaDisplayNames.allPresets().keySet()) {
             stacks.add(PizzaCreativeSamples.create(recipe, true));
-        }
-        stacks.add(PizzaCreativeSamples.createMixed(true));
-        for (Set<Identifier> recipe : PizzaDisplayNames.allPresets().keySet()) {
             stacks.add(PizzaCreativeSamples.createSlice(recipe));
         }
+        stacks.add(PizzaCreativeSamples.createMixed(false));
+        stacks.add(PizzaCreativeSamples.createMixed(true));
         return List.copyOf(stacks);
     }
 

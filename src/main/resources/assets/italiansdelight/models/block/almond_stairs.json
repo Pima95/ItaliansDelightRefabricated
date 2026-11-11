@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "italiansdelight:block/almond_planks",
-    "top": "italiansdelight:block/almond_planks",
-    "side": "italiansdelight:block/almond_planks"
-  }
-}

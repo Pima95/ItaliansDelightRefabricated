@@ -19,40 +19,6 @@ ASSETS = Path("src/main/resources/assets/italiansdelight")
 SRC = Path("src/main/java/dev/italiansdelight/common/pizza")
 GROUP = Path("src/main/java/dev/italiansdelight/common/item/group/ModItemGroups.java")
 ORIGINAL_GIT_SHA = "7dd166bec3bd3ddc7473d498ce0e78b3e785bc06"
-# Only these four exact presets lack any genuinely stretchy cheese.
-# Their dangling Mozzarella pixels may be replaced, while all other tastes
-# must retain the originally approved Margherita silhouette and crust.
-NO_MELT_PRESETS = frozenset({
-    "bianca", "rossa", "guanciale_pecorino_rossa",
-    "mortadella_ricotta_mandorle",
-})
-# The earlier extended point curled upward because (1,10) and (2,10)
-# protruded well above the tip. Keep a straight diagonal taper instead,
-# ending at (1,13); the removed mozzarella stays transparent.
-DRIP_REMOVALS = frozenset({
-    (1, 10), (2, 10), (2, 11), (6, 12),
-    (3, 13), (4, 13), (3, 14), (3, 15),
-    (9, 11), (9, 12),
-})
-# Only warm baked-dough colors: no mozzarella drips or translucent pixels.
-EXTENDED_TIP_PIXELS = {
-    (3, 11): bytes((227, 164, 105, 255)),
-    (2, 12): bytes((130, 82, 47, 255)),
-    (3, 12): bytes((227, 164, 105, 255)),
-    (4, 12): bytes((240, 191, 131, 255)),
-    (5, 12): bytes((86, 55, 34, 255)),
-    (1, 13): bytes((76, 50, 31, 255)),
-    (2, 13): bytes((130, 82, 47, 255)),
-}
-TIP = (3, 10)
-TIP_DOUGH_RGBA = bytes((103, 65, 36, 255))
-# Safeguard the exact 38 original topping pixels for each revised flavor.
-TOPPING_HASHES = {
-    "bianca": "e9d2c90a3a29c4345189baecbea841feabc976c288456abf374a4715b9137f16",
-    "rossa": "1b38dfa46cf8ee49efd5d3054442e4a67b19aeff4e2c2f2c1a1421556921cf22",
-    "guanciale_pecorino_rossa": "1cc22628ad8c1984227f1bc96974218740ceedf5be56edfaa2f134333177aa69",
-    "mortadella_ricotta_mandorle": "df2d4b7080cdc272bbd20b8370e85d720c12b7433b79365214391742e90b868c",
-}
 MAGIC = b"\x89PNG\r\n\x1a\n"
 SURFACE = {
     (x, y)
@@ -177,7 +143,7 @@ def main() -> None:
 
     names_src = (SRC / "PizzaDisplayNames.java").read_text()
     named = re.findall(r'add\(presets,\s*"([^"]+)"', names_src)
-    if len(named) != 21 or len(set(named)) != 21 or "principessa" in named:
+    if len(named) != 18 or len(set(named)) != 18 or "principessa" in named:
         raise ValueError("Expected 18 canonical presets, without Principessa")
     expected = [id for id in named if id != "margherita"] + ["custom"]
     hashes = {original}
@@ -191,47 +157,14 @@ def main() -> None:
             for x in range(16):
                 pos = (y * 16 + x) * 4
                 if (x, y) not in SURFACE:
-                    current = texture[pos:pos + 4]
-                    if taste in NO_MELT_PRESETS and (x, y) in DRIP_REMOVALS:
-                        if current != bytes((0, 0, 0, 0)):
-                            raise ValueError(f"{item}: cheese drip remains at {x},{y}")
-                    elif taste in NO_MELT_PRESETS and (x, y) == TIP:
-                        if current != TIP_DOUGH_RGBA:
-                            raise ValueError(f"{item}: tip is not baked pizza crust")
-                    elif taste in NO_MELT_PRESETS and (x, y) in EXTENDED_TIP_PIXELS:
-                        if current != EXTENDED_TIP_PIXELS[x, y]:
-                            raise ValueError(f"{item}: longer triangular crust tip changed at {x},{y}")
-                    elif current != original[pos:pos + 4]:
+                    if texture[pos:pos + 4] != original[pos:pos + 4]:
                         raise ValueError(
                             f"{item}: approved crust pixel changed at {x},{y}")
-        if taste in NO_MELT_PRESETS:
-            # The lower edge narrows in a single direction. This also
-            # rejects the previous raised-left hook at (1,10).
-            for y, left, right in (
-                (10, 3, 11),
-                (11, 3, 8),
-                (12, 2, 5),
-                (13, 1, 2),
-            ):
-                occupied = [x for x in range(16)
-                            if texture[(y * 16 + x) * 4 + 3] == 255]
-                if occupied != list(range(left, right + 1)):
-                    raise ValueError(
-                        f"{item}: curled or broken triangular point at row {y}: {occupied}")
-            if any(texture[(y * 16 + x) * 4 + 3]
-                   for y in (14, 15) for x in range(16)):
-                raise ValueError(f"{item}: dangling pixels below triangular point")
-            topping = b"".join(
-                texture[(y * 16 + x) * 4:(y * 16 + x + 1) * 4]
-                for x, y in sorted(SURFACE)
-            )
-            if hashlib.sha256(topping).hexdigest() != TOPPING_HASHES[taste]:
-                raise ValueError(f"{item}: original topping artwork must remain unchanged")
         if texture in hashes:
             raise ValueError(f"Duplicate named slice artwork: {item}")
         hashes.add(texture)
         appearances[taste] = texture
-    if len(hashes) != 22:
+    if len(hashes) != 19:
         raise ValueError("Expected 18 named variants and a neutral fallback")
 
     # Matching only byte-for-byte misses the actual defect reported in game:
@@ -271,8 +204,7 @@ def main() -> None:
 
     print(f"OK: {len(expected)} distinctive 16x16 RGBA slices plus original Margherita")
     print("OK: 19 sprites checked pairwise for at least 10 pronounced pixel differences")
-    print("OK: 218 outside-topping pixels preserved except approved crust-tip edits")
-    print("OK: straight diagonal tips, no raised hooks or cheese; 38 topping pixels intact")
+    print("OK: 218 pixels (crust/background) immutable in every variant")
     print("OK: each quarter selects its own preset; examples are edible stacks")
 
 

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "front": "italiansdelight:block/fruit_cherry_cabinet_front_open",
-    "side": "italiansdelight:block/fruit_cherry_cabinet_side",
-    "top": "italiansdelight:block/fruit_cherry_cabinet_top"
-  }
-}

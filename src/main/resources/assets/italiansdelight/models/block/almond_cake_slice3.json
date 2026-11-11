@@ -1,9 +1,0 @@
-{
-  "parent": "italiansdelight:block/template_almond_cake_slice3",
-  "textures": {
-    "bottom": "italiansdelight:block/almond_cake_bottom",
-    "side": "italiansdelight:block/almond_cake_side",
-    "top": "italiansdelight:block/almond_cake_top",
-    "inner": "italiansdelight:block/almond_cake_inner"
-  }
-}

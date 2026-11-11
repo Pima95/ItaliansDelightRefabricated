@@ -6,22 +6,13 @@ import org.slf4j.LoggerFactory;
 
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
-import dev.italiansdelight.common.registry.ModFluids;
-import dev.italiansdelight.common.fluid.FluidTransferBridge;
-import dev.italiansdelight.common.fluid.FabricFluidItemContainers;
-import dev.italiansdelight.common.registry.ModCompostables;
 import dev.italiansdelight.common.registry.ModBlocks;
-import dev.italiansdelight.common.block.FluidCauldronInteractions;
-import dev.italiansdelight.common.block.LegacyOilCauldronMigration;
-import dev.italiansdelight.common.registry.ModSigns;
-import dev.italiansdelight.common.registry.ModBoats;
 import dev.italiansdelight.common.item.group.ModItemGroups;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModMenuTypes;
 import dev.italiansdelight.common.registry.ModParticles;
 import dev.italiansdelight.common.registry.ModRecipes;
 import dev.italiansdelight.common.registry.ModWorldGeneration;
-import dev.italiansdelight.common.worldgen.ModTreePlacers;
 import dev.italiansdelight.common.salt.SaltCauldronManager;
 import dev.italiansdelight.common.pizza.PizzaDoughPlacement;
 import dev.italiansdelight.common.pizza.PizzaDivisionSync;
@@ -48,11 +39,8 @@ public class ItaliansDelight implements ModInitializer {
         // This ensures BlockEntities, menus, recipes, and events can already find
         // all registered items and blocks when they are configured.
         ModDataComponents.register();
-        ModFluids.register();
         ModItems.register();
         ModBlocks.register();
-        ModSigns.register();
-        ModBoats.register();
         // Pure, read-only registry. The toppings will be wired to pizza interactions later.
         PizzaToppingCatalog.register();
         // Datapack equivalences are loaded on server data reload, never per tick.
@@ -60,19 +48,13 @@ public class ItaliansDelight implements ModInitializer {
         PizzaDoughPlacement.register();
         PizzaDivisionSync.register();
         ModBlockEntities.register();
-        FluidTransferBridge.register();
-        FabricFluidItemContainers.register();
-        ModCompostables.register();
         ModMenuTypes.register();
         ModRecipes.register();
         ModParticles.register();
         ModItemGroups.register();
-        ModTreePlacers.register();
         ModWorldGeneration.register();
 
         SaltCauldronManager.register();
-        FluidCauldronInteractions.register();
-        LegacyOilCauldronMigration.register();
 
         LOGGER.info("[Italian's Delight] Pronta! Buon appetito.");
     }

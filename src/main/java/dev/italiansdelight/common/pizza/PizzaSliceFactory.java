@@ -31,11 +31,7 @@ public final class PizzaSliceFactory {
     }
 
     public static ItemStack create(PizzaItemData pizza, int quarter) {
-        return create(PizzaSliceData.fromPizza(pizza, quarter));
-    }
-
-    /** Reconstitute the exact edible item from a moved/placed slice. */
-    public static ItemStack create(PizzaSliceData slice) {
+        PizzaSliceData slice = PizzaSliceData.fromPizza(pizza, quarter);
         ItemStack stack = new ItemStack(ModItems.PIZZA_SLICE);
         stack.set(ModDataComponents.PIZZA_SLICE_CONTENTS, slice);
         PizzaDisplayNames.nameSliceStack(stack, slice);

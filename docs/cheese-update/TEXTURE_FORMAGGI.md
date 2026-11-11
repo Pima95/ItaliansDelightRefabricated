@@ -1,7 +1,5 @@
 # Italian's Delight — Checklist texture formaggi
 
-> **Nota archivio (11/11/2026):** le anteprime HTML e i prompt sperimentali non fanno più parte della documentazione attiva. I collegamenti storici qui sotto aprono la versione precedente alla pulizia, recuperabile dalla cronologia Git.
-
 Documento di riferimento per creare le texture degli item registrati nel branch
 `feature/cheeses`.
 
@@ -25,7 +23,7 @@ piatta in metallo, con impugnatura aperta e superficie forata, ispirata alla fot
 fornita. Creata con **imagegen integrato** e ridotta a 16×16 con campionamento
 nearest-neighbor, mantenendo la trasparenza. Usa il modello item `handheld`.
 Il prompt completo è nella voce `cheese_grater` di
-[TEXTURE_FORMAGGI_PROMPTS.json](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cheese-update/TEXTURE_FORMAGGI_PROMPTS.json).
+[TEXTURE_FORMAGGI_PROMPTS.json](TEXTURE_FORMAGGI_PROMPTS.json).
 
 Convenzioni dei nomi:
 
@@ -144,13 +142,13 @@ stagionate e fra i contenitori dei due liquidi.
 
 ## Anteprima e generazione
 
-[Apri la tavola completa](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cheese-update/images/texture_formaggi.png): ogni voce mostra lo
+[Apri la tavola completa](images/texture_formaggi.png): ogni voce mostra lo
 sprite ingrandito 8× e sotto la versione originale 16×16.
 
-![Anteprima delle 27 texture item](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cheese-update/images/texture_formaggi.png)
+![Anteprima delle 27 texture item](images/texture_formaggi.png)
 
 Texture generate con lo strumento integrato **imagegen**, una per item.
-Il [set completo dei prompt](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cheese-update/TEXTURE_FORMAGGI_PROMPTS.json) comprende le
+Il [set completo dei prompt](TEXTURE_FORMAGGI_PROMPTS.json) comprende le
 indicazioni comuni, i soggetti e le rifiniture selezionate per Parmigiano e
 Gorgonzola. L'esportazione tecnica usa campionamento nearest-neighbor,
 mantiene proporzioni e alpha e aggiunge margini trasparenti al formato

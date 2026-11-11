@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/template_wall_sign",
-  "textures": {
-    "all": "italiansdelight:block/fruit_cherry_sign",
-    "particle": "italiansdelight:block/fruit_cherry_planks"
-  }
-}

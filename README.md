@@ -26,42 +26,15 @@ Current features include:
 - **Nourishment** support for complete meals, balanced against Farmer's Delight Refabricated;
 - integration with **JEI** and Farmer's Delight systems, including Cheese Vat, aging/drying, and salt evaporation.
 
-**Pizza Update 1.0.0** is now published. It introduces interactive dough stretching and topping placement, 18 recognized pizza flavors, Mixed Pizza, a reusable Pizza Peel, the Pizza Oven, vanilla furnace/smoker support, individual ingredient-bearing slices and searchable JEI guides. See the [v1.0.0 release](https://github.com/Pima95/ItaliansDelightRefabricated/releases/tag/v1.0.0).
+**Pizza Update 1.0.0 is in active development** on the [`feature/pizza-1.0.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/pizza-1.0.0). Development builds now carry **version 1.0.0**, but the latest **published** version is still **0.4.0**. Pizza Update is **not part of the published 0.4.0 release**. The in-development update adds interactive pizza preparation on placed dough, a reusable pizza peel, the Pizza Oven, vanilla furnace/smoker support, data-bearing topping combinations, independent pizza slices, JEI guides, and Creative examples. Its release is gated on the remaining multiplayer, automation, persistence and regression tests. See the [Pizza 1.0.0 release readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) for details.
 
-**In development: Orchard Update 1.1.0** — on the
-[`feature/orchards-1.1.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/orchards-1.1.0).
-It adds three complete orchard species with their own wood families:
-**Olive** (including the rare monumental 2×2 Ancient Olive), **Almond**,
-and a green-leaved **Fruit Cherry** distinct from vanilla pink Cherry.
-Each has its own sapling, original tree shapes, foliage stages, fruit
-harvesting and wood-derived furniture (signs, doors, shelves, cabinets,
-boats and aging racks). Natural generation in the chosen biomes is enabled
-and its lower density has been accepted in-game: normal Olives and Almonds
-each attempt 1/40 eligible Plains/Savanna chunks, Almonds attempt 1/100
-Meadow chunks; rare Ancient Olive 1/96 and Fruit Cherry 1/7 are unchanged.
+The [draft 1.0.0 release notes](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and [pre-release optimization decisions](docs/OPTIMIZATION_CLOSURE_2026-10-23.md) are available for review. The author reports the Cheese Vat test and final code audit complete; multiplayer is deferred and **not yet verified**. The 1.0.0 development version does not mean a public release; these documents do not replace final release approval.
 
-The update also provides Orchard fruit crates; Rustic-style
-**Crushing Tubs in all 15 wood variants**; **Barrels and cauldrons** with
-liquid handling, bottles and buckets; recipes for olives, apples, sugar
-cane, honeycombs and golden apples; JEI guidance; and optional
-**Serene Seasons** compatibility. Natural leaves use a rotating
-approximately **65% fruiting eligibility** rather than always ripening.
-**Grapes, grape juice and wine are reserved for a later version**, even
-though some unused texture resources are already present in the tree.
-
-The public release is still **1.0.0**. The Orchard development branch retains its internal **1.1.0-rc.1**
-candidate, and the separate `release/1.1.0` branch stages the final
-**1.1.0** version. The release has not yet been tagged, merged into
-`main` or uploaded to distribution sites. Do not mistake the release
-branch for a publicly available release. See the
-[Orchard readiness checklist](docs/orchards-1.1.0/RELEASE_READINESS.md),
-[draft release notes](docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md)
-and [technical roadmap](docs/orchards-1.1.0/ROADMAP.md).
-These development features are **not part of the published 1.0.0 JAR**.
+Additional pasta dishes, olive trees, grapes/wine and seasonal content remain future plans.
 
 ## Requirements
 
-The current **published version is 1.0.0**, targeting **Minecraft 26.2**. It requires:
+The latest documented **published version is 0.4.0**, targeting **Minecraft 26.2**. For the **1.0.0 development build**, use:
 
 - **Java 25**
 - **Fabric Loader 0.20.1 or newer**
@@ -108,24 +81,6 @@ If you find an issue or have an idea for improving the mod, feel free to open an
 
 Italian's Delight Refabricated is built as an add-on for [Farmer's Delight Refabricated](https://github.com/MehVahdJukaar/FarmersDelightRefabricated).
 
-## License and asset attribution
+## License
 
-Original code and artwork contributed to Italian's Delight Refabricated by
-**Piergiuseppe Mastroserio (Pima95)** are distributed under the
-[Apache License 2.0](LICENSE) in preparation for the Orchard 1.1.0 release. The [NOTICE](NOTICE) file provides the required original-work
-attribution. Users may use, modify and redistribute the covered original
-material under the license terms, including preservation of applicable
-copyright, license and NOTICE attributions; the license does **not** require
-a credit specifically on CurseForge or Modrinth project descriptions.
-
-**The publicly released version 1.0.0 remains under its published MIT terms**;
-changing the development branch's license does not revoke rights already
-provided with older versions.
-
-Third-party artwork is **not** relicensed to Apache 2.0. See
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for Rustic and the original
-Italian's Delight, and
-[Farmer's Delight crate attribution](docs/orchards-1.1.0/FDR_CRATES_LICENSE.md)
-for reused crate pixels. The provenance and individual rights of some legacy
-assets remain under review before publishing 1.1.0. The JAR packages the
-Apache license, project NOTICE and applicable third-party notices.
+See the [LICENSE](LICENSE) file for license information.

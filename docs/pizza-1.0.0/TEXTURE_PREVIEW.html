@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="it">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Texture pizze — mattarello e impasto</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#171e20;color:#edf0e9}
+body{max-width:1320px;margin:auto;padding:28px}
+h1{font-size:26px;margin:0 0 12px}
+p{line-height:1.55;color:#c8d0c5}
+.materials,.stages{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:#242d2e;border:1px solid #46534a;border-radius:12px;padding:18px;text-align:center}
+h2{font-size:17px;margin:0 0 14px}
+img{width:128px;height:128px;image-rendering:pixelated}
+.item{background:repeating-conic-gradient(#48504c 0% 25%,#343d37 0% 50%) 50%/16px 16px}
+small{display:block;margin-top:12px;color:#b7c6ba}
+.controls{padding:24px 0;display:flex;gap:28px;flex-wrap:wrap}
+input{vertical-align:middle;accent-color:#e1c69a}
+canvas{display:block;margin:auto;width:100%;max-width:320px;height:auto}
+.note{font-size:13px}
+</style>
+<h1>Mattarello e impasto della pizza</h1>
+<p>Texture native <strong>16×16</strong>. Mattarello: sfondo trasparente, utensile opaco. Impasto: tutti i pixel opachi. Nessun pixel semitrasparente.</p>
+<section class="materials">
+<div class="card"><h2>Mattarello</h2><img class="item" alt="Mattarello in legno" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAD+SURBVDhPY2AYkuD38dL/NvJc/9HF8YLZxY7/7RQ4/1+b6/+/M0SVNM3zyh3/X5zg8v9Eh+N/MylO0jR/PVnz/2K/y/8tlVb/N5aa/6/wkCfegOsb8/5fnOD2f3O5xf+OUK3/3WFq/+0UuIkzoD/R8P/FCa5gmztDtP8vzzP+b6NAZMC9OtH4/wLI2RVW/9cUmv6fFKv130aeSJs39Yf/v9Dn8n9zueX/9UXm/9cWmf63kechTjMITIzR/L+5whxs86oCs/+2xPoZBECKj7Ta/Z+epPt/VpL+fzti/QwCtgpc/y/0O/9vCVABa7KRI0EzCGwqNf9f66tImqZBAQCshHg1+2BGMwAAAABJRU5ErkJggg=="><small>Item handheld · 16×16 · alpha 0/255</small></div>
+<div class="card"><h2>Impasto: superficie</h2><img alt="Superficie chiara dell'impasto crudo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKzSURBVDhPLZN7U9pQEMXz/T9AcVp1OtNpbdW+VJAij/AIT8tTxACBECAJSYAQIIk6ndPZxT/uzM3N3d3fnj1XsJ6uYfejsOUbbCYi7P4tNloedu8KE+kUvlHBSklALXzAUknCvP+EzSQHpx+HJV9DMFrnCJddeFoeivgOZuc7vGkBe7MGW44hdDpw+rcIFnVspnl4Wg47vYzAbsLsXEJw1TS8aR5m/TMWjTNMpGPs5iUsBzE8rwfYqGmmsPtxLJpfETgtGI0v2EyyoFiBkNfjJAK7heUwAZ+yL2rYzYoInTZ8vYJw+QCzfobtrMiJ+NxuwZajlCCKwGrAlm/fLkS5Rzp7Wcusi79ocBJXFfG86jHhnqliEMyHHyyaM0wwIu0pmAJ28yLW4xT2ZvXtu4z1OI3QecBeL0NvnUPwpjnYgzi8WZHRtySgXsKLp+B1O+JA2vtG7dCaXsJyeIfA6TCdYLQv4QzicCc5qPn3sHvXXJk0efUU/NtrXNmfl7FRM5hVTqEWTrBWM3CohVE2gsCqs1irUQpm89vbWHPwjSpCu4UtJTAqCFePXHU5uMN2JmGrlyB4M4mr01xdNYXdXIJPCa2/8LQCj4vOCJ3EC+w2t0zL6v6CoIgRmO0LeHMJe6PMFBRIQgZWiw3kmzWu7Gkii+dNJWw0CZ6WgbAzKoxryTfwtCy7TpWOYT3+xn5xzwE0PtJlr1exHqWZ2JsVoGSPIJAdQ6fL9iVEZ5DgGZPLVkoS7jgJV8uxeDRSClx0f2JeOYXVu4JgyQcjbad5dhaNaDstsuL2IMFvgZarZqAVT2A93SDggtLBykMxAqN9wT/oEvUcLh+5X3ciMpEjx3jUpMO8+vFAOE5ByUYg0OFK+QOzfYmRGIEzTGIoHrGdyffj/DGTERG9VNJDb55jlD2CO8ngP7pFjGJDr+4iAAAAAElFTkSuQmCC"><small>Facce superiori e inferiori · 256 pixel opachi</small></div>
+<div class="card"><h2>Impasto: lati</h2><img alt="Lati dell'impasto crudo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKvSURBVDhPLVNZb9pgEPT/f84lVU0vklRKqipNoJwBQzA4gaBwGht8YGxsg7ExV96m2lUfLNv6dmdnZucTnO4DIrMGp/sHu8UbAq2MQC0h0qvQxM+IZ3WEugi1eAFfK8J+uUKki1hNK/C1EgSz/h3HaILtXIaSO4HZvMHWkZHMmwi0Eo7RFIFaxN4j8CdYjRQ2dgPH9RimfANhNS0jsRsw698YVSt/gttLw1NyzGg5KUOXUnAHaQY9bkx4gwyDEDOBCvggtuCNstwQGzXs3BZ2jozFIMPskrmMae0r7PYtVpMyM3L7aQhEeak9cfMxHMPtP+IQ9LA2ajgEfZZz8N9xiKZI3FccVgNujq0aeyUslDz2yy6D0PSt20I4rWAxzLKJbveBwRf9DJz3e6z1CrzhX5B0U0pBSGwZkSli0U8zYmI38RHr2C/arJOad4v2/6nP8EdZ3tDO6yBQnyDMXm+RzCQcgnf4ahET8Qu8YRZLrYSD10FiSwywc195gFI4x7hwDn+YQ2w+Q1AKZ4jMZ8RWHXu/g73XwUc85f0T0ES8RDApMSAx28zqbCz1kBSBmuhwO29iJl8xrZ3X4omRWcWeDNVFrPUqvMFfriP9Rv0HDOkKwih3wtNIE70t+Qbzzm82lBJKU0JD5Kws1SLs9h008RJ26w7JvAGBtJvNazi9Bzjde/hqgYFopWQimUeRJQPp2dgysyBAJX8KwR/ncFyriM0aSyEgCtHWfeEkRkYNkSVByZ9hbYjMyH77xf/+uAiBYps4MiJDhCX/ZINCo8pBou/NTMJxNUBs1jEunvOmjqHCWXF6jxBoJXQTqTmyagzG0Q4VGFKK/fCGGbj9DNZGFUrxgqXwSvNnEEK9wreOCkkT3Tgld4pwKsIfF7iIMh9OyjAa14gtid0f5U9Bvf8AvLuAmi/KbMkAAAAASUVORK5CYII="><small>Facce laterali e particelle · 256 pixel opachi</small></div>
+</section>
+<div class="controls">
+<label>Rotazione <input id="yaw" type="range" min="-180" max="180" value="35"></label>
+<label>Vista dall’alto <input id="pitch" type="range" min="10" max="85" value="35"></label>
+</div>
+<section class="stages" id="stages"></section>
+<p class="note">Anteprima locale dei modelli JSON e dei PNG della mod. Lo slider permette di controllare le facce e i ritagli UV. Illuminazione semplificata; l’aspetto finale va verificato in Minecraft. Quattro clic a mano passano dalla palla alla base; un clic con il mattarello completa la stesura.</p>
+<script>
+const models=[{"name":"pizza_dough","model":{"parent":"minecraft:block/block","ambientocclusion":false,"textures":{"top":"italiansdelight:block/pizza_dough_top","side":"italiansdelight:block/pizza_dough_side","particle":"italiansdelight:block/pizza_dough_side"},"elements":[{"from":[4,0,4],"to":[12,3,12],"faces":{"down":{"texture":"#top","uv":[4,4,12,12]},"up":{"texture":"#top","uv":[4,4,12,12]},"north":{"texture":"#side","uv":[4,13,12,16]},"south":{"texture":"#side","uv":[4,13,12,16]},"west":{"texture":"#side","uv":[4,13,12,16]},"east":{"texture":"#side","uv":[4,13,12,16]}}},{"from":[5,3,5],"to":[11,6,11],"faces":{"down":{"texture":"#top","uv":[5,5,11,11]},"up":{"texture":"#top","uv":[5,5,11,11]},"north":{"texture":"#side","uv":[5,10,11,13]},"south":{"texture":"#side","uv":[5,10,11,13]},"west":{"texture":"#side","uv":[5,10,11,13]},"east":{"texture":"#side","uv":[5,10,11,13]}}}]}},{"name":"pizza_dough_stage1","model":{"parent":"minecraft:block/block","ambientocclusion":false,"textures":{"top":"italiansdelight:block/pizza_dough_top","side":"italiansdelight:block/pizza_dough_side","particle":"italiansdelight:block/pizza_dough_side"},"elements":[{"from":[3,0,3],"to":[13,3,13],"faces":{"down":{"texture":"#top","uv":[3,3,13,13]},"up":{"texture":"#top","uv":[3,3,13,13]},"north":{"texture":"#side","uv":[3,13,13,16]},"south":{"texture":"#side","uv":[3,13,13,16]},"east":{"texture":"#side","uv":[3,13,13,16]},"west":{"texture":"#side","uv":[3,13,13,16]}}},{"from":[4,3,4],"to":[12,5,12],"faces":{"down":{"texture":"#top","uv":[4,4,12,12]},"up":{"texture":"#top","uv":[4,4,12,12]},"north":{"texture":"#side","uv":[4,11,12,13]},"south":{"texture":"#side","uv":[4,11,12,13]},"east":{"texture":"#side","uv":[4,11,12,13]},"west":{"texture":"#side","uv":[4,11,12,13]}}}]}},{"name":"pizza_dough_stage2","model":{"parent":"minecraft:block/block","ambientocclusion":false,"textures":{"top":"italiansdelight:block/pizza_dough_top","side":"italiansdelight:block/pizza_dough_side","particle":"italiansdelight:block/pizza_dough_side"},"elements":[{"from":[2,0,2],"to":[14,2,14],"faces":{"down":{"texture":"#top","uv":[2,2,14,14]},"up":{"texture":"#top","uv":[2,2,14,14]},"north":{"texture":"#side","uv":[2,14,14,16]},"south":{"texture":"#side","uv":[2,14,14,16]},"east":{"texture":"#side","uv":[2,14,14,16]},"west":{"texture":"#side","uv":[2,14,14,16]}}},{"from":[3,2,3],"to":[13,4,13],"faces":{"down":{"texture":"#top","uv":[3,3,13,13]},"up":{"texture":"#top","uv":[3,3,13,13]},"north":{"texture":"#side","uv":[3,12,13,14]},"south":{"texture":"#side","uv":[3,12,13,14]},"east":{"texture":"#side","uv":[3,12,13,14]},"west":{"texture":"#side","uv":[3,12,13,14]}}}]}},{"name":"pizza_dough_stage3","model":{"parent":"minecraft:block/block","ambientocclusion":false,"textures":{"top":"italiansdelight:block/pizza_dough_top","side":"italiansdelight:block/pizza_dough_side","particle":"italiansdelight:block/pizza_dough_side"},"elements":[{"from":[1,0,1],"to":[15,2,15],"faces":{"down":{"texture":"#top","uv":[1,1,15,15]},"up":{"texture":"#top","uv":[1,1,15,15]},"north":{"texture":"#side","uv":[1,14,15,16]},"south":{"texture":"#side","uv":[1,14,15,16]},"east":{"texture":"#side","uv":[1,14,15,16]},"west":{"texture":"#side","uv":[1,14,15,16]}}},{"from":[2,2,2],"to":[14,3,14],"faces":{"down":{"texture":"#top","uv":[2,2,14,14]},"up":{"texture":"#top","uv":[2,2,14,14]},"north":{"texture":"#side","uv":[2,13,14,14]},"south":{"texture":"#side","uv":[2,13,14,14]},"east":{"texture":"#side","uv":[2,13,14,14]},"west":{"texture":"#side","uv":[2,13,14,14]}}}]}},{"name":"pizza_dough_stage4","model":{"parent":"minecraft:block/block","ambientocclusion":false,"textures":{"top":"italiansdelight:block/pizza_dough_top","side":"italiansdelight:block/pizza_dough_side","particle":"italiansdelight:block/pizza_dough_side"},"elements":[{"from":[1,0,1],"to":[15,2,15],"faces":{"down":{"texture":"#top","uv":[1,1,15,15]},"up":{"texture":"#top","uv":[1,1,15,15]},"north":{"texture":"#side","uv":[1,14,15,16]},"south":{"texture":"#side","uv":[1,14,15,16]},"east":{"texture":"#side","uv":[1,14,15,16]},"west":{"texture":"#side","uv":[1,14,15,16]}}}]}}];
+const textureUrls={top:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKzSURBVDhPLZN7U9pQEMXz/T9AcVp1OtNpbdW+VJAij/AIT8tTxACBECAJSYAQIIk6ndPZxT/uzM3N3d3fnj1XsJ6uYfejsOUbbCYi7P4tNloedu8KE+kUvlHBSklALXzAUknCvP+EzSQHpx+HJV9DMFrnCJddeFoeivgOZuc7vGkBe7MGW44hdDpw+rcIFnVspnl4Wg47vYzAbsLsXEJw1TS8aR5m/TMWjTNMpGPs5iUsBzE8rwfYqGmmsPtxLJpfETgtGI0v2EyyoFiBkNfjJAK7heUwAZ+yL2rYzYoInTZ8vYJw+QCzfobtrMiJ+NxuwZajlCCKwGrAlm/fLkS5Rzp7Wcusi79ocBJXFfG86jHhnqliEMyHHyyaM0wwIu0pmAJ28yLW4xT2ZvXtu4z1OI3QecBeL0NvnUPwpjnYgzi8WZHRtySgXsKLp+B1O+JA2vtG7dCaXsJyeIfA6TCdYLQv4QzicCc5qPn3sHvXXJk0efUU/NtrXNmfl7FRM5hVTqEWTrBWM3CohVE2gsCqs1irUQpm89vbWHPwjSpCu4UtJTAqCFePXHU5uMN2JmGrlyB4M4mr01xdNYXdXIJPCa2/8LQCj4vOCJ3EC+w2t0zL6v6CoIgRmO0LeHMJe6PMFBRIQgZWiw3kmzWu7Gkii+dNJWw0CZ6WgbAzKoxryTfwtCy7TpWOYT3+xn5xzwE0PtJlr1exHqWZ2JsVoGSPIJAdQ6fL9iVEZ5DgGZPLVkoS7jgJV8uxeDRSClx0f2JeOYXVu4JgyQcjbad5dhaNaDstsuL2IMFvgZarZqAVT2A93SDggtLBykMxAqN9wT/oEvUcLh+5X3ciMpEjx3jUpMO8+vFAOE5ByUYg0OFK+QOzfYmRGIEzTGIoHrGdyffj/DGTERG9VNJDb55jlD2CO8ngP7pFjGJDr+4iAAAAAElFTkSuQmCC",side:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKvSURBVDhPLVNZb9pgEPT/f84lVU0vklRKqipNoJwBQzA4gaBwGht8YGxsg7ExV96m2lUfLNv6dmdnZucTnO4DIrMGp/sHu8UbAq2MQC0h0qvQxM+IZ3WEugi1eAFfK8J+uUKki1hNK/C1EgSz/h3HaILtXIaSO4HZvMHWkZHMmwi0Eo7RFIFaxN4j8CdYjRQ2dgPH9RimfANhNS0jsRsw698YVSt/gttLw1NyzGg5KUOXUnAHaQY9bkx4gwyDEDOBCvggtuCNstwQGzXs3BZ2jozFIMPskrmMae0r7PYtVpMyM3L7aQhEeak9cfMxHMPtP+IQ9LA2ajgEfZZz8N9xiKZI3FccVgNujq0aeyUslDz2yy6D0PSt20I4rWAxzLKJbveBwRf9DJz3e6z1CrzhX5B0U0pBSGwZkSli0U8zYmI38RHr2C/arJOad4v2/6nP8EdZ3tDO6yBQnyDMXm+RzCQcgnf4ahET8Qu8YRZLrYSD10FiSwywc195gFI4x7hwDn+YQ2w+Q1AKZ4jMZ8RWHXu/g73XwUc85f0T0ES8RDApMSAx28zqbCz1kBSBmuhwO29iJl8xrZ3X4omRWcWeDNVFrPUqvMFfriP9Rv0HDOkKwih3wtNIE70t+Qbzzm82lBJKU0JD5Kws1SLs9h008RJ26w7JvAGBtJvNazi9Bzjde/hqgYFopWQimUeRJQPp2dgysyBAJX8KwR/ncFyriM0aSyEgCtHWfeEkRkYNkSVByZ9hbYjMyH77xf/+uAiBYps4MiJDhCX/ZINCo8pBou/NTMJxNUBs1jEunvOmjqHCWXF6jxBoJXQTqTmyagzG0Q4VGFKK/fCGGbj9DNZGFUrxgqXwSvNnEEK9wreOCkkT3Tgld4pwKsIfF7iIMh9OyjAa14gtid0f5U9Bvf8AvLuAmi/KbMkAAAAASUVORK5CYII="};
+const textures={};
+const labels=['Palla','Prima stesura','Seconda stesura','Terza stesura','Base stesa'];
+const canvases=models.map((entry,i)=>{
+ const card=document.createElement('div');card.className='card';
+ const h=document.createElement('h2');h.textContent=labels[i];card.append(h);
+ const canvas=document.createElement('canvas');canvas.width=320;canvas.height=240;canvas.setAttribute('aria-label','Modello impasto stage='+i);card.append(canvas);
+ const note=document.createElement('small');note.textContent='stage='+i;card.append(note);
+ document.getElementById('stages').append(card);return canvas;
+});
+function render(){
+ const yaw=Number(document.getElementById('yaw').value)*Math.PI/180;
+ const pitch=Number(document.getElementById('pitch').value)*Math.PI/180;
+ const cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+ function project(v){
+  const x=v[0]-8,y=v[1]-2,z=v[2]-8;
+  const rx=x*cy+z*sy,rz=-x*sy+z*cy;
+  return [160+rx*12,125-(y*cp-rz*sp)*12,y*sp+rz*cp];
+ }
+ models.forEach((entry,index)=>{
+  const ctx=canvases[index].getContext('2d');ctx.clearRect(0,0,320,240);ctx.imageSmoothingEnabled=false;
+  const faces=[];
+  for(const element of entry.model.elements){
+   const [x,y,z]=element.from,[X,Y,Z]=element.to;
+   const positions={
+    north:[[X,Y,z],[x,Y,z],[x,y,z],[X,y,z]],
+    south:[[x,Y,Z],[X,Y,Z],[X,y,Z],[x,y,Z]],
+    west:[[x,Y,z],[x,Y,Z],[x,y,Z],[x,y,z]],
+    east:[[X,Y,Z],[X,Y,z],[X,y,z],[X,y,Z]],
+    up:[[x,Y,z],[X,Y,z],[X,Y,Z],[x,Y,Z]],
+    down:[[x,y,Z],[X,y,Z],[X,y,z],[x,y,z]]
+   };
+   for(const [direction,face] of Object.entries(element.faces)){
+    const points=positions[direction].map(project);
+    faces.push({points,depth:points.reduce((sum,p)=>sum+p[2],0)/4,face,direction});
+   }
+  }
+  faces.sort((a,b)=>a.depth-b.depth);
+  for(const {points,face,direction} of faces){
+   const [p0,p1,p2,p3]=points,[u0,v0,u1,v1]=face.uv;
+   const a=(p1[0]-p0[0])/(u1-u0),b=(p1[1]-p0[1])/(u1-u0);
+   const c=(p3[0]-p0[0])/(v1-v0),d=(p3[1]-p0[1])/(v1-v0);
+   if(Math.abs(a*d-b*c)<0.00001)continue;
+   ctx.save();ctx.beginPath();ctx.moveTo(p0[0],p0[1]);for(const p of [p1,p2,p3])ctx.lineTo(p[0],p[1]);ctx.closePath();ctx.clip();
+   ctx.setTransform(a,b,c,d,p0[0]-a*u0-c*v0,p0[1]-b*u0-d*v0);
+   ctx.drawImage(textures[face.texture.slice(1)],0,0);
+   ctx.setTransform(1,0,0,1,0,0);
+   const shade={up:0,down:0.38,north:0.13,south:0.13,east:0.23,west:0.23}[direction];
+   ctx.fillStyle='rgba(0,0,0,'+shade+')';ctx.fillRect(0,0,320,240);ctx.restore();
+  }
+ });
+}
+Promise.all(Object.entries(textureUrls).map(([name,url])=>new Promise(resolve=>{
+ const img=new Image();img.onload=()=>{textures[name]=img;resolve();};img.src=url;
+}))).then(()=>{render();document.body.dataset.ready='true';});
+for(const id of ['yaw','pitch'])document.getElementById(id).addEventListener('input',render);
+</script>
+</html>
