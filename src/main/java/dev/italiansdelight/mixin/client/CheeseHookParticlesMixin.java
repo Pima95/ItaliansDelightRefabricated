@@ -26,7 +26,10 @@ public abstract class CheeseHookParticlesMixin {
                 + "getShape(Lnet/minecraft/world/level/BlockGetter;"
                 + "Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"
         ),
-        require = 2
+        // Minecraft 26.3 invokes this shape lookup in only one of the two
+        // particle paths. Require the surviving hook, not both former calls;
+        // this keeps the hook-only debris shape without crashing bootstrap.
+        require = 1
     )
     private VoxelShape italiansDelight$hookParticleShape(
         BlockState state,
