@@ -108,7 +108,9 @@ public final class CrushingTubBlockEntity extends BlockEntity {
 
         // Track airborne players/mobs even at their jump apex, but limit X/Z
         // to this basin. Adjacent blocks and other tubs never share state.
-        for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, tub.activeArea)) {
+        // Keep the established collision query and per-entity state machine.
+        AABB area = tub.activeArea;
+        for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, area)) {
             double x = entity.getX() - pos.getX();
             double z = entity.getZ() - pos.getZ();
             if (x <= 2.0 / 16.0 || x >= 14.0 / 16.0 ||
