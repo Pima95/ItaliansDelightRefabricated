@@ -203,3 +203,23 @@ versione 1.1.0 o a pubblicarla.
   la sola presenza del nuovo controllo non certifica una build riuscita.
 - [ ] **Licenze degli asset legacy e test runtime opzionali:** rimangono
   separati e aperti; nessuna release, tag o merge in `main` è autorizzata.
+
+## Riscontri del client e attribuzioni (11 novembre 2026)
+
+- [x] **Avvio del gioco (utente):** l'autore ha confermato
+  «Il gioco si avvia». Si registra il test di apertura del client
+  come positivo, **non** come collaudo completo di ogni funzione.
+  La versione esatta del JAR e il log non sono allegati a tale conferma;
+  la checklist `Client, final candidate JAR` resta dunque aperta per
+  installazione pulita, icona, JEI e verifica dell'artifact finale.
+- [x] **Credits upstream documentati:**
+  `THIRD_PARTY_NOTICES.md` ora riporta gli artisti elencati pubblicamente
+  dal team Italian's Delight originale e i riconoscimenti Rustic, con
+  esplicito limite sull'attribuzione per singolo PNG.
+- [x] **Protezione CI predisposta:** nel JAR della RC sono verificati i
+  crediti upstream, oltre ad Apache-2.0, NOTICE e licenza MIT delle casse.
+- [ ] **CI dopo i nuovi commit:** acquisire un esito effettivo dei job;
+  l'esito non si deduce dal solo avvio del client o dalla presenza del test.
+- [ ] **Audit dei singoli PNG legacy:** resta aperto, così come l'eventuale
+  recupero di avvisi copyright specifici delle distribuzioni originali.
+- [ ] **Test opzionali e multiplayer:** non dichiarati superati.
