@@ -173,7 +173,7 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import json, zipfile
+          import json, struct, zipfile
           jars = sorted(Path("build/release-qa").glob("*.jar"))
           assert len(jars) == 1, f"Expected exactly one JAR: {jars}"
           versions = [line.split("=", 1)[1] for line in
@@ -183,15 +183,31 @@ jobs:
           with zipfile.ZipFile(jars[0]) as jar:
               members = set(jar.namelist())
               for name in ("fabric.mod.json", "LICENSE_italiansdelight",
+                  "META-INF/NOTICE",
                   "META-INF/THIRD_PARTY_NOTICES.md",
-                  "META-INF/FDR_CRATES_LICENSE.md"):
-                  assert name in members, f"Missing notice in JAR: {name}"
+                  "META-INF/FDR_CRATES_LICENSE.md",
+                  "dev/italiansdelight/ItaliansDelight.class"):
+                  assert name in members, f"Missing required JAR entry: {name}"
               metadata = json.loads(jar.read("fabric.mod.json"))
               assert metadata["version"] == versions[0], metadata
               assert metadata["id"] == "italiansdelight"
+              assert metadata["license"] == "Apache-2.0", metadata
+              assert metadata["depends"]["minecraft"] == "~26.2", metadata
+              assert metadata["depends"]["java"] == ">=25", metadata
+              assert b"Apache License" in jar.read("LICENSE_italiansdelight")
+              assert b"Version 2.0, January 2004" in jar.read("LICENSE_italiansdelight")
+              assert b"Piergiuseppe Mastroserio (Pima95)" in jar.read("META-INF/NOTICE")
+              assert b"Rustic" in jar.read("META-INF/THIRD_PARTY_NOTICES.md")
               assert b"Copyright (c) 2020 vectorwing" in jar.read(
                   "META-INF/FDR_CRATES_LICENSE.md")
-              print("OK: JAR metadata", metadata["version"], "and embedded notices")
+              # Java 25 class-file major version is 69. Check the compiled
+              # entrypoint instead of trusting Gradle settings alone.
+              entrypoint = jar.read("dev/italiansdelight/ItaliansDelight.class")
+              assert entrypoint[:4] == bytes.fromhex("cafebabe"), "Invalid class magic"
+              bytecode_major = struct.unpack(">H", entrypoint[6:8])[0]
+              assert bytecode_major == 69, f"Expected Java 25 (69), got {bytecode_major}"
+              print("OK: JAR", metadata["version"], "MC 26.2 / Java 25",
+                    "Apache-2.0 and all attribution notices")
           PY
       - name: Upload Orchard development JAR (not a public release)
         uses: actions/upload-artifact@v4
