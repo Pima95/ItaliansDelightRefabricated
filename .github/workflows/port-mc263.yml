@@ -26,9 +26,9 @@ jobs:
       - name: Verify Poplar variants and textures
         run: python3 .github/scripts/check_poplar_26_3.py
       - name: Compile Java for Minecraft 26.3
-        run: ./gradlew compileJava --no-daemon --stacktrace --console=plain
+        run: bash ./gradlew compileJava --no-daemon --stacktrace --console=plain
       - name: Build Minecraft 26.3 artifact
-        run: ./gradlew build --no-daemon --console=plain
+        run: bash ./gradlew build --no-daemon --console=plain
       - name: Upload experimental JAR
         if: success()
         uses: actions/upload-artifact@v4
