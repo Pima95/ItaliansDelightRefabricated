@@ -35,6 +35,7 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.core.registries.Registries;
 import java.util.Optional;
@@ -60,7 +61,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.minecraft.world.level.block.SoundType;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.BlockTransformerHelper;
+import net.fabricmc.fabric.api.item.v1.BlockTransformerHelper;
 
 /**
  * Central registry for mod blocks and their BlockItems when they need to be placeable from the inventory.
@@ -348,8 +349,8 @@ public final class ModBlocks {
     public static final ResourceKey<Feature> FRUIT_CHERRY_TREE_FEATURE =
         ResourceKey.create(Registries.FEATURE, ModRegistries.id("fruit_cherry_tree"));
     public static final TreeGrower FRUIT_CHERRY_TREE_GROWER = new TreeGrower(
-        "italiansdelight:fruit_cherry", Optional.empty(),
-        Optional.of(FRUIT_CHERRY_TREE_FEATURE), Optional.empty()
+        "italiansdelight:fruit_cherry", WeightedList.of(FRUIT_CHERRY_TREE_FEATURE),
+        WeightedList.of(), WeightedList.of(), null
     );
     public static final ResourceKey<Block> FRUIT_CHERRY_SAPLING_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_sapling"));
@@ -380,8 +381,8 @@ public final class ModBlocks {
     public static final ResourceKey<Feature> ALMOND_TREE_FEATURE =
         ResourceKey.create(Registries.FEATURE, ModRegistries.id("almond_tree"));
     public static final TreeGrower ALMOND_TREE_GROWER = new TreeGrower(
-        "italiansdelight:almond", Optional.empty(),
-        Optional.of(ALMOND_TREE_FEATURE), Optional.empty()
+        "italiansdelight:almond", WeightedList.of(ALMOND_TREE_FEATURE),
+        WeightedList.of(), WeightedList.of(), null
     );
     public static final ResourceKey<Block> ALMOND_SAPLING_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_sapling"));
@@ -421,10 +422,8 @@ public final class ModBlocks {
     public static final ResourceKey<Feature> ANCIENT_OLIVE_TREE_FEATURE =
         ResourceKey.create(Registries.FEATURE, ModRegistries.id("ancient_olive_tree"));
     public static final TreeGrower OLIVE_TREE_GROWER = new TreeGrower(
-        "italiansdelight:olive",
-        Optional.of(ANCIENT_OLIVE_TREE_FEATURE),
-        Optional.of(OLIVE_TREE_FEATURE),
-        Optional.empty()
+        "italiansdelight:olive", WeightedList.of(OLIVE_TREE_FEATURE),
+        WeightedList.of(ANCIENT_OLIVE_TREE_FEATURE), WeightedList.of(), null
     );
     public static final ResourceKey<Block> OLIVE_SAPLING_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_sapling"));
