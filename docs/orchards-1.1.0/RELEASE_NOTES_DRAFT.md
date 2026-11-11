@@ -2,7 +2,7 @@
 
 **Draft release notes — NOT YET PUBLISHED**
 
-**Internal testing version: 1.1.0-rc.1.** Not a public GitHub or CurseForge release.
+**Staged release branch: 1.1.0.** Prepared from the tested 1.1.0-rc.1; not yet a public GitHub, CurseForge or Modrinth release.
 Minecraft 26.2 · Fabric · Farmer's Delight Refabricated add-on
 
 ## What's new
