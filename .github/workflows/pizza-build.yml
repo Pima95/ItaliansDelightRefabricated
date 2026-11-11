@@ -26,6 +26,8 @@ jobs:
           java-version: '25'
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
+      - name: Verify ignored files are not tracked
+        run: python3 .github/scripts/check_ignored_tracked_files.py
       - name: Verify approved procedural olive trunk and canopy shapes
         run: python3 .github/scripts/check_olive_procedural_placement.py
       - name: Verify Olive sapling normal and ancient tree definitions
