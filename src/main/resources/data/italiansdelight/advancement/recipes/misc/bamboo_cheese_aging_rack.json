@@ -24,7 +24,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "italiansdelight:bamboo_cheese_aging_rack"
+        "recipes": "italiansdelight:bamboo_cheese_aging_rack"
       }
     }
   },

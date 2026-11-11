@@ -24,7 +24,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "italiansdelight:crimson_cheese_aging_rack"
+        "recipes": "italiansdelight:crimson_cheese_aging_rack"
       }
     }
   },
