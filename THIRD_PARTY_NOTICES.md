@@ -44,13 +44,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-This NOTICE supplements this project's own `LICENSE`; it does not transfer authorship of third-party art, and it does not claim that PuurpZ or cadaverous_queen endorse this project. If a more specific upstream copyright notice is identified in a source distribution, retain that notice as well.
+These third-party notices supplement the project's Apache-2.0 `LICENSE` and its separate `NOTICE` attribution file; they do not transfer authorship of third-party art, and it does not claim that PuurpZ or cadaverous_queen endorse this project. If a more specific upstream copyright notice is identified in a source distribution, retain that notice as well.
 
 ## Distribution packaging and attribution limits — 11 November 2026
 
 The development JAR includes `META-INF/THIRD_PARTY_NOTICES.md` and
 `META-INF/FDR_CRATES_LICENSE.md` (original source's MIT notice with
-**Copyright (c) 2020 vectorwing**) alongside its own `LICENSE`.
+**Copyright (c) 2020 vectorwing**) alongside the project's Apache-2.0 `LICENSE` and `META-INF/NOTICE`.
 The five Orchard crates retain adapted Farmer's Delight wooden crate
 texture elements; see [the per-feature license note](docs/orchards-1.1.0/FDR_CRATES_LICENSE.md).
 
