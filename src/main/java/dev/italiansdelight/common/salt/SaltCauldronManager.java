@@ -199,12 +199,13 @@ public final class SaltCauldronManager {
             && !level.isRaining()
             && !level.isThundering();
 
+        // Reuse a single mutable position: no allocation per cauldron/tick.
+        BlockPos.MutableBlockPos reusablePos = new BlockPos.MutableBlockPos();
         while (iterator.hasNext()) {
-            Map.Entry<Long, Integer> entry =
-                iterator.next();
-
-            BlockPos pos =
-                BlockPos.of(entry.getKey());
+            Map.Entry<Long, Integer> entry = iterator.next();
+            long packed = entry.getKey();
+            BlockPos pos = reusablePos.set(
+                    BlockPos.getX(packed), BlockPos.getY(packed), BlockPos.getZ(packed));
 
             // Unloaded chunks must neither progress nor be force-loaded.
             if (!level.hasChunkAt(pos)) {

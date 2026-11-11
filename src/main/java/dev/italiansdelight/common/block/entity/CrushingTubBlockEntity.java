@@ -40,11 +40,16 @@ public final class CrushingTubBlockEntity extends BlockEntity {
     // Sampling this server-side avoids the vanilla fallOn 0.2-block offset
     // that mistakes our real 1/16-high inner floor for the block below.
     private final Map<UUID, Long> airborneInside = new HashMap<>();
+    // The basin bounds cannot change for a placed BlockEntity.
+    private final AABB activeArea;
     private static final double RIM_CLEARANCE_Y = 10.0 / 16.0;
     private static final double BASIN_FLOOR_Y = 1.0 / 16.0;
 
     public CrushingTubBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CRUSHING_TUB, pos, state);
+        activeArea = new AABB(pos.getX() + 1.0 / 16.0, pos.getY(),
+                pos.getZ() + 1.0 / 16.0, pos.getX() + 15.0 / 16.0,
+                pos.getY() + 2.25, pos.getZ() + 15.0 / 16.0);
     }
 
     public ItemStack getInput() { return input.copy(); }
@@ -103,10 +108,7 @@ public final class CrushingTubBlockEntity extends BlockEntity {
 
         // Track airborne players/mobs even at their jump apex, but limit X/Z
         // to this basin. Adjacent blocks and other tubs never share state.
-        AABB area = new AABB(pos.getX() + 1.0 / 16.0, pos.getY(),
-                pos.getZ() + 1.0 / 16.0, pos.getX() + 15.0 / 16.0,
-                pos.getY() + 2.25, pos.getZ() + 15.0 / 16.0);
-        for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, area)) {
+        for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, tub.activeArea)) {
             double x = entity.getX() - pos.getX();
             double z = entity.getZ() - pos.getZ();
             if (x <= 2.0 / 16.0 || x >= 14.0 / 16.0 ||

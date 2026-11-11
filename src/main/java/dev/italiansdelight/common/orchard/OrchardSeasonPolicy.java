@@ -17,6 +17,10 @@ import net.minecraft.world.level.Level;
 public final class OrchardSeasonPolicy {
     public enum Fruit { OLIVE, ALMOND, CHERRY }
 
+    // The installed mod set cannot change while a game process is running.
+    private static final boolean SERENE_SEASONS_LOADED =
+            FabricLoader.getInstance().isModLoaded("sereneseasons");
+
     private OrchardSeasonPolicy() {}
 
     /**
@@ -25,7 +29,7 @@ public final class OrchardSeasonPolicy {
      * 1=autumn colors, 2=bare winter twigs.
      */
     public static int foliagePhase(Level level, BlockPos pos, Fruit fruit) {
-        if (fruit == Fruit.OLIVE || !FabricLoader.getInstance().isModLoaded("sereneseasons")) {
+        if (fruit == Fruit.OLIVE || !SERENE_SEASONS_LOADED) {
             return 0;
         }
         return SereneSeasonsOrchardBridge.foliagePhase(level, pos, fruit);
@@ -42,7 +46,7 @@ public final class OrchardSeasonPolicy {
     }
 
     public static int maxStage(Level level, BlockPos pos, Fruit fruit, int vanillaMax) {
-        if (!FabricLoader.getInstance().isModLoaded("sereneseasons")) {
+        if (!SERENE_SEASONS_LOADED) {
             return vanillaMax;
         }
         // The adapter is not loaded/linked without the optional mod.
