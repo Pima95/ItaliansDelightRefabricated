@@ -2,6 +2,7 @@ package dev.italiansdelight.common.block;
 
 import dev.italiansdelight.common.registry.ModItems;
 
+import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -135,7 +136,7 @@ private static final int MIN_SALT_DROP = 3;
         if (!player.addItem(salt)) {
             player.drop(
                 salt,
-                false
+                Prediction.SERVER_ONLY
             );
         }
 
