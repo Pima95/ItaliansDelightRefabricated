@@ -1,9 +1,6 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
-import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
-import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
-import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaOvenBlockEntity;
 import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
@@ -15,7 +12,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.BlockEntityTypes;
 
 /**
  * Central registry for Italian's Delight BlockEntities.
@@ -35,14 +31,6 @@ public final class ModBlockEntities {
 
     public static final BlockEntityType<PizzaOvenBlockEntity> PIZZA_OVEN =
         register("pizza_oven", PizzaOvenBlockEntity::new, ModBlocks.PIZZA_OVEN);
-
-    public static final BlockEntityType<CrushingTubBlockEntity> CRUSHING_TUB =
-        register("crushing_tub", CrushingTubBlockEntity::new, ModBlocks.CRUSHING_TUB);
-
-    public static final BlockEntityType<BarrelBlockEntity> BARREL =
-        register("barrel", BarrelBlockEntity::new, ModBlocks.BARREL);
-    public static final BlockEntityType<FluidCauldronBlockEntity> FLUID_CAULDRON =
-        register("fluid_cauldron", FluidCauldronBlockEntity::new, ModBlocks.FLUID_CAULDRON);
 
     public static final BlockEntityType<CheeseVatBlockEntity> CHEESE_VAT =
         register(
@@ -80,10 +68,7 @@ public final class ModBlockEntities {
             ModBlocks.PALE_OAK_CHEESE_AGING_RACK,
             ModBlocks.BAMBOO_CHEESE_AGING_RACK,
             ModBlocks.CRIMSON_CHEESE_AGING_RACK,
-            ModBlocks.WARPED_CHEESE_AGING_RACK,
-            ModBlocks.OLIVE_CHEESE_AGING_RACK,
-            ModBlocks.ALMOND_CHEESE_AGING_RACK,
-            ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK
+            ModBlocks.WARPED_CHEESE_AGING_RACK
         );
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
@@ -99,65 +84,6 @@ public final class ModBlockEntities {
     }
 
     public static void register() {
-        // Native 26.2 shelf: register our wood variant with the same type as
-        // the vanilla shelves, so three-item storage, persistence and the
-        // existing shelf item renderer work on modded olive blocks.
-        CRUSHING_TUB.addValidBlock(ModBlocks.SPRUCE_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.BIRCH_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.JUNGLE_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.ACACIA_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.DARK_OAK_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.MANGROVE_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.CHERRY_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.PALE_OAK_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.BAMBOO_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.CRIMSON_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.WARPED_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.OLIVE_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.ALMOND_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.FRUIT_CHERRY_CRUSHING_TUB);
-
-        BARREL.addValidBlock(ModBlocks.SPRUCE_BARREL);
-        BARREL.addValidBlock(ModBlocks.BIRCH_BARREL);
-        BARREL.addValidBlock(ModBlocks.JUNGLE_BARREL);
-        BARREL.addValidBlock(ModBlocks.ACACIA_BARREL);
-        BARREL.addValidBlock(ModBlocks.DARK_OAK_BARREL);
-        BARREL.addValidBlock(ModBlocks.MANGROVE_BARREL);
-        BARREL.addValidBlock(ModBlocks.CHERRY_BARREL);
-        BARREL.addValidBlock(ModBlocks.PALE_OAK_BARREL);
-        BARREL.addValidBlock(ModBlocks.BAMBOO_BARREL);
-        BARREL.addValidBlock(ModBlocks.CRIMSON_BARREL);
-        BARREL.addValidBlock(ModBlocks.WARPED_BARREL);
-        BARREL.addValidBlock(ModBlocks.OLIVE_BARREL);
-        BARREL.addValidBlock(ModBlocks.ALMOND_BARREL);
-        BARREL.addValidBlock(ModBlocks.FRUIT_CHERRY_BARREL);
-
-        BlockEntityTypes.SHELF.addValidBlock(ModBlocks.OLIVE_SHELF);
-        BlockEntityTypes.SHELF.addValidBlock(ModBlocks.ALMOND_SHELF);
-        BlockEntityTypes.SHELF.addValidBlock(ModBlocks.FRUIT_CHERRY_SHELF);
-
-        // Vanilla sign block entities keep writable text, both sides and dye.
-        // Keep their four modded block variants in the vanilla BE type.
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_WALL_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_WALL_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_WALL_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_WALL_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN);
-
-        // Reuse Farmer's Delight 27-slot cabinet BE: it already implements
-        // screen, automation, sounds, comparator, save and open/close state.
-        vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
-            .addValidBlock(ModBlocks.OLIVE_CABINET);
-        vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
-            .addValidBlock(ModBlocks.ALMOND_CABINET);
-        vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
-            .addValidBlock(ModBlocks.FRUIT_CHERRY_CABINET);
+        
     }
 }

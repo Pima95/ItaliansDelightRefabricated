@@ -1,9 +1,0 @@
-{
-  "parent": "italiansdelight:block/template_almond_cake",
-  "textures": {
-    "bottom": "italiansdelight:block/cherry_tart_bottom",
-    "side": "italiansdelight:block/cherry_tart_side",
-    "top": "italiansdelight:block/cherry_tart_top",
-    "inner": "italiansdelight:block/cherry_tart_inner"
-  }
-}

@@ -175,10 +175,9 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
                 || !(server.getBlockEntity(pos) instanceof CookedPizzaBlockEntity entity)) {
             return InteractionResult.FAIL;
         }
-        // A free-standing slice has no original whole-pizza orientation:
-        // always select by the actual visible block facing instead.
+        PizzaItemData data = entity.pizza();
         int q = PizzaQuarterSelection.physicalQuarter(
-                state.getValue(FACING).getName(),
+                data.composition().orientation(),
                 hit.getLocation().x - pos.getX(),
                 hit.getLocation().z - pos.getZ());
         int bit = 1 << q;
@@ -187,7 +186,7 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
             return InteractionResult.PASS; // Already eaten or empty hit region.
         }
 
-        ItemStack slice = PizzaSliceFactory.create(entity.sliceAt(q));
+        ItemStack slice = PizzaSliceFactory.create(data, q);
         // Established pizza serving rule: an inventory with no capacity
         // must NOT consume the slice and must NOT drop it to the ground.
         // Slots with a compatible non-full stack still count as capacity.
@@ -203,12 +202,6 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
                         Block.UPDATE_ALL);
         if (!changed) {
             return InteractionResult.FAIL;
-        }
-
-        // Once served, this pizza is permanently slice-only, even if all
-        // four positions are later filled with slices from other pizzas.
-        if (remaining != bit) {
-            entity.markServed(q);
         }
 
         // Inventory space was validated before changing the block. If an
@@ -245,7 +238,7 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
         }
         PizzaItemData pizza = entity.pizza();
         int mask = state.getValue(REMAINING);
-        if (mask == PizzaQuarterSelection.ALL_QUARTERS && !entity.servedEver()) {
+        if (mask == PizzaQuarterSelection.ALL_QUARTERS) {
             ItemStack whole = new ItemStack(ModItems.COOKED_PIZZA);
             whole.set(ModDataComponents.PIZZA_CONTENTS, pizza);
             PizzaDisplayNames.nameWholeStack(whole, pizza);
@@ -255,7 +248,7 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
         List<ItemStack> drops = new ArrayList<>();
         for (int q = 0; q < 4; q++) {
             if ((mask & (1 << q)) != 0) {
-                drops.add(PizzaSliceFactory.create(entity.sliceAt(q)));
+                drops.add(PizzaSliceFactory.create(pizza, q));
             }
         }
         return List.copyOf(drops);

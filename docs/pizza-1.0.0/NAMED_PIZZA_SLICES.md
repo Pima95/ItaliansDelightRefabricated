@@ -4,34 +4,6 @@
 **Branch:** `feature/pizza-1.0.0`  
 **Stato:** texture approvate dall'autore il 21 ottobre 2026; test funzionali estesi ancora da completare.
 
-## Correzione autorizzata — spicchi senza mozzarella filante (10 novembre 2026)
-
-L'autore ha autorizzato **esclusivamente** il ritocco delle texture di quattro
-spicchi privi di mozzarella o altri formaggi realmente filanti:
-`pizza_slice_bianca.png`, `pizza_slice_rossa.png`,
-`pizza_slice_guanciale_pecorino_rossa.png` e
-`pizza_slice_mortadella_ricotta_mandorle.png`.
-
-Le quattro icone avevano ereditato dalla Margherita originale due colature
-color crema lungo il bordo inferiore, anche quando la ricetta non conteneva
-mozzarella. Da ciascun PNG sono stati **rimossi nove pixel pendenti**
-(con alpha 0) e un singolo pixel rosso sulla punta è stato sostituito con
-l'impasto cotto marrone. Il risultato è una fetta con punta pulita e bordo
-di pane croccante. Tutti i **38 pixel di condimento di ogni gusto restano
-esattamente invariati**; il restante contorno mantiene gli stessi colori
-e posizioni del riferimento originale. Non cambiano modelli, item ID,
-salvataggi, nomi o dati delle pizze.
-
-**L'originale `margherita_slice.png` e tutti gli altri gusti, compreso
-`pizza_slice_custom.png`, rimangono immutati**. La texture personalizzata
-è ancora da valutare a parte.
-
-Lo script `.github/scripts/check_named_pizza_slices.py` ora ammette
-solo questi dieci interventi per ciascuno dei quattro gusti, verifica
-l'assenza delle colature, vincola i 38 pixel di farcitura con SHA-256,
-preserva tutti gli altri 208 pixel esterni e continua a impedire modifiche
-alla Margherita e agli spicchi non autorizzati.
-
 ## Approvazione finale delle texture — 21 ottobre 2026
 
 **Conferma dell'autore:** «Questi spicchi vanno bene, procediamo». La seconda serie delle **18 texture varianti degli spicchi** (17 gusti + fallback) è quindi **approvata in gioco per l'aspetto visivo e la distinguibilità**. La build funzionava già nei test precedenti. Anche le texture delle pizze intere erano già state approvate.
@@ -131,24 +103,3 @@ Lo script `.github/scripts/check_named_pizza_slices.py`:
 **Limite da controllare:** eventuali `pizza_slice` creati in salvataggi precedenti, già presenti in un inventario senza `DataComponents.ITEM_MODEL`, continueranno temporaneamente a utilizzare il modello base predefinito finché non vengono ricreati tramite `PizzaSliceFactory.create`. Non introdurre una migrazione automatica senza una decisione separata dell'autore.
 
 **Fase seguente:** collaudare l'insieme in Minecraft prima di qualsiasi rebalancing o nuovo contenuto pizza; non apportare revisioni a immagini già approvate senza autorizzazione.
-
-
-## Revisione della punta — 11 novembre 2026
-
-L'autore ha verificato in Minecraft che il riposizionamento degli spicchi
-funziona, ma ha notato che il prolungamento precedente produceva una curva
-verso l'alto. La correzione approvata riguarda solo i quattro spicchi senza
-mozzarella filante: Bianca, Rossa, Guanciale e Pecorino rossa,
-Mortadella–Ricotta–Mandorle.
-
-La punta parte dal corpo senza la sporgenza alta ai pixel (1,10) e (2,10)
-e scende lungo un triangolo progressivo, con bordo inferiore netto ai pixel
-(1,13) e (2,13). Pixel di condimento modificati: **nessuno**; tutti i 38 pixel
-di farcitura rimangono invariati in ciascuna texture.
-La Margherita e gli altri gusti restano invariati. Il modello resta 16×16
-con alpha esclusivamente 0 o 255. Il controllo automatico
-`.github/scripts/check_named_pizza_slices.py` verifica la geometria
-delle ultime quattro righe e vieta nuove colature.
-
-Le meccaniche di pizza, ricollocamento, salvataggio, caduta degli spicchi
-e recupero della pizza intera non sono state alterate.

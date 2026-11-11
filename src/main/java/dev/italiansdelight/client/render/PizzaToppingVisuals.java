@@ -8,8 +8,6 @@ import dev.italiansdelight.common.pizza.PizzaToppingCatalog;
 import dev.italiansdelight.common.pizza.PizzaToppingType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -38,9 +36,6 @@ public final class PizzaToppingVisuals {
     private static final float LAYER_BIAS = 0.000012F;
     private static final String SAUCE_PREFIX = "textures/block/pizza_toppings/";
     private static final String SPRITE_PREFIX = "textures/block/pizza_topping_sprites/";
-    // A small finite set of textures is referenced by every pizza; cache the
-    // immutable Identifier objects rather than recreate them each frame.
-    private static final Map<String, Identifier> TEXTURE_IDS = new ConcurrentHashMap<>();
 
     private PizzaToppingVisuals() {
     }
@@ -66,16 +61,8 @@ public final class PizzaToppingVisuals {
             PizzaComposition composition, boolean legacyMozzarella,
             int visibleQuarters
     ) {
-        return extract(composition, legacyMozzarella ? visibleQuarters : 0, visibleQuarters);
-    }
-
-    /** A moved legacy mozzarella quarter must not paint another quarter. */
-    public static Visuals extract(
-            PizzaComposition composition, int legacyMozzarellaMask,
-            int visibleQuarters
-    ) {
         int mask = visibleQuarters & ALL_QUARTERS;
-        if (mask == 0 || (composition.applications().isEmpty() && legacyMozzarellaMask == 0)) {
+        if (mask == 0 || (composition.applications().isEmpty() && !legacyMozzarella)) {
             return Visuals.EMPTY;
         }
 
@@ -112,10 +99,10 @@ public final class PizzaToppingVisuals {
                         covered, application.sequence()));
             }
         }
-        if ((legacyMozzarellaMask & mask) != 0) {
+        if (legacyMozzarella) {
             solids.add(new Solid(
                     texture(SPRITE_PREFIX, "legacy_mozzarella"),
-                    legacyMozzarellaMask & mask, 1_000_000L));
+                    mask, 1_000_000L));
         }
 
         List<Fragment> fragments = new ArrayList<>();
@@ -123,13 +110,13 @@ public final class PizzaToppingVisuals {
             if ((mask & (1 << q)) == 0) {
                 continue;
             }
-            // Count and traverse in original order without allocating a
-            // temporary list for each of the four physical quarters.
-            int quarterBit = 1 << q;
-            int count = 0;
+            List<Solid> entries = new ArrayList<>();
             for (Solid solid : solids) {
-                if ((solid.mask() & quarterBit) != 0) count++;
+                if ((solid.mask() & (1 << q)) != 0) {
+                    entries.add(solid);
+                }
             }
+            int count = entries.size();
             if (count == 0) {
                 continue;
             }
@@ -147,8 +134,7 @@ public final class PizzaToppingVisuals {
                     composition.renderSeed(), q);
 
             int cursor = 0;
-            for (Solid solid : solids) {
-                if ((solid.mask() & quarterBit) == 0) continue;
+            for (Solid solid : entries) {
                 for (int copy = 0; copy < repeats; copy++) {
                     int seat = seatOrder[cursor];
                     int x = (seat % seatsPerAxis) * size;
@@ -192,9 +178,8 @@ public final class PizzaToppingVisuals {
     }
 
     private static Identifier texture(String prefix, String name) {
-        String path = prefix + name + ".png";
-        return TEXTURE_IDS.computeIfAbsent(path,
-                key -> Identifier.fromNamespaceAndPath("italiansdelight", key));
+        return Identifier.fromNamespaceAndPath(
+                "italiansdelight", prefix + name + ".png");
     }
 
     public static void submit(

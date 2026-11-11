@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-05",
+  "tool": "imagegen built-in",
+  "size": [
+    16,
+    16
+  ],
+  "alpha": [
+    0,
+    255
+  ],
+  "entries": [
+    {
+      "id": "pasta_alla_carbonara",
+      "label": "Pasta alla Carbonara",
+      "ref": "pasta_with_meatballs",
+      "prompt": "Create ONE finished Minecraft item texture for Italian's Delight, STRICTLY matching the attached Farmer's Delight Refabricated sprites. This is an actual SIXTEEN BY SIXTEEN (16x16) pixel-art sprite, not a detailed illustration. If enlarged for output, every logical pixel must be a perfectly flat solid square on a 16x16 grid, with no smaller subpixels, gradients, blur, antialiasing, glow or soft edges. Transparent background; every foreground pixel 100% opaque, background 0% opaque. References: image 1 is the main Farmer's Delight item style/bowl reference; image 2 is a sheet of original Farmer's Delight items for palette, proportion and level of simplification only. Produce only one item, no sheet, no labels. Preserve the reference's squat dark brown wooden bowl, its dark umber outline, low right-side shadow, ochre rim, position near the lower third, shallow three-quarter view, and the scale of the food mound above it. Match the original restrained flat palette and chunky pixel clusters, readable at 16x16. Bowl spans about 14-16 logical pixels across and is only 4 pixels tall; do not use ceramic or a deep soup bowl. No utensil, steam, garnish unrelated to the dish, surrounding scene, cast shadow or background. The art must look like another official Farmer's Delight food item placed next to the references. Dish: spaghetti alla carbonara. Replace the meatballs/tomato from the reference with a compact nest of GOLDEN EGG-YOLK yellow pasta strands, creamy warm yellow highlights, 3-4 small dark reddish-brown guanciale cubes, and only 2 tiny charcoal black pepper pixels. The creamy yellow food must dominate. Distinct bent 2-3 pixel noodle clusters; no large meatball, no red tomato sauce, no green parsley, no fried egg on top. Use about 14-18 opaque palette colors including the bowl.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/pasta_alla_carbonara.png",
+      "reference_textures": [
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_mutton_chop",
+        "farmersdelight:item/mushroom_rice",
+        "farmersdelight:item/fried_rice"
+      ]
+    },
+    {
+      "id": "pasta_alla_gricia",
+      "label": "Pasta alla Gricia",
+      "ref": "pasta_with_meatballs",
+      "prompt": "Create ONE finished Minecraft item texture for Italian's Delight, STRICTLY matching the attached Farmer's Delight Refabricated sprites. This is an actual SIXTEEN BY SIXTEEN (16x16) pixel-art sprite, not a detailed illustration. If enlarged for output, every logical pixel must be a perfectly flat solid square on a 16x16 grid, with no smaller subpixels, gradients, blur, antialiasing, glow or soft edges. Transparent background; every foreground pixel 100% opaque, background 0% opaque. References: image 1 is the main Farmer's Delight item style/bowl reference; image 2 is a sheet of original Farmer's Delight items for palette, proportion and level of simplification only. Produce only one item, no sheet, no labels. Preserve the reference's squat dark brown wooden bowl, its dark umber outline, low right-side shadow, ochre rim, position near the lower third, shallow three-quarter view, and the scale of the food mound above it. Match the original restrained flat palette and chunky pixel clusters, readable at 16x16. Bowl spans about 14-16 logical pixels across and is only 4 pixels tall; do not use ceramic or a deep soup bowl. No utensil, steam, garnish unrelated to the dish, surrounding scene, cast shadow or background. The art must look like another official Farmer's Delight food item placed next to the references. Dish: pasta alla gricia. Replace the reference's meatballs/tomato with short curved pasta strips in PALE IVORY and light beige pecorino cream, a few crisp burgundy-brown guanciale cubes with light fat edges, and 2 small dark pepper pixels. The pale ivory noodles dominate; this must clearly differ from the golden yellow carbonara. No egg, tomato, parsley, green garnish or meatballs. About 14-18 opaque palette colors including bowl.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/pasta_alla_gricia.png",
+      "reference_textures": [
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_mutton_chop",
+        "farmersdelight:item/mushroom_rice",
+        "farmersdelight:item/fried_rice"
+      ]
+    },
+    {
+      "id": "pasta_all_amatriciana",
+      "label": "Pasta all'Amatriciana",
+      "ref": "pasta_with_meatballs",
+      "prompt": "Create ONE finished Minecraft item texture for Italian's Delight, STRICTLY matching the attached Farmer's Delight Refabricated sprites. This is an actual SIXTEEN BY SIXTEEN (16x16) pixel-art sprite, not a detailed illustration. If enlarged for output, every logical pixel must be a perfectly flat solid square on a 16x16 grid, with no smaller subpixels, gradients, blur, antialiasing, glow or soft edges. Transparent background; every foreground pixel 100% opaque, background 0% opaque. References: image 1 is the main Farmer's Delight item style/bowl reference; image 2 is a sheet of original Farmer's Delight items for palette, proportion and level of simplification only. Produce only one item, no sheet, no labels. Preserve the reference's squat dark brown wooden bowl, its dark umber outline, low right-side shadow, ochre rim, position near the lower third, shallow three-quarter view, and the scale of the food mound above it. Match the original restrained flat palette and chunky pixel clusters, readable at 16x16. Bowl spans about 14-16 logical pixels across and is only 4 pixels tall; do not use ceramic or a deep soup bowl. No utensil, steam, garnish unrelated to the dish, surrounding scene, cast shadow or background. The art must look like another official Farmer's Delight food item placed next to the references. Dish: spaghetti all'amatriciana. A nest of red-orange tomato-coated pasta, sparse warm golden noodle highlights, small dark reddish-brown crisp guanciale cubes and 2-3 tiny ivory pecorino shavings. Food is predominantly brick red and muted tomato orange. Replace all large meatballs from the reference with small guanciale pieces. No basil, parsley, whole tomatoes, large meatballs or egg. Bent short pixel lines read as noodles. About 14-18 opaque palette colors including bowl.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/pasta_all_amatriciana.png",
+      "reference_textures": [
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_mutton_chop",
+        "farmersdelight:item/mushroom_rice",
+        "farmersdelight:item/fried_rice"
+      ]
+    },
+    {
+      "id": "pasta_with_speck_and_gorgonzola",
+      "label": "Pasta con Speck e Gorgonzola",
+      "ref": "pasta_with_meatballs",
+      "prompt": "Create ONE finished Minecraft item texture for Italian's Delight, STRICTLY matching the attached Farmer's Delight Refabricated sprites. This is an actual SIXTEEN BY SIXTEEN (16x16) pixel-art sprite, not a detailed illustration. If enlarged for output, every logical pixel must be a perfectly flat solid square on a 16x16 grid, with no smaller subpixels, gradients, blur, antialiasing, glow or soft edges. Transparent background; every foreground pixel 100% opaque, background 0% opaque. References: image 1 is the main Farmer's Delight item style/bowl reference; image 2 is a sheet of original Farmer's Delight items for palette, proportion and level of simplification only. Produce only one item, no sheet, no labels. Preserve the reference's squat dark brown wooden bowl, its dark umber outline, low right-side shadow, ochre rim, position near the lower third, shallow three-quarter view, and the scale of the food mound above it. Match the original restrained flat palette and chunky pixel clusters, readable at 16x16. Bowl spans about 14-16 logical pixels across and is only 4 pixels tall; do not use ceramic or a deep soup bowl. No utensil, steam, garnish unrelated to the dish, surrounding scene, cast shadow or background. The art must look like another official Farmer's Delight food item placed next to the references. Dish: pasta with speck and gorgonzola. Pale warm ivory curled noodle ribbons coated in creamy cheese sauce, 3 small burgundy/rose speck strips, and 2 small cheese fragments with muted blue-green mold flecks (only 2-3 teal pixels total). Dominant creamy ivory, clear 2-3 pixel curved noodle strands, contrasting speck and subtle desaturated teal. No herbs or vegetables, no tomato sauce, no meatballs. About 16-20 opaque palette colors including bowl.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/pasta_with_speck_and_gorgonzola.png",
+      "reference_textures": [
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_mutton_chop",
+        "farmersdelight:item/mushroom_rice",
+        "farmersdelight:item/fried_rice"
+      ]
+    },
+    {
+      "id": "risotto_with_speck_and_gorgonzola",
+      "label": "Risotto con Speck e Gorgonzola",
+      "ref": "mushroom_rice",
+      "prompt": "Create ONE finished Minecraft item texture for Italian's Delight, STRICTLY matching the attached Farmer's Delight Refabricated sprites. This is an actual SIXTEEN BY SIXTEEN (16x16) pixel-art sprite, not a detailed illustration. If enlarged for output, every logical pixel must be a perfectly flat solid square on a 16x16 grid, with no smaller subpixels, gradients, blur, antialiasing, glow or soft edges. Transparent background; every foreground pixel 100% opaque, background 0% opaque. References: image 1 is the main Farmer's Delight item style/bowl reference; image 2 is a sheet of original Farmer's Delight items for palette, proportion and level of simplification only. Produce only one item, no sheet, no labels. Preserve the reference's squat dark brown wooden bowl, its dark umber outline, low right-side shadow, ochre rim, position near the lower third, shallow three-quarter view, and the scale of the food mound above it. Match the original restrained flat palette and chunky pixel clusters, readable at 16x16. Bowl spans about 14-16 logical pixels across and is only 4 pixels tall; do not use ceramic or a deep soup bowl. No utensil, steam, garnish unrelated to the dish, surrounding scene, cast shadow or background. The art must look like another official Farmer's Delight food item placed next to the references. Dish: risotto with speck and gorgonzola. Replace all mushrooms, red garnish and vegetables from the rice reference with a low compact mound of pale ivory creamy RICE, using tiny single-pixel and paired-pixel rice grains, 3 little burgundy/rose speck pieces and 2 restrained desaturated blue-green cheese flecks. Rice grains must be short dots/clusters, never spaghetti strands. Ivory rice dominates, a flatter mound than pasta, speck and gorgonzola remain visible. No mushrooms, tomato, parsley, large cheese wedge or topping. About 16-20 opaque palette colors including bowl.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/risotto_with_speck_and_gorgonzola.png",
+      "reference_textures": [
+        "farmersdelight:item/mushroom_rice",
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_mutton_chop",
+        "farmersdelight:item/mushroom_rice",
+        "farmersdelight:item/fried_rice"
+      ]
+    },
+    {
+      "id": "risotto_with_parmigiano",
+      "label": "Risotto al Parmigiano",
+      "ref": "mushroom_rice",
+      "prompt": "Create ONE finished Minecraft item texture for Italian's Delight, STRICTLY matching the attached Farmer's Delight Refabricated sprites. This is an actual SIXTEEN BY SIXTEEN (16x16) pixel-art sprite, not a detailed illustration. If enlarged for output, every logical pixel must be a perfectly flat solid square on a 16x16 grid, with no smaller subpixels, gradients, blur, antialiasing, glow or soft edges. Transparent background; every foreground pixel 100% opaque, background 0% opaque. References: image 1 is the main Farmer's Delight item style/bowl reference; image 2 is a sheet of original Farmer's Delight items for palette, proportion and level of simplification only. Produce only one item, no sheet, no labels. Preserve the reference's squat dark brown wooden bowl, its dark umber outline, low right-side shadow, ochre rim, position near the lower third, shallow three-quarter view, and the scale of the food mound above it. Match the original restrained flat palette and chunky pixel clusters, readable at 16x16. Bowl spans about 14-16 logical pixels across and is only 4 pixels tall; do not use ceramic or a deep soup bowl. No utensil, steam, garnish unrelated to the dish, surrounding scene, cast shadow or background. The art must look like another official Farmer's Delight food item placed next to the references. Dish: risotto with Parmigiano Reggiano. Replace all mushrooms and colored garnishes in the reference with a low, compact mound of creamy pale golden-ivory RICE with tiny short rice-grain highlights and a few light ivory grated Parmesan flakes, subtle light ochre/beige shading. This is a simple plain cheese risotto: absolutely NO meat, mushrooms, red pieces, green garnish, vegetables, saffron orange, blue cheese, cheese wedge or pasta strands. Short rice-grain clusters with 3-4 tiny brighter cheese flakes, restrained appetizing warm ivory palette. About 12-16 opaque palette colors including bowl.",
+      "path": "src/main/resources/assets/italiansdelight/textures/item/risotto_with_parmigiano.png",
+      "reference_textures": [
+        "farmersdelight:item/mushroom_rice",
+        "farmersdelight:item/pasta_with_meatballs",
+        "farmersdelight:item/pasta_with_mutton_chop",
+        "farmersdelight:item/mushroom_rice",
+        "farmersdelight:item/fried_rice"
+      ]
+    }
+  ],
+  "reference_mod": "Farmer's Delight Refabricated 26.2-3.6.26+refabricated",
+  "export": "Nearest-neighbor, bowl baseline y=13, fit visible artwork inside 16x12, alpha threshold 128 -> 0/255; no painted pixels or recoloring."
+}

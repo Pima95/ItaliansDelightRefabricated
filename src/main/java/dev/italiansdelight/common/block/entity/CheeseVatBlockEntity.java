@@ -160,15 +160,6 @@ public class CheeseVatBlockEntity
         cheeseVat.tryFillContainer();
         cheeseVat.tryFillWheyContainer(level);
 
-        // Avoid allocating RecipeInput and touching RecipeManager for idle
-        // machines; container packaging above must still run when idle.
-        if (cheeseVat.items.get(0).isEmpty()
-                && cheeseVat.items.get(1).isEmpty()
-                && cheeseVat.items.get(2).isEmpty()) {
-            cheeseVat.resetCookingProgress();
-            return;
-        }
-
         CheeseVatRecipeInput input =
             cheeseVat.createRecipeInput();
 
@@ -324,13 +315,14 @@ public class CheeseVatBlockEntity
             withContainer =
                 Optional.empty();
 
-        // RecipeManager maintains a typed view that is rebuilt automatically
-        // on datapack reload. Avoid scanning every vanilla/mod recipe per tick.
-        for (RecipeHolder<CheeseVatRecipe> holder :
-                recipeManager.getAllOfType(ModRecipes.CHEESE_VAT_TYPE)) {
-            CheeseVatRecipe recipe = holder.value();
+        for (
+            RecipeHolder<?> holder :
+            recipeManager.getRecipes()
+        ) {
             if (
-                recipe.getWheyAmount() > 0
+                !(holder.value() instanceof CheeseVatRecipe recipe)
+                || recipe.getType() != ModRecipes.CHEESE_VAT_TYPE
+                || recipe.getWheyAmount() > 0
                 || recipe.findMatchingIngredientSlots(input) == null
             ) {
                 continue;
@@ -515,12 +507,25 @@ public class CheeseVatBlockEntity
             }
         }
 
-        for (RecipeHolder<CheeseVatRecipe> holder :
-                recipeManager.getAllOfType(ModRecipes.CHEESE_VAT_TYPE)) {
-            CheeseVatRecipe recipe = holder.value();
-            if (recipe.getWheyAmount() > 0
-                    && canSupplyWhey(recipe, input, wheyItemSlot)) {
-                return Optional.of(holder);
+        for (
+            RecipeHolder<?> holder :
+            recipeManager.getRecipes()
+        ) {
+            if (
+                holder.value() instanceof CheeseVatRecipe recipe
+                && recipe.getType() == ModRecipes.CHEESE_VAT_TYPE
+                && recipe.getWheyAmount() > 0
+                && canSupplyWhey(
+                    recipe,
+                    input,
+                    wheyItemSlot
+                )
+            ) {
+                return Optional.of(
+                    castCheeseVatRecipeHolder(
+                        holder
+                    )
+                );
             }
         }
 

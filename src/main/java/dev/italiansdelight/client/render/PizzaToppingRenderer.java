@@ -38,12 +38,8 @@ public final class PizzaToppingRenderer
                 entity, state, partialTicks, cameraPosition, breakProgress);
 
         boolean legacy = entity.getBlockState().getValue(PizzaDoughBlock.MOZZARELLA);
-        var composition = entity.composition();
-        if (state.lastComposition != composition || state.lastLegacy != legacy) {
-            state.visuals = PizzaToppingVisuals.extract(composition, legacy, 0b1111);
-            state.lastComposition = composition;
-            state.lastLegacy = legacy;
-        }
+        state.visuals = PizzaToppingVisuals.extract(
+                entity.composition(), legacy, 0b1111);
     }
 
     @Override
@@ -56,7 +52,5 @@ public final class PizzaToppingRenderer
 
     public static final class State extends BlockEntityRenderState {
         private PizzaToppingVisuals.Visuals visuals = PizzaToppingVisuals.Visuals.EMPTY;
-        private dev.italiansdelight.common.pizza.PizzaComposition lastComposition;
-        private boolean lastLegacy;
     }
 }

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/button_pressed",
-  "textures": {
-    "texture": "italiansdelight:block/fruit_cherry_planks"
-  }
-}

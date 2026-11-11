@@ -25,9 +25,7 @@ EXPECTED = {
 }
 SPRITE_ROOT = ROOT.parent / "pizza_topping_sprites"
 SAUCES = {"tomato_sauce", "cream_bowl", "ricotta"}
-# Olive is a new 1.1.0 topping with a four-cell sprite atlas. The
-# previously released sauce and legacy 12px surfaces remain untouched.
-EXPECTED_SPRITES = (EXPECTED - SAUCES) | {"olive_pitted", "chopped_almonds"}
+EXPECTED_SPRITES = EXPECTED - SAUCES
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
 

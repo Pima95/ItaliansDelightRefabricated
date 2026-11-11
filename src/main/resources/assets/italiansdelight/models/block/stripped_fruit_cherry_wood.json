@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "italiansdelight:block/stripped_fruit_cherry_log"
-  }
-}

@@ -36,15 +36,9 @@ public final class CookedPizzaRenderer
                 entity, state, partialTicks, cameraPosition, breakProgress);
 
         int remaining = entity.getBlockState().getValue(CookedPizzaBlock.REMAINING);
-        var composition = entity.renderComposition();
-        int legacyMask = entity.renderLegacyMask();
-        if (state.lastComposition != composition || state.lastMask != remaining
-                || state.lastLegacyMask != legacyMask) {
-            state.visuals = PizzaToppingVisuals.extract(composition, legacyMask, remaining);
-            state.lastComposition = composition;
-            state.lastMask = remaining;
-            state.lastLegacyMask = legacyMask;
-        }
+        state.visuals = PizzaToppingVisuals.extract(
+                entity.pizza().composition(),
+                entity.pizza().legacyMozzarella(), remaining);
     }
 
     @Override
@@ -57,8 +51,5 @@ public final class CookedPizzaRenderer
 
     public static final class State extends BlockEntityRenderState {
         private PizzaToppingVisuals.Visuals visuals = PizzaToppingVisuals.Visuals.EMPTY;
-        private dev.italiansdelight.common.pizza.PizzaComposition lastComposition;
-        private int lastMask = -1;
-        private int lastLegacyMask = -1;
     }
 }
