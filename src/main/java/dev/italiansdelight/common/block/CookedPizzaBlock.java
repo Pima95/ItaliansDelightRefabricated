@@ -1,6 +1,5 @@
 package dev.italiansdelight.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
 import dev.italiansdelight.common.pizza.PizzaDoughSupport;
 import dev.italiansdelight.common.pizza.PizzaItemData;
@@ -52,10 +51,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * already been granted when cooking finished: NEVER refund source toppings.
  */
 public final class CookedPizzaBlock extends Block implements EntityBlock {
-    private static final MapCodec<CookedPizzaBlock> CODEC =
-            simpleCodec(CookedPizzaBlock::new);
-
-    public static final IntegerProperty REMAINING = IntegerProperty.create("remaining", 0, 15);
+public static final IntegerProperty REMAINING = IntegerProperty.create("remaining", 0, 15);
     public static final EnumProperty<Direction> FACING =
             BlockStateProperties.HORIZONTAL_FACING;
 
@@ -70,13 +66,7 @@ public final class CookedPizzaBlock extends Block implements EntityBlock {
                 .setValue(REMAINING, PizzaQuarterSelection.ALL_QUARTERS)
                 .setValue(FACING, Direction.NORTH));
     }
-
-    @Override
-    protected MapCodec<? extends Block> codec() {
-        return CODEC;
-    }
-
-    @Override
+@Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CookedPizzaBlockEntity(pos, state);
     }

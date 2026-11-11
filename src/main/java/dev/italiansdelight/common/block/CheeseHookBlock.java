@@ -3,7 +3,6 @@ package dev.italiansdelight.common.block;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.aging.HangingCheeseType;
 import dev.italiansdelight.common.aging.CheeseShapes;
@@ -61,11 +60,7 @@ public final class CheeseHookBlock extends BaseEntityBlock {
             "cheese",
             HangingCheeseType.class
         );
-
-    public static final MapCodec<CheeseHookBlock> CODEC =
-        simpleCodec(CheeseHookBlock::new);
-
-    private static final VoxelShape HOOK_SHAPE =
+private static final VoxelShape HOOK_SHAPE =
         Shapes.or(
             // Ceiling plate.
             Block.box(5, 14, 5, 11, 16, 11),
@@ -112,13 +107,7 @@ public final class CheeseHookBlock extends BaseEntityBlock {
                 )
         );
     }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
+@Override
     public BlockState getStateForPlacement(
         BlockPlaceContext context
     ) {

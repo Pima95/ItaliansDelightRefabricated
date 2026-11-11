@@ -1,6 +1,5 @@
 package dev.italiansdelight.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModItems;
 import java.util.List;
@@ -48,8 +47,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * BlockItem directly into exactly four slices as well.
  */
 public final class CherryTartBlock extends Block {
-    private static final MapCodec<CherryTartBlock> CODEC = simpleCodec(CherryTartBlock::new);
-    public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
+public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final IntegerProperty BITES = IntegerProperty.create("bites", 0, 3);
     private static final TagKey<Item> KNIVES =
             TagKey.create(Registries.ITEM, Identifier.parse("c:tools/knife"));
@@ -61,12 +59,7 @@ public final class CherryTartBlock extends Block {
                 .setValue(FACING, Direction.NORTH)
                 .setValue(BITES, 0));
     }
-
-    @Override protected MapCodec<? extends Block> codec() {
-        return CODEC;
-    }
-
-    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(FACING, BITES);
     }

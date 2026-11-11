@@ -1,7 +1,6 @@
 package dev.italiansdelight.common.block;
 
 import java.util.List;
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
 import dev.italiansdelight.common.fluid.FluidTransferBridge;
 import net.minecraft.core.BlockPos;
@@ -79,9 +78,7 @@ public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterlog
         return super.updateShape(state, level, ticks, pos, direction,
             neighborPos, neighborState, random);
     }
-
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(BarrelBlock::new); }
-    @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new BarrelBlockEntity(pos, state);
     }
     @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos,

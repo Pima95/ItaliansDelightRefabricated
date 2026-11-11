@@ -1,6 +1,5 @@
 package dev.italiansdelight.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.pizza.PizzaDoughSupport;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import dev.italiansdelight.common.pizza.PizzaComposition;
@@ -39,9 +38,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * to ensure the same click path is used on client and server.
  */
 public final class PizzaDoughBlock extends Block implements EntityBlock {
-    private static final MapCodec<PizzaDoughBlock> CODEC = simpleCodec(PizzaDoughBlock::new);
-
-    // Four interactions turn stage 0 (round dough) into stage 4 (flat base).
+// Four interactions turn stage 0 (round dough) into stage 4 (flat base).
     // This is an initial test value; final hand-stretching balance is open.
     public static final int MAX_STAGE = 4;
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, MAX_STAGE);
@@ -91,13 +88,7 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new PizzaDoughBlockEntity(pos, state);
     }
-
-    @Override
-    protected MapCodec<? extends Block> codec() {
-        return CODEC;
-    }
-
-    @Override
+@Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(STAGE, MOZZARELLA, DIVISION, DIVISION_FACING);
