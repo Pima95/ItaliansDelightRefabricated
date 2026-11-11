@@ -5,6 +5,9 @@ on:
     branches:
       - feature/orchards-1.1.0
       - release/1.1.0
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
