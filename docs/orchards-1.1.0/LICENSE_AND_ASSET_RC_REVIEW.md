@@ -36,9 +36,12 @@ La task `jar` di `build.gradle` incorpora i seguenti documenti:
 - `META-INF/THIRD_PARTY_NOTICES.md` (crediti Rustic/Italian's Delight, MIT);
 - `META-INF/FDR_CRATES_LICENSE.md` (licenza/notice originario FDR crate).
 
-La presenza **effettiva** nel JAR finale è un controllo separato della
-pipeline (non basta trovare un file nel repository). Il changelog e le note
-di release devono rimandare a questi notices.
+Il [workflow CI della candidate](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43010592706)
+ha verificato **nel JAR compilato** queste tre voci, oltre alla
+versione effettiva `1.1.0-rc.1` in `fabric.mod.json`. L'archivio
+scaricabile è l'[artifact del commit candidato](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43010592706/artifacts/13849559373).
+Questo controllo sul packaging non sostituisce la revisione delle
+attribuzioni individuali degli asset.
 
 ## Verifiche residue prima di rendere pubblica la release
 
@@ -48,8 +51,9 @@ di release devono rimandare a questi notices.
 2. Verificare se tutte le risorse Rustic storiche (es. grape/wine) debbano
    essere distribuite, senza rimuovere file oggi necessari a compatibilità
    dei mondi o texture: **aperta**, ottimizzazione facoltativa.
-3. Verifica sul JAR candidato di MIT notice e dei rispettivi copyright:
-   **da eseguire con la pipeline**.
+3. Verifica sul JAR candidato dei notice e del copyright FDR: **superata**
+   dalla CI del 11 novembre 2026; confermata anche la versione interna.
+   Non equivale a verificare tutta la titolarità delle texture.
 4. Revisione legale finale delle attribuzioni individuali:
    **non si presume superata** dalla sola appartenenza del progetto a MIT.
 

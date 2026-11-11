@@ -143,8 +143,12 @@ versione 1.1.0 o a pubblicarla.
 - [x] **Inventario Rustic:** 39 asset/metadata ancora identici e
   due eliminati precedentemente; dettagli in
   [audit asset e licenze](LICENSE_AND_ASSET_RC_REVIEW.md).
-- [ ] **Packaging definitivo della RC:** GitHub Actions deve controllare
-  il `fabric.mod.json` compilato, notices nel JAR e artifact scaricabile.
+- [x] **Packaging della RC verificato:** [CI 43010592706](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43010592706)
+  ha compilato `italiansdelight-1.1.0-rc.1.jar`, verificato
+  `fabric.mod.json` e tutti i notice nel JAR e pubblicato
+  l'[artifact di test](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43010592706/artifacts/13849559373).
+  Lo [smoke server dedicato 43010592911](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43010592911)
+  è riuscito senza giocatori connessi.
 - [ ] **Provenienza/crediti di ogni asset legacy e artisti individuali:**
   da esaminare prima della pubblicazione finale.
 - [ ] **Serene Seasons+GlitchCore e multiplayer reale:** non verificati;
