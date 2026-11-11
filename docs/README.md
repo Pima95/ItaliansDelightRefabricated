@@ -14,7 +14,8 @@
 5. [Integrazione Serene Seasons](orchards-1.1.0/SERENE_SEASONS_INTEGRATION.md)
 6. [Licenze e corrispondenza asset Rustic](orchards-1.1.0/RUSTIC_ASSET_MATCHES.md)
 7. [Inventario Creative e JEI](orchards-1.1.0/CREATIVE_JEI_ORDER.md)
-8. [Audit di ottimizzazione 1.1.0](CODE_OPTIMIZATION_AUDIT_2026-11-11.md) — revisione statica completa, senza modifiche funzionali
+8. [Audit e stato delle ottimizzazioni 1.1.0](CODE_OPTIMIZATION_AUDIT_2026-11-11.md) — interventi applicati, differiti e relativi rischi
+9. [Checklist di collaudo dopo ottimizzazione](orchards-1.1.0/RELEASE_QA_AFTER_OPTIMIZATIONS.md) — azioni effettivamente eseguibili dall'autore
 
 ## Documentazione tecnica ancora utile
 

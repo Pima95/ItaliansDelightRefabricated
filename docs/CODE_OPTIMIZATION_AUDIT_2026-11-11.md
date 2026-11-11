@@ -3,7 +3,38 @@
 **Progetto:** Italian's Delight Refabricated — preparazione Orchard 1.1.0  
 **Branch:** feature/orchards-1.1.0  
 **Snapshot esaminato:** [baceedcf637a6d72affc94be84c63b891319a2f1](https://github.com/Pima95/ItaliansDelightRefabricated/commit/baceedcf637a6d72affc94be84c63b891319a2f1) (dopo la pulizia di docs)  
-**Regola:** revisione in lettura; **nessuna modifica al codice, alle ricette, agli asset, alle impostazioni Gradle o ai test esistenti**. Questo rapporto raccoglie proposte, non modifiche autorizzate.
+**Metodo:** il rilievo originario era in sola lettura. In seguito alla richiesta esplicita dell'autore, sono state implementate le ottimizzazioni conservative riepilogate sotto. **Nessuna pubblicazione o merge su main.** Le migliorie non sono ancora quantificate con benchmark.
+
+## Attuazione autorizzata — 11 novembre 2026
+
+La revisione iniziale identificava possibilità, non guasti. L'autore ha
+successivamente autorizzato la realizzazione. Lo stato aggiornato è:
+
+| ID | Stato finale in questo ciclo | Commit/evidenza |
+|---|---|---|
+| OPT-1101 | **Applicata** — lookup Cheese Vat con `RecipeManager.getAllOfType`, sempre aggiornato ai datapack, e fast path vuoto | [b8e4f68](https://github.com/Pima95/ItaliansDelightRefabricated/commit/b8e4f68d61aa8d1a733974d04e5e8d53013fee32), [32925f3](https://github.com/Pima95/ItaliansDelightRefabricated/commit/32925f35871f1e1558c3b3cde48cc538dcc8812d) |
+| OPT-1102 | **Parziale sicura** — singolo MutableBlockPos per tick, uscita per mappa vuota. Il lavoro per tick sui calderoni attivi resta O(N); una nuova pianificazione richiederebbe prove sui 12.000 tick utili | [254fdcc](https://github.com/Pima95/ItaliansDelightRefabricated/commit/254fdcc9c297ffca3d359693057888e904f1c570), [32925f3](https://github.com/Pima95/ItaliansDelightRefabricated/commit/32925f35871f1e1558c3b3cde48cc538dcc8812d) |
+| OPT-1103 | **Applicata** — snapshot di composizione cotta, cache negli stati renderer quando riutilizzati, identificatori texture e niente liste temporanee per ogni quarto | [4f60740](https://github.com/Pima95/ItaliansDelightRefabricated/commit/4f607405b669b8cafee3e5f12a1a4f5d49ace3d9) |
+| OPT-1104 | **Applicata** — AABB invariabile per Crushing Tub | [254fdcc](https://github.com/Pima95/ItaliansDelightRefabricated/commit/254fdcc9c297ffca3d359693057888e904f1c570) |
+| OPT-1105 | **Parziale sicura** — presenza Serene Seasons risolta una volta; letture del mondo/serra non cache-ate per non rendere stantie le foglie | [254fdcc](https://github.com/Pima95/ItaliansDelightRefabricated/commit/254fdcc9c297ffca3d359693057888e904f1c570) |
+| OPT-1106 | **Differita** — i `RecipeManager.CachedCheck` esistono già; ulteriori cache di durata rischiano di non rispettare `/reload` | Profiling necessario |
+| OPT-1107 | **Applicata** — memorizzazione ID della still texture per fluidi esterni, reset al cambio atlante o sprite acqua | [5915da9](https://github.com/Pima95/ItaliansDelightRefabricated/commit/5915da90808979aaa81edefdfb0f9d43fdbcc399) |
+| OPT-1108 | **Applicata** — preflight sullo spicchio già presente nei dati prima di cambiare lo stato del blocco | [5915da9](https://github.com/Pima95/ItaliansDelightRefabricated/commit/5915da90808979aaa81edefdfb0f9d43fdbcc399) |
+| OPT-1109 | **Parziale** — workflow CI aggiuntivo che accende un server dedicato headless, senza multiplayer e senza Serene Seasons; avvio riuscito | [run server 43005250714](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250714) |
+| OPT-1110/1111 | **Differite** — refactoring estesi di registri, torte e famiglie di alberi aumentano il rischio senza beneficio prestazionale misurato | Dopo la release |
+| OPT-1112 | **Applicata** — artifact JAR di sviluppo etichettato SHA; workflow ripulito | [run build 43005250616](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250616) |
+| OPT-1113 | **Non necessaria ora** — micro-ottimizzazione dei sette fluidi senza vantaggio misurabile | Aggiungere fluidi prima di riconsiderare |
+| OPT-1114 | **Verifica pre-release ancora aperta** — notice, provenienza asset e compatibilità legacy; nessun asset eliminato | Revisione licenze prima del tag |
+
+**Esiti di verifica:** [Development CI 43005250616](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250616) **SUCCESS**;
+[dedicated server boot 43005250714](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250714) **SUCCESS**, server Fabric Minecraft 26.2 ha raggiunto `Done`.
+Questo non misura FPS/TPS, non verifica le partite multiplayer e non prova la compatibilità
+runtime con Serene Seasons + GlitchCore.
+
+È disponibile il [JAR QA dello stesso commit del test server](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250616/artifacts/13848360820).
+Per i test dell'autore vedere la [checklist specifica](orchards-1.1.0/RELEASE_QA_AFTER_OPTIMIZATIONS.md).
+**Il nome interno JAR resta 1.0.0** fino all'autorizzazione finale e
+non distingue dalla pubblicazione precedente senza lo SHA.
 
 ## Sintesi esecutiva
 
@@ -147,10 +178,10 @@ La CI del commit di pulizia, [run 42927860323](https://github.com/Pima95/Italian
 
 ## Decisioni e release gate
 
-- **Fino ad approvazione dell'autore:** nessuna ottimizzazione applicata; ogni codice resta invariato.
+- **Ottimizzazioni autorizzate e implementate:** quelle elencate nella tabella di attuazione. Ulteriori refactoring richiedono nuove prove; `main` e la versione pubblica restano invariati.
 - **Release candidate:** la build CI dello snapshot esaminato è riuscita, ma la release 1.1.0 **non è autorizzata automaticamente**.
 - **Non verificato:** Serene Seasons con e senza dipendenza, server dedicato, multiplayer reale, backward compatibility in un mondo 1.0.0, profilo prestazionale quantitativo.
 - **Da verificare prima di un tag pubblico:** avvio client pulito, upgrade su copia di mondo 1.0.0, licenze/notice e possibilmente almeno uno smoke test automatizzato di server dedicato/Serene Seasons. Se un test non è realizzabile, registrare il rischio residuo esplicitamente, senza contrassegnarlo come superato.
 - **Implementazione consigliata:** misurare OPT-1101/1102/1103 per primi; non rifattorizzare soltanto perché una classe è lunga. OPT-1108/1109 sono controlli di sicurezza/qualità, non promesse di maggiore velocità.
 
-**Conclusione:** il candidato attuale può passare alla valutazione release, ma nessuno di questi rilievi costituisce una prova di peggioramento delle prestazioni o un via libera al rilascio. Conservare build e gameplay stabili, raccogliere metriche, applicare un cambiamento alla volta su esplicita autorizzazione.
+**Conclusione aggiornata:** le ottimizzazioni conservative sono applicate e passano la CI e lo smoke server. Non sono stati eseguiti benchmark quantitativi e le verifiche manuali restano necessarie per validare comportamento, texture e salvataggi; niente release o merge automatici.

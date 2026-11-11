@@ -92,8 +92,27 @@ di test automatici riusciti, annotare i limiti rispetto a due giocatori reali.
 
 È stata completata una [revisione statica di 163 Java, 68 script Python e dei
 controlli su 1.568 JSON](../CODE_OPTIMIZATION_AUDIT_2026-11-11.md).
-Il documento contiene opportunità di ottimizzazione **non applicate**,
-con priorità, misure da raccogliere, rischi e controlli di compatibilità.
+Le proposte conservative elencate nel rapporto di audit sono ora **in parte implementate**, con CI verde e smoke server riuscito. Il report distingue i cambiamenti effettuati dai refactoring differiti e dai rischi ancora aperti.
 La build automatica del [commit di sola pulizia docs](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/42927860323)
 è riuscita. Nessuna proposta di ottimizzazione costituisce un problema
 prestazionale già misurato né un obbligo di refactoring prima del rilascio.
+
+## Verifiche dopo ottimizzazione (11 novembre 2026)
+
+- [x] **Development CI:** compilazione e controlli statici superati
+  ([run 43005250616](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250616)).
+- [x] **Smoke server dedicato:** Fabric 0.20.1, Minecraft 26.2, Java 25;
+  avvio headless riuscito fino a `Done`, senza giocatori connessi
+  ([run 43005250714](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250714)).
+- [x] **JAR di prova identificato:** [artifact QA SHA d9d71395](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250616/artifacts/13848360820).
+  Contiene la mod con versione interna ancora 1.0.0, **non è una release**.
+- [ ] **Regressioni in-game delle ottimizzazioni:** Cheese Vat, sale, Crushing Tub,
+  texture e spicchi pizza, fluidi, alberi, JEI, upgrade mondo.
+- [ ] **Compatibilità Serene Seasons + GlitchCore in runtime** e
+  **multiplayer reale**: non coperte dallo smoke headless.
+- [ ] **Provenienza/licenze asset** e autorizzazione finale alla pubblicazione.
+
+Le [azioni di collaudo richieste all'autore](RELEASE_QA_AFTER_OPTIMIZATIONS.md)
+sono circoscritte alle funzionalità verificabili senza server multiplayer e
+senza installazione di Serene Seasons. **Non spuntare le ultime due verifiche
+in assenza di evidenze reali.**
