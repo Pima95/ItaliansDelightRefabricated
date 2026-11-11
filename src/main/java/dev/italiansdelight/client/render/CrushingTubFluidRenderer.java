@@ -58,8 +58,8 @@ public final class CrushingTubFluidRenderer
                 // NONE skips the Item Frame FIXED transformation, which was
                 // tipping/displacing the sprite below the visible floor.
                 stack.translate(0.5, 0.09 + i * 0.0625, 0.5);
-                stack.rotate(Axis.YP.rotationDegrees(i * 37.0f));
-                stack.rotate(Axis.XP.rotationDegrees(-90.0f));
+                stack.mulPose(Axis.YP.rotationDegrees(i * 37.0f));
+                stack.mulPose(Axis.XP.rotationDegrees(-90.0f));
                 stack.scale(0.50f, 0.50f, 0.50f);
                 state.inputModel.submit(stack, collector,
                     state.lightCoords, OverlayTexture.NO_OVERLAY, 0);

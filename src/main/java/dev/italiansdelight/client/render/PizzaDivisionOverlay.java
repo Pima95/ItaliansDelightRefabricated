@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionContext;
-import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
 import net.minecraft.client.Minecraft;
@@ -55,7 +54,7 @@ public final class PizzaDivisionOverlay {
     }
 
     public static void register() {
-        LevelExtractionEvents.END_EXTRACTION.register(PizzaDivisionOverlay::extract);
+        LevelRenderEvents.END_EXTRACTION.register(PizzaDivisionOverlay::extract);
         LevelRenderEvents.COLLECT_SUBMITS.register(PizzaDivisionOverlay::submit);
     }
 
