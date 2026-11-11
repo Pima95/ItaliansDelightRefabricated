@@ -15,7 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.TreeFeature;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
@@ -41,7 +41,7 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public int foliageHeight(RandomSource random, int treeHeight, TreeConfiguration config) {
+    public int foliageHeight(RandomSource random, int treeHeight, TreeFeature config) {
         return 6;
     }
 
@@ -57,7 +57,7 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
         WorldGenLevel level,
         FoliageSetter setter,
         RandomSource random,
-        TreeConfiguration config,
+        TreeFeature config,
         int treeHeight,
         FoliageAttachment attachment,
         int foliageHeight,
