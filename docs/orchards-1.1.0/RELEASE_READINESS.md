@@ -106,8 +106,12 @@ prestazionale già misurato né un obbligo di refactoring prima del rilascio.
   ([run 43005250714](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250714)).
 - [x] **JAR di prova identificato:** [artifact QA SHA d9d71395](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250616/artifacts/13848360820).
   Contiene la mod con versione interna ancora 1.0.0, **non è una release**.
-- [ ] **Regressioni in-game delle ottimizzazioni:** Cheese Vat, sale, Crushing Tub,
-  texture e spicchi pizza, fluidi, alberi, JEI, upgrade mondo.
+- [x] **Regressioni funzionali in-game delle ottimizzazioni:** l'autore ha confermato
+  «Funziona tutto» l'11 novembre 2026 dopo la checklist su Cheese Vat, sale,
+  Crushing Tub, pizze/spicchi, fluidi, alberi, JEI e controlli del mondo.
+  La conferma è complessiva: non sono allegati log, risultati per singola prova
+  o prova documentale di un aggiornamento su salvataggio 1.0.0; la specifica
+  compatibilità retroattiva resta quindi un gate distinto, non certificato.
 - [ ] **Compatibilità Serene Seasons + GlitchCore in runtime** e
   **multiplayer reale**: non coperte dallo smoke headless.
 - [ ] **Provenienza/licenze asset** e autorizzazione finale alla pubblicazione.
@@ -116,3 +120,13 @@ Le [azioni di collaudo richieste all'autore](RELEASE_QA_AFTER_OPTIMIZATIONS.md)
 sono circoscritte alle funzionalità verificabili senza server multiplayer e
 senza installazione di Serene Seasons. **Non spuntare le ultime due verifiche
 in assenza di evidenze reali.**
+
+## Conferma dell'autore — 11 novembre 2026
+
+Dopo l'installazione e la checklist della build ottimizzata, l'autore ha
+confermato in chat: **«Funziona tutto»**. Questa evidenza chiude il giro di
+regressione funzionale segnalato all'autore. Non equivale a un benchmark né
+ad attestare prove non descritte (world upgrade 1.0.0, server con due utenti,
+Serene Seasons/GlitchCore). Sono ancora aperte l'analisi licenze,
+la scelta sui rischi residui e l'autorizzazione esplicita a promuovere la
+versione 1.1.0 o a pubblicarla.
