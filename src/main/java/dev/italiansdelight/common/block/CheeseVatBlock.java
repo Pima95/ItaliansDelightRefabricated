@@ -2,13 +2,13 @@ package dev.italiansdelight.common.block;
 
 import java.util.List;
 
-import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModParticles;
 import dev.italiansdelight.common.registry.ModItems;
 
+import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -187,15 +187,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
         super.createBlockStateDefinition(builder);
         builder.add(FACING, HEATED, SUPPORT);
     }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(
-            CheeseVatBlock::new
-        );
-    }
-
-    @Override
+@Override
     public BlockEntity newBlockEntity(
         BlockPos pos,
         BlockState state
@@ -255,7 +247,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
                 if (!player.addItem(serving)) {
                     player.drop(
                         serving,
-                        false
+                        Prediction.SERVER_ONLY
                     );
                 }
 

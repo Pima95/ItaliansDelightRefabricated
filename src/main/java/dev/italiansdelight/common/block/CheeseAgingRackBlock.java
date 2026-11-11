@@ -3,7 +3,6 @@ package dev.italiansdelight.common.block;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.aging.CheeseShapes;
 import dev.italiansdelight.common.aging.RackCheeseState;
@@ -11,6 +10,7 @@ import dev.italiansdelight.common.block.entity.CheeseAgingRackBlockEntity;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 
+import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -103,13 +103,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
                 .setValue(UPPER_CHEESE, RackCheeseState.EMPTY)
         );
     }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(CheeseAgingRackBlock::new);
-    }
-
-    @Override
+@Override
     public BlockEntity newBlockEntity(
         BlockPos pos,
         BlockState state
@@ -269,7 +263,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         ) {
             player.drop(
                 stack,
-                false
+                Prediction.SERVER_ONLY
             );
         }
     }
@@ -287,7 +281,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         player.getInventory()
             .placeItemBackInInventory(
                 stack
-            );
+            , Prediction.SERVER_ONLY);
     }
 
     private static int shelfFromHit(

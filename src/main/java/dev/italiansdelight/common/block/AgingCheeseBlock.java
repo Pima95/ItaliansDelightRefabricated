@@ -2,13 +2,13 @@ package dev.italiansdelight.common.block;
 
 import java.util.List;
 
-import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.aging.AgingCheeseType;
 import dev.italiansdelight.common.aging.CheeseShapes;
 import dev.italiansdelight.common.block.entity.AgingCheeseBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 
+import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -73,15 +73,7 @@ public final class AgingCheeseBlock
                 )
         );
     }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(
-            AgingCheeseBlock::new
-        );
-    }
-
-    @Override
+@Override
     public BlockEntity newBlockEntity(
         BlockPos pos,
         BlockState state
@@ -223,7 +215,7 @@ public final class AgingCheeseBlock
             if (level.removeBlock(pos, false)
                     && !player.addItem(pickup)
                     && !pickup.isEmpty()) {
-                player.drop(pickup, false);
+                player.drop(pickup, Prediction.SERVER_ONLY);
             }
         }
 
