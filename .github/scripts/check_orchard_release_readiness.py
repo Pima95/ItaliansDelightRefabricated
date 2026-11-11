@@ -20,7 +20,7 @@ checklist = r("docs/orchards-1.1.0/RELEASE_READINESS.md")
 notes = r("docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md")
 
 # The Orchard candidate stays non-public until separately authorized.
-assert re.search(r"(?m)^mod_version=1\.1\.0-rc\.1$", properties)
+assert re.search(r"(?m)^mod_version=1\.1\.0$", properties)
 assert "1.1.0-rc.1" in readme
 assert mod["version"] == "${version}"
 assert mod["id"] == "italiansdelight"
@@ -88,5 +88,5 @@ assert "- [ ] **Packaging and version:**" in checklist
 # No need to call or repackage a new version during readiness preparation.
 print("OK: development Orchard 1.1.0 readiness files and real Fabric mod icon")
 print("OK: confirmed worldgen probabilities, 65% fruiting and no grape feature")
-print("OK: published 1.0.0 remains distinct from internal 1.1.0-rc.1")
+print("OK: release branch stages 1.1.0; public main remains at 1.0.0 until merged")
 print("OK: MC 26.2, Java 25, Apache-2.0 and third-party notice packaging configured")
