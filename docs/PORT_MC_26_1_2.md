@@ -64,3 +64,30 @@ dell'inventario, del comportamento stagionale e delle interazioni con fluidi.
 Se `clean` fallisce a causa della directory `build` in uso, non forzare
 la cancellazione: chiudere il client e l'IDE prima di riprovare la build.
 L'uso di `--no-daemon --max-workers=1` limita l'utilizzo di risorse.
+
+## Test sperimentale di compatibilità con Minecraft 26.1 e 26.1.1
+
+Il file `fabric.mod.json` accetta temporaneamente `">=26.1 <=26.1.2"` per consentire
+l'avvio **dello stesso JAR** con Minecraft 26.1, 26.1.1 e 26.1.2.
+La compilazione GitHub Actions continua a usare **Minecraft 26.1.2**.
+Questa modifica serve a verificare la compatibilità, **non la dimostra**.
+
+Non serve alcun `fabric_loader_dependencies.json` o altro override esterno.
+
+1. Esegui `git fetch origin`, `git switch feature/mc-26.1.2`, quindi
+   `git pull --ff-only origin feature/mc-26.1.2` per ricevere la modifica.
+2. Esegui `.\\gradlew.bat build --no-daemon --max-workers=1` senza `clean`.
+3. Installa lo stesso `build/libs/italiansdelight-1.1.0-mc26.1.2.jar`
+   in **tre istanze Minecraft distinte**: 26.1, 26.1.1 e 26.1.2.
+4. Installa in ogni istanza Fabric Loader, Fabric API e Farmer's Delight
+   Refabricated adatti a quella specifica versione di Minecraft.
+   Aggiungi JEI se disponibile; inizialmente lascia fuori Serene Seasons.
+5. Usa un nuovo mondo per ogni istanza. Verifica caricamento, ricette JEI,
+   frutteti, pizza, fluidi, barili, calderoni e stagionatura; non aprire
+   i salvataggi 26.1.2 con Minecraft 26.1 o 26.1.1.
+6. Solo dopo i test confermati valuteremo se mantenere l'intervallo di
+   compatibilità nel file di pubblicazione della mod.
+
+**Nota:** il nome del JAR rimane `italiansdelight-1.1.0-mc26.1.2.jar`
+perché identifica la versione dell'SDK usato nella compilazione, non le
+versioni ulteriori con cui si sta verificando la compatibilità.

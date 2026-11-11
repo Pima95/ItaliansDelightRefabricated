@@ -35,12 +35,12 @@ jobs:
           assert path.is_file(), "Missing release JAR"
           with zipfile.ZipFile(path) as jar:
               m = json.loads(jar.read("fabric.mod.json"))
-              assert m["depends"]["minecraft"] == "26.1.2"
+              assert m["depends"]["minecraft"] == ">=26.1 <=26.1.2"
               assert m["depends"]["java"] == ">=25"
               assert m["version"] == "1.1.0-mc26.1.2"
               c = jar.read("dev/italiansdelight/ItaliansDelight.class")
               assert int.from_bytes(c[6:8], "big") == 69
-          print("OK: 26.1.2 playable JAR, Fabric metadata, Java 25")
+          print("OK: test JAR built on 26.1.2; Fabric metadata permits 26.1–26.1.2; Java 25")
           PY
       - name: Upload 26.1.2 JAR for testing
         if: success()
