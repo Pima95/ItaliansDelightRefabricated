@@ -24,7 +24,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipes": "italiansdelight:oak_cheese_aging_rack"
+        "recipes": "italiansdelight:crafting/oak_cheese_aging_rack"
       }
     }
   },
@@ -40,7 +40,7 @@
   ],
   "rewards": {
     "recipes": [
-      "italiansdelight:oak_cheese_aging_rack"
+      "italiansdelight:crafting/oak_cheese_aging_rack"
     ]
   }
 }
