@@ -1,6 +1,5 @@
 package dev.italiansdelight.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import java.util.ArrayList;
@@ -89,12 +88,7 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
         return super.updateShape(state, level, ticks, pos, direction,
             neighborPos, neighborState, random);
     }
-
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(CrushingTubBlock::new);
-    }
-
-    @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CrushingTubBlockEntity(pos, state);
     }
 

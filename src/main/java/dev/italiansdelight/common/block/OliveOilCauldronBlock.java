@@ -1,6 +1,5 @@
 package dev.italiansdelight.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -34,10 +33,7 @@ public final class OliveOilCauldronBlock extends Block {
         super(props);
         registerDefaultState(stateDefinition.any().setValue(LEVEL, 4));
     }
-    @Override protected MapCodec<? extends Block> codec() {
-        return simpleCodec(OliveOilCauldronBlock::new);
-    }
-    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(LEVEL);
     }
