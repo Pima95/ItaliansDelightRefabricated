@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/orchards-1.1.0
+      - release/1.1.0
   workflow_dispatch:
 
 permissions:
