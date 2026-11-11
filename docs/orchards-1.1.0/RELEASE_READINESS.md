@@ -187,3 +187,19 @@ versione 1.1.0 o a pubblicarla.
   candidate; modifiche ai test non equivalgono a una build riuscita.
 - [ ] **Pubblicazione:** mantenere `main`, versioni pubbliche e descrizioni
   CurseForge/Modrinth invariati fino all'autorizzazione finale.
+
+## Pulizia dei file ignorati e prevenzione regressioni (11 novembre 2026)
+
+- [x] **Pulizia del repository:** commit `a39cb50` rimuove dal tracciamento
+  quattro documenti sotto `docs/dishes/` e `docs/herbs/` già esclusi da
+  `.gitignore`; il codice e le texture della mod non sono coinvolti.
+- [x] **Controllo automatico introdotto:**
+  `.github/scripts/check_ignored_tracked_files.py` esegue in sola lettura
+  `git ls-files --cached --ignored --exclude-standard -z` e fallisce se
+  trova file contemporaneamente tracciati e ignorati.
+- [x] **CI aggiornata:** lo script viene eseguito dalla build GitHub Actions
+  per il branch Orchard prima dei test e della compilazione Java 25.
+- [ ] **Esito CI:** verificare la riuscita del workflow dopo l'ultimo commit;
+  la sola presenza del nuovo controllo non certifica una build riuscita.
+- [ ] **Licenze degli asset legacy e test runtime opzionali:** rimangono
+  separati e aperti; nessuna release, tag o merge in `main` è autorizzata.
