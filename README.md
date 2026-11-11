@@ -109,4 +109,23 @@ Italian's Delight Refabricated is built as an add-on for [Farmer's Delight Refab
 
 ## License and asset attribution
 
-See the [LICENSE](LICENSE) file for the license of this project and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for attributions of assets and inspirations from **PuurpZ's Italian's Delight** and **cadaverous_queen's Rustic**, including links to the original MIT notices.
+Original code and artwork contributed to Italian's Delight Refabricated by
+**Piergiuseppe Mastroserio (Pima95)** are distributed under the
+[Apache License 2.0](LICENSE) on the unreleased Orchard 1.1.0 development
+branch. The [NOTICE](NOTICE) file provides the required original-work
+attribution. Users may use, modify and redistribute the covered original
+material under the license terms, including preservation of applicable
+copyright, license and NOTICE attributions; the license does **not** require
+a credit specifically on CurseForge or Modrinth project descriptions.
+
+**The publicly released version 1.0.0 remains under its published MIT terms**;
+changing the development branch's license does not revoke rights already
+provided with older versions.
+
+Third-party artwork is **not** relicensed to Apache 2.0. See
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for Rustic and the original
+Italian's Delight, and
+[Farmer's Delight crate attribution](docs/orchards-1.1.0/FDR_CRATES_LICENSE.md)
+for reused crate pixels. The provenance and individual rights of some legacy
+assets remain under review before publishing 1.1.0. The JAR packages the
+Apache license, project NOTICE and applicable third-party notices.
