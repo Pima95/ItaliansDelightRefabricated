@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipes": "italiansdelight:rolling_pin"
+        "recipe": "italiansdelight:rolling_pin"
       }
     }
   },

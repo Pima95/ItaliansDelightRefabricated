@@ -5,28 +5,21 @@
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
-          {
-            "items": "minecraft:iron_ingot"
-          }
+          { "items": "minecraft:iron_ingot" }
         ]
       }
     },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipes": "italiansdelight:cheese_grater"
+        "recipe": "italiansdelight:cheese_grater"
       }
     }
   },
   "requirements": [
-    [
-      "has_iron_ingot",
-      "has_the_recipe"
-    ]
+    ["has_iron_ingot", "has_the_recipe"]
   ],
   "rewards": {
-    "recipes": [
-      "italiansdelight:cheese_grater"
-    ]
+    "recipes": ["italiansdelight:cheese_grater"]
   }
 }

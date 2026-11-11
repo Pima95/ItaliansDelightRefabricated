@@ -1,8 +1,8 @@
 {
   "type": "minecraft:block",
-  "modifier": [
+  "functions": [
     {
-      "type": "minecraft:explosion_decay"
+      "function": "minecraft:explosion_decay"
     }
   ],
   "pools": [
@@ -16,21 +16,23 @@
       "rolls": 1
     },
     {
-      "condition": {
-        "type": "minecraft:match_block",
-        "blocks": "italiansdelight:basil",
-        "state": {
-          "age": "7"
+      "conditions": [
+        {
+          "block": "italiansdelight:basil",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "7"
+          }
         }
-      },
+      ],
       "entries": [
         {
           "type": "minecraft:item",
-          "modifier": [
+          "functions": [
             {
               "enchantment": "minecraft:fortune",
               "formula": "minecraft:binomial_with_bonus_count",
-              "type": "minecraft:apply_bonus",
+              "function": "minecraft:apply_bonus",
               "parameters": {
                 "extra": 3,
                 "probability": 0.5714286

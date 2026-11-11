@@ -9,21 +9,18 @@
           "name": "italiansdelight:almond_door"
         }
       ],
-      "condition": {
-        "type": "minecraft:all_of",
-        "terms": [
-          {
-            "type": "minecraft:match_block",
-            "blocks": "italiansdelight:almond_door",
-            "state": {
-              "half": "lower"
-            }
-          },
-          {
-            "type": "minecraft:survives_explosion"
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "italiansdelight:almond_door",
+          "properties": {
+            "half": "lower"
           }
-        ]
-      }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
     }
   ]
 }

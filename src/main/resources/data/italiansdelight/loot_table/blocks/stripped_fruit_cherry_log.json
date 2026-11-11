@@ -9,9 +9,11 @@
           "name": "italiansdelight:stripped_fruit_cherry_log"
         }
       ],
-      "condition": {
-        "type": "minecraft:survives_explosion"
-      }
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
     }
   ]
 }

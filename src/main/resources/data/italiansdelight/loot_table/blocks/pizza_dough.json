@@ -3,9 +3,11 @@
   "pools": [
     {
       "rolls": 1,
-      "condition": {
-        "type": "minecraft:survives_explosion"
-      },
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -15,21 +17,18 @@
     },
     {
       "rolls": 1,
-      "condition": {
-        "type": "minecraft:all_of",
-        "terms": [
-          {
-            "type": "minecraft:survives_explosion"
-          },
-          {
-            "type": "minecraft:match_block",
-            "blocks": "italiansdelight:pizza_dough",
-            "state": {
-              "mozzarella": "true"
-            }
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "italiansdelight:pizza_dough",
+          "properties": {
+            "mozzarella": "true"
           }
-        ]
-      },
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
