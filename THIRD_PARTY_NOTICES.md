@@ -50,12 +50,13 @@ These third-party notices supplement the project's Apache-2.0 `LICENSE` and its 
 
 ## Distribution packaging and attribution limits — 11 November 2026
 
-The development JAR is **configured to include**
-`LICENSE_italiansdelight` (Apache-2.0), `META-INF/NOTICE`,
+The previous `1.1.0-rc.1` JAR passed the [packaging checks in
+CI 43050050711](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43050050711)
+for `LICENSE_italiansdelight` (Apache-2.0), `META-INF/NOTICE`,
 `META-INF/THIRD_PARTY_NOTICES.md`, and `META-INF/FDR_CRATES_LICENSE.md`
 (original source's MIT notice with **Copyright (c) 2020 vectorwing**).
-The updated workflow checks these items; **a successful new build and JAR inspection
-must still be confirmed** before treating this packaging configuration as verified.
+The next full-version `1.1.0` test JAR must independently pass the
+same packaging checks before publication.
 The five Orchard crates retain adapted Farmer's Delight wooden crate
 texture elements; see [the per-feature license note](docs/orchards-1.1.0/FDR_CRATES_LICENSE.md).
 

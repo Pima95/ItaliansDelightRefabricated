@@ -4,11 +4,11 @@
 **Minecraft:** 26.2 · **Java:** 25 · **Fabric Loader:** 0.20.1+
 **Fabric API:** 0.161.0+26.2 · **Farmer's Delight Refabricated:** 26.2-3.6.29+refabricated.
 
-**Status, 11 November 2026:** internal candidate
-`1.1.0-rc.1` prepared after the author's functional approval and
-confirmation of compatibility with old 1.0.0 saves. Public remains
-version 1.0.0; **no 1.1.0 tag or public publication yet**.
-The RC stays on the development branch until separately approved.
+**Status, 11 November 2026:** the author approved the prior
+`1.1.0-rc.1` JAR in Minecraft and now requests a full-version **1.1.0
+test JAR on the existing development branch**, not a merge or
+publication. Public remains version 1.0.0;
+**no 1.1.0 tag or public publication yet**.
 
 ## Confirmed outcomes
 - [x] The author tested natural Orchard worldgen and approved the final
@@ -58,9 +58,9 @@ The RC stays on the development branch until separately approved.
 - [ ] **Resource/license audit:** verify original Rustic artworks
   are correctly attributed and embedded notices are adequate for
   the material actually included in the public JAR.
-- [ ] **Packaging and version:** after these tests and explicit
-  approval, set `mod_version=1.1.0`, update version-specific
-  regression expectations, rebuild and verify the exact release JAR.
+- [ ] **Packaging and version:** `mod_version=1.1.0` is prepared on
+  the feature branch only; await CI and test the exact full-version
+  JAR before any merge or publication.
 - [ ] **Publication approval:** finalize release notes, merge only
   approved code into `main`, tag `v1.1.0` and publish artifacts.
   Do not tag or publish automatically from this checklist.
@@ -269,3 +269,21 @@ versione 1.1.0 o a pubblicarla.
 - [ ] La futura pubblicazione richiederà una nuova strategia esplicita
   di integrazione, perché il vecchio merge è stato annullato nella
   cronologia di `main`.
+
+## Full-version pre-merge JAR and branch correction (11 November 2026)
+
+Only `feature/orchards-1.1.0` is authorized for development. PR #12
+was created without permission and closed without merge. The unused
+`release/1.1.0-review` branch still requires deletion and must not be
+used to integrate this release. Do not create further branches.
+
+- [x] Previous `italiansdelight-1.1.0-rc.1.jar` tested in-game by the author.
+- [x] Previous RC [build](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43050050711) and [headless saved-world restart](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43050050763) passed.
+- [x] Feature branch configured to compile a full-version `italiansdelight-1.1.0.jar`, checking filename, metadata, Java 25 class, license and MIT/NOTICE packaging.
+- [ ] Verify new build and artifact; RC CI success does not certify the new JAR.
+- [ ] Author tests the new exact JAR and confirms acceptance before merging.
+- [ ] Serene Seasons/GlitchCore runtime and real multiplayer remain untested.
+- [ ] Merge and publication on GitHub/CurseForge/Modrinth require separate explicit approval.
+
+Older `1.1.0-rc.1` sections above are preserved as historical records
+and do not describe the version of the next test JAR.

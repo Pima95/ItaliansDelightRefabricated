@@ -164,13 +164,16 @@ jobs:
         run: python3 .github/scripts/check_world_fluid_physics_26_2.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace
-      - name: Stage one playable test JAR
+      - name: Stage only the correctly versioned playable JAR
         run: |
+          set -euo pipefail
+          VERSION=$(sed -n 's/^mod_version=//p' gradle.properties)
+          test -n "$VERSION"
+          test -f "build/libs/italiansdelight-${VERSION}.jar"
           mkdir -p build/release-qa
-          find build/libs -maxdepth 1 -type f -name 'italiansdelight-*.jar' \
-            ! -name '*-sources.jar' ! -name '*-dev.jar' \
-            -exec cp '{}' build/release-qa/ \;
+          cp "build/libs/italiansdelight-${VERSION}.jar" build/release-qa/
           test "$(find build/release-qa -type f -name '*.jar' | wc -l)" -eq 1
+          sha256sum "build/release-qa/italiansdelight-${VERSION}.jar"
       - name: Validate candidate metadata and embedded upstream notices
         run: |
           python3 - <<'PY'
@@ -182,6 +185,7 @@ jobs:
               Path("gradle.properties").read_text().splitlines()
               if line.startswith("mod_version=")]
           assert len(versions) == 1
+          assert jars[0].name == f"italiansdelight-{versions[0]}.jar", jars[0]
           with zipfile.ZipFile(jars[0]) as jar:
               members = set(jar.namelist())
               for name in ("fabric.mod.json", "LICENSE_italiansdelight",
@@ -219,7 +223,7 @@ jobs:
       - name: Upload Orchard development JAR (not a public release)
         uses: actions/upload-artifact@v4
         with:
-          name: orchard-1.1.0-qa-${{ github.sha }}
+          name: italiansdelight-1.1.0-full-version-test-${{ github.sha }}
           path: build/release-qa/*.jar
           if-no-files-found: error
           retention-days: 14

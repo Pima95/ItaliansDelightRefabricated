@@ -2,7 +2,7 @@
 
 **Draft release notes — NOT YET PUBLISHED**
 
-**Internal testing version: 1.1.0-rc.1.** Not a public GitHub or CurseForge release.
+**Full-version test JAR: italiansdelight-1.1.0.jar, development branch only.** Not a public GitHub or CurseForge release.
 Minecraft 26.2 · Fabric · Farmer's Delight Refabricated add-on
 
 ## What's new
@@ -82,12 +82,12 @@ Four cheeseless slices now have pointed triangular crusts with no mozzarella
 drips. Collected slices can be placed on supports or into another pizza while
 retaining their ingredients, and a served pizza never returns as a whole item.
 
-The author approved old world 1.0.0 compatibility and optimized gameplay
-and subsequently confirmed that the game client starts. Earlier Gradle CI and
-a headless Fabric server startup succeeded. The updated CI now also attempts
-to reopen the same saved test world after the initial boot; the result of
-that expanded check is not yet confirmed. Serene Seasons with GlitchCore
-and real multiplayer remain untested.
+The author approved old-world 1.0.0 compatibility and optimized gameplay
+and confirmed the previous `1.1.0-rc.1` JAR works in Minecraft. Its
+build CI succeeded and the headless dedicated server reopened the same
+saved test world. The new full-version `1.1.0` JAR must be built and
+tested separately on the existing development branch before a merge.
+Serene Seasons with GlitchCore and real multiplayer remain untested.
 
 ### License and attribution
 Starting with this planned 1.1.0 release, the author's original contributions
