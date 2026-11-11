@@ -1,10 +1,14 @@
-name: Pizza 1.0.0 - Build
+name: Italian's Delight - Development CI
 
 on:
   push:
     branches:
       - feature/pizza-1.0.0
       - feature/cardoon-farming-worldgen-sounds
+      - feature/orchards-1.1.0
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -25,12 +29,94 @@ jobs:
           java-version: '25'
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
+      - name: Verify ignored files are not tracked
+        run: python3 .github/scripts/check_ignored_tracked_files.py
+      - name: Verify approved procedural olive trunk and canopy shapes
+        run: python3 .github/scripts/check_olive_procedural_placement.py
+      - name: Verify Olive sapling normal and ancient tree definitions
+        run: python3 .github/scripts/check_olive_sapling_trees.py
+      - name: Validate original fruit cherry wood foundation and five textures
+        run: python3 .github/scripts/check_fruit_cherry_wood_phase1.py
+      - name: Validate fruit cherry wooden derivatives and approved art
+        run: python3 .github/scripts/check_fruit_cherry_wood_derivatives.py
+      - name: Validate Fruit Cherry sapling, green leaves and planted tree
+        run: python3 .github/scripts/check_fruit_cherry_tree.py
+      - name: Validate white fruit-cherry blossom stages and natural exposed-leaf harvest
+        run: python3 .github/scripts/check_fruit_cherry_harvest.py
+      - name: Validate five reversible Orchard crate recipes and binary-alpha textures
+        run: python3 .github/scripts/check_orchard_crates.py
+      - name: Validate orchard fruit items and avoid leaf-break drop duplication
+        run: python3 .github/scripts/check_orchard_fruits_creative.py
+      - name: Validate Almond leaves, sapling, tree growth and natural worldgen
+        run: python3 .github/scripts/check_almond_sapling_tree.py
+      - name: Verify natural olive, rare ancient olive, almond and fruit-cherry trees in biomes
+        run: python3 .github/scripts/check_orchard_natural_worldgen_26_2.py
+      - name: Validate Almond 5-stage flowering, green hull, dry shell and harvest
+        run: python3 .github/scripts/check_almond_harvest.py
+      - name: Verify tinted foliage and untinted blossom/fruit layers across Almond and Cherry
+        run: python3 .github/scripts/check_orchard_biome_overlay_layers.py
+      - name: Check optional Serene Seasons 26.2 integration, calendar and safe fallback
+        run: python3 .github/scripts/check_orchard_serene_seasons.py
+      - name: Check orchard greenhouses and native Serene Seasons 4-season sapling growth
+        run: python3 .github/scripts/check_orchard_greenhouse_saplings.py
+      - name: Verify balanced orchard fruit growth and natural-only leaf bonemeal
+        run: python3 .github/scripts/check_orchard_growth_bonemeal.py
+      - name: Check rotating 65 percent natural canopy fruiting and bonemeal eligibility
+        run: python3 .github/scripts/check_orchard_fruiting_rotation.py
+      - name: Check Serene Seasons basil and cardoon fertility tags and off-season survival
+        run: python3 .github/scripts/check_orchard_serene_crops.py
+      - name: Check almond/cherry autumn foliage and bare winter twig states
+        run: python3 .github/scripts/check_orchard_deciduous_foliage.py
+      - name: Validate Almond extended wood (signs, boats, shelves, cabinets and cheese racks)
+        run: python3 .github/scripts/check_almond_extended_wood.py
+      - name: Validate initial Almond wood, crafting and original art
+        run: python3 .github/scripts/check_almond_wood_phase1.py
+      - name: Validate eight Almond wood derivatives, models, recipes and tags
+        run: python3 .github/scripts/check_almond_wood_derivatives.py
+      - name: Validate fruit cherry door/trapdoor models, sprites and recipes
+        run: python3 .github/scripts/check_fruit_cherry_door_trapdoor.py
+      - name: Validate Almond door/trapdoor models, sprites and recipes
+        run: python3 .github/scripts/check_almond_door_trapdoor.py
+      - name: Verify Olive leaves and absence of Rustic leaf asset
+        run: python3 .github/scripts/check_olive_leaves.py
+      - name: Reject Rustic art in Orchard wood models
+        run: python3 .github/scripts/check_orchard_wood_assets.py
+      - name: Audit every standard crafting recipe and all Olive Wood craft patterns
+        run: python3 .github/scripts/check_all_crafting_26_2.py
+      - name: Verify Rustic Crushing Tub model, item, recipe and physical block
+        run: python3 .github/scripts/check_crushing_tub_26_2.py
+      - name: Check Crushing Tub JEI uses pixel-perfect aging-based artwork
+        run: python3 .github/scripts/check_crushing_tub_jei_gui_26_2.py
+      - name: Check JEI catalyst coverage for all 15 Crushing Tubs
+        run: python3 .github/scripts/check_crushing_tub_jei_variants_26_2.py
+      - name: Verify honeycomb Crushing Tub processing, bottle-only output and JEI
+        run: python3 .github/scripts/check_crushing_tub_honey_26_2.py
+      - name: Verify Golden Apple Juice Crushing Tub recipes and bottle-only interop
+        run: python3 .github/scripts/check_crushing_tub_golden_apple_juice_26_2.py
+      - name: Verify golden apple juice and honey bucket variants
+        run: python3 .github/scripts/check_new_liquid_buckets_26_2.py
+      - name: Verify original Fruit Cherry standing and hanging signs
+        run: python3 .github/scripts/check_fruit_cherry_signs.py
+      - name: Verify Fruit Cherry shelf, cabinet and cheese-aging rack
+        run: python3 .github/scripts/check_fruit_cherry_furniture.py
+      - name: Verify vanilla Fruit Cherry boats, texture palette and approved sign preservation
+        run: python3 .github/scripts/check_fruit_cherry_boats.py
+      - name: Validate 26.2 Olive signs cabinet and Cutting Board
+        run: python3 .github/scripts/check_orchard_signs_and_cutting.py
+      - name: Validate Olive doors, cheese rack and boat entities
+        run: python3 .github/scripts/check_orchard_boats_and_rack.py
+      - name: Verify vanilla olive shelf and slot shading
+        run: python3 .github/scripts/check_olive_shelf.py
       - name: Prevent rolling-pin bootstrap crash
         run: python3 .github/scripts/check_rolling_pin_combat.py
       - name: Verify Creative tab registration (all items, no duplicates)
         run: python3 .github/scripts/check_creative_tab.py
       - name: Verify 12x12 pizza textures (binary alpha, PNG CRC)
         run: python3 .github/scripts/check_pizza_topping_textures.py
+      - name: Verify Orchard almond recipes, cake slices and new pizza
+        run: python3 .github/scripts/check_orchard_almond_foods.py
+      - name: Verify Orchard olive food recipes and two recognized pizzas
+        run: python3 .github/scripts/check_orchard_olive_foods.py
       - name: Verify named whole-pizza models and 16x16 textures
         run: python3 .github/scripts/check_named_pizza_artwork.py
       - name: Verify named slice models and original slice crust
@@ -45,8 +131,12 @@ jobs:
         run: python3 .github/scripts/check_jei_flavor_guides_layout.py
       - name: Verify every pizza and slice has a searchable JEI ingredient entry
         run: python3 .github/scripts/check_pizza_jei_sidebar.py
+      - name: Verify Farmer's Delight-style native JEI Information tabs for all added plants
+        run: python3 .github/scripts/check_jei_plant_information.py
       - name: Audit pizza nutrition and baking consistency
         run: python3 .github/scripts/check_pizza_release_balance.py
+      - name: Verify replacing baked pizza slices keeps exact toppings and prevents whole recovery
+        run: python3 .github/scripts/check_pizza_slice_replacement.py
       - name: Verify pizza support-loss drops preserve data
         run: python3 .github/scripts/check_pizza_support_drops.py
       - name: Audit pizza oven hopper directions and bowl component safety
@@ -59,15 +149,80 @@ jobs:
         run: python3 .github/scripts/check_cheese_support_drops.py
       - name: Verify 1.0.0 release metadata remains gated
         run: python3 .github/scripts/check_pizza_release_metadata.py
+      - name: Audit Orchard 1.1.0 release-candidate readiness without publishing
+        run: python3 .github/scripts/check_orchard_release_readiness.py
       - name: Verify JEI recipe access survives client world transitions
         run: python3 .github/scripts/check_jei_world_lifecycle.py
       - name: Verify dedicated-server entrypoint and common mixin side safety
         run: python3 .github/scripts/check_pizza_server_side_safety.py
-      - name: Verify twelve aging-rack crafting recipe variants
+      - name: Verify thirteen aging-rack crafting recipe variants
         run: python3 .github/scripts/generate_aging_rack_recipes.py --check
       - name: Verify Cardoon farming and wild plant parity
         run: python3 .github/scripts/check_cardoon_wild_farming.py
       - name: Audit all JSON resources, code and recipe equivalence regressions
         run: python3 .github/scripts/audit_project_consistency.py
+      - name: Check portable fluid IDs, old NBT migration and Fabric item adapters
+        run: python3 .github/scripts/check_multiloader_fluids_26_2.py
+      - name: Verify water-like world fluid movement and non-infinite sources
+        run: python3 .github/scripts/check_world_fluid_physics_26_2.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace
+      - name: Stage one playable test JAR
+        run: |
+          mkdir -p build/release-qa
+          find build/libs -maxdepth 1 -type f -name 'italiansdelight-*.jar' \
+            ! -name '*-sources.jar' ! -name '*-dev.jar' \
+            -exec cp '{}' build/release-qa/ \;
+          test "$(find build/release-qa -type f -name '*.jar' | wc -l)" -eq 1
+      - name: Validate candidate metadata and embedded upstream notices
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, struct, zipfile
+          jars = sorted(Path("build/release-qa").glob("*.jar"))
+          assert len(jars) == 1, f"Expected exactly one JAR: {jars}"
+          versions = [line.split("=", 1)[1] for line in
+              Path("gradle.properties").read_text().splitlines()
+              if line.startswith("mod_version=")]
+          assert len(versions) == 1
+          with zipfile.ZipFile(jars[0]) as jar:
+              members = set(jar.namelist())
+              for name in ("fabric.mod.json", "LICENSE_italiansdelight",
+                  "META-INF/NOTICE",
+                  "META-INF/THIRD_PARTY_NOTICES.md",
+                  "META-INF/FDR_CRATES_LICENSE.md",
+                  "dev/italiansdelight/ItaliansDelight.class"):
+                  assert name in members, f"Missing required JAR entry: {name}"
+              metadata = json.loads(jar.read("fabric.mod.json"))
+              assert metadata["version"] == versions[0], metadata
+              assert metadata["id"] == "italiansdelight"
+              assert metadata["license"] == "Apache-2.0", metadata
+              assert metadata["depends"]["minecraft"] == "~26.2", metadata
+              assert metadata["depends"]["java"] == ">=25", metadata
+              assert b"Apache License" in jar.read("LICENSE_italiansdelight")
+              assert b"Version 2.0, January 2004" in jar.read("LICENSE_italiansdelight")
+              assert b"Piergiuseppe Mastroserio (Pima95)" in jar.read("META-INF/NOTICE")
+              third_party_notice = jar.read("META-INF/THIRD_PARTY_NOTICES.md")
+              for credit in (b"Rustic", b"cadaverous_queen",
+                             b"PuurpZ", b"nickhanic2021", b"JAMMSON",
+                             b"duynotsimp"):
+                  assert credit in third_party_notice, f"Missing upstream credit: {credit!r}"
+              assert b"per-asset" in third_party_notice, "Missing provenance caveat"
+              assert b"Copyright (c) 2020 vectorwing" in jar.read(
+                  "META-INF/FDR_CRATES_LICENSE.md")
+              # Java 25 class-file major version is 69. Check the compiled
+              # entrypoint instead of trusting Gradle settings alone.
+              entrypoint = jar.read("dev/italiansdelight/ItaliansDelight.class")
+              assert entrypoint[:4] == bytes.fromhex("cafebabe"), "Invalid class magic"
+              bytecode_major = struct.unpack(">H", entrypoint[6:8])[0]
+              assert bytecode_major == 69, f"Expected Java 25 (69), got {bytecode_major}"
+              print("OK: JAR", metadata["version"], "MC 26.2 / Java 25",
+                    "Apache-2.0 and all attribution notices")
+          PY
+      - name: Upload Orchard development JAR (not a public release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: orchard-1.1.0-qa-${{ github.sha }}
+          path: build/release-qa/*.jar
+          if-no-files-found: error
+          retention-days: 14

@@ -1,6 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "italiansdelight:item/rennet"
+    "model": "minecraft:item/potion",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 14337436
+      }
+    ]
   }
 }

@@ -1,5 +1,7 @@
 # Texture: mattarello e impasto della pizza
 
+> **Nota archivio (11/11/2026):** le anteprime HTML e i prompt sperimentali non fanno più parte della documentazione attiva. I collegamenti storici qui sotto aprono la versione precedente alla pulizia, recuperabile dalla cronologia Git.
+
 Aggiornamento del 10 ottobre 2026, branch `feature/pizza-1.0.0`.
 
 ## Asset e applicazione
@@ -26,9 +28,9 @@ I modelli hanno UV esplicite con un texel per unità di modello; la superficie �
 
 ## Anteprima e generazione
 
-Aprire [TEXTURE_PREVIEW.html](TEXTURE_PREVIEW.html) nel browser: contiene i PNG ingranditi senza interpolazione e un'anteprima ruotabile dei cinque modelli reali. È autonoma e fotografa gli asset di questo aggiornamento; l'illuminazione è semplificata.
+Aprire [TEXTURE_PREVIEW.html](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/pizza-1.0.0/TEXTURE_PREVIEW.html) nel browser: contiene i PNG ingranditi senza interpolazione e un'anteprima ruotabile dei cinque modelli reali. È autonoma e fotografa gli asset di questo aggiornamento; l'illuminazione è semplificata.
 
-Generazione con il tool integrato `image_gen`, una chiamata per ogni texture finale. Riferimenti: Wheat Dough e Iron Knife di Farmer's Delight Refabricated **26.2-3.6.28+refabricated**, oltre alla grattugia della mod. I prompt finali e i riferimenti sono in [TEXTURE_PROMPTS.json](TEXTURE_PROMPTS.json).
+Generazione con il tool integrato `image_gen`, una chiamata per ogni texture finale. Riferimenti: Wheat Dough e Iron Knife di Farmer's Delight Refabricated **26.2-3.6.28+refabricated**, oltre alla grattugia della mod. I prompt finali e i riferimenti sono in [TEXTURE_PROMPTS.json](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/pizza-1.0.0/TEXTURE_PROMPTS.json).
 
 I sorgenti generati rimangono nella cartella `.codex/generated_images` del profilo Codex. Esportazione tecnica a 16×16 con campionamento nearest neighbour al centro dei texel; alpha dell'item ridotto a 0/255. Nessuna interpolazione o sfumatura trasparente nell'asset finale.
 

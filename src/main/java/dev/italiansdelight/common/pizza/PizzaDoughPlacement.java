@@ -63,6 +63,12 @@ public final class PizzaDoughPlacement {
                 return InteractionResult.PASS;
             }
 
+            // A served slice is a placeable object: it can join any empty
+            // baked-pizza quarter or stand alone on an approved support.
+            if (held.is(dev.italiansdelight.common.registry.ModItems.PIZZA_SLICE)) {
+                return PizzaSlicePlacement.use(player, level, hit, held);
+            }
+
             // Handle BOTH empty-handed stretching and the rolling pin here.
             // UseBlockCallback runs before vanilla item/block interactions; using
             // one handler prevents inconsistent right-click behavior.

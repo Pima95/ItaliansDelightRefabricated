@@ -1,0 +1,15 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    "italiansdelight:almond_cake"
+  ],
+  "tool": "#c:tools/knife",
+  "result": [
+    {
+      "item": {
+        "id": "italiansdelight:almond_cake_slice",
+        "count": 4
+      }
+    }
+  ]
+}

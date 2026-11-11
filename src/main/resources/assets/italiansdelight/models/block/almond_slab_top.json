@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "italiansdelight:block/almond_planks",
+    "top": "italiansdelight:block/almond_planks",
+    "side": "italiansdelight:block/almond_planks"
+  }
+}

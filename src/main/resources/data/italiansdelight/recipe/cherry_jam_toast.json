@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bread",
+    "italiansdelight:cherry_jam_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:cherry_jam_toast",
+    "count": 1
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_hanging_sign",
+  "pattern": [
+    "C C",
+    "PPP",
+    "PPP"
+  ],
+  "key": {
+    "C": "minecraft:iron_chain",
+    "P": "italiansdelight:stripped_almond_log"
+  },
+  "result": {
+    "id": "italiansdelight:almond_hanging_sign",
+    "count": 6
+  }
+}

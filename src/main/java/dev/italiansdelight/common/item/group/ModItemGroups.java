@@ -10,6 +10,8 @@ import net.minecraft.world.item.ItemStack;
 
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModBlocks;
+import dev.italiansdelight.common.registry.ModSigns;
+import dev.italiansdelight.common.registry.ModBoats;
 import dev.italiansdelight.common.registry.ModRegistries;
 import dev.italiansdelight.common.pizza.PizzaDisplayNames;
 import dev.italiansdelight.common.pizza.PizzaCreativeSamples;
@@ -42,11 +44,42 @@ public final class ModItemGroups {
                 // No internal-only blocks or new item registry entries.
                 // Distinct data-bearing pizza stacks intentionally reuse
                 // raw_pizza/cooked_pizza, not fake individual item IDs.
-                // WORKSTATIONS: preparation blocks first, followed by all
-                // 12 wooden rack variants (no non-obtainable technical blocks).
-                output.accept(ModBlocks.CHEESE_VAT);
-                output.accept(ModBlocks.CHEESE_HOOK);
+                // WORKSTATIONS AND STORAGE: pizza oven first, then processing,
+                // aging racks and crates; excludes non-obtainable technical blocks.
                 output.accept(ModBlocks.PIZZA_OVEN);
+                output.accept(ModBlocks.CHEESE_VAT);
+                // The original workstation IDs are Oak variants.
+                output.accept(ModBlocks.CRUSHING_TUB);
+                output.accept(ModBlocks.SPRUCE_CRUSHING_TUB);
+                output.accept(ModBlocks.BIRCH_CRUSHING_TUB);
+                output.accept(ModBlocks.JUNGLE_CRUSHING_TUB);
+                output.accept(ModBlocks.ACACIA_CRUSHING_TUB);
+                output.accept(ModBlocks.DARK_OAK_CRUSHING_TUB);
+                output.accept(ModBlocks.MANGROVE_CRUSHING_TUB);
+                output.accept(ModBlocks.CHERRY_CRUSHING_TUB);
+                output.accept(ModBlocks.PALE_OAK_CRUSHING_TUB);
+                output.accept(ModBlocks.BAMBOO_CRUSHING_TUB);
+                output.accept(ModBlocks.CRIMSON_CRUSHING_TUB);
+                output.accept(ModBlocks.WARPED_CRUSHING_TUB);
+                output.accept(ModBlocks.OLIVE_CRUSHING_TUB);
+                output.accept(ModBlocks.ALMOND_CRUSHING_TUB);
+                output.accept(ModBlocks.FRUIT_CHERRY_CRUSHING_TUB);
+                output.accept(ModBlocks.BARREL);
+                output.accept(ModBlocks.SPRUCE_BARREL);
+                output.accept(ModBlocks.BIRCH_BARREL);
+                output.accept(ModBlocks.JUNGLE_BARREL);
+                output.accept(ModBlocks.ACACIA_BARREL);
+                output.accept(ModBlocks.DARK_OAK_BARREL);
+                output.accept(ModBlocks.MANGROVE_BARREL);
+                output.accept(ModBlocks.CHERRY_BARREL);
+                output.accept(ModBlocks.PALE_OAK_BARREL);
+                output.accept(ModBlocks.BAMBOO_BARREL);
+                output.accept(ModBlocks.CRIMSON_BARREL);
+                output.accept(ModBlocks.WARPED_BARREL);
+                output.accept(ModBlocks.OLIVE_BARREL);
+                output.accept(ModBlocks.ALMOND_BARREL);
+                output.accept(ModBlocks.FRUIT_CHERRY_BARREL);
+                output.accept(ModBlocks.CHEESE_HOOK);
 
                 // Aging racks — all wood types stay together.
                 output.accept(ModBlocks.OAK_CHEESE_AGING_RACK);
@@ -61,32 +94,138 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.BAMBOO_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.CRIMSON_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.OLIVE_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.ALMOND_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK);
+
+                // CRATES AND CROP STORAGE.
+                output.accept(ModBlocks.OLIVE_CRATE);
+                output.accept(ModBlocks.ALMOND_CRATE);
+                output.accept(ModBlocks.CHERRY_CRATE);
+                output.accept(ModBlocks.BASIL_CRATE);
+                output.accept(ModBlocks.CARDOON_CRATE);
+
+                // OLIVE WOOD: identical derivative order; leaves and sapling last.
+                output.accept(ModBlocks.OLIVE_LOG);
+                output.accept(ModBlocks.OLIVE_WOOD);
+                output.accept(ModBlocks.STRIPPED_OLIVE_LOG);
+                output.accept(ModBlocks.STRIPPED_OLIVE_WOOD);
+                output.accept(ModBlocks.OLIVE_PLANKS);
+                output.accept(ModBlocks.OLIVE_STAIRS);
+                output.accept(ModBlocks.OLIVE_SLAB);
+                output.accept(ModBlocks.OLIVE_FENCE);
+                output.accept(ModBlocks.OLIVE_FENCE_GATE);
+                output.accept(ModBlocks.OLIVE_DOOR);
+                output.accept(ModBlocks.OLIVE_TRAPDOOR);
+                output.accept(ModBlocks.OLIVE_PRESSURE_PLATE);
+                output.accept(ModBlocks.OLIVE_BUTTON);
+                output.accept(ModSigns.OLIVE_SIGN);
+                output.accept(ModSigns.OLIVE_HANGING_SIGN);
+                output.accept(ModBlocks.OLIVE_CABINET);
+                output.accept(ModBlocks.OLIVE_SHELF);
+                output.accept(ModBoats.OLIVE_BOAT_ITEM);
+                output.accept(ModBoats.OLIVE_CHEST_BOAT_ITEM);
+                output.accept(ModBlocks.OLIVE_LEAVES);
+                output.accept(ModBlocks.OLIVE_SAPLING);
+
+                // ALMOND WOOD: identical derivative order; leaves and sapling last.
+                output.accept(ModBlocks.ALMOND_LOG);
+                output.accept(ModBlocks.ALMOND_WOOD);
+                output.accept(ModBlocks.STRIPPED_ALMOND_LOG);
+                output.accept(ModBlocks.STRIPPED_ALMOND_WOOD);
+                output.accept(ModBlocks.ALMOND_PLANKS);
+                output.accept(ModBlocks.ALMOND_STAIRS);
+                output.accept(ModBlocks.ALMOND_SLAB);
+                output.accept(ModBlocks.ALMOND_FENCE);
+                output.accept(ModBlocks.ALMOND_FENCE_GATE);
+                output.accept(ModBlocks.ALMOND_DOOR);
+                output.accept(ModBlocks.ALMOND_TRAPDOOR);
+                output.accept(ModBlocks.ALMOND_PRESSURE_PLATE);
+                output.accept(ModBlocks.ALMOND_BUTTON);
+                output.accept(ModSigns.ALMOND_SIGN);
+                output.accept(ModSigns.ALMOND_HANGING_SIGN);
+                output.accept(ModBlocks.ALMOND_CABINET);
+                output.accept(ModBlocks.ALMOND_SHELF);
+                output.accept(ModBoats.ALMOND_BOAT_ITEM);
+                output.accept(ModBoats.ALMOND_CHEST_BOAT_ITEM);
+                output.accept(ModBlocks.ALMOND_LEAVES);
+                output.accept(ModBlocks.ALMOND_SAPLING);
+
+                // FRUIT CHERRY WOOD: identical derivative order; leaves and sapling last.
+                output.accept(ModBlocks.FRUIT_CHERRY_LOG);
+                output.accept(ModBlocks.FRUIT_CHERRY_WOOD);
+                output.accept(ModBlocks.STRIPPED_FRUIT_CHERRY_LOG);
+                output.accept(ModBlocks.STRIPPED_FRUIT_CHERRY_WOOD);
+                output.accept(ModBlocks.FRUIT_CHERRY_PLANKS);
+                output.accept(ModBlocks.FRUIT_CHERRY_STAIRS);
+                output.accept(ModBlocks.FRUIT_CHERRY_SLAB);
+                output.accept(ModBlocks.FRUIT_CHERRY_FENCE);
+                output.accept(ModBlocks.FRUIT_CHERRY_FENCE_GATE);
+                output.accept(ModBlocks.FRUIT_CHERRY_DOOR);
+                output.accept(ModBlocks.FRUIT_CHERRY_TRAPDOOR);
+                output.accept(ModBlocks.FRUIT_CHERRY_PRESSURE_PLATE);
+                output.accept(ModBlocks.FRUIT_CHERRY_BUTTON);
+                output.accept(ModSigns.FRUIT_CHERRY_SIGN);
+                output.accept(ModSigns.FRUIT_CHERRY_HANGING_SIGN);
+                output.accept(ModBlocks.FRUIT_CHERRY_CABINET);
+                output.accept(ModBlocks.FRUIT_CHERRY_SHELF);
+                output.accept(ModBoats.FRUIT_CHERRY_BOAT_ITEM);
+                output.accept(ModBoats.FRUIT_CHERRY_CHEST_BOAT_ITEM);
+                output.accept(ModBlocks.FRUIT_CHERRY_LEAVES);
+                output.accept(ModBlocks.FRUIT_CHERRY_SAPLING);
 
                 // TOOLS: separate them from placeable machinery.
                 output.accept(ModItems.CHEESE_GRATER);
                 output.accept(ModItems.ROLLING_PIN);
                 output.accept(ModItems.PIZZA_PEEL);
 
-                // CROPS AND PREPARED VEGETABLES.
-                output.accept(ModBlocks.CARDOON); // wild, historical ID
-                output.accept(ModBlocks.CULTIVATED_CARDOON); // harvested crop item
+                // CROPS AND WILD PLANTS.
+                output.accept(ModBlocks.CARDOON);
+                output.accept(ModBlocks.CULTIVATED_CARDOON);
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
+
+                // ORCHARD FRUITS AND RAW INGREDIENTS.
+                output.accept(ModItems.OLIVES);
+                output.accept(ModItems.OLIVE_SEED);
+                output.accept(ModItems.OLIVE_PITTED);
+                output.accept(ModItems.ALMONDS);
+                output.accept(ModItems.CHOPPED_ALMONDS);
+                output.accept(ModItems.CHERRIES);
+                output.accept(ModItems.APPLE_SEEDS);
+
+                // SAUCES, SEASONINGS AND PREPARED VEGETABLES.
+                output.accept(ModItems.OLIVE_PATE);
+                output.accept(ModItems.BASIL_PESTO);
+                output.accept(ModItems.ALMOND_PESTO);
+                output.accept(ModItems.CHERRY_JAM_BOTTLE);
                 output.accept(ModItems.SALT);
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.CARROT_SLICE);
                 output.accept(ModItems.POTATO_SLICE);
 
+                // OILS, JUICES AND OTHER STORED LIQUIDS.
+                output.accept(ModItems.OLIVE_OIL_BUCKET);
+                output.accept(ModItems.OLIVE_OIL_BOTTLE);
+                output.accept(ModItems.APPLE_JUICE_BUCKET);
+                output.accept(ModItems.APPLE_JUICE_BOTTLE);
+                output.accept(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
+                output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
+                output.accept(ModItems.HONEY_BUCKET);
+
                 // MILK, CULTURES AND CHEESE-PRODUCTION INGREDIENTS.
+                // Each fluid pair always lists BUCKET before BOTTLE.
                 output.accept(ModItems.SHEEP_MILK_BUCKET);
                 output.accept(ModItems.SHEEP_MILK_BOTTLE);
                 output.accept(ModItems.WHEY_BUCKET);
                 output.accept(ModItems.WHEY_BOTTLE);
-                output.accept(ModItems.RENNET);
+                output.accept(ModItems.RENNET_BUCKET);
+                output.accept(ModItems.RENNET); // bottled rennet
                 output.accept(ModItems.CURD);
                 output.accept(ModItems.CREAM_BOWL);
                 output.accept(ModItems.BLUE_MOLD_CULTURE);
-                output.accept(ModItems.APPLE_CIDER_VINEGAR);
+                output.accept(ModItems.APPLE_CIDER_VINEGAR_BUCKET);
+                output.accept(ModItems.APPLE_CIDER_VINEGAR); // bottled vinegar
 
                 // CHEESES: fresh products followed by each family's stages.
                 output.accept(ModItems.MOZZARELLA);
@@ -178,6 +317,8 @@ public final class ModItemGroups {
 
                 // PREPARED DISHES — pasta recipes first.
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
+                output.accept(ModItems.PASTA_WITH_PESTO);
+                output.accept(ModItems.PASTA_WITH_ALMOND_PESTO);
                 output.accept(ModItems.PASTA_ALLA_CARBONARA);
                 output.accept(ModItems.PASTA_ALLA_GRICIA);
                 output.accept(ModItems.PASTA_ALL_AMATRICIANA);
@@ -189,6 +330,15 @@ public final class ModItemGroups {
                 output.accept(ModItems.RISOTTO_WITH_PARMIGIANO);
                 output.accept(ModItems.RISOTTO_WITH_SPECK_AND_GORGONZOLA);
                 output.accept(ModItems.MOZZARELLA_SALAD);
+
+                // READY-TO-EAT SNACKS AND DESSERTS.
+                output.accept(ModItems.BRUSCHETTA);
+                output.accept(ModItems.OLIVE_BRUSCHETTA);
+                output.accept(ModItems.CHERRY_JAM_TOAST);
+                output.accept(ModBlocks.ALMOND_CAKE);
+                output.accept(ModItems.ALMOND_CAKE_SLICE);
+                output.accept(ModBlocks.CHERRY_TART);
+                output.accept(ModItems.CHERRY_TART_SLICE);
             })
             .build();
 

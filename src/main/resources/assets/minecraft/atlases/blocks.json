@@ -1,0 +1,48 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/milk"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/sheep_milk"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/whey"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/rennet"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/liquid_surface/apple_cider_vinegar"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/milk_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/sheep_milk_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/whey_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/rennet_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/cider_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/golden_apple_juice_still"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.food.FoodProperties;
@@ -378,6 +379,13 @@ public final class ModItems {
                         .craftRemainder(net.minecraft.world.item.Items.GLASS_BOTTLE)
                         .stacksTo(16));
 
+        // Four 250 mB rennet bottles combine into one 1000 mB bucket.
+        public static final ResourceKey<Item> RENNET_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("rennet_bucket"));
+        public static final Item RENNET_BUCKET = register(
+                RENNET_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+
         // Curd
         public static final ResourceKey<Item> CURD_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
@@ -437,6 +445,13 @@ public final class ModItems {
                 new Item.Properties()
                         .craftRemainder(Items.GLASS_BOTTLE)
                         .stacksTo(16));
+
+        // Four 250 mB apple_cider_vinegar bottles combine into one 1000 mB bucket.
+        public static final ResourceKey<Item> APPLE_CIDER_VINEGAR_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_cider_vinegar_bucket"));
+        public static final Item APPLE_CIDER_VINEGAR_BUCKET = register(
+                APPLE_CIDER_VINEGAR_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
 
         // Ricotta
         public static final ResourceKey<Item> RICOTTA_KEY = ResourceKey.create(
@@ -892,6 +907,103 @@ public final class ModItems {
 
         public static final Item SPECK_SLICE =
                 registerFoodItem("speck_slice", 2, 0.6f);
+
+        // Orchard fruits: Creative-only acquisition until harvesting is added.
+        // Only reversible storage crafting is provided; no foods or tree drops.
+        // Rustic byproduct: apple pips. Tree planting will be added with the apple orchard.
+        public static final Item APPLE_SEEDS = registerSimpleItem("apple_seeds", 64);
+
+        // Olive pitting: one edible flesh and one pit per whole Olive.
+        // The existing olive_seed texture is a non-plantable byproduct.
+        public static final Item OLIVE_SEED = registerSimpleItem("olive_seed", 64);
+        public static final Item OLIVE_PITTED = registerFoodItem("olive_pitted", 1, 0.2f);
+        // A bowl of pate returns the bowl when spread on the bread.
+        public static final Item OLIVE_PATE = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_pate")),
+                new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16));
+        public static final Item BRUSCHETTA = registerFoodItem("bruschetta", 5, 0.6f);
+        public static final Item OLIVE_BRUSCHETTA = registerFoodItem("olive_bruschetta", 5, 0.6f);
+        public static final Item OLIVES = registerSimpleItem("olives", 64);
+        public static final Item ALMONDS = registerSimpleItem("almonds", 64);
+        // Orchard 1.1.0 almond preparations. Uncut almonds cannot go on pizzas.
+        public static final Item CHOPPED_ALMONDS = registerSimpleItem("chopped_almonds", 64);
+        public static final Item ALMOND_PESTO = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("almond_pesto")),
+                new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16));
+        public static final Item BASIL_PESTO = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("basil_pesto")),
+                new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16));
+        // The almond_cake ITEM ID stays exactly the same, now registered as
+        // a placeable BlockItem by ModBlocks to serve 4 portions in-world.
+        // Registering an Item here as well would duplicate that registry ID.
+        public static final Item ALMOND_CAKE_SLICE = registerFoodItem("almond_cake_slice", 4, 0.5f);
+        // Historical pasta_with_pesto art/ID = BASIL pesto, not almond.
+        public static final Item PASTA_WITH_PESTO =
+                registerBowlFoodItem("pasta_with_pesto", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_WITH_ALMOND_PESTO =
+                registerBowlFoodItem("pasta_with_almond_pesto", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item CHERRIES = registerSimpleItem("cherries", 64);
+
+        // The Cooking Pot serves this jam into a glass bottle; crafting with
+        // it leaves an empty bottle.
+        public static final Item CHERRY_JAM_BOTTLE = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_jam_bottle")),
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+        public static final Item CHERRY_JAM_TOAST = registerFoodItem("cherry_jam_toast", 5, 0.6f);
+        // Cherry Tart itself is registered as a placeable BlockItem by ModBlocks.
+        public static final Item CHERRY_TART_SLICE = registerFoodItem("cherry_tart_slice", 4, 0.5f);
+
+        // Olive oil: a placeable fluid bucket and a non-drinkable bottle.
+        public static final ResourceKey<Item> APPLE_JUICE_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bucket"));
+        public static final Item APPLE_JUICE_BUCKET = register(
+                APPLE_JUICE_BUCKET_KEY,
+                properties -> new BucketItem(ModFluids.APPLE_JUICE_STILL, properties),
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+
+        public static final ResourceKey<Item> APPLE_JUICE_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bottle"));
+        public static final Item APPLE_JUICE_BOTTLE = register(
+                APPLE_JUICE_BOTTLE_KEY,
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+
+        // Golden Apple Juice is a non-placeable processing fluid without
+        // potion effects, available in both bottle and storage-only bucket.
+        public static final ResourceKey<Item> GOLDEN_APPLE_JUICE_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("golden_apple_juice_bottle"));
+        public static final Item GOLDEN_APPLE_JUICE_BOTTLE = register(
+                GOLDEN_APPLE_JUICE_BOTTLE_KEY,
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+
+        // These are NON-PLACEABLE container items: no BucketItem.placeLiquid.
+        // They still exchange 1000 mB in the Crushing Tub, Barrel and Cauldron.
+        public static final ResourceKey<Item> GOLDEN_APPLE_JUICE_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("golden_apple_juice_bucket"));
+        public static final Item GOLDEN_APPLE_JUICE_BUCKET = register(
+                GOLDEN_APPLE_JUICE_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+
+        // Existing virtual honey uses minecraft:honey, NOT a new registered
+        // world fluid. Its bucket is handled by the legacy liquid containers.
+        public static final ResourceKey<Item> HONEY_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("honey_bucket"));
+        public static final Item HONEY_BUCKET = register(
+                HONEY_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+
+        public static final ResourceKey<Item> OLIVE_OIL_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_oil_bucket"));
+        public static final Item OLIVE_OIL_BUCKET = register(
+                OLIVE_OIL_BUCKET_KEY,
+                properties -> new BucketItem(ModFluids.OLIVE_OIL_STILL, properties),
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+        public static final ResourceKey<Item> OLIVE_OIL_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_oil_bottle"));
+        public static final Item OLIVE_OIL_BOTTLE = register(
+                OLIVE_OIL_BOTTLE_KEY,
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
 
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(

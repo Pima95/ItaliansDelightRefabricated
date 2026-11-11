@@ -8,7 +8,7 @@ plugin=(jei/"ItaliansDelightJeiPlugin.java").read_text(encoding="utf-8")
 samples=(jei/"PizzaJeiIngredientSamples.java").read_text(encoding="utf-8")
 presets=(root/"common/pizza/PizzaDisplayNames.java").read_text(encoding="utf-8")
 creative=(root/"common/pizza/PizzaCreativeSamples.java").read_text(encoding="utf-8")
-assert "presets.size() != 18" in presets, "One 18-recipe canonical name catalogue"
+assert "presets.size() != 21" in presets, "One 18-recipe canonical name catalogue"
 assert "void registerExtraIngredients(IExtraIngredientRegistration registration)" in plugin
 assert "registration.addExtraItemStacks(PizzaJeiIngredientSamples.createAll())" in plugin
 assert "void registerItemSubtypes(ISubtypeRegistration registration)" in plugin
@@ -22,7 +22,7 @@ for line in ("stacks.add(PizzaCreativeSamples.create(recipe, false))",
              "stacks.add(PizzaCreativeSamples.createMixed(false))",
              "stacks.add(PizzaCreativeSamples.createMixed(true))"):
     assert line in samples, f"Missing a raw/cooked/slice/mixed JEI item: {line}"
-assert "new ArrayList<>(3 * 18 + 2)" in samples
+assert "new ArrayList<>(3 * 21 + 2)" in samples
 assert "PizzaDisplayNames.wholePresetId(data)" in samples
 assert "PizzaDisplayNames.slicePresetId(data)" in samples
 assert "data.composition().toppingsForQuarter(quarter)" in samples

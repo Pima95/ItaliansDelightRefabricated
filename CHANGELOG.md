@@ -2,9 +2,74 @@
 
 All notable changes to Italian's Delight Refabricated are documented here.
 
-## Unreleased — Pizza Update 1.0.0 (development branch; NOT published)
+## Unreleased — Orchard Update 1.1.0 (development branch)
 
-This section describes changes currently implemented on `feature/pizza-1.0.0`, **not an available public 1.0.0 download**. Development metadata now builds as **1.0.0**, while the latest **published** download remains **0.4.0** until release testing and approval.
+**Internal release candidate (11 November 2026):**
+`mod_version=1.1.0-rc.1` on `feature/orchards-1.1.0`.
+The author approved functionality and compatibility with existing 1.0.0
+world saves. The public 1.0.0 and `main` remain untouched; no public
+1.1.0 release has been authorized. Serene Seasons + GlitchCore and
+real multiplayer interaction remain untested.
+
+### Additional content and RC hardening
+- Added Olive Pâté, Olive/Tomato-Basil bruschettas, two Olive pizzas,
+  Almond & Basil Pesto, pesto pasta, Almond Cake and four slices,
+  the Mortadella-Ricotta-Almond pizza, Cherry jam and Cherry Tart.
+- Four non-mozzarella pizza slices now have a straight triangular crust
+  without cheese drips. Reinserted slices preserve their toppings and
+  cannot turn served pizzas into whole item drops.
+- Optimized Cheese Vat recipe lookups, salt/Crushing Tub allocations,
+  and pizza/fluid rendering without changing the approved gameplay.
+- Headless dedicated-server startup and Gradle/static checks succeeded;
+  the author confirmed the optimized features work in-game.
+- Packaged upstream license notices for source artwork and crates;
+  remaining individual asset attribution is documented.
+
+### Orchard trees, fruiting and wood
+- Added separate, original **Olive, Almond and Fruit Cherry** tree and wood
+  families: logs and derivatives, saplings, doors, signs, boats and chest
+  boats, cabinets, vanilla-style shelves and cheese-aging racks.
+- Added a monumental **Ancient Olive** with a true irregular 2×2 trunk;
+  four Olive saplings in a 2×2 can grow one, and it occurs rarely in nature.
+- Added species-specific flowering/unripe/ripe foliage, seasonal appearance,
+  exposed-natural-leaf right-click harvesting (1–3 fruit), bone-meal rules,
+  regrowth and rotating **65% fruiting eligibility**.
+- Added optional Serene Seasons integration; it is not a required mod.
+
+### Natural generation — final approved balancing
+- Normal Olive: **1/40** attempts/chunk in Plains, Sunflower Plains and
+  Savanna variants, including Windswept Savanna.
+- Almond: **1/40** in Plains/Sunflower Plains/Savanna/Savanna Plateau;
+  **1/100** in Meadow using a distinct placed feature.
+- Ancient Olive: **1/96** in its original biomes (**unchanged**).
+- Fruit Cherry: **1/7** in Forest/Flower Forest/Cherry Grove (**unchanged**).
+- These are *placement attempts*, not guaranteed trees, and only apply to
+  **newly generated chunks**. The user approved the reduced density in-game.
+
+### Orchard processing and compatibility
+- Added five reversible fruit/herb crates and JEI recipes/information.
+- Added 15 wooden **Crushing Tub** variants, including the original
+  honeycomb, apple, olive, sugar cane and golden-apple processing paths.
+- Added Barrel and cauldron liquid transfer with 250 mB bottles and
+  1,000 mB buckets; new Golden Apple Juice and Honey buckets remain
+  **non-placeable** and preserve their existing liquid identities.
+- Reused provided Rustic fluid sprites and their animation metadata.
+- Added compatibility checks for fluid storage and neighboring mods;
+  kept the existing 1.0.0 Pizza Update behavior intact.
+- **Not part of 1.1.0:** grapes, grape juice and wine; any stored artwork
+  for these is unused and does not imply implemented gameplay.
+
+### Release preparation
+- Corrected Fabric mod-list icon metadata to point to the actual icon
+  under `assets/italiansdelight/textures/icon.png`.
+- Prepared [the 1.1.0 readiness checklist](docs/orchards-1.1.0/RELEASE_READINESS.md)
+  and [draft release notes](docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md).
+  A green CI build does not establish unperformed dedicated-server,
+  multiplayer or saved-world compatibility tests.
+
+## 1.0.0 — Pizza Update (released 23 October 2026)
+
+The Pizza Update is published as [v1.0.0](https://github.com/Pima95/ItaliansDelightRefabricated/releases/tag/v1.0.0). This section records the features released after 0.4.0.
 
 ### Interactive pizza system
 
@@ -27,15 +92,15 @@ This section describes changes currently implemented on `feature/pizza-1.0.0`, *
 - Fixed hook-only Scamorza and Provolone placement and guarded hanging-cheese/wheel drops when their supports are removed.
 - Reused the original Margherita sprite as the Creative tab icon and Mixed Pizza whole-item illustration; approved textures are unchanged.
 
-### Pre-release review and release gate
+### Release review and tooling
 
-- Bumped the development JAR version to **1.0.0** (not published), updated **Fabric Loader to 0.20.1** and **Farmer's Delight Refabricated 26.2 to 3.6.29**; **Fabric API 0.161.0+26.2** remains current for Minecraft 26.2.
+- Bumped the JAR version to **1.0.0**, updated **Fabric Loader to 0.20.1** and **Farmer's Delight Refabricated 26.2 to 3.6.29**; **Fabric API 0.161.0+26.2** remains current for Minecraft 26.2.
 - Completed the final reported Cheese Vat and code-audit work (author confirmation, 23 October 2026).
 - Applied a conservative naming-path micro-optimization to avoid rebuilding the same quarter data and sorting the same topping list twice; previous baking, network update, bowl, peel and recipe-generation optimizations remain intact.
 - Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See [the optimization decision log](docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
 - Prepared [the 1.0.0 release notes draft](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and updated the release checklist.
 
-The Java 25 CI build and resource/static checks run on each branch push. **Dedicated-server/multiplayer testing cannot currently be completed by the author**, and detailed runtime corner cases remain unconfirmed; they are not implicitly passed by compilation. Follow [the 1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md). **Do not tag a release, upload to Modrinth/CurseForge, or merge to protected `main` until the author approves these checks.**
+**Historical test record:** compilation and static checks do not substitute for multiplayer testing, which was not fully completed before publication. The archival [1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) preserves the documented results. The author confirmed 1.0.0 was published and functioning.
 
 ## 0.4.0
 

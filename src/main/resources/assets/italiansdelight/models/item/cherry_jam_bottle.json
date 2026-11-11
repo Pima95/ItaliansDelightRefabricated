@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "italiansdelight:item/cherry_jam_bottle"
+  }
+}

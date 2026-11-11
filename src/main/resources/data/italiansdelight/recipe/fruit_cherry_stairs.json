@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "wooden_stairs",
+  "pattern": [
+    "P  ",
+    "PP ",
+    "PPP"
+  ],
+  "key": {
+    "P": "italiansdelight:fruit_cherry_planks"
+  },
+  "result": {
+    "id": "italiansdelight:fruit_cherry_stairs",
+    "count": 4
+  }
+}
