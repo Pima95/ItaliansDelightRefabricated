@@ -16,9 +16,8 @@ checklist = Path("docs/pizza-1.0.0/RELEASE_READINESS.md").read_text(encoding="ut
 properties = Path("gradle.properties").read_text(encoding="utf-8")
 mod = json.loads(Path("src/main/resources/fabric.mod.json").read_text(encoding="utf-8"))
 
-# The 1.1.0 work branch deliberately keeps the latest released JAR version:
-# building on a feature branch is not publication of 1.1.0.
-assert re.search(r"(?m)^mod_version=1\.0\.0$", properties)
+# Public 1.0.0 stays unchanged; Orchard development builds 1.1.0-rc.1.
+assert re.search(r"(?m)^mod_version=(?:1\.0\.0|1\.1\.0-rc\.1)$", properties)
 assert mod.get("version") == "${version}"
 assert mod.get("id") == "italiansdelight"
 assert mod.get("environment") == "*"
@@ -53,6 +52,7 @@ confirmed = [
 found = [line for line in checklist.splitlines() if line.startswith("- [x]")]
 assert found == confirmed, "Historical runtime confirmations have changed without review"
 
-print("OK: published 1.0.0 and feature branch share truthful version metadata")
+assert "The public release is still **1.0.0**" in readme
+print("OK: published 1.0.0 remains distinct from internal 1.1.0-rc.1")
 print("OK: archived Pizza 1.0.0 checklist and confirmed regressions remain intact")
 print("NOTE: 1.1.0 remains in development; no new version/tag/publication")

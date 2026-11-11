@@ -4,11 +4,26 @@ All notable changes to Italian's Delight Refabricated are documented here.
 
 ## Unreleased — Orchard Update 1.1.0 (development branch)
 
-**Development status (9 November 2026):** main functionality is implemented and
-the author has confirmed the final **natural-generation density** in-game.
-This is not a 1.1.0 release announcement. The branch still has
-`mod_version=1.0.0` until release-candidate validation and an explicit
-decision to change the shipped version and publish.
+**Internal release candidate (11 November 2026):**
+`mod_version=1.1.0-rc.1` on `feature/orchards-1.1.0`.
+The author approved functionality and compatibility with existing 1.0.0
+world saves. The public 1.0.0 and `main` remain untouched; no public
+1.1.0 release has been authorized. Serene Seasons + GlitchCore and
+real multiplayer interaction remain untested.
+
+### Additional content and RC hardening
+- Added Olive Pâté, Olive/Tomato-Basil bruschettas, two Olive pizzas,
+  Almond & Basil Pesto, pesto pasta, Almond Cake and four slices,
+  the Mortadella-Ricotta-Almond pizza, Cherry jam and Cherry Tart.
+- Four non-mozzarella pizza slices now have a straight triangular crust
+  without cheese drips. Reinserted slices preserve their toppings and
+  cannot turn served pizzas into whole item drops.
+- Optimized Cheese Vat recipe lookups, salt/Crushing Tub allocations,
+  and pizza/fluid rendering without changing the approved gameplay.
+- Headless dedicated-server startup and Gradle/static checks succeeded;
+  the author confirmed the optimized features work in-game.
+- Packaged upstream license notices for source artwork and crates;
+  remaining individual asset attribution is documented.
 
 ### Orchard trees, fruiting and wood
 - Added separate, original **Olive, Almond and Fruit Cherry** tree and wood

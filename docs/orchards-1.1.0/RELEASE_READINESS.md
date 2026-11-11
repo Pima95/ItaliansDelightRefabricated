@@ -4,12 +4,11 @@
 **Minecraft:** 26.2 · **Java:** 25 · **Fabric Loader:** 0.20.1+
 **Fabric API:** 0.161.0+26.2 · **Farmer's Delight Refabricated:** 26.2-3.6.29+refabricated.
 
-**Status, 9 November 2026: code and balancing ready for a release-candidate
-review; no 1.1.0 tag or public publication yet.**
-The public version remains 1.0.0, and `gradle.properties` intentionally
-still says `mod_version=1.0.0`. Do not mistake an experimental 1.1.0
-branch JAR named `italiansdelight-1.0.0.jar` for the published 1.0.0
-artifact. Use its Git SHA to distinguish the build.
+**Status, 11 November 2026:** internal candidate
+`1.1.0-rc.1` prepared after the author's functional approval and
+confirmation of compatibility with old 1.0.0 saves. Public remains
+version 1.0.0; **no 1.1.0 tag or public publication yet**.
+The RC stays on the development branch until separately approved.
 
 ## Confirmed outcomes
 - [x] The author tested natural Orchard worldgen and approved the final
@@ -106,7 +105,8 @@ prestazionale già misurato né un obbligo di refactoring prima del rilascio.
   avvio headless riuscito fino a `Done`, senza giocatori connessi
   ([run 43005250714](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250714)).
 - [x] **JAR di prova identificato:** [artifact QA SHA d9d71395](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43005250616/artifacts/13848360820).
-  Contiene la mod con versione interna ancora 1.0.0, **non è una release**.
+  Era il precedente JAR di test, con versione interna ancora 1.0.0.
+  La nuova candidate `1.1.0-rc.1` è distinta e **non è una release**.
 - [x] **Regressioni funzionali in-game delle ottimizzazioni:** l'autore ha confermato
   «Funziona tutto» l'11 novembre 2026 dopo la checklist su Cheese Vat, sale,
   Crushing Tub, pizze/spicchi, fluidi, alberi, JEI e controlli del mondo.
@@ -133,3 +133,22 @@ Serene Seasons/GlitchCore). La compatibilità 1.0.0 è stata in seguito
 esplicitamente approvata dall'autore e registrata nella checklist. Sono ancora aperte l'analisi licenze,
 la scelta sui rischi residui e l'autorizzazione esplicita a promuovere la
 versione 1.1.0 o a pubblicarla.
+
+## Packaging della release candidate — 11 novembre 2026
+
+- [x] **Salvataggi 1.0.0:** compatibilità approvata dall'autore;
+  backup del mondo originale sempre raccomandato.
+- [x] **Metadata candidato:** versione `1.1.0-rc.1` solo nel branch
+  Orchard; versione pubblicata e `main` restano a 1.0.0.
+- [x] **Inventario Rustic:** 39 asset/metadata ancora identici e
+  due eliminati precedentemente; dettagli in
+  [audit asset e licenze](LICENSE_AND_ASSET_RC_REVIEW.md).
+- [ ] **Packaging definitivo della RC:** GitHub Actions deve controllare
+  il `fabric.mod.json` compilato, notices nel JAR e artifact scaricabile.
+- [ ] **Provenienza/crediti di ogni asset legacy e artisti individuali:**
+  da esaminare prima della pubblicazione finale.
+- [ ] **Serene Seasons+GlitchCore e multiplayer reale:** non verificati;
+  avvio server dedicato senza utenti riuscito.
+- [ ] **Autorizzazione release definitiva:** serve consenso separato
+  prima di cambiare `1.1.0-rc.1` in `1.1.0`, creare tag, unire in
+  `main` o pubblicare su GitHub/CurseForge.

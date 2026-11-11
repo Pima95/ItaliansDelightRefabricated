@@ -1,6 +1,8 @@
 # Italian's Delight Refabricated — Orchard Update 1.1.0
 
 **Draft release notes — NOT YET PUBLISHED**
+
+**Internal testing version: 1.1.0-rc.1.** Not a public GitHub or CurseForge release.
 Minecraft 26.2 · Fabric · Farmer's Delight Refabricated add-on
 
 ## What's new
@@ -72,8 +74,19 @@ Minecraft **26.2**, Fabric Loader **0.20.1+**, Java **25**, Fabric API
 - Cherry jam remains served from the Farmer's Delight Cooking Pot with a glass bottle. Its item uses a squat **jam jar** sprite, but the existing stable `cherry_jam_bottle` registry ID is preserved to protect saved inventories.
 - Cherry Tart: six cherries, two jam jars and Farmer's Delight Pie Crust, matching the cheesecake's two-row filling + central crust composition.
 - Cutting Board divides a full Cherry Tart into four slices; a 2×2 grid of four slices reconstructs a whole placeable tart.
-- The placed tart's top is a regular shortcrust lattice over dark cherry filling; outer side is solid baked pastry, without visible filling or layers.
+- The placed tart's top is a diagonal shortcrust lattice over dark cherry filling; outer side is solid baked pastry, without visible filling or layers.
 - Tomato Slice icon was redrawn smaller, with a 10×10 maximum occupied pixel footprint.
+
+## Pizzas, compatibility and candidate QA
+Four cheeseless slices now have pointed triangular crusts with no mozzarella
+drips. Collected slices can be placed on supports or into another pizza while
+retaining their ingredients, and a served pizza never returns as a whole item.
+
+The author approved old world 1.0.0 compatibility and optimized gameplay.
+Gradle CI and a headless Fabric server startup succeeded. Serene Seasons
+with GlitchCore and real multiplayer remain untested. Third-party MIT
+notices are packaged in the candidate; individual asset provenance still
+requires final review.
 
 ## Not included
 **Grapes, grape juice and wine** are planned for a later version.

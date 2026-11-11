@@ -169,6 +169,30 @@ jobs:
             ! -name '*-sources.jar' ! -name '*-dev.jar' \
             -exec cp '{}' build/release-qa/ \;
           test "$(find build/release-qa -type f -name '*.jar' | wc -l)" -eq 1
+      - name: Validate candidate metadata and embedded upstream notices
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, zipfile
+          jars = sorted(Path("build/release-qa").glob("*.jar"))
+          assert len(jars) == 1, f"Expected exactly one JAR: {jars}"
+          versions = [line.split("=", 1)[1] for line in
+              Path("gradle.properties").read_text().splitlines()
+              if line.startswith("mod_version=")]
+          assert len(versions) == 1
+          with zipfile.ZipFile(jars[0]) as jar:
+              members = set(jar.namelist())
+              for name in ("fabric.mod.json", "LICENSE_italiansdelight",
+                  "META-INF/THIRD_PARTY_NOTICES.md",
+                  "META-INF/FDR_CRATES_LICENSE.md"):
+                  assert name in members, f"Missing notice in JAR: {name}"
+              metadata = json.loads(jar.read("fabric.mod.json"))
+              assert metadata["version"] == versions[0], metadata
+              assert metadata["id"] == "italiansdelight"
+              assert b"Copyright (c) 2020 vectorwing" in jar.read(
+                  "META-INF/FDR_CRATES_LICENSE.md")
+              print("OK: JAR metadata", metadata["version"], "and embedded notices")
+          PY
       - name: Upload Orchard development JAR (not a public release)
         uses: actions/upload-artifact@v4
         with:

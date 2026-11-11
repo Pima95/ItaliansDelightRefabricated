@@ -4,9 +4,9 @@
 **Piattaforma:** Minecraft **26.2**, Java **25**, Fabric Loader **0.20.1+**,
 Fabric API **0.161.0+26.2**, Farmer's Delight Refabricated
 **26.2-3.6.29+refabricated**, JEI per le verifiche dell'interfaccia.  
-**Stato del JAR:** proviene da GitHub Actions; il file di sviluppo mantiene
-temporaneamente il nome `italiansdelight-1.0.0.jar` e la versione interna 1.0.0
-fino all'autorizzazione finale. **Non è il JAR pubblico 1.0.0**.
+**Stato del JAR:** la build collaudata inizialmente manteneva il nome
+`italiansdelight-1.0.0.jar`. La nuova candidate di test usa
+`1.1.0-rc.1`, distinta dalle release pubbliche 1.0.0 e 1.1.0.
 
 ## Azioni che puoi eseguire tu (in ordine)
 
@@ -31,6 +31,7 @@ fino all'autorizzazione finale. **Non è il JAR pubblico 1.0.0**.
 
 Prima della pubblicazione verificare `THIRD_PARTY_NOTICES.md` e le attribuzioni
 degli asset Rustic e di eventuali contributori; decidere come gestire i test
-rimasti aperti. Solo successivamente autorizzare un cambio separato
-`mod_version=1.1.0`, aggiornare le note, creare tag e rilasciare il JAR.
+rimasti aperti. La release candidate ora usa `mod_version=1.1.0-rc.1`.
+Solo successivamente autorizzare il cambio a `mod_version=1.1.0`,
+aggiornare le note, creare tag e rilasciare il JAR.
 Non eseguire automaticamente merge su `main` o pubblicazione CurseForge.

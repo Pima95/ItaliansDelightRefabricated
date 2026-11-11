@@ -49,9 +49,10 @@ approximately **65% fruiting eligibility** rather than always ripening.
 **Grapes, grape juice and wine are reserved for a later version**, even
 though some unused texture resources are already present in the tree.
 
-The public release is still **1.0.0**. The branch has not yet been
-tagged or published as 1.1.0; it currently retains the 1.0.0 JAR
-version until the final release gate. See the
+The public release is still **1.0.0**. The Orchard development branch
+now compiles an internal **1.1.0-rc.1** release candidate; it has not
+been tagged, merged to `main` or published. Do not mistake the candidate
+for a public release. See the
 [Orchard readiness checklist](docs/orchards-1.1.0/RELEASE_READINESS.md),
 [draft release notes](docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md)
 and [technical roadmap](docs/orchards-1.1.0/ROADMAP.md).
