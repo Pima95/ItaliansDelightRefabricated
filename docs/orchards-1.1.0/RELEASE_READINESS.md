@@ -169,3 +169,21 @@ versione 1.1.0 o a pubblicarla.
   le condizioni MIT dei materiali di terzi restano in vigore.
 - [ ] Aggiornare la licenza selezionata su CurseForge/Modrinth al momento
   della pubblicazione autorizzata; versione pubblica 1.0.0 resta MIT.
+
+## Java 25 e controlli Apache-2.0 della candidate (11 novembre 2026)
+
+- [x] **Decisione tecnica:** mantenere Java 25 e Minecraft 26.2 nella
+  release 1.1.0; Java 21 richiederebbe un porting separato.
+- [x] **Verifica statica predisposta:** lo script
+  `.github/scripts/check_orchard_release_readiness.py` controlla la
+  coerenza fra MC 26.2, target Java 25, metadati Apache-2.0, file
+  `NOTICE` e packaging delle attribuzioni di terzi.
+- [x] **Verifica JAR predisposta:** dopo la build, il workflow
+  `.github/workflows/pizza-build.yml` verifica il bytecode Java 25
+  (class-file major 69) della classe principale, la versione RC,
+  la licenza Apache-2.0, `LICENSE_italiansdelight`,
+  `META-INF/NOTICE` e gli avvisi MIT delle risorse di terzi.
+- [ ] **CI del nuovo commit:** verificare esito effettivo e artifact della
+  candidate; modifiche ai test non equivalgono a una build riuscita.
+- [ ] **Pubblicazione:** mantenere `main`, versioni pubbliche e descrizioni
+  CurseForge/Modrinth invariati fino all'autorizzazione finale.
