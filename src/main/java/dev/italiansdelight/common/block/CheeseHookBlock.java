@@ -11,7 +11,6 @@ import dev.italiansdelight.common.block.entity.CheeseHookBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModBlocks;
 
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -295,7 +294,7 @@ private static final VoxelShape HOOK_SHAPE =
             && !player.addItem(stack)
         ) {
             player.drop(
-                stack, false, Prediction.SERVER_ONLY
+                stack, false
             );
         }
     }
@@ -314,7 +313,7 @@ private static final VoxelShape HOOK_SHAPE =
         player.getInventory()
             .placeItemBackInInventory(
                 stack
-            , Prediction.SERVER_ONLY);
+            );
     }
 
     @Override

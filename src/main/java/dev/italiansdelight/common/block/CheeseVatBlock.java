@@ -8,7 +8,6 @@ import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModParticles;
 import dev.italiansdelight.common.registry.ModItems;
 
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -246,7 +245,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
             if (!serving.isEmpty()) {
                 if (!player.addItem(serving)) {
                     player.drop(
-                        serving, false, Prediction.SERVER_ONLY
+                        serving, false
                     );
                 }
 

@@ -10,7 +10,6 @@ import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -206,7 +205,7 @@ public static final IntegerProperty REMAINING = IntegerProperty.create("remainin
         // external inventory handler unexpectedly refuses, preserve the
         // committed item as a final failsafe instead of silently losing it.
         if (!player.addItem(slice) && !slice.isEmpty()) {
-            player.drop(slice, false, Prediction.SERVER_ONLY);
+            player.drop(slice, false);
         }
         server.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.6F, 1.0F);
         return InteractionResult.SUCCESS;

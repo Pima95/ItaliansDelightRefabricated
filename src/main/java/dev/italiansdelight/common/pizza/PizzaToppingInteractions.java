@@ -5,7 +5,6 @@ import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModItems;
 import java.util.Optional;
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -124,7 +123,7 @@ public final class PizzaToppingInteractions {
             // remainder/empty bowl is created on this cancellation path.
             ItemStack refund = result.refund();
             if (!refund.isEmpty() && !player.addItem(refund) && !refund.isEmpty()) {
-                player.drop(refund, false, Prediction.SERVER_ONLY);
+                player.drop(refund, false);
             }
             // BlockEntity.setComposition() already broadcasts once.
             server.playSound(null, pos, SoundEvents.WOOL_PLACE,
@@ -144,7 +143,7 @@ public final class PizzaToppingInteractions {
             }
             ItemStack refund = new ItemStack(ModItems.MOZZARELLA);
             if (!player.addItem(refund) && !refund.isEmpty()) {
-                player.drop(refund, false, Prediction.SERVER_ONLY);
+                player.drop(refund, false);
             }
             server.playSound(null, pos, SoundEvents.WOOL_PLACE,
                     SoundSource.BLOCKS, 0.55F, 0.8F);

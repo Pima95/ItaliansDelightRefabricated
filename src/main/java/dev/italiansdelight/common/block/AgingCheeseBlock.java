@@ -8,7 +8,6 @@ import dev.italiansdelight.common.aging.CheeseShapes;
 import dev.italiansdelight.common.block.entity.AgingCheeseBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -215,7 +214,7 @@ public final class AgingCheeseBlock
             if (level.removeBlock(pos, false)
                     && !player.addItem(pickup)
                     && !pickup.isEmpty()) {
-                player.drop(pickup, false, Prediction.SERVER_ONLY);
+                player.drop(pickup, false);
             }
         }
 
