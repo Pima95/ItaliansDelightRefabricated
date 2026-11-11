@@ -19,7 +19,9 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
+import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -43,7 +45,7 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock impleme
     private static final int ADVANCE_SUCCESSES = 2;
 
     public AlmondLeavesBlock(Properties properties) {
-        super(0.0F, ParticleTypes.CHERRY_LEAVES, properties);
+        super(0.0F, ParticleTypes.CHERRY_LEAVES, AmbientLeavesBlockSoundPlayer.noAmbientSound(), properties);
         registerDefaultState(defaultBlockState().setValue(STAGE, 0).setValue(SEASONAL_VISUAL, 0));
     }
 
@@ -154,7 +156,7 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock impleme
      * the same existing Serene Seasons bridge as random-tick growth.
      */
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, BonemealSource source) {
         if (!state.is(this)
                 || !canDevelop(state)
                 || !hasAirFace(level, pos)
@@ -169,20 +171,18 @@ public final class AlmondLeavesBlock extends UntintedParticleLeavesBlock impleme
     }
 
     @Override
-    public boolean isBonemealSuccess(Level level, RandomSource random,
-                                     BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state, BonemealSource source) {
         // One fertilizer application advances a single visible growth phase,
         // just like a crop, without changing other leaves or spawning drops.
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel level, RandomSource random,
-                                BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state, BonemealSource source) {
         // Re-read everything on the server to prevent stale client target
         // or an out-of-season interaction from bypassing growth restrictions.
         BlockState current = level.getBlockState(pos);
-        if (!isValidBonemealTarget(level, pos, current)) {
+        if (!isValidBonemealTarget(level, pos, current, source)) {
             return;
         }
         level.setBlock(pos, current.setValue(STAGE, current.getValue(STAGE) + 1), 2);
