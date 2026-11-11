@@ -156,3 +156,16 @@ versione 1.1.0 o a pubblicarla.
 - [ ] **Autorizzazione release definitiva:** serve consenso separato
   prima di cambiare `1.1.0-rc.1` in `1.1.0`, creare tag, unire in
   `main` o pubblicare su GitHub/CurseForge.
+
+## Scelta licenza di progetto (11 novembre 2026)
+
+- [x] L'autore ha scelto **Apache-2.0** per il progetto a partire dalla
+  futura release Orchard, applicabile ai suoi contributi originali.
+- [x] Il branch di sviluppo include `LICENSE`, `NOTICE`, aggiornamento
+  di `fabric.mod.json` e packaging dei notice in `build.gradle`.
+- [ ] Ricompilare la candidate e verificare la presenza di
+  `LICENSE_italiansdelight` e `META-INF/NOTICE` nel JAR effettivo.
+- [ ] Verificare i crediti di tutti gli asset legacy prima del rilascio;
+  le condizioni MIT dei materiali di terzi restano in vigore.
+- [ ] Aggiornare la licenza selezionata su CurseForge/Modrinth al momento
+  della pubblicazione autorizzata; versione pubblica 1.0.0 resta MIT.
