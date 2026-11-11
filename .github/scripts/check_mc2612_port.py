@@ -39,6 +39,6 @@ jei = (SRC / "dev/italiansdelight/integration/jei/ItaliansDelightJeiPlugin.java"
        ).read_text(encoding="utf-8")
 begin = jei.index("for (net.minecraft.world.level.block.Block tub")
 end = jei.index("}) {", begin)
-assert jei[begin:end].count("_CRUSHING_TUB") == 15, "Wrong JEI tub count"
+assert jei[begin:end].count("_CRUSHING_TUB") == 14, "Wrong JEI tub count"
 print("OK: MC 26.1.2, Fabric, FDR, JEI, optional Serene, Java 25")
 print("OK: no 26.3 Poplar references; base + 14 Crushing Tub variants")
