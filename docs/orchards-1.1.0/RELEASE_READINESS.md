@@ -246,3 +246,26 @@ versione 1.1.0 o a pubblicarla.
   ancora privi di test runtime; non dichiararli superati.
 - [ ] **Rilascio definitivo:** richiede sempre autorizzazione
   esplicita separata per aggiornare `main`, tag e pagine pubbliche.
+
+
+## Ripresa dello sviluppo dopo il ripristino di main (11 novembre 2026)
+
+- [x] La PR #11 ha ripristinato `main` ai file della release pubblica
+  1.0.0 (licenza MIT); la PR #10 resta in cronologia, ma il suo
+  contenuto è stato annullato con un nuovo commit.
+- [x] Il branch autorizzato per proseguire è esclusivamente
+  `feature/orchards-1.1.0`, con `mod_version=1.1.0-rc.1`;
+  non creare ulteriori branch né effettuare merge senza richiesta
+  esplicita dell'autore.
+- [x] L'autore conferma l'avvio del client e l'apertura del mondo.
+- [ ] Generare un artifact QA aggiornato dal commit corrente del branch
+  di sviluppo con i notice/licenza appena sistemati; la precedente
+  build QA era antecedente ad alcune modifiche di packaging.
+- [ ] Installare **un solo** JAR di prova `italiansdelight-1.1.0-rc.1.jar`
+  e completare le ultime verifiche giocabili prima di proporre
+  l'integrazione finale.
+- [ ] I test non realizzati (Serene Seasons/GlitchCore e multiplayer
+  reale) devono restare indicati come limiti, non come test superati.
+- [ ] La futura pubblicazione richiederà una nuova strategia esplicita
+  di integrazione, perché il vecchio merge è stato annullato nella
+  cronologia di `main`.
