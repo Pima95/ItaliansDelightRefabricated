@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -17,6 +19,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * Bone meal spreads nearby wild basil without creating a separate seed item.
  */
 public class WildBasilBlock extends VegetationBlock implements BonemealableBlock {
+    private static final MapCodec<WildBasilBlock> CODEC = simpleCodec(WildBasilBlock::new);
+
 private static final VoxelShape SHAPE = box(2, 0, 2, 14, 12, 14);
 
     public WildBasilBlock(Properties properties) {
@@ -75,4 +79,9 @@ private static final VoxelShape SHAPE = box(2, 0, 2, 14, 12, 14);
             level.setBlock(candidate, state, 2);
         }
     }
+
+    @Override
+        protected MapCodec<WildBasilBlock> codec() {
+            return CODEC;
+        }
 }

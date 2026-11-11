@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import dev.italiansdelight.common.fluid.FluidTransferBridge;
 import net.minecraft.core.BlockPos;
@@ -108,4 +110,8 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
             SoundSource.BLOCKS, 1F, 1F);
         return InteractionResult.SUCCESS;
     }
+
+    @Override protected MapCodec<? extends BaseEntityBlock> codec() {
+            return simpleCodec(FluidCauldronBlock::new);
+        }
 }

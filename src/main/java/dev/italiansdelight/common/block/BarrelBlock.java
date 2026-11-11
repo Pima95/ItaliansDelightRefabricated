@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import java.util.List;
 import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
 import dev.italiansdelight.common.fluid.FluidTransferBridge;
@@ -149,4 +151,6 @@ public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterlog
                 if (stack.is(asItem())) tank.preserveContents(stack, params.getLevel().registryAccess());
         return drops;
     }
+
+    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(BarrelBlock::new); }
 }

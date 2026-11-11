@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +53,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * advance while attached; finished products can be re-attached for decoration.
  */
 public final class CheeseHookBlock extends BaseEntityBlock {
+    public static final MapCodec<CheeseHookBlock> CODEC =
+            simpleCodec(CheeseHookBlock::new);
+
 
     public static final EnumProperty<Direction> FACING =
         BlockStateProperties.HORIZONTAL_FACING;
@@ -461,4 +466,9 @@ private static final VoxelShape HOOK_SHAPE =
 
         return null;
     }
+
+    @Override
+        protected MapCodec<? extends BaseEntityBlock> codec() {
+            return CODEC;
+        }
 }
