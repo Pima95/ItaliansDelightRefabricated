@@ -223,3 +223,26 @@ versione 1.1.0 o a pubblicarla.
 - [ ] **Audit dei singoli PNG legacy:** resta aperto, così come l'eventuale
   recupero di avvisi copyright specifici delle distribuzioni originali.
 - [ ] **Test opzionali e multiplayer:** non dichiarati superati.
+
+## Chiusura ricerca attribuzione non documentata e test server (11 novembre 2026)
+
+- [x] **Decisione dell'autore:** interrompere la ricerca dei nomi degli
+  artisti delle singole texture quando tali informazioni non sono
+  documentate nel progetto originale; mantenere tutti i crediti
+  disponibili e gli avvisi di licenza già raccolti.
+- [ ] **Provenienza per-singolo-asset:** non verificabile per parte delle
+  texture storiche: rimane una limitazione dichiarata, non una
+  attestazione di titolarità o di conformità legale completa.
+  Riaprire la verifica soltanto in presenza di nuove fonti pertinenti.
+- [x] **Smoke automatico ampliato:** `.github/workflows/orchard-server-smoke.yml`
+  ora esegue un primo avvio dedicato e prova a riavviare **lo stesso mondo**
+  dopo aver controllato l'esistenza di `run/world/level.dat`.
+  Il test non crea un mondo migrato dalla 1.0.0 e non verifica dati
+  di inventari, contenitori, blocchi o due giocatori simultanei.
+- [ ] **Nuovo esito Actions:** la ripetizione di avvio e caricamento
+  dello stesso mondo sarà considerata positiva solo dopo un job CI
+  completato correttamente e log scaricabile.
+- [ ] **Compatibilità Serene Seasons + GlitchCore e multiplayer reale:**
+  ancora privi di test runtime; non dichiararli superati.
+- [ ] **Rilascio definitivo:** richiede sempre autorizzazione
+  esplicita separata per aggiornare `main`, tag e pagine pubbliche.
