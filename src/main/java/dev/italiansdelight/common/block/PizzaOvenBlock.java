@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import dev.italiansdelight.common.block.entity.PizzaOvenBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -34,6 +36,9 @@ import net.minecraft.world.phys.BlockHitResult;
  * without changing its inventory, direction, blockstate or save format.
  */
 public final class PizzaOvenBlock extends BaseEntityBlock {
+    private static final MapCodec<PizzaOvenBlock> CODEC =
+                simpleCodec(PizzaOvenBlock::new);
+
 public static final EnumProperty<Direction> FACING =
             BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -155,4 +160,9 @@ public static final EnumProperty<Direction> FACING =
         }
         return null;
     }
+
+    @Override
+        protected MapCodec<? extends BaseEntityBlock> codec() {
+            return CODEC;
+        }
 }

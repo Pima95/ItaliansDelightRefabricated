@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -348,4 +350,9 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
 
         return null;
     }
+
+    @Override
+        protected MapCodec<? extends BaseEntityBlock> codec() {
+            return simpleCodec(CheeseAgingRackBlock::new);
+        }
 }

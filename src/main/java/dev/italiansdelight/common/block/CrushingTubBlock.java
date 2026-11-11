@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import java.util.ArrayList;
@@ -194,4 +196,8 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
             drops.add(tub.getInput());
         return drops;
     }
+
+    @Override protected MapCodec<? extends BaseEntityBlock> codec() {
+            return simpleCodec(CrushingTubBlock::new);
+        }
 }

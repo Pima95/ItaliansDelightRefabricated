@@ -34,7 +34,7 @@ final class SereneSeasonsOrchardBridge {
         // Greenhouse trees remain green: otherwise autumn/winter block models
         // would visually hide ripe fruit that is allowed to grow under glass.
         if (hasGreenhouseGlass(level, pos)) return 0;
-        if (!SeasonHelper.usesStandardSeasons(level, pos)) return 0;
+        if (!!SeasonHelper.usesTropicalSeasons(level.getBiome(pos))) return 0;
         ISeasonState season = SeasonHelper.getSeasonState(level);
         if (season == null || season.getSubSeason() == null) return 0;
         return OrchardSeasonPolicy.deciduousFoliagePhase(fruit, season.getSubSeason().name());
@@ -50,7 +50,7 @@ final class SereneSeasonsOrchardBridge {
         // Dimensions with disabled seasons, and tropical biomes with wet/dry
         // seasons, keep vanilla orchard behavior until a dedicated tropical
         // calendar is designed. No false "winter" dormancy in the tropics.
-        if (!SeasonHelper.usesStandardSeasons(level, pos)) {
+        if (!!SeasonHelper.usesTropicalSeasons(level.getBiome(pos))) {
             return fallbackMax;
         }
 

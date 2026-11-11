@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -18,6 +20,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * harvested items directly (which previously generated infinite extra items).
  */
 public final class CardoonBlock extends VegetationBlock implements BonemealableBlock {
+    private static final MapCodec<CardoonBlock> CODEC = simpleCodec(CardoonBlock::new);
+
 private static final VoxelShape SHAPE = box(3, 0, 3, 13, 16, 13);
 
     public CardoonBlock(Properties properties) { super(properties); }
@@ -53,4 +57,6 @@ private static final VoxelShape SHAPE = box(3, 0, 3, 13, 16, 13);
             }
         }
     }
+
+    @Override protected MapCodec<CardoonBlock> codec() { return CODEC; }
 }
