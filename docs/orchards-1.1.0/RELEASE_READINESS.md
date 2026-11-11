@@ -75,3 +75,25 @@ from 1.1.0 even if unused texture resources are present.
 CI can confirm compile-time and static invariants, **not** the
 unperformed server/runtime/compatibility checks. Fill the boxes only
 after recording the result, date, candidate JAR hash and test world.
+
+## Analisi pre-release e impossibilità di test manuali (11 novembre 2026)
+
+L'autore ha confermato in-game il funzionamento di **cibi, marmellata,
+crostata, torta di mandorle, ricette, fette e riposizionamento degli
+spicchi di pizza**. Questi test effettuati non devono essere confusi
+con i test ancora mancanti per compatibilità tra versioni e server.
+
+L'autore **non può effettuare** le prove di Serene Seasons né di server
+dedicato/multiplayer. Le due caselle relative restano perciò aperte:
+non vanno automaticamente contrassegnate come superate. Prima della
+pubblicazione valutare uno **smoke test CI headless** con/senza
+Serene Seasons e un test di persistenza/salvataggio. Anche in caso
+di test automatici riusciti, annotare i limiti rispetto a due giocatori reali.
+
+È stata completata una [revisione statica di 163 Java, 68 script Python e dei
+controlli su 1.568 JSON](../CODE_OPTIMIZATION_AUDIT_2026-11-11.md).
+Il documento contiene opportunità di ottimizzazione **non applicate**,
+con priorità, misure da raccogliere, rischi e controlli di compatibilità.
+La build automatica del [commit di sola pulizia docs](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/42927860323)
+è riuscita. Nessuna proposta di ottimizzazione costituisce un problema
+prestazionale già misurato né un obbligo di refactoring prima del rilascio.
