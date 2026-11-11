@@ -117,3 +117,28 @@ Italian's Delight originale e verificare l'eventuale paternità
 individuale; ottenere e conservare avvisi copyright più specifici
 qualora esistano nei pacchetti originali. Non eliminare o sostituire
 texture approvate senza prova di utilizzo e compatibilità.
+
+## Decisione operativa dell'autore — attribuzioni legacy non documentate (11 novembre 2026)
+
+L'autore ha chiesto di **non proseguire indefinitamente la ricerca dell'artista
+di ciascuna texture** quando il progetto Italian's Delight originale non
+contiene dati per identificarlo, e di procedere con i controlli tecnici 1.1.0.
+
+**Stato:** verifica documentale eseguita fino alle informazioni disponibili;
+la **paternità delle singole texture non identificate resta sconosciuta**.
+Questo limite non significa che l'autore sia stato identificato, che una
+licenza di terzi si trasformi in Apache-2.0 o che non esistano condizioni
+aggiuntive. La ricerca ulteriore è **differita**, non contrassegnata come
+superata; riaprirla solo se emergono nuove fonti documentali pertinenti.
+
+**Regole da mantenere:**
+- Conservare le texture esistenti già approvate, senza cancellazioni
+  speculative che possano compromettere salvataggi o funzionalità.
+- Conservare nel repository e nel JAR i crediti verificati e gli avvisi
+  MIT di Rustic, Italian's Delight e Farmer's Delight.
+- Applicare Apache-2.0 ai contributi originali, senza rivendicare
+  titolarità esclusiva sulle opere di terzi.
+- Non dichiarare una 'clearance' legale totale né usare l'incertezza
+  come giustificazione per attribuzioni inventate.
+- Pubblicazione finale, tag, modifica `main` e aggiornamento
+  CurseForge/Modrinth restano subordinati ad autorizzazione separata.
