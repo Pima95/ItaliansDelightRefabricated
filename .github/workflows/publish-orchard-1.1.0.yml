@@ -1,0 +1,144 @@
+# Publish the exact, author-tested 1.1.0 JAR only after merging the
+# existing Orchard feature branch into main. No branch creation.
+# Source: GitHub Actions artifact from full-version test commit 3903d831.
+name: Publish Orchard Update v1.1.0 on GitHub
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  github-release:
+    name: Verify tested JAR and publish GitHub release
+    if: github.repository == 'Pima95/ItaliansDelightRefabricated' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout merged source and history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Enforce approved version and unchanged tested source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        id: preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(sed -n 's/^mod_version=//p' gradle.properties)
+          if [[ "$version" != "1.1.0" ]]; then
+            echo "Only 1.1.0 is eligible; found $version; skipping."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # The release must contain the source of the JAR already accepted
+          # by the author, not a subsequently modified implementation.
+          git diff --exit-code 3903d831de74a1ff9f278ac9b5f5c5e54d50734a HEAD -- src/ build.gradle gradle.properties
+          git merge-base --is-ancestor 3903d831de74a1ff9f278ac9b5f5c5e54d50734a HEAD
+          if gh release view v1.1.0 --repo Pima95/ItaliansDelightRefabricated >/dev/null 2>&1; then
+            echo "GitHub Release v1.1.0 already exists; no duplicate."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if git ls-remote --exit-code --tags origin refs/tags/v1.1.0 >/dev/null 2>&1; then
+            echo "Tag v1.1.0 exists without an accessible release; refusing to overwrite."
+            exit 1
+          fi
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+
+      - name: Download the exact author-tested playable JAR
+        if: steps.preflight.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          gh run download 43058826113 \
+            --repo Pima95/ItaliansDelightRefabricated \
+            --name italiansdelight-1.1.0-full-version-test-3903d831de74a1ff9f278ac9b5f5c5e54d50734a \
+            --dir dist
+          test -f dist/italiansdelight-1.1.0.jar
+          test "$(find dist -maxdepth 1 -type f -name '*.jar' | wc -l)" -eq 1
+
+      - name: Validate Fabric metadata, Java 25 and embedded legal notices
+        if: steps.preflight.outputs.publish == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, struct, zipfile
+          from pathlib import Path
+          path = Path('dist/italiansdelight-1.1.0.jar')
+          with zipfile.ZipFile(path) as z:
+              members = set(z.namelist())
+              for name in ('fabric.mod.json', 'LICENSE_italiansdelight',
+                           'META-INF/NOTICE', 'META-INF/THIRD_PARTY_NOTICES.md',
+                           'META-INF/FDR_CRATES_LICENSE.md',
+                           'dev/italiansdelight/ItaliansDelight.class'):
+                  assert name in members, name
+              mod = json.loads(z.read('fabric.mod.json'))
+              assert mod['id'] == 'italiansdelight'
+              assert mod['version'] == '1.1.0'
+              assert mod['license'] == 'Apache-2.0'
+              assert mod['depends']['minecraft'] == '~26.2'
+              assert mod['depends']['java'] == '>=25'
+              assert mod['depends']['farmersdelight']
+              assert struct.unpack('>H', z.read('dev/italiansdelight/ItaliansDelight.class')[6:8])[0] == 69
+              assert b'Apache License' in z.read('LICENSE_italiansdelight')
+              assert b'Piergiuseppe Mastroserio (Pima95)' in z.read('META-INF/NOTICE')
+              assert b'Copyright (c) 2020 vectorwing' in z.read('META-INF/FDR_CRATES_LICENSE.md')
+          print('Validated exact 1.1.0 JAR and packaged notices')
+          PY
+          (cd dist && sha256sum italiansdelight-1.1.0.jar > SHA256SUMS)
+
+      - name: Create published GitHub Release v1.1.0
+        if: steps.preflight.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > release-notes.md <<'NOTES'
+          # Italian's Delight Refabricated 1.1.0 — Orchard Update
+
+          This update expands Italian's Delight Refabricated with orchards, wooden building blocks, food production and new dishes.
+
+          ## What's new
+          - Olive trees, Almond trees and Fruit Cherry trees, each with fruiting stages, natural world generation and their own wood sets, furniture, signs and boats.
+          - Rare monumental Ancient Olive with an irregular 2×2 trunk; right-click fruit harvesting, regrowth and rotating natural foliage eligibility.
+          - Rustic-style Crushing Tubs (15 wood variants), crates, Barrel and cauldron liquid handling with compatible bottles and buckets.
+          - New olive, almond and cherry preparations, including bruschettas, pesto, pasta, cakes, cherry tart and jam, and additional recognized pizzas.
+          - Corrected pizza-slice visuals and placement; refined recipes, JEI integrations and performance.
+
+          **World generation:** newly added natural trees appear in newly generated chunks. Existing worlds should be backed up before upgrading; the author verified an upgrade from 1.0.0.
+
+          ## Requirements
+          - Minecraft **26.2**, **Fabric Loader 0.20.1+**, **Java 25**.
+          - **Fabric API 0.161.0+26.2**.
+          - **Farmer's Delight Refabricated 3.6.29** for Minecraft 26.2.
+          - JEI integration is available. Serene Seasons / GlitchCore support is optional.
+
+          ## Compatibility and known limitations
+          - The author tested the full **italiansdelight-1.1.0.jar** in Minecraft and confirmed it works. GitHub Actions compilation, metadata/license checks and headless dedicated-server boot plus same-world restart succeeded.
+          - Real two-player multiplayer and in-game Serene Seasons + GlitchCore tests have **not** been performed; the automated server check does not prove these scenarios.
+          - Grapes, grape juice and wine are **not part** of this version.
+
+          ## License and attribution
+          Original contributions use **Apache License 2.0**. Preserved MIT terms and notices for third-party materials from the original Italian's Delight, Rustic, and Farmer's Delight remain applicable. Original project and upstream team credits are included in the JAR; attribution of some individual legacy sprites is not documented.
+
+          Download **italiansdelight-1.1.0.jar** below; **SHA256SUMS** contains the checksum of this exact playable JAR. Do not install `sources` or `dev` JARs.
+          NOTES
+          gh release create v1.1.0 \
+            dist/italiansdelight-1.1.0.jar dist/SHA256SUMS \
+            --repo Pima95/ItaliansDelightRefabricated \
+            --target "$GITHUB_SHA" \
+            --title "Italian's Delight Refabricated 1.1.0 — Orchard Update" \
+            --notes-file release-notes.md \
+            --latest
