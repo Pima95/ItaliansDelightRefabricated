@@ -10,9 +10,9 @@
               "type": "minecraft:set_count",
               "count": 2,
               "condition": {
-                "type": "minecraft:block_state_property",
-                "block": "italiansdelight:olive_slab",
-                "properties": {
+                "type": "minecraft:match_block",
+                "blocks": "italiansdelight:olive_slab",
+                "state": {
                   "type": "double"
                 }
               }

@@ -17,9 +17,9 @@
     },
     {
       "condition": {
-        "block": "italiansdelight:basil",
-        "type": "minecraft:block_state_property",
-        "properties": {
+        "type": "minecraft:match_block",
+        "blocks": "italiansdelight:basil",
+        "state": {
           "age": "7"
         }
       },

@@ -17,9 +17,9 @@
     },
     {
       "condition": {
-        "block": "italiansdelight:cultivated_cardoon",
-        "type": "minecraft:block_state_property",
-        "properties": {
+        "type": "minecraft:match_block",
+        "blocks": "italiansdelight:cultivated_cardoon",
+        "state": {
           "age": "7"
         }
       },
