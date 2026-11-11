@@ -3,13 +3,27 @@
   "pools": [
     {
       "rolls": 1,
-      "conditions": [{ "condition": "minecraft:survives_explosion" }],
-      "entries": [{ "type": "minecraft:item", "name": "minecraft:flower_pot" }]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:flower_pot"
+        }
+      ]
     },
     {
       "rolls": 1,
-      "conditions": [{ "condition": "minecraft:survives_explosion" }],
-      "entries": [{ "type": "minecraft:item", "name": "italiansdelight:cardoon" }]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:cardoon"
+        }
+      ]
     }
   ]
 }

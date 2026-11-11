@@ -9,18 +9,21 @@
           "name": "italiansdelight:olive_door"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "italiansdelight:olive_door",
-          "properties": {
-            "half": "lower"
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:block_state_property",
+            "block": "italiansdelight:olive_door",
+            "properties": {
+              "half": "lower"
+            }
+          },
+          {
+            "type": "minecraft:survives_explosion"
           }
-        },
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+        ]
+      }
     }
   ]
 }
