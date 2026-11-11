@@ -246,8 +246,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
             if (!serving.isEmpty()) {
                 if (!player.addItem(serving)) {
                     player.drop(
-                        serving,
-                        Prediction.SERVER_ONLY
+                        serving, false, Prediction.SERVER_ONLY
                     );
                 }
 

@@ -262,8 +262,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             && !player.addItem(stack)
         ) {
             player.drop(
-                stack,
-                Prediction.SERVER_ONLY
+                stack, false, Prediction.SERVER_ONLY
             );
         }
     }

@@ -135,8 +135,7 @@ private static final int MIN_SALT_DROP = 3;
 
         if (!player.addItem(salt)) {
             player.drop(
-                salt,
-                Prediction.SERVER_ONLY
+                salt, false, Prediction.SERVER_ONLY
             );
         }
 

@@ -206,7 +206,7 @@ public static final IntegerProperty REMAINING = IntegerProperty.create("remainin
         // external inventory handler unexpectedly refuses, preserve the
         // committed item as a final failsafe instead of silently losing it.
         if (!player.addItem(slice) && !slice.isEmpty()) {
-            player.drop(slice, Prediction.SERVER_ONLY);
+            player.drop(slice, false, Prediction.SERVER_ONLY);
         }
         server.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.6F, 1.0F);
         return InteractionResult.SUCCESS;

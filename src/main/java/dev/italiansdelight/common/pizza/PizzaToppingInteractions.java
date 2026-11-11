@@ -124,7 +124,7 @@ public final class PizzaToppingInteractions {
             // remainder/empty bowl is created on this cancellation path.
             ItemStack refund = result.refund();
             if (!refund.isEmpty() && !player.addItem(refund) && !refund.isEmpty()) {
-                player.drop(refund, Prediction.SERVER_ONLY);
+                player.drop(refund, false, Prediction.SERVER_ONLY);
             }
             // BlockEntity.setComposition() already broadcasts once.
             server.playSound(null, pos, SoundEvents.WOOL_PLACE,
@@ -144,7 +144,7 @@ public final class PizzaToppingInteractions {
             }
             ItemStack refund = new ItemStack(ModItems.MOZZARELLA);
             if (!player.addItem(refund) && !refund.isEmpty()) {
-                player.drop(refund, Prediction.SERVER_ONLY);
+                player.drop(refund, false, Prediction.SERVER_ONLY);
             }
             server.playSound(null, pos, SoundEvents.WOOL_PLACE,
                     SoundSource.BLOCKS, 0.55F, 0.8F);

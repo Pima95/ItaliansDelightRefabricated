@@ -295,8 +295,7 @@ private static final VoxelShape HOOK_SHAPE =
             && !player.addItem(stack)
         ) {
             player.drop(
-                stack,
-                Prediction.SERVER_ONLY
+                stack, false, Prediction.SERVER_ONLY
             );
         }
     }

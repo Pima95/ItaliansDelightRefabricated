@@ -215,7 +215,7 @@ public final class AgingCheeseBlock
             if (level.removeBlock(pos, false)
                     && !player.addItem(pickup)
                     && !pickup.isEmpty()) {
-                player.drop(pickup, Prediction.SERVER_ONLY);
+                player.drop(pickup, false, Prediction.SERVER_ONLY);
             }
         }
 
