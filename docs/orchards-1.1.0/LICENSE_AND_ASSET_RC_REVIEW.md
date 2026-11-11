@@ -60,3 +60,24 @@ attribuzioni individuali degli asset.
 **Decisione RC:** si può creare e testare internamente la release candidate.
 Nessuna modifica agli asset già approvati, nessun tag definitivo, nessun
 merge in `main` e nessuna pubblicazione senza la successiva autorizzazione.
+
+## Decisione successiva: licenza Apache 2.0 (11 novembre 2026)
+
+L'autore ha approvato **Apache License 2.0** come unica licenza di progetto
+selezionabile su CurseForge e Modrinth. Il branch di sviluppo Orchard ora
+adotta la licenza per i **contributi originali** di Piergiuseppe Mastroserio
+(Pima95) e include il file `NOTICE` richiesto per la relativa attribuzione.
+
+La licenza di progetto non modifica i diritti sui materiali importati da
+Rustic, Italian's Delight originale o Farmer's Delight: continuano a valere
+i rispettivi avvisi/licenze MIT (e le eventuali ulteriori condizioni dei
+singoli artisti, ancora da verificare). Il JAR deve comprendere
+`LICENSE_italiansdelight`, `META-INF/NOTICE`,
+`META-INF/THIRD_PARTY_NOTICES.md` e
+`META-INF/FDR_CRATES_LICENSE.md`.
+
+La release pubblicata **1.0.0 resta MIT** e le concessioni già effettuate
+non vengono revocate. Il cambio sul branch **non** costituisce autorizzazione
+alla release definitiva o alla modifica delle schede CurseForge/Modrinth.
+I test CI e il controllo dei nuovi notice nel JAR devono essere rieseguiti;
+la revisione puntuale della provenienza degli asset rimane **aperta**.
