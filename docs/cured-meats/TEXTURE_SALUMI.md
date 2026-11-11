@@ -1,10 +1,12 @@
 # Texture della filiera dei salumi
 
+> **Nota archivio (11/11/2026):** le anteprime HTML e i prompt sperimentali non fanno più parte della documentazione attiva. I collegamenti storici qui sotto aprono la versione precedente alla pulizia, recuperabile dalla cronologia Git.
+
 Catalogo dei 25 item registrati nella prima filiera e dei 14 stati appesi.
-[Anteprima interattiva](TEXTURE_SALUMI.html) ·
-[Prompt originali delle icone](TEXTURE_SALUMI_PROMPTS.json) ·
+[Anteprima interattiva](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cured-meats/TEXTURE_SALUMI.html) ·
+[Prompt originali delle icone](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cured-meats/TEXTURE_SALUMI_PROMPTS.json) ·
 [Modelli aggiornati](MODELLI_SALUMI.md) ·
-[Prompt dei materiali appesi](MODELLI_SALUMI_PROMPTS.json)
+[Prompt dei materiali appesi](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cured-meats/MODELLI_SALUMI_PROMPTS.json)
 
 ## Criteri grafici
 
@@ -64,7 +66,7 @@ Un quindicesimo materiale, `hanging_meat_bone.png`, serve per
 l'osso del Prosciutto. Lo spago mantiene la texture già esistente.
 
 Totale attuale: **25 icone e 15 materiali blocco**. I nuovi materiali e le
-sagome sono visibili nell'[anteprima dei modelli](MODELLI_SALUMI.html).
+sagome sono visibili nell'[anteprima dei modelli](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cured-meats/MODELLI_SALUMI.html).
 
 La Mortadella e lo Speck non ancora affumicato non hanno una variante appesa
 nella filiera corrente e quindi non richiedono texture blocco dedicate.

@@ -1,10 +1,12 @@
 # Texture di pasta e risotti
 
+> **Nota archivio (11/11/2026):** le anteprime HTML e i prompt sperimentali non fanno più parte della documentazione attiva. I collegamenti storici qui sotto aprono la versione precedente alla pulizia, recuperabile dalla cronologia Git.
+
 Sei icone **16×16** in
 `src/main/resources/assets/italiansdelight/textures/item/`.
 
-[Anteprima con confronto Farmer's Delight](TEXTURE_PIATTI.html) ·
-[Prompt completi e percorsi](TEXTURE_PIATTI_PROMPTS.json)
+[Anteprima con confronto Farmer's Delight](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/dishes/TEXTURE_PIATTI.html) ·
+[Prompt completi e percorsi](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/dishes/TEXTURE_PIATTI_PROMPTS.json)
 
 | File | Aspetto |
 |---|---|
