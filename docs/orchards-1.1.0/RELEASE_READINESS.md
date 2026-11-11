@@ -246,3 +246,24 @@ versione 1.1.0 o a pubblicarla.
   ancora privi di test runtime; non dichiararli superati.
 - [ ] **Rilascio definitivo:** richiede sempre autorizzazione
   esplicita separata per aggiornare `main`, tag e pagine pubbliche.
+
+## Staging release/1.1.0 — 11 novembre 2026
+
+- [x] L'autore ha confermato che il mondo si apre e ha chiesto di
+  proseguire verso la pubblicazione; la conferma non dimostra i test
+  multiplayer, Serene Seasons o la compilazione del JAR finale.
+- [x] Branch separato `release/1.1.0` ricavato dal branch Orchard,
+  senza alterare la candidata `1.1.0-rc.1` già testata.
+- [x] Versione finale `mod_version=1.1.0` predisposta per la build;
+  i gate statici sono aggiornati per il branch release.
+- [ ] Verificare che le workflow GitHub Actions per build Java 25, JAR,
+  licenza/NOTICE e riapertura del mondo siano effettivamente riuscite
+  sul commit di `release/1.1.0` prima di distribuire il JAR.
+- [ ] Controllare il JAR `italiansdelight-1.1.0.jar` come artifact
+  finale, distinguendolo dai JAR `*-sources.jar` e `*-dev.jar`.
+- [ ] Integrare su `main`, creare tag `v1.1.0` e caricare lo stesso JAR
+  verificato su GitHub Releases, CurseForge e Modrinth; verificare
+  Minecraft 26.2, Fabric, Java 25, dipendenze, changelog e licenza
+  Apache-2.0 con gli avvisi di terzi.
+- [ ] Non dichiarare provate le compatibilità optional/multiplayer
+  prive di test, né l'attribuzione individuale dei legacy PNG.
