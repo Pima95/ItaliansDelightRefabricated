@@ -26,6 +26,21 @@ assert mod["version"] == "${version}"
 assert mod["id"] == "italiansdelight"
 assert mod["depends"]["minecraft"] == "~26.2"
 assert mod["depends"]["java"] == ">=25"
+assert mod["license"] == "Apache-2.0"
+# Keep MC 26.2 / Java 25. Java 21 requires a separate Minecraft port.
+build = r("build.gradle")
+workflow = r(".github/workflows/pizza-build.yml")
+assert "it.options.release = 25" in build
+assert "sourceCompatibility = JavaVersion.VERSION_25" in build
+assert "targetCompatibility = JavaVersion.VERSION_25" in build
+assert "java-version: '25'" in workflow
+assert re.search(r"(?m)^minecraft_version=26\.2$", properties)
+assert "Apache License" in r("LICENSE")
+assert "Version 2.0, January 2004" in r("LICENSE")
+assert "Piergiuseppe Mastroserio (Pima95)" in r("NOTICE")
+assert 'from("NOTICE")' in build
+assert 'from("THIRD_PARTY_NOTICES.md")' in build
+assert 'from("docs/orchards-1.1.0/FDR_CRATES_LICENSE.md")' in build
 assert mod["depends"]["farmersdelight"]
 assert mod["icon"] == "assets/italiansdelight/textures/icon.png"
 icon = SRC / mod["icon"]
@@ -74,3 +89,4 @@ assert "- [ ] **Packaging and version:**" in checklist
 print("OK: development Orchard 1.1.0 readiness files and real Fabric mod icon")
 print("OK: confirmed worldgen probabilities, 65% fruiting and no grape feature")
 print("OK: published 1.0.0 remains distinct from internal 1.1.0-rc.1")
+print("OK: MC 26.2, Java 25, Apache-2.0 and third-party notice packaging configured")
