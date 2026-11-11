@@ -82,11 +82,21 @@ Four cheeseless slices now have pointed triangular crusts with no mozzarella
 drips. Collected slices can be placed on supports or into another pizza while
 retaining their ingredients, and a served pizza never returns as a whole item.
 
-The author approved old world 1.0.0 compatibility and optimized gameplay.
-Gradle CI and a headless Fabric server startup succeeded. Serene Seasons
-with GlitchCore and real multiplayer remain untested. Third-party MIT
-notices are packaged in the candidate; individual asset provenance still
-requires final review.
+The author approved old world 1.0.0 compatibility and optimized gameplay
+and subsequently confirmed that the game client starts. Earlier Gradle CI and
+a headless Fabric server startup succeeded. The updated CI now also attempts
+to reopen the same saved test world after the initial boot; the result of
+that expanded check is not yet confirmed. Serene Seasons with GlitchCore
+and real multiplayer remain untested.
+
+### License and attribution
+Starting with this planned 1.1.0 release, the author's original contributions
+use **Apache License 2.0** with an attribution NOTICE. Third-party material
+retains its applicable copyright and MIT notices. Publicly available upstream
+team credits have been preserved, but the authorship of some individual legacy
+textures is not documented in the original projects; no per-file authorship
+claim or blanket legal clearance is implied. Previously published version
+1.0.0 remains under its original MIT terms.
 
 ## Not included
 **Grapes, grape juice and wine** are planned for a later version.
