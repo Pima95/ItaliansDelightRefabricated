@@ -2,14 +2,16 @@
 
 All notable changes to Italian's Delight Refabricated are documented here.
 
-## Unreleased — Orchard Update 1.1.0 (development branch)
+## 1.1.0 — Orchard Update (release prepared, publication pending)
 
-**Internal release candidate (11 November 2026):**
-`mod_version=1.1.0-rc.1` on `feature/orchards-1.1.0`.
-The author approved functionality and compatibility with existing 1.0.0
-world saves. The public 1.0.0 and `main` remain untouched; no public
-1.1.0 release has been authorized. Serene Seasons + GlitchCore and
-real multiplayer interaction remain untested.
+**Release preparation (11 November 2026):**
+`mod_version=1.1.0` is staged on `release/1.1.0`; the tested
+`feature/orchards-1.1.0` retains `1.1.0-rc.1`.
+The author confirmed client startup, existing world opening and
+compatibility with previously saved 1.0.0 worlds. The public 1.0.0 and
+`main` remain unchanged until publication. New CI release-build
+verification remains required; Serene Seasons + GlitchCore and real
+multiplayer interaction have not been independently tested.
 
 ### Additional content and RC hardening
 - Added Olive Pâté, Olive/Tomato-Basil bruschettas, two Olive pizzas,
