@@ -1,4 +1,4 @@
-name: Pizza 1.0.0 - Build
+name: Italian's Delight - Development CI
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
         run: python3 .github/scripts/check_orchard_greenhouse_saplings.py
       - name: Verify balanced orchard fruit growth and natural-only leaf bonemeal
         run: python3 .github/scripts/check_orchard_growth_bonemeal.py
-      - name: Check rotating 70 percent natural canopy fruiting and bonemeal eligibility
+      - name: Check rotating 65 percent natural canopy fruiting and bonemeal eligibility
         run: python3 .github/scripts/check_orchard_fruiting_rotation.py
       - name: Check Serene Seasons basil and cardoon fertility tags and off-season survival
         run: python3 .github/scripts/check_orchard_serene_crops.py
@@ -162,3 +162,17 @@ jobs:
         run: python3 .github/scripts/check_world_fluid_physics_26_2.py
       - name: Build mod and run configured checks
         run: bash ./gradlew clean build --no-daemon --stacktrace
+      - name: Stage one playable test JAR
+        run: |
+          mkdir -p build/release-qa
+          find build/libs -maxdepth 1 -type f -name 'italiansdelight-*.jar' \
+            ! -name '*-sources.jar' ! -name '*-dev.jar' \
+            -exec cp '{}' build/release-qa/ \;
+          test "$(find build/release-qa -type f -name '*.jar' | wc -l)" -eq 1
+      - name: Upload Orchard development JAR (not a public release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: orchard-1.1.0-qa-${{ github.sha }}
+          path: build/release-qa/*.jar
+          if-no-files-found: error
+          retention-days: 14
