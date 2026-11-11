@@ -185,6 +185,12 @@ public final class SaltCauldronManager {
         SaltCauldronProgressData data =
             SaltCauldronProgressData.get(level);
 
+        // Most worlds have no salt-making cauldrons. Skip the entire
+        // environment/iterator path without affecting the progression clock.
+        if (data.progressByPosition().isEmpty()) {
+            return;
+        }
+
         Iterator<Map.Entry<Long, Integer>> iterator =
             data.progressByPosition()
                 .entrySet()

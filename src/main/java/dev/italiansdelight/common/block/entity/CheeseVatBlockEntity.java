@@ -160,6 +160,15 @@ public class CheeseVatBlockEntity
         cheeseVat.tryFillContainer();
         cheeseVat.tryFillWheyContainer(level);
 
+        // Avoid allocating RecipeInput and touching RecipeManager for idle
+        // machines; container packaging above must still run when idle.
+        if (cheeseVat.items.get(0).isEmpty()
+                && cheeseVat.items.get(1).isEmpty()
+                && cheeseVat.items.get(2).isEmpty()) {
+            cheeseVat.resetCookingProgress();
+            return;
+        }
+
         CheeseVatRecipeInput input =
             cheeseVat.createRecipeInput();
 
