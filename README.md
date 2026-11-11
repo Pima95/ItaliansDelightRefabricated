@@ -49,10 +49,11 @@ approximately **65% fruiting eligibility** rather than always ripening.
 **Grapes, grape juice and wine are reserved for a later version**, even
 though some unused texture resources are already present in the tree.
 
-The public release is still **1.0.0**. The Orchard development branch
-now compiles an internal **1.1.0-rc.1** release candidate; it has not
-been tagged, merged to `main` or published. Do not mistake the candidate
-for a public release. See the
+The public release is still **1.0.0**. The Orchard development branch retains its internal **1.1.0-rc.1**
+candidate, and the separate `release/1.1.0` branch stages the final
+**1.1.0** version. The release has not yet been tagged, merged into
+`main` or uploaded to distribution sites. Do not mistake the release
+branch for a publicly available release. See the
 [Orchard readiness checklist](docs/orchards-1.1.0/RELEASE_READINESS.md),
 [draft release notes](docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md)
 and [technical roadmap](docs/orchards-1.1.0/ROADMAP.md).
@@ -111,8 +112,7 @@ Italian's Delight Refabricated is built as an add-on for [Farmer's Delight Refab
 
 Original code and artwork contributed to Italian's Delight Refabricated by
 **Piergiuseppe Mastroserio (Pima95)** are distributed under the
-[Apache License 2.0](LICENSE) on the unreleased Orchard 1.1.0 development
-branch. The [NOTICE](NOTICE) file provides the required original-work
+[Apache License 2.0](LICENSE) in preparation for the Orchard 1.1.0 release. The [NOTICE](NOTICE) file provides the required original-work
 attribution. Users may use, modify and redistribute the covered original
 material under the license terms, including preservation of applicable
 copyright, license and NOTICE attributions; the license does **not** require
