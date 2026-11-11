@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PSP",
+    "I I",
+    "PSP"
+  ],
+  "key": {
+    "P": "minecraft:crimson_planks",
+    "S": "minecraft:crimson_slab",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "italiansdelight:crimson_barrel",
+    "count": 2
+  }
+}

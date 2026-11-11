@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "italiansdelight:chopped_almonds",
+    "italiansdelight:chopped_almonds",
+    "italiansdelight:basil",
+    "italiansdelight:basil",
+    "italiansdelight:grated_parmigiano_reggiano",
+    "italiansdelight:olive_oil_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:almond_pesto",
+    "count": 1
+  }
+}

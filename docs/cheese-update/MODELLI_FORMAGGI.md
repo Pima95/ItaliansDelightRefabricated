@@ -1,8 +1,10 @@
 # Modelli e texture dei formaggi nel mondo
 
+> **Nota archivio (11/11/2026):** le anteprime HTML e i prompt sperimentali non fanno più parte della documentazione attiva. I collegamenti storici qui sotto aprono la versione precedente alla pulizia, recuperabile dalla cronologia Git.
+
 Aggiornamento del branch `feature/cheeses`: forme appoggiate su normali blocchi
 e forme appese al Cheese Hook, inclusi i due ripiani del rack.
-[Anteprima interattiva](MODELLI_FORMAGGI.html)
+[Anteprima interattiva](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cheese-update/MODELLI_FORMAGGI.html)
 con rotazione, inclinazione e luce ridotta, costruita dai JSON e dai PNG reali.
 L'anteprima usa illuminazione semplificata e non sostituisce la prova in gioco.
 
@@ -48,7 +50,7 @@ il gancio.
 
 Le undici texture opache 16×16 sono state generate con **imagegen integrato**,
 modalità `generate`, e ridotte con campionamento nearest-neighbor. I prompt
-sono conservati in [MODELLI_FORMAGGI_PROMPTS.json](MODELLI_FORMAGGI_PROMPTS.json).
+sono conservati in [MODELLI_FORMAGGI_PROMPTS.json](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cheese-update/MODELLI_FORMAGGI_PROMPTS.json).
 Non contengono ombre direzionali dipinte: l'illuminazione viene dal gioco.
 La mappatura UV segue le coordinate del corpo, con un texel per unità modello,
 senza ricominciare l'intera texture su ogni gradino. Lo spago usa la texture

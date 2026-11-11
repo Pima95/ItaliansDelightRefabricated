@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "italiansdelight:cardoon_crate"
+  ],
+  "result": {
+    "id": "italiansdelight:cultivated_cardoon",
+    "count": 9
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PSP",
+    "I I",
+    "PSP"
+  ],
+  "key": {
+    "P": "minecraft:acacia_planks",
+    "S": "minecraft:acacia_slab",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "italiansdelight:acacia_barrel",
+    "count": 2
+  }
+}

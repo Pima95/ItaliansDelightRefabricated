@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PSP",
+    "I I",
+    "PSP"
+  ],
+  "key": {
+    "P": "minecraft:birch_planks",
+    "S": "minecraft:birch_slab",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "italiansdelight:birch_barrel",
+    "count": 2
+  }
+}

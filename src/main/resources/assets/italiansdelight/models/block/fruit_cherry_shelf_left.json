@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_shelf_left",
+  "textures": {
+    "all": "italiansdelight:block/fruit_cherry_shelf",
+    "particle": "italiansdelight:block/stripped_fruit_cherry_log"
+  }
+}

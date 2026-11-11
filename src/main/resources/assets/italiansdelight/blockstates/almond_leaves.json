@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "stage=0,seasonal=0": {
+      "model": "italiansdelight:block/almond_leaves"
+    },
+    "stage=0,seasonal=1": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    },
+    "stage=0,seasonal=2": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    },
+    "stage=1,seasonal=0": {
+      "model": "italiansdelight:block/almond_leaves_buds"
+    },
+    "stage=1,seasonal=1": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    },
+    "stage=1,seasonal=2": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    },
+    "stage=2,seasonal=0": {
+      "model": "italiansdelight:block/almond_leaves_flowers"
+    },
+    "stage=2,seasonal=1": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    },
+    "stage=2,seasonal=2": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    },
+    "stage=3,seasonal=0": {
+      "model": "italiansdelight:block/almond_leaves_unripe"
+    },
+    "stage=3,seasonal=1": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    },
+    "stage=3,seasonal=2": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    },
+    "stage=4,seasonal=0": {
+      "model": "italiansdelight:block/almond_leaves_fruiting"
+    },
+    "stage=4,seasonal=1": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    },
+    "stage=4,seasonal=2": {
+      "model": "italiansdelight:block/almond_leaves_autumn"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "italiansdelight:block/stripped_fruit_cherry_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "italiansdelight:block/stripped_fruit_cherry_wood"
+    },
+    "axis=z": {
+      "model": "italiansdelight:block/stripped_fruit_cherry_wood",
+      "x": 90
+    }
+  }
+}

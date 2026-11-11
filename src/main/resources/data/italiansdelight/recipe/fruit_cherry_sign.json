@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_sign",
+  "pattern": [
+    "PPP",
+    "PPP",
+    " S "
+  ],
+  "key": {
+    "P": "italiansdelight:fruit_cherry_planks",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "italiansdelight:fruit_cherry_sign",
+    "count": 3
+  }
+}

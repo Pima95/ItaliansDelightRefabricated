@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": "italiansdelight:cherries"
+  },
+  "result": {
+    "id": "italiansdelight:cherry_crate"
+  }
+}

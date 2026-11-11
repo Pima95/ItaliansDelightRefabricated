@@ -11,8 +11,8 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/italians-delight-refabricated",
     "sources": "https://github.com/Pima95/ItaliansDelightRefabricated"
   },
-  "license": "MIT",
-  "icon": "assets/italiansdelight/icon.png",
+  "license": "Apache-2.0",
+  "icon": "assets/italiansdelight/textures/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -37,5 +37,8 @@
   },
   "custom": {
     "italiansdelight:notes": "Dipende da Farmer's Delight Refabricated: mod id upstream 'farmersdelight', namespace risorse 'farmersdelight'."
+  },
+  "suggests": {
+    "sereneseasons": "*"
   }
 }

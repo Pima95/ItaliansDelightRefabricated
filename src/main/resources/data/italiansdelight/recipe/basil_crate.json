@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": "italiansdelight:basil"
+  },
+  "result": {
+    "id": "italiansdelight:basil_crate"
+  }
+}

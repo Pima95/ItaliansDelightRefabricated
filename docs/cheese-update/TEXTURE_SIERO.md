@@ -1,9 +1,11 @@
 # Siero animato della Cheese Vat
 
+> **Nota archivio (11/11/2026):** le anteprime HTML e i prompt sperimentali non fanno più parte della documentazione attiva. I collegamenti storici qui sotto aprono la versione precedente alla pulizia, recuperabile dalla cronologia Git.
+
 Il tank della caldaia e quello delle ricette JEI usano la stessa texture
 animata, color giallo paglierino con leggere sfumature crema e verde.
 
-[Apri l'anteprima animata nel browser](SIERO_ANIMATO.html): il cursore permette
+[Apri l'anteprima animata nel browser](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cheese-update/SIERO_ANIMATO.html): il cursore permette
 di provare da 0 a 4000 mB e il pulsante mette in pausa l'animazione. Il file
 incorpora le immagini e funziona anche offline.
 
@@ -37,9 +39,9 @@ Il riferimento locale è `textures/block/fluids/olive_oil_still.png`, con i suoi
 32 fotogrammi e `frametime: 2`. È stato disposto temporaneamente su una griglia
 8×4, ricolorato con lo strumento integrato **imagegen**, quindi esportato con
 campionamento nearest-neighbor e ricomposto nella striscia verticale finale.
-Il [prompt completo](TEXTURE_SIERO_PROMPT.json) è conservato separatamente.
+Il [prompt completo](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cheese-update/TEXTURE_SIERO_PROMPT.json) è conservato separatamente.
 
-![I 32 fotogrammi del siero, letti da sinistra a destra e dall'alto in basso](images/whey_frames.png)
+![I 32 fotogrammi del siero, letti da sinistra a destra e dall'alto in basso](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cheese-update/images/whey_frames.png)
 
 Riferimenti tecnici consultati online:
 

@@ -25,7 +25,7 @@ assert board.index('extractItem(0, 1, false)') < board.index('ItemUtils.spawnIte
 assert "if (pizza == null)" in board, "Invalid pizza data must never produce plain slices"
 display=(jei/"PizzaDisplayNames.java") if False else JAVA/"common/pizza/PizzaDisplayNames.java"
 source=display.read_text(encoding="utf-8")
-assert 'if (presets.size() != 18)' in source
+assert 'if (presets.size() != 21)' in source
 craft=(jei/"PizzaCraftingJeiRecipes.java").read_text(encoding="utf-8")
 bake=(jei/"PizzaBakingJeiRecipes.java").read_text(encoding="utf-8")
 cuts=(jei/"PizzaCuttingJeiRecipes.java").read_text(encoding="utf-8")

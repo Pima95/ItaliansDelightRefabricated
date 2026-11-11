@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "MPM"
+  ],
+  "key": {
+    "A": "italiansdelight:almonds",
+    "M": "#c:drinks/milk",
+    "P": "farmersdelight:pie_crust"
+  },
+  "result": {
+    "id": "italiansdelight:almond_cake",
+    "count": 1
+  }
+}

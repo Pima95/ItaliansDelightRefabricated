@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_pressure_plate",
+  "pattern": [
+    "PP"
+  ],
+  "key": {
+    "P": "italiansdelight:fruit_cherry_planks"
+  },
+  "result": {
+    "id": "italiansdelight:fruit_cherry_pressure_plate",
+    "count": 1
+  }
+}

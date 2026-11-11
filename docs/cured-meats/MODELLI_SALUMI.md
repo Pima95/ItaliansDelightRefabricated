@@ -1,12 +1,14 @@
 # Modelli dei salumi appesi
 
+> **Nota archivio (11/11/2026):** le anteprime HTML e i prompt sperimentali non fanno più parte della documentazione attiva. I collegamenti storici qui sotto aprono la versione precedente alla pulizia, recuperabile dalla cronologia Git.
+
 Le 14 varianti appese usano **sette geometrie dedicate**, al posto del corpo
 generico condiviso. Le sagome riprendono le icone esistenti e sono costruite
 con cuboidi a gradini, come i formaggi appesi.
 
-[Anteprima ruotabile con confronto item](MODELLI_SALUMI.html) ·
+[Anteprima ruotabile con confronto item](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cured-meats/MODELLI_SALUMI.html) ·
 [Catalogo delle texture](TEXTURE_SALUMI.md) ·
-[Prompt dei nuovi materiali](MODELLI_SALUMI_PROMPTS.json)
+[Prompt dei nuovi materiali](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cured-meats/MODELLI_SALUMI_PROMPTS.json)
 
 ## Sagome
 
