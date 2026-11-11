@@ -35,7 +35,7 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.grower.TreeGrower;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.core.registries.Registries;
 import java.util.Optional;
 import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
@@ -60,7 +60,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.minecraft.world.level.block.SoundType;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import net.fabricmc.fabric.api.registry.BlockTransformerHelper;
 
 /**
  * Central registry for mod blocks and their BlockItems when they need to be placeable from the inventory.
@@ -345,8 +345,8 @@ public final class ModBlocks {
         new FruitCherryLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(FRUIT_CHERRY_LEAVES_KEY))
     );
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FRUIT_CHERRY_TREE_FEATURE =
-        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("fruit_cherry_tree"));
+    public static final ResourceKey<Feature> FRUIT_CHERRY_TREE_FEATURE =
+        ResourceKey.create(Registries.FEATURE, ModRegistries.id("fruit_cherry_tree"));
     public static final TreeGrower FRUIT_CHERRY_TREE_GROWER = new TreeGrower(
         "italiansdelight:fruit_cherry", Optional.empty(),
         Optional.of(FRUIT_CHERRY_TREE_FEATURE), Optional.empty()
@@ -377,8 +377,8 @@ public final class ModBlocks {
         new AlmondLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(ALMOND_LEAVES_KEY))
     );
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ALMOND_TREE_FEATURE =
-        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("almond_tree"));
+    public static final ResourceKey<Feature> ALMOND_TREE_FEATURE =
+        ResourceKey.create(Registries.FEATURE, ModRegistries.id("almond_tree"));
     public static final TreeGrower ALMOND_TREE_GROWER = new TreeGrower(
         "italiansdelight:almond", Optional.empty(),
         Optional.of(ALMOND_TREE_FEATURE), Optional.empty()
@@ -416,10 +416,10 @@ public final class ModBlocks {
     // One seedling: regular olive. Four identical seedlings in a 2x2:
     // ancient (secular) olive, via vanilla TreeGrower mega-tree detection.
     // Features are data-driven, using our non-Rustic log and silver leaves.
-    public static final ResourceKey<ConfiguredFeature<?, ?>> OLIVE_TREE_FEATURE =
-        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("olive_tree"));
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ANCIENT_OLIVE_TREE_FEATURE =
-        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("ancient_olive_tree"));
+    public static final ResourceKey<Feature> OLIVE_TREE_FEATURE =
+        ResourceKey.create(Registries.FEATURE, ModRegistries.id("olive_tree"));
+    public static final ResourceKey<Feature> ANCIENT_OLIVE_TREE_FEATURE =
+        ResourceKey.create(Registries.FEATURE, ModRegistries.id("ancient_olive_tree"));
     public static final TreeGrower OLIVE_TREE_GROWER = new TreeGrower(
         "italiansdelight:olive",
         Optional.of(ANCIENT_OLIVE_TREE_FEATURE),
@@ -1162,12 +1162,12 @@ public final class ModBlocks {
     public static void register() {
         // Vanilla-style log stripping and fire spread: performed only after
         // the registered block fields are initialized.
-        StrippableBlockRegistry.register(OLIVE_LOG, STRIPPED_OLIVE_LOG);
-        StrippableBlockRegistry.register(OLIVE_WOOD, STRIPPED_OLIVE_WOOD);
-        StrippableBlockRegistry.register(ALMOND_LOG, STRIPPED_ALMOND_LOG);
-        StrippableBlockRegistry.register(ALMOND_WOOD, STRIPPED_ALMOND_WOOD);
-        StrippableBlockRegistry.register(FRUIT_CHERRY_LOG, STRIPPED_FRUIT_CHERRY_LOG);
-        StrippableBlockRegistry.register(FRUIT_CHERRY_WOOD, STRIPPED_FRUIT_CHERRY_WOOD);
+        BlockTransformerHelper.registerStripping(OLIVE_LOG, STRIPPED_OLIVE_LOG);
+        BlockTransformerHelper.registerStripping(OLIVE_WOOD, STRIPPED_OLIVE_WOOD);
+        BlockTransformerHelper.registerStripping(ALMOND_LOG, STRIPPED_ALMOND_LOG);
+        BlockTransformerHelper.registerStripping(ALMOND_WOOD, STRIPPED_ALMOND_WOOD);
+        BlockTransformerHelper.registerStripping(FRUIT_CHERRY_LOG, STRIPPED_FRUIT_CHERRY_LOG);
+        BlockTransformerHelper.registerStripping(FRUIT_CHERRY_WOOD, STRIPPED_FRUIT_CHERRY_WOOD);
         FlammableBlockRegistry fire = FlammableBlockRegistry.getDefaultInstance();
         fire.add(OLIVE_LOG, 5, 5);
         fire.add(OLIVE_WOOD, 5, 5);
