@@ -6,6 +6,7 @@ Italian's Delight Refabricated is an independent mod inspired by the two project
 
 - Original project: [Italian's Delight on CurseForge](https://www.curseforge.com/minecraft/mc-mods/italians-delight)
 - Original project owner: **PuurpZ** and the original Italian's Delight team/artists.
+- The [original CurseForge project page](https://www.curseforge.com/minecraft/mc-mods/italians-delight) publicly lists **nickhanic2021**, **JAMMSON**, and **duynotsimp** as team **Artists** (as checked 11 November 2026). These are *project-level credits*, not evidence assigning a particular texture to one of them. Their exact per-asset rights and original copyright notices require further checking.
 - License listed by CurseForge: [MIT License](https://www.curseforge.com/minecraft/mc-mods/italians-delight/license).
 - This repository includes some legacy artwork associated with the original project; per-file provenance remains under review. Do not attribute unmatched PNGs solely to PuurpZ without verification.
 
@@ -14,11 +15,12 @@ Italian's Delight Refabricated is an independent mod inspired by the two project
 - Original project: [Rustic on CurseForge](https://www.curseforge.com/minecraft/mc-mods/rustic)
 - Original project author: **cadaverous_queen**; original source: [cadaverous-eris/Rustic](https://github.com/cadaverous-eris/Rustic). Other contributors may hold rights in individual original assets.
 - License listed by CurseForge: [MIT License](https://www.curseforge.com/minecraft/mc-mods/rustic/license).
+- The [Rustic CurseForge description](https://www.curseforge.com/minecraft/mc-mods/rustic) also thanks **Nazenn** for making/editing textures and **Copygirl** for permitting the use of locker models/textures. These upstream credits are preserved for transparency; *no identified binary match in this repository establishes that the specific reused artwork was drawn by either contributor*.
 - A historical reproducible comparison identified **41 binary-identical assets/metadata files** before two resources were deleted. The current Orchard branch retains **39 unchanged binary matches** (11 November 2026): original matching `leaves_olive.png` and `sapling_olive.png` were already removed. These include olive bark, olive seed, fluids and some currently unused legacy resources. See [the audit with each source path and Git blob SHA](docs/orchards-1.1.0/RUSTIC_ASSET_MATCHES.md).
 
 ## License notice for upstream MIT-licensed material
 
-The MIT license, as stated on the upstream CurseForge project pages, permits use, modification, distribution, and sublicensing of covered material provided the original copyright and permission notices are retained. For reference the MIT permission and warranty notice text is reproduced below. Attribution here does **not** imply that an asset from a separately licensed contributor is automatically MIT-licensed.
+The MIT license, as stated on the upstream CurseForge project pages, permits use, modification, distribution, and sublicensing of covered material provided the original copyright and permission notices are retained. For reference, the MIT permission and warranty language is reproduced below. The public license pages use a **generic copyright placeholder**, and the available Rustic source tree lacks a standalone LICENSE file with an exact holder/year statement. **This generic reproduction is not a verified substitute for every upstream copyright notice.** If an actual source-distribution or asset-specific copyright notice is found, it must be retained verbatim. Attribution here does **not** imply that an asset from a separately licensed contributor is automatically MIT-licensed.
 
 ```text
 MIT License
