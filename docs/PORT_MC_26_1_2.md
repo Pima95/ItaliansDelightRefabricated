@@ -33,3 +33,34 @@ Non usare `clean` se Windows blocca `build`. Il JAR ottenuto sarà
 Avviare client/server Minecraft 26.1.2 in una directory distinta; non
 declassare i salvataggi 26.3. Pubblicare soltanto dopo build CI riuscita,
 avvio client e server, prove di JEI, frutteti, pizza, fluidi e Serene Seasons.
+
+## Verifiche automatiche della release
+
+Il workflow `.github/workflows/port-mc2612.yml` esegue i controlli statici,
+l'audit dei dati, `gradlew build` con Java 25, controlla il file
+`italiansdelight-1.1.0-mc26.1.2.jar` e carica un artefatto di test.
+Il secondo workflow `.github/workflows/port-mc2612-server.yml` avvia un
+server Fabric 26.1.2, verifica il primo `Done` e riapre lo stesso mondo,
+per individuare errori di caricamento delle risorse o del salvataggio.
+
+### Principali API ripristinate per 26.1.2
+
+- `BonemealableBlock` senza il parametro `BonemealSource`.
+- `MapCodec` dei blocchi recuperati dalle implementazioni precedenti.
+- `TreeConfiguration` e chiavi `configured_feature` per i quattro alberi.
+- `StrippableBlockRegistry`, `CompostableRegistry` e `FuelValues`.
+- `LevelRenderEvents.END_EXTRACTION` per la guida tagli pizza.
+- Metodi `Player.drop`, `PoseStack.mulPose` e cooking codecs dell'API 26.1.
+- Integrazione opzionale Serene Seasons con rilevamento dei biomi tropicali.
+- 146 loot table/avanzamenti riportati al formato data pack 26.1.2.
+- File di worldgen configurati e placed feature ripristinati dal 26.2.
+
+**La build CI non è una certificazione dei comportamenti di gioco.**
+Oltre al test server occorrono test manuali del client, delle ricette,
+dell'inventario, del comportamento stagionale e delle interazioni con fluidi.
+
+### Diagnostica Windows
+
+Se `clean` fallisce a causa della directory `build` in uso, non forzare
+la cancellazione: chiudere il client e l'IDE prima di riprovare la build.
+L'uso di `--no-daemon --max-workers=1` limita l'utilizzo di risorse.
