@@ -78,6 +78,7 @@ public final class ModBlockEntities {
             ModBlocks.MANGROVE_CHEESE_AGING_RACK,
             ModBlocks.CHERRY_CHEESE_AGING_RACK,
             ModBlocks.PALE_OAK_CHEESE_AGING_RACK,
+            ModBlocks.POPLAR_CHEESE_AGING_RACK,
             ModBlocks.BAMBOO_CHEESE_AGING_RACK,
             ModBlocks.CRIMSON_CHEESE_AGING_RACK,
             ModBlocks.WARPED_CHEESE_AGING_RACK,
@@ -110,6 +111,7 @@ public final class ModBlockEntities {
         CRUSHING_TUB.addValidBlock(ModBlocks.MANGROVE_CRUSHING_TUB);
         CRUSHING_TUB.addValidBlock(ModBlocks.CHERRY_CRUSHING_TUB);
         CRUSHING_TUB.addValidBlock(ModBlocks.PALE_OAK_CRUSHING_TUB);
+        CRUSHING_TUB.addValidBlock(ModBlocks.POPLAR_CRUSHING_TUB);
         CRUSHING_TUB.addValidBlock(ModBlocks.BAMBOO_CRUSHING_TUB);
         CRUSHING_TUB.addValidBlock(ModBlocks.CRIMSON_CRUSHING_TUB);
         CRUSHING_TUB.addValidBlock(ModBlocks.WARPED_CRUSHING_TUB);
@@ -125,6 +127,7 @@ public final class ModBlockEntities {
         BARREL.addValidBlock(ModBlocks.MANGROVE_BARREL);
         BARREL.addValidBlock(ModBlocks.CHERRY_BARREL);
         BARREL.addValidBlock(ModBlocks.PALE_OAK_BARREL);
+        BARREL.addValidBlock(ModBlocks.POPLAR_BARREL);
         BARREL.addValidBlock(ModBlocks.BAMBOO_BARREL);
         BARREL.addValidBlock(ModBlocks.CRIMSON_BARREL);
         BARREL.addValidBlock(ModBlocks.WARPED_BARREL);
