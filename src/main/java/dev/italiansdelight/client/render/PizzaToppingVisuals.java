@@ -8,6 +8,8 @@ import dev.italiansdelight.common.pizza.PizzaToppingCatalog;
 import dev.italiansdelight.common.pizza.PizzaToppingType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -36,6 +38,9 @@ public final class PizzaToppingVisuals {
     private static final float LAYER_BIAS = 0.000012F;
     private static final String SAUCE_PREFIX = "textures/block/pizza_toppings/";
     private static final String SPRITE_PREFIX = "textures/block/pizza_topping_sprites/";
+    // A small finite set of textures is referenced by every pizza; cache the
+    // immutable Identifier objects rather than recreate them each frame.
+    private static final Map<String, Identifier> TEXTURE_IDS = new ConcurrentHashMap<>();
 
     private PizzaToppingVisuals() {
     }
@@ -118,13 +123,13 @@ public final class PizzaToppingVisuals {
             if ((mask & (1 << q)) == 0) {
                 continue;
             }
-            List<Solid> entries = new ArrayList<>();
+            // Count and traverse in original order without allocating a
+            // temporary list for each of the four physical quarters.
+            int quarterBit = 1 << q;
+            int count = 0;
             for (Solid solid : solids) {
-                if ((solid.mask() & (1 << q)) != 0) {
-                    entries.add(solid);
-                }
+                if ((solid.mask() & quarterBit) != 0) count++;
             }
-            int count = entries.size();
             if (count == 0) {
                 continue;
             }
@@ -142,7 +147,8 @@ public final class PizzaToppingVisuals {
                     composition.renderSeed(), q);
 
             int cursor = 0;
-            for (Solid solid : entries) {
+            for (Solid solid : solids) {
+                if ((solid.mask() & quarterBit) == 0) continue;
                 for (int copy = 0; copy < repeats; copy++) {
                     int seat = seatOrder[cursor];
                     int x = (seat % seatsPerAxis) * size;
@@ -186,8 +192,9 @@ public final class PizzaToppingVisuals {
     }
 
     private static Identifier texture(String prefix, String name) {
-        return Identifier.fromNamespaceAndPath(
-                "italiansdelight", prefix + name + ".png");
+        String path = prefix + name + ".png";
+        return TEXTURE_IDS.computeIfAbsent(path,
+                key -> Identifier.fromNamespaceAndPath("italiansdelight", key));
     }
 
     public static void submit(

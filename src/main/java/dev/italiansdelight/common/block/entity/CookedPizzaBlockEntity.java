@@ -38,6 +38,10 @@ public final class CookedPizzaBlockEntity extends BlockEntity {
     // Slices transferred here from this or another pizza, indexed by their
     // NEW physical slot. The original four quarters remain in pizza().
     private List<PizzaSliceData> insertedSlices = List.of();
+    // Client-side visual snapshot; never serialized to the world.
+    private PizzaComposition cachedRenderComposition;
+    private int cachedRemaining = -1;
+    private String cachedFacing;
 
     public CookedPizzaBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.COOKED_PIZZA, pos, state);
@@ -55,6 +59,7 @@ public final class CookedPizzaBlockEntity extends BlockEntity {
         pizza = data;
         servedEver = false;
         insertedSlices = List.of();
+        cachedRenderComposition = null;
         updateClients();
     }
 
@@ -90,6 +95,7 @@ public final class CookedPizzaBlockEntity extends BlockEntity {
         }
         insertedSlices = List.copyOf(updated);
         servedEver = true;
+        cachedRenderComposition = null;
         updateClients();
     }
 
@@ -112,6 +118,7 @@ public final class CookedPizzaBlockEntity extends BlockEntity {
         updated.add(new PizzaSliceData(quarter, source.toppings(), source.legacyMozzarella()));
         insertedSlices = List.copyOf(updated);
         servedEver = true;
+        cachedRenderComposition = null;
         updateClients();
     }
 
@@ -119,6 +126,10 @@ public final class CookedPizzaBlockEntity extends BlockEntity {
     public PizzaComposition renderComposition() {
         int remaining = getBlockState().getValue(CookedPizzaBlock.REMAINING);
         String facing = getBlockState().getValue(CookedPizzaBlock.FACING).getName();
+        if (cachedRenderComposition != null && cachedRemaining == remaining
+                && facing.equals(cachedFacing)) {
+            return cachedRenderComposition;
+        }
         List<PizzaToppingApplication> applications = new ArrayList<>();
         long sequence = 1L;
         for (int quarter = 0; quarter < 4; quarter++) {
@@ -131,9 +142,12 @@ public final class CookedPizzaBlockEntity extends BlockEntity {
                         sequence++, topping.canonicalId(), topping.originalStack(), bit, bit));
             }
         }
-        return new PizzaComposition(
+        cachedRenderComposition = new PizzaComposition(
                 PizzaComposition.FORMAT_VERSION, 0, facing, sequence,
                 pizza.composition().renderSeed(), applications);
+        cachedRemaining = remaining;
+        cachedFacing = facing;
+        return cachedRenderComposition;
     }
 
     /** Legacy mozzarella has quarter-specific coverage after slice transfers. */
@@ -164,6 +178,7 @@ public final class CookedPizzaBlockEntity extends BlockEntity {
         servedEver = input.getBooleanOr("ServedEver", false);
         insertedSlices = List.copyOf(input.read("InsertedSlices", PizzaSliceData.CODEC.listOf())
                 .orElse(List.of()));
+        cachedRenderComposition = null;
     }
 
     @Override
