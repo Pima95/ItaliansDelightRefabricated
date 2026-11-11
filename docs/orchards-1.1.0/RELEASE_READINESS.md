@@ -35,10 +35,11 @@ artifact. Use its Git SHA to distinguish the build.
   Ancient Olive 2×2, correct separation from vanilla pink Cherry,
   terrain clearance and save/reload. The user has approved density,
   but systematic survival and persistence tests remain separate.
-- [ ] **Existing world:** back up a 1.0.0 world before opening it,
-  retain all Pizza Update blocks/inventories/data, migrate liquid
-  containers and older cauldrons without losing or duplicating items.
-  Existing chunks should not be rewritten by Orchard worldgen.
+- [x] **Existing world:** the author explicitly approved compatibility
+  with previous 1.0.0 saves on 11 November 2026. This records the author's
+  in-game validation; no separate automated migration fixture or log is
+  available. Continue recommending a backup before all future updates.
+  Worldgen still applies only to new chunks.
 - [ ] **Liquids:** test 250 mB bottles and 1,000 mB buckets for
   Golden Apple Juice and Honey in all relevant Crushing Tubs,
   Barrel and cauldron, including near-capacity, reload, no mixing
@@ -111,7 +112,8 @@ prestazionale già misurato né un obbligo di refactoring prima del rilascio.
   Crushing Tub, pizze/spicchi, fluidi, alberi, JEI e controlli del mondo.
   La conferma è complessiva: non sono allegati log, risultati per singola prova
   o prova documentale di un aggiornamento su salvataggio 1.0.0; la specifica
-  compatibilità retroattiva resta quindi un gate distinto, non certificato.
+  compatibilità retroattiva è stata successivamente **approvata dall'autore**
+  l'11 novembre 2026; non esiste però un report indipendente di migrazione.
 - [ ] **Compatibilità Serene Seasons + GlitchCore in runtime** e
   **multiplayer reale**: non coperte dallo smoke headless.
 - [ ] **Provenienza/licenze asset** e autorizzazione finale alla pubblicazione.
@@ -126,7 +128,8 @@ in assenza di evidenze reali.**
 Dopo l'installazione e la checklist della build ottimizzata, l'autore ha
 confermato in chat: **«Funziona tutto»**. Questa evidenza chiude il giro di
 regressione funzionale segnalato all'autore. Non equivale a un benchmark né
-ad attestare prove non descritte (world upgrade 1.0.0, server con due utenti,
-Serene Seasons/GlitchCore). Sono ancora aperte l'analisi licenze,
+ad attestare prove non descritte (server con due utenti,
+Serene Seasons/GlitchCore). La compatibilità 1.0.0 è stata in seguito
+esplicitamente approvata dall'autore e registrata nella checklist. Sono ancora aperte l'analisi licenze,
 la scelta sui rischi residui e l'autorizzazione esplicita a promuovere la
 versione 1.1.0 o a pubblicarla.

@@ -68,3 +68,15 @@ Su richiesta dell'autore è stato eliminato **`src/main/resources/assets/italian
 ## Provenienza dell'altro gruppo di asset
 
 Il [changelog storico Italian's Delight 2.0](https://www.curseforge.com/minecraft/mc-mods/italians-delight/files/5083290) riporta l'aggiunta di un **set completo di legno d'ulivo**. È un indizio documentale a favore della provenienza da Italian's Delight per alcune texture `olive_*` che non coincidono con Rustic. **Non è una verifica binaria** delle PNG originali: le attribuzioni file per file restano aperte finché non viene confrontato l'archivio originale o il codice sorgente dell'epoca.
+
+## Inventory check for the 1.1.0 RC — 11 November 2026
+
+The branch resource tree was compared against all 41 recorded matching Git
+blob hashes. **39 match byte-for-byte and are present**, **two were
+previously removed** (`block/leaves_olive.png` and
+`block/sapling_olive.png`); **none of the 39 matches changed**.
+This establishes file identity, not individual authorship, and includes
+historical textures which may not currently be referenced in-game.
+Do not automatically delete unused resources while preparing the RC:
+no loader/runtime reference analysis or save compatibility proof is
+recorded for each of these files.

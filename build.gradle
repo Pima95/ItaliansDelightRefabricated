@@ -80,4 +80,11 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archives_base_name}" }
     }
+    // Include upstream notices in the distributed JAR, not just in the Git repo.
+    from("THIRD_PARTY_NOTICES.md") {
+        into("META-INF")
+    }
+    from("docs/orchards-1.1.0/FDR_CRATES_LICENSE.md") {
+        into("META-INF")
+    }
 }
