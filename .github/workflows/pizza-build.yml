@@ -199,7 +199,12 @@ jobs:
               assert b"Apache License" in jar.read("LICENSE_italiansdelight")
               assert b"Version 2.0, January 2004" in jar.read("LICENSE_italiansdelight")
               assert b"Piergiuseppe Mastroserio (Pima95)" in jar.read("META-INF/NOTICE")
-              assert b"Rustic" in jar.read("META-INF/THIRD_PARTY_NOTICES.md")
+              third_party_notice = jar.read("META-INF/THIRD_PARTY_NOTICES.md")
+              for credit in (b"Rustic", b"cadaverous_queen",
+                             b"PuurpZ", b"nickhanic2021", b"JAMMSON",
+                             b"duynotsimp"):
+                  assert credit in third_party_notice, f"Missing upstream credit: {credit!r}"
+              assert b"per-asset" in third_party_notice, "Missing provenance caveat"
               assert b"Copyright (c) 2020 vectorwing" in jar.read(
                   "META-INF/FDR_CRATES_LICENSE.md")
               # Java 25 class-file major version is 69. Check the compiled
