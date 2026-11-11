@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=false": {
+      "model": "italiansdelight:block/dark_oak_barrel"
+    },
+    "waterlogged=true": {
+      "model": "italiansdelight:block/dark_oak_barrel"
+    }
+  }
+}

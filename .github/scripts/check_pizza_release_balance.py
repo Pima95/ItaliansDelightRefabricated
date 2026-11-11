@@ -36,6 +36,9 @@ EXPECTED = {
     "zucca_speck": (5, 5.5),
     "patate_speck": (5, 5.5),
     "orto_disponibile": (4, 3.5),
+    "mediterranea": (4, 3.5),
+    "olive_scamorza_bianca": (4, 4.5),
+    "mortadella_ricotta_mandorle": (4, 6.0),
 }
 
 CATEGORY_BONUSES = {
@@ -61,8 +64,8 @@ def recipes_from_java() -> dict[str, list[str]]:
         taste = match.group(1)
         require(taste not in recipes, f"Duplicate preset {taste}")
         recipes[taste] = re.findall(r'"([^"]+)"', match.group(2))
-    require(len(recipes) == 18 and "principessa" not in recipes,
-            f"Expected 18 active presets excluding Principessa, got {len(recipes)}")
+    require(len(recipes) == 21 and "principessa" not in recipes,
+            f"Expected 21 active presets excluding Principessa, got {len(recipes)}")
     require(set(recipes) == set(EXPECTED),
             "Changed preset identities: review and update the balance snapshot")
     return recipes
@@ -76,8 +79,8 @@ def catalogue_from_java() -> dict[str, str]:
         source,
     )
     result = dict(matches)
-    require(len(matches) == 31 and len(result) == 31,
-            f"Expected 31 distinct canonical topping types, got {len(result)}")
+    require(len(matches) == 33 and len(result) == 33,
+            f"Expected 33 distinct canonical topping types, got {len(result)}")
     for must_not in ("mozzarella", "scamorza", "mascarpone"):
         require(must_not not in result,
                 f"Whole/unprepared {must_not} wrongly permitted as topping")

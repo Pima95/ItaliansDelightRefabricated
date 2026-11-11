@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_wall_sign",
+  "textures": {
+    "all": "italiansdelight:block/almond_sign",
+    "particle": "italiansdelight:block/almond_planks"
+  }
+}

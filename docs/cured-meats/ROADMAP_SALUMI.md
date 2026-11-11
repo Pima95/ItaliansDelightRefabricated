@@ -1,5 +1,7 @@
 # Italian's Delight Refabricated — Roadmap Salumi
 
+> **Nota archivio (11/11/2026):** le anteprime HTML e i prompt sperimentali non fanno più parte della documentazione attiva. I collegamenti storici qui sotto aprono la versione precedente alla pulizia, recuperabile dalla cronologia Git.
+
 Documento di progettazione per lo sviluppo della filiera dei salumi nel branch
 `feature/cured-meats`.
 
@@ -547,7 +549,7 @@ di selezione seguono i nuovi modelli. La resa in Minecraft è stata verificata d
 checklist sono in [MODELLI_SALUMI.md](MODELLI_SALUMI.md).
 
 Criteri, catalogo e checklist visiva sono in [TEXTURE_SALUMI.md](TEXTURE_SALUMI.md).
-L'[anteprima interattiva](TEXTURE_SALUMI.html) mostra le icone alla dimensione
+L'[anteprima interattiva](https://github.com/Pima95/ItaliansDelightRefabricated/blob/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs/cured-meats/TEXTURE_SALUMI.html) mostra le icone alla dimensione
 originale e ingrandite e permette di ruotare i modelli appesi.
 
 

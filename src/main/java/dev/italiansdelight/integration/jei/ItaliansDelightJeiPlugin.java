@@ -67,6 +67,10 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         IRecipeCategoryRegistration registration
     ) {
         registration.addRecipeCategories(
+            // Pizza Oven first, mirroring the Creative workstation section.
+            new PizzaBakingRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
             new CheeseVatRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
@@ -76,13 +80,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new HangingAgingDryingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
+            new CrushingTubRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
             new SaltEvaporationRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
             new PizzaCraftingRecipeCategory(
-                registration.getJeiHelpers().getGuiHelper()
-            ),
-            new PizzaBakingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
             new PizzaCuttingRecipeCategory(
@@ -98,6 +102,11 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
     public void registerRecipes(
         IRecipeRegistration registration
     ) {
+        // Native JEI Information tabs: five plants, covering their linked
+        // fruits/saplings/leaves or wild/cultivated forms (as in the video).
+        OrchardPlantJeiInfo.register(registration);
+        ModFluidJeiInfo.register(registration);
+
         CheeseVatJeiRecipes recipes =
             new CheeseVatJeiRecipes();
 
@@ -150,6 +159,11 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             )
         );
 
+        registration.addRecipes(
+            CrushingTubJeiRecipeTypes.CRUSHING_TUB,
+            CrushingTubJeiRecipe.createExamples()
+        );
+
         // Illustrative valid configurations for the dynamic crafting recipe.
         // These do NOT introduce five distinct gameplay recipes.
         registration.addRecipes(
@@ -182,6 +196,12 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
     public void registerRecipeCatalysts(
         IRecipeCatalystRegistration registration
     ) {
+        // The Pizza Oven is the first workstation in Creative and JEI.
+        registration.addCraftingStation(
+            PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
+            new ItemStack(ModBlocks.PIZZA_OVEN)
+        );
+
         registration.addCraftingStation(
             CheeseVatJeiRecipeTypes.CHEESE_VAT,
             new ItemStack(ModBlocks.CHEESE_VAT)
@@ -199,6 +219,31 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new ItemStack(ModBlocks.CHEESE_HOOK)
         );
 
+        // Every one of the fifteen actual Crushing Tub wood variants handles
+        // the same recipes. They must all open the JEI category via Uses (U).
+        for (net.minecraft.world.level.block.Block tub : new net.minecraft.world.level.block.Block[] {
+            ModBlocks.CRUSHING_TUB,
+            ModBlocks.SPRUCE_CRUSHING_TUB,
+            ModBlocks.BIRCH_CRUSHING_TUB,
+            ModBlocks.JUNGLE_CRUSHING_TUB,
+            ModBlocks.ACACIA_CRUSHING_TUB,
+            ModBlocks.DARK_OAK_CRUSHING_TUB,
+            ModBlocks.MANGROVE_CRUSHING_TUB,
+            ModBlocks.CHERRY_CRUSHING_TUB,
+            ModBlocks.PALE_OAK_CRUSHING_TUB,
+            ModBlocks.BAMBOO_CRUSHING_TUB,
+            ModBlocks.CRIMSON_CRUSHING_TUB,
+            ModBlocks.WARPED_CRUSHING_TUB,
+            ModBlocks.OLIVE_CRUSHING_TUB,
+            ModBlocks.ALMOND_CRUSHING_TUB,
+            ModBlocks.FRUIT_CHERRY_CRUSHING_TUB
+        }) {
+            registration.addCraftingStation(
+                CrushingTubJeiRecipeTypes.CRUSHING_TUB,
+                new ItemStack(tub)
+            );
+        }
+
         registration.addCraftingStation(
             SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
             new ItemStack(net.minecraft.world.level.block.Blocks.CAULDRON)
@@ -207,12 +252,6 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         registration.addCraftingStation(
             PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
             new ItemStack(net.minecraft.world.level.block.Blocks.CRAFTING_TABLE)
-        );
-
-        // Dedicated Pizza Oven catalyst for a vanilla-style 20-second cooking display.
-        registration.addCraftingStation(
-            PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
-            new ItemStack(ModBlocks.PIZZA_OVEN)
         );
 
         registration.addCraftingStation(

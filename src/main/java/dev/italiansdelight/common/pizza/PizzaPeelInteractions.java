@@ -63,7 +63,9 @@ public final class PizzaPeelInteractions {
             boolean raw = state.is(ModBlocks.PIZZA_DOUGH)
                     && state.getValue(PizzaDoughBlock.STAGE) == PizzaDoughBlock.MAX_STAGE;
             boolean cooked = state.is(ModBlocks.COOKED_PIZZA)
-                    && state.getValue(CookedPizzaBlock.REMAINING) == 15;
+                    && state.getValue(CookedPizzaBlock.REMAINING) == 15
+                    && level.getBlockEntity(clicked) instanceof CookedPizzaBlockEntity served
+                    && !served.servedEver();
             if (!raw && !cooked) {
                 return InteractionResult.PASS;
             }

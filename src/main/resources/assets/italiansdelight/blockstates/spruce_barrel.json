@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=false": {
+      "model": "italiansdelight:block/spruce_barrel"
+    },
+    "waterlogged=true": {
+      "model": "italiansdelight:block/spruce_barrel"
+    }
+  }
+}

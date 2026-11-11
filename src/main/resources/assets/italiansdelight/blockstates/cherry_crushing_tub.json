@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=false": {
+      "model": "italiansdelight:block/cherry_crushing_tub"
+    },
+    "waterlogged=true": {
+      "model": "italiansdelight:block/cherry_crushing_tub"
+    }
+  }
+}

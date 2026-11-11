@@ -1,0 +1,99 @@
+name: Orchard 1.1.0 - Dedicated server boot and world reload smoke
+
+on:
+  push:
+    branches:
+      - feature/orchards-1.1.0
+      - release/1.1.0
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: orchard-server-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dedicated-server:
+    name: Boot and reload Fabric test world (not a multiplayer test)
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Prepare an isolated, disposable test world
+        run: |
+          mkdir -p run
+          printf 'eula=true\n' > run/eula.txt
+          printf 'online-mode=false\nallow-flight=true\n' > run/server.properties
+      - name: Start dedicated server and check for Minecraft readiness
+        run: |
+          set -euo pipefail
+          touch server-smoke.log
+          timeout --signal=INT --kill-after=10s 240s bash ./gradlew runServer --no-daemon --console=plain > server-smoke.log 2>&1 &
+          runner=$!
+          started=0
+          for i in $(seq 1 240); do
+            if grep -Eq 'Done \(' server-smoke.log; then
+              started=1
+              break
+            fi
+            if ! kill -0 "$runner" 2>/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          kill -INT "$runner" 2>/dev/null || true
+          wait "$runner" || true
+          tail -n 120 server-smoke.log
+          test "$started" -eq 1
+          ! grep -E '(Failed to start|Exception in server tick loop)' server-smoke.log
+      - name: Verify existing world can be opened on restart
+        run: |
+          set -euo pipefail
+          # First boot should have created actual saved-world data. Reuse
+          # precisely the same run/ directory: no fresh-world fallback.
+          test -s run/world/level.dat
+          cp run/world/level.dat run/world/level.dat.pre-restart-smoke
+          test -s run/world/level.dat.pre-restart-smoke
+          touch server-restart.log
+          timeout --signal=INT --kill-after=10s 180s bash ./gradlew runServer --no-daemon --console=plain > server-restart.log 2>&1 &
+          runner=$!
+          started=0
+          for i in $(seq 1 180); do
+            if grep -Eq 'Done \(' server-restart.log; then
+              started=1
+              break
+            fi
+            if ! kill -0 "$runner" 2>/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          kill -INT "$runner" 2>/dev/null || true
+          wait "$runner" || true
+          tail -n 120 server-restart.log
+          test "$started" -eq 1
+          test -s run/world/level.dat
+          ! grep -E '(Failed to start|Exception in server tick loop|Failed to load level)' server-restart.log
+          echo "OK: Fabric dedicated server reached Done twice using same world."
+          echo "NOTE: this smoke test does not simulate multiplayer or entity/block persistence."
+      - name: Save smoke logs for diagnosis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orchard-dedicated-server-log-${{ github.sha }}
+          path: |
+            server-smoke.log
+            server-restart.log
+          if-no-files-found: warn
+          retention-days: 14

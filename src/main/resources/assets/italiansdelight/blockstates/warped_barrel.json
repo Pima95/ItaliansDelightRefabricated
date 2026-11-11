@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=false": {
+      "model": "italiansdelight:block/warped_barrel"
+    },
+    "waterlogged=true": {
+      "model": "italiansdelight:block/warped_barrel"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_sign_rot_2",
+  "textures": {
+    "all": "italiansdelight:block/olive_sign",
+    "particle": "italiansdelight:block/olive_planks"
+  }
+}

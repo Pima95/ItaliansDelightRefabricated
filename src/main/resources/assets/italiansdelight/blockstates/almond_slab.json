@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "italiansdelight:block/almond_slab"
+    },
+    "type=top": {
+      "model": "italiansdelight:block/almond_slab_top"
+    },
+    "type=double": {
+      "model": "italiansdelight:block/almond_planks"
+    }
+  }
+}

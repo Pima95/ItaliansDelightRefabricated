@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "italiansdelight:block/fruit_cherry_planks",
+    "top": "italiansdelight:block/fruit_cherry_planks",
+    "side": "italiansdelight:block/fruit_cherry_planks"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "italiansdelight:block/fruit_cherry_sapling"
+  }
+}

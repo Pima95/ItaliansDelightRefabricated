@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=false": {
+      "model": "italiansdelight:block/fruit_cherry_barrel"
+    },
+    "waterlogged=true": {
+      "model": "italiansdelight:block/fruit_cherry_barrel"
+    }
+  }
+}

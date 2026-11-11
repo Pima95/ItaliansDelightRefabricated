@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "italiansdelight:almond_crate"
+  ],
+  "result": {
+    "id": "italiansdelight:almonds",
+    "count": 9
+  }
+}
