@@ -81,3 +81,39 @@ non vengono revocate. Il cambio sul branch **non** costituisce autorizzazione
 alla release definitiva o alla modifica delle schede CurseForge/Modrinth.
 I test CI e il controllo dei nuovi notice nel JAR devono essere rieseguiti;
 la revisione puntuale della provenienza degli asset rimane **aperta**.
+
+## Credits originali verificati sui progetti pubblici (11 novembre 2026)
+
+- **Italian's Delight originale (CurseForge):** PuurpZ risulta titolare
+  del progetto; nella sezione del team compaiono gli artisti
+  **nickhanic2021**, **JAMMSON**, **duynotsimp**. La presenza nel team
+  non dimostra chi abbia disegnato ciascun asset attualmente presente
+  nel nostro JAR. Fonte:
+  https://www.curseforge.com/minecraft/mc-mods/italians-delight
+- **Rustic (CurseForge):** il progetto è attribuito a **cadaverous_queen**;
+  i ringraziamenti originali indicano **Nazenn** (texture create/modificate)
+  e **Copygirl** (permesso di riutilizzare modelli/texture dei locker).
+  Non attribuire loro specifici asset locali senza corrispondenza
+  individuale. Fonte: https://www.curseforge.com/minecraft/mc-mods/rustic
+- **Farmer's Delight:** licenza originale su GitHub verificata con
+  `Copyright (c) 2020 vectorwing`, già preservato in
+  `FDR_CRATES_LICENSE.md`; i cinque crate Orchard derivano da sprite
+  preesistenti e non sono interamente artwork originale.
+- **MIT originale:** le pagine licenza CurseForge di Rustic e
+  Italian's Delight riportano un testo con campi copyright generici.
+  Nella copia GitHub consultata di Rustic non è presente un file
+  `LICENSE` autonomo che risolva nome/anno. Questi dati non possono
+  essere inventati: avvisi originali più specifici, se recuperati,
+  vanno conservati integralmente.
+
+**Aggiornamento tecnico:** `THIRD_PARTY_NOTICES.md` riporta ora i
+crediti pubblicamente identificabili, separandoli dalla titolarità
+dei singoli file; la CI della RC ne verifica la presenza nel JAR.
+Questo rafforza la documentazione, ma **non equivale a validazione
+legale dei 39 asset Rustic né delle texture non ancora attribuite**.
+
+**Aperti prima del rilascio:** inventariare i PNG legacy del progetto
+Italian's Delight originale e verificare l'eventuale paternità
+individuale; ottenere e conservare avvisi copyright più specifici
+qualora esistano nei pacchetti originali. Non eliminare o sostituire
+texture approvate senza prova di utilizzo e compatibilità.
