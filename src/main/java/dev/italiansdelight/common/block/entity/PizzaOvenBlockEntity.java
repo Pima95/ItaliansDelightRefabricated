@@ -22,9 +22,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.CookingFuel;
-import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
+import net.minecraft.world.level.block.entity.FuelValues;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -119,9 +117,7 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
 
         if (canCook && oven.energyRemaining == 0) {
             ItemStack fuel = oven.items.get(FUEL);
-            int duration = ResolvableInt.getFromItem(fuel,
-                    DataComponents.COOKING_FUEL, CookingFuel::burnTime,
-                    oven.getLootContext(level), 0);
+            int duration = level.fuelValues().burnDuration(fuel);
             if (duration > 0) {
                 oven.energyRemaining = duration;
                 oven.fuelTotal = duration;
@@ -264,7 +260,7 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
             case INPUT -> stack.is(ModItems.RAW_PIZZA)
                     && stack.get(ModDataComponents.PIZZA_CONTENTS) != null
                     && items.get(RESULT).isEmpty();
-            case FUEL -> stack.has(DataComponents.COOKING_FUEL);
+            case FUEL -> level != null && level.fuelValues().isFuel(stack);
             default -> false;
         };
     }

@@ -1,79 +1,40 @@
 package dev.italiansdelight.common.registry;
 
-import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.Compostable;
-import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+import net.fabricmc.fabric.api.registry.CompostableRegistry;
 
-/**
- * Minecraft 26.3 stores compostability in DataComponents.COMPOSTABLE.
- * Preserve old 30%, 65% and 85% chances via vanilla built-in providers.
- * The component is installed through Fabric's default item component event
- * because all referenced items are registered in other classes.
- */
+/** Registers the original vanilla/Fabric composting chances (30%, 65%, 85%). */
 public final class ModCompostables {
     private ModCompostables() {}
 
     public static void register() {
-        DefaultItemComponentEvents.MODIFY.register(context -> {
-            context.modify(ModBlocks.OLIVE_SAPLING.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_LOW)));
-            context.modify(ModBlocks.ALMOND_SAPLING.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_LOW)));
-            context.modify(ModBlocks.FRUIT_CHERRY_SAPLING.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_LOW)));
-            context.modify(ModBlocks.OLIVE_LEAVES.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_LOW)));
-            context.modify(ModBlocks.ALMOND_LEAVES.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_LOW)));
-            context.modify(ModBlocks.FRUIT_CHERRY_LEAVES.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_LOW)));
-            context.modify(ModItems.APPLE_SEEDS, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_LOW)));
-            context.modify(ModItems.OLIVES, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModItems.OLIVE_SEED, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_LOW)));
-            context.modify(ModItems.OLIVE_PITTED, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModItems.OLIVE_PATE, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModItems.BRUSCHETTA, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModItems.OLIVE_BRUSCHETTA, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModItems.ALMONDS, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModItems.CHOPPED_ALMONDS, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModItems.ALMOND_PESTO, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModItems.BASIL_PESTO, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModBlocks.ALMOND_CAKE.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH)));
-            context.modify(ModItems.ALMOND_CAKE_SLICE, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH)));
-            context.modify(ModItems.CHERRIES, builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModBlocks.BASIL.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModBlocks.WILD_BASIL.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModBlocks.CARDOON.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModBlocks.CULTIVATED_CARDOON.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)));
-            context.modify(ModBlocks.OLIVE_CRATE.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH)));
-            context.modify(ModBlocks.ALMOND_CRATE.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH)));
-            context.modify(ModBlocks.CHERRY_CRATE.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH)));
-            context.modify(ModBlocks.BASIL_CRATE.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH)));
-            context.modify(ModBlocks.CARDOON_CRATE.asItem(), builder -> builder.set(DataComponents.COMPOSTABLE,
-                new Compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH)));
-        });
+            CompostableRegistry.INSTANCE.add(ModBlocks.OLIVE_SAPLING.asItem(), 0.30F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.ALMOND_SAPLING.asItem(), 0.30F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.FRUIT_CHERRY_SAPLING.asItem(), 0.30F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.OLIVE_LEAVES.asItem(), 0.30F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.ALMOND_LEAVES.asItem(), 0.30F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.FRUIT_CHERRY_LEAVES.asItem(), 0.30F);
+            CompostableRegistry.INSTANCE.add(ModItems.APPLE_SEEDS, 0.30F);
+            CompostableRegistry.INSTANCE.add(ModItems.OLIVES, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModItems.OLIVE_SEED, 0.30F);
+            CompostableRegistry.INSTANCE.add(ModItems.OLIVE_PITTED, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModItems.OLIVE_PATE, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModItems.BRUSCHETTA, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModItems.OLIVE_BRUSCHETTA, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModItems.ALMONDS, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModItems.CHOPPED_ALMONDS, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModItems.ALMOND_PESTO, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModItems.BASIL_PESTO, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.ALMOND_CAKE.asItem(), 0.85F);
+            CompostableRegistry.INSTANCE.add(ModItems.ALMOND_CAKE_SLICE, 0.85F);
+            CompostableRegistry.INSTANCE.add(ModItems.CHERRIES, 0.65F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.BASIL.asItem(), 0.65F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.WILD_BASIL.asItem(), 0.65F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.CARDOON.asItem(), 0.65F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.CULTIVATED_CARDOON.asItem(), 0.65F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.OLIVE_CRATE.asItem(), 0.85F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.ALMOND_CRATE.asItem(), 0.85F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.CHERRY_CRATE.asItem(), 0.85F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.BASIL_CRATE.asItem(), 0.85F);
+            CompostableRegistry.INSTANCE.add(ModBlocks.CARDOON_CRATE.asItem(), 0.85F);
     }
 }
