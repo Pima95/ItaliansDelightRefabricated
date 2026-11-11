@@ -81,6 +81,9 @@ jar {
         rename { "${it}_${project.archives_base_name}" }
     }
     // Include upstream notices in the distributed JAR, not just in the Git repo.
+    from("NOTICE") {
+        into("META-INF")
+    }
     from("THIRD_PARTY_NOTICES.md") {
         into("META-INF")
     }
