@@ -99,6 +99,18 @@ public final class CookedPizzaBlockEntity extends BlockEntity {
         updateClients();
     }
 
+    /** Preflight an insertion before the world BlockState is changed.
+     * Saved data from older mods can contain a slot entry while the visible
+     * remaining mask says empty. Reject this mismatch without consuming food.
+     */
+    public boolean canInsertSlice(int quarter) {
+        if (quarter < 0 || quarter >= 4) return false;
+        for (PizzaSliceData inserted : insertedSlices) {
+            if (inserted.quarter() == quarter) return false;
+        }
+        return true;
+    }
+
     /** Commit an already validated slice after setting its blockstate bit. */
     public void insertSlice(int quarter, PizzaSliceData source) {
         if (level != null && level.isClientSide()) {

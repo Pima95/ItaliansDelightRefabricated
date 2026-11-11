@@ -77,6 +77,12 @@ public final class PizzaSlicePlacement {
                     || !(server.getBlockEntity(target) instanceof CookedPizzaBlockEntity entity)) {
                 return InteractionResult.FAIL;
             }
+            // Validate persisted provenance before changing the block mask.
+            // An inconsistent legacy save must not lead to a half-committed
+            // insertion or an item disappearing from the player's inventory.
+            if (!entity.canInsertSlice(quarter)) {
+                return InteractionResult.FAIL;
+            }
             // Commit exactly one previously empty bit. Insertion records
             // the actual source toppings and permanently revokes whole drops.
             if (!server.setBlock(target,

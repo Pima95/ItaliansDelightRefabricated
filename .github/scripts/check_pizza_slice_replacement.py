@@ -34,6 +34,7 @@ for snippet in (
     "if (level.isClientSide())",
     "server.setBlock(target,",
     "entity.insertSlice(quarter, slice);",
+    "if (!entity.canInsertSlice(quarter))",
     "level.isUnobstructed(placed, target, CollisionContext.empty())",
     "placed.canSurvive(level, target)",
     "held.shrink(1);",
@@ -52,6 +53,7 @@ for snippet in (
     "new PizzaSliceData(quarter, source.toppings(), source.legacyMozzarella())",
     "public PizzaSliceData sliceAt(int quarter)",
     "public void insertSlice(int quarter, PizzaSliceData source)",
+    "public boolean canInsertSlice(int quarter)",
     "public void markServed(int quarter)",
     "if (inserted.quarter() != quarter)",
 ):

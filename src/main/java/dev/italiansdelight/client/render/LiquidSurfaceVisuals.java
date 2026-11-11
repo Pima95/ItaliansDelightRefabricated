@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.italiansdelight.common.registry.ModRegistries;
 import java.util.Map;
 import java.util.List;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.Minecraft;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -54,6 +55,13 @@ public final class LiquidSurfaceVisuals {
         "italiansdelight:apple_cider_vinegar", new Surface(
             ModRegistries.id("block/fluids/booze/cider_still"), 0xFFFFFFFF)
     ));
+
+    // Only external/unregistered fluids need the conventional five-path atlas
+    // search. Remember resolved IDs for the active atlas, never the sprite
+    // object itself; rendering still samples current animated atlas frames.
+    private static final Map<String, Identifier> EXTERNAL_STILL_IDS = new HashMap<>();
+    private static TextureAtlas externalAtlas;
+    private static TextureAtlasSprite externalWaterMarker;
 
     /** Other modded liquids only need a registered block-atlas still sprite. */
     public static void registerSurface(String fluidId, Identifier stillSprite, int tint) {
@@ -120,7 +128,21 @@ public final class LiquidSurfaceVisuals {
      * colored using that fluid's own variant render handler.
      */
     private static TextureAtlasSprite lookUpFluidSprite(String fluidId,
-            net.minecraft.client.renderer.texture.TextureAtlas atlas) {
+            TextureAtlas atlas) {
+        // A texture-pack reload can recreate sprites without changing fluid IDs.
+        // Checking the water sprite identity also handles atlases reused in place.
+        TextureAtlasSprite waterSprite = atlas.getSprite(WATER.sprite());
+        if (atlas != externalAtlas || waterSprite != externalWaterMarker) {
+            EXTERNAL_STILL_IDS.clear();
+            externalAtlas = atlas;
+            externalWaterMarker = waterSprite;
+        }
+        Identifier still = EXTERNAL_STILL_IDS.computeIfAbsent(fluidId,
+                id -> resolveExternalStillId(id, atlas));
+        return atlas.getSprite(still);
+    }
+
+    private static Identifier resolveExternalStillId(String fluidId, TextureAtlas atlas) {
         Identifier key = Identifier.tryParse(fluidId);
         if (key != null) {
             String name = key.getPath();
@@ -130,10 +152,10 @@ public final class LiquidSurfaceVisuals {
                     "block/" + name + "/still")) {
                 Identifier candidate = Identifier.fromNamespaceAndPath(key.getNamespace(), path);
                 TextureAtlasSprite sprite = atlas.getSprite(candidate);
-                if (sprite.contents().name().equals(candidate)) return sprite;
+                if (sprite.contents().name().equals(candidate)) return candidate;
             }
         }
-        return atlas.getSprite(WATER.sprite());
+        return WATER.sprite();
     }
 
     private static void vertex(PoseStack.Pose pose, VertexConsumer out,
