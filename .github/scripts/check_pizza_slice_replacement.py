@@ -67,7 +67,12 @@ assert "public static ItemStack create(PizzaSliceData slice)" in factory
 
 # The renderer must show the newly inserted slice's TOPPINGS, not the
 # previous occupant's original canonical ingredients.
-assert "entity.renderComposition(), entity.renderLegacyMask(), remaining" in renderer
+assert "var composition = entity.renderComposition();" in renderer
+assert "int legacyMask = entity.renderLegacyMask();" in renderer
+assert "PizzaToppingVisuals.extract(composition, legacyMask, remaining)" in renderer
+assert "cachedRenderComposition = null;" in entity
+assert "cachedRemaining == remaining" in entity
+assert "facing.equals(cachedFacing)" in entity
 assert "public PizzaComposition renderComposition()" in entity
 assert "sliceAt(quarter).toppings()" in entity
 assert "topping.originalStack()" in entity
