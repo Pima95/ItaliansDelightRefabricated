@@ -912,7 +912,8 @@ public final class ModItems {
         // Only reversible storage crafting is provided; no foods or tree drops.
         // New vineyard/chili crop produce; seed BlockItems live in ModBlocks.
         public static final Item GRAPES = registerFoodItem("grapes", 2, 0.2f);
-        public static final Item CHILI_PEPPER = registerFoodItem("chili_pepper", 1, 0.1f);
+        public static final Item CHILI_PEPPER = registerFoodItem("chili_pepper", 3, 0.4f);
+        public static final Item GHOST_PEPPER = registerFoodItem("ghost_pepper", 4, 0.7f);
 
         // Rustic byproduct: apple pips. Tree planting will be added with the apple orchard.
         public static final Item APPLE_SEEDS = registerSimpleItem("apple_seeds", 64);

@@ -423,5 +423,6 @@
   "item.italiansdelight.grape_juice_bucket": "Grape Juice Bucket",
   "item.italiansdelight.grape_juice_bottle": "Grape Juice Bottle",
   "fluid.italiansdelight.grape_juice": "Grape Juice",
-  "jei.italiansdelight.fluids.grape_juice": "Put harvested grapes in the Crushing Tub and jump inside. One bunch produces 250 mB of grape juice and grape seeds. Collect the juice with empty bottles (250 mB) or buckets (1,000 mB). Store it in existing liquid barrels or cauldrons. Fermentation into wine is planned for a later 1.2.0 stage."
+  "jei.italiansdelight.fluids.grape_juice": "Put harvested grapes in the Crushing Tub and jump inside. One bunch produces 250 mB of grape juice and grape seeds. Collect the juice with empty bottles (250 mB) or buckets (1,000 mB). Store it in existing liquid barrels or cauldrons. Fermentation into wine is planned for a later 1.2.0 stage.",
+  "item.italiansdelight.ghost_pepper": "Ghost Pepper"
 }

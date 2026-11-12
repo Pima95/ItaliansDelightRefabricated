@@ -816,7 +816,8 @@ public final class ModBlocks {
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));
     public static final Block CHILI_CROP = registerBlockOnly(CHILI_CROP_KEY,
         new RepeatHarvestCropBlock(Block.Properties.ofFullCopy(Blocks.WHEAT).setId(CHILI_CROP_KEY),
-            () -> ModBlocks.CHILI_PEPPER_SEEDS, () -> ModItems.CHILI_PEPPER));
+            () -> ModBlocks.CHILI_PEPPER_SEEDS, () -> ModItems.CHILI_PEPPER,
+            () -> ModItems.GHOST_PEPPER));
     public static final ResourceKey<Item> CHILI_PEPPER_SEEDS_KEY = ResourceKey.create(
         BuiltInRegistries.ITEM.key(), ModRegistries.id("chili_pepper_seeds"));
     public static final Item CHILI_PEPPER_SEEDS = Registry.register(BuiltInRegistries.ITEM,

@@ -200,6 +200,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.APPLE_SEEDS);
                 output.accept(ModItems.GRAPES);
                 output.accept(ModItems.CHILI_PEPPER);
+                output.accept(ModItems.GHOST_PEPPER);
 
                 // SAUCES, SEASONINGS AND PREPARED VEGETABLES.
                 output.accept(ModItems.OLIVE_PATE);
