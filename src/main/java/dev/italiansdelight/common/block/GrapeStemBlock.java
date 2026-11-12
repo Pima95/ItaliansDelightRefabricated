@@ -7,9 +7,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.ItemLike;
 
 /**
@@ -43,8 +45,25 @@ public final class GrapeStemBlock extends CropBlock {
                     .setValue(GrapeLeavesBlock.TIED_POSITIVE,
                         level.getBlockState(above).getValue(HorizontalRopeBlock.TIED_POSITIVE));
         }
-        level.setBlock(above, canopy, 3);
-        return true;
+        return level.setBlock(above, canopy, Block.UPDATE_ALL);
+    }
+
+    // A ripe grapevine must react when a player adds the dedicated horizontal
+    // rope afterwards, not only when the random-tick scheduler selects it.
+    @Override protected BlockState updateShape(BlockState state, LevelReader level,
+            ScheduledTickAccess ticks, BlockPos pos, Direction direction,
+            BlockPos neighborPos, BlockState neighbor, RandomSource random) {
+        if (direction == Direction.UP && state.getValue(AGE) == MAX_AGE
+                && ropeAxis(neighbor) != null) {
+            ticks.scheduleTick(pos, this, 1);
+        }
+        return super.updateShape(state, level, ticks, pos, direction,
+            neighborPos, neighbor, random);
+    }
+
+    @Override public void tick(BlockState state, ServerLevel level,
+            BlockPos pos, RandomSource random) {
+        tryGrowCanopy(level, pos, state);
     }
 
     // Vanilla CropBlock stops ticking at maturity; rope-driven climbing must

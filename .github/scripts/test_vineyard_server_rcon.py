@@ -176,6 +176,11 @@ def test():
         run(rcon, "setblock 10 81 0 italiansdelight:grape_stem[age=7]")
         for x in (9, 10, 11):
             run(rcon, f"setblock {x} 82 0 italiansdelight:horizontal_rope[axis=x]")
+        # The matured root must start a leaf canopy immediately when a
+        # horizontal rope is newly installed, without waiting for random ticks.
+        assert_block(rcon, 10, 81, 0, "italiansdelight:grape_stem[age=7]")
+        wait_block(rcon, 10, 82, 0,
+            "italiansdelight:grape_leaves[distance=0]", timeout=8)
         run(rcon, "time set day")
         run(rcon, "gamerule minecraft:random_tick_speed 700")
         try:
