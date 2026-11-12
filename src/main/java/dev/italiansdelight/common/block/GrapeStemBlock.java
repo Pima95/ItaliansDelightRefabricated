@@ -54,6 +54,12 @@ public final class GrapeStemBlock extends CropBlock {
         if (axis == null) return false;
         BlockState canopy = ModBlocks.GRAPE_LEAVES.defaultBlockState()
                 .setValue(GrapeLeavesBlock.AXIS, axis);
+        if (level.getBlockState(above).is(ModBlocks.HORIZONTAL_ROPE)) {
+            canopy = canopy.setValue(GrapeLeavesBlock.TIED_NEGATIVE,
+                        level.getBlockState(above).getValue(HorizontalRopeBlock.TIED_NEGATIVE))
+                    .setValue(GrapeLeavesBlock.TIED_POSITIVE,
+                        level.getBlockState(above).getValue(HorizontalRopeBlock.TIED_POSITIVE));
+        }
         level.setBlock(above, canopy, 3);
         return true;
     }
