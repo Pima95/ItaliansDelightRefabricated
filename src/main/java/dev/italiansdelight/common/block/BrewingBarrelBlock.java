@@ -97,11 +97,11 @@ public final class BrewingBarrelBlock extends BaseEntityBlock {
             BlockPos pos, Player player, BlockHitResult hit) {
         if (level instanceof ServerLevel server &&
                 server.getBlockEntity(pos) instanceof BrewingBarrelBlockEntity barrel) {
-            player.displayClientMessage(Component.translatable(
+            player.sendSystemMessage(Component.translatable(
                     "message.italiansdelight.brewing_barrel.status",
                     barrel.getJuiceAmount(), barrel.getWineAmount(),
                     barrel.getProgress(), BrewingBarrelBlockEntity.BREW_TIME,
-                    barrel.getWineQuality()), true);
+                    barrel.getWineQuality()));
         }
         return InteractionResult.SUCCESS;
     }

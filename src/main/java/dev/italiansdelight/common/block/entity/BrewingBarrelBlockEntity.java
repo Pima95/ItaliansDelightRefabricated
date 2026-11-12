@@ -102,8 +102,8 @@ public final class BrewingBarrelBlockEntity extends BlockEntity {
             if (barrel.wineAmount == 0) {
                 barrel.wineQuality = barrel.cultureQuality >= 0
                         ? Math.clamp(barrel.cultureQuality
-                                + level.random.nextInt(6) - 1, 0, 100)
-                        : 5 + level.random.nextInt(71);
+                                + level.getRandom().nextInt(6) - 1, 0, 100)
+                        : 5 + level.getRandom().nextInt(71);
             }
             barrel.juiceAmount -= amount;
             barrel.wineAmount += amount;
