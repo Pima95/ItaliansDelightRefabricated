@@ -1,7 +1,6 @@
 {
-  "parent": "minecraft:block/crop",
-  "render_type": "minecraft:cutout",
+  "parent": "italiansdelight:block/stake_crop",
   "textures": {
-    "crop": "minecraft:block/beetroots_stage3"
+    "crop": "italiansdelight:block/chili_crop_3"
   }
 }
