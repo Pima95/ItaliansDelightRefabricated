@@ -55,7 +55,8 @@ public final class StakeCropPlanting {
             // Always plant at the first stage; FDR tomatoes use AGE_3, not
             // vanilla CropBlock.AGE_7. No bonemeal or random tick on planting.
             BlockState planted = chili
-                ? ModBlocks.CHILI_CROP.defaultBlockState().setValue(CropBlock.AGE, 0)
+                ? ModBlocks.CHILI_CROP.defaultBlockState()
+                    .setValue(CropBlock.AGE, 0).setValue(ChiliCropBlock.STAKED, true)
                 : ModBlocks.STAKED_TOMATOES.defaultBlockState().setValue(TomatoBlock.VINE_AGE, 0);
             // Preserve the loop and anchor after the stake is replaced by crop.
             planted = planted.setValue(CropStakeBlock.ROPE_TIED,

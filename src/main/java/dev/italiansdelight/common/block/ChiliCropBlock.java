@@ -18,6 +18,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.ItemLike;
@@ -32,14 +34,26 @@ import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
  * upper hanging segments, each separately harvestable (1:42 ghost pepper).
  */
 public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
+    /** Existing chili_crop blocks default to having a wooden support for save compatibility. */
+    public static final BooleanProperty STAKED = BooleanProperty.create("staked");
+
     public ChiliCropBlock(Properties properties) {
         super(properties);
-        registerDefaultState(defaultBlockState().setValue(CropStakeBlock.ROPE_TIED, false));
+        registerDefaultState(defaultBlockState()
+            .setValue(CropStakeBlock.ROPE_TIED, false).setValue(STAKED, true));
     }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(CropStakeBlock.ROPE_TIED);
+        builder.add(CropStakeBlock.ROPE_TIED, STAKED);
+    }
+
+    // Ordinary seed placement uses a FREE-STANDING chili plant. The
+    // intercept for planting on a pre-existing post explicitly sets STAKED=true.
+    @Override public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState state = super.getStateForPlacement(context);
+        return state == null ? null : state.setValue(STAKED, false)
+            .setValue(CropStakeBlock.ROPE_TIED, false);
     }
 
     @Override protected ItemLike getBaseSeedId() { return ModBlocks.CHILI_PEPPER_SEEDS; }
@@ -50,7 +64,8 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
     // A rope-borne chili segment still behaves like Farmer's Delight rope.
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level,
             BlockPos pos, CollisionContext context) {
-        return shouldRestoreRope() ? net.minecraft.world.phys.shapes.Shapes.empty() : CropStakeBlock.POST;
+        return shouldRestoreRope() || !state.getValue(STAKED)
+            ? net.minecraft.world.phys.shapes.Shapes.empty() : CropStakeBlock.POST;
     }
 
     // The root needs farmland; upper chili segments can instead root in a
@@ -86,8 +101,9 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
         BlockState support = level.getBlockState(pos.above());
         BlockState next = support.is(ModBlocks.CROP_STAKE)
             ? ModBlocks.CHILI_CROP.defaultBlockState()
+                .setValue(STAKED, true)
                 .setValue(CropStakeBlock.ROPE_TIED, support.getValue(CropStakeBlock.ROPE_TIED))
-            : ModBlocks.CHILI_ON_ROPE.defaultBlockState();
+            : ModBlocks.CHILI_ON_ROPE.defaultBlockState().setValue(STAKED, false);
         return level.setBlock(pos.above(), next, Block.UPDATE_ALL);
     }
 
@@ -124,7 +140,8 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
             return state;
         }
         return super.updateShape(state,level,ticks,pos,changedSide,neighborPos,neighbor,random)
-            .setValue(CropStakeBlock.ROPE_TIED, CropStakeBlock.isRopeTied(level, pos));
+            .setValue(CropStakeBlock.ROPE_TIED, state.getValue(STAKED)
+                && CropStakeBlock.isRopeTied(level, pos));
     }
 
     @Override public void tick(BlockState state, ServerLevel level,
@@ -139,10 +156,13 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
                     vectorwing.farmersdelight.common.block.RopeBlock.getStateWithConnections(
                         vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get().defaultBlockState(),
                         level, pos, Direction.UP), Block.UPDATE_ALL);
-            } else {
+            } else if (state.getValue(STAKED)) {
                 level.setBlock(pos, ModBlocks.CROP_STAKE.defaultBlockState()
                     .setValue(CropStakeBlock.ROPE_TIED,
                         CropStakeBlock.isRopeTied(level, pos)), Block.UPDATE_ALL);
+            } else {
+                // A free-standing chili plant has no wooden post to restore.
+                level.removeBlock(pos, false);
             }
         }
     }
@@ -167,6 +187,7 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
     @Override public boolean onRemove(BlockState state, BlockState next,
             LevelAccessor level, BlockPos pos, int flags) {
         if (!next.isAir() || state.is(next.getBlock())) return false;
+        if (!shouldRestoreRope() && !state.getValue(STAKED)) return false;
         if (shouldRestoreRope()) {
             BlockState rope=vectorwing.farmersdelight.common.block.RopeBlock
                 .getStateWithConnections(

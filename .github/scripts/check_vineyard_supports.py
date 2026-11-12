@@ -196,4 +196,67 @@ require("return rope.is(ModBlocks.HORIZONTAL_ROPE)" in vine
         and "CrossCollisionBlock" not in vine,
         "Vines may use only dedicated horizontal rope, not FDR vertical rope")
 print("PASSED: original FDR rope untouched, solid stakes, crop recovery, climbing and vines")
+
+# Crop behavior regression: the existing chili block ID remains save-compatible
+# while a STAKED property decides whether the item is a bush or a wooden post.
+tilling = read(java / "common/block/StakeSoilTilling.java")
+seed_item = read(java / "common/item/ChiliSeedsItem.java")
+start = read(java / "ItaliansDelight.java")
+require("StakeSoilTilling.register();" in start and
+        "UseBlockCallback.EVENT.register" in tilling and
+        "ItemTags.HOES" in tilling and "clicked.below()" in tilling and
+        "Blocks.FARMLAND.defaultBlockState()" in tilling and
+        "tool.hurtAndBreak(1, player, hand)" in tilling,
+        "A vanilla hoe must till dirt UNDER a placed crop stake, costing durability")
+require("super.useOn(ctx)" in seed_item and
+        ".setValue(STAKED, false)" in chili and
+        ".setValue(ChiliCropBlock.STAKED, true)" in planting,
+        "Standalone chili seeds must use vanilla farmland planting; post planting stays staked")
+require("registerDefaultState(defaultBlockState()" in chili and
+        ".setValue(STAKED, true)" in chili,
+        "Existing chili_crop blocks must default to a supported crop")
+require("shouldRestoreRope() || !state.getValue(STAKED)" in chili and
+        "else if (state.getValue(STAKED))" in chili and
+        "level.removeBlock(pos, false)" in chili,
+        "Only planted or existing wooden supports can restore a wooden stake")
+require("ModBlocks.CHILI_ON_ROPE.defaultBlockState().setValue(STAKED, false)" in chili and
+        "ModBlocks.CROP_STAKE" in chili,
+        "Climbing chili must convert FDR rope and wooden stakes appropriately")
+states = j(assets / "blockstates/chili_crop.json")["multipart"]
+for age in range(8):
+    for staked in ("true", "false"):
+        matches = [part for part in states if part.get("when") ==
+                   {"age":str(age),"staked":staked}]
+        require(len(matches) == 1,
+                f"Missing or duplicate chili age={age}, staked={staked} visual")
+        model = matches[0]["apply"]["model"]
+        require(model.startswith("italiansdelight:block/chili_" +
+            ("stage_" if staked == "true" else "free_stage_")),
+            f"Wrong chili model selection: {model}")
+for stage in range(4):
+    crop = j(assets / f"models/block/chili_free_stage_{stage}.json")
+    require(crop["parent"] == "farmersdelight:block/template_crop_cross" and
+            crop["textures"]["cross"] == f"italiansdelight:block/chili_crop_{stage}",
+            "Standalone chili should display the crop without a wooden post")
+for age in (0,1):
+    tmodel = j(assets / f"models/block/tomato_seedling_{age}.json")
+    state = j(assets / "blockstates/staked_tomatoes.json")["multipart"]
+    require(tmodel["parent"] == "farmersdelight:block/template_crop_cross" and
+            any(part.get("when") == {"age":str(age)} and
+                part["apply"]["model"] == f"italiansdelight:block/tomato_seedling_{age}"
+                for part in state),
+            f"Young tomatoes must use their tiny stage {age} sapling artwork")
+    data = (assets / f"textures/block/tomato_seedling_{age}.png").read_bytes()
+    require(data.startswith(bytes.fromhex("89504e470d0a1a0a"))
+            and int.from_bytes(data[16:20],"big") == 16
+            and int.from_bytes(data[20:24],"big") == 16,
+            "Seedling texture must be an unscaled 16x16 PNG")
+lateral = j(assets / "models/block/grape_leaves_1.json")["elements"][0]
+require(lateral["from"] == [3,3,3] and lateral["to"] == [13,13,13],
+        "Lateral grape leaves must be 10x10x10, not a stretched 10x10x16 box")
+for name, face in lateral["faces"].items():
+    require(face["uv"] == [3,3,13,13],
+            f"Stretched UV on lateral grape leaves face {name}")
+print("PASSED: hoe tilling under stakes, chili without posts/with FDR rope, baby tomatoes, 1:1 grape foliage")
+
 print("PASSED: exact 1px UV geometry, leash-style rope loop and two seed targets")

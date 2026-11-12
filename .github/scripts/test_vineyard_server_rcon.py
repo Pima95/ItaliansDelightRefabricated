@@ -157,6 +157,15 @@ def test():
             wait_block(rcon, x, 81, 0, "italiansdelight:crop_stake")
             assert_block(rcon, x, 80, 0, "minecraft:dirt")
 
+        # Standalone chili crops NEVER produce a wooden post when uprooted.
+        # They use the same ID but staked=false; seeds normally call
+        # BlockItem.useOn and getStateForPlacement for this default.
+        run(rcon, "setblock 8 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 8 81 0 italiansdelight:chili_crop[age=0,staked=false]")
+        assert_block(rcon, 8, 81, 0, "italiansdelight:chili_crop[age=0,staked=false]")
+        run(rcon, "setblock 8 80 0 minecraft:dirt")
+        wait_block(rcon, 8, 81, 0, "minecraft:air")
+
         # A single cultivated post can climb onto two more stacked posts,
         # in the same manner as original FDR tomatoes climb rope segments.
         # The first crop stage is 0; FDR tomatoes have a 0..3 age range.
@@ -167,6 +176,14 @@ def test():
             run(rcon, f"setblock {x} 81 0 {crop}[age={mature}]")
             run(rcon, f"setblock {x} 82 0 italiansdelight:crop_stake")
             run(rcon, f"setblock {x} 83 0 italiansdelight:crop_stake")
+        # Free-standing mature chili grows onto the original vertical FDR
+        # rope just like tomatoes. The upper part has no post collision and
+        # becomes a hanging chili block, with a maximum total height of 3.
+        run(rcon, "setblock 13 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 13 81 0 italiansdelight:chili_crop[age=7,staked=false]")
+        run(rcon, "setblock 13 82 0 farmersdelight:rope")
+        run(rcon, "setblock 13 83 0 farmersdelight:rope")
+        assert_block(rcon, 13, 81, 0, "italiansdelight:chili_crop[staked=false]")
         # Existing centered vine + horizontal rope neighbors, including
         # adjacent spans which are themselves directly above wooden stakes.
         for x in (9, 11):
@@ -196,6 +213,12 @@ def test():
                 run(rcon, f"setblock {x} 82 0 {crop}[age={mature}]")
                 wait_block(rcon, x, 83, 0, crop, timeout=20)
                 assert_block(rcon, x, 80, 0, "minecraft:farmland")
+            wait_block(rcon, 13, 82, 0,
+                "italiansdelight:chili_on_rope[age=0,staked=false]", timeout=20)
+            run(rcon, "setblock 13 82 0 italiansdelight:chili_on_rope[age=7,staked=false]")
+            wait_block(rcon, 13, 83, 0,
+                "italiansdelight:chili_on_rope[staked=false]", timeout=20)
+            assert_block(rcon, 13, 81, 0, "italiansdelight:chili_crop[staked=false]")
             wait_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0]", timeout=20)
             wait_block(rcon, 9, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
             wait_block(rcon, 11, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
@@ -216,7 +239,7 @@ def test():
             run(rcon, "gamerule minecraft:random_tick_speed 3")
 
         run(rcon, "save-all")
-        print("PASSED: farmland recovery, initial tomato stage, 3-post climbing, grape canopy and ropes", flush=True)
+        print("PASSED: farmland recovery, free chili on farmland and vertical FDR rope, tomato stages, 3-post climbing and grape leaves", flush=True)
     finally:
         rcon.close()
 

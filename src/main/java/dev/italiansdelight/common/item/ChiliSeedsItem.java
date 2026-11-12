@@ -14,6 +14,8 @@ public final class ChiliSeedsItem extends BlockItem {
         if (ctx.getPlayer() == null) return InteractionResult.FAIL;
         InteractionResult result = StakeCropPlanting.tryPlant(
             ctx.getPlayer(), ctx.getLevel(), ctx.getHand(), ctx.getClickedPos());
-        return result == InteractionResult.PASS ? InteractionResult.FAIL : result;
+        // Let the normal BlockItem placement plant a free-standing chili crop
+        // on farmland when no reusable stake was clicked.
+        return result == InteractionResult.PASS ? super.useOn(ctx) : result;
     }
 }
