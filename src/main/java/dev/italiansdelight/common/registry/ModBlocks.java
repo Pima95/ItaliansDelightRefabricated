@@ -809,14 +809,30 @@ public final class ModBlocks {
         )
     );
 
-    // Solid reusable stakes for vines and chili; tomato seeds can be planted
-    // against an existing stake without adding any tomato seed duplicate.
+    // Decorative posts only: the original crop_stake is the oak variant.
     public static final ResourceKey<Block> CROP_STAKE_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("crop_stake"));
     public static final Block CROP_STAKE = register(CROP_STAKE_KEY,
         new CropStakeBlock(Block.Properties.of()
             .setId(CROP_STAKE_KEY).noOcclusion()
             .forceSolidOff().strength(0.7F).sound(SoundType.WOOD)));
+
+    // All 15 other wood types (vanilla, 26.3 poplar, and custom orchard woods).
+    public static final Block SPRUCE_CROP_STAKE = registerCropStakeVariant("spruce");
+    public static final Block BIRCH_CROP_STAKE = registerCropStakeVariant("birch");
+    public static final Block JUNGLE_CROP_STAKE = registerCropStakeVariant("jungle");
+    public static final Block ACACIA_CROP_STAKE = registerCropStakeVariant("acacia");
+    public static final Block DARK_OAK_CROP_STAKE = registerCropStakeVariant("dark_oak");
+    public static final Block MANGROVE_CROP_STAKE = registerCropStakeVariant("mangrove");
+    public static final Block CHERRY_CROP_STAKE = registerCropStakeVariant("cherry");
+    public static final Block PALE_OAK_CROP_STAKE = registerCropStakeVariant("pale_oak");
+    public static final Block POPLAR_CROP_STAKE = registerCropStakeVariant("poplar");
+    public static final Block BAMBOO_CROP_STAKE = registerCropStakeVariant("bamboo");
+    public static final Block CRIMSON_CROP_STAKE = registerCropStakeVariant("crimson");
+    public static final Block WARPED_CROP_STAKE = registerCropStakeVariant("warped");
+    public static final Block OLIVE_CROP_STAKE = registerCropStakeVariant("olive");
+    public static final Block ALMOND_CROP_STAKE = registerCropStakeVariant("almond");
+    public static final Block FRUIT_CHERRY_CROP_STAKE = registerCropStakeVariant("fruit_cherry");
 
     // Reuses Farmer's Delight rope *items* and texture; no second rope item.
     // The axis is saved in the block state to allow horizontal placement.
@@ -1226,6 +1242,14 @@ public final class ModBlocks {
         );
     }
 
+    private static Block registerCropStakeVariant(String wood) {
+        ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(),
+            ModRegistries.id(wood + "_crop_stake"));
+        return register(key, new CropStakeBlock(Block.Properties.of()
+            .setId(key).noOcclusion().forceSolidOff()
+            .strength(0.7F).sound(SoundType.WOOD)));
+    }
+
     private static Block registerCrushingTubVariant(String wood) {
         ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(),
             ModRegistries.id(wood + "_crushing_tub"));
@@ -1304,6 +1328,21 @@ public final class ModBlocks {
         fire.add(BASIL_CRATE, 5, 20);
         fire.add(CARDOON_CRATE, 5, 20);
         fire.add(CROP_STAKE, 5, 20);
+        fire.add(SPRUCE_CROP_STAKE, 5, 20);
+        fire.add(BIRCH_CROP_STAKE, 5, 20);
+        fire.add(JUNGLE_CROP_STAKE, 5, 20);
+        fire.add(ACACIA_CROP_STAKE, 5, 20);
+        fire.add(DARK_OAK_CROP_STAKE, 5, 20);
+        fire.add(MANGROVE_CROP_STAKE, 5, 20);
+        fire.add(CHERRY_CROP_STAKE, 5, 20);
+        fire.add(PALE_OAK_CROP_STAKE, 5, 20);
+        fire.add(POPLAR_CROP_STAKE, 5, 20);
+        fire.add(BAMBOO_CROP_STAKE, 5, 20);
+        fire.add(CRIMSON_CROP_STAKE, 5, 20);
+        fire.add(WARPED_CROP_STAKE, 5, 20);
+        fire.add(OLIVE_CROP_STAKE, 5, 20);
+        fire.add(ALMOND_CROP_STAKE, 5, 20);
+        fire.add(FRUIT_CHERRY_CROP_STAKE, 5, 20);
         fire.add(SPRUCE_BARREL, 5, 20);
         fire.add(SPRUCE_CRUSHING_TUB, 5, 20);
         fire.add(BIRCH_BARREL, 5, 20);

@@ -38,7 +38,7 @@ public final class HorizontalRopePlacement {
             // works; use the player's facing to choose the horizontal axis.
             // Ordinary blocks keep their existing vanilla top-click behavior.
             BlockPos anchor = hit.getBlockPos();
-            if (face == Direction.UP && (level.getBlockState(anchor).is(ModBlocks.CROP_STAKE)
+            if (face == Direction.UP && (CropStakeBlock.isPost(level.getBlockState(anchor))
                     || level.getBlockState(anchor).is(ModBlocks.HORIZONTAL_ROPE))) {
                 face = player.getDirection();
             }

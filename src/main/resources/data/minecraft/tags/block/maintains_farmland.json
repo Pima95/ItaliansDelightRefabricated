@@ -1,6 +1,21 @@
 {
   "replace": false,
   "values": [
-    "italiansdelight:crop_stake"
+    "italiansdelight:crop_stake",
+    "italiansdelight:spruce_crop_stake",
+    "italiansdelight:birch_crop_stake",
+    "italiansdelight:jungle_crop_stake",
+    "italiansdelight:acacia_crop_stake",
+    "italiansdelight:dark_oak_crop_stake",
+    "italiansdelight:mangrove_crop_stake",
+    "italiansdelight:cherry_crop_stake",
+    "italiansdelight:pale_oak_crop_stake",
+    "italiansdelight:poplar_crop_stake",
+    "italiansdelight:bamboo_crop_stake",
+    "italiansdelight:crimson_crop_stake",
+    "italiansdelight:warped_crop_stake",
+    "italiansdelight:olive_crop_stake",
+    "italiansdelight:almond_crop_stake",
+    "italiansdelight:fruit_cherry_crop_stake"
   ]
 }

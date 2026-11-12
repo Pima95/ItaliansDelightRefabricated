@@ -189,6 +189,21 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
                 output.accept(ModBlocks.CROP_STAKE);
+                output.accept(ModBlocks.SPRUCE_CROP_STAKE);
+                output.accept(ModBlocks.BIRCH_CROP_STAKE);
+                output.accept(ModBlocks.JUNGLE_CROP_STAKE);
+                output.accept(ModBlocks.ACACIA_CROP_STAKE);
+                output.accept(ModBlocks.DARK_OAK_CROP_STAKE);
+                output.accept(ModBlocks.MANGROVE_CROP_STAKE);
+                output.accept(ModBlocks.CHERRY_CROP_STAKE);
+                output.accept(ModBlocks.PALE_OAK_CROP_STAKE);
+                output.accept(ModBlocks.POPLAR_CROP_STAKE);
+                output.accept(ModBlocks.BAMBOO_CROP_STAKE);
+                output.accept(ModBlocks.CRIMSON_CROP_STAKE);
+                output.accept(ModBlocks.WARPED_CROP_STAKE);
+                output.accept(ModBlocks.OLIVE_CROP_STAKE);
+                output.accept(ModBlocks.ALMOND_CROP_STAKE);
+                output.accept(ModBlocks.FRUIT_CHERRY_CROP_STAKE);
                 output.accept(ModBlocks.GRAPE_SEEDS);
                 output.accept(ModBlocks.CHILI_PEPPER_SEEDS);
 

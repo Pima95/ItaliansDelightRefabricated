@@ -1,11 +1,6 @@
 {
   "multipart": [
     {
-      "apply": {
-        "model": "italiansdelight:block/crop_stake"
-      }
-    },
-    {
       "when": {
         "age": "0"
       },
@@ -35,14 +30,6 @@
       },
       "apply": {
         "model": "farmersdelight:block/tomatoes_stage3"
-      }
-    },
-    {
-      "when": {
-        "rope_tied": "true"
-      },
-      "apply": {
-        "model": "italiansdelight:block/crop_stake_rope_loop"
       }
     }
   ]

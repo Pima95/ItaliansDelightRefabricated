@@ -1,6 +1,0 @@
-{
-  "parent": "italiansdelight:block/stake_crop",
-  "textures": {
-    "crop": "italiansdelight:block/chili_crop_0"
-  }
-}

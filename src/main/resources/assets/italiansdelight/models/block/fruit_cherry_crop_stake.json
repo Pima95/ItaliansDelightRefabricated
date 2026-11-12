@@ -1,0 +1,8 @@
+{
+  "parent": "italiansdelight:block/crop_stake",
+  "textures": {
+    "0": "italiansdelight:block/fruit_cherry_planks",
+    "2": "italiansdelight:block/fruit_cherry_log_top",
+    "particle": "italiansdelight:block/fruit_cherry_planks"
+  }
+}

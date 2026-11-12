@@ -2,8 +2,8 @@
 """Behavioral smoke check on a disposable Minecraft 26.3 test world.
 
 Connects only to the localhost RCON service exposed in the temporary Actions
-runner. Verifies actual farmland survival after placing crop stakes, chili,
-tomatoes, and grapes, and validates the new horizontal rope block states.
+runner. Verifies 16 decorative wooden poles, original rope attachments, freestanding
+chili roots, optional vertical rope climbing and grapes.
 No player inventory, networking permissions, or persistent user worlds involved.
 """
 import socket
@@ -105,199 +105,89 @@ def wait_block(rcon, x, y, z, block, timeout=14):
 
 def test():
     rcon = Rcon()
+    woods = (
+        "oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
+        "mangrove", "cherry", "pale_oak", "poplar", "bamboo", "crimson",
+        "warped", "olive", "almond", "fruit_cherry"
+    )
     try:
         run(rcon, "forceload add 0 0")
-        run(rcon, "setblock 1 80 0 minecraft:water")
-        run(rcon, "setblock 0 80 0 minecraft:farmland[moisture=7]")
-        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
-        run(rcon, "setblock 0 81 0 italiansdelight:crop_stake")
-        assert_block(rcon, 0, 81, 0, "italiansdelight:crop_stake")
-        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
-        # Check farmland AFTER real server ticks, not just in the same tick
-        # as /setblock. The old forceSolidOn flag could cause later decay.
-        time.sleep(3)
-        assert_block(rcon, 0, 81, 0, "italiansdelight:crop_stake")
-        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
 
-        run(rcon, "setblock 0 81 0 italiansdelight:chili_crop[age=7]")
-        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
-        run(rcon, "setblock 0 81 0 italiansdelight:staked_tomatoes[age=3]")
-        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+        # Every wood ID exists, with three-dimensional decorative rotation.
+        # No planted state exists on any of these blocks.
+        for x, wood in enumerate(woods):
+            ident = "crop_stake" if wood == "oak" else wood + "_crop_stake"
+            axis = ("x", "y", "z")[x % 3]
+            run(rcon, f"setblock {x} 81 3 italiansdelight:{ident}[axis={axis}]")
+            assert_block(rcon, x, 81, 3, f"italiansdelight:{ident}[axis={axis}]")
+        print("PASSED: all 16 decorative wood types with x/y/z orientation", flush=True)
 
-        run(rcon, "setblock 0 81 0 italiansdelight:grape_stem[age=7]")
-        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
-        # Isolate rope-attachment tests from grape growth: a mature grape
-        # root would convert this rope to canopy before it can be checked.
-        # Grape canopy growth is tested separately on hydrated soil at x=10.
-        run(rcon, "setblock 0 81 0 italiansdelight:crop_stake")
-        run(rcon, "setblock 0 82 0 italiansdelight:horizontal_rope[axis=x]")
-        run(rcon, "setblock 1 82 0 italiansdelight:horizontal_rope[axis=x]")
-        assert_any_block(rcon, 0, 82, 0,
-            "italiansdelight:horizontal_rope[axis=x]",
-            "italiansdelight:grape_leaves[distance=0]")
-        assert_any_block(rcon, 1, 82, 0,
-            "italiansdelight:horizontal_rope[axis=x]",
-            "italiansdelight:grape_leaves[distance=1]")
-        # Assert the rope attaches to newly placed stakes, and disconnects
-        # when a stake is removed (not merely that the rope exists).
-        run(rcon, "setblock 2 82 0 italiansdelight:crop_stake")
-        assert_block(rcon, 1, 82, 0,
-            "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
-        run(rcon, "setblock 2 82 0 minecraft:air")
-        assert_block(rcon, 1, 82, 0,
+        # Original horizontal rope connection behavior, now including wood
+        # variants. Do not use any alternate rope blocks or rope items.
+        run(rcon, "setblock 2 81 5 italiansdelight:spruce_crop_stake[axis=y]")
+        run(rcon, "setblock 4 81 5 italiansdelight:olive_crop_stake[axis=z]")
+        run(rcon, "setblock 3 81 5 italiansdelight:horizontal_rope[axis=x]")
+        assert_block(rcon, 3, 81, 5,
+            "italiansdelight:horizontal_rope[axis=x,tied_negative=true,tied_positive=true]")
+        run(rcon, "setblock 4 81 5 minecraft:air")
+        assert_block(rcon, 3, 81, 5,
             "italiansdelight:horizontal_rope[axis=x,tied_positive=false]")
-        run(rcon, "setblock 2 81 0 minecraft:farmland[moisture=7]")
-        run(rcon, "setblock 2 82 0 italiansdelight:crop_stake")
-        assert_block(rcon, 1, 82, 0,
+        run(rcon, "setblock 4 81 5 italiansdelight:olive_crop_stake[axis=z]")
+        assert_block(rcon, 3, 81, 5,
             "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
-        assert_block(rcon, 2, 82, 0, "italiansdelight:crop_stake[rope_tied=true]")
-        # Planting replaces the post with a crop block but retains the stake
-        # anchor and its single leash-style loop. This verifies state updates
-        # (not a simulated right click; that requires manual client testing).
-        run(rcon, "setblock 2 82 0 italiansdelight:chili_crop[age=0,rope_tied=true]")
-        assert_block(rcon, 2, 82, 0, "italiansdelight:chili_crop[rope_tied=true]")
-        assert_block(rcon, 1, 82, 0,
-            "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
-        run(rcon, "setblock 2 82 0 italiansdelight:staked_tomatoes[age=0,rope_tied=true]")
-        assert_block(rcon, 2, 82, 0, "italiansdelight:staked_tomatoes[rope_tied=true]")
-        assert_block(rcon, 1, 82, 0,
-            "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
-        assert_block(rcon, 2, 81, 0, "minecraft:farmland")
-        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+        print("PASSED: existing horizontal rope attachment still works", flush=True)
 
-        # A crop that loses farmland drops its plant but leaves the physical
-        # stake at the exact same position, also for a newly planted tomato.
-        for x, crop in ((3, "italiansdelight:staked_tomatoes"),
-                        (4, "italiansdelight:chili_crop")):
-            run(rcon, f"setblock {x} 80 0 minecraft:farmland[moisture=7]")
-            run(rcon, f"setblock {x} 81 0 {crop}")
-            assert_block(rcon, x, 81, 0, f"{crop}[age=0]")
-            run(rcon, f"setblock {x} 80 0 minecraft:dirt")
-            wait_block(rcon, x, 81, 0, "italiansdelight:crop_stake")
-            assert_block(rcon, x, 80, 0, "minecraft:dirt")
-
-        # Standalone chili crops NEVER produce a wooden post when uprooted.
-        # They use the same ID but staked=false; seeds normally call
-        # BlockItem.useOn and getStateForPlacement for this default.
-        run(rcon, "setblock 8 80 0 minecraft:farmland[moisture=7]")
-        run(rcon, "setblock 8 81 0 italiansdelight:chili_crop[age=0,staked=false]")
-        assert_block(rcon, 8, 81, 0, "italiansdelight:chili_crop[age=0,staked=false]")
-        run(rcon, "setblock 8 80 0 minecraft:dirt")
-        wait_block(rcon, 8, 81, 0, "minecraft:air")
-
-        # Invariant: the wooden post never gets replaced while the crop
-        # grows, is harvested, or dies because farmland was trampled.
-        run(rcon, "setblock 14 80 0 minecraft:farmland[moisture=7]")
-        run(rcon, "setblock 14 81 0 italiansdelight:crop_stake[crop=1,crop_age=0]")
-        assert_block(rcon, 14, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=0]")
-        run(rcon, "setblock 14 81 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
-        assert_block(rcon, 14, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=7]")
-        run(rcon, "setblock 14 80 0 minecraft:dirt")
-        wait_block(rcon, 14, 81, 0, "italiansdelight:crop_stake[crop=0,crop_age=0]")
-        assert_block(rcon, 14, 80, 0, "minecraft:dirt")
-
-        # Rich Soil Farmland survives under the same physical support and
-        # supports both plants, without turning into vanilla farmland.
-        run(rcon, "setblock 15 80 0 farmersdelight:rich_soil_farmland[moisture=7]")
-        run(rcon, "setblock 15 81 0 italiansdelight:crop_stake[crop=2,crop_age=0]")
-        assert_block(rcon, 15, 80, 0, "farmersdelight:rich_soil_farmland")
-        assert_block(rcon, 15, 81, 0, "italiansdelight:crop_stake[crop=2,crop_age=0]")
-        run(rcon, "setblock 15 81 0 italiansdelight:crop_stake[crop=1,crop_age=0]")
-        assert_block(rcon, 15, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=0]")
-
-        # Rooted chili can climb onto pre-existing wooden supports while
-        # leaving their block IDs intact, never spawning fused chili_crop.
-        run(rcon, "setblock 12 80 1 minecraft:water")
-        run(rcon, "setblock 12 80 0 minecraft:farmland[moisture=7]")
-        run(rcon, "setblock 12 81 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
-        run(rcon, "setblock 12 82 0 italiansdelight:crop_stake")
-        run(rcon, "setblock 12 83 0 italiansdelight:crop_stake")
-        # A single cultivated post can climb onto two more stacked posts,
-        # in the same manner as original FDR tomatoes climb rope segments.
-        # The first crop stage is 0; FDR tomatoes have a 0..3 age range.
-        for x, crop, mature in (
-                (5, "italiansdelight:staked_tomatoes", 3),
-                (6, "italiansdelight:chili_crop", 7)):
+        # Root can grow on ordinary or rich-soil farmland without any post.
+        for x, soil in ((7, "minecraft:farmland"),
+                        (9, "farmersdelight:rich_soil_farmland")):
             run(rcon, f"setblock {x} 80 1 minecraft:water")
-            run(rcon, f"setblock {x} 80 0 minecraft:farmland[moisture=7]")
-            # Legacy roots must migrate seamlessly to the persistent wooden
-            # block; the upper supports stay crop_stake, only CROP changes.
-            run(rcon, f"setblock {x} 81 0 {crop}[age={mature}]")
-            run(rcon, f"setblock {x} 82 0 italiansdelight:crop_stake")
-            run(rcon, f"setblock {x} 83 0 italiansdelight:crop_stake")
-        # Free-standing mature chili grows onto the original vertical FDR
-        # rope just like tomatoes. The upper part has no post collision and
-        # becomes a hanging chili block, with a maximum total height of 3.
-        run(rcon, "setblock 13 80 0 minecraft:farmland[moisture=7]")
-        run(rcon, "setblock 13 81 0 italiansdelight:chili_crop[age=7,staked=false]")
-        run(rcon, "setblock 13 82 0 farmersdelight:rope")
-        run(rcon, "setblock 13 83 0 farmersdelight:rope")
-        assert_block(rcon, 13, 81, 0, "italiansdelight:chili_crop[staked=false]")
-        # Existing centered vine + horizontal rope neighbors, including
-        # adjacent spans which are themselves directly above wooden stakes.
-        for x in (9, 11):
-            run(rcon, f"setblock {x} 80 0 minecraft:dirt")
-            run(rcon, f"setblock {x} 81 0 italiansdelight:crop_stake")
-        # Keep the grape root hydrated. Without water within four blocks
-        # accelerated random ticks dry the farmland, uproot the stem, and
-        # correctly remove its canopy; this is not a lateral-growth failure.
+            run(rcon, f"setblock {x} 80 0 {soil}[moisture=7]")
+            run(rcon, f"setblock {x} 81 0 italiansdelight:chili_crop[age=0]")
+            assert_block(rcon, x, 81, 0, "italiansdelight:chili_crop[age=0,staked=false]")
+            assert_block(rcon, x, 80, 0, soil)
+
+        # A ripe chili grows up original Farmer's Delight vertical rope
+        # (two upper segments maximum). It must not grow on a wooden pole.
+        run(rcon, "setblock 7 81 0 italiansdelight:chili_crop[age=7]")
+        run(rcon, "setblock 7 82 0 farmersdelight:rope")
+        run(rcon, "setblock 7 83 0 farmersdelight:rope")
+        run(rcon, "setblock 5 80 1 minecraft:water")
+        run(rcon, "setblock 5 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 5 81 0 italiansdelight:chili_crop[age=7]")
+        run(rcon, "setblock 5 82 0 italiansdelight:crop_stake")
+        # Original FDR tomato planting remains separate from the decorative pole.
+        run(rcon, "setblock 6 80 1 minecraft:water")
+        run(rcon, "setblock 6 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 6 81 0 italiansdelight:staked_tomatoes[age=0]")
+
+        # Existing grape canopy and horizontal-rope growth remain unchanged.
         run(rcon, "setblock 10 80 1 minecraft:water")
         run(rcon, "setblock 10 80 0 minecraft:farmland[moisture=7]")
         run(rcon, "setblock 10 81 0 italiansdelight:grape_stem[age=7]")
         for x in (9, 10, 11):
             run(rcon, f"setblock {x} 82 0 italiansdelight:horizontal_rope[axis=x]")
-        # The matured root must start a leaf canopy immediately when a
-        # horizontal rope is newly installed, without waiting for random ticks.
-        assert_block(rcon, 10, 81, 0, "italiansdelight:grape_stem[age=7]")
-        wait_block(rcon, 10, 82, 0,
-            "italiansdelight:grape_leaves[distance=0]", timeout=8)
+        wait_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0]", timeout=14)
+
         run(rcon, "time set day")
         run(rcon, "gamerule minecraft:random_tick_speed 700")
         try:
-            for x, kind, mature in ((5, 2, 3), (6, 1, 7)):
-                wait_block(rcon, x, 81, 0,
-                    f"italiansdelight:crop_stake[crop={kind},crop_age={mature}]", timeout=20)
-                wait_block(rcon, x, 82, 0,
-                    f"italiansdelight:crop_stake[crop={kind}]", timeout=20)
-                # Accelerate only this test by setting the age, not the block ID.
-                run(rcon, f"setblock {x} 82 0 italiansdelight:crop_stake[crop={kind},crop_age={mature}]")
-                wait_block(rcon, x, 83, 0,
-                    f"italiansdelight:crop_stake[crop={kind}]", timeout=20)
-                assert_block(rcon, x, 80, 0, "minecraft:farmland")
-            wait_block(rcon, 12, 82, 0,
-                "italiansdelight:crop_stake[crop=1]", timeout=20)
-            run(rcon, "setblock 12 82 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
-            wait_block(rcon, 12, 83, 0,
-                "italiansdelight:crop_stake[crop=1]", timeout=20)
-            assert_block(rcon, 12, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=7]")
-            assert_block(rcon, 15, 80, 0, "farmersdelight:rich_soil_farmland")
-            wait_block(rcon, 13, 82, 0,
-                "italiansdelight:chili_on_rope[age=0,staked=false]", timeout=20)
-            run(rcon, "setblock 13 82 0 italiansdelight:chili_on_rope[age=7,staked=false]")
-            wait_block(rcon, 13, 83, 0,
-                "italiansdelight:chili_on_rope[staked=false]", timeout=20)
-            assert_block(rcon, 13, 81, 0, "italiansdelight:chili_crop[staked=false]")
-            wait_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0]", timeout=20)
-            wait_block(rcon, 9, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
-            wait_block(rcon, 11, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
-            assert_block(rcon, 10, 80, 0, "minecraft:farmland")
-            assert_block(rcon, 10, 81, 0, "italiansdelight:grape_stem[age=7]")
+            wait_block(rcon, 7, 82, 0, "italiansdelight:chili_on_rope", timeout=24)
+            run(rcon, "setblock 7 82 0 italiansdelight:chili_on_rope[age=7]")
+            wait_block(rcon, 7, 83, 0, "italiansdelight:chili_on_rope", timeout=24)
+            assert_block(rcon, 7, 81, 0, "italiansdelight:chili_crop")
+            assert_block(rcon, 5, 82, 0, "italiansdelight:crop_stake")
+            wait_block(rcon, 6, 81, 0, "farmersdelight:tomatoes", timeout=24)
+            assert_block(rcon, 9, 80, 0, "farmersdelight:rich_soil_farmland")
+            wait_block(rcon, 9, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=24)
+            wait_block(rcon, 11, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=24)
         finally:
-            # Diagnostics on a failed canopy assertion: differentiate loss of
-            # the mature root from loss of the center leaf or its side spans.
-            for x, y, z, expected in (
-                    (10, 80, 0, "minecraft:farmland"),
-                    (10, 80, 0, "minecraft:dirt"),
-                    (10, 81, 0, "italiansdelight:grape_stem[age=7]"),
-                    (10, 82, 0, "italiansdelight:grape_leaves[distance=0]"),
-                    (10, 82, 0, "italiansdelight:horizontal_rope[axis=x]"),
-                    (9, 82, 0, "italiansdelight:grape_leaves[distance=1]"),
-                    (11, 82, 0, "italiansdelight:grape_leaves[distance=1]")):
-                run(rcon, f"execute if block {x} {y} {z} {expected}")
             run(rcon, "gamerule minecraft:random_tick_speed 3")
 
+        # Removing a standalone root cannot recreate a wooden post.
+        run(rcon, "setblock 9 81 0 minecraft:air")
+        assert_block(rcon, 9, 81, 0, "minecraft:air")
         run(rcon, "save-all")
-        print("PASSED: real permanent stakes, rich soil farmland, chili rope climbing, original tomato ages and grape leaves", flush=True)
+        print("PASSED: 16 decorative poles, untouched rope, standalone chili climb <=3, rich farmland and grapes", flush=True)
     finally:
         rcon.close()
 

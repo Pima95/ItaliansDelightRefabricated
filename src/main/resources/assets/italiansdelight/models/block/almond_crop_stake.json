@@ -1,0 +1,8 @@
+{
+  "parent": "italiansdelight:block/crop_stake",
+  "textures": {
+    "0": "italiansdelight:block/almond_planks",
+    "2": "italiansdelight:block/almond_log_top",
+    "particle": "italiansdelight:block/almond_planks"
+  }
+}

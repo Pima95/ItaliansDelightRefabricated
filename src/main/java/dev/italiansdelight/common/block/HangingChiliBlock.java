@@ -11,7 +11,6 @@ public final class HangingChiliBlock extends ChiliCropBlock {
     @Override protected boolean shouldRestoreRope() { return true; }
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockState below = level.getBlockState(pos.below());
-        return below.is(ModBlocks.CHILI_CROP) || below.is(ModBlocks.CHILI_ON_ROPE)
-            || CropStakeBlock.hasCrop(below, CropStakeBlock.CHILI);
+        return below.is(ModBlocks.CHILI_CROP) || below.is(ModBlocks.CHILI_ON_ROPE);
     }
 }
