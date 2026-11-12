@@ -13,6 +13,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.CropBlock;
@@ -71,6 +73,24 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
         if (!isMaxAge(state)) super.performBonemeal(level,random,pos,state,source);
         BlockState current=level.getBlockState(pos);
         if (current.is(this)) tryClimb(level,pos,current);
+    }
+
+    // Vanilla CropBlock can remove an unsupported upper segment during a
+    // neighbor update before the rope-restoration hook can run. Schedule a
+    // server removal instead, keeping the reusable support in place.
+    @Override protected BlockState updateShape(BlockState state, LevelReader level,
+            ScheduledTickAccess ticks, BlockPos pos, Direction changedSide,
+            BlockPos neighborPos, BlockState neighbor, RandomSource random) {
+        if (!state.canSurvive(level,pos)) {
+            ticks.scheduleTick(pos,this,1);
+            return state;
+        }
+        return super.updateShape(state,level,ticks,pos,changedSide,neighborPos,neighbor,random);
+    }
+
+    @Override public void tick(BlockState state, ServerLevel level,
+            BlockPos pos, RandomSource random) {
+        if (!state.canSurvive(level,pos)) level.destroyBlock(pos,true);
     }
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level,
