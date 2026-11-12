@@ -148,6 +148,8 @@ for model_path in models:
                     f"Fractional UV in {model_path}")
             require((abs(uv[2] - uv[0]), abs(uv[3] - uv[1])) == expected,
                     f"Stretched pixel UV in {model_path} {face}: {uv} vs {expected}")
+            require(all(0 <= coord <= 16 for coord in uv),
+                    f"UV outside 16x16 atlas in {model_path} {face}: {uv}")
 loop = j(assets / "models/block/crop_stake_rope_loop.json")
 require(len(loop["elements"]) == 5, "Leash-style loop needs 4 sides and a knot")
 loop_min_x = min(el["from"][0] for el in loop["elements"])
