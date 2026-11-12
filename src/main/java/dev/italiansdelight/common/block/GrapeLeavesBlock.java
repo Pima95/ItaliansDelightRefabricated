@@ -38,15 +38,18 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
     public static final EnumProperty<Direction.Axis> AXIS =
         EnumProperty.create("axis", Direction.Axis.class, Direction.Axis.X, Direction.Axis.Z);
     public static final BooleanProperty GRAPES = BooleanProperty.create("grapes");
+    public static final BooleanProperty TIED_NEGATIVE = BooleanProperty.create("tied_negative");
+    public static final BooleanProperty TIED_POSITIVE = BooleanProperty.create("tied_positive");
 
     public GrapeLeavesBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(DISTANCE, 0)
-            .setValue(AXIS, Direction.Axis.X).setValue(GRAPES, false));
+            .setValue(AXIS, Direction.Axis.X).setValue(GRAPES, false)
+            .setValue(TIED_NEGATIVE, false).setValue(TIED_POSITIVE, false));
     }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> b) {
-        b.add(DISTANCE, AXIS, GRAPES);
+        b.add(DISTANCE, AXIS, GRAPES, TIED_NEGATIVE, TIED_POSITIVE);
     }
 
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
@@ -84,8 +87,15 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
             Direction.Axis axis = GrapeStemBlock.ropeAxis(old);
             if (axis != state.getValue(AXIS)) continue;
             // Preserve the rope axis via the GrapeLeaves state until broken.
-            level.setBlock(target, defaultBlockState().setValue(AXIS,
-                state.getValue(AXIS)).setValue(DISTANCE, 1), 3);
+            BlockState grown = defaultBlockState().setValue(AXIS,
+                state.getValue(AXIS)).setValue(DISTANCE, 1);
+            if (old.is(ModBlocks.HORIZONTAL_ROPE)) {
+                grown = grown.setValue(TIED_NEGATIVE,
+                        old.getValue(HorizontalRopeBlock.TIED_NEGATIVE))
+                    .setValue(TIED_POSITIVE,
+                        old.getValue(HorizontalRopeBlock.TIED_POSITIVE));
+            }
+            level.setBlock(target, grown, 3);
         }
     }
 
@@ -110,6 +120,13 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
             ScheduledTickAccess ticks, BlockPos pos, Direction side, BlockPos neighborPos,
             BlockState neighbor, RandomSource random) {
         if (!state.canSurvive(level, pos)) ticks.scheduleTick(pos, this, 1);
+        Direction.Axis axis = state.getValue(AXIS);
+        if ((axis == Direction.Axis.X && side == Direction.WEST)
+                || (axis == Direction.Axis.Z && side == Direction.NORTH))
+            return state.setValue(TIED_NEGATIVE, neighbor.is(ModBlocks.CROP_STAKE));
+        if ((axis == Direction.Axis.X && side == Direction.EAST)
+                || (axis == Direction.Axis.Z && side == Direction.SOUTH))
+            return state.setValue(TIED_POSITIVE, neighbor.is(ModBlocks.CROP_STAKE));
         return state;
     }
 
@@ -153,8 +170,10 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
     @Override public boolean onRemove(BlockState state, BlockState newState,
             LevelAccessor level, BlockPos pos, int flags) {
         if (newState.isAir() && !state.is(newState.getBlock())) {
-            BlockState rope = ModBlocks.HORIZONTAL_ROPE.defaultBlockState()
-                .setValue(HorizontalRopeBlock.AXIS, state.getValue(AXIS));
+            BlockState rope = HorizontalRopeBlock.withConnections(
+                ModBlocks.HORIZONTAL_ROPE.defaultBlockState()
+                    .setValue(HorizontalRopeBlock.AXIS, state.getValue(AXIS)),
+                level, pos);
             return level.setBlock(pos, rope, 3);
         }
         return false;
