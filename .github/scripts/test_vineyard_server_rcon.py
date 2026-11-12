@@ -108,6 +108,17 @@ def test():
         run(rcon, "setblock 1 82 0 italiansdelight:horizontal_rope[axis=x]")
         assert_block(rcon, 0, 82, 0, "italiansdelight:horizontal_rope[axis=x]")
         assert_block(rcon, 1, 82, 0, "italiansdelight:horizontal_rope[axis=x]")
+        # Assert the rope attaches to newly placed stakes, and disconnects
+        # when a stake is removed (not merely that the rope exists).
+        run(rcon, "setblock 2 82 0 italiansdelight:crop_stake")
+        assert_block(rcon, 1, 82, 0,
+            "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
+        run(rcon, "setblock 2 82 0 minecraft:air")
+        assert_block(rcon, 1, 82, 0,
+            "italiansdelight:horizontal_rope[axis=x,tied_positive=false]")
+        run(rcon, "setblock 2 82 0 italiansdelight:crop_stake")
+        assert_block(rcon, 1, 82, 0,
+            "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
         assert_block(rcon, 0, 80, 0, "minecraft:farmland")
 
         run(rcon, "save-all")
