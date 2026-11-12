@@ -816,8 +816,9 @@ public final class ModBlocks {
     public static final ResourceKey<Block> STAKED_TOMATOES_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("staked_tomatoes"));
     public static final Block STAKED_TOMATOES = registerBlockOnly(STAKED_TOMATOES_KEY,
-        new StakedTomatoBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
-            .setId(STAKED_TOMATOES_KEY).noOcclusion()));
+        new StakedTomatoBlock(Block.Properties.of()
+            .setId(STAKED_TOMATOES_KEY).noCollision().noOcclusion()
+            .randomTicks().instabreak().sound(SoundType.CROP)));
 
     // Rustic-inspired grapevine and chili plants; seeds are BlockItems with their own IDs.
     // Both crops retain their roots on a successful empty-hand harvest.
