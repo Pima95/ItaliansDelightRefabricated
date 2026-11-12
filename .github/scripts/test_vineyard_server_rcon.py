@@ -177,7 +177,7 @@ def test():
         for x in (9, 10, 11):
             run(rcon, f"setblock {x} 82 0 italiansdelight:horizontal_rope[axis=x]")
         run(rcon, "time set day")
-        run(rcon, "gamerule randomTickSpeed 700")
+        run(rcon, "gamerule minecraft:random_tick_speed 700")
         try:
             for x, crop, mature in (
                     (5, "italiansdelight:staked_tomatoes", 3),
@@ -191,7 +191,7 @@ def test():
             wait_block(rcon, 9, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
             wait_block(rcon, 11, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
         finally:
-            run(rcon, "gamerule randomTickSpeed 3")
+            run(rcon, "gamerule minecraft:random_tick_speed 3")
 
         run(rcon, "save-all")
         print("PASSED: farmland recovery, initial tomato stage, 3-post climbing, grape canopy and ropes", flush=True)

@@ -167,7 +167,7 @@ require(png.read_bytes()[:8] == bytes.fromhex("89504e470d0a1a0a"),
 # art. No resources in its original namespace may be overridden by this mod.
 for path in ("models/block/rope_side.json", "models/block/rope_side_alt.json",
              "textures/block/rope.png"):
-    require(not (root / "assets/farmersdelight" / path).exists(),
+    require(not (Path("src/main/resources") / "assets/farmersdelight" / path).exists(),
             f"Unexpected FDR vertical rope override: {path}")
 
 # Regression guard: farmland reversion drops only the crop, restores the
