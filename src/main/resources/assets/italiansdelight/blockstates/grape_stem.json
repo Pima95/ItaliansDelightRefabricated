@@ -1,0 +1,84 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "age": "0"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_0"
+      }
+    },
+    {
+      "when": {
+        "age": "1"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_0"
+      }
+    },
+    {
+      "when": {
+        "age": "2"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_1"
+      }
+    },
+    {
+      "when": {
+        "age": "3"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_1"
+      }
+    },
+    {
+      "when": {
+        "age": "4"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_2"
+      }
+    },
+    {
+      "when": {
+        "age": "5"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_2"
+      }
+    },
+    {
+      "when": {
+        "age": "6"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_3"
+      }
+    },
+    {
+      "when": {
+        "age": "7"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_3"
+      }
+    },
+    {
+      "when": {
+        "age": "7"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_vine"
+      }
+    },
+    {
+      "when": {
+        "age": "7"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grapes"
+      }
+    }
+  ]
+}

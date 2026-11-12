@@ -1,0 +1,76 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "age": "0"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_stage_0"
+      }
+    },
+    {
+      "when": {
+        "age": "1"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_stage_0"
+      }
+    },
+    {
+      "when": {
+        "age": "2"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_stage_1"
+      }
+    },
+    {
+      "when": {
+        "age": "3"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_stage_1"
+      }
+    },
+    {
+      "when": {
+        "age": "4"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_stage_2"
+      }
+    },
+    {
+      "when": {
+        "age": "5"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_stage_2"
+      }
+    },
+    {
+      "when": {
+        "age": "6"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_stage_3"
+      }
+    },
+    {
+      "when": {
+        "age": "7"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_stage_3"
+      }
+    },
+    {
+      "when": {
+        "age": "7"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_fruit"
+      }
+    }
+  ]
+}

@@ -910,6 +910,10 @@ public final class ModItems {
 
         // Orchard fruits: Creative-only acquisition until harvesting is added.
         // Only reversible storage crafting is provided; no foods or tree drops.
+        // New vineyard/chili crop produce; seed BlockItems live in ModBlocks.
+        public static final Item GRAPES = registerFoodItem("grapes", 2, 0.2f);
+        public static final Item CHILI_PEPPER = registerFoodItem("chili_pepper", 1, 0.1f);
+
         // Rustic byproduct: apple pips. Tree planting will be added with the apple orchard.
         public static final Item APPLE_SEEDS = registerSimpleItem("apple_seeds", 64);
 

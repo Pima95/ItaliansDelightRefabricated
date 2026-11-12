@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:block",
+  "modifier": [
+    {
+      "type": "minecraft:explosion_decay"
+    }
+  ],
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:chili_pepper_seeds"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "italiansdelight:chili_crop",
+        "state": {
+          "age": "7"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:chili_pepper"
+        }
+      ]
+    }
+  ]
+}

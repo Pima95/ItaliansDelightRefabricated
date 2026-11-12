@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:block",
+  "modifier": [
+    {
+      "type": "minecraft:explosion_decay"
+    }
+  ],
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:grape_seeds"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "italiansdelight:grape_stem",
+        "state": {
+          "age": "7"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:grapes"
+        }
+      ]
+    }
+  ]
+}

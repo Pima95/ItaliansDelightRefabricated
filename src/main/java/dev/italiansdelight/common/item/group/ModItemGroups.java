@@ -187,6 +187,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CULTIVATED_CARDOON);
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
+                output.accept(ModBlocks.GRAPE_SEEDS);
+                output.accept(ModBlocks.CHILI_PEPPER_SEEDS);
 
                 // ORCHARD FRUITS AND RAW INGREDIENTS.
                 output.accept(ModItems.OLIVES);
@@ -196,6 +198,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.CHOPPED_ALMONDS);
                 output.accept(ModItems.CHERRIES);
                 output.accept(ModItems.APPLE_SEEDS);
+                output.accept(ModItems.GRAPES);
+                output.accept(ModItems.CHILI_PEPPER);
 
                 // SAUCES, SEASONINGS AND PREPARED VEGETABLES.
                 output.accept(ModItems.OLIVE_PATE);

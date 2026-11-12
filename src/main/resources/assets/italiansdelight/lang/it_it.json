@@ -413,5 +413,11 @@
   "item.italiansdelight.cherry_tart_slice": "Fetta di Crostata di Ciliegie",
   "block.italiansdelight.poplar_cheese_aging_rack": "Scaffale di stagionatura in pioppo",
   "block.italiansdelight.poplar_barrel": "Barile per liquidi in pioppo",
-  "block.italiansdelight.poplar_crushing_tub": "Tino di pigiatura in pioppo"
+  "block.italiansdelight.poplar_crushing_tub": "Tino di pigiatura in pioppo",
+  "block.italiansdelight.grape_stem": "Vite",
+  "block.italiansdelight.chili_crop": "Pianta di peperoncino",
+  "item.italiansdelight.grape_seeds": "Semi d'uva",
+  "item.italiansdelight.chili_pepper_seeds": "Semi di peperoncino",
+  "item.italiansdelight.grapes": "Grappolo d'uva",
+  "item.italiansdelight.chili_pepper": "Peperoncino"
 }

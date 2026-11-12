@@ -413,5 +413,11 @@
   "item.italiansdelight.cherry_tart_slice": "Cherry Tart Slice",
   "block.italiansdelight.poplar_cheese_aging_rack": "Poplar Cheese Aging Rack",
   "block.italiansdelight.poplar_barrel": "Poplar Liquid Barrel",
-  "block.italiansdelight.poplar_crushing_tub": "Poplar Crushing Tub"
+  "block.italiansdelight.poplar_crushing_tub": "Poplar Crushing Tub",
+  "block.italiansdelight.grape_stem": "Grapevine",
+  "block.italiansdelight.chili_crop": "Chili Crop",
+  "item.italiansdelight.grape_seeds": "Grape Seeds",
+  "item.italiansdelight.chili_pepper_seeds": "Chili Pepper Seeds",
+  "item.italiansdelight.grapes": "Grapes",
+  "item.italiansdelight.chili_pepper": "Chili Pepper"
 }

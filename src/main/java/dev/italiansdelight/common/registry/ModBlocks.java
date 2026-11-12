@@ -15,6 +15,7 @@ import dev.italiansdelight.common.block.OliveLeavesBlock;
 import dev.italiansdelight.common.block.AlmondLeavesBlock;
 import dev.italiansdelight.common.block.FruitCherryLeavesBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
+import dev.italiansdelight.common.block.RepeatHarvestCropBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
@@ -798,6 +799,29 @@ public final class ModBlocks {
             Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(WILD_BASIL_KEY)
         )
     );
+
+    // Rustic-inspired grapevine and chili plants; seeds are BlockItems with their own IDs.
+    // Both crops retain their roots on a successful empty-hand harvest.
+    public static final ResourceKey<Block> GRAPE_STEM_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("grape_stem"));
+    public static final Block GRAPE_STEM = registerBlockOnly(GRAPE_STEM_KEY,
+        new RepeatHarvestCropBlock(Block.Properties.ofFullCopy(Blocks.WHEAT).setId(GRAPE_STEM_KEY),
+            () -> GRAPE_SEEDS, () -> ModItems.GRAPES));
+    public static final ResourceKey<Item> GRAPE_SEEDS_KEY = ResourceKey.create(
+        BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_seeds"));
+    public static final Item GRAPE_SEEDS = Registry.register(BuiltInRegistries.ITEM,
+        GRAPE_SEEDS_KEY, new BlockItem(GRAPE_STEM, new Item.Properties().setId(GRAPE_SEEDS_KEY)));
+
+    public static final ResourceKey<Block> CHILI_CROP_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));
+    public static final Block CHILI_CROP = registerBlockOnly(CHILI_CROP_KEY,
+        new RepeatHarvestCropBlock(Block.Properties.ofFullCopy(Blocks.WHEAT).setId(CHILI_CROP_KEY),
+            () -> CHILI_PEPPER_SEEDS, () -> ModItems.CHILI_PEPPER));
+    public static final ResourceKey<Item> CHILI_PEPPER_SEEDS_KEY = ResourceKey.create(
+        BuiltInRegistries.ITEM.key(), ModRegistries.id("chili_pepper_seeds"));
+    public static final Item CHILI_PEPPER_SEEDS = Registry.register(BuiltInRegistries.ITEM,
+        CHILI_PEPPER_SEEDS_KEY, new BlockItem(CHILI_CROP,
+            new Item.Properties().setId(CHILI_PEPPER_SEEDS_KEY)));
 
     // World representation of Farmer's Delight wheat dough; no additional dough item.
     public static final ResourceKey<Block> PIZZA_DOUGH_KEY = ResourceKey.create(
