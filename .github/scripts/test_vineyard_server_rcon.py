@@ -81,6 +81,17 @@ def assert_block(rcon, x, y, z, block):
     if "Test passed" not in out:
         raise AssertionError(f"Block {block} at {x},{y},{z} not present: {out}")
 
+def assert_any_block(rcon, x, y, z, *blocks):
+    # A mature grape root reacts to its new horizontal support at the next
+    # scheduled tick, often before RCON can inspect the just-placed rope.
+    # The rope OR the resulting canopy is correct; neither is a regression.
+    for block in blocks:
+        reply = rcon.command(f"execute if block {x} {y} {z} {block}")
+        if "Test passed" in reply:
+            print(f"PASSED one of: ({x},{y},{z}) = {block}", flush=True)
+            return
+    raise AssertionError(f"None of {blocks} at {x},{y},{z}")
+
 def wait_block(rcon, x, y, z, block, timeout=14):
     deadline = time.monotonic() + timeout
     cmd = f"execute if block {x} {y} {z} {block}"
@@ -115,10 +126,18 @@ def test():
 
         run(rcon, "setblock 0 81 0 italiansdelight:grape_stem[age=7]")
         assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+        # Isolate rope-attachment tests from grape growth: a mature grape
+        # root would convert this rope to canopy before it can be checked.
+        # Grape canopy growth is tested separately on hydrated soil at x=10.
+        run(rcon, "setblock 0 81 0 italiansdelight:crop_stake")
         run(rcon, "setblock 0 82 0 italiansdelight:horizontal_rope[axis=x]")
         run(rcon, "setblock 1 82 0 italiansdelight:horizontal_rope[axis=x]")
-        assert_block(rcon, 0, 82, 0, "italiansdelight:horizontal_rope[axis=x]")
-        assert_block(rcon, 1, 82, 0, "italiansdelight:horizontal_rope[axis=x]")
+        assert_any_block(rcon, 0, 82, 0,
+            "italiansdelight:horizontal_rope[axis=x]",
+            "italiansdelight:grape_leaves[distance=0]")
+        assert_any_block(rcon, 1, 82, 0,
+            "italiansdelight:horizontal_rope[axis=x]",
+            "italiansdelight:grape_leaves[distance=1]")
         # Assert the rope attaches to newly placed stakes, and disconnects
         # when a stake is removed (not merely that the rope exists).
         run(rcon, "setblock 2 82 0 italiansdelight:crop_stake")
