@@ -196,6 +196,17 @@ def test():
             wait_block(rcon, 9, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
             wait_block(rcon, 11, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
         finally:
+            # Diagnostics on a failed canopy assertion: differentiate loss of
+            # the mature root from loss of the center leaf or its side spans.
+            for x, y, z, expected in (
+                    (10, 80, 0, "minecraft:farmland"),
+                    (10, 80, 0, "minecraft:dirt"),
+                    (10, 81, 0, "italiansdelight:grape_stem[age=7]"),
+                    (10, 82, 0, "italiansdelight:grape_leaves[distance=0]"),
+                    (10, 82, 0, "italiansdelight:horizontal_rope[axis=x]"),
+                    (9, 82, 0, "italiansdelight:grape_leaves[distance=1]"),
+                    (11, 82, 0, "italiansdelight:grape_leaves[distance=1]")):
+                run(rcon, f"execute if block {x} {y} {z} {expected}")
             run(rcon, "gamerule minecraft:random_tick_speed 3")
 
         run(rcon, "save-all")
