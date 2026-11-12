@@ -24,3 +24,12 @@ Status: proposed gameplay. Do not treat these rules as implemented.
 - Develop and test on Minecraft 26.3 first. Port to 26.1/26.1.1/26.1.2 only after a stable 26.3 implementation.
 
 Open choices: trellis versus pergola, worldgen rarity, grape yield, fermentation duration/capacity, wine effects and balancing.
+## Rustic wine fermentation — verified design reference, NOT yet implemented
+- User archive supplies animated grape juice art and the `winemaxxing` advancement JSON, **not** Java code for wine brewing or its GUI.
+- Original Rustic uses a brewing barrel with input and output fluid tanks of **8,000 mB** and an auxiliary culture tank of **1,000 mB**.
+- A batch takes **12,000 ticks** (half a Minecraft day). Fresh wine starts with random quality **0.05–0.75**.
+- A wine culture of the same type is not consumed. The next batch has quality roughly **culture−0.01 to culture+0.04** (clamped 0–1).
+- The wine quality must persist per bottle and fluid stack, not as one global value, and cannot mix without a defined policy.
+- Original Rustic requires a dedicated brewing barrel with proper input/output and culture behavior. Do **not** claim that an ordinary fluid Barrel ferments automatically.
+- The uploaded `winemaxxing.json` uses removed Forge/1.12 inventory predicates and old NBT; it needs a separate 26.3 advancement implementation after the wine-quality data component is implemented.
+- For safety, implement the brewing barrel and wine as an isolated phase with dedicated client/server and save/load tests rather than adding a fake crafting recipe.

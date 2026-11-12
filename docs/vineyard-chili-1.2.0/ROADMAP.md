@@ -2,15 +2,15 @@
 
 Branch: feature/vineyard-chili-1.2.0
 Base: Minecraft 26.3, Java 25, development version 1.2.0-mc26.3-dev.
-Status: planning; crops and recipes are not implemented yet.
+Status: first playable agriculture and grape-juice prototype implemented, CI and dedicated-server smoke passed. Grapevine canopy/rope, wine fermentation and ghost-pepper gameplay are NOT implemented yet.
 
 ## Phases
-1. Separate branch, documentation, development version and baseline CI.
-2. Grapevines on supports, red/white grapes, harvesting without destroying plants.
-3. Chili pepper seeds and crops; green immature fruit, red mature fruit, repeated harvesting.
-4. Crushing Tub: red and white grape must, fluid transfer without accidental mixing.
-5. Dedicated fermentation barrel, persistent recipes, red/white wine and bottles.
-6. Cooking and JEI: arrabbiata, garlic-olive oil-chili pasta, grape schiacciata and cooked must.
+1. DONE: separate branch, documentation, development version and baseline CI.
+2. PARTIAL: grape stems/seeds, one purple grape bunch, eight logical growth ages, repeat harvest; trellis canopy and red/white varietal split still pending.
+3. PARTIAL: chili seeds, crop growth, original Rustic chili stages/stake model, red chili harvest and regrowth; ghost pepper mechanic pending.
+4. PARTIAL: one registered grape juice fluid, 250 mB per bunch, barrel/cauldron, bucket/bottle and JEI; two colored grape musts pending.
+5. NOT STARTED: dedicated fermentation barrel, quality/culture mechanics, wine bottles, fluid persistence.
+6. PARTIAL: crushing tub and grape juice JEI done; new dishes pending.
 7. World generation, optional Serene Seasons, balance and QA.
 8. After 26.3 gameplay tests, separately port to Minecraft 26.1.x.
 
@@ -24,3 +24,7 @@ Status: planning; crops and recipes are not implemented yet.
 - No public 1.2.0 release until build, world reload, client/server and gameplay tests pass.
 
 For design decisions see DESIGN.md.
+## Completed test runs (12 November 2026)
+- Java 25 Gradle build + JSON audit: [success](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43200831498).
+- Dedicated Fabric server boot and world reload: [success](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/43200831629).
+- These do not constitute manual client/gameplay verification; run the steps in TESTING.md.
