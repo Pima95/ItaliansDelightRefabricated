@@ -120,7 +120,7 @@ models = [
         "grape_rope_tie_positive", "crop_stake_rope_loop"
     )
 ] + [
-    root / f"assets/farmersdelight/models/block/{name}.json"
+    Path("src/main/resources") / f"assets/farmersdelight/models/block/{name}.json"
     for name in ("rope_side", "rope_side_alt")
 ]
 for model_path in models:
