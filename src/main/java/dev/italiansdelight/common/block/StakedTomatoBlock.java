@@ -2,6 +2,10 @@ package dev.italiansdelight.common.block;
 
 import dev.italiansdelight.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,6 +19,16 @@ import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
  */
 public final class StakedTomatoBlock extends TomatoBlock implements ReplaceOnRemoval {
     public StakedTomatoBlock(Properties properties) { super(properties); }
+
+    @Override public BlockState updateShape(BlockState state, LevelReader level,
+            ScheduledTickAccess ticks, BlockPos pos, Direction side,
+            BlockPos neighborPos, BlockState neighbor, RandomSource random) {
+        if (!state.canSurvive(level, pos)) {
+            ticks.scheduleTick(pos, this, 1);
+            return state;
+        }
+        return super.updateShape(state, level, ticks, pos, side, neighborPos, neighbor, random);
+    }
 
     @Override public boolean onRemove(BlockState state, BlockState newState,
             LevelAccessor level, BlockPos pos, int flags) {
