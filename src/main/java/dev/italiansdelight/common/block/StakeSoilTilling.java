@@ -56,7 +56,7 @@ public final class StakeSoilTilling {
                 if (!server.mayInteract(player, soil)) return InteractionResult.FAIL;
                 if (!server.setBlock(soil, tilled, Block.UPDATE_ALL))
                     return InteractionResult.FAIL;
-                server.playSound(null, soil, SoundEvents.HOE_TILL,
+                server.playSound(null, soil, SoundEvents.HOE_TILL.value(),
                     SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (!player.getAbilities().instabuild)
                     tool.hurtAndBreak(1, player, hand);
