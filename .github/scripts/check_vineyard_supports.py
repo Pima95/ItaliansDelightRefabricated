@@ -117,4 +117,41 @@ assert "registerContainedFluid(ModFluids.WINE" in read(src/"ItaliansDelightClien
 for name in ("wine_bucket","grape_juice_bucket"):
     assert (assets/f"textures/item/{name}.png").read_bytes()[:8] == bytes.fromhex("89504e470d0a1a0a")
 
+# Chili art must keep the 16x16 pixel grid and reuse one crop texture for
+# both freestanding and rope-borne crop model stages.
+import struct
+for stage in range(4):
+    sprite=(assets/f"textures/block/chili_crop_{stage}.png").read_bytes()
+    assert sprite[:8]==bytes.fromhex("89504e470d0a1a0a")
+    assert struct.unpack(">II",sprite[16:24])==(16,16),f"Chili stage {stage} must stay 16x16"
+    assert sprite[25]==6,f"Chili stage {stage} needs RGBA transparency"
+    assert load(assets/f"models/block/chili_rope_stage_{stage}.json")["textures"]["crop"]==f"italiansdelight:block/chili_crop_{stage}"
+
+# Wild pepper uses its own vegetation block and worldgen, but drops the
+# existing crop seeds so no incompatible duplicate seed item is introduced.
+assert "WildChiliBlock" in registry and 'ModRegistries.id("wild_chili")' in registry
+assert "output.accept(ModBlocks.WILD_CHILI)" in creative
+assert "extends WildBasilBlock" in read(src/"common/block/WildChiliBlock.java")
+assert "wild_chili_patch" in read(src/"common/registry/ModWorldGeneration.java")
+assert "Biomes.SAVANNA" in read(src/"common/registry/ModWorldGeneration.java")
+assert "block.italiansdelight.wild_chili" in en and "block.italiansdelight.wild_chili" in it
+assert load(assets/"blockstates/wild_chili.json")["variants"][""]["model"]=="italiansdelight:block/wild_chili"
+assert load(assets/"models/block/wild_chili.json")["textures"]["cross"]=="italiansdelight:block/wild_chili"
+assert load(assets/"items/wild_chili.json")["model"]["model"]=="italiansdelight:item/wild_chili"
+assert load(assets/"models/item/wild_chili.json")["parent"]=="italiansdelight:block/wild_chili"
+wild=(assets/"textures/block/wild_chili.png").read_bytes()
+assert wild[:8]==bytes.fromhex("89504e470d0a1a0a")
+assert struct.unpack(">II",wild[16:24])==(16,16)
+wildloot=load(data/"italiansdelight/loot_table/blocks/wild_chili.json")
+assert wildloot["pools"][0]["entries"][0]["name"]=="italiansdelight:chili_pepper_seeds"
+wildfeature=load(data/"italiansdelight/worldgen/feature/wild_chili.json")
+assert wildfeature["to_place"]["state"]["id"]=="italiansdelight:wild_chili"
+wildplaced=load(data/"italiansdelight/worldgen/placed_feature/wild_chili_patch.json")
+assert wildplaced["feature"]=="italiansdelight:wild_chili"
+assert wildplaced["placement"][0]=={"type":"minecraft:rarity_filter","chance":120}
+# Bamboo end grain now matches the warm plank color, not the green block cap.
+bamboo=load(assets/"models/block/bamboo_crop_stake.json")["textures"]
+assert bamboo["2"]==bamboo["0"]=="minecraft:block/bamboo_planks"
+print("PASSED: revised 16x16 chili/rope art, naturally-spawning wild chili, seed drops and warm bamboo caps")
+
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")

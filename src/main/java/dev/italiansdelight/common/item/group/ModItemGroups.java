@@ -206,6 +206,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.FRUIT_CHERRY_CROP_STAKE);
                 output.accept(ModBlocks.GRAPE_SEEDS);
                 output.accept(ModBlocks.CHILI_PEPPER_SEEDS);
+                output.accept(ModBlocks.WILD_CHILI);
 
                 // ORCHARD FRUITS AND RAW INGREDIENTS.
                 output.accept(ModItems.OLIVES);

@@ -26,6 +26,7 @@ import dev.italiansdelight.common.block.ChiliCropBlock;
 import dev.italiansdelight.common.block.HangingChiliBlock;
 import dev.italiansdelight.common.item.ChiliSeedsItem;
 import dev.italiansdelight.common.block.WildBasilBlock;
+import dev.italiansdelight.common.block.WildChiliBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
 import dev.italiansdelight.common.block.PizzaOvenBlock;
@@ -807,6 +808,15 @@ public final class ModBlocks {
         new WildBasilBlock(
             Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(WILD_BASIL_KEY)
         )
+    );
+
+    // Wild peppers are a separate overworld plant; breaking them yields
+    // the existing chili seeds, while cultivated chili remains unchanged.
+    public static final ResourceKey<Block> WILD_CHILI_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("wild_chili")
+    );
+    public static final Block WILD_CHILI = register(WILD_CHILI_KEY,
+        new WildChiliBlock(Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(WILD_CHILI_KEY))
     );
 
     // Decorative posts only: the original crop_stake is the oak variant.

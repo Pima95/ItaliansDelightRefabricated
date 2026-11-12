@@ -14,6 +14,8 @@ public final class ModWorldGeneration {
         Registries.PLACED_FEATURE, ModRegistries.id("cardoon_patch"));
     private static final ResourceKey<PlacedFeature> WILD_BASIL_PATCH = ResourceKey.create(
         Registries.PLACED_FEATURE, ModRegistries.id("wild_basil_patch"));
+    private static final ResourceKey<PlacedFeature> WILD_CHILI_PATCH = ResourceKey.create(
+        Registries.PLACED_FEATURE, ModRegistries.id("wild_chili_patch"));
     // Data-driven natural placements reuse the original, already-tested
     // sapling tree features and their custom trunk/foliage placers.
     // Plains/Savanna: 1/40 olive + 1/40 almond = 1/20 expected attempts
@@ -72,6 +74,14 @@ public final class ModWorldGeneration {
                 Biomes.MEADOW, Biomes.FOREST, Biomes.FLOWER_FOREST, Biomes.BIRCH_FOREST,
                 Biomes.CHERRY_GROVE, Biomes.SPARSE_JUNGLE),
             GenerationStep.Decoration.VEGETAL_DECORATION, WILD_BASIL_PATCH
+        );
+        // Warm open biomes and tropical forest edges. Only new chunks
+        // receive these patches; cultivated peppers stay player-controlled.
+        BiomeModifications.addFeature(
+            BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
+                Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.WINDSWEPT_SAVANNA,
+                Biomes.SPARSE_JUNGLE, Biomes.JUNGLE),
+            GenerationStep.Decoration.VEGETAL_DECORATION, WILD_CHILI_PATCH
         );
     }
 }

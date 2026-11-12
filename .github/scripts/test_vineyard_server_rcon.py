@@ -186,6 +186,13 @@ def test():
         # Removing a standalone root cannot recreate a wooden post.
         run(rcon, "setblock 9 81 0 minecraft:air")
         assert_block(rcon, 9, 81, 0, "minecraft:air")
+        # Naturally generated wild chili must be a valid, persistent plant on
+        # ordinary grass, separate from the farmland-dependent cultivated crop.
+        run(rcon, "setblock 13 80 0 minecraft:grass_block")
+        run(rcon, "setblock 13 81 0 italiansdelight:wild_chili")
+        assert_block(rcon, 13, 81, 0, "italiansdelight:wild_chili")
+        run(rcon, "time add 100")
+        assert_block(rcon, 13, 81, 0, "italiansdelight:wild_chili")
         run(rcon, "save-all")
         print("PASSED: 16 decorative poles, untouched rope, standalone chili climb <=3, rich farmland and grapes", flush=True)
     finally:

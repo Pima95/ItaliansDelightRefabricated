@@ -2,7 +2,7 @@
   "parent": "italiansdelight:block/crop_stake",
   "textures": {
     "0": "minecraft:block/bamboo_planks",
-    "2": "minecraft:block/bamboo_block_top",
+    "2": "minecraft:block/bamboo_planks",
     "particle": "minecraft:block/bamboo_planks"
   }
 }
