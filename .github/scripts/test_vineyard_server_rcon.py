@@ -91,6 +91,11 @@ def test():
         run(rcon, "setblock 0 81 0 italiansdelight:crop_stake")
         assert_block(rcon, 0, 81, 0, "italiansdelight:crop_stake")
         assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+        # Check farmland AFTER real server ticks, not just in the same tick
+        # as /setblock. The old forceSolidOn flag could cause later decay.
+        time.sleep(3)
+        assert_block(rcon, 0, 81, 0, "italiansdelight:crop_stake")
+        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
 
         run(rcon, "setblock 0 81 0 italiansdelight:chili_crop[age=7]")
         assert_block(rcon, 0, 80, 0, "minecraft:farmland")
