@@ -172,6 +172,10 @@ def test():
         for x in (9, 11):
             run(rcon, f"setblock {x} 80 0 minecraft:dirt")
             run(rcon, f"setblock {x} 81 0 italiansdelight:crop_stake")
+        # Keep the grape root hydrated. Without water within four blocks
+        # accelerated random ticks dry the farmland, uproot the stem, and
+        # correctly remove its canopy; this is not a lateral-growth failure.
+        run(rcon, "setblock 10 80 1 minecraft:water")
         run(rcon, "setblock 10 80 0 minecraft:farmland[moisture=7]")
         run(rcon, "setblock 10 81 0 italiansdelight:grape_stem[age=7]")
         for x in (9, 10, 11):
@@ -195,6 +199,8 @@ def test():
             wait_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0]", timeout=20)
             wait_block(rcon, 9, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
             wait_block(rcon, 11, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=20)
+            assert_block(rcon, 10, 80, 0, "minecraft:farmland")
+            assert_block(rcon, 10, 81, 0, "italiansdelight:grape_stem[age=7]")
         finally:
             # Diagnostics on a failed canopy assertion: differentiate loss of
             # the mature root from loss of the center leaf or its side spans.
