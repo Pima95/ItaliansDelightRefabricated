@@ -964,7 +964,7 @@ public final class ModItems {
         public static final ResourceKey<Item> WINE_BUCKET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("wine_bucket"));
         public static final Item WINE_BUCKET = register(WINE_BUCKET_KEY,
-                new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)
+                WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)
                         .component(ModDataComponents.WINE_QUALITY, 0));
 
         public static final ResourceKey<Item> WINE_BOTTLE_KEY = ResourceKey.create(
