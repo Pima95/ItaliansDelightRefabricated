@@ -174,6 +174,8 @@ public class ItaliansDelightClient implements ClientModInitializer {
 
         registerContainedFluid(ModFluids.GRAPE_JUICE,
             ModRegistries.id("block/fluids/grape_juice_still"));
+        registerContainedFluid(ModFluids.WINE,
+            ModRegistries.id("block/fluids/booze/wine_still"));
         // Almond and Fruit Cherry react to foliage biome colors independently.
         // Olive, both saplings, and the rest of the orchard art remain untinted.
         BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);

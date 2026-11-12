@@ -55,7 +55,8 @@ public final class BrewingBarrelBlock extends BaseEntityBlock {
         boolean juiceBucket = held.is(ModItems.GRAPE_JUICE_BUCKET);
         boolean wineBottle = held.is(ModItems.WINE_BOTTLE);
         boolean emptyBottle = held.is(Items.GLASS_BOTTLE);
-        if (!juiceBottle && !juiceBucket && !wineBottle && !emptyBottle)
+        boolean emptyBucket = held.is(Items.BUCKET);
+        if (!juiceBottle && !juiceBucket && !wineBottle && !emptyBottle && !emptyBucket)
             return InteractionResult.PASS;
         if (player.isSpectator()) return InteractionResult.PASS;
         if (level.isClientSide()) return InteractionResult.SUCCESS;
@@ -83,11 +84,13 @@ public final class BrewingBarrelBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        int quality = player.isShiftKeyDown()
-                ? barrel.takeCulture() : barrel.extractWine(250);
+        int quantity = emptyBucket ? 1000 : 250;
+        int quality = player.isShiftKeyDown() && emptyBottle
+                ? barrel.takeCulture() : barrel.extractWine(quantity);
         if (quality >= 0) {
-            player.setItemInHand(hand, ItemUtils.createFilledResult(held, player,
-                    BrewingBarrelBlockEntity.wineBottle(quality)));
+            ItemStack result = emptyBucket ? BrewingBarrelBlockEntity.wineBucket(quality)
+                    : BrewingBarrelBlockEntity.wineBottle(quality);
+            player.setItemInHand(hand, ItemUtils.createFilledResult(held, player, result));
             level.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1, 1);
         }
         return InteractionResult.SUCCESS;

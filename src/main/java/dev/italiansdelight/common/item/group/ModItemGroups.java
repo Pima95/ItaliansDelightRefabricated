@@ -221,6 +221,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.GRAPE_JUICE_BUCKET);
                 output.accept(ModItems.GRAPE_JUICE_BOTTLE);
                 output.accept(ModItems.WINE_BOTTLE);
+                output.accept(ModItems.WINE_BUCKET);
                 output.accept(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
                 output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
                 output.accept(ModItems.HONEY_BUCKET);

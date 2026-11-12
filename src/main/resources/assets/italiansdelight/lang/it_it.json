@@ -430,5 +430,8 @@
   "fluid.italiansdelight.wine": "Vino",
   "message.italiansdelight.brewing_barrel.status": "Succo: %s mB | Vino: %s mB | Fermentazione: %s / %s tick | Qualità: %s%%",
   "jei.italiansdelight.fluids.wine": "Fermentazione ispirata a Rustic: riempi la botte con succo d'uva (bottiglie da 250 mB, secchi da 1.000 mB). Attendi 12.000 tick lato server. Raccogli il vino in bottiglie vuote. Clic destro a mano vuota per vedere lo stato. Una bottiglia di vino può essere usata come coltura iniziale opzionale, conservata nel piccolo vano coltura; Shift+clic con bottiglia vuota la recupera. La qualità è registrata per ogni bottiglia.",
-  "tooltip.italiansdelight.wine_quality": "Qualità: %s%%"
+  "tooltip.italiansdelight.wine_quality": "Qualità: %s%%",
+  "block.italiansdelight.grape_juice": "Succo d'uva",
+  "block.italiansdelight.wine": "Vino",
+  "item.italiansdelight.wine_bucket": "Secchio di vino"
 }

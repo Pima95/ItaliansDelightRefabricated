@@ -87,6 +87,12 @@ public final class BrewingBarrelBlockEntity extends BlockEntity {
         return result;
     }
 
+    public static ItemStack wineBucket(int quality) {
+        ItemStack result = new ItemStack(ModItems.WINE_BUCKET);
+        result.set(ModDataComponents.WINE_QUALITY, Math.clamp(quality, 0, 100));
+        return result;
+    }
+
     public static void serverTick(ServerLevel level, BlockPos pos, BlockState state,
                                   BrewingBarrelBlockEntity barrel) {
         if (barrel.juiceAmount < 250 || barrel.wineAmount >= CAPACITY) {

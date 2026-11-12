@@ -75,7 +75,7 @@ public final class ModFluids {
     // fluid-bottle provider is registered until wine quality can round-trip.
     public static final Fluid WINE = Registry.register(
         BuiltInRegistries.FLUID, WINE_KEY,
-        new ContainedFluid(() -> net.minecraft.world.item.Items.AIR));
+        new ContainedFluid(() -> ModItems.WINE_BUCKET));
 
     public static void register() {}
 }
