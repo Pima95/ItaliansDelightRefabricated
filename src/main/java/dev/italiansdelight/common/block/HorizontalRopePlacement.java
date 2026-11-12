@@ -53,8 +53,9 @@ public final class HorizontalRopePlacement {
             // segments can be placed by targeting the end of the previous span.
             if (level instanceof ServerLevel server) {
                 if (!server.mayInteract(player, target)) return InteractionResult.FAIL;
-                BlockState newState = ModBlocks.HORIZONTAL_ROPE.defaultBlockState()
-                    .setValue(HorizontalRopeBlock.AXIS, face.getAxis());
+                BlockState newState = HorizontalRopeBlock.withConnections(
+                    ModBlocks.HORIZONTAL_ROPE.defaultBlockState()
+                        .setValue(HorizontalRopeBlock.AXIS, face.getAxis()), server, target);
                 if (!server.setBlock(target, newState, Block.UPDATE_ALL)) {
                     return InteractionResult.FAIL;
                 }
