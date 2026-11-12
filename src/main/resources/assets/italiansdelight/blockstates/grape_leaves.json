@@ -76,6 +76,44 @@
       "apply": {
         "model": "italiansdelight:block/grape_rope_horizontal"
       }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "tied_negative": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_tie_negative"
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "tied_positive": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_tie_positive"
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "tied_negative": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_tie_positive",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "tied_positive": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_tie_negative",
+        "y": 90
+      }
     }
   ]
 }
