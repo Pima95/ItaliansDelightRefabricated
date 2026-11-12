@@ -49,7 +49,7 @@ planting = read(java / "common/block/StakeCropPlanting.java")
 seeds = read(java / "common/item/ChiliSeedsItem.java")
 require("TOMATO_SEEDS" in planting and "CHILI_PEPPER_SEEDS" in planting,
         "Crop stake planting must accept both original FDR tomato and chili seeds")
-require("clicked.above()" in planting and "Blocks.FARMLAND" in planting,
+require("clicked.above()" in planting and "StakeSoilTilling.isFarmland" in planting,
         "Player must be able to plant through the farmland base of a thin stake")
 require("StakeCropPlanting.tryPlant(" in stake and "StakeCropPlanting.tryPlant(" in seeds,
         "Both block and seed item must use the same planting implementation")
@@ -298,6 +298,12 @@ require("Block.box(0, 3, 3, 16, 13, 13)" in grape and
         "Block.box(3, 3, 0, 13, 13, 16)" in grape and
         "getCollisionShape" in grape,
         "Actual grape leaf outline/collision must match the original narrow model")
+# The permanent stake must count as an actual crop support to prevent
+# vanilla farmland and Farmer's Delight rich farmland drying into soil.
+maintains = j(data / "minecraft/tags/block/maintains_farmland.json")
+require(maintains.get("replace") is False
+        and "italiansdelight:crop_stake" in maintains["values"],
+        "The new persistent crop support must keep vanilla and rich farmland alive")
 print("PASSED: persistent stake + separate crop, real rich farmland, original stages and leaf hitbox")
 
 print("PASSED: exact 1px UV geometry, leash-style rope loop and two seed targets")

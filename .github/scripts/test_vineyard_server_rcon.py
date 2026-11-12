@@ -207,17 +207,21 @@ def test():
 
         # Rooted chili can climb onto pre-existing wooden supports while
         # leaving their block IDs intact, never spawning fused chili_crop.
-        run(rcon, "setblock 16 80 0 minecraft:farmland[moisture=7]")
-        run(rcon, "setblock 16 81 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
-        run(rcon, "setblock 16 82 0 italiansdelight:crop_stake")
-        run(rcon, "setblock 16 83 0 italiansdelight:crop_stake")
+        run(rcon, "setblock 12 80 1 minecraft:water")
+        run(rcon, "setblock 12 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 12 81 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
+        run(rcon, "setblock 12 82 0 italiansdelight:crop_stake")
+        run(rcon, "setblock 12 83 0 italiansdelight:crop_stake")
         # A single cultivated post can climb onto two more stacked posts,
         # in the same manner as original FDR tomatoes climb rope segments.
         # The first crop stage is 0; FDR tomatoes have a 0..3 age range.
         for x, crop, mature in (
                 (5, "italiansdelight:staked_tomatoes", 3),
                 (6, "italiansdelight:chili_crop", 7)):
+            run(rcon, f"setblock {x} 80 1 minecraft:water")
             run(rcon, f"setblock {x} 80 0 minecraft:farmland[moisture=7]")
+            # Legacy roots must migrate seamlessly to the persistent wooden
+            # block; the upper supports stay crop_stake, only CROP changes.
             run(rcon, f"setblock {x} 81 0 {crop}[age={mature}]")
             run(rcon, f"setblock {x} 82 0 italiansdelight:crop_stake")
             run(rcon, f"setblock {x} 83 0 italiansdelight:crop_stake")
@@ -250,20 +254,22 @@ def test():
         run(rcon, "time set day")
         run(rcon, "gamerule minecraft:random_tick_speed 700")
         try:
-            for x, crop, mature in (
-                    (5, "italiansdelight:staked_tomatoes", 3),
-                    (6, "italiansdelight:chili_crop", 7)):
-                wait_block(rcon, x, 82, 0, crop, timeout=20)
-                # Accelerate only the test, not the mod's live crop growth.
-                run(rcon, f"setblock {x} 82 0 {crop}[age={mature}]")
-                wait_block(rcon, x, 83, 0, crop, timeout=20)
+            for x, kind, mature in ((5, 2, 3), (6, 1, 7)):
+                wait_block(rcon, x, 81, 0,
+                    f"italiansdelight:crop_stake[crop={kind},crop_age={mature}]", timeout=20)
+                wait_block(rcon, x, 82, 0,
+                    f"italiansdelight:crop_stake[crop={kind}]", timeout=20)
+                # Accelerate only this test by setting the age, not the block ID.
+                run(rcon, f"setblock {x} 82 0 italiansdelight:crop_stake[crop={kind},crop_age={mature}]")
+                wait_block(rcon, x, 83, 0,
+                    f"italiansdelight:crop_stake[crop={kind}]", timeout=20)
                 assert_block(rcon, x, 80, 0, "minecraft:farmland")
-            wait_block(rcon, 16, 82, 0,
+            wait_block(rcon, 12, 82, 0,
                 "italiansdelight:crop_stake[crop=1,crop_age=0]", timeout=20)
-            run(rcon, "setblock 16 82 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
-            wait_block(rcon, 16, 83, 0,
+            run(rcon, "setblock 12 82 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
+            wait_block(rcon, 12, 83, 0,
                 "italiansdelight:crop_stake[crop=1,crop_age=0]", timeout=20)
-            assert_block(rcon, 16, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=7]")
+            assert_block(rcon, 12, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=7]")
             assert_block(rcon, 15, 80, 0, "farmersdelight:rich_soil_farmland")
             wait_block(rcon, 13, 82, 0,
                 "italiansdelight:chili_on_rope[age=0,staked=false]", timeout=20)
