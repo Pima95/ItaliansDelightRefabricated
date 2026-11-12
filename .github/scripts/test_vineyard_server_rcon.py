@@ -160,16 +160,19 @@ def test():
         run(rcon, "setblock 6 80 0 minecraft:farmland[moisture=7]")
         run(rcon, "setblock 6 81 0 italiansdelight:staked_tomatoes[age=0]")
 
+        # The CI world's initial clock can vary between fresh boots.
+        # Enable deterministic daylight and accelerated random ticks BEFORE
+        # testing the already-implemented grape canopy, not only afterwards.
+        run(rcon, "time set day")
+        run(rcon, "gamerule minecraft:random_tick_speed 700")
         # Existing grape canopy and horizontal-rope growth remain unchanged.
         run(rcon, "setblock 10 80 1 minecraft:water")
         run(rcon, "setblock 10 80 0 minecraft:farmland[moisture=7]")
         run(rcon, "setblock 10 81 0 italiansdelight:grape_stem[age=7]")
         for x in (9, 10, 11):
             run(rcon, f"setblock {x} 82 0 italiansdelight:horizontal_rope[axis=x]")
-        wait_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0]", timeout=14)
+        wait_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0]", timeout=24)
 
-        run(rcon, "time set day")
-        run(rcon, "gamerule minecraft:random_tick_speed 700")
         try:
             wait_block(rcon, 7, 82, 0, "italiansdelight:chili_on_rope", timeout=24)
             run(rcon, "setblock 7 82 0 italiansdelight:chili_on_rope[age=7]")
