@@ -424,5 +424,10 @@
   "item.italiansdelight.grape_juice_bottle": "Bottiglia di succo d'uva",
   "fluid.italiansdelight.grape_juice": "Succo d'uva",
   "jei.italiansdelight.fluids.grape_juice": "Metti i grappoli d'uva nel Crushing Tub e saltaci dentro. Ogni grappolo produce 250 mB di succo d'uva e un seme. Raccogli con bottiglie vuote (250 mB) o secchi vuoti (1.000 mB). Puoi conservarlo nei barili e nei calderoni già presenti. La fermentazione in vino arriverà in una fase successiva della 1.2.0.",
-  "item.italiansdelight.ghost_pepper": "Peperoncino fantasma"
+  "item.italiansdelight.ghost_pepper": "Peperoncino fantasma",
+  "block.italiansdelight.brewing_barrel": "Botte di fermentazione",
+  "item.italiansdelight.wine_bottle": "Bottiglia di vino",
+  "fluid.italiansdelight.wine": "Vino",
+  "message.italiansdelight.brewing_barrel.status": "Succo: %s mB | Vino: %s mB | Fermentazione: %s / %s tick | Qualità: %s%%",
+  "jei.italiansdelight.fluids.wine": "Fermentazione ispirata a Rustic: riempi la botte con succo d'uva (bottiglie da 250 mB, secchi da 1.000 mB). Attendi 12.000 tick lato server. Raccogli il vino in bottiglie vuote. Clic destro a mano vuota per vedere lo stato. Una bottiglia di vino può essere usata come coltura iniziale opzionale, conservata nel piccolo vano coltura; Shift+clic con bottiglia vuota la recupera. La qualità è registrata per ogni bottiglia."
 }

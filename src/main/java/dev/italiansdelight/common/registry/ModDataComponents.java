@@ -4,6 +4,7 @@ import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.pizza.PizzaPeelCargo;
 import net.minecraft.core.Registry;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 
@@ -46,6 +47,14 @@ public final class ModDataComponents {
                             .persistent(PizzaPeelCargo.CODEC)
                             .build()
             );
+
+    /** Percentage 0..100 stored on individual wine bottles; never global. */
+    public static final DataComponentType<Integer> WINE_QUALITY =
+            Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE,
+                    ModRegistries.id("wine_quality"),
+                    DataComponentType.<Integer>builder()
+                            .persistent(Codec.intRange(0, 100))
+                            .build());
 
     public static void register() {
         // Trigger static registration before items and block interactions.

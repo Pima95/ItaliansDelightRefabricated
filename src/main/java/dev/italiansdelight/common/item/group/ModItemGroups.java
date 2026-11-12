@@ -66,6 +66,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.ALMOND_CRUSHING_TUB);
                 output.accept(ModBlocks.FRUIT_CHERRY_CRUSHING_TUB);
                 output.accept(ModBlocks.BARREL);
+                output.accept(ModBlocks.BREWING_BARREL);
                 output.accept(ModBlocks.SPRUCE_BARREL);
                 output.accept(ModBlocks.BIRCH_BARREL);
                 output.accept(ModBlocks.JUNGLE_BARREL);
@@ -219,6 +220,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.APPLE_JUICE_BOTTLE);
                 output.accept(ModItems.GRAPE_JUICE_BUCKET);
                 output.accept(ModItems.GRAPE_JUICE_BOTTLE);
+                output.accept(ModItems.WINE_BOTTLE);
                 output.accept(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
                 output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
                 output.accept(ModItems.HONEY_BUCKET);

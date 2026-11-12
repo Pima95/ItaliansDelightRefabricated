@@ -424,5 +424,10 @@
   "item.italiansdelight.grape_juice_bottle": "Grape Juice Bottle",
   "fluid.italiansdelight.grape_juice": "Grape Juice",
   "jei.italiansdelight.fluids.grape_juice": "Put harvested grapes in the Crushing Tub and jump inside. One bunch produces 250 mB of grape juice and grape seeds. Collect the juice with empty bottles (250 mB) or buckets (1,000 mB). Store it in existing liquid barrels or cauldrons. Fermentation into wine is planned for a later 1.2.0 stage.",
-  "item.italiansdelight.ghost_pepper": "Ghost Pepper"
+  "item.italiansdelight.ghost_pepper": "Ghost Pepper",
+  "block.italiansdelight.brewing_barrel": "Brewing Barrel",
+  "item.italiansdelight.wine_bottle": "Bottle of Wine",
+  "fluid.italiansdelight.wine": "Wine",
+  "message.italiansdelight.brewing_barrel.status": "Grape juice: %s mB | Wine: %s mB | Ferment: %s / %s ticks | Quality: %s%%",
+  "jei.italiansdelight.fluids.wine": "Rustic-style fermentation: fill the Brewing Barrel with grape juice (bottle 250 mB, bucket 1,000 mB). Wait 12,000 server ticks for wine. Collect wine with empty glass bottles. Right-click the barrel without an item to see status. One wine bottle may be used as an optional, non-consuming yeast culture held in a separate 250 mB culture slot; sneak-use an empty glass bottle to retrieve it. Quality is saved on every wine bottle."
 }

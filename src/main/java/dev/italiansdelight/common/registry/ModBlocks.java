@@ -4,6 +4,7 @@ import dev.italiansdelight.common.block.CrushingTubBlock;
 import dev.italiansdelight.common.block.OliveOilCauldronBlock;
 import dev.italiansdelight.common.block.FluidCauldronBlock;
 import dev.italiansdelight.common.block.BarrelBlock;
+import dev.italiansdelight.common.block.BrewingBarrelBlock;
 import dev.italiansdelight.common.block.CheeseVatBlock;
 import dev.italiansdelight.common.block.CheeseHookBlock;
 import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
@@ -873,6 +874,15 @@ public final class ModBlocks {
         new BarrelBlock(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
             .setId(BARREL_KEY).noOcclusion().randomTicks().strength(2.0F, 3.0F))
     );
+
+    // Separate, closed Rustic-style fermentation machine: does not modify the
+    // original liquid Barrel ID, inventory, tank, or save format.
+    public static final ResourceKey<Block> BREWING_BARREL_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("brewing_barrel"));
+    public static final Block BREWING_BARREL = register(
+        BREWING_BARREL_KEY,
+        new BrewingBarrelBlock(Block.Properties.ofFullCopy(Blocks.BARREL)
+            .setId(BREWING_BARREL_KEY).noOcclusion().strength(2.5F, 3.0F)));
 
     // Apple juice created by the Rustic Crushing Tub; real source/flowing liquid.
     public static final ResourceKey<Block> APPLE_JUICE_FLUID_BLOCK_KEY = ResourceKey.create(

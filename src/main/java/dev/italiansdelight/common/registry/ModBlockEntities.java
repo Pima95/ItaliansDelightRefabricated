@@ -2,6 +2,7 @@ package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
 import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
+import dev.italiansdelight.common.block.entity.BrewingBarrelBlockEntity;
 import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
@@ -38,6 +39,9 @@ public final class ModBlockEntities {
 
     public static final BlockEntityType<CrushingTubBlockEntity> CRUSHING_TUB =
         register("crushing_tub", CrushingTubBlockEntity::new, ModBlocks.CRUSHING_TUB);
+
+    public static final BlockEntityType<BrewingBarrelBlockEntity> BREWING_BARREL =
+        register("brewing_barrel", BrewingBarrelBlockEntity::new, ModBlocks.BREWING_BARREL);
 
     public static final BlockEntityType<BarrelBlockEntity> BARREL =
         register("barrel", BarrelBlockEntity::new, ModBlocks.BARREL);

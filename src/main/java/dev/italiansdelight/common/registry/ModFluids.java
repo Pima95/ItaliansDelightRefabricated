@@ -69,5 +69,13 @@ public final class ModFluids {
         BuiltInRegistries.FLUID, GRAPE_JUICE_KEY,
         new ContainedFluid(() -> ModItems.GRAPE_JUICE_BUCKET));
 
+    public static final ResourceKey<Fluid> WINE_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("wine"));
+    // This stage bottles wine only through the brewer. No generic
+    // fluid-bottle provider is registered until wine quality can round-trip.
+    public static final Fluid WINE = Registry.register(
+        BuiltInRegistries.FLUID, WINE_KEY,
+        new ContainedFluid(() -> net.minecraft.world.item.Items.AIR));
+
     public static void register() {}
 }
