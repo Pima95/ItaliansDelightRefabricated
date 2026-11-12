@@ -25,6 +25,7 @@ public final class GrapeStemBlock extends CropBlock {
 
     /** Only a horizontal, non-waterlogged rope can hold the primary vine. */
     public static Direction.Axis ropeAxis(BlockState rope) {
+        if (rope.is(ModBlocks.HORIZONTAL_ROPE)) return rope.getValue(HorizontalRopeBlock.AXIS);
         if (!rope.is(vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get())
                 || rope.getValue(CrossCollisionBlock.WATERLOGGED)) return null;
         boolean x = rope.getValue(CrossCollisionBlock.EAST)

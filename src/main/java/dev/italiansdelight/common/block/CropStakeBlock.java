@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
 
 /**
  * One physical stake shared by chili farming, Farmer's Delight tomato seeds
@@ -32,7 +33,7 @@ public final class CropStakeBlock extends IronBarsBlock {
     @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos,
             CollisionContext context) { return POST; }
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
-            CollisionContext context) { return POST; }
+            CollisionContext context) { return Shapes.empty(); }
 
     @Override protected InteractionResult useItemOn(ItemStack held, BlockState state,
             Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

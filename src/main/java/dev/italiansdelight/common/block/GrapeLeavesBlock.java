@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import vectorwing.farmersdelight.common.block.RopeBlock;
 import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
 
 /**
@@ -80,8 +79,10 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
             if (!level.isLoaded(target) || !level.getBlockState(target.below()).isAir())
                 continue;
             BlockState old = level.getBlockState(target);
-            if (!old.is(vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get())
-                    || old.getValue(CrossCollisionBlock.WATERLOGGED)) continue;
+            // The new horizontal support has its own saved axis. Older FDR
+            // rope blocks are still accepted when their connections align.
+            Direction.Axis axis = GrapeStemBlock.ropeAxis(old);
+            if (axis != state.getValue(AXIS)) continue;
             // Preserve the rope axis via the GrapeLeaves state until broken.
             level.setBlock(target, defaultBlockState().setValue(AXIS,
                 state.getValue(AXIS)).setValue(DISTANCE, 1), 3);
@@ -152,9 +153,8 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
     @Override public boolean onRemove(BlockState state, BlockState newState,
             LevelAccessor level, BlockPos pos, int flags) {
         if (newState.isAir() && !state.is(newState.getBlock())) {
-            BlockState rope = RopeBlock.getStateWithConnections(
-                vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get().defaultBlockState(),
-                level, pos, Direction.UP);
+            BlockState rope = ModBlocks.HORIZONTAL_ROPE.defaultBlockState()
+                .setValue(HorizontalRopeBlock.AXIS, state.getValue(AXIS));
             return level.setBlock(pos, rope, 3);
         }
         return false;

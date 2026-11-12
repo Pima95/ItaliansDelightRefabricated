@@ -51,3 +51,30 @@ for c in ("GrapeStemBlock","GrapeLeavesBlock","ChiliCropBlock","HangingChiliBloc
           "StakedTomatoBlock"):
     read(java / f"common/block/{c}.java")
 print("PASSED: tagged stake recipe, rope reuse, crops, wine/juice JEI names and sprites")
+
+# 1.2.0 placement regression checks
+stake_source = read(java / "common/block/CropStakeBlock.java")
+block_registry = read(java / "common/registry/ModBlocks.java")
+place = read(java / "common/block/HorizontalRopePlacement.java")
+horizontal = read(java / "common/block/HorizontalRopeBlock.java")
+root = read(java / "common/block/GrapeStemBlock.java")
+canopy = read(java / "common/block/GrapeLeavesBlock.java")
+require(".setId(CROP_STAKE_KEY).noCollision()" in block_registry,
+        "Crop stake must not compact farmland")
+require("return Shapes.empty();" in stake_source,
+        "Crop stake collision must be empty above farmland")
+require("UseBlockCallback.EVENT.register" in place and
+        "isSecondaryUseActive()" in place and
+        "ModItems.ROPE.get()" in place and
+        "rope.shrink(1)" in place,
+        "Shift-place must consume a single original FDR rope item")
+require("EnumProperty.create(\"axis\"" in horizontal,
+        "Horizontal rope must preserve horizontal axis")
+require("ModBlocks.HORIZONTAL_ROPE" in root and "ModBlocks.HORIZONTAL_ROPE" in canopy,
+        "Grapes must grow on and restore horizontal spans")
+require(j(assets/"items/grape_juice_bottle.json")["model"]["model"] ==
+        "minecraft:item/potion",
+        "Grape juice must use vanilla bottle model")
+require(j(data/"italiansdelight/loot_table/blocks/horizontal_rope.json")
+        ["pools"][0]["entries"][0]["name"] == "farmersdelight:rope",
+        "Horizontal rope must refund original FDR rope")

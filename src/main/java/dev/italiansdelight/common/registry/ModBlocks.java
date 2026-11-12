@@ -18,6 +18,7 @@ import dev.italiansdelight.common.block.FruitCherryLeavesBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.RepeatHarvestCropBlock;
 import dev.italiansdelight.common.block.CropStakeBlock;
+import dev.italiansdelight.common.block.HorizontalRopeBlock;
 import dev.italiansdelight.common.block.StakedTomatoBlock;
 import dev.italiansdelight.common.block.GrapeStemBlock;
 import dev.italiansdelight.common.block.GrapeLeavesBlock;
@@ -814,7 +815,16 @@ public final class ModBlocks {
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("crop_stake"));
     public static final Block CROP_STAKE = register(CROP_STAKE_KEY,
         new CropStakeBlock(Block.Properties.ofFullCopy(Blocks.OAK_FENCE)
-            .setId(CROP_STAKE_KEY).noOcclusion().strength(0.7F)));
+            .setId(CROP_STAKE_KEY).noCollision().noOcclusion().strength(0.7F)));
+
+    // Reuses Farmer's Delight rope *items* and texture; no second rope item.
+    // The axis is saved in the block state to allow horizontal placement.
+    public static final ResourceKey<Block> HORIZONTAL_ROPE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("horizontal_rope"));
+    public static final Block HORIZONTAL_ROPE = registerBlockOnly(HORIZONTAL_ROPE_KEY,
+        new HorizontalRopeBlock(Block.Properties.of()
+            .setId(HORIZONTAL_ROPE_KEY).noCollision().noOcclusion()
+            .instabreak().sound(SoundType.WOOL)));
 
     public static final ResourceKey<Block> STAKED_TOMATOES_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("staked_tomatoes"));

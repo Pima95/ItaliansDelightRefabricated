@@ -78,3 +78,13 @@ Usa un mondo di prova, non un salvataggio importante. Il test automatico avvia e
 **Test visuale JEI:** il liquido `grape_juice` deve apparire come *Succo d'uva/Grape Juice*, `wine` come *Vino/Wine* (non come chiave di traduzione), con la texture del vino nel viewer. Il `wine_bucket` usa il nuovo sprite con liquido viola, non quello vuoto. Verificare anche i tooltip delle singole bottiglie e dei secchi di vino dopo estrazione dalla botte.
 
 **Nota:** il video YouTube allegato non è accessibile direttamente come flusso visuale attraverso il connettore. Le regole implementate sono state confrontate con i sorgenti originali di Rustic e con Farmer's Delight Refabricated 26.3 su GitHub.
+
+## Correzioni posizionamento 12 novembre — prova giocatore
+
+- **Farmland**: il palo di sostegno non ha più collisioni né una forma di blocco pieno; va posizionato su terreno arato senza convertirlo in terra normale. La forma di selezione resta sottile e cliccabile; mantiene la ricetta con due tronchi.
+- **Corda orizzontale**: usa l'oggetto originale `farmersdelight:rope`, accovacciati con **Shift** e fai clic destro sulla **faccia laterale** di un blocco/palo. Una nuova corda orizzontale occupa il blocco adiacente lungo l'asse del clic. Per estendere, Shift+clic sulla **testa dell'ultima corda**. Nessun item duplicato; rompendo il segmento si recupera una corda FDR.
+- **Corda verticale**: rimane invariata la posa standard di Farmer's Delight, senza Shift, e la salita di peperoncini e pomodori.
+- **Uva**: i tralci crescono sui segmenti orizzontali; rompendo i tralci, si ripristina il segmento orizzontale corretto e non una corda verticale.
+- **Succo d'uva**: `grape_juice_bottle` usa il modello standard della pozione/bottiglia di Minecraft con tintura viola, come il succo di mela.
+- **Prova rapida**: in creativa usa `/give @p italiansdelight:crop_stake`, `/give @p farmersdelight:rope 16`, `/give @p italiansdelight:grape_seeds 16`. Ara un blocco e posiziona un palo; verifica che il terreno resti arato. Posiziona una fila orizzontale con Shift+clic a due blocchi di altezza, matura la vite e controlla grappoli/rottura.
+- **Attenzione**: CI automatico conferma compilazione e avvio, ma la posa Shift+clic e la farmland vanno verificati nel mondo client.
