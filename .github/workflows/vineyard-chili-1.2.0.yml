@@ -1,0 +1,49 @@
+name: Vineyard Chili 1.2.0 CI
+on:
+  push:
+    branches:
+      - feature/vineyard-chili-1.2.0
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Verify development branch
+        run: |
+          grep -Fx 'mod_version=1.2.0-mc26.3-dev' gradle.properties
+          grep -Fx 'minecraft_version=26.3' gradle.properties
+          test -f docs/vineyard-chili-1.2.0/ROADMAP.md
+          test -f docs/vineyard-chili-1.2.0/DESIGN.md
+          test -f src/main/resources/assets/italiansdelight/textures/item/grape.png
+      - name: Audit JSON and recipes
+        run: python3 .github/scripts/audit_project_consistency.py
+      - name: Build Java 25 experimental artifact
+        run: bash ./gradlew build --no-daemon --max-workers=2 --console=plain
+      - name: Verify JAR
+        run: |
+          python3 - <<'PY'
+          import json, zipfile
+          path = 'build/libs/italiansdelight-1.2.0-mc26.3-dev.jar'
+          with zipfile.ZipFile(path) as jar:
+              m = json.loads(jar.read('fabric.mod.json'))
+              assert m['version'] == '1.2.0-mc26.3-dev'
+              assert m['depends']['minecraft'] == '~26.3'
+              assert m['depends']['java'] == '>=25'
+          print('OK: 1.2.0 development JAR')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: italiansdelight-1.2.0-mc26.3-dev
+          path: build/libs/italiansdelight-1.2.0-mc26.3-dev.jar
+          if-no-files-found: error
+          retention-days: 7
