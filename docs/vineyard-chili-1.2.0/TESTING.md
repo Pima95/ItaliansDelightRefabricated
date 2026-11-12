@@ -26,17 +26,20 @@ Non utilizzare `clean` se i file di build sono bloccati o lo spazio su disco è 
 ```
 
 ## Prove in gioco
-1. Crea un mondo nuovo. Semina entrambe le colture su terreno arato e verifica i modelli 0..7; non serve ancora costruire un traliccio.
-2. Usa farina d'ossa per maturare le piante, poi mano **vuota** e click destro: l'uva e il peperoncino devono cadere e la pianta deve restare, tornando alla fase 3.
-3. Ripeti maturazione e raccolta e prova a rompere una pianta matura: verificare semi e frutti senza duplicazioni.
-4. Inserisci i grappoli nel Crushing Tub e salta dentro: ogni grappolo = **250 mB** di succo e semi; prova fino al limite di **8.000 mB**.
-5. Preleva una bottiglia vuota (250 mB) e un secchio vuoto (1.000 mB); trasferisci il liquido al Barrel e al calderone. Verifica che non si mescoli con olio e latte.
-6. Apri JEI e verifica la pigiatura con i semi come sottoprodotto e l'informazione sul succo.
-7. Salva, riavvia il mondo e riprova colture e liquidi. Prova con e senza Serene Seasons.
+1. Crea un mondo nuovo. Per l'uva ara il terreno e semina `grape_seeds`; disponi due pali a distanza di **3 blocchi**, alti 2, collegandoli con la corda originale Farmer's Delight (`farmersdelight:rope`) un blocco sopra la pianta. La fune deve essere orizzontale e collegata ai pali.
+2. Coltiva la vite fino all'età 7: il tralcio deve comparire sopra lo stelo e allungarsi sulla corda fino a **un blocco per lato**, producendo grappoli soltanto nei segmenti con aria sotto. I grappoli si raccolgono con clic destro senza spezzare la vite.
+3. Metti un `crop_stake` sopra un terreno arato e usa su di esso `chili_pepper_seeds`. Senza palo, i semi di peperoncino NON devono essere piantabili. Controlla crescita, raccolta ripetuta e possibilità del raro `ghost_pepper` (1 su 42 raccolte).
+4. Sistema 1–2 corde di Farmer's Delight sopra il peperoncino maturo. La pianta deve colonizzarle verticalmente e produrre peperoncini su ogni segmento (altezza massima 3 blocchi).
+5. Pianta sullo stesso tipo di palo anche i semi originali `farmersdelight:tomato_seeds`; i pomodori devono crescere con le **meccaniche reali di Farmer's Delight**, senza registrare un secondo item seme.
+6. Spezza peperoncini, pomodori e tralci: devono rimanere i rispettivi pali e corde originali, senza duplicazioni. Verifica il comportamento sia a mano che con terreno arato distrutto.
+7. Inserisci i grappoli nel Crushing Tub e salta dentro: ogni grappolo = **250 mB** di succo e semi; prova fino al limite di **8.000 mB**.
+8. Preleva una bottiglia vuota (250 mB) e un secchio vuoto (1.000 mB); trasferisci il liquido al Barrel e al calderone. Verifica che non si mescoli con olio e latte.
+9. Apri JEI e verifica la pigiatura con i semi come sottoprodotto e l'informazione sul succo.
+10. Salva, riavvia il mondo e riprova colture e liquidi. Prova con e senza Serene Seasons.
 
 ## Non disponibili in questa prima iterazione
-- Viti orizzontali su traliccio e grappoli appesi alle foglie come nella Rustic originale.
-- Ghost pepper ottenibile tramite coltivazione, botti di fermentazione, qualità del vino, wine bottle e relativo avanzamento.
+- La struttura base delle viti orizzontali è implementata con corda FDR e tralci; mancano miglioramenti grafici/stagionali e test manuali della configurazione completa.
+- Il ghost pepper è ottenibile come prodotto raro; i suoi effetti speciali, la GUI del fermentatore e l'avanzamento sul vino restano da implementare.
 - Varietà di uva bianca/rossa, ricette complete, spawn naturale.
 - La bottiglia e il secchio del succo usano **modelli temporanei**; servono texture dedicate prima della release.
 
@@ -60,3 +63,18 @@ Non utilizzare `clean` se i file di build sono bloccati o lo spazio su disco è 
 7. Gli effetti di consumo delle bevande, la GUI di Rustic, vini rosso/bianco distinti e il trasferimento del vino con qualità nei normali barili restano da implementare.
 
 Usa un mondo di prova, non un salvataggio importante. Il test automatico avvia e riapre un mondo, ma non simula il ciclo completo di fermentazione.
+
+## Comandi aggiuntivi per questo aggiornamento
+
+```text
+/give @p italiansdelight:crop_stake 16
+/give @p farmersdelight:rope 32
+/give @p farmersdelight:tomato_seeds 16
+/give @p italiansdelight:wine_bucket
+```
+
+**Ricetta unica del palo:** due tronchi sovrapposti nella griglia, tramite tag `#italiansdelight:stake_logs` che include i tag condivisi `#minecraft:logs` e `#c:logs` (quando presenti). Non esistono ricette separate per ogni tipo di legno.
+
+**Test visuale JEI:** il liquido `grape_juice` deve apparire come *Succo d'uva/Grape Juice*, `wine` come *Vino/Wine* (non come chiave di traduzione), con la texture del vino nel viewer. Il `wine_bucket` usa il nuovo sprite con liquido viola, non quello vuoto. Verificare anche i tooltip delle singole bottiglie e dei secchi di vino dopo estrazione dalla botte.
+
+**Nota:** il video YouTube allegato non è accessibile direttamente come flusso visuale attraverso il connettore. Le regole implementate sono state confrontate con i sorgenti originali di Rustic e con Farmer's Delight Refabricated 26.3 su GitHub.

@@ -26,6 +26,8 @@ jobs:
           test -f src/main/resources/assets/italiansdelight/textures/item/grape.png
       - name: Audit JSON and recipes
         run: python3 .github/scripts/audit_project_consistency.py
+      - name: Check vineyard, stake, wine fluid models and tags
+        run: python3 .github/scripts/check_vineyard_supports.py
       - name: Build Java 25 experimental artifact
         run: bash ./gradlew build --no-daemon --max-workers=2 --console=plain
       - name: Verify JAR
