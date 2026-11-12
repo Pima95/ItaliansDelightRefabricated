@@ -65,10 +65,16 @@ place = read(java / "common/block/HorizontalRopePlacement.java")
 horizontal = read(java / "common/block/HorizontalRopeBlock.java")
 root = read(java / "common/block/GrapeStemBlock.java")
 canopy = read(java / "common/block/GrapeLeavesBlock.java")
-require(".setId(CROP_STAKE_KEY).noCollision()" in block_registry,
-        "Crop stake must not compact farmland")
-require("return Shapes.empty();" in stake_source,
-        "Crop stake collision must be empty above farmland")
+require(".setId(CROP_STAKE_KEY).noOcclusion()" in block_registry
+        and ".setId(CROP_STAKE_KEY).noCollision()" not in block_registry,
+        "The thin wooden stake must have physical collision, without being a full cube")
+require("return POST;" in stake_source and "getCollisionShape" in stake_source,
+        "Crop stake must have the narrow physical 4x4 collision shape")
+require(".setId(STAKED_TOMATOES_KEY).noCollision()" not in block_registry,
+        "Tomatoes on stakes must preserve solid collision")
+require(".setId(CHILI_CROP_KEY).noCollision()" not in block_registry
+        and "new ChiliCropBlock(Block.Properties.of()" in block_registry,
+        "Chili on stakes must preserve solid collision")
 require("UseBlockCallback.EVENT.register" in place and
         "isSecondaryUseActive()" in place and
         "ModItems.ROPE.get()" in place and
@@ -119,9 +125,6 @@ models = [
         "grape_rope_horizontal", "grape_rope_tie_negative",
         "grape_rope_tie_positive", "crop_stake_rope_loop"
     )
-] + [
-    Path("src/main/resources") / f"assets/farmersdelight/models/block/{name}.json"
-    for name in ("rope_side", "rope_side_alt")
 ]
 for model_path in models:
     model = j(model_path)
@@ -159,4 +162,38 @@ require(loop_min_x < 6 and loop_max_x > 10,
 png = assets / "textures/block/vineyard_rope.png"
 require(png.read_bytes()[:8] == bytes.fromhex("89504e470d0a1a0a"),
         "Vineyard rope pixel texture PNG is missing")
+
+# Retain vanilla Farmer's Delight Refabricated vertical rope behavior and
+# art. No resources in its original namespace may be overridden by this mod.
+for path in ("models/block/rope_side.json", "models/block/rope_side_alt.json",
+             "textures/block/rope.png"):
+    require(not (root / "assets/farmersdelight" / path).exists(),
+            f"Unexpected FDR vertical rope override: {path}")
+
+# Regression guard: farmland reversion drops only the crop, restores the
+# wooden stake, and does not destroy its narrow physical collision geometry.
+chili = read(java / "common/block/ChiliCropBlock.java")
+tomato = read(java / "common/block/StakedTomatoBlock.java")
+vine = read(java / "common/block/GrapeStemBlock.java")
+for source in (chili, tomato):
+    require("Block.dropResources(state, level, pos)" in source,
+            "Unsupported plant must drop its crop instead of destroying its stake")
+    require("ModBlocks.CROP_STAKE.defaultBlockState()" in source,
+            "Unsupported plant must restore the reusable wooden stake")
+    require("getCollisionShape(" in source and "CropStakeBlock.POST" in source,
+            "Cultivated stakes must remain physically solid")
+require("above.is(ModBlocks.CROP_STAKE)" in chili,
+        "Chili must climb vertically onto stacked wooden stakes")
+require("stateAbove.is(ModBlocks.CROP_STAKE)" in tomato
+        and "getClimbingState(" in tomato,
+        "Tomatoes must use FDR climbing behavior on stacked wooden stakes")
+require(".setValue(VINE_AGE, 0)" in tomato
+        and ".setValue(TomatoBlock.VINE_AGE, 0)" in planting,
+        "Tomato seeds and upper climbing segments must start at age 0")
+require("!level.getBlockState(target.below()).isAir()" not in canopy,
+        "Grape foliage must grow even with a support below lateral spans")
+require("return rope.is(ModBlocks.HORIZONTAL_ROPE)" in vine
+        and "CrossCollisionBlock" not in vine,
+        "Vines may use only dedicated horizontal rope, not FDR vertical rope")
+print("PASSED: original FDR rope untouched, solid stakes, crop recovery, climbing and vines")
 print("PASSED: exact 1px UV geometry, leash-style rope loop and two seed targets")

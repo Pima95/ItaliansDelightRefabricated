@@ -21,6 +21,9 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.BlockHitResult;
 import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
 
@@ -43,10 +46,28 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
 
     protected boolean shouldRestoreRope() { return false; }
 
+    // The wooden stake remains physically solid even after the crop is planted.
+    // A rope-borne chili segment still behaves like Farmer's Delight rope.
+    @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level,
+            BlockPos pos, CollisionContext context) {
+        return shouldRestoreRope() ? net.minecraft.world.phys.shapes.Shapes.empty() : CropStakeBlock.POST;
+    }
+
+    // The root needs farmland; upper chili segments can instead root in a
+    // cultivated stake immediately below, just like climbing FDR tomatoes.
+    @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        BlockState below = level.getBlockState(pos.below());
+        if (below.is(ModBlocks.CHILI_CROP) || below.is(ModBlocks.CHILI_ON_ROPE)) {
+            return level.getRawBrightness(pos, 0) >= 8 || level.canSeeSky(pos);
+        }
+        return super.canSurvive(state, level, pos);
+    }
+
     private boolean canClimb(LevelReader level, BlockPos pos) {
         BlockState above = level.getBlockState(pos.above());
-        return above.is(vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get())
-            && !above.getValue(net.minecraft.world.level.block.CrossCollisionBlock.WATERLOGGED);
+        return above.is(ModBlocks.CROP_STAKE)
+            || (above.is(vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get())
+                && !above.getValue(net.minecraft.world.level.block.CrossCollisionBlock.WATERLOGGED));
     }
 
     private int vineHeight(LevelReader level, BlockPos pos) {
@@ -62,8 +83,12 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
     public boolean tryClimb(ServerLevel level, BlockPos pos, BlockState state) {
         if (!state.is(this) || getAge(state) < getMaxAge()
                 || !canClimb(level,pos) || vineHeight(level,pos)>=3) return false;
-        level.setBlock(pos.above(), ModBlocks.CHILI_ON_ROPE.defaultBlockState(), Block.UPDATE_ALL);
-        return true;
+        BlockState support = level.getBlockState(pos.above());
+        BlockState next = support.is(ModBlocks.CROP_STAKE)
+            ? ModBlocks.CHILI_CROP.defaultBlockState()
+                .setValue(CropStakeBlock.ROPE_TIED, support.getValue(CropStakeBlock.ROPE_TIED))
+            : ModBlocks.CHILI_ON_ROPE.defaultBlockState();
+        return level.setBlock(pos.above(), next, Block.UPDATE_ALL);
     }
 
     // Vanilla CropBlock stops ticking at maturity; rope-driven climbing must
@@ -104,7 +129,22 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
 
     @Override public void tick(BlockState state, ServerLevel level,
             BlockPos pos, RandomSource random) {
-        if (!state.canSurvive(level,pos)) level.destroyBlock(pos,true);
+        if (!state.canSurvive(level, pos)) {
+            // Dropping just the crop and restoring the reusable stake (or
+            // original vertical rope) avoids destroyBlock's unwanted loss of
+            // the support when farmland is trampled or reverted to dirt.
+            Block.dropResources(state, level, pos);
+            if (shouldRestoreRope()) {
+                level.setBlock(pos,
+                    vectorwing.farmersdelight.common.block.RopeBlock.getStateWithConnections(
+                        vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get().defaultBlockState(),
+                        level, pos, Direction.UP), Block.UPDATE_ALL);
+            } else {
+                level.setBlock(pos, ModBlocks.CROP_STAKE.defaultBlockState()
+                    .setValue(CropStakeBlock.ROPE_TIED,
+                        CropStakeBlock.isRopeTied(level, pos)), Block.UPDATE_ALL);
+            }
+        }
     }
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level,

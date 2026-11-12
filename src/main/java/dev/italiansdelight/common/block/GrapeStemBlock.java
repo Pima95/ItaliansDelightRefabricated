@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.CrossCollisionBlock;
 
 /**
  * Rustic grape trunk: a normal planted crop that grows a canopy only when
@@ -23,26 +22,10 @@ public final class GrapeStemBlock extends CropBlock {
 
     @Override protected ItemLike getBaseSeedId() { return ModBlocks.GRAPE_SEEDS; }
 
-    /** Only a horizontal, non-waterlogged rope can hold the primary vine. */
+    /** Vineyard leaves use ONLY the dedicated horizontal rope, never FDR's vertical rope. */
     public static Direction.Axis ropeAxis(BlockState rope) {
-        if (rope.is(ModBlocks.HORIZONTAL_ROPE)) return rope.getValue(HorizontalRopeBlock.AXIS);
-        if (!rope.is(vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get())
-                || rope.getValue(CrossCollisionBlock.WATERLOGGED)) return null;
-        boolean x = rope.getValue(CrossCollisionBlock.EAST)
-                || rope.getValue(CrossCollisionBlock.WEST);
-        boolean z = rope.getValue(CrossCollisionBlock.NORTH)
-                || rope.getValue(CrossCollisionBlock.SOUTH);
-        // Cross junctions are ambiguous: use the stronger pairs to choose.
-        if (x && !z) return Direction.Axis.X;
-        if (z && !x) return Direction.Axis.Z;
-        if (x && z) {
-            int xCount = (rope.getValue(CrossCollisionBlock.EAST) ? 1 : 0)
-                + (rope.getValue(CrossCollisionBlock.WEST) ? 1 : 0);
-            int zCount = (rope.getValue(CrossCollisionBlock.NORTH) ? 1 : 0)
-                + (rope.getValue(CrossCollisionBlock.SOUTH) ? 1 : 0);
-            return xCount >= zCount ? Direction.Axis.X : Direction.Axis.Z;
-        }
-        return null;
+        return rope.is(ModBlocks.HORIZONTAL_ROPE)
+            ? rope.getValue(HorizontalRopeBlock.AXIS) : null;
     }
 
     public static boolean tryGrowCanopy(ServerLevel level, BlockPos pos, BlockState current) {

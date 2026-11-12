@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
@@ -30,7 +29,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public final class CropStakeBlock extends IronBarsBlock {
     public static final BooleanProperty ROPE_TIED = BooleanProperty.create("rope_tied");
-    private static final VoxelShape POST = Block.box(6, 0, 6, 10, 16, 10);
+    public static final VoxelShape POST = Block.box(6, 0, 6, 10, 16, 10);
 
     public CropStakeBlock(Properties properties) {
         super(properties);
@@ -80,7 +79,7 @@ public final class CropStakeBlock extends IronBarsBlock {
     @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos,
             CollisionContext context) { return POST; }
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
-            CollisionContext context) { return Shapes.empty(); }
+            CollisionContext context) { return POST; }
 
     @Override protected InteractionResult useItemOn(ItemStack held, BlockState state,
             Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

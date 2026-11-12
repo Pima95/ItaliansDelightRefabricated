@@ -815,7 +815,7 @@ public final class ModBlocks {
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("crop_stake"));
     public static final Block CROP_STAKE = register(CROP_STAKE_KEY,
         new CropStakeBlock(Block.Properties.of()
-            .setId(CROP_STAKE_KEY).noCollision().noOcclusion()
+            .setId(CROP_STAKE_KEY).noOcclusion()
             .forceSolidOff().strength(0.7F).sound(SoundType.WOOD)));
 
     // Reuses Farmer's Delight rope *items* and texture; no second rope item.
@@ -831,7 +831,7 @@ public final class ModBlocks {
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("staked_tomatoes"));
     public static final Block STAKED_TOMATOES = registerBlockOnly(STAKED_TOMATOES_KEY,
         new StakedTomatoBlock(Block.Properties.of()
-            .setId(STAKED_TOMATOES_KEY).noCollision().noOcclusion()
+            .setId(STAKED_TOMATOES_KEY).noOcclusion().forceSolidOff()
             .randomTicks().instabreak().sound(SoundType.CROP)));
 
     // Rustic-inspired grapevine and chili plants; seeds are BlockItems with their own IDs.
@@ -856,8 +856,9 @@ public final class ModBlocks {
     public static final ResourceKey<Block> CHILI_CROP_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));
     public static final Block CHILI_CROP = registerBlockOnly(CHILI_CROP_KEY,
-        new ChiliCropBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
-            .setId(CHILI_CROP_KEY).randomTicks()));
+        new ChiliCropBlock(Block.Properties.of()
+            .setId(CHILI_CROP_KEY).noOcclusion().forceSolidOff()
+            .randomTicks().instabreak().sound(SoundType.CROP)));
     public static final ResourceKey<Item> CHILI_PEPPER_SEEDS_KEY = ResourceKey.create(
         BuiltInRegistries.ITEM.key(), ModRegistries.id("chili_pepper_seeds"));
     public static final Item CHILI_PEPPER_SEEDS = Registry.register(BuiltInRegistries.ITEM,

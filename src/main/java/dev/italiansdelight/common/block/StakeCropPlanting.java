@@ -13,6 +13,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import vectorwing.farmersdelight.common.block.TomatoBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -50,8 +52,11 @@ public final class StakeCropPlanting {
 
         if (level instanceof ServerLevel server) {
             if (!server.mayInteract(player, stakePos)) return InteractionResult.FAIL;
-            BlockState planted = chili ? ModBlocks.CHILI_CROP.defaultBlockState()
-                : ModBlocks.STAKED_TOMATOES.defaultBlockState();
+            // Always plant at the first stage; FDR tomatoes use AGE_3, not
+            // vanilla CropBlock.AGE_7. No bonemeal or random tick on planting.
+            BlockState planted = chili
+                ? ModBlocks.CHILI_CROP.defaultBlockState().setValue(CropBlock.AGE, 0)
+                : ModBlocks.STAKED_TOMATOES.defaultBlockState().setValue(TomatoBlock.VINE_AGE, 0);
             // Preserve the loop and anchor after the stake is replaced by crop.
             planted = planted.setValue(CropStakeBlock.ROPE_TIED,
                 CropStakeBlock.isRopeTied(server, stakePos));

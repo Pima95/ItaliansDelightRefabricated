@@ -79,8 +79,9 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
                 : new Direction[] {Direction.NORTH, Direction.SOUTH};
         for (Direction direction : directions) {
             BlockPos target = pos.relative(direction);
-            if (!level.isLoaded(target) || !level.getBlockState(target.below()).isAir())
-                continue;
+            // A neighboring horizontal line can run over a post or a crop.
+            // Only grape FRUIT needs air underneath, not the leafy canopy.
+            if (!level.isLoaded(target)) continue;
             BlockState old = level.getBlockState(target);
             // The new horizontal support has its own saved axis. Older FDR
             // rope blocks are still accepted when their connections align.
