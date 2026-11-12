@@ -21,6 +21,9 @@ import dev.italiansdelight.common.block.CropStakeBlock;
 import dev.italiansdelight.common.block.StakedTomatoBlock;
 import dev.italiansdelight.common.block.GrapeStemBlock;
 import dev.italiansdelight.common.block.GrapeLeavesBlock;
+import dev.italiansdelight.common.block.ChiliCropBlock;
+import dev.italiansdelight.common.block.HangingChiliBlock;
+import dev.italiansdelight.common.item.ChiliSeedsItem;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
@@ -842,14 +845,20 @@ public final class ModBlocks {
     public static final ResourceKey<Block> CHILI_CROP_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));
     public static final Block CHILI_CROP = registerBlockOnly(CHILI_CROP_KEY,
-        new RepeatHarvestCropBlock(Block.Properties.ofFullCopy(Blocks.WHEAT).setId(CHILI_CROP_KEY),
-            () -> ModBlocks.CHILI_PEPPER_SEEDS, () -> ModItems.CHILI_PEPPER,
-            () -> ModItems.GHOST_PEPPER));
+        new ChiliCropBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
+            .setId(CHILI_CROP_KEY).randomTicks()));
     public static final ResourceKey<Item> CHILI_PEPPER_SEEDS_KEY = ResourceKey.create(
         BuiltInRegistries.ITEM.key(), ModRegistries.id("chili_pepper_seeds"));
     public static final Item CHILI_PEPPER_SEEDS = Registry.register(BuiltInRegistries.ITEM,
-        CHILI_PEPPER_SEEDS_KEY, new BlockItem(CHILI_CROP,
+        CHILI_PEPPER_SEEDS_KEY, new ChiliSeedsItem(CHILI_CROP,
             new Item.Properties().setId(CHILI_PEPPER_SEEDS_KEY)));
+
+    public static final ResourceKey<Block> CHILI_ON_ROPE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_on_rope"));
+    public static final Block CHILI_ON_ROPE = registerBlockOnly(CHILI_ON_ROPE_KEY,
+        new HangingChiliBlock(Block.Properties.of()
+            .setId(CHILI_ON_ROPE_KEY).noCollision().noOcclusion()
+            .randomTicks().instabreak().sound(SoundType.CROP)));
 
     // World representation of Farmer's Delight wheat dough; no additional dough item.
     public static final ResourceKey<Block> PIZZA_DOUGH_KEY = ResourceKey.create(

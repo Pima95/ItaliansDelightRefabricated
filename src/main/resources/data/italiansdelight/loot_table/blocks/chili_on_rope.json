@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "italiansdelight:chili_on_rope",
+        "state": {
+          "age": "7"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "italiansdelight:ghost_pepper",
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.023809523809523808
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "italiansdelight:chili_pepper"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
