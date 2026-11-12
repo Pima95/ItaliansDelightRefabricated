@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+"""Behavioral smoke check on a disposable Minecraft 26.3 test world.
+
+Connects only to the localhost RCON service exposed in the temporary Actions
+runner. Verifies actual farmland survival after placing crop stakes, chili,
+tomatoes, and grapes, and validates the new horizontal rope block states.
+No player inventory, networking permissions, or persistent user worlds involved.
+"""
+import socket
+import struct
+import time
+
+PASSWORD = "local-vineyard-1.2.0-tests-only"
+HOST = ("127.0.0.1", 25575)
+
+def recv_exact(sock, n):
+    buf = bytearray()
+    while len(buf) < n:
+        data = sock.recv(n - len(buf))
+        if not data:
+            raise ConnectionError("RCON disconnected")
+        buf.extend(data)
+    return bytes(buf)
+
+class Rcon:
+    def __init__(self):
+        last_error = None
+        for _ in range(20):
+            try:
+                self.sock = socket.create_connection(HOST, timeout=5)
+                self.sock.settimeout(5)
+                break
+            except OSError as exc:
+                last_error = exc
+                time.sleep(0.3)
+        else:
+            raise ConnectionError(f"RCON not listening on {HOST}: {last_error}")
+        self.request_id = 10
+        self._send(1, 3, PASSWORD)
+        for _ in range(3):
+            ident, kind, _ = self._recv()
+            if ident == -1:
+                raise RuntimeError("RCON rejected test password")
+            if ident == 1 and kind == 2:
+                break
+        else:
+            raise RuntimeError("RCON authentication timeout")
+
+    def _send(self, ident, kind, payload):
+        packet = struct.pack("<ii", ident, kind) + payload.encode("utf-8") + b"\x00\x00"
+        self.sock.sendall(struct.pack("<i", len(packet)) + packet)
+
+    def _recv(self):
+        size = struct.unpack("<i", recv_exact(self.sock, 4))[0]
+        if size < 10 or size > 4096:
+            raise ValueError(f"Bad RCON frame length {size}")
+        frame = recv_exact(self.sock, size)
+        ident, kind = struct.unpack("<ii", frame[:8])
+        return ident, kind, frame[8:-2].decode("utf-8", "replace")
+
+    def command(self, command):
+        self.request_id += 1
+        ident = self.request_id
+        self._send(ident, 2, command)
+        for _ in range(5):
+            response_id, _, payload = self._recv()
+            if response_id == ident:
+                return payload
+        raise RuntimeError(f"Missing RCON reply for {command}")
+
+    def close(self):
+        self.sock.close()
+
+def run(rcon, cmd):
+    reply = rcon.command(cmd)
+    print(f"RCON {cmd}: {reply}", flush=True)
+    return reply
+
+def assert_block(rcon, x, y, z, block):
+    out = run(rcon, f"execute if block {x} {y} {z} {block}")
+    if "Test passed" not in out:
+        raise AssertionError(f"Block {block} at {x},{y},{z} not present: {out}")
+
+def test():
+    rcon = Rcon()
+    try:
+        run(rcon, "forceload add 0 0")
+        run(rcon, "setblock 1 80 0 minecraft:water")
+        run(rcon, "setblock 0 80 0 minecraft:farmland[moisture=7]")
+        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+        run(rcon, "setblock 0 81 0 italiansdelight:crop_stake")
+        assert_block(rcon, 0, 81, 0, "italiansdelight:crop_stake")
+        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+
+        run(rcon, "setblock 0 81 0 italiansdelight:chili_crop[age=7]")
+        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+        run(rcon, "setblock 0 81 0 italiansdelight:staked_tomatoes[age=3]")
+        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+
+        run(rcon, "setblock 0 81 0 italiansdelight:grape_stem[age=7]")
+        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+        run(rcon, "setblock 0 82 0 italiansdelight:horizontal_rope[axis=x]")
+        run(rcon, "setblock 1 82 0 italiansdelight:horizontal_rope[axis=x]")
+        assert_block(rcon, 0, 82, 0, "italiansdelight:horizontal_rope[axis=x]")
+        assert_block(rcon, 1, 82, 0, "italiansdelight:horizontal_rope[axis=x]")
+        assert_block(rcon, 0, 80, 0, "minecraft:farmland")
+
+        run(rcon, "save-all")
+        print("PASSED: actual server farmland/stakes/crops and rope states", flush=True)
+    finally:
+        rcon.close()
+
+if __name__ == "__main__":
+    test()

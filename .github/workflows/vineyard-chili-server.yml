@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p run
           printf 'eula=true\n' > run/eula.txt
-          printf 'online-mode=false\nallow-flight=true\n' > run/server.properties
+          printf 'online-mode=false\nallow-flight=true\nenable-rcon=true\nrcon.port=25575\nrcon.password=local-vineyard-1.2.0-tests-only\n' > run/server.properties
       - name: Start dedicated server and check for Minecraft readiness
         run: |
           set -euo pipefail
@@ -48,6 +48,9 @@ jobs:
             fi
             sleep 1
           done
+          if [ "$started" -eq 1 ]; then
+            python3 .github/scripts/test_vineyard_server_rcon.py
+          fi
           kill -INT "$runner" 2>/dev/null || true
           wait "$runner" || true
           tail -n 120 server-smoke.log
