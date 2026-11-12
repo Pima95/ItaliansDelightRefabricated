@@ -112,10 +112,12 @@ require("CropStakeBlock.isPost(neighbor)" in horizontal,
         "Horizontal ropes must recognize planted supports as posts")
 for block in ("crop_stake", "chili_crop", "staked_tomatoes"):
     state = j(assets / f"blockstates/{block}.json")
-    require(any(part.get("when") == {"rope_tied": "true"} and
+    require(any(part.get("when", {}).get("rope_tied") == "true" and
+                (block != "chili_crop" or
+                    part.get("when", {}).get("staked") == "true") and
                 part.get("apply", {}).get("model") == "italiansdelight:block/crop_stake_rope_loop"
                 for part in state["multipart"]),
-            f"Missing rope loop on {block}")
+            f"Missing rope loop on supported {block}")
 
 # Pixel-art geometry must be Minecraft-grid-aligned: 1 model unit = 1
 # original 16x16 texture pixel. Face UV dimensions must match their model
