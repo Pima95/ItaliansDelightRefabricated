@@ -1,0 +1,81 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "distance": "0"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_leaves_0"
+      }
+    },
+    {
+      "when": {
+        "distance": "0"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_top"
+      }
+    },
+    {
+      "when": {
+        "distance": "1",
+        "axis": "x"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_leaves_1",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "distance": "1",
+        "axis": "z"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_leaves_1"
+      }
+    },
+    {
+      "when": {
+        "axis": "x"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_vine",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_vine"
+      }
+    },
+    {
+      "when": {
+        "grapes": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grapes"
+      }
+    },
+    {
+      "when": {
+        "axis": "x"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_horizontal",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_horizontal"
+      }
+    }
+  ]
+}

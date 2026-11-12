@@ -19,6 +19,8 @@ import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.RepeatHarvestCropBlock;
 import dev.italiansdelight.common.block.CropStakeBlock;
 import dev.italiansdelight.common.block.StakedTomatoBlock;
+import dev.italiansdelight.common.block.GrapeStemBlock;
+import dev.italiansdelight.common.block.GrapeLeavesBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
@@ -822,12 +824,19 @@ public final class ModBlocks {
     public static final ResourceKey<Block> GRAPE_STEM_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("grape_stem"));
     public static final Block GRAPE_STEM = registerBlockOnly(GRAPE_STEM_KEY,
-        new RepeatHarvestCropBlock(Block.Properties.ofFullCopy(Blocks.WHEAT).setId(GRAPE_STEM_KEY),
-            () -> ModBlocks.GRAPE_SEEDS, () -> ModItems.GRAPES));
+        new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
+            .setId(GRAPE_STEM_KEY).randomTicks()));
     public static final ResourceKey<Item> GRAPE_SEEDS_KEY = ResourceKey.create(
         BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_seeds"));
     public static final Item GRAPE_SEEDS = Registry.register(BuiltInRegistries.ITEM,
         GRAPE_SEEDS_KEY, new BlockItem(GRAPE_STEM, new Item.Properties().setId(GRAPE_SEEDS_KEY)));
+
+    // Grapes are harvested from horizontal canopy branches, not the stem.
+    public static final ResourceKey<Block> GRAPE_LEAVES_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("grape_leaves"));
+    public static final Block GRAPE_LEAVES = registerBlockOnly(GRAPE_LEAVES_KEY,
+        new GrapeLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+            .setId(GRAPE_LEAVES_KEY).noOcclusion().randomTicks()));
 
     public static final ResourceKey<Block> CHILI_CROP_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));
