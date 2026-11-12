@@ -78,3 +78,24 @@ require(j(assets/"items/grape_juice_bottle.json")["model"]["model"] ==
 require(j(data/"italiansdelight/loot_table/blocks/horizontal_rope.json")
         ["pools"][0]["entries"][0]["name"] == "farmersdelight:rope",
         "Horizontal rope must refund original FDR rope")
+
+# Ensure stake planting intercepts both the original FDR tomato seeds and
+# Italian's Delight chili seeds before BlockItem placement is attempted.
+planting = read(java / "common/block/StakeCropPlanting.java")
+entrypoint = read(java / "ItaliansDelight.java")
+require("UseBlockCallback.EVENT.register" in planting
+        and "ModBlocks.CHILI_PEPPER_SEEDS" in planting
+        and "ModItems.TOMATO_SEEDS.get()" in planting
+        and "Blocks.FARMLAND" in planting
+        and "StakeCropPlanting.register();" in entrypoint,
+        "Stake seeds must be intercepted before normal BlockItem placement")
+for suffix in ("negative", "positive"):
+    model = j(assets / f"models/block/grape_rope_tie_{suffix}.json")
+    knot = model["elements"][1]
+    require(knot["to"][0] - knot["from"][0] == 5
+            and knot["to"][1] - knot["from"][1] == 5,
+            "The rope knot must be 1 pixel wider than the 4px wooden post")
+rope_texture = Path("src/main/resources/assets/farmersdelight/textures/block/rope.png")
+require(rope_texture.is_file()
+        and rope_texture.read_bytes()[:8] == bytes.fromhex("89504e470d0a1a0a"),
+        "Missing modified Farmer's Delight rope texture")
