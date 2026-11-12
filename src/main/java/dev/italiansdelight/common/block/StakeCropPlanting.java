@@ -6,46 +6,61 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Intercept planting on a crop stake before the seed's BlockItem placement
- * tries to put a crop in the adjacent (occupied) world position. Keep the
- * original Farmer's Delight tomato seeds and our existing chili seed item.
- * The stake is part of the crop's rendered block model after planting.
+ * Plant either of the two supported seeds on a reusable wooden stake.
+ * Aiming at the thin stake itself OR at its farmland base both work.
+ * Farmer's Delight tomato seeds keep their original item registration;
+ * the event runs before their standard BlockItem placement is attempted.
  */
 public final class StakeCropPlanting {
     private StakeCropPlanting() {}
 
     public static void register() {
-        UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
-            BlockPos pos = hit.getBlockPos();
-            if (player.isSpectator() || !level.getBlockState(pos).is(ModBlocks.CROP_STAKE)) {
-                return InteractionResult.PASS;
-            }
+        UseBlockCallback.EVENT.register((player, level, hand, hit) ->
+            tryPlant(player, level, hand, hit.getBlockPos()));
+    }
 
-            ItemStack seed = player.getItemInHand(hand);
-            boolean chili = seed.is(ModBlocks.CHILI_PEPPER_SEEDS);
-            boolean tomato = seed.is(vectorwing.farmersdelight.common.registry.ModItems.TOMATO_SEEDS.get());
-            if (!chili && !tomato) return InteractionResult.PASS;
-            if (!level.getBlockState(pos.below()).is(Blocks.FARMLAND)) return InteractionResult.FAIL;
+    public static InteractionResult tryPlant(Player player, Level level,
+            InteractionHand hand, BlockPos clicked) {
+        if (player.isSpectator() || !player.getAbilities().mayBuild) return InteractionResult.PASS;
 
-            // Return success on both logical sides; only the server alters
-            // the block, consumes one seed, and emits the planting sound.
-            if (level instanceof ServerLevel server) {
-                if (!server.mayInteract(player, pos)) return InteractionResult.FAIL;
-                BlockState planted = chili ? ModBlocks.CHILI_CROP.defaultBlockState()
-                    : ModBlocks.STAKED_TOMATOES.defaultBlockState();
-                if (!server.setBlock(pos, planted, Block.UPDATE_ALL)) return InteractionResult.FAIL;
-                if (!player.getAbilities().instabuild) seed.shrink(1);
-                server.playSound(null, pos, SoundEvents.CROP_PLANTED,
-                    SoundSource.BLOCKS, 1.0F, 1.0F);
-            }
-            return InteractionResult.SUCCESS;
-        });
+        ItemStack held = player.getItemInHand(hand);
+        boolean chili = held.is(ModBlocks.CHILI_PEPPER_SEEDS);
+        boolean tomato = held.is(vectorwing.farmersdelight.common.registry.ModItems.TOMATO_SEEDS.get());
+        if (!chili && !tomato) return InteractionResult.PASS;
+
+        // Clicking anywhere on the farmland's top surface should be enough,
+        // even though the thin stake occupies the block directly above it.
+        BlockPos stakePos = level.getBlockState(clicked).is(ModBlocks.CROP_STAKE)
+            ? clicked : level.getBlockState(clicked).is(Blocks.FARMLAND)
+                && level.getBlockState(clicked.above()).is(ModBlocks.CROP_STAKE)
+                    ? clicked.above() : null;
+        if (stakePos == null) return InteractionResult.PASS;
+        if (!level.getBlockState(stakePos.below()).is(Blocks.FARMLAND))
+            return InteractionResult.FAIL;
+
+        if (level instanceof ServerLevel server) {
+            if (!server.mayInteract(player, stakePos)) return InteractionResult.FAIL;
+            BlockState planted = chili ? ModBlocks.CHILI_CROP.defaultBlockState()
+                : ModBlocks.STAKED_TOMATOES.defaultBlockState();
+            // Preserve the loop and anchor after the stake is replaced by crop.
+            planted = planted.setValue(CropStakeBlock.ROPE_TIED,
+                CropStakeBlock.isRopeTied(server, stakePos));
+            if (!server.setBlock(stakePos, planted, Block.UPDATE_ALL))
+                return InteractionResult.FAIL;
+            if (!player.getAbilities().instabuild) held.shrink(1);
+            server.playSound(null, stakePos, SoundEvents.CROP_PLANTED,
+                SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+        return InteractionResult.SUCCESS;
     }
 }

@@ -45,8 +45,14 @@ client = read(Path("src/main/java/dev/italiansdelight/ItaliansDelightClient.java
 require('registerContainedFluid(ModFluids.WINE,' in client,"Wine fluid JEI rendering not registered")
 require('ModRegistries.id("block/fluids/booze/wine_still")' in client,"Wrong wine sprite")
 stake = read(java / "common/block/CropStakeBlock.java")
-require("TOMATO_SEEDS" in stake and "CHILI_PEPPER_SEEDS" in stake,
-        "Crop stake must accept both original FDR tomato and chili seeds")
+planting = read(java / "common/block/StakeCropPlanting.java")
+seeds = read(java / "common/item/ChiliSeedsItem.java")
+require("TOMATO_SEEDS" in planting and "CHILI_PEPPER_SEEDS" in planting,
+        "Crop stake planting must accept both original FDR tomato and chili seeds")
+require("clicked.above()" in planting and "Blocks.FARMLAND" in planting,
+        "Player must be able to plant through the farmland base of a thin stake")
+require("StakeCropPlanting.tryPlant(" in stake and "StakeCropPlanting.tryPlant(" in seeds,
+        "Both block and seed item must use the same planting implementation")
 for c in ("GrapeStemBlock","GrapeLeavesBlock","ChiliCropBlock","HangingChiliBlock",
           "StakedTomatoBlock"):
     read(java / f"common/block/{c}.java")
@@ -89,13 +95,66 @@ require("UseBlockCallback.EVENT.register" in planting
         and "Blocks.FARMLAND" in planting
         and "StakeCropPlanting.register();" in entrypoint,
         "Stake seeds must be intercepted before normal BlockItem placement")
-for suffix in ("negative", "positive"):
-    model = j(assets / f"models/block/grape_rope_tie_{suffix}.json")
-    knot = model["elements"][1]
-    require(knot["to"][0] - knot["from"][0] == 5
-            and knot["to"][1] - knot["from"][1] == 5,
-            "The rope knot must be 1 pixel wider than the 4px wooden post")
-rope_texture = Path("src/main/resources/assets/farmersdelight/textures/block/rope.png")
-require(rope_texture.is_file()
-        and rope_texture.read_bytes()[:8] == bytes.fromhex("89504e470d0a1a0a"),
-        "Missing modified Farmer's Delight rope texture")
+
+# The stake, tomato crop and chili crop all retain a single loop after
+# replacing a post with a crop, with no duplicate rings on each span.
+for source in (stake, read(java / "common/block/ChiliCropBlock.java"),
+               read(java / "common/block/StakedTomatoBlock.java")):
+    require("CropStakeBlock.ROPE_TIED" in source or "BooleanProperty ROPE_TIED" in source,
+            "A support must preserve its knot after planting")
+require("CropStakeBlock.isPost(neighbor)" in horizontal,
+        "Horizontal ropes must recognize planted supports as posts")
+for block in ("crop_stake", "chili_crop", "staked_tomatoes"):
+    state = j(assets / f"blockstates/{block}.json")
+    require(any(part.get("when") == {"rope_tied": "true"} and
+                part.get("apply", {}).get("model") == "italiansdelight:block/crop_stake_rope_loop"
+                for part in state["multipart"]),
+            f"Missing rope loop on {block}")
+
+# Pixel-art geometry must be Minecraft-grid-aligned: 1 model unit = 1
+# original 16x16 texture pixel. Face UV dimensions must match their model
+# dimensions exactly. This prevents stretching, including on knot ends.
+models = [
+    assets / f"models/block/{name}.json" for name in (
+        "grape_rope_horizontal", "grape_rope_tie_negative",
+        "grape_rope_tie_positive", "crop_stake_rope_loop"
+    )
+] + [
+    root / f"assets/farmersdelight/models/block/{name}.json"
+    for name in ("rope_side", "rope_side_alt")
+]
+for model_path in models:
+    model = j(model_path)
+    require(model["textures"]["rope"] == "italiansdelight:block/vineyard_rope",
+            f"Wrong rope art source: {model_path}")
+    for element in model["elements"]:
+        corners = element["from"] + element["to"]
+        require(all(type(coord) is int for coord in corners),
+                f"Fractional model geometry in {model_path}: {corners}")
+        dx = element["to"][0] - element["from"][0]
+        dy = element["to"][1] - element["from"][1]
+        dz = element["to"][2] - element["from"][2]
+        require(dx > 0 and dy > 0 and dz > 0,
+                f"Zero-thickness or inverted face in {model_path}")
+        for face, details in element["faces"].items():
+            if face in ("north", "south"):
+                expected = (dx, dy)
+            elif face in ("east", "west"):
+                expected = (dz, dy)
+            else:
+                expected = (dx, dz)
+            uv = details["uv"]
+            require(all(type(coord) is int for coord in uv),
+                    f"Fractional UV in {model_path}")
+            require((abs(uv[2] - uv[0]), abs(uv[3] - uv[1])) == expected,
+                    f"Stretched pixel UV in {model_path} {face}: {uv} vs {expected}")
+loop = j(assets / "models/block/crop_stake_rope_loop.json")
+require(len(loop["elements"]) == 5, "Leash-style loop needs 4 sides and a knot")
+loop_min_x = min(el["from"][0] for el in loop["elements"])
+loop_max_x = max(el["to"][0] for el in loop["elements"])
+require(loop_min_x < 6 and loop_max_x > 10,
+        "The knot must wrap around the 4px post, protruding at least 1px")
+png = assets / "textures/block/vineyard_rope.png"
+require(png.read_bytes()[:8] == bytes.fromhex("89504e470d0a1a0a"),
+        "Vineyard rope pixel texture PNG is missing")
+print("PASSED: exact 1px UV geometry, leash-style rope loop and two seed targets")

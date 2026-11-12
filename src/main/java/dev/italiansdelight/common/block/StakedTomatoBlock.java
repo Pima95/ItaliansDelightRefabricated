@@ -9,6 +9,7 @@ import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import vectorwing.farmersdelight.common.block.TomatoBlock;
 import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
 
@@ -18,7 +19,15 @@ import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
  * Breaking the crop removes the plant but leaves the reusable wooden stake.
  */
 public final class StakedTomatoBlock extends TomatoBlock implements ReplaceOnRemoval {
-    public StakedTomatoBlock(Properties properties) { super(properties); }
+    public StakedTomatoBlock(Properties properties) {
+        super(properties);
+        registerDefaultState(defaultBlockState().setValue(CropStakeBlock.ROPE_TIED, false));
+    }
+
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(CropStakeBlock.ROPE_TIED);
+    }
 
     @Override public BlockState updateShape(BlockState state, LevelReader level,
             ScheduledTickAccess ticks, BlockPos pos, Direction side,
@@ -27,13 +36,15 @@ public final class StakedTomatoBlock extends TomatoBlock implements ReplaceOnRem
             ticks.scheduleTick(pos, this, 1);
             return state;
         }
-        return super.updateShape(state, level, ticks, pos, side, neighborPos, neighbor, random);
+        return super.updateShape(state, level, ticks, pos, side, neighborPos, neighbor, random)
+            .setValue(CropStakeBlock.ROPE_TIED, CropStakeBlock.isRopeTied(level, pos));
     }
 
     @Override public boolean onRemove(BlockState state, BlockState newState,
             LevelAccessor level, BlockPos pos, int flags) {
         if (newState.isAir() && !state.is(newState.getBlock())) {
-            return level.setBlock(pos, ModBlocks.CROP_STAKE.defaultBlockState(), 3);
+            return level.setBlock(pos, ModBlocks.CROP_STAKE.defaultBlockState()
+                .setValue(CropStakeBlock.ROPE_TIED, CropStakeBlock.isRopeTied(level,pos)), 3);
         }
         return false;
     }

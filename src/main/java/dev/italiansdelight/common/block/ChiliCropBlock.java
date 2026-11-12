@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.phys.BlockHitResult;
 import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
@@ -28,7 +29,15 @@ import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
  * upper hanging segments, each separately harvestable (1:42 ghost pepper).
  */
 public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
-    public ChiliCropBlock(Properties properties) { super(properties); }
+    public ChiliCropBlock(Properties properties) {
+        super(properties);
+        registerDefaultState(defaultBlockState().setValue(CropStakeBlock.ROPE_TIED, false));
+    }
+
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(CropStakeBlock.ROPE_TIED);
+    }
 
     @Override protected ItemLike getBaseSeedId() { return ModBlocks.CHILI_PEPPER_SEEDS; }
 
@@ -89,7 +98,8 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
             ticks.scheduleTick(pos,this,1);
             return state;
         }
-        return super.updateShape(state,level,ticks,pos,changedSide,neighborPos,neighbor,random);
+        return super.updateShape(state,level,ticks,pos,changedSide,neighborPos,neighbor,random)
+            .setValue(CropStakeBlock.ROPE_TIED, CropStakeBlock.isRopeTied(level, pos));
     }
 
     @Override public void tick(BlockState state, ServerLevel level,
@@ -124,6 +134,7 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
                     level,pos,net.minecraft.core.Direction.UP);
             return level.setBlock(pos,rope,3);
         }
-        return level.setBlock(pos,ModBlocks.CROP_STAKE.defaultBlockState(),3);
+        return level.setBlock(pos, ModBlocks.CROP_STAKE.defaultBlockState()
+            .setValue(CropStakeBlock.ROPE_TIED, CropStakeBlock.isRopeTied(level,pos)), 3);
     }
 }

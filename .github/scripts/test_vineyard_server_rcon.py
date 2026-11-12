@@ -116,9 +116,23 @@ def test():
         run(rcon, "setblock 2 82 0 minecraft:air")
         assert_block(rcon, 1, 82, 0,
             "italiansdelight:horizontal_rope[axis=x,tied_positive=false]")
+        run(rcon, "setblock 2 81 0 minecraft:farmland[moisture=7]")
         run(rcon, "setblock 2 82 0 italiansdelight:crop_stake")
         assert_block(rcon, 1, 82, 0,
             "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
+        assert_block(rcon, 2, 82, 0, "italiansdelight:crop_stake[rope_tied=true]")
+        # Planting replaces the post with a crop block but retains the stake
+        # anchor and its single leash-style loop. This verifies state updates
+        # (not a simulated right click; that requires manual client testing).
+        run(rcon, "setblock 2 82 0 italiansdelight:chili_crop[age=0,rope_tied=true]")
+        assert_block(rcon, 2, 82, 0, "italiansdelight:chili_crop[rope_tied=true]")
+        assert_block(rcon, 1, 82, 0,
+            "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
+        run(rcon, "setblock 2 82 0 italiansdelight:staked_tomatoes[age=0,rope_tied=true]")
+        assert_block(rcon, 2, 82, 0, "italiansdelight:staked_tomatoes[rope_tied=true]")
+        assert_block(rcon, 1, 82, 0,
+            "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
+        assert_block(rcon, 2, 81, 0, "minecraft:farmland")
         assert_block(rcon, 0, 80, 0, "minecraft:farmland")
 
         run(rcon, "save-all")

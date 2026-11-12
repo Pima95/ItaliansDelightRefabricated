@@ -4,6 +4,14 @@
       "apply": {
         "model": "italiansdelight:block/crop_stake"
       }
+    },
+    {
+      "when": {
+        "rope_tied": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/crop_stake_rope_loop"
+      }
     }
   ]
 }

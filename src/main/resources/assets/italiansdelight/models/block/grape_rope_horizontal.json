@@ -1,8 +1,8 @@
 {
   "render_type": "minecraft:cutout",
   "textures": {
-    "rope": "farmersdelight:block/rope",
-    "particle": "farmersdelight:block/rope"
+    "rope": "italiansdelight:block/vineyard_rope",
+    "particle": "italiansdelight:block/vineyard_rope"
   },
   "elements": [
     {
@@ -18,62 +18,58 @@
       ],
       "faces": {
         "north": {
-          "texture": "#rope",
           "uv": [
             7,
             0,
             9,
             2
-          ]
+          ],
+          "texture": "#rope"
         },
         "south": {
-          "texture": "#rope",
           "uv": [
             7,
             0,
             9,
             2
-          ]
+          ],
+          "texture": "#rope"
         },
         "east": {
-          "texture": "#rope",
           "uv": [
-            6,
+            7,
             0,
-            10,
-            16
+            23,
+            2
           ],
-          "rotation": 90
+          "texture": "#rope"
         },
         "west": {
-          "texture": "#rope",
           "uv": [
-            6,
+            7,
             0,
-            10,
-            16
+            23,
+            2
           ],
-          "rotation": 90
+          "texture": "#rope"
         },
         "up": {
-          "texture": "#rope",
           "uv": [
-            6,
+            7,
             0,
-            10,
+            9,
             16
           ],
-          "rotation": 90
+          "texture": "#rope"
         },
         "down": {
-          "texture": "#rope",
           "uv": [
-            6,
+            7,
             0,
-            10,
+            9,
             16
           ],
-          "rotation": 90
+          "texture": "#rope"
         }
       }
     }

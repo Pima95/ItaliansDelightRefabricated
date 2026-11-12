@@ -43,10 +43,10 @@ public final class HorizontalRopeBlock extends Block {
     /** Call before placing a span and when restoring one from harvested vines. */
     public static BlockState withConnections(BlockState state, LevelReader level, BlockPos pos) {
         Direction.Axis axis = state.getValue(AXIS);
-        return state.setValue(TIED_NEGATIVE, level.getBlockState(
-                    axis == Direction.Axis.X ? pos.west() : pos.north()).is(ModBlocks.CROP_STAKE))
-            .setValue(TIED_POSITIVE, level.getBlockState(
-                    axis == Direction.Axis.X ? pos.east() : pos.south()).is(ModBlocks.CROP_STAKE));
+        return state.setValue(TIED_NEGATIVE, CropStakeBlock.isPost(level.getBlockState(
+                    axis == Direction.Axis.X ? pos.west() : pos.north())))
+            .setValue(TIED_POSITIVE, CropStakeBlock.isPost(level.getBlockState(
+                    axis == Direction.Axis.X ? pos.east() : pos.south())));
     }
 
     @Override protected BlockState updateShape(BlockState state, LevelReader level,
@@ -55,10 +55,10 @@ public final class HorizontalRopeBlock extends Block {
         Direction.Axis axis = state.getValue(AXIS);
         if ((axis == Direction.Axis.X && direction == Direction.WEST)
                 || (axis == Direction.Axis.Z && direction == Direction.NORTH))
-            return state.setValue(TIED_NEGATIVE, neighbor.is(ModBlocks.CROP_STAKE));
+            return state.setValue(TIED_NEGATIVE, CropStakeBlock.isPost(neighbor));
         if ((axis == Direction.Axis.X && direction == Direction.EAST)
                 || (axis == Direction.Axis.Z && direction == Direction.SOUTH))
-            return state.setValue(TIED_POSITIVE, neighbor.is(ModBlocks.CROP_STAKE));
+            return state.setValue(TIED_POSITIVE, CropStakeBlock.isPost(neighbor));
         return state;
     }
 

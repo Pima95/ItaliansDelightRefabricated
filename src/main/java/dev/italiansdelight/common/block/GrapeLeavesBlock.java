@@ -123,10 +123,10 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
         Direction.Axis axis = state.getValue(AXIS);
         if ((axis == Direction.Axis.X && side == Direction.WEST)
                 || (axis == Direction.Axis.Z && side == Direction.NORTH))
-            return state.setValue(TIED_NEGATIVE, neighbor.is(ModBlocks.CROP_STAKE));
+            return state.setValue(TIED_NEGATIVE, CropStakeBlock.isPost(neighbor));
         if ((axis == Direction.Axis.X && side == Direction.EAST)
                 || (axis == Direction.Axis.Z && side == Direction.SOUTH))
-            return state.setValue(TIED_POSITIVE, neighbor.is(ModBlocks.CROP_STAKE));
+            return state.setValue(TIED_POSITIVE, CropStakeBlock.isPost(neighbor));
         return state;
     }
 
