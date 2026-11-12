@@ -12,6 +12,150 @@
       "apply": {
         "model": "italiansdelight:block/crop_stake_rope_loop"
       }
+    },
+    {
+      "when": {
+        "crop": "1",
+        "crop_age": "0"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_free_stage_0"
+      }
+    },
+    {
+      "when": {
+        "crop": "1",
+        "crop_age": "1"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_free_stage_0"
+      }
+    },
+    {
+      "when": {
+        "crop": "1",
+        "crop_age": "2"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_free_stage_1"
+      }
+    },
+    {
+      "when": {
+        "crop": "1",
+        "crop_age": "3"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_free_stage_1"
+      }
+    },
+    {
+      "when": {
+        "crop": "1",
+        "crop_age": "4"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_free_stage_2"
+      }
+    },
+    {
+      "when": {
+        "crop": "1",
+        "crop_age": "5"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_free_stage_2"
+      }
+    },
+    {
+      "when": {
+        "crop": "1",
+        "crop_age": "6"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_free_stage_2"
+      }
+    },
+    {
+      "when": {
+        "crop": "1",
+        "crop_age": "7"
+      },
+      "apply": {
+        "model": "italiansdelight:block/chili_free_stage_3"
+      }
+    },
+    {
+      "when": {
+        "crop": "2",
+        "crop_age": "0"
+      },
+      "apply": {
+        "model": "farmersdelight:block/tomatoes_stage0"
+      }
+    },
+    {
+      "when": {
+        "crop": "2",
+        "crop_age": "1"
+      },
+      "apply": {
+        "model": "farmersdelight:block/tomatoes_stage1"
+      }
+    },
+    {
+      "when": {
+        "crop": "2",
+        "crop_age": "2"
+      },
+      "apply": {
+        "model": "farmersdelight:block/tomatoes_stage2"
+      }
+    },
+    {
+      "when": {
+        "crop": "2",
+        "crop_age": "3"
+      },
+      "apply": {
+        "model": "farmersdelight:block/tomatoes_stage3"
+      }
+    },
+    {
+      "when": {
+        "crop": "2",
+        "crop_age": "4"
+      },
+      "apply": {
+        "model": "farmersdelight:block/tomatoes_stage3"
+      }
+    },
+    {
+      "when": {
+        "crop": "2",
+        "crop_age": "5"
+      },
+      "apply": {
+        "model": "farmersdelight:block/tomatoes_stage3"
+      }
+    },
+    {
+      "when": {
+        "crop": "2",
+        "crop_age": "6"
+      },
+      "apply": {
+        "model": "farmersdelight:block/tomatoes_stage3"
+      }
+    },
+    {
+      "when": {
+        "crop": "2",
+        "crop_age": "7"
+      },
+      "apply": {
+        "model": "farmersdelight:block/tomatoes_stage3"
+      }
     }
   ]
 }

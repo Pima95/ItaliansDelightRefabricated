@@ -67,6 +67,17 @@ public final class StakedTomatoBlock extends TomatoBlock implements ReplaceOnRem
         }
     }
 
+    @Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos,
+            RandomSource random) {
+        // Preserve existing saved plants, but migrate the old fused root into
+        // the persistent support state. New seeds never create this old block.
+        level.setBlock(pos, ModBlocks.CROP_STAKE.defaultBlockState()
+            .setValue(CropStakeBlock.CROP, CropStakeBlock.TOMATO)
+            .setValue(CropStakeBlock.CROP_AGE, state.getValue(VINE_AGE))
+            .setValue(CropStakeBlock.ROPE_TIED, state.getValue(CropStakeBlock.ROPE_TIED)),
+            Block.UPDATE_ALL);
+    }
+
     @Override public BlockState updateShape(BlockState state, LevelReader level,
             ScheduledTickAccess ticks, BlockPos pos, Direction side,
             BlockPos neighborPos, BlockState neighbor, RandomSource random) {

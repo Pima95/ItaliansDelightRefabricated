@@ -14,47 +14,45 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Vanilla hoes only till soil with air above; the narrow crop stake occupies
- * that space. Let a hoe aimed at the stake (or the soil beneath it) cultivate
- * the soil without breaking, replacing, or duplicating the wooden stake.
+ * Treat normal and Farmer's Delight rich soil as equivalent for stake crops.
+ * Never overwrite rich soil with vanilla farmland during tilling.
  */
 public final class StakeSoilTilling {
     private StakeSoilTilling() {}
+
+    public static boolean isFarmland(BlockState state) {
+        return state.is(Blocks.FARMLAND)
+            || state.is(vectorwing.farmersdelight.common.registry.ModBlocks.RICH_SOIL_FARMLAND.get());
+    }
 
     public static void register() {
         UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
             if (player.isSpectator() || !player.getAbilities().mayBuild)
                 return InteractionResult.PASS;
-
             ItemStack tool = player.getItemInHand(hand);
             if (!tool.is(ItemTags.HOES)) return InteractionResult.PASS;
 
             BlockPos clicked = hit.getBlockPos();
             BlockState at = level.getBlockState(clicked);
             BlockPos soil;
-            if (isSupportedPost(at)) {
-                soil = clicked.below();
-            } else if (isSupportedPost(level.getBlockState(clicked.above()))) {
-                soil = clicked;
-            } else {
-                return InteractionResult.PASS;
-            }
+            if (CropStakeBlock.isPost(at)) soil = clicked.below();
+            else if (CropStakeBlock.isPost(level.getBlockState(clicked.above()))) soil = clicked;
+            else return InteractionResult.PASS;
 
             BlockState dirt = level.getBlockState(soil);
             BlockState tilled;
             if (dirt.is(Blocks.DIRT) || dirt.is(Blocks.GRASS_BLOCK)
                     || dirt.is(Blocks.DIRT_PATH)) {
                 tilled = Blocks.FARMLAND.defaultBlockState();
+            } else if (dirt.is(vectorwing.farmersdelight.common.registry.ModBlocks.RICH_SOIL.get())) {
+                tilled = vectorwing.farmersdelight.common.registry.ModBlocks.RICH_SOIL_FARMLAND
+                    .get().defaultBlockState();
             } else if (dirt.is(Blocks.COARSE_DIRT)) {
-                // Keep vanilla's first hoe operation: coarse dirt -> dirt.
                 tilled = Blocks.DIRT.defaultBlockState();
-            } else {
-                return InteractionResult.PASS;
-            }
+            } else return InteractionResult.PASS;
 
             if (level instanceof ServerLevel server) {
-                if (!server.mayInteract(player, soil)) return InteractionResult.FAIL;
-                if (!server.setBlock(soil, tilled, Block.UPDATE_ALL))
+                if (!server.mayInteract(player, soil) || !server.setBlock(soil, tilled, Block.UPDATE_ALL))
                     return InteractionResult.FAIL;
                 server.playSound(null, soil, SoundEvents.HOE_TILL.value(),
                     SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -63,12 +61,5 @@ public final class StakeSoilTilling {
             }
             return InteractionResult.SUCCESS;
         });
-    }
-
-    private static boolean isSupportedPost(BlockState state) {
-        return state.is(ModBlocks.CROP_STAKE)
-            || state.is(ModBlocks.STAKED_TOMATOES)
-            || (state.is(ModBlocks.CHILI_CROP)
-                && state.getValue(ChiliCropBlock.STAKED));
     }
 }

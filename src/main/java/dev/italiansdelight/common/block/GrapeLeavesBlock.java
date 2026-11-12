@@ -14,6 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealSource;
@@ -50,6 +53,21 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> b) {
         b.add(DISTANCE, AXIS, GRAPES, TIED_NEGATIVE, TIED_POSITIVE);
+    }
+
+    // Match the *unchanged* 10x10x16 side-leaf model after the axis rotation;
+    // the default full-block outline/collision caused the oversized hitbox.
+    @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos,
+            CollisionContext context) {
+        if (state.getValue(DISTANCE) == 0) return Block.box(0, 0, 0, 16, 16, 16);
+        return state.getValue(AXIS) == Direction.Axis.X
+            ? Block.box(0, 3, 3, 16, 13, 13)
+            : Block.box(3, 3, 0, 13, 13, 16);
+    }
+
+    @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
+            CollisionContext context) {
+        return getShape(state, level, pos, context);
     }
 
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {

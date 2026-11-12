@@ -98,7 +98,7 @@ entrypoint = read(java / "ItaliansDelight.java")
 require("UseBlockCallback.EVENT.register" in planting
         and "ModBlocks.CHILI_PEPPER_SEEDS" in planting
         and "ModItems.TOMATO_SEEDS.get()" in planting
-        and "Blocks.FARMLAND" in planting
+        and "StakeSoilTilling.isFarmland" in planting
         and "StakeCropPlanting.register();" in entrypoint,
         "Stake seeds must be intercepted before normal BlockItem placement")
 
@@ -189,9 +189,9 @@ require("above.is(ModBlocks.CROP_STAKE)" in chili,
 require("stateAbove.is(ModBlocks.CROP_STAKE)" in tomato
         and "getClimbingState(" in tomato,
         "Tomatoes must use FDR climbing behavior on stacked wooden stakes")
-require(".setValue(VINE_AGE, 0)" in tomato
-        and ".setValue(TomatoBlock.VINE_AGE, 0)" in planting,
-        "Tomato seeds and upper climbing segments must start at age 0")
+require("CropStakeBlock.CROP_AGE, 0" in planting
+        and "CropStakeBlock.TOMATO" in planting,
+        "Seeds must plant tomato at the original FDR age 0")
 require("!level.getBlockState(target.below()).isAir()" not in canopy,
         "Grape foliage must grow even with a support below lateral spans")
 require("return rope.is(ModBlocks.HORIZONTAL_ROPE)" in vine
@@ -204,10 +204,13 @@ print("PASSED: original FDR rope untouched, solid stakes, crop recovery, climbin
 tilling = read(java / "common/block/StakeSoilTilling.java")
 seed_item = read(java / "common/item/ChiliSeedsItem.java")
 start = read(java / "ItaliansDelight.java")
-require("StakeSoilTilling.register();" in start and
+require("StakeSoilTilling.register();" in start
+        and "StakeCropBreaking.register();" in start and
         "UseBlockCallback.EVENT.register" in tilling and
         "ItemTags.HOES" in tilling and "clicked.below()" in tilling and
-        "Blocks.FARMLAND.defaultBlockState()" in tilling and
+        "Blocks.FARMLAND.defaultBlockState()" in tilling
+        and "RICH_SOIL_FARMLAND" in tilling and
+        "RICH_SOIL.get()" in tilling and
         "tool.hurtAndBreak(1, player, hand)" in tilling,
         "A vanilla hoe must till dirt UNDER a placed crop stake, costing durability")
 require("super.useOn(ctx)" in seed_item and
@@ -240,25 +243,61 @@ for stage in range(4):
     require(crop["parent"] == "farmersdelight:block/template_crop_cross" and
             crop["textures"]["cross"] == f"italiansdelight:block/chili_crop_{stage}",
             "Standalone chili should display the crop without a wooden post")
-for age in (0,1):
-    tmodel = j(assets / f"models/block/tomato_seedling_{age}.json")
+# Use the original Farmer's Delight tomato progression, not custom
+# seedling stages. Crop geometry and the support are separate multipart layers.
+for age in range(4):
     state = j(assets / "blockstates/staked_tomatoes.json")["multipart"]
-    require(tmodel["parent"] == "farmersdelight:block/template_crop_cross" and
-            any(part.get("when") == {"age":str(age)} and
-                part["apply"]["model"] == f"italiansdelight:block/tomato_seedling_{age}"
-                for part in state),
-            f"Young tomatoes must use their tiny stage {age} sapling artwork")
-    data = (assets / f"textures/block/tomato_seedling_{age}.png").read_bytes()
-    require(data.startswith(bytes.fromhex("89504e470d0a1a0a"))
-            and int.from_bytes(data[16:20],"big") == 16
-            and int.from_bytes(data[20:24],"big") == 16,
-            "Seedling texture must be an unscaled 16x16 PNG")
+    require(any(part.get("when") == {"age":str(age)} and
+        part["apply"]["model"] == f"farmersdelight:block/tomatoes_stage{age}"
+        for part in state), f"Legacy tomato age {age} should use FDR models")
+for age in range(2):
+    require(not (assets / f"models/block/tomato_seedling_{age}.json").exists() and
+            not (assets / f"textures/block/tomato_seedling_{age}.png").exists(),
+            "Do not ship extra tomato growth stages")
 lateral = j(assets / "models/block/grape_leaves_1.json")["elements"][0]
-require(lateral["from"] == [3,3,3] and lateral["to"] == [13,13,13],
-        "Lateral grape leaves must be 10x10x10, not a stretched 10x10x16 box")
+require(lateral["from"] == [3,3,0] and lateral["to"] == [13,13,16],
+        "Preserve the original 10x10x16 lateral grape-leaf geometry")
 for name, face in lateral["faces"].items():
-    require(face["uv"] == [3,3,13,13],
-            f"Stretched UV on lateral grape leaves face {name}")
-print("PASSED: hoe tilling under stakes, chili without posts/with FDR rope, baby tomatoes, 1:1 grape foliage")
+    expected = [0,3,16,13] if name in ("east", "west") else ([3,0,13,16] if name in ("up","down") else [3,3,13,13])
+    require(face["uv"] == expected, f"Original UV changed on grape side leaf {name}")
+print("PASSED: rich soil tilling, original tomato stages, restored grape foliage and free chili")
+
+
+# Crop and support are separate state components of ONE persistent block,
+# instead of two mutually replacing world blocks at the same coordinates.
+stake = read(java / "common/block/CropStakeBlock.java")
+planting = read(java / "common/block/StakeCropPlanting.java")
+breaking = read(java / "common/block/StakeCropBreaking.java")
+grape = read(java / "common/block/GrapeLeavesBlock.java")
+require("IntegerProperty CROP = IntegerProperty.create" in stake
+        and "IntegerProperty CROP_AGE = IntegerProperty.create" in stake
+        and "clearCrop(BlockState state)" in stake
+        and "CropStakeBlock.CROP" in planting
+        and "support.setValue(CropStakeBlock.CROP, kind)" in planting,
+        "Planting must mutate crop state without replacing the wood support")
+require("AttackBlockCallback.EVENT.register" in breaking and
+        "CropStakeBlock.removeCrop" in breaking and
+        "level.setBlock(pos, clearCrop(state)" in stake,
+        "Crop breaking must clear only the independent plant component")
+require("StakeSoilTilling.isFarmland" in planting and
+        "RICH_SOIL_FARMLAND" in tilling and
+        "RICH_SOIL.get()" in tilling,
+        "Ordinary and rich soil farmland must allow the same stake crop behavior")
+cropstate = j(assets / "blockstates/crop_stake.json")["multipart"]
+require(cropstate[0].get("apply",{}).get("model") == "italiansdelight:block/crop_stake",
+        "The wooden stake is always a separate model layer")
+for kind in (1,2):
+    for age in range(8):
+        expected = ("italiansdelight:block/chili_free_stage_" + str(
+            0 if age <= 1 else 1 if age <= 3 else 2 if age <= 6 else 3)) if kind==1 else (
+            "farmersdelight:block/tomatoes_stage" + str(min(age,3)))
+        require(any(part.get("when") == {"crop": str(kind), "crop_age": str(age)}
+            and part["apply"]["model"] == expected for part in cropstate),
+            f"Wrong independent crop layer for crop={kind} age={age}")
+require("Block.box(0, 3, 3, 16, 13, 13)" in grape and
+        "Block.box(3, 3, 0, 13, 13, 16)" in grape and
+        "getCollisionShape" in grape,
+        "Actual grape leaf outline/collision must match the original narrow model")
+print("PASSED: persistent stake + separate crop, real rich farmland, original stages and leaf hitbox")
 
 print("PASSED: exact 1px UV geometry, leash-style rope loop and two seed targets")

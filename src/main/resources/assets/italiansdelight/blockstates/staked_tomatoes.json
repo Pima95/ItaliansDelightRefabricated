@@ -10,7 +10,7 @@
         "age": "0"
       },
       "apply": {
-        "model": "italiansdelight:block/tomato_seedling_0"
+        "model": "farmersdelight:block/tomatoes_stage0"
       }
     },
     {
@@ -18,7 +18,7 @@
         "age": "1"
       },
       "apply": {
-        "model": "italiansdelight:block/tomato_seedling_1"
+        "model": "farmersdelight:block/tomatoes_stage1"
       }
     },
     {

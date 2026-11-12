@@ -71,6 +71,9 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
     // The root needs farmland; upper chili segments can instead root in a
     // cultivated stake immediately below, just like climbing FDR tomatoes.
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        if (StakeSoilTilling.isFarmland(level.getBlockState(pos.below()))) {
+            return level.getRawBrightness(pos, 0) >= 8 || level.canSeeSky(pos);
+        }
         BlockState below = level.getBlockState(pos.below());
         if (below.is(ModBlocks.CHILI_CROP) || below.is(ModBlocks.CHILI_ON_ROPE)) {
             return level.getRawBrightness(pos, 0) >= 8 || level.canSeeSky(pos);
@@ -100,9 +103,8 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
                 || !canClimb(level,pos) || vineHeight(level,pos)>=3) return false;
         BlockState support = level.getBlockState(pos.above());
         BlockState next = support.is(ModBlocks.CROP_STAKE)
-            ? ModBlocks.CHILI_CROP.defaultBlockState()
-                .setValue(STAKED, true)
-                .setValue(CropStakeBlock.ROPE_TIED, support.getValue(CropStakeBlock.ROPE_TIED))
+            ? support.setValue(CropStakeBlock.CROP, CropStakeBlock.CHILI)
+                .setValue(CropStakeBlock.CROP_AGE, 0)
             : ModBlocks.CHILI_ON_ROPE.defaultBlockState().setValue(STAKED, false);
         return level.setBlock(pos.above(), next, Block.UPDATE_ALL);
     }
@@ -112,6 +114,16 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
     @Override public boolean isRandomlyTicking(BlockState state) { return true; }
 
     @Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        // Convert old worlds' fused plant+post block to a persistent
+        // wooden support + independent crop state without drops or flicker.
+        if (state.getValue(STAKED) && !shouldRestoreRope()) {
+            level.setBlock(pos, ModBlocks.CROP_STAKE.defaultBlockState()
+                .setValue(CropStakeBlock.CROP, CropStakeBlock.CHILI)
+                .setValue(CropStakeBlock.CROP_AGE, getAge(state))
+                .setValue(CropStakeBlock.ROPE_TIED, state.getValue(CropStakeBlock.ROPE_TIED)),
+                Block.UPDATE_ALL);
+            return;
+        }
         super.randomTick(state,level,pos,random);
         BlockState current=level.getBlockState(pos);
         if (current.is(this) && random.nextInt(3)==0) tryClimb(level,pos,current);
@@ -124,7 +136,11 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
 
     @Override public void performBonemeal(ServerLevel level, RandomSource random,
             BlockPos pos, BlockState state, BonemealSource source) {
-        if (!isMaxAge(state)) super.performBonemeal(level,random,pos,state,source);
+        // Never use getStateForAge() here: vanilla CropBlock creates a new
+        // defaultBlockState and would turn free-standing chili into staked.
+        if (!isMaxAge(state))
+            level.setBlock(pos, state.setValue(AGE,
+                Math.min(getMaxAge(), getAge(state) + 1 + random.nextInt(2))), Block.UPDATE_ALL);
         BlockState current=level.getBlockState(pos);
         if (current.is(this)) tryClimb(level,pos,current);
     }

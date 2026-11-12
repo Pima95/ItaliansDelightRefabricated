@@ -5,7 +5,8 @@
     "LevelMixin",
     "SheepMixin",
     "PizzaVanillaFurnaceMixin",
-    "PizzaCuttingBoardMixin"
+    "PizzaCuttingBoardMixin",
+    "TomatoOnStakeSupportMixin"
   ],
   "client": [
     "client.CheeseHookParticlesMixin"

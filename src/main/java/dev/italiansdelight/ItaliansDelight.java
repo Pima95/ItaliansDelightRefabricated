@@ -15,6 +15,7 @@ import dev.italiansdelight.common.block.FluidCauldronInteractions;
 import dev.italiansdelight.common.block.HorizontalRopePlacement;
 import dev.italiansdelight.common.block.StakeCropPlanting;
 import dev.italiansdelight.common.block.StakeSoilTilling;
+import dev.italiansdelight.common.block.StakeCropBreaking;
 import dev.italiansdelight.common.block.LegacyOilCauldronMigration;
 import dev.italiansdelight.common.registry.ModSigns;
 import dev.italiansdelight.common.registry.ModBoats;
@@ -76,6 +77,7 @@ public class ItaliansDelight implements ModInitializer {
         SaltCauldronManager.register();
         FluidCauldronInteractions.register();
         StakeSoilTilling.register();
+        StakeCropBreaking.register();
         StakeCropPlanting.register();
         HorizontalRopePlacement.register();
         LegacyOilCauldronMigration.register();

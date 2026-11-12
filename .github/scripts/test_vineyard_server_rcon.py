@@ -185,6 +185,32 @@ def test():
         run(rcon, "setblock 8 80 0 minecraft:dirt")
         wait_block(rcon, 8, 81, 0, "minecraft:air")
 
+        # Invariant: the wooden post never gets replaced while the crop
+        # grows, is harvested, or dies because farmland was trampled.
+        run(rcon, "setblock 14 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 14 81 0 italiansdelight:crop_stake[crop=1,crop_age=0]")
+        assert_block(rcon, 14, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=0]")
+        run(rcon, "setblock 14 81 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
+        assert_block(rcon, 14, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=7]")
+        run(rcon, "setblock 14 80 0 minecraft:dirt")
+        wait_block(rcon, 14, 81, 0, "italiansdelight:crop_stake[crop=0,crop_age=0]")
+        assert_block(rcon, 14, 80, 0, "minecraft:dirt")
+
+        # Rich Soil Farmland survives under the same physical support and
+        # supports both plants, without turning into vanilla farmland.
+        run(rcon, "setblock 15 80 0 farmersdelight:rich_soil_farmland[moisture=7]")
+        run(rcon, "setblock 15 81 0 italiansdelight:crop_stake[crop=2,crop_age=0]")
+        assert_block(rcon, 15, 80, 0, "farmersdelight:rich_soil_farmland")
+        assert_block(rcon, 15, 81, 0, "italiansdelight:crop_stake[crop=2,crop_age=0]")
+        run(rcon, "setblock 15 81 0 italiansdelight:crop_stake[crop=1,crop_age=0]")
+        assert_block(rcon, 15, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=0]")
+
+        # Rooted chili can climb onto pre-existing wooden supports while
+        # leaving their block IDs intact, never spawning fused chili_crop.
+        run(rcon, "setblock 16 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 16 81 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
+        run(rcon, "setblock 16 82 0 italiansdelight:crop_stake")
+        run(rcon, "setblock 16 83 0 italiansdelight:crop_stake")
         # A single cultivated post can climb onto two more stacked posts,
         # in the same manner as original FDR tomatoes climb rope segments.
         # The first crop stage is 0; FDR tomatoes have a 0..3 age range.
@@ -232,6 +258,13 @@ def test():
                 run(rcon, f"setblock {x} 82 0 {crop}[age={mature}]")
                 wait_block(rcon, x, 83, 0, crop, timeout=20)
                 assert_block(rcon, x, 80, 0, "minecraft:farmland")
+            wait_block(rcon, 16, 82, 0,
+                "italiansdelight:crop_stake[crop=1,crop_age=0]", timeout=20)
+            run(rcon, "setblock 16 82 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
+            wait_block(rcon, 16, 83, 0,
+                "italiansdelight:crop_stake[crop=1,crop_age=0]", timeout=20)
+            assert_block(rcon, 16, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=7]")
+            assert_block(rcon, 15, 80, 0, "farmersdelight:rich_soil_farmland")
             wait_block(rcon, 13, 82, 0,
                 "italiansdelight:chili_on_rope[age=0,staked=false]", timeout=20)
             run(rcon, "setblock 13 82 0 italiansdelight:chili_on_rope[age=7,staked=false]")
@@ -258,7 +291,7 @@ def test():
             run(rcon, "gamerule minecraft:random_tick_speed 3")
 
         run(rcon, "save-all")
-        print("PASSED: farmland recovery, free chili on farmland and vertical FDR rope, tomato stages, 3-post climbing and grape leaves", flush=True)
+        print("PASSED: real permanent stakes, rich soil farmland, chili rope climbing, original tomato ages and grape leaves", flush=True)
     finally:
         rcon.close()
 
