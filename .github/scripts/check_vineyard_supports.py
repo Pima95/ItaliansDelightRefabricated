@@ -215,8 +215,9 @@ require("StakeSoilTilling.register();" in start
         "A vanilla hoe must till dirt UNDER a placed crop stake, costing durability")
 require("super.useOn(ctx)" in seed_item and
         ".setValue(STAKED, false)" in chili and
-        ".setValue(ChiliCropBlock.STAKED, true)" in planting,
-        "Standalone chili seeds must use vanilla farmland planting; post planting stays staked")
+        "CropStakeBlock.CHILI" in planting and
+        "CropStakeBlock.CROP" in planting,
+        "Standalone chili remains a normal crop while post planting changes the stake crop only")
 require("registerDefaultState(defaultBlockState()" in chili and
         ".setValue(STAKED, true)" in chili,
         "Existing chili_crop blocks must default to a supported crop")

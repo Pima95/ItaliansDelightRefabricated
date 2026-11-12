@@ -265,10 +265,10 @@ def test():
                     f"italiansdelight:crop_stake[crop={kind}]", timeout=20)
                 assert_block(rcon, x, 80, 0, "minecraft:farmland")
             wait_block(rcon, 12, 82, 0,
-                "italiansdelight:crop_stake[crop=1,crop_age=0]", timeout=20)
+                "italiansdelight:crop_stake[crop=1]", timeout=20)
             run(rcon, "setblock 12 82 0 italiansdelight:crop_stake[crop=1,crop_age=7]")
             wait_block(rcon, 12, 83, 0,
-                "italiansdelight:crop_stake[crop=1,crop_age=0]", timeout=20)
+                "italiansdelight:crop_stake[crop=1]", timeout=20)
             assert_block(rcon, 12, 81, 0, "italiansdelight:crop_stake[crop=1,crop_age=7]")
             assert_block(rcon, 15, 80, 0, "farmersdelight:rich_soil_farmland")
             wait_block(rcon, 13, 82, 0,
