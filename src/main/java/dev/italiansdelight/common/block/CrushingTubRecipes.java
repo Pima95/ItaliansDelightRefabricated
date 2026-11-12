@@ -35,6 +35,9 @@ public final class CrushingTubRecipes {
         if (stack.is(ModItems.OLIVES))
             return new Recipe("italiansdelight:olive_oil", STANDARD_AMOUNT,
                 new ItemStack(ModItems.OLIVE_SEED));
+        if (stack.is(ModItems.GRAPES))
+            return new Recipe("italiansdelight:grape_juice", STANDARD_AMOUNT,
+                new ItemStack(dev.italiansdelight.common.registry.ModBlocks.GRAPE_SEEDS));
         if (stack.is(Items.APPLE))
             return new Recipe("italiansdelight:apple_juice", STANDARD_AMOUNT,
                 new ItemStack(ModItems.APPLE_SEEDS));

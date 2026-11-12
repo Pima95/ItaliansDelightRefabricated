@@ -959,6 +959,19 @@ public final class ModItems {
         // Cherry Tart itself is registered as a placeable BlockItem by ModBlocks.
         public static final Item CHERRY_TART_SLICE = registerFoodItem("cherry_tart_slice", 4, 0.5f);
 
+        // Grape juice: a real Fabric storage fluid, intentionally not world-placeable.
+        // The buckets and bottles participate in the existing Barrel/Cauldron API.
+        public static final ResourceKey<Item> GRAPE_JUICE_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_juice_bucket"));
+        public static final Item GRAPE_JUICE_BUCKET = register(
+                GRAPE_JUICE_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+        public static final ResourceKey<Item> GRAPE_JUICE_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_juice_bottle"));
+        public static final Item GRAPE_JUICE_BOTTLE = register(
+                GRAPE_JUICE_BOTTLE_KEY,
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+
         // Olive oil: a placeable fluid bucket and a non-drinkable bottle.
         public static final ResourceKey<Item> APPLE_JUICE_BUCKET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bucket"));

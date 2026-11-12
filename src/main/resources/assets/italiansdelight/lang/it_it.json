@@ -419,5 +419,9 @@
   "item.italiansdelight.grape_seeds": "Semi d'uva",
   "item.italiansdelight.chili_pepper_seeds": "Semi di peperoncino",
   "item.italiansdelight.grapes": "Grappolo d'uva",
-  "item.italiansdelight.chili_pepper": "Peperoncino"
+  "item.italiansdelight.chili_pepper": "Peperoncino",
+  "item.italiansdelight.grape_juice_bucket": "Secchio di succo d'uva",
+  "item.italiansdelight.grape_juice_bottle": "Bottiglia di succo d'uva",
+  "fluid.italiansdelight.grape_juice": "Succo d'uva",
+  "jei.italiansdelight.fluids.grape_juice": "Metti i grappoli d'uva nel Crushing Tub e saltaci dentro. Ogni grappolo produce 250 mB di succo d'uva e un seme. Raccogli con bottiglie vuote (250 mB) o secchi vuoti (1.000 mB). Puoi conservarlo nei barili e nei calderoni già presenti. La fermentazione in vino arriverà in una fase successiva della 1.2.0."
 }

@@ -63,5 +63,11 @@ public final class ModFluids {
         BuiltInRegistries.FLUID, GOLDEN_APPLE_JUICE_KEY,
         new ContainedFluid(() -> ModItems.GOLDEN_APPLE_JUICE_BUCKET));
 
+    public static final ResourceKey<Fluid> GRAPE_JUICE_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("grape_juice"));
+    public static final Fluid GRAPE_JUICE = Registry.register(
+        BuiltInRegistries.FLUID, GRAPE_JUICE_KEY,
+        new ContainedFluid(() -> ModItems.GRAPE_JUICE_BUCKET));
+
     public static void register() {}
 }
