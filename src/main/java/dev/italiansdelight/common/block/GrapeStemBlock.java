@@ -57,6 +57,10 @@ public final class GrapeStemBlock extends CropBlock {
         return true;
     }
 
+    // Vanilla CropBlock stops ticking at maturity; rope-driven climbing must
+    // remain active if the player adds the support AFTER the plant ripens.
+    @Override public boolean isRandomlyTicking(BlockState state) { return true; }
+
     @Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         super.randomTick(state, level, pos, random);
         tryGrowCanopy(level, pos, level.getBlockState(pos));
