@@ -62,7 +62,7 @@ public final class CropStakeBlock extends RotatedPillarBlock {
     @Override protected BlockState updateShape(BlockState state, LevelReader level,
             ScheduledTickAccess ticks, BlockPos pos, Direction side,
             BlockPos neighborPos, BlockState neighbor, RandomSource random) {
-        return super.updateShape(state, level, ticks, pos, side, neighborPos, random)
+        return super.updateShape(state, level, ticks, pos, side, neighborPos, neighbor, random)
             .setValue(ROPE_TIED, isRopeTied(level, pos));
     }
 

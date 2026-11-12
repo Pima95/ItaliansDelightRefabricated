@@ -87,7 +87,7 @@ farmtag=load(data/"minecraft/tags/block/maintains_farmland.json")
 for wood in woods:
     ident="crop_stake" if wood=="oak" else f"{wood}_crop_stake"
     bid=f"italiansdelight:{ident}"
-    assert f"block.{bid}" in en and f"block.{bid}" in it
+    assert f"block.italiansdelight.{ident}" in en and f"block.italiansdelight.{ident}" in it
     if wood!="oak":
         assert f'{wood.upper()}_CROP_STAKE' in registry
         assert f'output.accept(ModBlocks.{wood.upper()}_CROP_STAKE)' in creative
@@ -115,6 +115,6 @@ assert load(assets/"models/block/grape_leaves_1.json")["elements"][0]["to"]==[13
 assert load(assets/"items/grape_juice_bottle.json")["model"]["model"]=="minecraft:item/potion"
 assert "registerContainedFluid(ModFluids.WINE" in read(src/"ItaliansDelightClient.java")
 for name in ("wine_bucket","grape_juice_bucket"):
-    assert (assets/f"textures/item/{name}.png").read_bytes()[:8]==b"\\x89PNG\\r\\n\\x1a\\n"
+    assert (assets/f"textures/item/{name}.png").read_bytes()[:8] == bytes.fromhex("89504e470d0a1a0a")
 
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")
