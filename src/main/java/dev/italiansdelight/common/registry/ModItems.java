@@ -25,6 +25,7 @@ import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 import dev.italiansdelight.common.item.PizzaNamedItem;
 import dev.italiansdelight.common.item.PizzaPeelItem;
+import dev.italiansdelight.common.item.WineBottleItem;
 
 import vectorwing.farmersdelight.common.FoodValues;
 import vectorwing.farmersdelight.common.item.ConsumableItem;
@@ -963,7 +964,7 @@ public final class ModItems {
         public static final ResourceKey<Item> WINE_BOTTLE_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("wine_bottle"));
         public static final Item WINE_BOTTLE = register(WINE_BOTTLE_KEY,
-                new Item.Properties().stacksTo(1)
+                WineBottleItem::new, new Item.Properties().stacksTo(1)
                         .component(ModDataComponents.WINE_QUALITY, 0));
 
         // Grape juice: a real Fabric storage fluid, intentionally not world-placeable.

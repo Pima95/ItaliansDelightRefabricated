@@ -41,3 +41,22 @@ Non utilizzare `clean` se i file di build sono bloccati o lo spazio su disco è 
 - La bottiglia e il secchio del succo usano **modelli temporanei**; servono texture dedicate prima della release.
 
 **Non pubblicare il JAR come v1.2.0 stabile** prima dei test e delle fasi rimanenti.
+
+## Test della botte di fermentazione (prototipo)
+```text
+/give @p italiansdelight:brewing_barrel
+/give @p italiansdelight:grape_juice_bucket 8
+/give @p minecraft:glass_bottle 16
+/give @p italiansdelight:wine_bottle
+/give @p italiansdelight:ghost_pepper
+```
+
+1. Posiziona il blocco `brewing_barrel` e inserisci fino a otto secchi di succo d'uva, oppure bottiglie da 250 mB.
+2. Clic a mano vuota per visualizzare quantità e avanzamento.
+3. Attendi 12.000 tick lato server (10 minuti a 20 TPS) e verifica che il timer prosegua dopo un salvataggio/riavvio.
+4. A fermentazione completata, clic destro con bottiglia di vetro vuota: preleva 250 mB di vino. Controlla la qualità nel tooltip.
+5. Reinserisci una bottiglia di vino per inoculare la coltura (facoltativa e non consumata durante la fermentazione); recupera la coltura con Shift+clic usando una bottiglia vuota.
+6. Il contenuto della botte è salvato anche nel BlockItem se la rompi e la riposizioni. Verifica senza duplicare bottiglie o fluidi.
+7. Gli effetti di consumo delle bevande, la GUI di Rustic, vini rosso/bianco distinti e il trasferimento del vino con qualità nei normali barili restano da implementare.
+
+Usa un mondo di prova, non un salvataggio importante. Il test automatico avvia e riapre un mondo, ma non simula il ciclo completo di fermentazione.

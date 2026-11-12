@@ -33,3 +33,6 @@ Open choices: trellis versus pergola, worldgen rarity, grape yield, fermentation
 - Original Rustic requires a dedicated brewing barrel with proper input/output and culture behavior. Do **not** claim that an ordinary fluid Barrel ferments automatically.
 - The uploaded `winemaxxing.json` uses removed Forge/1.12 inventory predicates and old NBT; it needs a separate 26.3 advancement implementation after the wine-quality data component is implemented.
 - For safety, implement the brewing barrel and wine as an isolated phase with dedicated client/server and save/load tests rather than adding a fake crafting recipe.
+
+## Botte di fermentazione: primo porting 26.3
+La macchina `brewing_barrel` converte `grape_juice` in `wine` dopo 12.000 tick, con capacità di 8.000 mB per ingresso e uscita. La qualità iniziale è 5–75%; una coltura opzionale conservata separatamente influenza il lotto successivo di -1..+4 punti. La qualità è persistente nel BlockEntity e nel componente `wine_quality` di ogni bottiglia, visualizzato nel tooltip. Il vino non è ancora bevibile e non si trasferisce a serbatoi generici: il passaggio tramite Fabric FluidVariant dovrà preservarne prima il componente qualità. Testare sul client prima di dichiarare la meccanica completata.
