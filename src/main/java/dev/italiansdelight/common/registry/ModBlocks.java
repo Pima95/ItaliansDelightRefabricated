@@ -814,8 +814,9 @@ public final class ModBlocks {
     public static final ResourceKey<Block> CROP_STAKE_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("crop_stake"));
     public static final Block CROP_STAKE = register(CROP_STAKE_KEY,
-        new CropStakeBlock(Block.Properties.ofFullCopy(Blocks.OAK_FENCE)
-            .setId(CROP_STAKE_KEY).noCollision().noOcclusion().strength(0.7F)));
+        new CropStakeBlock(Block.Properties.of()
+            .setId(CROP_STAKE_KEY).noCollision().noOcclusion()
+            .forceSolidOff().strength(0.7F).sound(SoundType.WOOD)));
 
     // Reuses Farmer's Delight rope *items* and texture; no second rope item.
     // The axis is saved in the block state to allow horizontal placement.
