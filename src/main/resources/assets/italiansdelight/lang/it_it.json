@@ -433,5 +433,7 @@
   "tooltip.italiansdelight.wine_quality": "Qualità: %s%%",
   "block.italiansdelight.grape_juice": "Succo d'uva",
   "block.italiansdelight.wine": "Vino",
-  "item.italiansdelight.wine_bucket": "Secchio di vino"
+  "item.italiansdelight.wine_bucket": "Secchio di vino",
+  "block.italiansdelight.crop_stake": "Palo di sostegno",
+  "block.italiansdelight.staked_tomatoes": "Pomodori su palo"
 }

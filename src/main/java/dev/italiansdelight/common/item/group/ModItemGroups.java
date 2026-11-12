@@ -188,6 +188,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CULTIVATED_CARDOON);
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
+                output.accept(ModBlocks.CROP_STAKE);
                 output.accept(ModBlocks.GRAPE_SEEDS);
                 output.accept(ModBlocks.CHILI_PEPPER_SEEDS);
 

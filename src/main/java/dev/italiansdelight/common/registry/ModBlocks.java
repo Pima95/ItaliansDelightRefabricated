@@ -17,6 +17,8 @@ import dev.italiansdelight.common.block.AlmondLeavesBlock;
 import dev.italiansdelight.common.block.FruitCherryLeavesBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
 import dev.italiansdelight.common.block.RepeatHarvestCropBlock;
+import dev.italiansdelight.common.block.CropStakeBlock;
+import dev.italiansdelight.common.block.StakedTomatoBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
@@ -801,6 +803,20 @@ public final class ModBlocks {
         )
     );
 
+    // Solid reusable stakes for vines and chili; tomato seeds can be planted
+    // against an existing stake without adding any tomato seed duplicate.
+    public static final ResourceKey<Block> CROP_STAKE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("crop_stake"));
+    public static final Block CROP_STAKE = register(CROP_STAKE_KEY,
+        new CropStakeBlock(Block.Properties.ofFullCopy(Blocks.OAK_FENCE)
+            .setId(CROP_STAKE_KEY).noOcclusion().strength(0.7F)));
+
+    public static final ResourceKey<Block> STAKED_TOMATOES_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("staked_tomatoes"));
+    public static final Block STAKED_TOMATOES = registerBlockOnly(STAKED_TOMATOES_KEY,
+        new StakedTomatoBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
+            .setId(STAKED_TOMATOES_KEY).noOcclusion()));
+
     // Rustic-inspired grapevine and chili plants; seeds are BlockItems with their own IDs.
     // Both crops retain their roots on a successful empty-hand harvest.
     public static final ResourceKey<Block> GRAPE_STEM_KEY = ResourceKey.create(
@@ -1256,6 +1272,7 @@ public final class ModBlocks {
         fire.add(CHERRY_CRATE, 5, 20);
         fire.add(BASIL_CRATE, 5, 20);
         fire.add(CARDOON_CRATE, 5, 20);
+        fire.add(CROP_STAKE, 5, 20);
         fire.add(SPRUCE_BARREL, 5, 20);
         fire.add(SPRUCE_CRUSHING_TUB, 5, 20);
         fire.add(BIRCH_BARREL, 5, 20);

@@ -433,5 +433,7 @@
   "tooltip.italiansdelight.wine_quality": "Quality: %s%%",
   "block.italiansdelight.grape_juice": "Grape Juice",
   "block.italiansdelight.wine": "Wine",
-  "item.italiansdelight.wine_bucket": "Wine Bucket"
+  "item.italiansdelight.wine_bucket": "Wine Bucket",
+  "block.italiansdelight.crop_stake": "Wooden Crop Stake",
+  "block.italiansdelight.staked_tomatoes": "Staked Tomatoes"
 }
