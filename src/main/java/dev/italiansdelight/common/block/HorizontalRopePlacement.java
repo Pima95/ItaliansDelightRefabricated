@@ -30,11 +30,21 @@ public final class HorizontalRopePlacement {
             Direction face = hit.getDirection();
             if (!player.isSecondaryUseActive()
                     || !rope.is(vectorwing.farmersdelight.common.registry.ModItems.ROPE.get())
-                    || !face.getAxis().isHorizontal() || player.isSpectator()) {
+                    || player.isSpectator()) {
                 return InteractionResult.PASS;
             }
 
-            BlockPos target = hit.getBlockPos().relative(face);
+            // Clicking the TOP of a crop stake (or an existing span) also
+            // works; use the player's facing to choose the horizontal axis.
+            // Ordinary blocks keep their existing vanilla top-click behavior.
+            BlockPos anchor = hit.getBlockPos();
+            if (face == Direction.UP && (level.getBlockState(anchor).is(ModBlocks.CROP_STAKE)
+                    || level.getBlockState(anchor).is(ModBlocks.HORIZONTAL_ROPE))) {
+                face = player.getDirection();
+            }
+            if (!face.getAxis().isHorizontal()) return InteractionResult.PASS;
+
+            BlockPos target = anchor.relative(face);
             if (!level.isLoaded(target) || !level.isEmptyBlock(target)) {
                 return InteractionResult.PASS;
             }
