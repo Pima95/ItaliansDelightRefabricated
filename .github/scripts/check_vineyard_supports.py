@@ -30,7 +30,7 @@ for path in ("blockstates/grape_leaves.json","blockstates/grape_stem.json",
     j(assets / path)
 for name in ("wine_bucket","grape_juice_bucket"):
     path = assets / f"textures/item/{name}.png"
-    require(path.is_file() and path.read_bytes()[:8] == b"\\x89PNG\\r\\n\\x1a\\n",
+    require(path.is_file() and path.read_bytes()[:8] == b"\x89PNG\r\n\x1a\n",
             f"Missing PNG {name}")
 for path in ("textures/block/fluids/grape_juice_still.png",
              "textures/block/fluids/booze/wine_still.png",
@@ -41,8 +41,7 @@ it = j(assets / "lang/it_it.json")
 for key in ("block.italiansdelight.grape_juice","block.italiansdelight.wine",
             "item.italiansdelight.wine_bucket","block.italiansdelight.crop_stake"):
     require(key in en and key in it,f"Missing JEI or crop translation {key}")
-client = read(java / "../../ItaliansDelightClient.java") if False else read(
-    Path("src/main/java/dev/italiansdelight/ItaliansDelightClient.java"))
+client = read(Path("src/main/java/dev/italiansdelight/ItaliansDelightClient.java"))
 require('registerContainedFluid(ModFluids.WINE,' in client,"Wine fluid JEI rendering not registered")
 require('ModRegistries.id("block/fluids/booze/wine_still")' in client,"Wrong wine sprite")
 stake = read(java / "common/block/CropStakeBlock.java")
