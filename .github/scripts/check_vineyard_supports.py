@@ -117,7 +117,13 @@ for wood in woods:
     assert not any("crop" in part.get("when",{}) for part in states)
     if wood!="oak":
         model=load(assets/f"models/block/{ident}.json")
-        assert model["parent"]=="italiansdelight:block/crop_stake"
+        if wood=="bamboo":
+            # Custom vanilla-aligned UVs require standalone elements rather than
+            # inheriting the generic pole's 6..10 top crop.
+            assert model.get("elements") and model["elements"][0]["from"]==[6,0,6]
+            assert model["elements"][0]["to"]==[10,16,10]
+        else:
+            assert model["parent"]=="italiansdelight:block/crop_stake"
         assert load(assets/f"models/item/{ident}.json")["parent"]==f"italiansdelight:block/{ident}"
         assert load(assets/f"items/{ident}.json")["model"]["model"]==f"italiansdelight:item/{ident}"
         assert load(data/f"italiansdelight/loot_table/blocks/{ident}.json")["pools"][0]["entries"][0]["name"]==bid
