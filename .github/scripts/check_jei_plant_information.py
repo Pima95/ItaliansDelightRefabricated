@@ -16,6 +16,15 @@ blocks=Path("src/main/java/dev/italiansdelight/common/registry/ModBlocks.java").
 items=Path("src/main/java/dev/italiansdelight/common/registry/ModItems.java").read_text(encoding="utf-8")
 
 assert 'OrchardPlantJeiInfo.register(registration);' in plugin
+assert 'DecorativePoleJeiInfo.register(registration);' in plugin
+decoration=Path("src/main/java/dev/italiansdelight/integration/jei/DecorativePoleJeiInfo.java").read_text(encoding="utf-8")
+assert "registration.addItemStackInfo(" in decoration
+assert decoration.count("new ItemStack(ModBlocks.") == 16
+assert "jei.italiansdelight.decorative_stakes" in decoration
+for locale in ("en_us","it_it"):
+    language=json.loads((R/f"assets/italiansdelight/lang/{locale}.json").read_text(encoding="utf-8"))
+    assert len(language["jei.italiansdelight.decorative_stakes"]) > 100
+
 assert plugin.index('OrchardPlantJeiInfo.register(registration);') > plugin.index("public void registerRecipes(")
 assert 'mezz.jei.api.registration.IRecipeRegistration' in source
 assert 'mezz.jei.api.registration.IRecipeRegistration' in plugin

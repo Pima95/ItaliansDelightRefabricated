@@ -102,6 +102,24 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.ALMOND_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK);
 
+                // DECORATIVE POLES — all 16 wood variants, after aging racks.
+                output.accept(ModBlocks.CROP_STAKE);
+                output.accept(ModBlocks.SPRUCE_CROP_STAKE);
+                output.accept(ModBlocks.BIRCH_CROP_STAKE);
+                output.accept(ModBlocks.JUNGLE_CROP_STAKE);
+                output.accept(ModBlocks.ACACIA_CROP_STAKE);
+                output.accept(ModBlocks.DARK_OAK_CROP_STAKE);
+                output.accept(ModBlocks.MANGROVE_CROP_STAKE);
+                output.accept(ModBlocks.CHERRY_CROP_STAKE);
+                output.accept(ModBlocks.PALE_OAK_CROP_STAKE);
+                output.accept(ModBlocks.POPLAR_CROP_STAKE);
+                output.accept(ModBlocks.BAMBOO_CROP_STAKE);
+                output.accept(ModBlocks.CRIMSON_CROP_STAKE);
+                output.accept(ModBlocks.WARPED_CROP_STAKE);
+                output.accept(ModBlocks.OLIVE_CROP_STAKE);
+                output.accept(ModBlocks.ALMOND_CROP_STAKE);
+                output.accept(ModBlocks.FRUIT_CHERRY_CROP_STAKE);
+
                 // CRATES AND CROP STORAGE.
                 output.accept(ModBlocks.OLIVE_CRATE);
                 output.accept(ModBlocks.ALMOND_CRATE);
@@ -183,30 +201,25 @@ public final class ModItemGroups {
                 output.accept(ModItems.ROLLING_PIN);
                 output.accept(ModItems.PIZZA_PEEL);
 
-                // CROPS AND WILD PLANTS.
+                // CROPS AND WILD PLANTS — keep related forms and harvest together.
                 output.accept(ModBlocks.CARDOON);
                 output.accept(ModBlocks.CULTIVATED_CARDOON);
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
-                output.accept(ModBlocks.CROP_STAKE);
-                output.accept(ModBlocks.SPRUCE_CROP_STAKE);
-                output.accept(ModBlocks.BIRCH_CROP_STAKE);
-                output.accept(ModBlocks.JUNGLE_CROP_STAKE);
-                output.accept(ModBlocks.ACACIA_CROP_STAKE);
-                output.accept(ModBlocks.DARK_OAK_CROP_STAKE);
-                output.accept(ModBlocks.MANGROVE_CROP_STAKE);
-                output.accept(ModBlocks.CHERRY_CROP_STAKE);
-                output.accept(ModBlocks.PALE_OAK_CROP_STAKE);
-                output.accept(ModBlocks.POPLAR_CROP_STAKE);
-                output.accept(ModBlocks.BAMBOO_CROP_STAKE);
-                output.accept(ModBlocks.CRIMSON_CROP_STAKE);
-                output.accept(ModBlocks.WARPED_CROP_STAKE);
-                output.accept(ModBlocks.OLIVE_CROP_STAKE);
-                output.accept(ModBlocks.ALMOND_CROP_STAKE);
-                output.accept(ModBlocks.FRUIT_CHERRY_CROP_STAKE);
+
+                // GRAPE FAMILY: seeds, harvest, juice and wine (buckets first).
                 output.accept(ModBlocks.GRAPE_SEEDS);
+                output.accept(ModItems.GRAPES);
+                output.accept(ModItems.GRAPE_JUICE_BUCKET);
+                output.accept(ModItems.GRAPE_JUICE_BOTTLE);
+                output.accept(ModItems.WINE_BUCKET);
+                output.accept(ModItems.WINE_BOTTLE);
+
+                // CHILI FAMILY: seed, wild shrub, common and rare fruit.
                 output.accept(ModBlocks.CHILI_PEPPER_SEEDS);
                 output.accept(ModBlocks.WILD_CHILI);
+                output.accept(ModItems.CHILI_PEPPER);
+                output.accept(ModItems.GHOST_PEPPER);
 
                 // ORCHARD FRUITS AND RAW INGREDIENTS.
                 output.accept(ModItems.OLIVES);
@@ -216,9 +229,9 @@ public final class ModItemGroups {
                 output.accept(ModItems.CHOPPED_ALMONDS);
                 output.accept(ModItems.CHERRIES);
                 output.accept(ModItems.APPLE_SEEDS);
-                output.accept(ModItems.GRAPES);
-                output.accept(ModItems.CHILI_PEPPER);
-                output.accept(ModItems.GHOST_PEPPER);
+
+
+
 
                 // SAUCES, SEASONINGS AND PREPARED VEGETABLES.
                 output.accept(ModItems.OLIVE_PATE);
@@ -235,10 +248,10 @@ public final class ModItemGroups {
                 output.accept(ModItems.OLIVE_OIL_BOTTLE);
                 output.accept(ModItems.APPLE_JUICE_BUCKET);
                 output.accept(ModItems.APPLE_JUICE_BOTTLE);
-                output.accept(ModItems.GRAPE_JUICE_BUCKET);
-                output.accept(ModItems.GRAPE_JUICE_BOTTLE);
-                output.accept(ModItems.WINE_BOTTLE);
-                output.accept(ModItems.WINE_BUCKET);
+
+
+
+
                 output.accept(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
                 output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
                 output.accept(ModItems.HONEY_BUCKET);

@@ -69,13 +69,21 @@ assert not (src/"mixin/TomatoOnStakeSupportMixin.java").exists()
 assert "TomatoOnStakeSupportMixin" not in load(resources/"italiansdelight.mixins.json")["mixins"]
 assert "TOMATO_CROP.get()" in read(src/"common/block/StakedTomatoBlock.java")
 
-root = load(assets/"blockstates/chili_crop.json")
-for age in range(8):
-    assert any(part.get("when") == {"age":str(age)}
-        and part["apply"]["model"] ==
-        f"italiansdelight:block/chili_free_stage_{0 if age<2 else 1 if age<4 else 2 if age<7 else 3}"
-        for part in root["multipart"])
-assert all("staked" not in part.get("when",{}) for part in root["multipart"])
+# The crop and hanging block retain legacy STAKED/ROPE_TIED flags for
+# old-save compatibility. Their blockstate files must explicitly resolve
+# every property combination, not only age as FDR's age-only hanging tomato.
+# Missing combinations are rendered as black/magenta missing-model cubes.
+mapping=[0,0,1,1,2,2,2,3]
+root=load(assets/"blockstates/chili_crop.json")["variants"]
+rope_variants=load(assets/"blockstates/chili_on_rope.json")["variants"]
+assert len(root)==len(rope_variants)==8*2*2
+for age,stage in enumerate(mapping):
+    for rope_tied in ("false","true"):
+        for staked in ("false","true"):
+            key=f"age={age},rope_tied={rope_tied},staked={staked}"
+            assert root[key]["model"]==f"italiansdelight:block/chili_free_stage_{stage}",key
+            assert rope_variants[key]["model"]==f"italiansdelight:block/chili_rope_stage_{stage}",key
+
 for i in range(4):
     assert load(assets/f"models/block/chili_free_stage_{i}.json")["textures"]["cross"] == f"italiansdelight:block/chili_crop_{i}"
     assert not (assets/f"models/block/chili_stage_{i}.json").exists()
@@ -131,10 +139,7 @@ for stage in range(4):
 # FDR tomatoes use four visible states: sprout, leaves, green fruit, ripe
 # fruit. Preserve the chili's existing age=0..7 save format but show the
 # same four distinct stages (0/1, 2/3, 4/5/6, 7).
-mapping=[0,0,1,1,2,2,2,3]
-rope=load(assets/"blockstates/chili_on_rope.json")["variants"]
-for age, stage in enumerate(mapping):
-    assert rope[f"age={age}"]["model"]==f"italiansdelight:block/chili_rope_stage_{stage}"
+# The 32 explicit rope/root mappings above cover all legacy age/property states.
 assert "current.setValue(AGE, 0)" in chili, "Harvest must restart at sprout (FDR tomato behavior)"
 assert "current.setValue(AGE, 6)" not in chili
 
@@ -154,7 +159,7 @@ for stage in range(4):
     assert free["parent"]=="italiansdelight:block/template_chili_crop_cross"
     assert raised["parent"]=="italiansdelight:block/template_chili_crop_with_rope"
     assert free["textures"]["cross"]==raised["textures"]["crop"]==f"italiansdelight:block/chili_crop_{stage}"
-    assert raised["textures"]["rope_side"]=="farmersdelight:block/rope"
+    assert raised["textures"]["rope_side"]=="farmersdelight:block/tomatoes_coiled_rope"
     assert raised["textures"]["rope_top"]=="farmersdelight:block/rope_top"
 
 # Check the actual alpha pixels rather than only checking a PNG's dimensions.
@@ -238,7 +243,10 @@ assert wildplaced["feature"]=="italiansdelight:wild_chili"
 assert wildplaced["placement"][0]=={"type":"minecraft:rarity_filter","chance":120}
 # Bamboo end grain now matches the warm plank color, not the green block cap.
 bamboo=load(assets/"models/block/bamboo_crop_stake.json")["textures"]
-assert bamboo["0"]=="minecraft:block/bamboo_planks" and bamboo["2"]=="minecraft:block/bamboo_fence"
+assert bamboo["0"]=="minecraft:block/bamboo_planks" and bamboo["2"]=="italiansdelight:block/bamboo_stake_end"
+bamboo_end=(assets/"textures/block/bamboo_stake_end.png").read_bytes()
+assert bamboo_end[:8]==bytes.fromhex("89504e470d0a1a0a")
+assert struct.unpack(">II",bamboo_end[16:24])==(16,16)
 print("PASSED: crop stage growth, seamless vertical chili models, bright wild inventory, fence-textured bamboo tips")
 
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")

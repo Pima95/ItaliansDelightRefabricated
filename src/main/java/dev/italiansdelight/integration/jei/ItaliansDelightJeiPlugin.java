@@ -102,9 +102,10 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
     public void registerRecipes(
         IRecipeRegistration registration
     ) {
-        // Native JEI Information tabs: five plants, covering their linked
+        // Native JEI Information tabs: seven plant families, covering their linked
         // fruits/saplings/leaves or wild/cultivated forms (as in the video).
         OrchardPlantJeiInfo.register(registration);
+        DecorativePoleJeiInfo.register(registration);
         ModFluidJeiInfo.register(registration);
 
         CheeseVatJeiRecipes recipes =

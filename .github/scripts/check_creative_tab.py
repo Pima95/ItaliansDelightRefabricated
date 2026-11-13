@@ -137,6 +137,8 @@ def main() -> None:
         ("ModItems.ALMOND_PESTO", "ModItems.PASTA_WITH_ALMOND_PESTO"),
         ("ModItems.PASTA_WITH_ALMOND_PESTO", "ModBlocks.ALMOND_CAKE"),
         ("ModItems.BRUSCHETTA", "ModBlocks.ALMOND_CAKE"),
+        ("ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK", "ModBlocks.CROP_STAKE"),
+        ("ModBlocks.FRUIT_CHERRY_CROP_STAKE", "ModBlocks.OLIVE_CRATE"),
     ):
         before(left, right)
 
@@ -153,6 +155,29 @@ def main() -> None:
         < full_order.index("ModBlocks.CARDOON")
     ):
         raise ValueError("Storage crates belong with the blocks, before crops/ingredients")
+    # Decorative poles must be a continuous group between racks and crates.
+    poles = ("", "SPRUCE_", "BIRCH_", "JUNGLE_", "ACACIA_", "DARK_OAK_",
+             "MANGROVE_", "CHERRY_", "PALE_OAK_", "POPLAR_", "BAMBOO_",
+             "CRIMSON_", "WARPED_", "OLIVE_", "ALMOND_", "FRUIT_CHERRY_")
+    pole_positions = [full_order.index(f"ModBlocks.{wood}CROP_STAKE") for wood in poles]
+    if pole_positions != list(range(pole_positions[0], pole_positions[0]+len(poles))):
+        raise ValueError("Decorative poles must be contiguous after cheese-aging racks")
+    if pole_positions[0] != full_order.index("ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK")+1:
+        raise ValueError("Pales should be immediately after the last cheese-aging rack")
+
+    # Families are displayed together in Creative without duplicate stacks.
+    grape_family = ("ModBlocks.GRAPE_SEEDS", "ModItems.GRAPES",
+        "ModItems.GRAPE_JUICE_BUCKET", "ModItems.GRAPE_JUICE_BOTTLE",
+        "ModItems.WINE_BUCKET", "ModItems.WINE_BOTTLE")
+    chili_family = ("ModBlocks.CHILI_PEPPER_SEEDS", "ModBlocks.WILD_CHILI",
+        "ModItems.CHILI_PEPPER", "ModItems.GHOST_PEPPER")
+    for family in (grape_family, chili_family):
+        positions = [full_order.index(item) for item in family]
+        if positions != list(range(positions[0], positions[0]+len(family))):
+            raise ValueError(f"Plant family is not contiguous: {family}")
+    if full_order.index(grape_family[-1])+1 != full_order.index(chili_family[0]):
+        raise ValueError("Grape and chili families must be adjacent")
+
     crates = ("OLIVE", "ALMOND", "CHERRY", "BASIL", "CARDOON")
     crate_indexes = [full_order.index(f"ModBlocks.{c}_CRATE") for c in crates]
     if crate_indexes != list(range(crate_indexes[0], crate_indexes[0]+len(crates))):
@@ -177,6 +202,8 @@ def main() -> None:
             raise ValueError(f"{species} wood derivatives are non-contiguous/out of order")
     fluid_pairs = (
         ("OLIVE_OIL_BUCKET", "OLIVE_OIL_BOTTLE"),
+        ("GRAPE_JUICE_BUCKET", "GRAPE_JUICE_BOTTLE"),
+        ("WINE_BUCKET", "WINE_BOTTLE"),
         ("APPLE_JUICE_BUCKET", "APPLE_JUICE_BOTTLE"),
         ("GOLDEN_APPLE_JUICE_BUCKET", "GOLDEN_APPLE_JUICE_BOTTLE"),
         ("SHEEP_MILK_BUCKET", "SHEEP_MILK_BOTTLE"),

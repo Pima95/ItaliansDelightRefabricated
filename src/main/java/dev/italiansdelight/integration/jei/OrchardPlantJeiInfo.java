@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 /**
- * Native JEI "Information" pages for the five added plant families.
+ * Native JEI "Information" pages for the seven added plant families.
  *
  * <p>Like the Farmer's Delight tomato/shrub example, each entry groups
  * related item stacks under one informational page. JEI supplies the normal
@@ -63,6 +63,28 @@ public final class OrchardPlantJeiInfo {
                 new ItemStack(ModBlocks.CARDOON)
             ),
             Component.translatable("jei.italiansdelight.plants.cardoon")
+        );
+        // The full grape and chili families share JEI Information pages,
+        // so their seeds, natural forms, harvest and processing stay linked.
+        registration.addItemStackInfo(
+            List.of(
+                new ItemStack(ModBlocks.GRAPE_SEEDS),
+                new ItemStack(ModItems.GRAPES),
+                new ItemStack(ModItems.GRAPE_JUICE_BUCKET),
+                new ItemStack(ModItems.GRAPE_JUICE_BOTTLE),
+                new ItemStack(ModItems.WINE_BUCKET),
+                new ItemStack(ModItems.WINE_BOTTLE)
+            ),
+            Component.translatable("jei.italiansdelight.plants.grape")
+        );
+        registration.addItemStackInfo(
+            List.of(
+                new ItemStack(ModBlocks.CHILI_PEPPER_SEEDS),
+                new ItemStack(ModBlocks.WILD_CHILI),
+                new ItemStack(ModItems.CHILI_PEPPER),
+                new ItemStack(ModItems.GHOST_PEPPER)
+            ),
+            Component.translatable("jei.italiansdelight.plants.chili")
         );
     }
 }

@@ -1,27 +1,99 @@
 {
   "variants": {
-    "age=0": {
+    "age=0,rope_tied=false,staked=false": {
       "model": "italiansdelight:block/chili_rope_stage_0"
     },
-    "age=1": {
+    "age=0,rope_tied=false,staked=true": {
       "model": "italiansdelight:block/chili_rope_stage_0"
     },
-    "age=2": {
+    "age=0,rope_tied=true,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_0"
+    },
+    "age=0,rope_tied=true,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_0"
+    },
+    "age=1,rope_tied=false,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_0"
+    },
+    "age=1,rope_tied=false,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_0"
+    },
+    "age=1,rope_tied=true,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_0"
+    },
+    "age=1,rope_tied=true,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_0"
+    },
+    "age=2,rope_tied=false,staked=false": {
       "model": "italiansdelight:block/chili_rope_stage_1"
     },
-    "age=3": {
+    "age=2,rope_tied=false,staked=true": {
       "model": "italiansdelight:block/chili_rope_stage_1"
     },
-    "age=4": {
+    "age=2,rope_tied=true,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_1"
+    },
+    "age=2,rope_tied=true,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_1"
+    },
+    "age=3,rope_tied=false,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_1"
+    },
+    "age=3,rope_tied=false,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_1"
+    },
+    "age=3,rope_tied=true,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_1"
+    },
+    "age=3,rope_tied=true,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_1"
+    },
+    "age=4,rope_tied=false,staked=false": {
       "model": "italiansdelight:block/chili_rope_stage_2"
     },
-    "age=5": {
+    "age=4,rope_tied=false,staked=true": {
       "model": "italiansdelight:block/chili_rope_stage_2"
     },
-    "age=6": {
+    "age=4,rope_tied=true,staked=false": {
       "model": "italiansdelight:block/chili_rope_stage_2"
     },
-    "age=7": {
+    "age=4,rope_tied=true,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_2"
+    },
+    "age=5,rope_tied=false,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_2"
+    },
+    "age=5,rope_tied=false,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_2"
+    },
+    "age=5,rope_tied=true,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_2"
+    },
+    "age=5,rope_tied=true,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_2"
+    },
+    "age=6,rope_tied=false,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_2"
+    },
+    "age=6,rope_tied=false,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_2"
+    },
+    "age=6,rope_tied=true,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_2"
+    },
+    "age=6,rope_tied=true,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_2"
+    },
+    "age=7,rope_tied=false,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_3"
+    },
+    "age=7,rope_tied=false,staked=true": {
+      "model": "italiansdelight:block/chili_rope_stage_3"
+    },
+    "age=7,rope_tied=true,staked=false": {
+      "model": "italiansdelight:block/chili_rope_stage_3"
+    },
+    "age=7,rope_tied=true,staked=true": {
       "model": "italiansdelight:block/chili_rope_stage_3"
     }
   }
