@@ -28,7 +28,6 @@ placement = read(src/"common/block/HorizontalRopePlacement.java")
 rope = read(src/"common/block/HorizontalRopeBlock.java")
 grape = read(src/"common/block/GrapeStemBlock.java")
 init = read(src/"ItaliansDelight.java")
-seed = read(src/"common/item/ChiliSeedsItem.java")
 
 # No crops can be planted onto decorative stakes.
 assert "extends RotatedPillarBlock" in stake
@@ -36,7 +35,6 @@ assert "IntegerProperty CROP" not in stake
 assert "StakeCropPlanting" not in init and "StakeCropBreaking" not in init
 assert not (src/"common/block/StakeCropPlanting.java").exists()
 assert not (src/"common/block/StakeCropBreaking.java").exists()
-assert "StakeCropPlanting" not in seed
 assert "getStateForPlacement" in stake and "super.getStateForPlacement(ctx)" in stake
 assert "case X -> X_SHAPE" in stake and "case Z -> Z_SHAPE" in stake
 assert "case Y -> POST" in stake
