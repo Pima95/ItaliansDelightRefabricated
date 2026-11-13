@@ -40,7 +40,29 @@ jobs:
               assert m['version'] == '1.2.0-mc26.3-dev'
               assert m['depends']['minecraft'] == '~26.3'
               assert m['depends']['java'] == '>=25'
-          print('OK: 1.2.0 development JAR')
+              # Inspect the actual JAR, not just the source directory:
+              # Minecraft client loads these bundled assets for all ages.
+              for block, prefix in (
+                  ('chili_crop', 'chili_free_stage_'),
+                  ('chili_on_rope', 'chili_rope_stage_'),
+              ):
+                  path = f'assets/italiansdelight/blockstates/{block}.json'
+                  states = json.loads(jar.read(path))['multipart']
+                  assert len(states) == 8, (block, len(states))
+                  for age, part in enumerate(states):
+                      assert part['when'] == {'age': str(age)}
+                      model = part['apply']['model'].split(':')[1]
+                      model_path = f'assets/italiansdelight/models/{model}.json'
+                      data = json.loads(jar.read(model_path))
+                      assert data['render_type'] == 'minecraft:cutout'
+                      texture = data['textures']['cross' if block == 'chili_crop' else 'crop']
+                      sprite = f'assets/italiansdelight/textures/{texture.split(":")[1]}.png'
+                      assert jar.getinfo(sprite).file_size > 80
+              bamboo = json.loads(jar.read('assets/italiansdelight/models/block/bamboo_crop_stake.json'))
+              assert bamboo['textures']['2'] == 'minecraft:block/bamboo_fence'
+              assert bamboo['elements'][0]['faces']['up']['uv'] == [4, 0, 8, 4]
+              assert 'dev/italiansdelight/common/block/WildChiliBlock.class' in jar.namelist()
+          print('OK: 1.2.0 JAR contains all chili states and sprites, FDR wild chili and vanilla bamboo cap')
           PY
       - uses: actions/upload-artifact@v4
         if: success()

@@ -1,12 +1,17 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.effect.MobEffects;
+import vectorwing.farmersdelight.common.block.WildCropBlock;
+
 /**
- * Naturally spawning chili bush. Uses the same survival and bone-meal spread
- * behavior as wild basil, but has its own registry ID, texture and seed drops.
- * No wooden support is created or required.
+ * Wild chili shrub: use exactly the same placement/offset behavior as
+ * Farmer's Delight wild tomatoes (WildCropBlock + TALL_GRASS properties).
+ *
+ * FDR keeps the selection shape centered rather than applying the
+ * randomized block-render offset to the hitbox.
  */
-public final class WildChiliBlock extends WildBasilBlock {
+public final class WildChiliBlock extends WildCropBlock {
     public WildChiliBlock(Properties properties) {
-        super(properties);
+        super(MobEffects.POISON, 10, properties);
     }
 }

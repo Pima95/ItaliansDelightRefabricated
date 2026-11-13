@@ -69,20 +69,26 @@ assert not (src/"mixin/TomatoOnStakeSupportMixin.java").exists()
 assert "TomatoOnStakeSupportMixin" not in load(resources/"italiansdelight.mixins.json")["mixins"]
 assert "TOMATO_CROP.get()" in read(src/"common/block/StakedTomatoBlock.java")
 
-# The crop and hanging block retain legacy STAKED/ROPE_TIED flags for
-# old-save compatibility. Their blockstate files must explicitly resolve
-# every property combination, not only age as FDR's age-only hanging tomato.
-# Missing combinations are rendered as black/magenta missing-model cubes.
+# Minecraft multipart blockstates resolve combinations by their "when"
+# property subset. Unlike exact-key variants, age-only predicates explicitly
+# cover every saved legacy value of STAKED and ROPE_TIED for both blocks.
+# The previous variants-based test passed while users still saw missing models.
 mapping=[0,0,1,1,2,2,2,3]
-root=load(assets/"blockstates/chili_crop.json")["variants"]
-rope_variants=load(assets/"blockstates/chili_on_rope.json")["variants"]
-assert len(root)==len(rope_variants)==8*2*2
-for age,stage in enumerate(mapping):
-    for rope_tied in ("false","true"):
-        for staked in ("false","true"):
-            key=f"age={age},rope_tied={rope_tied},staked={staked}"
-            assert root[key]["model"]==f"italiansdelight:block/chili_free_stage_{stage}",key
-            assert rope_variants[key]["model"]==f"italiansdelight:block/chili_rope_stage_{stage}",key
+for block, model_prefix in (("chili_crop","chili_free"),("chili_on_rope","chili_rope")):
+    blockstate=load(assets/f"blockstates/{block}.json")
+    assert set(blockstate)=={"multipart"}, f"{block} must use age-only multipart"
+    parts=blockstate["multipart"]
+    assert len(parts)==8
+    for age,stage in enumerate(mapping):
+        # Simulate all 32 concrete states seen by the Java block.
+        for tied in ("false","true"):
+            for staked in ("false","true"):
+                concrete={"age":str(age),"rope_tied":tied,"staked":staked}
+                matches=[p for p in parts if all(concrete.get(k)==v for k,v in p["when"].items())]
+                assert len(matches)==1,(block,concrete,matches)
+                target=matches[0]["apply"]["model"]
+                assert target==f"italiansdelight:block/{model_prefix}_stage_{stage}",(block,concrete,target)
+                assert (assets/f"models/block/{model_prefix}_stage_{stage}.json").is_file()
 
 for i in range(4):
     assert load(assets/f"models/block/chili_free_stage_{i}.json")["textures"]["cross"] == f"italiansdelight:block/chili_crop_{i}"
@@ -223,7 +229,12 @@ assert not any(r>110 and r>g*1.3 and r>b*1.3 and a==255 for line in green for (r
 # existing crop seeds so no incompatible duplicate seed item is introduced.
 assert "WildChiliBlock" in registry and 'ModRegistries.id("wild_chili")' in registry
 assert "output.accept(ModBlocks.WILD_CHILI)" in creative
-assert "extends WildBasilBlock" in read(src/"common/block/WildChiliBlock.java")
+# Use the exact base class/placement properties as Farmer's Delight wild
+# tomatoes: visual offset from TALL_GRASS while collision shape stays centered.
+wild_java=read(src/"common/block/WildChiliBlock.java")
+assert "extends WildCropBlock" in wild_java and "super(MobEffects.POISON, 10, properties)" in wild_java
+assert "extends WildBasilBlock" not in wild_java
+assert "Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(WILD_CHILI_KEY)" in registry
 assert "wild_chili_patch" in read(src/"common/registry/ModWorldGeneration.java")
 assert "Biomes.SAVANNA" in read(src/"common/registry/ModWorldGeneration.java")
 assert "block.italiansdelight.wild_chili" in en and "block.italiansdelight.wild_chili" in it
@@ -241,12 +252,18 @@ assert wildfeature["to_place"]["state"]["id"]=="italiansdelight:wild_chili"
 wildplaced=load(data/"italiansdelight/worldgen/placed_feature/wild_chili_patch.json")
 assert wildplaced["feature"]=="italiansdelight:wild_chili"
 assert wildplaced["placement"][0]=={"type":"minecraft:rarity_filter","chance":120}
-# Bamboo end grain now matches the warm plank color, not the green block cap.
-bamboo=load(assets/"models/block/bamboo_crop_stake.json")["textures"]
-assert bamboo["0"]=="minecraft:block/bamboo_planks" and bamboo["2"]=="italiansdelight:block/bamboo_stake_end"
-bamboo_end=(assets/"textures/block/bamboo_stake_end.png").read_bytes()
-assert bamboo_end[:8]==bytes.fromhex("89504e470d0a1a0a")
-assert struct.unpack(">II",bamboo_end[16:24])==(16,16)
-print("PASSED: crop stage growth, seamless vertical chili models, bright wild inventory, fence-textured bamboo tips")
+# Vanilla bamboo_fence_post inherits custom_fence_post. Its up/down
+# 4x4 section samples UV [4,0,8,4] of minecraft:block/bamboo_fence.
+# Do not recolor planks or invent a replacement cap: reuse the ORIGINAL atlas.
+bamboo_model=load(assets/"models/block/bamboo_crop_stake.json")
+bamboo=bamboo_model["textures"]
+assert bamboo["0"]=="minecraft:block/bamboo_planks"
+assert bamboo["2"]=="minecraft:block/bamboo_fence"
+assert len(bamboo_model["elements"])==1
+for face in ("up","down"):
+    assert bamboo_model["elements"][0]["faces"][face]["texture"]=="#2"
+    assert bamboo_model["elements"][0]["faces"][face]["uv"]==[4,0,8,4]
+assert not (assets/"textures/block/bamboo_stake_end.png").exists(), "Old custom cap must be removed"
+print("PASSED: FDR-based wild crop offset with centered hitbox, age-only chili models, vanilla bamboo fence cap")
 
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")

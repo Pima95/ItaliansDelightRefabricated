@@ -816,7 +816,7 @@ public final class ModBlocks {
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("wild_chili")
     );
     public static final Block WILD_CHILI = register(WILD_CHILI_KEY,
-        new WildChiliBlock(Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(WILD_CHILI_KEY))
+        new WildChiliBlock(Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(WILD_CHILI_KEY))
     );
 
     // Decorative posts only: the original crop_stake is the oak variant.
