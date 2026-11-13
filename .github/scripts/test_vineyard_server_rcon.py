@@ -143,7 +143,7 @@ def test():
             run(rcon, f"setblock {x} 80 1 minecraft:water")
             run(rcon, f"setblock {x} 80 0 {soil}[moisture=7]")
             run(rcon, f"setblock {x} 81 0 italiansdelight:chili_crop[age=0]")
-            assert_block(rcon, x, 81, 0, "italiansdelight:chili_crop[age=0,staked=false]")
+            assert_block(rcon, x, 81, 0, "italiansdelight:chili_crop[age=0,ropelogged=false]")
             assert_block(rcon, x, 80, 0, soil)
 
         # A ripe chili grows up original Farmer's Delight vertical rope
@@ -196,6 +196,17 @@ def test():
         assert_block(rcon, 13, 81, 0, "italiansdelight:wild_chili")
         run(rcon, "time add 100")
         assert_block(rcon, 13, 81, 0, "italiansdelight:wild_chili")
+        # Wild basil and cardoon now share WildCropBlock with FDR wild tomatoes.
+        run(rcon, "setblock 14 80 0 minecraft:grass_block")
+        run(rcon, "setblock 14 81 0 italiansdelight:wild_basil")
+        run(rcon, "setblock 15 80 0 minecraft:grass_block")
+        run(rcon, "setblock 15 81 0 italiansdelight:cardoon")
+        assert_block(rcon, 14, 81, 0, "italiansdelight:wild_basil")
+        assert_block(rcon, 15, 81, 0, "italiansdelight:cardoon")
+        # Legacy stage seven must remain a valid root and hanging state.
+        run(rcon, "setblock 11 80 2 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 11 81 2 italiansdelight:chili_crop[age=7,ropelogged=false]")
+        assert_block(rcon, 11, 81, 2, "italiansdelight:chili_crop[age=7,ropelogged=false]")
         run(rcon, "save-all")
         print("PASSED: 16 decorative poles, untouched rope, standalone chili climb <=3, rich farmland and grapes", flush=True)
     finally:

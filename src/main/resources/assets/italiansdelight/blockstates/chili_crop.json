@@ -1,68 +1,52 @@
 {
-  "multipart": [
-    {
-      "when": {
-        "age": "0"
-      },
-      "apply": {
-        "model": "italiansdelight:block/chili_free_stage_0"
-      }
+  "variants": {
+    "age=0,ropelogged=false": {
+      "model": "italiansdelight:block/chili_free_stage_0"
     },
-    {
-      "when": {
-        "age": "1"
-      },
-      "apply": {
-        "model": "italiansdelight:block/chili_free_stage_0"
-      }
+    "age=0,ropelogged=true": {
+      "model": "italiansdelight:block/chili_free_stage_0"
     },
-    {
-      "when": {
-        "age": "2"
-      },
-      "apply": {
-        "model": "italiansdelight:block/chili_free_stage_1"
-      }
+    "age=1,ropelogged=false": {
+      "model": "italiansdelight:block/chili_free_stage_0"
     },
-    {
-      "when": {
-        "age": "3"
-      },
-      "apply": {
-        "model": "italiansdelight:block/chili_free_stage_1"
-      }
+    "age=1,ropelogged=true": {
+      "model": "italiansdelight:block/chili_free_stage_0"
     },
-    {
-      "when": {
-        "age": "4"
-      },
-      "apply": {
-        "model": "italiansdelight:block/chili_free_stage_2"
-      }
+    "age=2,ropelogged=false": {
+      "model": "italiansdelight:block/chili_free_stage_1"
     },
-    {
-      "when": {
-        "age": "5"
-      },
-      "apply": {
-        "model": "italiansdelight:block/chili_free_stage_2"
-      }
+    "age=2,ropelogged=true": {
+      "model": "italiansdelight:block/chili_free_stage_1"
     },
-    {
-      "when": {
-        "age": "6"
-      },
-      "apply": {
-        "model": "italiansdelight:block/chili_free_stage_2"
-      }
+    "age=3,ropelogged=false": {
+      "model": "italiansdelight:block/chili_free_stage_1"
     },
-    {
-      "when": {
-        "age": "7"
-      },
-      "apply": {
-        "model": "italiansdelight:block/chili_free_stage_3"
-      }
+    "age=3,ropelogged=true": {
+      "model": "italiansdelight:block/chili_free_stage_1"
+    },
+    "age=4,ropelogged=false": {
+      "model": "italiansdelight:block/chili_free_stage_2"
+    },
+    "age=4,ropelogged=true": {
+      "model": "italiansdelight:block/chili_free_stage_2"
+    },
+    "age=5,ropelogged=false": {
+      "model": "italiansdelight:block/chili_free_stage_2"
+    },
+    "age=5,ropelogged=true": {
+      "model": "italiansdelight:block/chili_free_stage_2"
+    },
+    "age=6,ropelogged=false": {
+      "model": "italiansdelight:block/chili_free_stage_2"
+    },
+    "age=6,ropelogged=true": {
+      "model": "italiansdelight:block/chili_free_stage_2"
+    },
+    "age=7,ropelogged=false": {
+      "model": "italiansdelight:block/chili_free_stage_3"
+    },
+    "age=7,ropelogged=true": {
+      "model": "italiansdelight:block/chili_free_stage_3"
     }
-  ]
+  }
 }

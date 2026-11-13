@@ -24,7 +24,6 @@ import dev.italiansdelight.common.block.GrapeStemBlock;
 import dev.italiansdelight.common.block.GrapeLeavesBlock;
 import dev.italiansdelight.common.block.ChiliCropBlock;
 import dev.italiansdelight.common.block.HangingChiliBlock;
-import dev.italiansdelight.common.item.ChiliSeedsItem;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.WildChiliBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
@@ -698,7 +697,7 @@ public final class ModBlocks {
     // Historical ID stays wild to preserve old worlds and flower pots.
     public static final Block CARDOON = register(
         CARDOON_KEY,
-        new CardoonBlock(Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(CARDOON_KEY))
+        new CardoonBlock(Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(CARDOON_KEY))
     );
 
     // New crop + BlockItem; harvested cardoon replants directly as with basil.
@@ -806,7 +805,7 @@ public final class ModBlocks {
     public static final Block WILD_BASIL = register(
         WILD_BASIL_KEY,
         new WildBasilBlock(
-            Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(WILD_BASIL_KEY)
+            Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(WILD_BASIL_KEY)
         )
     );
 
@@ -888,7 +887,7 @@ public final class ModBlocks {
     public static final ResourceKey<Item> CHILI_PEPPER_SEEDS_KEY = ResourceKey.create(
         BuiltInRegistries.ITEM.key(), ModRegistries.id("chili_pepper_seeds"));
     public static final Item CHILI_PEPPER_SEEDS = Registry.register(BuiltInRegistries.ITEM,
-        CHILI_PEPPER_SEEDS_KEY, new ChiliSeedsItem(CHILI_CROP,
+        CHILI_PEPPER_SEEDS_KEY, new BlockItem(CHILI_CROP,
             new Item.Properties().setId(CHILI_PEPPER_SEEDS_KEY)));
 
     public static final ResourceKey<Block> CHILI_ON_ROPE_KEY = ResourceKey.create(

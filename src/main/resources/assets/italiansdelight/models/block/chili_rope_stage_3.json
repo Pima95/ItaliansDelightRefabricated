@@ -1,5 +1,5 @@
 {
-  "parent": "italiansdelight:block/template_chili_crop_with_rope",
+  "parent": "farmersdelight:block/template_crop_with_rope",
   "render_type": "minecraft:cutout",
   "textures": {
     "crop": "italiansdelight:block/chili_crop_3",

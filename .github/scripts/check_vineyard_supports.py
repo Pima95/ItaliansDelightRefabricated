@@ -54,45 +54,54 @@ assert not any((resources/"assets/farmersdelight"/p).exists() for p in
   ("models/block/rope_side.json", "models/block/rope_side_alt.json",
    "textures/block/rope.png"))
 
-# Chili root must be an ordinary crop; only FDR vertical ropes are consumed.
-assert "super.useOn" not in seed or "StakeCropPlanting" not in seed
-assert ".setValue(STAKED, false)" in chili
-assert "support.is(ModBlocks.CROP_STAKE)" not in chili
+# Cultivated chili now follows Farmer's Delight tomato classes literally:
+# the same CropBlock growth/bonemeal tick, no detached custom grow algorithm.
+# Eight old ages and both registry IDs are retained for save compatibility.
+assert "extends TomatoBlock" in chili and "super(properties)" in chili
+assert "BlockStateProperties.AGE_7" in chili and "getMaxAge()" in chili
+assert "getClimbingState" in chili and "ModBlocks.CHILI_ON_ROPE.defaultBlockState()" in chili
+assert "climbRopeAbove" in chili and "height >= 3" in chili
+assert "extends ChiliCropBlock implements ReplaceOnRemoval" in hanging
+assert "super(properties, true)" in hanging
+assert "HangingTomatoBlock.placeRope" in hanging
+assert "builder.add(CHILI_AGE);" in hanging
+assert "builder.add(CHILI_AGE, ROPELOGGED);" in chili
+assert "StakeSoilTilling.isFarmland" in chili
 assert "CropStakeBlock.CROP" not in chili
-assert "canClimb(" in chili and "ModBlocks.ROPE.get()" in chili
-assert "ModBlocks.CHILI_ON_ROPE.defaultBlockState()" in chili
-assert "vineHeight(level, pos) >= 3" in chili
-assert "CropStakeBlock.hasCrop" not in hanging
-assert "shouldRestoreRope()" in chili and "RopeBlock.getStateWithConnections" in chili
-assert "ModBlocks.CROP_STAKE.defaultBlockState()" not in chili
+assert "crop_stake" not in chili.lower()
+assert "current.setValue(CHILI_AGE, 0)" in chili
+assert not (src/"common/item/ChiliSeedsItem.java").exists()
+assert "new BlockItem(CHILI_CROP" in registry
+assert "ChiliSeedsItem" not in registry
 assert not (src/"mixin/TomatoOnStakeSupportMixin.java").exists()
 assert "TomatoOnStakeSupportMixin" not in load(resources/"italiansdelight.mixins.json")["mixins"]
 assert "TOMATO_CROP.get()" in read(src/"common/block/StakedTomatoBlock.java")
 
-# Minecraft multipart blockstates resolve combinations by their "when"
-# property subset. Unlike exact-key variants, age-only predicates explicitly
-# cover every saved legacy value of STAKED and ROPE_TIED for both blocks.
-# The previous variants-based test passed while users still saw missing models.
-mapping=[0,0,1,1,2,2,2,3]
-for block, model_prefix in (("chili_crop","chili_free"),("chili_on_rope","chili_rope")):
-    blockstate=load(assets/f"blockstates/{block}.json")
-    assert set(blockstate)=={"multipart"}, f"{block} must use age-only multipart"
-    parts=blockstate["multipart"]
-    assert len(parts)==8
-    for age,stage in enumerate(mapping):
-        # Simulate all 32 concrete states seen by the Java block.
-        for tied in ("false","true"):
-            for staked in ("false","true"):
-                concrete={"age":str(age),"rope_tied":tied,"staked":staked}
-                matches=[p for p in parts if all(concrete.get(k)==v for k,v in p["when"].items())]
-                assert len(matches)==1,(block,concrete,matches)
-                target=matches[0]["apply"]["model"]
-                assert target==f"italiansdelight:block/{model_prefix}_stage_{stage}",(block,concrete,target)
-                assert (assets/f"models/block/{model_prefix}_stage_{stage}.json").is_file()
-
+# FDR TomatoBlock has one boolean ROPELOGGED for the root and only AGE
+# for the separate hanging block. Every state must resolve to a real model.
+ages=[0,0,1,1,2,2,2,3]
+rootstates=load(assets/"blockstates/chili_crop.json")
+ropestates=load(assets/"blockstates/chili_on_rope.json")
+assert set(rootstates)==set(ropestates)=={"variants"}
+assert len(rootstates["variants"])==16 and len(ropestates["variants"])==8
+for age,stage in enumerate(ages):
+    for value in ("false","true"):
+        key=f"age={age},ropelogged={value}"
+        assert rootstates["variants"][key]["model"]==f"italiansdelight:block/chili_free_stage_{stage}",key
+    assert ropestates["variants"][f"age={age}"]["model"]==f"italiansdelight:block/chili_rope_stage_{stage}"
 for i in range(4):
-    assert load(assets/f"models/block/chili_free_stage_{i}.json")["textures"]["cross"] == f"italiansdelight:block/chili_crop_{i}"
-    assert not (assets/f"models/block/chili_stage_{i}.json").exists()
+    free=load(assets/f"models/block/chili_free_stage_{i}.json")
+    raised=load(assets/f"models/block/chili_rope_stage_{i}.json")
+    assert free["parent"]=="farmersdelight:block/template_crop_cross"
+    assert raised["parent"]=="farmersdelight:block/template_crop_with_rope"
+    assert free["textures"]["cross"]==raised["textures"]["crop"]==f"italiansdelight:block/chili_crop_{i}"
+    assert raised["textures"]["rope_side"]=="farmersdelight:block/tomatoes_coiled_rope"
+    assert raised["textures"]["rope_top"]=="farmersdelight:block/rope_top"
+for old in ("template_chili_crop_cross", "template_chili_crop_with_rope"):
+    assert not (assets/f"models/block/{old}.json").exists(), old
+for name in ("chili_crop","chili_on_rope"):
+    loot=load(data/f"italiansdelight/loot_table/blocks/{name}.json")
+    assert loot["pools"][-1]["condition"]["state"]["age"]=="7"
 
 # All vanilla + 26.3 + addon wood types, same model geometry, own recipe/drop.
 en=load(assets/"lang/en_us.json")
@@ -148,31 +157,9 @@ for stage in range(4):
     assert load(assets/f"models/block/chili_rope_stage_{stage}.json")["textures"]["crop"]==f"italiansdelight:block/chili_crop_{stage}"
 
 
-# FDR tomatoes use four visible states: sprout, leaves, green fruit, ripe
-# fruit. Preserve the chili's existing age=0..7 save format but show the
-# same four distinct stages (0/1, 2/3, 4/5/6, 7).
-# The 32 explicit rope/root mappings above cover all legacy age/property states.
-assert "current.setValue(AGE, 0)" in chili, "Harvest must restart at sprout (FDR tomato behavior)"
-assert "current.setValue(AGE, 6)" not in chili
-
-# FDR's crop template is -1..15 high, leaving a 1-pixel gap at the top.
-# The chili-specific templates are strictly 0..16, so even a freshly
-# climbed upper rope piece joins a mature root at the block boundary.
-for templ in ("template_chili_crop_cross","template_chili_crop_with_rope"):
-    model=load(assets/f"models/block/{templ}.json")
-    assert model["ambientocclusion"] is False
-    for element in model["elements"]:
-        if "rotation" in element:
-            assert element["from"][1]==0 and element["to"][1]==16, \
-                f"{templ} must span exactly one block, no 1px gap"
-for stage in range(4):
-    free=load(assets/f"models/block/chili_free_stage_{stage}.json")
-    raised=load(assets/f"models/block/chili_rope_stage_{stage}.json")
-    assert free["parent"]=="italiansdelight:block/template_chili_crop_cross"
-    assert raised["parent"]=="italiansdelight:block/template_chili_crop_with_rope"
-    assert free["textures"]["cross"]==raised["textures"]["crop"]==f"italiansdelight:block/chili_crop_{stage}"
-    assert raised["textures"]["rope_side"]=="farmersdelight:block/tomatoes_coiled_rope"
-    assert raised["textures"]["rope_top"]=="farmersdelight:block/rope_top"
+# The eight preserved age states map to four FDR-style stages, but all
+# crop models and animations are inherited directly from FDR's templates.
+assert len(ages)==8 and ages[0]==0 and ages[7]==3
 
 # Check the actual alpha pixels rather than only checking a PNG's dimensions.
 # This catches a plant that visually floats above the dirt or whose ripe
@@ -240,6 +227,10 @@ assert "output.accept(ModBlocks.WILD_CHILI)" in creative
 wild_java=read(src/"common/block/WildChiliBlock.java")
 assert "extends WildCropBlock" in wild_java and "super(MobEffects.POISON, 10, properties)" in wild_java
 assert "extends WildBasilBlock" not in wild_java
+assert "extends WildCropBlock" in read(src/"common/block/WildBasilBlock.java")
+assert "extends WildCropBlock" in read(src/"common/block/CardoonBlock.java")
+assert "Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(WILD_BASIL_KEY)" in registry
+assert "Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(CARDOON_KEY)" in registry
 assert "Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(WILD_CHILI_KEY)" in registry
 assert "wild_chili_patch" in read(src/"common/registry/ModWorldGeneration.java")
 assert "Biomes.SAVANNA" in read(src/"common/registry/ModWorldGeneration.java")

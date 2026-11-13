@@ -42,27 +42,36 @@ jobs:
               assert m['depends']['java'] == '>=25'
               # Inspect the actual JAR, not just the source directory:
               # Minecraft client loads these bundled assets for all ages.
-              for block, prefix in (
-                  ('chili_crop', 'chili_free_stage_'),
-                  ('chili_on_rope', 'chili_rope_stage_'),
+              for block, model_prefix, parent, texture_key in (
+                  ('chili_crop', 'chili_free_stage_', 'farmersdelight:block/template_crop_cross', 'cross'),
+                  ('chili_on_rope', 'chili_rope_stage_', 'farmersdelight:block/template_crop_with_rope', 'crop'),
               ):
                   path = f'assets/italiansdelight/blockstates/{block}.json'
-                  states = json.loads(jar.read(path))['multipart']
-                  assert len(states) == 8, (block, len(states))
-                  for age, part in enumerate(states):
-                      assert part['when'] == {'age': str(age)}
-                      model = part['apply']['model'].split(':')[1]
-                      model_path = f'assets/italiansdelight/models/{model}.json'
-                      data = json.loads(jar.read(model_path))
-                      assert data['render_type'] == 'minecraft:cutout'
-                      texture = data['textures']['cross' if block == 'chili_crop' else 'crop']
-                      sprite = f'assets/italiansdelight/textures/{texture.split(":")[1]}.png'
-                      assert jar.getinfo(sprite).file_size > 80
+                  states = json.loads(jar.read(path))['variants']
+                  assert len(states) == (16 if block == 'chili_crop' else 8)
+                  for age in range(8):
+                      keys = [f'age={age},ropelogged={flag}' for flag in ('false', 'true')] if block == 'chili_crop' else [f'age={age}']
+                      for key in keys:
+                          model = states[key]['model'].split(':')[1]
+                          stage = 0 if age < 2 else 1 if age < 4 else 2 if age < 7 else 3
+                          assert model == f'block/{model_prefix}{stage}', key
+                          model_path = f'assets/italiansdelight/models/{model}.json'
+                          data = json.loads(jar.read(model_path))
+                          assert data['parent'] == parent
+                          assert data['render_type'] == 'minecraft:cutout'
+                          texture = data['textures'][texture_key]
+                          assert texture == f'italiansdelight:block/chili_crop_{stage}'
+                          sprite = f'assets/italiansdelight/textures/{texture.split(":")[1]}.png'
+                          assert jar.getinfo(sprite).file_size > 80
+              assert 'dev/italiansdelight/common/block/WildBasilBlock.class' in jar.namelist()
+              assert 'dev/italiansdelight/common/block/CardoonBlock.class' in jar.namelist()
+              assert 'dev/italiansdelight/common/block/ChiliCropBlock.class' in jar.namelist()
+              assert 'dev/italiansdelight/common/block/HangingChiliBlock.class' in jar.namelist()
               bamboo = json.loads(jar.read('assets/italiansdelight/models/block/bamboo_crop_stake.json'))
               assert bamboo['textures']['2'] == 'minecraft:block/bamboo_fence'
               assert bamboo['elements'][0]['faces']['up']['uv'] == [4, 0, 8, 4]
               assert 'dev/italiansdelight/common/block/WildChiliBlock.class' in jar.namelist()
-          print('OK: 1.2.0 JAR contains all chili states and sprites, FDR wild chili and vanilla bamboo cap')
+          print('OK: FDR TomatoBlock-style crop and rope states, 4 sprite models, wild crops and bamboo')
           PY
       - uses: actions/upload-artifact@v4
         if: success()
