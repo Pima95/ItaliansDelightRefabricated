@@ -127,6 +127,93 @@ for stage in range(4):
     assert sprite[25]==6,f"Chili stage {stage} needs RGBA transparency"
     assert load(assets/f"models/block/chili_rope_stage_{stage}.json")["textures"]["crop"]==f"italiansdelight:block/chili_crop_{stage}"
 
+
+# FDR tomatoes use four visible states: sprout, leaves, green fruit, ripe
+# fruit. Preserve the chili's existing age=0..7 save format but show the
+# same four distinct stages (0/1, 2/3, 4/5/6, 7).
+mapping=[0,0,1,1,2,2,2,3]
+rope=load(assets/"blockstates/chili_on_rope.json")["variants"]
+for age, stage in enumerate(mapping):
+    assert rope[f"age={age}"]["model"]==f"italiansdelight:block/chili_rope_stage_{stage}"
+assert "current.setValue(AGE, 0)" in chili, "Harvest must restart at sprout (FDR tomato behavior)"
+assert "current.setValue(AGE, 6)" not in chili
+
+# FDR's crop template is -1..15 high, leaving a 1-pixel gap at the top.
+# The chili-specific templates are strictly 0..16, so even a freshly
+# climbed upper rope piece joins a mature root at the block boundary.
+for templ in ("template_chili_crop_cross","template_chili_crop_with_rope"):
+    model=load(assets/f"models/block/{templ}.json")
+    assert model["ambientocclusion"] is False
+    for element in model["elements"]:
+        if "rotation" in element:
+            assert element["from"][1]==0 and element["to"][1]==16, \
+                f"{templ} must span exactly one block, no 1px gap"
+for stage in range(4):
+    free=load(assets/f"models/block/chili_free_stage_{stage}.json")
+    raised=load(assets/f"models/block/chili_rope_stage_{stage}.json")
+    assert free["parent"]=="italiansdelight:block/template_chili_crop_cross"
+    assert raised["parent"]=="italiansdelight:block/template_chili_crop_with_rope"
+    assert free["textures"]["cross"]==raised["textures"]["crop"]==f"italiansdelight:block/chili_crop_{stage}"
+    assert raised["textures"]["rope_side"]=="farmersdelight:block/rope"
+    assert raised["textures"]["rope_top"]=="farmersdelight:block/rope_top"
+
+# Check the actual alpha pixels rather than only checking a PNG's dimensions.
+# This catches a plant that visually floats above the dirt or whose ripe
+# stem cannot reach the next rope segment. Uses only Python stdlib (no Pillow).
+import zlib
+def rgba_png_rows(blob):
+    assert blob[:8]==bytes.fromhex("89504e470d0a1a0a")
+    offset=8
+    compressed=b""
+    while offset<len(blob):
+        n=int.from_bytes(blob[offset:offset+4],"big")
+        kind=blob[offset+4:offset+8]
+        payload=blob[offset+8:offset+8+n]
+        offset += 12+n
+        if kind==b"IHDR":
+            assert blob[offset-n-12+16:offset-n-12+24]==(16).to_bytes(4,"big")*2
+            assert payload[8:10]==bytes([8,6]),"RGBA8 required: no palette tint"
+        if kind==b"IDAT": compressed+=payload
+        if kind==b"IEND":break
+    raw=zlib.decompress(compressed)
+    rows=[]
+    prior=[0]*64
+    pos=0
+    for _ in range(16):
+        filt=raw[pos]; pos+=1
+        curr=list(raw[pos:pos+64]);pos+=64
+        for j in range(64):
+            left=curr[j-4] if j>=4 else 0
+            above=prior[j]
+            upper_left=prior[j-4] if j>=4 else 0
+            if filt==1: pred=left
+            elif filt==2: pred=above
+            elif filt==3: pred=(left+above)//2
+            elif filt==4:
+                p=left+above-upper_left
+                distances=[abs(p-left),abs(p-above),abs(p-upper_left)]
+                pred=(left,above,upper_left)[distances.index(min(distances))]
+            else:
+                assert filt==0,"Unexpected PNG scanline filter"
+                pred=0
+            curr[j]=(curr[j]+pred)&255
+        rows.append([tuple(curr[k:k+4]) for k in range(0,64,4)])
+        prior=curr
+    return rows
+mature=rgba_png_rows((assets/"textures/block/chili_crop_3.png").read_bytes())
+green=rgba_png_rows((assets/"textures/block/chili_crop_2.png").read_bytes())
+wildsprite=rgba_png_rows((assets/"textures/block/wild_chili.png").read_bytes())
+assert any(p[3]==255 for p in mature[0]),"Mature plant stem must reach block top"
+assert any(p[3]==255 for p in mature[15]),"Mature plant must reach ground"
+assert any(p[3]==255 for p in green[0]) and any(p[3]==255 for p in green[15]),"Green-fruit growth must connect vertically"
+assert any(p[3]==255 for p in wildsprite[15]),"Wild chili must touch ground, not hover"
+for name,rows in (("ripe",mature),("wild",wildsprite)):
+    red_y={y for y,line in enumerate(rows) for (r,g,b,a) in line
+        if a==255 and r>110 and r>g*1.3 and r>b*1.3}
+    assert len(red_y)>=6,f"{name} chili needs elongated pepper fruit, not tomato-like red dots"
+assert not any(r>110 and r>g*1.3 and r>b*1.3 and a==255 for line in green for (r,g,b,a) in line), \
+    "Green-fruit stage must not already show ripe red peppers"
+
 # Wild pepper uses its own vegetation block and worldgen, but drops the
 # existing crop seeds so no incompatible duplicate seed item is introduced.
 assert "WildChiliBlock" in registry and 'ModRegistries.id("wild_chili")' in registry
@@ -138,7 +225,7 @@ assert "block.italiansdelight.wild_chili" in en and "block.italiansdelight.wild_
 assert load(assets/"blockstates/wild_chili.json")["variants"][""]["model"]=="italiansdelight:block/wild_chili"
 assert load(assets/"models/block/wild_chili.json")["textures"]["cross"]=="italiansdelight:block/wild_chili"
 assert load(assets/"items/wild_chili.json")["model"]["model"]=="italiansdelight:item/wild_chili"
-assert load(assets/"models/item/wild_chili.json")["parent"]=="italiansdelight:block/wild_chili"
+assert load(assets/"models/item/wild_chili.json") == {"parent": "minecraft:item/generated", "textures": {"layer0": "italiansdelight:block/wild_chili"}}
 wild=(assets/"textures/block/wild_chili.png").read_bytes()
 assert wild[:8]==bytes.fromhex("89504e470d0a1a0a")
 assert struct.unpack(">II",wild[16:24])==(16,16)
@@ -151,7 +238,7 @@ assert wildplaced["feature"]=="italiansdelight:wild_chili"
 assert wildplaced["placement"][0]=={"type":"minecraft:rarity_filter","chance":120}
 # Bamboo end grain now matches the warm plank color, not the green block cap.
 bamboo=load(assets/"models/block/bamboo_crop_stake.json")["textures"]
-assert bamboo["2"]==bamboo["0"]=="minecraft:block/bamboo_planks"
-print("PASSED: revised 16x16 chili/rope art, naturally-spawning wild chili, seed drops and warm bamboo caps")
+assert bamboo["0"]=="minecraft:block/bamboo_planks" and bamboo["2"]=="minecraft:block/bamboo_fence"
+print("PASSED: crop stage growth, seamless vertical chili models, bright wild inventory, fence-textured bamboo tips")
 
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")

@@ -1,3 +1,6 @@
 {
-  "parent": "italiansdelight:block/wild_chili"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "italiansdelight:block/wild_chili"
+  }
 }

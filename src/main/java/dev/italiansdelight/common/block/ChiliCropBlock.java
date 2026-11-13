@@ -142,7 +142,9 @@ public class ChiliCropBlock extends CropBlock implements ReplaceOnRemoval {
         if (level instanceof ServerLevel server) {
             BlockState current = server.getBlockState(pos);
             if (!current.is(this) || !isMaxAge(current)) return InteractionResult.PASS;
-            server.setBlock(pos, current.setValue(AGE, 6), Block.UPDATE_CLIENTS);
+            // Like FDR tomatoes, harvesting restarts the visible growth cycle:
+            // sprout -> foliage -> green fruit -> ripe red fruit.
+            server.setBlock(pos, current.setValue(AGE, 0), Block.UPDATE_CLIENTS);
             boolean rare = server.getRandom().nextInt(42) == 0;
             Block.popResource(server, pos, new ItemStack(rare
                 ? ModItems.GHOST_PEPPER : ModItems.CHILI_PEPPER,
