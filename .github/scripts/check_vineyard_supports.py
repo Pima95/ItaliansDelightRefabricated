@@ -147,6 +147,50 @@ for name in ("wine_bucket","grape_juice_bucket"):
 # Chili art must keep the 16x16 pixel grid and reuse one crop texture for
 # both freestanding and rope-borne crop model stages.
 import struct
+# A valid filename/size is NOT enough: damaged PNG IDAT checksums used to
+# pass CI and Minecraft rendered the missing-texture checkerboard. Verify
+# every PNG chunk CRC, the complete IEND trailer and zlib scanline stream.
+import binascii
+import zlib
+
+def verify_crop_png(path):
+    blob = path.read_bytes()
+    assert blob.startswith(b"\x89PNG\r\n\x1a\n"), f"{path}: PNG signature"
+    pos = 8
+    seen_ihdr = False
+    seen_iend = False
+    compressed = bytearray()
+    while pos < len(blob):
+        assert pos + 12 <= len(blob), f"{path}: truncated PNG chunk header"
+        length = int.from_bytes(blob[pos:pos + 4], "big")
+        kind = blob[pos + 4:pos + 8]
+        end = pos + 12 + length
+        assert end <= len(blob), f"{path}: truncated {kind!r} chunk"
+        payload = blob[pos + 8:pos + 8 + length]
+        expected_crc = int.from_bytes(blob[end - 4:end], "big")
+        actual_crc = binascii.crc32(kind + payload) & 0xffffffff
+        assert actual_crc == expected_crc, f"{path}: broken {kind!r} CRC"
+        if kind == b"IHDR":
+            assert not seen_ihdr and pos == 8 and length == 13
+            assert payload[:8] == (16).to_bytes(4, "big") * 2
+            assert payload[8:10] == bytes([8, 6]), f"{path}: RGBA8 required"
+            seen_ihdr = True
+        elif kind == b"IDAT":
+            compressed.extend(payload)
+        elif kind == b"IEND":
+            assert length == 0 and end == len(blob), f"{path}: incomplete IEND"
+            seen_iend = True
+        pos = end
+    assert seen_ihdr and seen_iend and compressed, f"{path}: incomplete PNG"
+    decoded = zlib.decompress(bytes(compressed))
+    assert len(decoded) == 16 * (1 + 16 * 4), f"{path}: truncated RGBA scanlines"
+    for y in range(16):
+        assert decoded[y * 65] <= 4, f"{path}: invalid filter at row {y}"
+
+for stage in range(4):
+    verify_crop_png(assets/f"textures/block/chili_crop_{stage}.png")
+print("PASSED: all four chili PNGs have valid CRC, IDAT data and IEND")
+
 for stage in range(4):
     sprite=(assets/f"textures/block/chili_crop_{stage}.png").read_bytes()
     assert sprite[:8]==bytes.fromhex("89504e470d0a1a0a")
