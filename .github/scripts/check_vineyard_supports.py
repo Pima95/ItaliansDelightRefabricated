@@ -171,7 +171,7 @@ def rgba_png_rows(blob):
         payload=blob[offset+8:offset+8+n]
         offset += 12+n
         if kind==b"IHDR":
-            assert blob[offset-n-12+16:offset-n-12+24]==(16).to_bytes(4,"big")*2
+            assert payload[:8]==(16).to_bytes(4,"big")*2
             assert payload[8:10]==bytes([8,6]),"RGBA8 required: no palette tint"
         if kind==b"IDAT": compressed+=payload
         if kind==b"IEND":break
