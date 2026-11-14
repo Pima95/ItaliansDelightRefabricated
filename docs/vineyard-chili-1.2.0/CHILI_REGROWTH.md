@@ -23,3 +23,14 @@ No new blockstate properties or IDs are introduced: the original age 0–7 value
 ## Verification
 
 The vineyard audit checks the age-to-model mapping, actual full-height leaf-only sprite, no red ripe fruit at age 4, and valid PNG CRC / IEND. The packaged-JAR audit checks each model and sprite for root and hanging states. The dedicated-server smoke test places established root and rope segments; client visual verification is still recommended for harvesting with right click.
+
+## Client acceptance check
+
+1. Plant chili seeds on normal farmland: the initial crop must show the small seedling at age 0.
+2. Grow to age 7: the two long red peppers should appear. Right-click once to harvest.
+3. The selected plant must immediately display the **full-height, fruitless leafy bush** at age 4, not a seedling or a broken model.
+4. After ordinary random ticks, age 5-6 must display green peppers and age 7 ripe red peppers; the bush must never be replanted.
+5. Repeat steps 2-4 for a hanging chili segment supported by Farmer's Delight rope. Harvesting that segment must not reset neighboring segments or remove the rope.
+6. Repeat a second harvest on the same plant to ensure fruit regrowth works more than once.
+
+Server checks can validate the registered age-4 states, but **only the client can verify actual right-click behavior and rendered models**.
