@@ -75,7 +75,7 @@ jobs:
                       for key in keys:
                           model = states[key]['model'].split(':')[1]
                           stage = 'foliage' if age == 4 else ('stage_0' if age < 2 else 'stage_1' if age < 4 else 'stage_2' if age < 7 else 'stage_3')
-                          assert model == f'block/{model_prefix}{stage}', key
+                          assert model == f'block/{model_prefix.removesuffix("stage_")}{stage}', key
                           model_path = f'assets/italiansdelight/models/{model}.json'
                           data = json.loads(jar.read(model_path))
                           assert data['parent'] == parent
