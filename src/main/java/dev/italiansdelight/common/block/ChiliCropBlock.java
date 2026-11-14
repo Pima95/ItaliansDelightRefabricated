@@ -33,6 +33,15 @@ import vectorwing.farmersdelight.common.block.TomatoBlock;
 public class ChiliCropBlock extends TomatoBlock {
     public static final IntegerProperty CHILI_AGE = BlockStateProperties.AGE_7;
 
+    /**
+     * Picking must retain the adult bush instead of reverting to a seedling.
+     * Ages 0-3 are the initial sprout/foliage growth, age 4 is established
+     * leaf-only foliage, ages 5-6 are unripe green peppers, age 7 is ripe.
+     * FDR tomatoes return to zero because their stage-zero artwork depicts
+     * foliage already developed, unlike our actual sprout texture.
+     */
+    private static final int FRUIT_REGROWTH_AGE = 4;
+
     public ChiliCropBlock(Properties properties) {
         super(properties);
     }
@@ -146,7 +155,7 @@ public class ChiliCropBlock extends TomatoBlock {
                 new ItemStack(rare ? ModItems.GHOST_PEPPER : ModItems.CHILI_PEPPER, amount));
             server.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
                 SoundSource.BLOCKS, 0.8F, 0.9F + server.getRandom().nextFloat() * 0.2F);
-            server.setBlock(pos, current.setValue(CHILI_AGE, 0), Block.UPDATE_CLIENTS);
+            server.setBlock(pos, current.setValue(CHILI_AGE, FRUIT_REGROWTH_AGE), Block.UPDATE_CLIENTS);
         }
         return InteractionResult.SUCCESS;
     }

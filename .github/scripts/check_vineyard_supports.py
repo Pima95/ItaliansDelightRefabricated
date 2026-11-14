@@ -67,7 +67,10 @@ assert "builder.add(CHILI_AGE, ROPELOGGED);" in chili
 assert "StakeSoilTilling.isFarmland" in chili
 assert "CropStakeBlock.CROP" not in chili
 assert "crop_stake" not in chili.lower()
-assert "current.setValue(CHILI_AGE, 0)" in chili
+assert "private static final int FRUIT_REGROWTH_AGE = 4;" in chili
+assert "current.setValue(CHILI_AGE, FRUIT_REGROWTH_AGE)" in chili
+assert "current.setValue(CHILI_AGE, 0)" not in chili
+assert "getMaxAge()" in chili and "return 7;" in chili
 assert not (src/"common/item/ChiliSeedsItem.java").exists()
 assert "new BlockItem(CHILI_CROP" in registry
 assert "ChiliSeedsItem" not in registry
@@ -77,16 +80,19 @@ assert "TOMATO_CROP.get()" in read(src/"common/block/StakedTomatoBlock.java")
 
 # FDR TomatoBlock has one boolean ROPELOGGED for the root and only AGE
 # for the separate hanging block. Every state must resolve to a real model.
-ages=[0,0,1,1,2,2,2,3]
+# Age 4 represents adult foliage after harvesting, not the seedling at age 0.
+# 5-6 regenerate green peppers and 7 produces ripe red ones.
+ages=[0,0,1,1,"foliage",2,2,3]
 rootstates=load(assets/"blockstates/chili_crop.json")
 ropestates=load(assets/"blockstates/chili_on_rope.json")
 assert set(rootstates)==set(ropestates)=={"variants"}
 assert len(rootstates["variants"])==16 and len(ropestates["variants"])==8
 for age,stage in enumerate(ages):
+    suffix="foliage" if stage=="foliage" else f"stage_{stage}"
     for value in ("false","true"):
         key=f"age={age},ropelogged={value}"
-        assert rootstates["variants"][key]["model"]==f"italiansdelight:block/chili_free_stage_{stage}",key
-    assert ropestates["variants"][f"age={age}"]["model"]==f"italiansdelight:block/chili_rope_stage_{stage}"
+        assert rootstates["variants"][key]["model"]==f"italiansdelight:block/chili_free_{suffix}",key
+    assert ropestates["variants"][f"age={age}"]["model"]==f"italiansdelight:block/chili_rope_{suffix}"
 for i in range(4):
     free=load(assets/f"models/block/chili_free_stage_{i}.json")
     raised=load(assets/f"models/block/chili_rope_stage_{i}.json")
@@ -95,6 +101,18 @@ for i in range(4):
     assert free["textures"]["cross"]==raised["textures"]["crop"]==f"italiansdelight:block/chili_crop_{i}"
     assert raised["textures"]["rope_side"]=="farmersdelight:block/tomatoes_coiled_rope"
     assert raised["textures"]["rope_top"]=="farmersdelight:block/rope_top"
+# An established pepper has its own mature, fruitless foliage sprite.
+# Both free and rope models use the identical texture; no juvenile seedling.
+free_foliage=load(assets/"models/block/chili_free_foliage.json")
+rope_foliage=load(assets/"models/block/chili_rope_foliage.json")
+assert free_foliage["parent"]=="farmersdelight:block/template_crop_cross"
+assert rope_foliage["parent"]=="farmersdelight:block/template_crop_with_rope"
+assert free_foliage["textures"]["cross"]=="italiansdelight:block/chili_crop_foliage"
+assert rope_foliage["textures"]["crop"]=="italiansdelight:block/chili_crop_foliage"
+assert rope_foliage["textures"]["rope_side"]=="farmersdelight:block/tomatoes_coiled_rope"
+assert rope_foliage["textures"]["rope_top"]=="farmersdelight:block/rope_top"
+assert rootstates["variants"]["age=0,ropelogged=false"]["model"]!="italiansdelight:block/chili_free_foliage"
+
 for old in ("template_chili_crop_cross", "template_chili_crop_with_rope"):
     assert not (assets/f"models/block/{old}.json").exists(), old
 for name in ("chili_crop","chili_on_rope"):
@@ -189,7 +207,8 @@ def verify_crop_png(path):
 
 for stage in range(4):
     verify_crop_png(assets/f"textures/block/chili_crop_{stage}.png")
-print("PASSED: all four chili PNGs have valid CRC, IDAT data and IEND")
+verify_crop_png(assets/"textures/block/chili_crop_foliage.png")
+print("PASSED: all five chili PNGs have valid CRC, IDAT data and IEND")
 
 for stage in range(4):
     sprite=(assets/f"textures/block/chili_crop_{stage}.png").read_bytes()
@@ -201,7 +220,7 @@ for stage in range(4):
 
 # The eight preserved age states map to four FDR-style stages, but all
 # crop models and animations are inherited directly from FDR's templates.
-assert len(ages)==8 and ages[0]==0 and ages[7]==3
+assert len(ages)==8 and ages[0]==0 and ages[4]=="foliage" and ages[7]==3
 
 # Check the actual alpha pixels rather than only checking a PNG's dimensions.
 # This catches a plant that visually floats above the dirt or whose ripe
@@ -248,10 +267,14 @@ def rgba_png_rows(blob):
     return rows
 mature=rgba_png_rows((assets/"textures/block/chili_crop_3.png").read_bytes())
 green=rgba_png_rows((assets/"textures/block/chili_crop_2.png").read_bytes())
+foliage=rgba_png_rows((assets/"textures/block/chili_crop_foliage.png").read_bytes())
 wildsprite=rgba_png_rows((assets/"textures/block/wild_chili.png").read_bytes())
 assert any(p[3]==255 for p in mature[0]),"Mature plant stem must reach block top"
 assert any(p[3]==255 for p in mature[15]),"Mature plant must reach ground"
 assert any(p[3]==255 for p in green[0]) and any(p[3]==255 for p in green[15]),"Green-fruit growth must connect vertically"
+assert any(p[3]==255 for p in foliage[0]) and any(p[3]==255 for p in foliage[15]),"Adult bush must connect across rope segments"
+assert not any(a and r>110 and r>g*1.3 and r>b*1.3 for row in foliage for r,g,b,a in row), "Harvested foliage must not retain ripe red peppers"
+assert foliage!=rgba_png_rows((assets/"textures/block/chili_crop_0.png").read_bytes()),"Post-harvest adult plant must not look like a sprout"
 assert any(p[3]==255 for p in wildsprite[15]),"Wild chili must touch ground, not hover"
 for name,rows in (("ripe",mature),("wild",wildsprite)):
     red_y={y for y,line in enumerate(rows) for (r,g,b,a) in line

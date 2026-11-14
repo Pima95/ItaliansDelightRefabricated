@@ -207,6 +207,16 @@ def test():
         run(rcon, "setblock 11 80 2 minecraft:farmland[moisture=7]")
         run(rcon, "setblock 11 81 2 italiansdelight:chili_crop[age=7,ropelogged=false]")
         assert_block(rcon, 11, 81, 2, "italiansdelight:chili_crop[age=7,ropelogged=false]")
+        # Fruit regrowth must preserve a grown bush on both farmland and
+        # the Farmer's Delight rope. Age 4 is mature leaf-only foliage, not
+        # the age-0 seedling; ages 5/6 are green fruit, 7 is ripe red.
+        run(rcon, "setblock 12 80 1 minecraft:water")
+        run(rcon, "setblock 12 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 12 81 0 italiansdelight:chili_crop[age=4,ropelogged=false]")
+        run(rcon, "setblock 12 82 0 italiansdelight:chili_on_rope[age=4]")
+        assert_block(rcon, 12, 81, 0, "italiansdelight:chili_crop[age=4,ropelogged=false]")
+        assert_block(rcon, 12, 82, 0, "italiansdelight:chili_on_rope[age=4]")
+        print("PASSED: established chili regrowth state survives on farmland and rope", flush=True)
         run(rcon, "save-all")
         print("PASSED: 16 decorative poles, untouched rope, standalone chili climb <=3, rich farmland and grapes", flush=True)
     finally:

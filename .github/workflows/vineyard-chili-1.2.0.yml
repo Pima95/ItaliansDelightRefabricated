@@ -74,16 +74,21 @@ jobs:
                       keys = [f'age={age},ropelogged={flag}' for flag in ('false', 'true')] if block == 'chili_crop' else [f'age={age}']
                       for key in keys:
                           model = states[key]['model'].split(':')[1]
-                          stage = 0 if age < 2 else 1 if age < 4 else 2 if age < 7 else 3
+                          stage = 'foliage' if age == 4 else ('stage_0' if age < 2 else 'stage_1' if age < 4 else 'stage_2' if age < 7 else 'stage_3')
                           assert model == f'block/{model_prefix}{stage}', key
                           model_path = f'assets/italiansdelight/models/{model}.json'
                           data = json.loads(jar.read(model_path))
                           assert data['parent'] == parent
                           assert data['render_type'] == 'minecraft:cutout'
                           texture = data['textures'][texture_key]
-                          assert texture == f'italiansdelight:block/chili_crop_{stage}'
+                          expected_texture = 'chili_crop_foliage' if age == 4 else f'chili_crop_{stage.split("_")[-1]}'
+                          assert texture == f'italiansdelight:block/{expected_texture}', (key, texture)
                           sprite = f'assets/italiansdelight/textures/{texture.split(":")[1]}.png'
                           validate_png(jar.read(sprite))
+              # Confirm the adult, fruitless foliage model is actually packaged.
+              for model in ('chili_free_foliage', 'chili_rope_foliage'):
+                  assert f'assets/italiansdelight/models/block/{model}.json' in jar.namelist()
+              validate_png(jar.read('assets/italiansdelight/textures/block/chili_crop_foliage.png'))
               assert 'dev/italiansdelight/common/block/WildBasilBlock.class' in jar.namelist()
               assert 'dev/italiansdelight/common/block/CardoonBlock.class' in jar.namelist()
               assert 'dev/italiansdelight/common/block/ChiliCropBlock.class' in jar.namelist()
@@ -92,7 +97,7 @@ jobs:
               assert bamboo['textures']['2'] == 'minecraft:block/bamboo_fence'
               assert bamboo['elements'][0]['faces']['up']['uv'] == [4, 0, 8, 4]
               assert 'dev/italiansdelight/common/block/WildChiliBlock.class' in jar.namelist()
-          print('OK: FDR TomatoBlock-style crop and rope states, 4 sprite models, wild crops and bamboo')
+          print('OK: established chili foliage regrowth and all 8 root/rope ages, 5 valid sprites, wild crops and bamboo')
           PY
       - uses: actions/upload-artifact@v4
         if: success()

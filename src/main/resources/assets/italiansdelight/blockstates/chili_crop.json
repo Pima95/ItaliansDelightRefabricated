@@ -25,10 +25,10 @@
       "model": "italiansdelight:block/chili_free_stage_1"
     },
     "age=4,ropelogged=false": {
-      "model": "italiansdelight:block/chili_free_stage_2"
+      "model": "italiansdelight:block/chili_free_foliage"
     },
     "age=4,ropelogged=true": {
-      "model": "italiansdelight:block/chili_free_stage_2"
+      "model": "italiansdelight:block/chili_free_foliage"
     },
     "age=5,ropelogged=false": {
       "model": "italiansdelight:block/chili_free_stage_2"
