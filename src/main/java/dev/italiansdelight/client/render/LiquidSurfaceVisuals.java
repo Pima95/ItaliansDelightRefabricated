@@ -113,7 +113,13 @@ public final class LiquidSurfaceVisuals {
                 : 0xFFFFFFFF);
         // Preserve alpha supplied by other mods, plus vanilla water's alpha.
         if ((color >>> 24) == 0) color |= 0xFF000000;
-        boolean translucent = water || custom || (color >>> 24) < 255;
+        // Both grape juices have semi-transparent animated RGBA sprites.
+        // A known fluid usually uses cutout, which discards alpha blending:
+        // explicitly choose translucent for grape juices so their texture's
+        // alpha channel produces real in-world transparency in barrels/tanks.
+        boolean translucent = water || custom || (color >>> 24) < 255
+            || "italiansdelight:grape_juice".equals(fluidId)
+            || "italiansdelight:white_grape_juice".equals(fluidId);
         final int vertexColor = color;
         queue.submitCustomGeometry(stack,
             translucent ? RenderTypes.entityTranslucent(TextureAtlas.LOCATION_BLOCKS)
