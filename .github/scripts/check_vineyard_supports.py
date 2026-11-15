@@ -479,6 +479,72 @@ assert load(assets/"models/item/white_grape_juice_bucket.json")["textures"]["lay
 assert load(assets/"models/item/white_grape_juice_bottle.json")["parent"]=="minecraft:item/potion"
 verify_crop_png(assets/"textures/item/white_grape_juice_bucket.png")
 verify_crop_png(assets/"textures/block/fluids/white_grape_juice_still.png", expected_height=512)
+
+# Two harvestable seed icons must remain equally usable at 16x16 but
+# distinguish cultivars by a clearly separated plum vs golden palette.
+red_seed=rgba_png_rows((assets/"textures/item/grape_seeds.png").read_bytes())
+white_seed=rgba_png_rows((assets/"textures/item/white_grape_seeds.png").read_bytes())
+red_mask={(x,y) for y,row in enumerate(red_seed) for x,p in enumerate(row) if p[3]>0}
+white_mask={(x,y) for y,row in enumerate(white_seed) for x,p in enumerate(row) if p[3]>0}
+assert red_mask==white_mask and len(red_mask)==47, "Only seed palette may change, not silhouette"
+assert all(red_seed[y][x][0]>red_seed[y][x][1]+45 and
+           red_seed[y][x][2]>red_seed[y][x][1]+20
+           for x,y in red_mask), "Red-grape seeds must read as plum-purple"
+assert all(white_seed[y][x][0]>=white_seed[y][x][1] and
+           white_seed[y][x][1]>white_seed[y][x][2]+50
+           for x,y in white_mask), "White-grape seeds must read as golden yellow"
+assert load(assets/"models/item/grape_seeds.json")["textures"]["layer0"]=="italiansdelight:item/grape_seeds"
+assert load(assets/"models/item/white_grape_seeds.json")["textures"]["layer0"]=="italiansdelight:item/white_grape_seeds"
+
+def fluid_png_rgba(path):
+    """Unfilter any RGBA8 sprite frame stack, no third-party dependencies."""
+    blob=path.read_bytes()
+    off=8; compressed=bytearray(); width=height=None
+    while off<len(blob):
+        n=int.from_bytes(blob[off:off+4],"big")
+        kind=blob[off+4:off+8]; chunk=blob[off+8:off+8+n]
+        off+=n+12
+        if kind==b"IHDR":
+            width=int.from_bytes(chunk[:4],"big")
+            height=int.from_bytes(chunk[4:8],"big")
+            assert chunk[8:10]==bytes([8,6])
+        if kind==b"IDAT": compressed.extend(chunk)
+        if kind==b"IEND": break
+    assert width==16 and height==512, "Expected 32 complete animated frames"
+    raw=zlib.decompress(bytes(compressed)); stride=width*4
+    assert len(raw)==height*(stride+1)
+    rgba=[]; above=[0]*stride; ptr=0
+    for _ in range(height):
+        f=raw[ptr]; ptr+=1
+        row=list(raw[ptr:ptr+stride]); ptr+=stride
+        for i in range(stride):
+            left=row[i-4] if i>=4 else 0
+            up=above[i]
+            upper=above[i-4] if i>=4 else 0
+            if f==0: prediction=0
+            elif f==1: prediction=left
+            elif f==2: prediction=up
+            elif f==3: prediction=(left+up)//2
+            elif f==4:
+                candidate=left+up-upper
+                errors=[abs(candidate-v) for v in (left,up,upper)]
+                prediction=(left,up,upper)[errors.index(min(errors))]
+            else: raise AssertionError("Unsupported PNG filter")
+            row[i]=(row[i]+prediction)&255
+        rgba.extend(tuple(row[i:i+4]) for i in range(0,stride,4))
+        above=row
+    return rgba
+
+red_liquid=fluid_png_rgba(red_frame)
+white_liquid=fluid_png_rgba(white_frame)
+assert 160<=min(px[3] for px in white_liquid)<190
+assert 195<=max(px[3] for px in white_liquid)<=210
+assert all(w[3]<r[3] for w,r in zip(white_liquid,red_liquid)), "White juice needs stronger transparency"
+assert max(px[0] for px in white_liquid)-min(px[0] for px in white_liquid)>=65, \
+       "Golden juice must retain highlighted ripples, not a uniform flat color"
+assert len({bytes(sum((list(p) for p in white_liquid[i*256:(i+1)*256]), []))
+            for i in range(32)})>1, "Juice must be animated, not 32 identical frames"
+
 # Cross-checked with the previously working block paths: item/ sprites
 # cannot be used directly on the block texture atlas (missing checkerboard).
 for name in ("grapes","white_grapes"):
