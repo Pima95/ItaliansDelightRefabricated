@@ -128,13 +128,23 @@ jobs:
               assert 'assets/italiansdelight/textures/block/fluids/white_grape_juice_still.png.mcmeta' in jar.namelist()
               for name, tex in (('grapes', 'grape'), ('white_grapes', 'white_grape')):
                   block_model = json.loads(jar.read(f'assets/italiansdelight/models/block/{name}.json'))
-                  assert block_model['textures']['0'] == f'italiansdelight:item/{tex}'
+                  assert block_model['textures']['0'] == f'italiansdelight:block/{name}'
+                  # Guard against missing block-atlas sprites in client.
+                  block_sprite = jar.read(f'assets/italiansdelight/textures/block/{name}.png')
+                  item_sprite = jar.read(f'assets/italiansdelight/textures/item/{tex}.png')
+                  assert block_sprite == item_sprite
+                  validate_png(block_sprite)
               beverages = ('apple_juice', 'golden_apple_juice', 'grape_juice', 'white_grape_juice', 'olive_oil')
               for liquid in beverages:
                   assert f'dev/italiansdelight/common/registry/ModItems.class' in jar.namelist()
                   assert f'assets/italiansdelight/items/{liquid}_bottle.json' in jar.namelist()
               thirst = json.loads(jar.read('data/italiansdelight/thirstwastaken2/drinks/italiansdelight_beverages.json'))['values']
               assert thirst['italiansdelight:olive_oil_bottle']['thirst'] == 0
+              for locale in ('it_it', 'en_us'):
+                  labels = json.loads(jar.read(f'assets/italiansdelight/lang/{locale}.json'))
+                  expected = "Succo d'uva bianca" if locale == 'it_it' else 'White Grape Juice'
+                  assert labels['block.italiansdelight.white_grape_juice'] == expected
+                  assert labels['fluid.italiansdelight.white_grape_juice'] == expected
               for liquid in beverages[:-1]:
                   assert thirst[f'italiansdelight:{liquid}_bottle']['thirst'] == 6
               assert 'dev/italiansdelight/common/block/WildChiliBlock.class' in jar.namelist()
