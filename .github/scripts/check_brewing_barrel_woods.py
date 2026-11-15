@@ -96,3 +96,103 @@ print("PASSED: 16 brewer IDs, blockstates, inventory models, recipes, loot, lang
 
 assert "Morogorian" not in credits
 assert "Morogorian" not in third_party
+
+# Regression guard: the prior approximate brown recolor made several wood
+# variants look nothing like their Minecraft 26.3 planks. Compare every
+# wood pixel against the source 26.3 plank palettes, and preserve steel.
+import math
+import zlib
+
+PALETTES = load(Path(".github/scripts/brewing_barrel_wood_palettes.json"))["palettes"]
+
+def decode_rgba(path):
+    data = path.read_bytes()
+    assert data[:8] == bytes.fromhex("89504e470d0a1a0a")
+    pos = 8
+    compressed = bytearray()
+    width = height = None
+    while pos < len(data):
+        n = int.from_bytes(data[pos:pos + 4], "big")
+        kind = data[pos + 4:pos + 8]
+        chunk = data[pos + 8:pos + 8 + n]
+        pos += n + 12
+        if kind == b"IHDR":
+            width = int.from_bytes(chunk[0:4], "big")
+            height = int.from_bytes(chunk[4:8], "big")
+            assert chunk[8:10] == bytes((8, 6))
+        elif kind == b"IDAT":
+            compressed.extend(chunk)
+        elif kind == b"IEND":
+            break
+    assert (width, height) == (64, 64)
+    raw = zlib.decompress(compressed)
+    assert len(raw) == 64 * 257
+    result = []
+    above = [0] * 256
+    pos = 0
+    for _ in range(64):
+        filtering = raw[pos]
+        row = list(raw[pos + 1:pos + 257])
+        pos += 257
+        for x in range(256):
+            left = row[x - 4] if x >= 4 else 0
+            up = above[x]
+            upper_left = above[x - 4] if x >= 4 else 0
+            if filtering == 0:
+                prediction = 0
+            elif filtering == 1:
+                prediction = left
+            elif filtering == 2:
+                prediction = up
+            elif filtering == 3:
+                prediction = (left + up) // 2
+            elif filtering == 4:
+                p = left + up - upper_left
+                errors = (abs(p - left), abs(p - up), abs(p - upper_left))
+                prediction = (left, up, upper_left)[errors.index(min(errors))]
+            else:
+                raise AssertionError(f"Unsupported PNG filter {filtering}")
+            row[x] = (row[x] + prediction) & 255
+        result.extend(tuple(row[i:i + 4]) for i in range(0, 256, 4))
+        above = row
+    return result
+
+def luminance(rgb):
+    return rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722
+
+base_sprite = decode_rgba(assets / "textures/block/spruce_brewing_barrel.png")
+assert len(base_sprite) == 4096
+for wood, colors in PALETTES.items():
+    assert wood not in ("spruce", "mangrove")
+    ramp = sorted(colors, key=luminance)
+    id_ = "brewing_barrel" if wood == "oak" else wood + "_brewing_barrel"
+    target_sprite = decode_rgba(assets / "textures/block" / (id_ + ".png"))
+    changed = steel = 0
+    for src, target in zip(base_sprite, target_sprite):
+        red, green, blue, alpha = src
+        assert target[3] == alpha, f"Unexpected alpha change: {wood}"
+        # Metal pixels, including dark grey rings and cool grey bolts, stay
+        # byte-identical to the accepted source image.
+        if alpha == 0 or not (red > green + 7 and green > blue + 7):
+            assert src == target, f"Metal/transparent pixel altered in {wood}"
+            if alpha:
+                steel += 1
+            continue
+        q = max(0.0, min(1.0, (luminance(src[:3]) - 32) / 111))
+        position = q * (len(ramp) - 1)
+        slot = min(len(ramp) - 2, math.floor(position))
+        amount = position - slot
+        expected = tuple(
+            math.floor((1 - amount) * ramp[slot][ch] +
+                       amount * ramp[slot + 1][ch] + 0.5)
+            for ch in range(3)
+        )
+        assert target[:3] == expected, f"Wood mismatch: {wood}, {src}, {target}"
+        changed += 1
+    assert changed == 2492 and steel == 196
+mangrove = (assets / "textures/block/mangrove_brewing_barrel.png").read_bytes()
+sha = hashlib.sha1(f"blob {len(mangrove)}\0".encode("ascii") + mangrove).hexdigest()
+assert sha == "26a66116e14b1d32dc57d44f67544ac0e2d8e794", \
+       "Previously approved mangrove texture must remain unchanged"
+print("PASSED: 14 wood color ramps derived from actual plank assets")
+print("PASSED: identical accepted spruce and mangrove; preserved metal and transparency")
