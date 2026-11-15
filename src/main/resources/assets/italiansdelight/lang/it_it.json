@@ -464,5 +464,7 @@
   "item.italiansdelight.white_grape_juice_bucket": "Secchio di succo d'uva bianca",
   "item.italiansdelight.white_grape_juice_bottle": "Bottiglia di succo d'uva bianca",
   "fluid.italiansdelight.white_grape_juice": "Succo d'uva bianca",
-  "jei.italiansdelight.fluids.white_grape_juice": "Pigia i grappoli d'uva bianca nel Crushing Tub: ogni grappolo produce 250 mB di succo d'uva bianca e restituisce semi bianchi. Raccogli il succo con bottiglie (250 mB) o secchi (1.000 mB) e conservalo in botti o calderoni. Il fluido resta distinto dal succo d'uva rossa e non si mescola con esso.\n\nIl succo bianco non fermenta ancora nella botte da vino esistente: la filiera del vino bianco sarà implementata separatamente. Per ora è un ingrediente liquido, non una bevanda consumabile."
+  "jei.italiansdelight.fluids.white_grape_juice": "Pigia i grappoli d'uva bianca nel Crushing Tub: ogni grappolo produce 250 mB di succo d'uva bianca e restituisce semi bianchi. Raccogli il succo con bottiglie (250 mB) o secchi (1.000 mB) e conservalo in botti o calderoni. Il fluido resta distinto dal succo d'uva rossa e non si mescola con esso.\n\nIl succo bianco non fermenta ancora nella botte da vino esistente: la filiera del vino bianco sarà implementata separatamente. Per ora è un ingrediente liquido, non una bevanda consumabile.",
+  "block.italiansdelight.white_grape_juice": "Succo d'uva bianca",
+  "item.italiansdelight.white_grape_juice": "Succo d'uva bianca"
 }

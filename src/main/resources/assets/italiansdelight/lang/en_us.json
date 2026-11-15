@@ -464,5 +464,7 @@
   "item.italiansdelight.white_grape_juice_bucket": "White Grape Juice Bucket",
   "item.italiansdelight.white_grape_juice_bottle": "White Grape Juice Bottle",
   "fluid.italiansdelight.white_grape_juice": "White Grape Juice",
-  "jei.italiansdelight.fluids.white_grape_juice": "Crush white grape bunches in the Crushing Tub: each bunch produces 250 mB of white grape juice and returns white grape seeds. Extract with bottles (250 mB) or buckets (1,000 mB) and store in barrels or cauldrons. White grape juice is a separate fluid and cannot mix with the existing red grape juice.\n\nWhite juice does not yet ferment in the existing wine barrel; white wine processing will be implemented separately. For now this is a fluid ingredient, not a consumable drink."
+  "jei.italiansdelight.fluids.white_grape_juice": "Crush white grape bunches in the Crushing Tub: each bunch produces 250 mB of white grape juice and returns white grape seeds. Extract with bottles (250 mB) or buckets (1,000 mB) and store in barrels or cauldrons. White grape juice is a separate fluid and cannot mix with the existing red grape juice.\n\nWhite juice does not yet ferment in the existing wine barrel; white wine processing will be implemented separately. For now this is a fluid ingredient, not a consumable drink.",
+  "block.italiansdelight.white_grape_juice": "White Grape Juice",
+  "item.italiansdelight.white_grape_juice": "White Grape Juice"
 }
