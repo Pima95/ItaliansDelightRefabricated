@@ -389,7 +389,7 @@ assert sum(p["apply"]["model"]=="italiansdelight:block/white_grapes"
 assert sum(p["apply"]["model"]=="italiansdelight:block/grapes"
            for p in white_canopy["multipart"])==0
 assert "tintindex" not in str(load(assets/"models/block/white_grapes.json"))
-assert load(assets/"models/block/white_grapes.json")["textures"]["0"]=="italiansdelight:item/white_grape"
+assert load(assets/"models/block/white_grapes.json")["textures"]["0"]=="italiansdelight:block/white_grapes"
 for name in ("white_grapes","white_grape_seeds"):
     assert load(assets/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
     expected_texture="white_grape" if name=="white_grapes" else name
@@ -452,10 +452,16 @@ assert "MobEffects.REGENERATION, 100, 1" in items_code
 assert "MobEffects.ABSORPTION, 2400, 0" in items_code
 assert "DataComponents.CONSUMABLE, consumable" in items_code
 for name, texture in (("grapes","grape"),("white_grapes","white_grape")):
-    assert load(assets/f"models/block/{name}.json")["textures"]["0"]==f"italiansdelight:item/{texture}"
+    assert load(assets/f"models/block/{name}.json")["textures"]["0"]==f"italiansdelight:block/{name}"
+    assert (assets/f"textures/block/{name}.png").read_bytes()==(
+        assets/f"textures/item/{texture}.png").read_bytes(), "Block atlas must contain the same updated art"
 drinks=load(data/"c/tags/item/drinks.json")["values"]
 for name in ("apple_juice","golden_apple_juice","grape_juice","white_grape_juice"):
     assert f"italiansdelight:{name}_bottle" in drinks
+for locale in (en,it):
+    expected_name = "Succo d'uva bianca" if locale is it else "White Grape Juice"
+    for prefix in ("block","fluid","item"):
+        assert locale[f"{prefix}.italiansdelight.white_grape_juice"] == expected_name
 assert "italiansdelight:olive_oil_bottle" not in drinks
 thirst=load(data/"italiansdelight/thirstwastaken2/drinks/italiansdelight_beverages.json")["values"]
 assert thirst["italiansdelight:olive_oil_bottle"]["thirst"]==0
@@ -473,6 +479,10 @@ assert load(assets/"models/item/white_grape_juice_bucket.json")["textures"]["lay
 assert load(assets/"models/item/white_grape_juice_bottle.json")["parent"]=="minecraft:item/potion"
 verify_crop_png(assets/"textures/item/white_grape_juice_bucket.png")
 verify_crop_png(assets/"textures/block/fluids/white_grape_juice_still.png", expected_height=512)
+# Cross-checked with the previously working block paths: item/ sprites
+# cannot be used directly on the block texture atlas (missing checkerboard).
+for name in ("grapes","white_grapes"):
+    verify_crop_png(assets/f"textures/block/{name}.png")
 for language in (en,it):
     for key in ("item.italiansdelight.white_grape_juice_bucket",
         "item.italiansdelight.white_grape_juice_bottle",
