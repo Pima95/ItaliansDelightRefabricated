@@ -34,7 +34,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, zipfile, binascii, zlib
-          def validate_png(data):
+          def validate_png(data, height=16):
               assert data[:8] == bytes.fromhex("89504e470d0a1a0a")
               offset, seen_end, zdata = 8, False, bytearray()
               while offset < len(data):
@@ -46,7 +46,7 @@ jobs:
                   payload = data[offset+8:end-4]
                   assert binascii.crc32(kind + payload) & 0xffffffff == int.from_bytes(data[end-4:end], "big"), f"Corrupt {kind!r} checksum"
                   if kind == b"IHDR":
-                      assert payload[:8] == (16).to_bytes(4, "big") * 2
+                      assert payload[:8] == (16).to_bytes(4, "big") + height.to_bytes(4, "big")
                       assert payload[8:10] == bytes([8, 6])
                   elif kind == b"IDAT":
                       zdata.extend(payload)
@@ -54,7 +54,7 @@ jobs:
                       assert size == 0 and end == len(data)
                       seen_end = True
                   offset = end
-              assert seen_end and len(zlib.decompress(bytes(zdata))) == 16 * 65, "Incomplete PNG data"
+              assert seen_end and len(zlib.decompress(bytes(zdata))) == height * 65, "Incomplete PNG data"
           path = 'build/libs/italiansdelight-1.2.0-mc26.3-dev.jar'
           with zipfile.ZipFile(path) as jar:
               m = json.loads(jar.read('fabric.mod.json'))
@@ -124,7 +124,19 @@ jobs:
               assert bottle['model']['model']=='minecraft:item/potion'
               assert len(bottle['model']['tints'])==1
               validate_png(jar.read('assets/italiansdelight/textures/item/white_grape_juice_bucket.png'))
-              validate_png(jar.read('assets/italiansdelight/textures/block/fluids/white_grape_juice_still.png'))
+              validate_png(jar.read('assets/italiansdelight/textures/block/fluids/white_grape_juice_still.png'), 512)
+              assert 'assets/italiansdelight/textures/block/fluids/white_grape_juice_still.png.mcmeta' in jar.namelist()
+              for name, tex in (('grapes', 'grape'), ('white_grapes', 'white_grape')):
+                  block_model = json.loads(jar.read(f'assets/italiansdelight/models/block/{name}.json'))
+                  assert block_model['textures']['0'] == f'italiansdelight:item/{tex}'
+              beverages = ('apple_juice', 'golden_apple_juice', 'grape_juice', 'white_grape_juice', 'olive_oil')
+              for liquid in beverages:
+                  assert f'dev/italiansdelight/common/registry/ModItems.class' in jar.namelist()
+                  assert f'assets/italiansdelight/items/{liquid}_bottle.json' in jar.namelist()
+              thirst = json.loads(jar.read('data/italiansdelight/thirstwastaken2/drinks/italiansdelight_beverages.json'))['values']
+              assert thirst['italiansdelight:olive_oil_bottle']['thirst'] == 0
+              for liquid in beverages[:-1]:
+                  assert thirst[f'italiansdelight:{liquid}_bottle']['thirst'] == 6
               assert 'dev/italiansdelight/common/block/WildChiliBlock.class' in jar.namelist()
           print('OK: established chili foliage regrowth and all 8 root/rope ages, 5 valid sprites, wild crops and bamboo')
           PY
