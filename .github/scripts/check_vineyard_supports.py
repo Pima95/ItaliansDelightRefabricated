@@ -433,6 +433,12 @@ assert "new ItemStack(ModItems.WHITE_GRAPE_JUICE_BUCKET)" in read(src/"integrati
 assert "new ItemStack(ModItems.WHITE_GRAPE_JUICE_BOTTLE)" in read(src/"integration/jei/ModFluidJeiInfo.java")
 assert "ModFluids.WHITE_GRAPE_JUICE, 250" in jei_crush
 assert 'new Surface(ModRegistries.id("block/fluids/white_grape_juice_still"), 0xFFFFFFFF)' in read(src/"client/render/LiquidSurfaceVisuals.java")
+renderer=read(src/"client/render/LiquidSurfaceVisuals.java")
+translucency_selector=renderer.split("boolean translucent =",1)[1].split(";",1)[0]
+for fluid_name in ("italiansdelight:grape_juice","italiansdelight:white_grape_juice"):
+    assert fluid_name in translucency_selector, "Both grape juices must blend RGBA alpha"
+assert "translucent ? RenderTypes.entityTranslucent" in renderer
+
 assert 'registerContainedFluid(ModFluids.WHITE_GRAPE_JUICE,' in client
 assert "italiansdelight:white_grape_juice" in read(src/"common/block/BarrelFluidContainers.java")
 assert "WHITE_GRAPE_JUICE_BOTTLE" in creative and "WHITE_GRAPE_JUICE_BUCKET" in creative
