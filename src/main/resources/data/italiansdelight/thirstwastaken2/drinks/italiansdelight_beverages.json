@@ -1,0 +1,27 @@
+{
+  "values": {
+    "italiansdelight:apple_juice_bottle": {
+      "thirst": 6,
+      "quenched": 4
+    },
+    "italiansdelight:golden_apple_juice_bottle": {
+      "thirst": 6,
+      "quenched": 4
+    },
+    "italiansdelight:grape_juice_bottle": {
+      "thirst": 6,
+      "quenched": 4
+    },
+    "italiansdelight:white_grape_juice_bottle": {
+      "thirst": 6,
+      "quenched": 4
+    },
+    "italiansdelight:sheep_milk_bottle": {
+      "thirst": 4,
+      "quenched": 0
+    },
+    "italiansdelight:olive_oil_bottle": {
+      "thirst": 0
+    }
+  }
+}
