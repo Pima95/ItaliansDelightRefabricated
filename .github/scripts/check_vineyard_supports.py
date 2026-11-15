@@ -368,7 +368,7 @@ assert "neighbor.is(this)" in leaves_code, "Canopy must not connect across varie
 assert "ModItems.WHITE_GRAPES" in leaves_code
 assert "ModItems.WHITE_GRAPES" in crush and "ModBlocks.WHITE_GRAPE_SEEDS" in crush
 assert "new ItemStack(ModItems.WHITE_GRAPES)" in jei_crush
-assert "new ItemStack(ModBlocks.WHITE_GRAPE_SEEDS)" in jei_crush
+assert "new ItemStack(dev.italiansdelight.common.registry.ModBlocks.WHITE_GRAPE_SEEDS)" in jei_crush
 assert "new ItemStack(ModBlocks.WHITE_GRAPE_SEEDS)" in jei_grapes
 assert "new ItemStack(ModItems.WHITE_GRAPES)" in jei_grapes
 
