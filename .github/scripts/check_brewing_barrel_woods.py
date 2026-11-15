@@ -40,7 +40,9 @@ assert 'register("brewing_barrel", BrewingBarrelBlockEntity::new' in entities
 assert "getTicker(" in block_code
 assert "preserveContents(stack" in block_code, "Keep item contents on breaking"
 
-original = None
+original = (Path(".github/scripts/fixtures/alcocraft_spruce_keg.png").read_bytes())
+assert hashlib.sha1(f"blob {len(original)}\0".encode("ascii") + original).hexdigest() == \
+       "15bc4dcee27b3cb34a82d9bbf9ac50a43bdbee26", "Original Alcocraft fixture changed"
 for wood in woods:
     id_ = "brewing_barrel" if wood == "oak" else wood + "_brewing_barrel"
     name = "italiansdelight:" + id_
@@ -74,13 +76,7 @@ for wood in woods:
     assert png[:8] == bytes.fromhex("89504e470d0a1a0a")
     assert struct.unpack(">II", png[16:24]) == (64, 64)
     assert png[24:26] == bytes((8, 6)), "PNG must be 64x64 RGBA8"
-    if wood == "spruce":
-        sha = hashlib.sha1(f"blob {len(png)}\0".encode("ascii") + png).hexdigest()
-        assert sha == "15bc4dcee27b3cb34a82d9bbf9ac50a43bdbee26", \
-               "Original MIT spruce asset changed without documented update"
-        original = png
-    elif wood != "oak" and original is not None:
-        assert png != original, f"{wood}: missing wood-specific recolor"
+    assert png != original, f"{wood}: texture still flat/unmodified original"
 assert "block.italiansdelight.brewing_barrel" in lang_it
 assert 'BREWING_BARREL = register(' in registration
 for notice in ("CREDIT.md", "THIRD_PARTY_NOTICES.md", "NOTICE", "LICENSE"):
@@ -97,13 +93,10 @@ print("PASSED: 16 brewer IDs, blockstates, inventory models, recipes, loot, lang
 assert "Morogorian" not in credits
 assert "Morogorian" not in third_party
 
-# Regression guard: the prior approximate brown recolor made several wood
-# variants look nothing like their Minecraft 26.3 planks. Compare every
-# wood pixel against the source 26.3 plank palettes, and preserve steel.
-import math
+# Depth regression checks, comparing every recolor with original Alcocraft
+# pixels instead of enforcing the previously flat single-axis ramp.
 import zlib
-
-PALETTES = load(Path(".github/scripts/brewing_barrel_wood_palettes.json"))["palettes"]
+import math
 
 def decode_rgba(path):
     data = path.read_bytes()
@@ -157,42 +150,48 @@ def decode_rgba(path):
         above = row
     return result
 
+
 def luminance(rgb):
     return rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722
 
-base_sprite = decode_rgba(assets / "textures/block/spruce_brewing_barrel.png")
+metadata = load(Path(".github/scripts/brewing_barrel_wood_palettes.json"))
+assert not metadata["unmodified"], "All 16 textures now use distinct grading"
+assert len(metadata["spriteGitBlobSHA"]) == 16
+base_sprite = decode_rgba(Path(".github/scripts/fixtures/alcocraft_spruce_keg.png"))
 assert len(base_sprite) == 4096
-for wood, colors in PALETTES.items():
-    assert wood not in ("spruce", "mangrove")
-    ramp = sorted(colors, key=luminance)
+for wood in woods:
     id_ = "brewing_barrel" if wood == "oak" else wood + "_brewing_barrel"
-    target_sprite = decode_rgba(assets / "textures/block" / (id_ + ".png"))
-    changed = steel = 0
-    for src, target in zip(base_sprite, target_sprite):
-        red, green, blue, alpha = src
-        assert target[3] == alpha, f"Unexpected alpha change: {wood}"
-        # Metal pixels, including dark grey rings and cool grey bolts, stay
-        # byte-identical to the accepted source image.
-        if alpha == 0 or not (red > green + 7 and green > blue + 7):
-            assert src == target, f"Metal/transparent pixel altered in {wood}"
-            if alpha:
-                steel += 1
-            continue
-        q = max(0.0, min(1.0, (luminance(src[:3]) - 32) / 111))
-        position = q * (len(ramp) - 1)
-        slot = min(len(ramp) - 2, math.floor(position))
-        amount = position - slot
-        expected = tuple(
-            math.floor((1 - amount) * ramp[slot][ch] +
-                       amount * ramp[slot + 1][ch] + 0.5)
-            for ch in range(3)
-        )
-        assert target[:3] == expected, f"Wood mismatch: {wood}, {src}, {target}"
-        changed += 1
-    assert changed == 2492 and steel == 196
-mangrove = (assets / "textures/block/mangrove_brewing_barrel.png").read_bytes()
-sha = hashlib.sha1(f"blob {len(mangrove)}\0".encode("ascii") + mangrove).hexdigest()
-assert sha == "26a66116e14b1d32dc57d44f67544ac0e2d8e794", \
-       "Previously approved mangrove texture must remain unchanged"
-print("PASSED: 14 wood color ramps derived from actual plank assets")
-print("PASSED: identical accepted spruce and mangrove; preserved metal and transparency")
+    png_path = assets / "textures/block" / (id_ + ".png")
+    data = png_path.read_bytes()
+    sha = hashlib.sha1(f"blob {len(data)}\0".encode("ascii") + data).hexdigest()
+    assert sha == metadata["spriteGitBlobSHA"][wood], \
+           f"Unreviewed texture modification for {wood}"
+    recolored = decode_rgba(png_path)
+    assert len(recolored) == 4096
+    wood_luminances = []
+    metal_pixels = 0
+    for source, result in zip(base_sprite, recolored):
+        r, g, b, a = source
+        assert a == result[3], f"Pixel transparency changed in {wood}"
+        is_wood = a > 0 and r > g + 7 and g > b + 7
+        if not is_wood:
+            assert source == result, f"Metal/transparent details altered in {wood}"
+            if a:
+                metal_pixels += 1
+        else:
+            wood_luminances.append(luminance(result[:3]))
+    assert len(wood_luminances) == 2492 and metal_pixels == 196
+    wood_luminances.sort()
+    lo = wood_luminances[int(len(wood_luminances) * .05)]
+    hi = wood_luminances[int(len(wood_luminances) * .95)]
+    contrast = hi - lo
+    assert contrast >= metadata["expectedWoodContrastP05P95"][wood] - 3, \
+           f"{wood} has lost its grain/wood depth: {contrast:.2f}"
+    if wood == "bamboo":
+        # Bamboo preserves real vanilla stalk bands/joints, not only yellow RGB.
+        assert len({tuple(px[:3]) for orig, px in zip(base_sprite, recolored)
+                    if orig[3] and orig[0] > orig[1] + 7
+                    and orig[1] > orig[2] + 7}) > 150, \
+               "Bamboo texture lost stalk and knot variations"
+print("PASSED: depth, knots, RGBA, metal and distinct actual wood palettes")
+print("PASSED: all 16 image SHA references match the new reviewed sprites")

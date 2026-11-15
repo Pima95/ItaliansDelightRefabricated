@@ -1,12 +1,9 @@
 {
-  "method": "Luminance-indexed interpolation of the exact 26.3 plank palettes, with preserved Alcocraft steel pixels",
+  "method": "High-contrast luminance grading of original Alcocraft spruce keg; preserved metallic RGBA pixels, 2D stave-grain modulation; for bamboo, stamped 26.3 bamboo_planks pixels with longitudinal cane strips and transverse nodes",
   "vanillaSource": "https://github.com/InventivetalentDev/minecraft-assets/tree/aaf3b3dbdf72b5723861324984813f3fd87db179/assets/minecraft/textures/block",
   "modWoodSource": "src/main/resources/assets/italiansdelight/textures/block/{wood}_planks.png",
-  "originalSprite": "src/main/resources/assets/italiansdelight/textures/block/spruce_brewing_barrel.png",
-  "unmodified": [
-    "spruce",
-    "mangrove"
-  ],
+  "originalSprite": ".github/scripts/fixtures/alcocraft_spruce_keg.png",
+  "unmodified": [],
   "palettes": {
     "oak": [
       [
@@ -550,6 +547,117 @@
         156,
         116
       ]
+    ],
+    "spruce": [
+      [
+        130,
+        97,
+        58
+      ],
+      [
+        122,
+        90,
+        52
+      ],
+      [
+        112,
+        82,
+        46
+      ],
+      [
+        85,
+        58,
+        31
+      ],
+      [
+        90,
+        68,
+        36
+      ],
+      [
+        97,
+        75,
+        46
+      ],
+      [
+        136,
+        101,
+        57
+      ]
+    ],
+    "mangrove": [
+      [
+        127,
+        66,
+        52
+      ],
+      [
+        119,
+        57,
+        52
+      ],
+      [
+        117,
+        49,
+        54
+      ],
+      [
+        93,
+        28,
+        30
+      ],
+      [
+        100,
+        36,
+        35
+      ],
+      [
+        111,
+        42,
+        45
+      ],
+      [
+        139,
+        77,
+        58
+      ]
     ]
+  },
+  "sourceBambooPlank": "https://github.com/InventivetalentDev/minecraft-assets/blob/26.3/assets/minecraft/textures/block/bamboo_planks.png",
+  "spriteGitBlobSHA": {
+    "oak": "deafbbc80fbf435502137de99b0ac8938d368dc3",
+    "spruce": "3b321d7aa184ce24e3197ebd1704acb7a7db2a56",
+    "birch": "75162acbe7d5e8b5d6a7de7776ab9cf12580e9e6",
+    "jungle": "781608e6c270c5576e8d11a1fbb1486a1fc8a79f",
+    "acacia": "91e2d98b4e2ee4a1acb99ed6975adedfc233872e",
+    "dark_oak": "0aa69ce9fb73a5b4af6e7f674fe277171d30c1b9",
+    "mangrove": "f7680481f4bbefaf544be4c81e587c787ad4b4c9",
+    "cherry": "6c5d0372a0eb250ebf59840310098c687f452991",
+    "pale_oak": "10a101963b297f091e5894e2053c93e34ee98705",
+    "poplar": "49c9990b5c5455761c0f14ce8ac61c00fa1ea007",
+    "bamboo": "dc099128038aab284a135aee59f439714f3582fa",
+    "crimson": "2b4ca709580c8f166707c38b428de9d0dc44ffa6",
+    "warped": "fa13a95657338d61600510666608964619d8270c",
+    "olive": "11b7469c8b6905ad1bc10201196d9c85f34c51a6",
+    "almond": "555898c00c50ef0312490d96ab7efd7bdd19e398",
+    "fruit_cherry": "7c0298adfbc15fcfbcd9c68e919e44ec11d9547e"
+  },
+  "expectedWoodContrastP05P95": {
+    "oak": 137,
+    "spruce": 85,
+    "birch": 147,
+    "jungle": 129,
+    "acacia": 94,
+    "dark_oak": 53,
+    "mangrove": 78,
+    "cherry": 143,
+    "pale_oak": 123,
+    "poplar": 126,
+    "bamboo": 132,
+    "crimson": 72,
+    "warped": 118,
+    "olive": 130,
+    "almond": 157,
+    "fruit_cherry": 114
   }
 }
