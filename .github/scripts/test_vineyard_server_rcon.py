@@ -122,6 +122,23 @@ def test():
             assert_block(rcon, x, 81, 3, f"italiansdelight:{ident}[axis={axis}]")
         print("PASSED: all 16 decorative wood types with x/y/z orientation", flush=True)
 
+        # Brewing barrels: legacy oak ID and 15 wood IDs all support
+        # the same four horizontal facing properties on the dedicated server.
+        # This does not require an online player or random crop ticks.
+        woods = ("oak", "spruce", "birch", "jungle", "acacia",
+                 "dark_oak", "mangrove", "cherry", "pale_oak", "poplar",
+                 "bamboo", "crimson", "warped", "olive", "almond", "fruit_cherry")
+        facings = ("north", "east", "south", "west")
+        for x, wood in enumerate(woods):
+            block_id = "brewing_barrel" if wood == "oak" else wood + "_brewing_barrel"
+            for z_offset, facing in enumerate(facings):
+                z = 10 + z_offset
+                block = f"italiansdelight:{block_id}[facing={facing}]"
+                run(rcon, f"setblock {x} 81 {z} {block}")
+                assert_block(rcon, x, 81, z, block)
+        print("PASSED: all 16 fermentation barrel variants and their four orientations", flush=True)
+
+
         # Original horizontal rope connection behavior, now including wood
         # variants. Do not use any alternate rope blocks or rope items.
         run(rcon, "setblock 2 81 5 italiansdelight:spruce_crop_stake[axis=y]")

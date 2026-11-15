@@ -28,6 +28,8 @@ jobs:
         run: python3 .github/scripts/audit_project_consistency.py
       - name: Check vineyard, stake, wine fluid models and tags
         run: python3 .github/scripts/check_vineyard_supports.py
+      - name: Verify wood brewing barrels, recipes and upstream credits
+        run: python3 .github/scripts/check_brewing_barrel_woods.py
       - name: Build Java 25 experimental artifact
         run: bash ./gradlew build --no-daemon --max-workers=2 --console=plain
       - name: Verify JAR
