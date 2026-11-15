@@ -171,7 +171,7 @@ import struct
 import binascii
 import zlib
 
-def verify_crop_png(path):
+def verify_crop_png(path, expected_height=16):
     blob = path.read_bytes()
     assert blob.startswith(b"\x89PNG\r\n\x1a\n"), f"{path}: PNG signature"
     pos = 8
@@ -190,7 +190,7 @@ def verify_crop_png(path):
         assert actual_crc == expected_crc, f"{path}: broken {kind!r} CRC"
         if kind == b"IHDR":
             assert not seen_ihdr and pos == 8 and length == 13
-            assert payload[:8] == (16).to_bytes(4, "big") * 2
+            assert payload[:8] == (16).to_bytes(4, "big") + expected_height.to_bytes(4, "big")
             assert payload[8:10] == bytes([8, 6]), f"{path}: RGBA8 required"
             seen_ihdr = True
         elif kind == b"IDAT":
@@ -201,8 +201,8 @@ def verify_crop_png(path):
         pos = end
     assert seen_ihdr and seen_iend and compressed, f"{path}: incomplete PNG"
     decoded = zlib.decompress(bytes(compressed))
-    assert len(decoded) == 16 * (1 + 16 * 4), f"{path}: truncated RGBA scanlines"
-    for y in range(16):
+    assert len(decoded) == expected_height * (1 + 16 * 4), f"{path}: truncated RGBA scanlines"
+    for y in range(expected_height):
         assert decoded[y * 65] <= 4, f"{path}: invalid filter at row {y}"
 
 for stage in range(4):
@@ -389,7 +389,7 @@ assert sum(p["apply"]["model"]=="italiansdelight:block/white_grapes"
 assert sum(p["apply"]["model"]=="italiansdelight:block/grapes"
            for p in white_canopy["multipart"])==0
 assert "tintindex" not in str(load(assets/"models/block/white_grapes.json"))
-assert load(assets/"models/block/white_grapes.json")["textures"]["0"]=="italiansdelight:block/white_grapes"
+assert load(assets/"models/block/white_grapes.json")["textures"]["0"]=="italiansdelight:item/white_grape"
 for name in ("white_grapes","white_grape_seeds"):
     assert load(assets/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
     expected_texture="white_grape" if name=="white_grapes" else name
@@ -441,13 +441,38 @@ assert 'CHERRIES = registerFoodItem("cherries", 2, 0.2f)' in items_code
 assert 'GRAPES = registerFoodItem("grapes", 2, 0.2f)' in items_code
 assert ".noOcclusion().noCollision().forceSolidOff()" in registry, "Chili crop must be non-colliding at ground level"
 assert 'WHITE_GRAPE_JUICE_BOTTLE' in items_code
-assert "DataComponents.CONSUMABLE" not in items_code[items_code.index("WHITE_GRAPE_JUICE_BOTTLE ="):items_code.index("// Olive oil: a placeable",items_code.index("WHITE_GRAPE_JUICE_BOTTLE ="))]
+# All five bottle items are genuinely drinkable, and the normal golden apple
+# effects match vanilla: Regeneration II 5s and Absorption I 2min.
+for item_id in ("GRAPE_JUICE_BOTTLE","WHITE_GRAPE_JUICE_BOTTLE",
+                "APPLE_JUICE_BOTTLE","GOLDEN_APPLE_JUICE_BOTTLE",
+                "OLIVE_OIL_BOTTLE"):
+    declaration=items_code[items_code.index(f"public static final Item {item_id} = register("):]
+    assert "ConsumableItem::new" in declaration.split(");",1)[0], item_id
+assert "MobEffects.REGENERATION, 100, 1" in items_code
+assert "MobEffects.ABSORPTION, 2400, 0" in items_code
+assert "DataComponents.CONSUMABLE, consumable" in items_code
+for name, texture in (("grapes","grape"),("white_grapes","white_grape")):
+    assert load(assets/f"models/block/{name}.json")["textures"]["0"]==f"italiansdelight:item/{texture}"
+drinks=load(data/"c/tags/item/drinks.json")["values"]
+for name in ("apple_juice","golden_apple_juice","grape_juice","white_grape_juice"):
+    assert f"italiansdelight:{name}_bottle" in drinks
+assert "italiansdelight:olive_oil_bottle" not in drinks
+thirst=load(data/"italiansdelight/thirstwastaken2/drinks/italiansdelight_beverages.json")["values"]
+assert thirst["italiansdelight:olive_oil_bottle"]["thirst"]==0
+for name in ("apple_juice","golden_apple_juice","grape_juice","white_grape_juice"):
+    assert thirst[f"italiansdelight:{name}_bottle"]=={"thirst":6,"quenched":4}
+white_frame=assets/"textures/block/fluids/white_grape_juice_still.png"
+red_frame=assets/"textures/block/fluids/grape_juice_still.png"
+assert white_frame.read_bytes()!=red_frame.read_bytes()
+assert load(assets/"textures/block/fluids/white_grape_juice_still.png.mcmeta") == load(
+       assets/"textures/block/fluids/grape_juice_still.png.mcmeta")
+
 assert load(assets/"items/white_grape_juice_bottle.json")["model"]["model"]=="minecraft:item/potion"
 assert load(assets/"items/white_grape_juice_bucket.json")["model"]["model"]=="italiansdelight:item/white_grape_juice_bucket"
 assert load(assets/"models/item/white_grape_juice_bucket.json")["textures"]["layer0"]=="italiansdelight:item/white_grape_juice_bucket"
 assert load(assets/"models/item/white_grape_juice_bottle.json")["parent"]=="minecraft:item/potion"
 verify_crop_png(assets/"textures/item/white_grape_juice_bucket.png")
-verify_crop_png(assets/"textures/block/fluids/white_grape_juice_still.png")
+verify_crop_png(assets/"textures/block/fluids/white_grape_juice_still.png", expected_height=512)
 for language in (en,it):
     for key in ("item.italiansdelight.white_grape_juice_bucket",
         "item.italiansdelight.white_grape_juice_bottle",
