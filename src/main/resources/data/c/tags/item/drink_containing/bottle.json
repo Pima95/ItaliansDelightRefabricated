@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
-    "italiansdelight:sheep_milk_bottle"
+    "italiansdelight:sheep_milk_bottle",
+    "italiansdelight:apple_juice_bottle",
+    "italiansdelight:golden_apple_juice_bottle",
+    "italiansdelight:grape_juice_bottle",
+    "italiansdelight:white_grape_juice_bottle",
+    "italiansdelight:olive_oil_bottle"
   ]
 }
