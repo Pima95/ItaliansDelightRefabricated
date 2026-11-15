@@ -86,10 +86,13 @@ assert 'BREWING_BARREL = register(' in registration
 for notice in ("CREDIT.md", "THIRD_PARTY_NOTICES.md", "NOTICE", "LICENSE"):
     assert Path(notice).is_file(), f"Missing legal notice {notice}"
 credits = Path("CREDIT.md").read_text(encoding="utf-8")
-assert all(name in credits for name in ("hadrus91", "Morogorian", "Alcocraft", "Pima95"))
+assert all(name in credits for name in ("hadrus91", "Alcocraft", "Pima95"))
 third_party = Path("THIRD_PARTY_NOTICES.md").read_text(encoding="utf-8")
 assert "Alcocraft: Beer & Stuff" in third_party
 assert "MIT" in third_party
 assert 'from("CREDIT.md")' in Path("build.gradle").read_text(encoding="utf-8")
 print("PASSED: Alcocraft keg geometry and 64x64 wood palettes are packaged")
 print("PASSED: 16 brewer IDs, blockstates, inventory models, recipes, loot, languages and attributions")
+
+assert "Morogorian" not in credits
+assert "Morogorian" not in third_party

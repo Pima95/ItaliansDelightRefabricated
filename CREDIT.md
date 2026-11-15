@@ -32,14 +32,13 @@ Aggiornato il 15 novembre 2026. Crediti, provenienza delle risorse e attribuzion
 ## Alcocraft — modello della botte di fermentazione
 
 - **Alcocraft: Beer & Stuff** originale di **hadrus91** (GitHub `hadrus`): https://www.curseforge.com/minecraft/mc-mods/alcocraft-beer-and-stuff e https://github.com/hadrus/Alcocraft.
-- **Alcocraft (Fabric) / Modern Minecraft Port**, progetto pubblicato da **Morogorian**: https://www.curseforge.com/minecraft/mc-mods/alcocraft-fabric. Il port attribuisce espressamente il progetto originale a hadrus91.
-- Entrambi mostrano **MIT License** sulle rispettive pagine CurseForge.
+- La pagina del **progetto originale** riporta la licenza **MIT**. I file sono stati confrontati direttamente con il repository originale, non con un porting.
 - **Asset utilizzati**: modello `spruce_keg.json` di Blockbench (22 elementi, UV, trasformazioni visualizzazione) e texture `spruce_keg.png` 64×64. I file caricati corrispondono esattamente ai blob dell'originale `hadrus/Alcocraft`:
   - modello: `0082a9b347986f1b6b0c99c60aea1c652cccd9ec`;
   - texture: `15bc4dcee27b3cb34a82d9bbf9ac50a43bdbee26`.
 - **Modifiche per Italian's Delight**: sostituzione namespace e riferimenti `alcocraft:spruce_keg`, adozione dell'ID già esistente `italiansdelight:brewing_barrel`, varianti per 16 tipi di legno (con recolor della texture), aggiornamento dell'orientamento e degli asset di inventario. **Nessun codice Java, ricetta birra o interfaccia di Alcocraft è stata importata**.
 - La stringa `Made with Blockbench` identifica lo strumento usato nel modello originale, non un autore.
-- **Nota legale**: le pagine MIT pubbliche usano un modello con `<year> <copyright holders>`, senza anno/titolare concretamente riportati. Conserviamo i crediti degli autori noti, il permesso MIT e i disclaimer in `THIRD_PARTY_NOTICES.md`; se si trova un notice più preciso in un originale distribuito, andrà riprodotto senza modifiche. Nessuna approvazione di Alcocraft verso questa mod è sottintesa.
+- **Nota licenza MIT**: alcune pagine pubblicano il modello standard di licenza con le parole segnaposto `<year> <copyright holders>`, senza una data o un titolare compilato. Ciò non impedisce di usare le risorse sotto MIT: significa solo che non dobbiamo inventare una riga di copyright. Conserviamo autore e provenienza originali e il testo della licenza; se nell'archivio sorgente si trova un avviso preciso, verrà incluso letteralmente.
 
 ## Ecosistema e strumenti
 

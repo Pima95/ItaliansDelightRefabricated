@@ -18,13 +18,12 @@ Italian's Delight Refabricated is an independent mod inspired by the two project
 - The [Rustic CurseForge description](https://www.curseforge.com/minecraft/mc-mods/rustic) also thanks **Nazenn** for making/editing textures and **Copygirl** for permitting the use of locker models/textures. These upstream credits are preserved for transparency; *no identified binary match in this repository establishes that the specific reused artwork was drawn by either contributor*.
 - A historical reproducible comparison identified **41 binary-identical assets/metadata files** before two resources were deleted. The current Orchard branch retains **39 unchanged binary matches** (11 November 2026): original matching `leaves_olive.png` and `sapling_olive.png` were already removed. These include olive bark, olive seed, fluids and some currently unused legacy resources. See [the audit with each source path and Git blob SHA](docs/orchards-1.1.0/RUSTIC_ASSET_MATCHES.md).
 
-## Alcocraft: Beer & Stuff / Alcocraft (Fabric) — imported keg model
+## Alcocraft: Beer & Stuff (original) — imported keg model
 
 - **Original**: [Alcocraft: Beer & Stuff](https://www.curseforge.com/minecraft/mc-mods/alcocraft-beer-and-stuff) by **hadrus91**; original source [hadrus/Alcocraft](https://github.com/hadrus/Alcocraft).
-- **Fabric port**: [Alcocraft](https://www.curseforge.com/minecraft/mc-mods/alcocraft-fabric) by **Morogorian**, which explicitly credits hadrus91.
 - **Reused graphics**: original 22-element `spruce_keg` Blockbench model with 64x64 texture, imported from owner-uploaded files that exactly match the source Git blobs `0082a9b347986f1b6b0c99c60aea1c652cccd9ec` (model) and `15bc4dcee27b3cb34a82d9bbf9ac50a43bdbee26` (PNG).
 - **Changes**: adapted to `italiansdelight:brewing_barrel` and 15 additional wood versions by changing model references, registered IDs and wood-pixel palettes. The Java brewing logic, UI and recipes are original to this project, **not copied** from Alcocraft.
-- **License**: both CurseForge projects publicly list MIT. Their publicly rendered MIT notice contains the generic `<year> <copyright holders>` placeholders. We acknowledge the verified project authors without fabricating a precise copyright year/holder. The MIT permission/disclaimer text is reproduced below. If the actual upstream distribution includes further copyright notices, preserve them verbatim before release.
+- **License**: the original Alcocraft project publicly lists MIT. Its displayed license template contains generic `<year> <copyright holders>` placeholders rather than a completed author/year notice. We preserve the source author credit, the MIT permission and disclaimer; no year or formal copyright holder is invented. If more specific notices are supplied in the original archive, include them unchanged before release.
 - Full credits and provenance: [CREDIT.md](CREDIT.md). This attribution does not imply endorsement.
 
 ## License notice for upstream MIT-licensed material
