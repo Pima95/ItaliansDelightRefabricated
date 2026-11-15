@@ -19,3 +19,13 @@ L'archivio utente `Allegati.zip` contiene 32 voci: risorse grafiche, blockstates
 Rustic di cadaverous_eris/cadaverous_queen è pubblicato come **MIT** sulle piattaforme ufficiali, ma verificare e mantenere i relativi copyright notice prima della distribuzione della release derivata. Fonte: https://modrinth.com/mod/rustic e repository https://github.com/cadaverous-eris/Rustic .
 
 Il codice nuovo per raccolta e pigiatura in questa mod è una riscrittura Fabric 26.3, non un file Java Rustic 1.12.2 semplicemente copiato.
+
+## Colore delle foglie della vite (Fabric 26.3)
+
+I modelli originali Rustic `grape_leaves_0` e `grape_leaves_1` usano la texture neutra `minecraft:block/oak_leaves` e `tintindex: 0` su tutte le facce fogliari. In Rustic il colore veniva fornito dalla registrazione del blocco: importare soltanto il modello lascia le foglie grigie.
+
+In Italian's Delight il client registra `BlockTintSources.foliage()` per `ModBlocks.GRAPE_LEAVES` tramite `BlockColorRegistry`. Il colore dipende quindi dal **bioma** come per le foglie vanilla, sia nelle foglie centrali sia in quelle laterali; Serene Seasons 26.3 intercetta il foliage color resolver per applicare anche i colori **stagionali** quando è installato. Senza Serene Seasons resta la normale variazione per bioma. La configurazione di colori stagionali di Serene Seasons e i tempi di ricostruzione dei chunk sono gestiti da quel mod.
+
+Nessuna modifica a modelli 3D, hitbox, crescita, corde, frutti o classi lato server. La texture legnosa `grape_vine` e quella dei grappoli `grapes` rimangono senza tinta. Test statico: `.github/scripts/check_vineyard_supports.py`; il rendering e le transizioni di stagione vanno poi verificati in un client con Serene Seasons.
+
+Fonti sorgenti: Rustic `src/main/resources/assets/rustic/models/block/grape_leaves_{0,1}.json`; Serene Seasons 26.3 `common/src/main/java/sereneseasons/season/SeasonColorHandlers.java`; Fabric API `BlockColorRegistry`.

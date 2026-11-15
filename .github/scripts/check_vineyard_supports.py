@@ -328,4 +328,24 @@ for face in ("up","down"):
 assert not (assets/"textures/block/bamboo_stake_end.png").exists(), "Old custom cap must be removed"
 print("PASSED: FDR-based wild crop offset with centered hitbox, age-only chili models, vanilla bamboo fence cap")
 
+# Rustic grape leaves have a tintindex on every leaf face, but the custom
+# grape_leaves registry ID needs its OWN client BlockColorRegistry source.
+# Vanilla's foliage resolver supplies biome colors and Serene Seasons patches
+# that same resolver when installed, so no custom seasonal calendar is needed.
+client=read(src/"ItaliansDelightClient.java")
+assert "BlockColorRegistry.register(List.of(BlockTintSources.foliage()), ModBlocks.GRAPE_LEAVES);" in client
+assert "BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);" in client
+assert "BlockColorRegistry.register(List.of(FRUIT_CHERRY_BIOME_FOLIAGE), ModBlocks.FRUIT_CHERRY_LEAVES);" in client
+for model_name in ("grape_leaves_0", "grape_leaves_1"):
+    leaf=load(assets/f"models/block/{model_name}.json")
+    assert leaf["textures"]["0"]=="minecraft:block/oak_leaves"
+    assert leaf["elements"],f"{model_name}: missing foliage geometry"
+    for element in leaf["elements"]:
+        for side,face in element["faces"].items():
+            assert face.get("tintindex")==0,(model_name,side,face)
+assert "tintindex" not in str(load(assets/"models/block/grapes.json")), "Fruit bunches must not be tinted"
+assert "tintindex" not in str(load(assets/"models/block/grape_vine.json")), "Woody vines must not be tinted"
+assert "sereneseasons." not in client, "Client foliage must not require optional season mod classes"
+print("PASSED: grape center/side leaves use vanilla biome & Serene Seasons foliage tint; grapes and wood unchanged")
+
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")

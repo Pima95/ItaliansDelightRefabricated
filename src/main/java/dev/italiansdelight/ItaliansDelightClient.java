@@ -180,6 +180,13 @@ public class ItaliansDelightClient implements ClientModInitializer {
         // Olive, both saplings, and the rest of the orchard art remain untinted.
         BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);
         BlockColorRegistry.register(List.of(FRUIT_CHERRY_BIOME_FOLIAGE), ModBlocks.FRUIT_CHERRY_LEAVES);
+        // Rustic's grape-leaf models already tint every oak-leaf face (index 0)
+        // but GRAPE_LEAVES is a separate block ID with no inherited color.
+        // The vanilla foliage source uses the biome's foliage resolver; if
+        // Serene Seasons is installed it replaces that resolver with its
+        // seasonal version. Do not directly link optional Serene classes here.
+        // Register the FULL biome tint, not the softened orchard-tree palettes.
+        BlockColorRegistry.register(List.of(BlockTintSources.foliage()), ModBlocks.GRAPE_LEAVES);
 
         ModelLayerRegistry.registerModelLayer(
             OLIVE_BOAT_LAYER, BoatModel::createBoatModel);
