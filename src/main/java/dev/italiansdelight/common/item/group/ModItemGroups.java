@@ -214,6 +214,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.WHITE_GRAPES);
                 output.accept(ModItems.GRAPE_JUICE_BUCKET);
                 output.accept(ModItems.GRAPE_JUICE_BOTTLE);
+                output.accept(ModItems.WHITE_GRAPE_JUICE_BUCKET);
+                output.accept(ModItems.WHITE_GRAPE_JUICE_BOTTLE);
                 output.accept(ModItems.WINE_BUCKET);
                 output.accept(ModItems.WINE_BOTTLE);
 

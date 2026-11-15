@@ -74,6 +74,8 @@ public final class OrchardPlantJeiInfo {
                 new ItemStack(ModItems.WHITE_GRAPES),
                 new ItemStack(ModItems.GRAPE_JUICE_BUCKET),
                 new ItemStack(ModItems.GRAPE_JUICE_BOTTLE),
+                new ItemStack(ModItems.WHITE_GRAPE_JUICE_BUCKET),
+                new ItemStack(ModItems.WHITE_GRAPE_JUICE_BOTTLE),
                 new ItemStack(ModItems.WINE_BUCKET),
                 new ItemStack(ModItems.WINE_BOTTLE)
             ),

@@ -69,6 +69,13 @@ public final class ModFluids {
         BuiltInRegistries.FLUID, GRAPE_JUICE_KEY,
         new ContainedFluid(() -> ModItems.GRAPE_JUICE_BUCKET));
 
+    // Distinct must for white grapes; old grape_juice keeps its stable ID.
+    public static final ResourceKey<Fluid> WHITE_GRAPE_JUICE_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("white_grape_juice"));
+    public static final Fluid WHITE_GRAPE_JUICE = Registry.register(
+        BuiltInRegistries.FLUID, WHITE_GRAPE_JUICE_KEY,
+        new ContainedFluid(() -> ModItems.WHITE_GRAPE_JUICE_BUCKET));
+
     public static final ResourceKey<Fluid> WINE_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("wine"));
     // This stage bottles wine only through the brewer. No generic

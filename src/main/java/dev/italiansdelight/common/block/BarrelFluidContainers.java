@@ -43,6 +43,10 @@ public final class BarrelFluidContainers {
             return new Portion("italiansdelight:grape_juice", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.GRAPE_JUICE_BUCKET))
             return new Portion("italiansdelight:grape_juice", 1000, Items.BUCKET);
+        if (stack.is(ModItems.WHITE_GRAPE_JUICE_BOTTLE))
+            return new Portion("italiansdelight:white_grape_juice", 250, Items.GLASS_BOTTLE);
+        if (stack.is(ModItems.WHITE_GRAPE_JUICE_BUCKET))
+            return new Portion("italiansdelight:white_grape_juice", 1000, Items.BUCKET);
         if (stack.is(ModItems.APPLE_JUICE_BOTTLE))
             return new Portion("italiansdelight:apple_juice", 250, Items.GLASS_BOTTLE);
         if (stack.is(ModItems.GOLDEN_APPLE_JUICE_BOTTLE))
@@ -84,6 +88,8 @@ public final class BarrelFluidContainers {
             if ("minecraft:honey".equals(id)) return new ItemStack(Items.HONEY_BOTTLE);
             if ("italiansdelight:grape_juice".equals(id))
                 return new ItemStack(ModItems.GRAPE_JUICE_BOTTLE);
+            if ("italiansdelight:white_grape_juice".equals(id))
+                return new ItemStack(ModItems.WHITE_GRAPE_JUICE_BOTTLE);
             if ("italiansdelight:apple_juice".equals(id))
                 return new ItemStack(ModItems.APPLE_JUICE_BOTTLE);
             if ("italiansdelight:golden_apple_juice".equals(id))
@@ -104,6 +110,8 @@ public final class BarrelFluidContainers {
             return new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
         if ("italiansdelight:grape_juice".equals(id))
             return new ItemStack(ModItems.GRAPE_JUICE_BUCKET);
+        if ("italiansdelight:white_grape_juice".equals(id))
+            return new ItemStack(ModItems.WHITE_GRAPE_JUICE_BUCKET);
         Identifier key = Identifier.tryParse(id);
         if (key == null) return ItemStack.EMPTY;
         Fluid fluid = BuiltInRegistries.FLUID.getValue(key);

@@ -111,6 +111,20 @@ jobs:
               for texture in ('block/white_grapes','item/white_grapes','item/white_grape_seeds'):
                   validate_png(jar.read(f'assets/italiansdelight/textures/{texture}.png'))
               assert 'data/italiansdelight/recipe/white_grape_seeds.json' in jar.namelist()
+              # Inventory renders the existing singular grape sprites; the
+              # white-juice bucket and bottle are separate functional items.
+              for name, singular in (('grapes','grape'),('white_grapes','white_grape')):
+                  model = json.loads(jar.read(f'assets/italiansdelight/models/item/{name}.json'))
+                  assert model['textures']['layer0']==f'italiansdelight:item/{singular}'
+                  validate_png(jar.read(f'assets/italiansdelight/textures/item/{singular}.png'))
+              for name in ('white_grape_juice_bucket','white_grape_juice_bottle'):
+                  assert f'assets/italiansdelight/items/{name}.json' in jar.namelist()
+                  assert f'assets/italiansdelight/models/item/{name}.json' in jar.namelist()
+              bottle = json.loads(jar.read('assets/italiansdelight/items/white_grape_juice_bottle.json'))
+              assert bottle['model']['model']=='minecraft:item/potion'
+              assert len(bottle['model']['tints'])==1
+              validate_png(jar.read('assets/italiansdelight/textures/item/white_grape_juice_bucket.png'))
+              validate_png(jar.read('assets/italiansdelight/textures/block/fluids/white_grape_juice_still.png'))
               assert 'dev/italiansdelight/common/block/WildChiliBlock.class' in jar.namelist()
           print('OK: established chili foliage regrowth and all 8 root/rope ages, 5 valid sprites, wild crops and bamboo')
           PY

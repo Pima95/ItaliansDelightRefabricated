@@ -29,7 +29,7 @@ public record CrushingTubJeiRecipe(ItemStack ingredient, Fluid fluid, long amoun
                 ModFluids.GRAPE_JUICE, 250,
                 new ItemStack(dev.italiansdelight.common.registry.ModBlocks.GRAPE_SEEDS), ItemStack.EMPTY),
             new CrushingTubJeiRecipe(new ItemStack(ModItems.WHITE_GRAPES),
-                ModFluids.GRAPE_JUICE, 250,
+                ModFluids.WHITE_GRAPE_JUICE, 250,
                 new ItemStack(dev.italiansdelight.common.registry.ModBlocks.WHITE_GRAPE_SEEDS), ItemStack.EMPTY),
             new CrushingTubJeiRecipe(new ItemStack(Items.APPLE),
                 ModFluids.APPLE_JUICE_STILL, 250, new ItemStack(ModItems.APPLE_SEEDS), ItemStack.EMPTY),

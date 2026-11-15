@@ -29,6 +29,11 @@ public final class ModFluidJeiInfo {
                 new ItemStack(ModItems.GRAPE_JUICE_BUCKET)),
             Component.translatable("jei.italiansdelight.fluids.grape_juice"));
 
+        registration.addItemStackInfo(List.of(
+                new ItemStack(ModItems.WHITE_GRAPE_JUICE_BOTTLE),
+                new ItemStack(ModItems.WHITE_GRAPE_JUICE_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.white_grape_juice"));
+
         registration.addItemStackInfo(List.of(new ItemStack(ModItems.WINE_BOTTLE),
                 new ItemStack(ModItems.WINE_BUCKET)),
             Component.translatable("jei.italiansdelight.fluids.wine"));

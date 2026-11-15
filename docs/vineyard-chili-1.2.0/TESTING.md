@@ -88,3 +88,15 @@ Usa un mondo di prova, non un salvataggio importante. Il test automatico avvia e
 - **Succo d'uva**: `grape_juice_bottle` usa il modello standard della pozione/bottiglia di Minecraft con tintura viola, come il succo di mela.
 - **Prova rapida**: in creativa usa `/give @p italiansdelight:crop_stake`, `/give @p farmersdelight:rope 16`, `/give @p italiansdelight:grape_seeds 16`. Ara un blocco e posiziona un palo; verifica che il terreno resti arato. Posiziona una fila orizzontale con Shift+clic a due blocchi di altezza, matura la vite e controlla grappoli/rottura.
 - **Attenzione**: CI automatico conferma compilazione e avvio, ma la posa Shift+clic e la farmland vanno verificati nel mondo client.
+
+## Controlli di regressione: uva bianca/rossa, ciliegie, collisione peperoncino
+
+1. In Creativa e in JEI controlla i nomi «Grappolo d'uva rossa» e «Grappolo d'uva bianca», con le icone `grape.png` e `white_grape.png` (non le vecchie icone plurali). Le texture dei grappoli sulle viti rimangono invariate.
+2. Pigia separatamente un grappolo rosso e uno bianco in due Crushing Tub vuoti. Entrambi producono 250 mB, ma gli ID sono rispettivamente `grape_juice` e `white_grape_juice`, con semi della propria varietà come sottoprodotto.
+3. Raccogli il succo bianco usando un secchio (1.000 mB) e una bottiglia (250 mB), trasferiscilo in un Barrel o in un calderone e prelevalo nuovamente. Verifica che abbia colore giallo-verde e che il succo rosso preesistente non venga mescolato al bianco.
+4. Il fermentatore esistente deve continuare ad accettare soltanto il succo rosso: il succo bianco è un fluido separato e la sua futura fermentazione non è ancora implementata.
+5. Consuma una ciliegia a stomaco non pieno: valori nutrizionali uguali a quelli dell'uva (nutrizione 2, saturazione 0,2). Gli ID delle ciliegie e le ricette preesistenti non devono cambiare.
+6. Attraversa un peperoncino coltivato a terra in tutte le età, 0–7. I giocatori non devono essere fermati dalla pianta; resta selezionabile e può essere raccolta con clic destro. Controlla anche i segmenti sulle corde, già privi di collisione.
+7. Salva e ricarica il mondo; ripeti raccolta e travaso. Usa un mondo di prova: la build server non può confermare la resa grafica nel client.
+
+Le bottiglie di succhi e il vino **non sono ancora bevibili** in questa fase: è una decisione di gameplay da prendere, separata dalla registrazione dei nuovi contenitori.

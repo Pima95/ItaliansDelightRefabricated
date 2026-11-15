@@ -14,3 +14,9 @@ L'uva bianca riutilizza la crescita approvata della vite originale ma con identi
 - Test client: piazza due viti affiancate con tralicci distinti, raccogli e ripeti; verifica che i grappoli e i semi rimangano della varietà piantata e che entrambe seguano lo stesso colore del bioma.
 
 Le scelte sulla futura distinzione tra mosto bianco/rosso e vino bianco/rosso rimangono aperte.
+
+## Aggiornamento: succo d'uva bianca distinto (15 novembre 2026)
+
+La pigiatura dei grappoli bianchi ora produce `italiansdelight:white_grape_juice` (250 mB per grappolo), con bottiglia e secchio propri. Il nuovo fluido è non piazzabile, trasferibile con Fabric Fluid Transfer API e nelle botti/calderoni. Non può mescolarsi con `italiansdelight:grape_juice`, l'ID del vecchio succo dell'uva rossa, che rimane compatibile con i salvataggi precedenti. Non è ancora collegato alla fermentazione: le future qualità di vino bianco/rosso richiederanno una fase separata.
+
+Le icone `grapes` e `white_grapes` ora usano rispettivamente le texture singolari preesistenti `textures/item/grape.png` e `textures/item/white_grape.png`, senza sovrascrivere i vecchi PNG. La bottiglia bianca usa il modello potion vanilla con tinta chiara, mentre il secchio ha una texture pixel art dedicata 16x16. Le bevande rimangono non consumabili fino a una decisione specifica.

@@ -392,9 +392,10 @@ assert "tintindex" not in str(load(assets/"models/block/white_grapes.json"))
 assert load(assets/"models/block/white_grapes.json")["textures"]["0"]=="italiansdelight:block/white_grapes"
 for name in ("white_grapes","white_grape_seeds"):
     assert load(assets/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
-    assert load(assets/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:item/{name}"
+    expected_texture="white_grape" if name=="white_grapes" else name
+    assert load(assets/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:item/{expected_texture}"
 for path in (assets/"textures/block/white_grapes.png",
-             assets/"textures/item/white_grapes.png",
+             assets/"textures/item/white_grape.png",
              assets/"textures/item/white_grape_seeds.png"):
     verify_crop_png(path)
 assert (assets/"textures/item/grapes.png").read_bytes() != (assets/"textures/item/white_grapes.png").read_bytes()
@@ -416,6 +417,46 @@ for locale in (en,it):
         assert locale[id],id
     assert len(locale["jei.italiansdelight.plants.grape"])>250
 assert "WHITE_GRAPE_LEAVES" in client
+# Confirm the approved singular 16x16 grape item sprites are actually used.
+assert load(assets/"models/item/grapes.json")["textures"]["layer0"]=="italiansdelight:item/grape"
+assert load(assets/"models/item/white_grapes.json")["textures"]["layer0"]=="italiansdelight:item/white_grape"
+verify_crop_png(assets/"textures/item/grape.png")
+verify_crop_png(assets/"textures/item/white_grape.png")
+for name in ("grape_juice","white_grape_juice"):
+    assert f'new Definition("italiansdelight:{name}", false, "")' in read(src/"common/fluid/FluidCatalog.java")
+    assert f'new Recipe("italiansdelight:{name}", STANDARD_AMOUNT' in crush
+assert "ModFluids.WHITE_GRAPE_JUICE" in read(src/"common/fluid/FabricFluidItemContainers.java")
+assert "ModItems.WHITE_GRAPE_JUICE_BUCKET" in read(src/"common/fluid/FabricFluidItemContainers.java")
+assert "ModItems.WHITE_GRAPE_JUICE_BOTTLE" in read(src/"common/fluid/FabricFluidItemContainers.java")
+assert "new ContainedFluid(() -> ModItems.WHITE_GRAPE_JUICE_BUCKET)" in read(src/"common/registry/ModFluids.java")
+assert "new ItemStack(ModItems.WHITE_GRAPE_JUICE_BUCKET)" in read(src/"integration/jei/ModFluidJeiInfo.java")
+assert "new ItemStack(ModItems.WHITE_GRAPE_JUICE_BOTTLE)" in read(src/"integration/jei/ModFluidJeiInfo.java")
+assert "ModFluids.WHITE_GRAPE_JUICE, 250" in jei_crush
+assert 'new Surface(ModRegistries.id("block/fluids/white_grape_juice_still"), 0xFFFFFFFF)' in read(src/"client/render/LiquidSurfaceVisuals.java")
+assert 'registerContainedFluid(ModFluids.WHITE_GRAPE_JUICE,' in client
+assert "italiansdelight:white_grape_juice" in read(src/"common/block/BarrelFluidContainers.java")
+assert "WHITE_GRAPE_JUICE_BOTTLE" in creative and "WHITE_GRAPE_JUICE_BUCKET" in creative
+assert creative.index("output.accept(ModItems.WHITE_GRAPE_JUICE_BUCKET)") < creative.index("output.accept(ModItems.WHITE_GRAPE_JUICE_BOTTLE)")
+assert 'CHERRIES = registerFoodItem("cherries", 2, 0.2f)' in items_code
+assert 'GRAPES = registerFoodItem("grapes", 2, 0.2f)' in items_code
+assert ".noOcclusion().noCollision().forceSolidOff()" in registry, "Chili crop must be non-colliding at ground level"
+assert 'WHITE_GRAPE_JUICE_BOTTLE' in items_code
+assert "DataComponents.CONSUMABLE" not in items_code[items_code.index("WHITE_GRAPE_JUICE_BOTTLE ="):items_code.index("// Olive oil: a placeable",items_code.index("WHITE_GRAPE_JUICE_BOTTLE ="))]
+assert load(assets/"items/white_grape_juice_bottle.json")["model"]["model"]=="minecraft:item/potion"
+assert load(assets/"items/white_grape_juice_bucket.json")["model"]["model"]=="italiansdelight:item/white_grape_juice_bucket"
+assert load(assets/"models/item/white_grape_juice_bucket.json")["textures"]["layer0"]=="italiansdelight:item/white_grape_juice_bucket"
+assert load(assets/"models/item/white_grape_juice_bottle.json")["parent"]=="minecraft:item/potion"
+verify_crop_png(assets/"textures/item/white_grape_juice_bucket.png")
+verify_crop_png(assets/"textures/block/fluids/white_grape_juice_still.png")
+for language in (en,it):
+    for key in ("item.italiansdelight.white_grape_juice_bucket",
+        "item.italiansdelight.white_grape_juice_bottle",
+        "fluid.italiansdelight.white_grape_juice",
+        "jei.italiansdelight.fluids.white_grape_juice"):
+        assert language[key], key
+    assert "white" in language["item.italiansdelight.white_grapes"].lower() or "bianca" in language["item.italiansdelight.white_grapes"].lower()
+print("PASSED: cherries edible, ground chili non-colliding, singular grapes textures, independent white grape juice & containers")
+
 print("PASSED: white grapes have independent seeds/harvest, full age stages, tinted canopy, and valid 16x16 sprites")
 
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")

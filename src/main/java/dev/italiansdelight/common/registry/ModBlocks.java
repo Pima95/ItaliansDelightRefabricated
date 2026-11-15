@@ -900,7 +900,7 @@ public final class ModBlocks {
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));
     public static final Block CHILI_CROP = registerBlockOnly(CHILI_CROP_KEY,
         new ChiliCropBlock(Block.Properties.of()
-            .setId(CHILI_CROP_KEY).noOcclusion().forceSolidOff()
+            .setId(CHILI_CROP_KEY).noOcclusion().noCollision().forceSolidOff()
             .randomTicks().instabreak().sound(SoundType.CROP)));
     public static final ResourceKey<Item> CHILI_PEPPER_SEEDS_KEY = ResourceKey.create(
         BuiltInRegistries.ITEM.key(), ModRegistries.id("chili_pepper_seeds"));

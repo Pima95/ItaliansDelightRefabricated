@@ -41,6 +41,8 @@ public final class FabricFluidItemContainers {
             ModItems.GOLDEN_APPLE_JUICE_BUCKET, ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
         storageOnly(ModFluids.GRAPE_JUICE,
             ModItems.GRAPE_JUICE_BUCKET, ModItems.GRAPE_JUICE_BOTTLE);
+        storageOnly(ModFluids.WHITE_GRAPE_JUICE,
+            ModItems.WHITE_GRAPE_JUICE_BUCKET, ModItems.WHITE_GRAPE_JUICE_BOTTLE);
         // Vanilla honey has NO registered Fluid, so HONEY_BUCKET deliberately
         // remains an ID-only container handled by BarrelFluidContainers.
     }

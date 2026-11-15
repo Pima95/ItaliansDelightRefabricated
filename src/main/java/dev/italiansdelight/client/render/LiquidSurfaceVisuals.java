@@ -56,6 +56,12 @@ public final class LiquidSurfaceVisuals {
             ModRegistries.id("block/fluids/booze/cider_still"), 0xFFFFFFFF)
     ));
 
+    static {
+        // Map.of permits only ten entries; extend the mutable map explicitly.
+        SURFACES.put("italiansdelight:white_grape_juice",
+            new Surface(ModRegistries.id("block/fluids/white_grape_juice_still"), 0xFFFFFFFF));
+    }
+
     // Only external/unregistered fluids need the conventional five-path atlas
     // search. Remember resolved IDs for the active atlas, never the sprite
     // object itself; rendering still samples current animated atlas frames.

@@ -951,7 +951,7 @@ public final class ModItems {
         public static final Item PASTA_WITH_ALMOND_PESTO =
                 registerBowlFoodItem("pasta_with_almond_pesto", 10, 0.7f,
                         FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
-        public static final Item CHERRIES = registerSimpleItem("cherries", 64);
+        public static final Item CHERRIES = registerFoodItem("cherries", 2, 0.2f);
 
         // The Cooking Pot serves this jam into a glass bottle; crafting with
         // it leaves an empty bottle.
@@ -985,6 +985,20 @@ public final class ModItems {
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_juice_bottle"));
         public static final Item GRAPE_JUICE_BOTTLE = register(
                 GRAPE_JUICE_BOTTLE_KEY,
+                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+
+        // White grape juice has a distinct, non-placeable fluid ID so pressing
+        // white grapes cannot silently produce red juice. It remains a
+        // processing ingredient, not a drink until gameplay is approved.
+        public static final ResourceKey<Item> WHITE_GRAPE_JUICE_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("white_grape_juice_bucket"));
+        public static final Item WHITE_GRAPE_JUICE_BUCKET = register(
+                WHITE_GRAPE_JUICE_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+        public static final ResourceKey<Item> WHITE_GRAPE_JUICE_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("white_grape_juice_bottle"));
+        public static final Item WHITE_GRAPE_JUICE_BOTTLE = register(
+                WHITE_GRAPE_JUICE_BOTTLE_KEY,
                 new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
 
         // Olive oil: a placeable fluid bucket and a non-drinkable bottle.
