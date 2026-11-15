@@ -186,7 +186,8 @@ public class ItaliansDelightClient implements ClientModInitializer {
         // Serene Seasons is installed it replaces that resolver with its
         // seasonal version. Do not directly link optional Serene classes here.
         // Register the FULL biome tint, not the softened orchard-tree palettes.
-        BlockColorRegistry.register(List.of(BlockTintSources.foliage()), ModBlocks.GRAPE_LEAVES);
+        BlockColorRegistry.register(List.of(BlockTintSources.foliage()),
+            ModBlocks.GRAPE_LEAVES, ModBlocks.WHITE_GRAPE_LEAVES);
 
         ModelLayerRegistry.registerModelLayer(
             OLIVE_BOAT_LAYER, BoatModel::createBoatModel);

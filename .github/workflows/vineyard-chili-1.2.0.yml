@@ -96,6 +96,21 @@ jobs:
               bamboo = json.loads(jar.read('assets/italiansdelight/models/block/bamboo_crop_stake.json'))
               assert bamboo['textures']['2'] == 'minecraft:block/bamboo_fence'
               assert bamboo['elements'][0]['faces']['up']['uv'] == [4, 0, 8, 4]
+              # The second grape cultivar is an actual registered crop, not
+              # only a reskinned inventory icon. Validate all packed assets.
+              for name in ('white_grape_stem','white_grape_leaves'):
+                  assert f'assets/italiansdelight/blockstates/{name}.json' in jar.namelist()
+                  assert f'data/italiansdelight/loot_table/blocks/{name}.json' in jar.namelist()
+              assert len(json.loads(jar.read('assets/italiansdelight/blockstates/white_grape_stem.json'))['variants']) == 8
+              canopy = json.loads(jar.read('assets/italiansdelight/blockstates/white_grape_leaves.json'))
+              assert sum(p['apply']['model']=='italiansdelight:block/white_grapes'
+                         for p in canopy['multipart']) == 1
+              for item in ('white_grape_seeds','white_grapes'):
+                  assert f'assets/italiansdelight/items/{item}.json' in jar.namelist()
+                  assert f'assets/italiansdelight/models/item/{item}.json' in jar.namelist()
+              for texture in ('block/white_grapes','item/white_grapes','item/white_grape_seeds'):
+                  validate_png(jar.read(f'assets/italiansdelight/textures/{texture}.png'))
+              assert 'data/italiansdelight/recipe/white_grape_seeds.json' in jar.namelist()
               assert 'dev/italiansdelight/common/block/WildChiliBlock.class' in jar.namelist()
           print('OK: established chili foliage regrowth and all 8 root/rope ages, 5 valid sprites, wild crops and bamboo')
           PY

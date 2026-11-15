@@ -37,6 +37,8 @@ import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
  * canopy segment restores the existing FDR rope, never duplicates a rope item.
  */
 public final class GrapeLeavesBlock extends Block implements BonemealableBlock, ReplaceOnRemoval {
+    private final boolean whiteGrapes;
+
     public static final IntegerProperty DISTANCE = IntegerProperty.create("distance", 0, 1);
     public static final EnumProperty<Direction.Axis> AXIS =
         EnumProperty.create("axis", Direction.Axis.class, Direction.Axis.X, Direction.Axis.Z);
@@ -45,7 +47,12 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
     public static final BooleanProperty TIED_POSITIVE = BooleanProperty.create("tied_positive");
 
     public GrapeLeavesBlock(Properties properties) {
+        this(properties, false);
+    }
+
+    public GrapeLeavesBlock(Properties properties, boolean whiteGrapes) {
         super(properties);
+        this.whiteGrapes = whiteGrapes;
         registerDefaultState(stateDefinition.any().setValue(DISTANCE, 0)
             .setValue(AXIS, Direction.Axis.X).setValue(GRAPES, false)
             .setValue(TIED_NEGATIVE, false).setValue(TIED_POSITIVE, false));
@@ -73,7 +80,7 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         if (state.getValue(DISTANCE) == 0) {
             BlockState below = level.getBlockState(pos.below());
-            return below.is(ModBlocks.GRAPE_STEM) &&
+            return below.is(whiteGrapes ? ModBlocks.WHITE_GRAPE_STEM : ModBlocks.GRAPE_STEM) &&
                 below.getValue(net.minecraft.world.level.block.CropBlock.AGE) == 7;
         }
         if (state.getValue(AXIS) == Direction.Axis.X) {
@@ -84,9 +91,10 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
             || isCenter(level, pos.south(), Direction.Axis.Z);
     }
 
-    private static boolean isCenter(LevelReader level, BlockPos pos, Direction.Axis axis) {
+    private boolean isCenter(LevelReader level, BlockPos pos, Direction.Axis axis) {
         BlockState neighbor = level.getBlockState(pos);
-        return neighbor.is(ModBlocks.GRAPE_LEAVES)
+        // An unrelated cultivar cannot support or extend this canopy.
+        return neighbor.is(this)
             && neighbor.getValue(DISTANCE) == 0 && neighbor.getValue(AXIS) == axis;
     }
 
@@ -163,7 +171,8 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
                     || !server.getBlockState(pos.below()).isAir()) return InteractionResult.PASS;
             server.setBlock(pos, current.setValue(GRAPES, false), Block.UPDATE_CLIENTS);
             Block.popResource(server, pos.below(), new ItemStack(
-                dev.italiansdelight.common.registry.ModItems.GRAPES,
+                whiteGrapes ? dev.italiansdelight.common.registry.ModItems.WHITE_GRAPES
+                    : dev.italiansdelight.common.registry.ModItems.GRAPES,
                 1 + server.getRandom().nextInt(2)));
             server.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
                 SoundSource.BLOCKS, 0.8F, 1.0F);

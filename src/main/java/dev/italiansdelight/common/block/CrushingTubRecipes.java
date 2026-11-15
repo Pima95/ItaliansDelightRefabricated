@@ -38,6 +38,11 @@ public final class CrushingTubRecipes {
         if (stack.is(ModItems.GRAPES))
             return new Recipe("italiansdelight:grape_juice", STANDARD_AMOUNT,
                 new ItemStack(dev.italiansdelight.common.registry.ModBlocks.GRAPE_SEEDS));
+        // White grapes use the current shared must until distinct white/red
+        // fermentation liquids are designed. Preserve the cultivar seeds.
+        if (stack.is(ModItems.WHITE_GRAPES))
+            return new Recipe("italiansdelight:grape_juice", STANDARD_AMOUNT,
+                new ItemStack(dev.italiansdelight.common.registry.ModBlocks.WHITE_GRAPE_SEEDS));
         if (stack.is(Items.APPLE))
             return new Recipe("italiansdelight:apple_juice", STANDARD_AMOUNT,
                 new ItemStack(ModItems.APPLE_SEEDS));

@@ -20,9 +20,22 @@ import net.minecraft.world.level.ItemLike;
  * on the vertical trunk itself. Original 0..7 states remain save-compatible.
  */
 public final class GrapeStemBlock extends CropBlock {
-    public GrapeStemBlock(Properties properties) { super(properties); }
+    // Registry IDs for the original purple cultivar remain unchanged.
+    // Both cultivars share the same vanilla crop growth and rope mechanics.
+    private final boolean whiteGrapes;
 
-    @Override protected ItemLike getBaseSeedId() { return ModBlocks.GRAPE_SEEDS; }
+    public GrapeStemBlock(Properties properties) { this(properties, false); }
+
+    public GrapeStemBlock(Properties properties, boolean whiteGrapes) {
+        super(properties);
+        this.whiteGrapes = whiteGrapes;
+    }
+
+    @Override protected ItemLike getBaseSeedId() {
+        return whiteGrapes ? ModBlocks.WHITE_GRAPE_SEEDS : ModBlocks.GRAPE_SEEDS;
+    }
+
+    public boolean isWhiteGrapes() { return whiteGrapes; }
 
     /** Vineyard leaves use ONLY the dedicated horizontal rope, never FDR's vertical rope. */
     public static Direction.Axis ropeAxis(BlockState rope) {
@@ -31,13 +44,15 @@ public final class GrapeStemBlock extends CropBlock {
     }
 
     public static boolean tryGrowCanopy(ServerLevel level, BlockPos pos, BlockState current) {
-        if (!current.is(ModBlocks.GRAPE_STEM)
+        if (!(current.getBlock() instanceof GrapeStemBlock stem)
                 || current.getValue(AGE) < MAX_AGE) return false;
         BlockPos above = pos.above();
         if (!level.isLoaded(above)) return false;
         Direction.Axis axis = ropeAxis(level.getBlockState(above));
         if (axis == null) return false;
-        BlockState canopy = ModBlocks.GRAPE_LEAVES.defaultBlockState()
+        BlockState canopy = (stem.isWhiteGrapes()
+                ? ModBlocks.WHITE_GRAPE_LEAVES
+                : ModBlocks.GRAPE_LEAVES).defaultBlockState()
                 .setValue(GrapeLeavesBlock.AXIS, axis);
         if (level.getBlockState(above).is(ModBlocks.HORIZONTAL_ROPE)) {
             canopy = canopy.setValue(GrapeLeavesBlock.TIED_NEGATIVE,

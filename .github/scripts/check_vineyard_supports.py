@@ -333,7 +333,7 @@ print("PASSED: FDR-based wild crop offset with centered hitbox, age-only chili m
 # Vanilla's foliage resolver supplies biome colors and Serene Seasons patches
 # that same resolver when installed, so no custom seasonal calendar is needed.
 client=read(src/"ItaliansDelightClient.java")
-assert "BlockColorRegistry.register(List.of(BlockTintSources.foliage()), ModBlocks.GRAPE_LEAVES);" in client
+assert "ModBlocks.GRAPE_LEAVES, ModBlocks.WHITE_GRAPE_LEAVES);" in client
 assert "BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);" in client
 assert "BlockColorRegistry.register(List.of(FRUIT_CHERRY_BIOME_FOLIAGE), ModBlocks.FRUIT_CHERRY_LEAVES);" in client
 for model_name in ("grape_leaves_0", "grape_leaves_1"):
@@ -347,5 +347,75 @@ assert "tintindex" not in str(load(assets/"models/block/grapes.json")), "Fruit b
 assert "tintindex" not in str(load(assets/"models/block/grape_vine.json")), "Woody vines must not be tinted"
 assert "sereneseasons." not in client, "Client foliage must not require optional season mod classes"
 print("PASSED: grape center/side leaves use vanilla biome & Serene Seasons foliage tint; grapes and wood unchanged")
+
+# White grapes share the approved vineyard mechanics but NOT their
+# registries, fruit sprites, harvest items or seeds. Keep existing purple IDs.
+leaves_code=read(src/"common/block/GrapeLeavesBlock.java")
+grape_stem=read(src/"common/block/GrapeStemBlock.java")
+items_code=read(src/"common/registry/ModItems.java")
+crush=read(src/"common/block/CrushingTubRecipes.java")
+jei_grapes=read(src/"integration/jei/OrchardPlantJeiInfo.java")
+jei_crush=read(src/"integration/jei/CrushingTubJeiRecipe.java")
+assert "new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)" in registry
+assert "new GrapeLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)" in registry
+for id in ("WHITE_GRAPE_STEM","WHITE_GRAPE_SEEDS","WHITE_GRAPE_LEAVES"):
+    assert f"public static final" in registry and id in registry,id
+assert "WHITE_GRAPES = registerFoodItem(\"white_grapes\", 2, 0.2f)" in items_code
+assert "whiteGrapes ? ModBlocks.WHITE_GRAPE_SEEDS : ModBlocks.GRAPE_SEEDS" in grape_stem
+assert "ModBlocks.WHITE_GRAPE_LEAVES" in grape_stem
+assert "ModBlocks.WHITE_GRAPE_STEM" in leaves_code
+assert "neighbor.is(this)" in leaves_code, "Canopy must not connect across varieties"
+assert "ModItems.WHITE_GRAPES" in leaves_code
+assert "ModItems.WHITE_GRAPES" in crush and "ModBlocks.WHITE_GRAPE_SEEDS" in crush
+assert "new ItemStack(ModItems.WHITE_GRAPES)" in jei_crush
+assert "new ItemStack(ModBlocks.WHITE_GRAPE_SEEDS)" in jei_crush
+assert "new ItemStack(ModBlocks.WHITE_GRAPE_SEEDS)" in jei_grapes
+assert "new ItemStack(ModItems.WHITE_GRAPES)" in jei_grapes
+
+# Fully resolve each of the eight crop age states for both cultivars.
+purple_root=load(assets/"blockstates/grape_stem.json")
+white_root=load(assets/"blockstates/white_grape_stem.json")
+assert purple_root==white_root, "White grape crop must use identical age stages"
+assert len(white_root["variants"])==8
+for age in range(8):
+    model=white_root["variants"][f"age={age}"]["model"]
+    assert (assets/f"models/{model.split(':')[1]}.json").is_file()
+
+purple_canopy=load(assets/"blockstates/grape_leaves.json")
+white_canopy=load(assets/"blockstates/white_grape_leaves.json")
+assert len(white_canopy["multipart"])==len(purple_canopy["multipart"])
+assert sum(p["apply"]["model"]=="italiansdelight:block/white_grapes"
+           for p in white_canopy["multipart"])==1
+assert sum(p["apply"]["model"]=="italiansdelight:block/grapes"
+           for p in white_canopy["multipart"])==0
+assert "tintindex" not in str(load(assets/"models/block/white_grapes.json"))
+assert load(assets/"models/block/white_grapes.json")["textures"]["0"]=="italiansdelight:block/white_grapes"
+for name in ("white_grapes","white_grape_seeds"):
+    assert load(assets/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
+    assert load(assets/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:item/{name}"
+for path in (assets/"textures/block/white_grapes.png",
+             assets/"textures/item/white_grapes.png",
+             assets/"textures/item/white_grape_seeds.png"):
+    verify_crop_png(path)
+assert (assets/"textures/item/grapes.png").read_bytes() != (assets/"textures/item/white_grapes.png").read_bytes()
+assert (assets/"textures/block/grapes.png").read_bytes() != (assets/"textures/block/white_grapes.png").read_bytes()
+assert load(data/"italiansdelight/recipe/white_grape_seeds.json")["result"]["id"]=="italiansdelight:white_grape_seeds"
+white_stem_loot=load(data/"italiansdelight/loot_table/blocks/white_grape_stem.json")
+white_leaf_loot=load(data/"italiansdelight/loot_table/blocks/white_grape_leaves.json")
+assert "italiansdelight:white_grape_seeds" in str(white_stem_loot)
+assert "italiansdelight:white_grapes" in str(white_stem_loot)
+assert "italiansdelight:white_grapes" in str(white_leaf_loot)
+assert "italiansdelight:grapes" not in str(white_stem_loot)
+assert "italiansdelight:grapes" not in str(white_leaf_loot)
+assert "output.accept(ModBlocks.GRAPE_SEEDS);" in creative
+assert "output.accept(ModBlocks.WHITE_GRAPE_SEEDS);" in creative
+assert creative.index("output.accept(ModBlocks.GRAPE_SEEDS)") < creative.index("output.accept(ModItems.GRAPES)") < creative.index("output.accept(ModBlocks.WHITE_GRAPE_SEEDS)") < creative.index("output.accept(ModItems.WHITE_GRAPES)")
+for locale in (en,it):
+    for id in ("block.italiansdelight.white_grape_stem","block.italiansdelight.white_grape_leaves",
+               "item.italiansdelight.white_grapes","item.italiansdelight.white_grape_seeds"):
+        assert locale[id],id
+    assert len(locale["jei.italiansdelight.plants.grape"])>250
+assert "WHITE_GRAPE_LEAVES" in client
+print("PASSED: white grapes have independent seeds/harvest, full age stages, tinted canopy, and valid 16x16 sprites")
 
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")

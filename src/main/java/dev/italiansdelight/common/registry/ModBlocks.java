@@ -878,6 +878,24 @@ public final class ModBlocks {
         new GrapeLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)
             .setId(GRAPE_LEAVES_KEY).noOcclusion().randomTicks()));
 
+    // A second grape cultivar: distinct seeds, root and canopy IDs preserve
+    // old-world purple vineyards and avoid accidental cross-variety changes.
+    public static final ResourceKey<Block> WHITE_GRAPE_STEM_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("white_grape_stem"));
+    public static final Block WHITE_GRAPE_STEM = registerBlockOnly(WHITE_GRAPE_STEM_KEY,
+        new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
+            .setId(WHITE_GRAPE_STEM_KEY).randomTicks(), true));
+    public static final ResourceKey<Item> WHITE_GRAPE_SEEDS_KEY = ResourceKey.create(
+        BuiltInRegistries.ITEM.key(), ModRegistries.id("white_grape_seeds"));
+    public static final Item WHITE_GRAPE_SEEDS = Registry.register(BuiltInRegistries.ITEM,
+        WHITE_GRAPE_SEEDS_KEY, new BlockItem(WHITE_GRAPE_STEM,
+            new Item.Properties().setId(WHITE_GRAPE_SEEDS_KEY)));
+    public static final ResourceKey<Block> WHITE_GRAPE_LEAVES_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("white_grape_leaves"));
+    public static final Block WHITE_GRAPE_LEAVES = registerBlockOnly(WHITE_GRAPE_LEAVES_KEY,
+        new GrapeLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+            .setId(WHITE_GRAPE_LEAVES_KEY).noOcclusion().randomTicks(), true));
+
     public static final ResourceKey<Block> CHILI_CROP_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));
     public static final Block CHILI_CROP = registerBlockOnly(CHILI_CROP_KEY,

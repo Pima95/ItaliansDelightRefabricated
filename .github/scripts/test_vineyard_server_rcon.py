@@ -173,6 +173,16 @@ def test():
             run(rcon, f"setblock {x} 82 0 italiansdelight:horizontal_rope[axis=x]")
         wait_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0]", timeout=24)
 
+        # The white grape cultivar reuses the exact same grown vine and
+        # horizontal rope behavior without replacing the existing purple ID.
+        run(rcon, "setblock 10 80 7 minecraft:water")
+        run(rcon, "setblock 10 80 6 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 10 81 6 italiansdelight:white_grape_stem[age=7]")
+        for x in (9, 10, 11):
+            run(rcon, f"setblock {x} 82 6 italiansdelight:horizontal_rope[axis=x]")
+        wait_block(rcon, 10, 82, 6, "italiansdelight:white_grape_leaves[distance=0]", timeout=24)
+        assert_block(rcon, 10, 81, 6, "italiansdelight:white_grape_stem[age=7]")
+
         try:
             wait_block(rcon, 7, 82, 0, "italiansdelight:chili_on_rope", timeout=24)
             run(rcon, "setblock 7 82 0 italiansdelight:chili_on_rope[age=7]")
@@ -183,6 +193,11 @@ def test():
             assert_block(rcon, 9, 80, 0, "farmersdelight:rich_soil_farmland")
             wait_block(rcon, 9, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=24)
             wait_block(rcon, 11, 82, 0, "italiansdelight:grape_leaves[distance=1]", timeout=24)
+            wait_block(rcon, 9, 82, 6, "italiansdelight:white_grape_leaves[distance=1]", timeout=24)
+            wait_block(rcon, 11, 82, 6, "italiansdelight:white_grape_leaves[distance=1]", timeout=24)
+            # Two adjacent loaded vineyards must retain their own block ID.
+            assert_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0]")
+            assert_block(rcon, 10, 82, 6, "italiansdelight:white_grape_leaves[distance=0]")
         finally:
             run(rcon, "gamerule minecraft:random_tick_speed 3")
 

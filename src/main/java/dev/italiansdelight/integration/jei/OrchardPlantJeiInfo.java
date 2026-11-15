@@ -70,6 +70,8 @@ public final class OrchardPlantJeiInfo {
             List.of(
                 new ItemStack(ModBlocks.GRAPE_SEEDS),
                 new ItemStack(ModItems.GRAPES),
+                new ItemStack(ModBlocks.WHITE_GRAPE_SEEDS),
+                new ItemStack(ModItems.WHITE_GRAPES),
                 new ItemStack(ModItems.GRAPE_JUICE_BUCKET),
                 new ItemStack(ModItems.GRAPE_JUICE_BOTTLE),
                 new ItemStack(ModItems.WINE_BUCKET),
