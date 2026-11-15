@@ -103,8 +103,14 @@ Le bottiglie dei quattro succhi e dell'olio sono bevibili. Il vino resta non bev
 
 ## Nuovo controllo grafico e compatibilità sete
 
-1. Verifica i grappoli appesi: i modelli `models/block/grapes.json` e `models/block/white_grapes.json` usano ora `item/grape` e `item/white_grape`, come le icone dell'inventario.
+1. Verifica i grappoli appesi: i modelli `models/block/grapes.json` e `models/block/white_grapes.json` usano gli sprite `block/grapes` e `block/white_grapes`, presenti nell'atlante dei blocchi. I PNG sono copie delle nuove texture `item/grape` (vinaccia) e `item/white_grape` (giallo-dorata); non deve apparire alcun riquadro nero-magenta. Osserva anche foglie laterali e pergole nelle due direzioni X/Z.
 2. Esamina il liquido di succo bianco in botte e calderone: lo sprite `white_grape_juice_still.png` è un recolor dell'animazione rossa 16×512 (32 fotogrammi da 16x16, 2 tick per frame).
 3. Verifica che ciascuna bottiglia di succo di mela (normale e dorata), di succo d'uva (rosso e bianco) e di olio possa essere consumata a fame piena. Controlla l'assenza di duplicazione della bottiglia vuota.
 4. Succo dorato: Rigenerazione II per 100 tick e Assorbimento I per 2400 tick, uguale alla mela d'oro non incantata.
 5. Con Thirst Was Taken 2 presente: i quattro succhi ripristinano sete 6/quenched 4; l'olio non ripristina sete. Senza la mod, nessuna dipendenza richiesta.
+
+## Correzione regressione grafica (15/11/2026)
+
+- Dopo il cambio improprio del modello a `item/grape` e `item/white_grape`, i grappoli sulle foglie laterali apparivano nero-magenta, perché quei riferimenti non erano risolti dall'atlante dei blocchi. Non era un problema di crescita o di hitbox.
+- Sono stati ripristinati i percorsi precedenti per i modelli di blocco, aggiornando però i file in `textures/block/` con gli stessi pixel usati in inventario (nuove palette rosso vinaccia e bianco dorato).
+- Con il succo bianco nel barile, nel calderone e nei tooltip dei fluidi, verifica che venga mostrato **Succo d'uva bianca**, non un identificativo di traduzione. Sono state aggiunte le chiavi `block.italiansdelight.white_grape_juice` e `item.italiansdelight.white_grape_juice`, oltre alla chiave `fluid` già esistente.
