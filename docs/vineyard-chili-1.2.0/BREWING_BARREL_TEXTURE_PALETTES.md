@@ -19,3 +19,19 @@ Original model + sprite: **Alcocraft: Beer & Stuff**, **hadrus91**, MIT. See `CR
 ## Compatibility
 
 There are **no ID, blockstate, BE/NBT, item, recipe or fermentation changes**. Only texture atlases, tests and this documentation changed. Visually test in Minecraft in natural and artificial light before considering the artwork approved.
+
+## Selective moderation and bamboo facade (15 November 2026)
+
+After in-game review, the strongest grading was **too contrasty** for birch, acacia, vanilla cherry, almond and pale oak. The updated atlas colors are interpolations between the low-contrast pre-grading version (commit `1f11821`) and the high-contrast grading (commit `2632854`), retaining the wood palettes but avoiding harsh streaks. White highlights on pale oak are capped to a maximum RGB component of **237**, removing isolated white pixels.
+
+- Birch: blend 54% high + 46% low; 5–95% luminance contrast roughly **98**.
+- Acacia: 52% high + 48% low; contrast **61**.
+- Vanilla cherry: 50% / 50%; contrast **91**.
+- Almond: 52% high + 48% low; contrast **107**.
+- Pale oak: 43% high + 57% low; contrast **71**, and no blown-out white.
+- **Mangrove:** revert to the exact previously approved Git blob `26a66116e14b1d32dc57d44f67544ac0e2d8e794`, from commit `1f11821`, without interpolation.
+- **Bamboo:** completely redesigned from a *single actual vanilla bamboo_planks facade* (Minecraft 26.3, 16×16). The original horizontal bamboo strips and their natural seams are tiled over the atlas's wood polygons. Only a slight brightness modulation and edge shade retain barrel volume. No synthetic vertical stalks, checkerboards or extra periodic nodes.
+
+The original metal, nails, transparency, block IDs, geometry, blockstates, game mechanics and source attribution are unchanged. Pixel tests check the committed SHA of every barrel, the new contrast ceilings, restored mangrove and the absence of white hotspots in pale oak.
+
+This revision supersedes the stronger contrast guidance in the **Revised design** section above for these seven wood varieties.

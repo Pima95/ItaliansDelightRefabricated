@@ -185,8 +185,20 @@ for wood in woods:
     lo = wood_luminances[int(len(wood_luminances) * .05)]
     hi = wood_luminances[int(len(wood_luminances) * .95)]
     contrast = hi - lo
-    assert contrast >= metadata["expectedWoodContrastP05P95"][wood] - 3, \
-           f"{wood} has lost its grain/wood depth: {contrast:.2f}"
+    if wood != "mangrove":
+        assert contrast >= metadata["expectedWoodContrastP05P95"][wood] - 3, \
+               f"{wood} has lost its grain/wood depth: {contrast:.2f}"
+    if wood in metadata["moderatedContrastP05P95Upper"]:
+        assert contrast <= metadata["moderatedContrastP05P95Upper"][wood], \
+               f"{wood}: contrast too harsh ({contrast:.2f})"
+    if wood == "mangrove":
+        assert sha == "26a66116e14b1d32dc57d44f67544ac0e2d8e794", \
+               "Mangrove must be exactly reverted to the earlier approved atlas"
+    if wood == "pale_oak":
+        assert not any(all(channel >= 248 for channel in px[:3])
+                       for src, px in zip(base_sprite, recolored)
+                       if src[3] and src[0] > src[1] + 7 and src[1] > src[2] + 7), \
+               "Pale oak must not have fully white blown-out wood pixels"
     if wood == "bamboo":
         # Bamboo preserves real vanilla stalk bands/joints, not only yellow RGB.
         assert len({tuple(px[:3]) for orig, px in zip(base_sprite, recolored)
