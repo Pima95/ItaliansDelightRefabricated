@@ -14,6 +14,9 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.core.Registry;
@@ -286,6 +289,18 @@ public final class ModItems {
                                 )
                                 .stacksTo(64)
                 );
+        }
+
+        /**
+         * Farmer's Delight-style drinkable bottle. ConsumableItem returns
+         * one empty bottle per use even from stacks; Fabric fluid transfer
+         * providers still handle filling/emptying via machines.
+         */
+        private static Item.Properties drinkBottleProperties(Consumable consumable) {
+                return new Item.Properties()
+                        .craftRemainder(Items.GLASS_BOTTLE)
+                        .component(DataComponents.CONSUMABLE, consumable)
+                        .stacksTo(16);
         }
 
         private static Item registerBowlFoodItem(
@@ -985,11 +1000,11 @@ public final class ModItems {
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_juice_bottle"));
         public static final Item GRAPE_JUICE_BOTTLE = register(
                 GRAPE_JUICE_BOTTLE_KEY,
-                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.DEFAULT_DRINK));
 
-        // White grape juice has a distinct, non-placeable fluid ID so pressing
-        // white grapes cannot silently produce red juice. It remains a
-        // processing ingredient, not a drink until gameplay is approved.
+        // White grape juice uses a distinct, non-placeable fluid ID while
+        // its bottle remains interchangeable with the fluid transfer API.
         public static final ResourceKey<Item> WHITE_GRAPE_JUICE_BUCKET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("white_grape_juice_bucket"));
         public static final Item WHITE_GRAPE_JUICE_BUCKET = register(
@@ -999,9 +1014,10 @@ public final class ModItems {
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("white_grape_juice_bottle"));
         public static final Item WHITE_GRAPE_JUICE_BOTTLE = register(
                 WHITE_GRAPE_JUICE_BOTTLE_KEY,
-                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.DEFAULT_DRINK));
 
-        // Olive oil: a placeable fluid bucket and a non-drinkable bottle.
+        // Apple juice: a placeable fluid bucket and a drinkable bottle.
         public static final ResourceKey<Item> APPLE_JUICE_BUCKET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bucket"));
         public static final Item APPLE_JUICE_BUCKET = register(
@@ -1013,15 +1029,22 @@ public final class ModItems {
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bottle"));
         public static final Item APPLE_JUICE_BOTTLE = register(
                 APPLE_JUICE_BOTTLE_KEY,
-                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.DEFAULT_DRINK));
 
-        // Golden Apple Juice is a non-placeable processing fluid without
-        // potion effects, available in both bottle and storage-only bucket.
+        // Golden apple juice is non-placeable; drinking grants the NORMAL
+        // golden apple effects, not the enchanted golden apple effects.
         public static final ResourceKey<Item> GOLDEN_APPLE_JUICE_BOTTLE_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("golden_apple_juice_bottle"));
         public static final Item GOLDEN_APPLE_JUICE_BOTTLE = register(
                 GOLDEN_APPLE_JUICE_BOTTLE_KEY,
-                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.defaultDrink()
+                        .onConsume(new ApplyStatusEffectsConsumeEffect(
+                                new MobEffectInstance(MobEffects.REGENERATION, 100, 1)))
+                        .onConsume(new ApplyStatusEffectsConsumeEffect(
+                                new MobEffectInstance(MobEffects.ABSORPTION, 2400, 0)))
+                        .build()));
 
         // These are NON-PLACEABLE container items: no BucketItem.placeLiquid.
         // They still exchange 1000 mB in the Crushing Tub, Barrel and Cauldron.
@@ -1049,7 +1072,8 @@ public final class ModItems {
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_oil_bottle"));
         public static final Item OLIVE_OIL_BOTTLE = register(
                 OLIVE_OIL_BOTTLE_KEY,
-                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.DEFAULT_DRINK));
 
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(
