@@ -41,7 +41,22 @@ public final class ModBlockEntities {
         register("crushing_tub", CrushingTubBlockEntity::new, ModBlocks.CRUSHING_TUB);
 
     public static final BlockEntityType<BrewingBarrelBlockEntity> BREWING_BARREL =
-        register("brewing_barrel", BrewingBarrelBlockEntity::new, ModBlocks.BREWING_BARREL);
+        register("brewing_barrel", BrewingBarrelBlockEntity::new, ModBlocks.BREWING_BARREL,
+            ModBlocks.SPRUCE_BREWING_BARREL,
+            ModBlocks.BIRCH_BREWING_BARREL,
+            ModBlocks.JUNGLE_BREWING_BARREL,
+            ModBlocks.ACACIA_BREWING_BARREL,
+            ModBlocks.DARK_OAK_BREWING_BARREL,
+            ModBlocks.MANGROVE_BREWING_BARREL,
+            ModBlocks.CHERRY_BREWING_BARREL,
+            ModBlocks.PALE_OAK_BREWING_BARREL,
+            ModBlocks.POPLAR_BREWING_BARREL,
+            ModBlocks.BAMBOO_BREWING_BARREL,
+            ModBlocks.CRIMSON_BREWING_BARREL,
+            ModBlocks.WARPED_BREWING_BARREL,
+            ModBlocks.OLIVE_BREWING_BARREL,
+            ModBlocks.ALMOND_BREWING_BARREL,
+            ModBlocks.FRUIT_CHERRY_BREWING_BARREL);
 
     public static final BlockEntityType<BarrelBlockEntity> BARREL =
         register("barrel", BarrelBlockEntity::new, ModBlocks.BARREL);

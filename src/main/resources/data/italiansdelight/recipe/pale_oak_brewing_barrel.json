@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "S S",
+    "PIP"
+  ],
+  "key": {
+    "P": "minecraft:pale_oak_planks",
+    "I": "minecraft:iron_ingot",
+    "S": "minecraft:pale_oak_slab"
+  },
+  "result": {
+    "id": "italiansdelight:pale_oak_brewing_barrel",
+    "count": 1
+  }
+}

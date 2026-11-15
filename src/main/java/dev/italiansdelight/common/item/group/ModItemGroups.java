@@ -66,7 +66,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.ALMOND_CRUSHING_TUB);
                 output.accept(ModBlocks.FRUIT_CHERRY_CRUSHING_TUB);
                 output.accept(ModBlocks.BARREL);
-                output.accept(ModBlocks.BREWING_BARREL);
                 output.accept(ModBlocks.SPRUCE_BARREL);
                 output.accept(ModBlocks.BIRCH_BARREL);
                 output.accept(ModBlocks.JUNGLE_BARREL);
@@ -82,6 +81,23 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.OLIVE_BARREL);
                 output.accept(ModBlocks.ALMOND_BARREL);
                 output.accept(ModBlocks.FRUIT_CHERRY_BARREL);
+                // All fermentation barrel woods stay together: legacy ID is oak.
+                output.accept(ModBlocks.BREWING_BARREL);
+                output.accept(ModBlocks.SPRUCE_BREWING_BARREL);
+                output.accept(ModBlocks.BIRCH_BREWING_BARREL);
+                output.accept(ModBlocks.JUNGLE_BREWING_BARREL);
+                output.accept(ModBlocks.ACACIA_BREWING_BARREL);
+                output.accept(ModBlocks.DARK_OAK_BREWING_BARREL);
+                output.accept(ModBlocks.MANGROVE_BREWING_BARREL);
+                output.accept(ModBlocks.CHERRY_BREWING_BARREL);
+                output.accept(ModBlocks.PALE_OAK_BREWING_BARREL);
+                output.accept(ModBlocks.POPLAR_BREWING_BARREL);
+                output.accept(ModBlocks.BAMBOO_BREWING_BARREL);
+                output.accept(ModBlocks.CRIMSON_BREWING_BARREL);
+                output.accept(ModBlocks.WARPED_BREWING_BARREL);
+                output.accept(ModBlocks.OLIVE_BREWING_BARREL);
+                output.accept(ModBlocks.ALMOND_BREWING_BARREL);
+                output.accept(ModBlocks.FRUIT_CHERRY_BREWING_BARREL);
                 output.accept(ModBlocks.CHEESE_HOOK);
 
                 // Aging racks — all wood types stay together.

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "S S",
+    "PIP"
+  ],
+  "key": {
+    "P": "minecraft:cherry_planks",
+    "I": "minecraft:iron_ingot",
+    "S": "minecraft:cherry_slab"
+  },
+  "result": {
+    "id": "italiansdelight:cherry_brewing_barrel",
+    "count": 1
+  }
+}

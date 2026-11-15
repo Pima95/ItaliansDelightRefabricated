@@ -1,0 +1,7 @@
+{
+  "parent": "italiansdelight:block/brewing_barrel",
+  "textures": {
+    "0": "italiansdelight:block/fruit_cherry_brewing_barrel",
+    "particle": "italiansdelight:block/fruit_cherry_planks"
+  }
+}

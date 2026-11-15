@@ -974,6 +974,23 @@ public final class ModBlocks {
         new BrewingBarrelBlock(Block.Properties.ofFullCopy(Blocks.BARREL)
             .setId(BREWING_BARREL_KEY).noOcclusion().strength(2.5F, 3.0F)));
 
+    // All wood variants share the old fermentation machine's logic and save format.
+    public static final Block SPRUCE_BREWING_BARREL = registerBrewingBarrelVariant("spruce");
+    public static final Block BIRCH_BREWING_BARREL = registerBrewingBarrelVariant("birch");
+    public static final Block JUNGLE_BREWING_BARREL = registerBrewingBarrelVariant("jungle");
+    public static final Block ACACIA_BREWING_BARREL = registerBrewingBarrelVariant("acacia");
+    public static final Block DARK_OAK_BREWING_BARREL = registerBrewingBarrelVariant("dark_oak");
+    public static final Block MANGROVE_BREWING_BARREL = registerBrewingBarrelVariant("mangrove");
+    public static final Block CHERRY_BREWING_BARREL = registerBrewingBarrelVariant("cherry");
+    public static final Block PALE_OAK_BREWING_BARREL = registerBrewingBarrelVariant("pale_oak");
+    public static final Block POPLAR_BREWING_BARREL = registerBrewingBarrelVariant("poplar");
+    public static final Block BAMBOO_BREWING_BARREL = registerBrewingBarrelVariant("bamboo");
+    public static final Block CRIMSON_BREWING_BARREL = registerBrewingBarrelVariant("crimson");
+    public static final Block WARPED_BREWING_BARREL = registerBrewingBarrelVariant("warped");
+    public static final Block OLIVE_BREWING_BARREL = registerBrewingBarrelVariant("olive");
+    public static final Block ALMOND_BREWING_BARREL = registerBrewingBarrelVariant("almond");
+    public static final Block FRUIT_CHERRY_BREWING_BARREL = registerBrewingBarrelVariant("fruit_cherry");
+
     // Apple juice created by the Rustic Crushing Tub; real source/flowing liquid.
     public static final ResourceKey<Block> APPLE_JUICE_FLUID_BLOCK_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("apple_juice_fluid"));
@@ -1277,6 +1294,13 @@ public final class ModBlocks {
             .strength(0.7F).sound(SoundType.WOOD)));
     }
 
+    private static Block registerBrewingBarrelVariant(String wood) {
+        ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(),
+            ModRegistries.id(wood + "_brewing_barrel"));
+        return register(key, new BrewingBarrelBlock(Block.Properties.ofFullCopy(Blocks.BARREL)
+            .setId(key).noOcclusion().strength(2.5F, 3.0F)));
+    }
+
     private static Block registerCrushingTubVariant(String wood) {
         ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(),
             ModRegistries.id(wood + "_crushing_tub"));
@@ -1370,6 +1394,22 @@ public final class ModBlocks {
         fire.add(OLIVE_CROP_STAKE, 5, 20);
         fire.add(ALMOND_CROP_STAKE, 5, 20);
         fire.add(FRUIT_CHERRY_CROP_STAKE, 5, 20);
+        fire.add(BREWING_BARREL, 5, 20);
+        fire.add(SPRUCE_BREWING_BARREL, 5, 20);
+        fire.add(BIRCH_BREWING_BARREL, 5, 20);
+        fire.add(JUNGLE_BREWING_BARREL, 5, 20);
+        fire.add(ACACIA_BREWING_BARREL, 5, 20);
+        fire.add(DARK_OAK_BREWING_BARREL, 5, 20);
+        fire.add(MANGROVE_BREWING_BARREL, 5, 20);
+        fire.add(CHERRY_BREWING_BARREL, 5, 20);
+        fire.add(PALE_OAK_BREWING_BARREL, 5, 20);
+        fire.add(POPLAR_BREWING_BARREL, 5, 20);
+        fire.add(BAMBOO_BREWING_BARREL, 5, 20);
+        fire.add(CRIMSON_BREWING_BARREL, 5, 20);
+        fire.add(WARPED_BREWING_BARREL, 5, 20);
+        fire.add(OLIVE_BREWING_BARREL, 5, 20);
+        fire.add(ALMOND_BREWING_BARREL, 5, 20);
+        fire.add(FRUIT_CHERRY_BREWING_BARREL, 5, 20);
         fire.add(SPRUCE_BARREL, 5, 20);
         fire.add(SPRUCE_CRUSHING_TUB, 5, 20);
         fire.add(BIRCH_BARREL, 5, 20);

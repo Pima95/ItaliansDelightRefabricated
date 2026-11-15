@@ -1,0 +1,7 @@
+{
+  "parent": "italiansdelight:block/brewing_barrel",
+  "textures": {
+    "0": "italiansdelight:block/warped_brewing_barrel",
+    "particle": "minecraft:block/warped_planks"
+  }
+}

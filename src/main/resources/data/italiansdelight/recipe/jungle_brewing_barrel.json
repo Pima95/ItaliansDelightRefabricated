@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "S S",
+    "PIP"
+  ],
+  "key": {
+    "P": "minecraft:jungle_planks",
+    "I": "minecraft:iron_ingot",
+    "S": "minecraft:jungle_slab"
+  },
+  "result": {
+    "id": "italiansdelight:jungle_brewing_barrel",
+    "count": 1
+  }
+}
