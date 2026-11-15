@@ -99,4 +99,12 @@ Usa un mondo di prova, non un salvataggio importante. Il test automatico avvia e
 6. Attraversa un peperoncino coltivato a terra in tutte le età, 0–7. I giocatori non devono essere fermati dalla pianta; resta selezionabile e può essere raccolta con clic destro. Controlla anche i segmenti sulle corde, già privi di collisione.
 7. Salva e ricarica il mondo; ripeti raccolta e travaso. Usa un mondo di prova: la build server non può confermare la resa grafica nel client.
 
-Le bottiglie di succhi e il vino **non sono ancora bevibili** in questa fase: è una decisione di gameplay da prendere, separata dalla registrazione dei nuovi contenitori.
+Le bottiglie dei quattro succhi e dell'olio sono bevibili. Il vino resta non bevibile. Verificare 1 bottiglia di vetro restituita per porzione, anche con pile da 16, e per il succo di mela dorata Rigenerazione II (5s) e Assorbimento I (2 min). Con Thirst Was Taken 2 i succhi ristorano sete 6/quenched 4, l'olio 0.
+
+## Nuovo controllo grafico e compatibilità sete
+
+1. Verifica i grappoli appesi: i modelli `models/block/grapes.json` e `models/block/white_grapes.json` usano ora `item/grape` e `item/white_grape`, come le icone dell'inventario.
+2. Esamina il liquido di succo bianco in botte e calderone: lo sprite `white_grape_juice_still.png` è un recolor dell'animazione rossa 16×512 (32 fotogrammi da 16x16, 2 tick per frame).
+3. Verifica che ciascuna bottiglia di succo di mela (normale e dorata), di succo d'uva (rosso e bianco) e di olio possa essere consumata a fame piena. Controlla l'assenza di duplicazione della bottiglia vuota.
+4. Succo dorato: Rigenerazione II per 100 tick e Assorbimento I per 2400 tick, uguale alla mela d'oro non incantata.
+5. Con Thirst Was Taken 2 presente: i quattro succhi ripristinano sete 6/quenched 4; l'olio non ripristina sete. Senza la mod, nessuna dipendenza richiesta.
