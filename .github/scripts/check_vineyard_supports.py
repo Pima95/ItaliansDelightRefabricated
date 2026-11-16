@@ -52,29 +52,19 @@ assert not any((resources/"assets/farmersdelight"/p).exists() for p in
   ("models/block/rope_side.json", "models/block/rope_side_alt.json",
    "textures/block/rope.png"))
 
-# Cultivated chili now follows Farmer's Delight tomato classes literally:
-# the same CropBlock growth/bonemeal tick, no detached custom grow algorithm.
-# Eight old ages and both registry IDs are retained for save compatibility.
-# Unlike the constant 12x16x12 selection inherited from FDR's TomatoBlock,
-# our 0..7 planted peppers must grow upward at every age while remaining
-# fully passable. Hanging peppers retain a thin targetable vertical rope.
-import re
-shape_section = chili.split("private static final VoxelShape[] AGE_SHAPES = {", 1)[1].split("};", 1)[0]
-shape_rows = [tuple(map(int, groups)) for groups in re.findall(
-    r"Block\.box\(\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)\s*\)", shape_section)]
-assert len(shape_rows) == 8, "The chili needs one distinct outline per age"
-heights = [row[4] for row in shape_rows]
-assert heights == sorted(set(heights)) and heights[0] <= 4 and heights[-1] == 16, heights
-assert all(row[1] == 0 and row[0] < row[3] and row[2] < row[5]
-           for row in shape_rows)
-assert "return shapeForAge(state.getValue(CHILI_AGE));" in chili
-assert "BlockGetter level" in chili and "CollisionContext context" in chili
-assert "private static final VoxelShape ROPE_OUTLINE" in hanging
-assert "Shapes.or(ROPE_OUTLINE, shapeForAge(age))" in hanging
-assert "return HANGING_SHAPES[state.getValue(CHILI_AGE)];" in hanging
+# Chili keeps the real Farmer's Delight tomato crop behavior and shape,
+# not a copied or newly designed set of voxel boxes. The 26.3 upstream
+# TomatoBlock's 12x16x12 getShape is inherited by both root and rope chili.
+# Existing AGE_7 save states, regrowth and non-collision stay unchanged.
+assert "extends TomatoBlock" in chili
+assert "extends ChiliCropBlock" in hanging
+for code in (chili, hanging):
+    assert "getShape(" not in code, "Chili must inherit FDR's outline directly"
+    assert "AGE_SHAPES" not in code and "HANGING_SHAPES" not in code
+    assert "shapeForAge" not in code
 assert ".noOcclusion().noCollision().forceSolidOff()" in registry
 assert ".setId(CHILI_ON_ROPE_KEY).noCollision().noOcclusion()" in registry
-print("PASSED: every chili age has increasing selection, rope stays clickable, no collision")
+print("PASSED: chili directly inherits FDR tomato outline; both plants remain passable")
 
 assert "extends TomatoBlock" in chili and "super(properties)" in chili
 assert "BlockStateProperties.AGE_7" in chili and "getMaxAge()" in chili
@@ -628,3 +618,39 @@ print("PASSED: cherries edible, ground chili non-colliding, singular grapes text
 print("PASSED: white grapes have independent seeds/harvest, full age stages, tinted canopy, and valid 16x16 sprites")
 
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")
+
+
+# Both grape crates must have complete asset/data registration (not just PNG drafts).
+# Top textures are 16x16 opaque RGB, deliberately showing small grape bunches.
+import struct
+for variant, fruit in (("grape", "grapes"), ("white_grape", "white_grapes")):
+    crate = variant + "_crate"
+    assert f'public static final Block {crate.upper()}' in registry
+    assert f'output.accept(ModBlocks.{crate.upper()})' in creative
+    state = load(assets / f"blockstates/{crate}.json")
+    model = load(assets / f"models/block/{crate}.json")
+    item = load(assets / f"items/{crate}.json")
+    assert state["variants"][""]["model"] == f"italiansdelight:block/{crate}"
+    assert model["textures"]["top"] == f"italiansdelight:block/{crate}_top"
+    assert model["textures"]["side"] == f"italiansdelight:block/{crate}_side"
+    assert item["model"]["model"] == f"italiansdelight:block/{crate}"
+    assert (assets / f"models/item/{crate}.json").is_file()
+    for face in ("top", "side"):
+        raw = (assets / f"textures/block/{crate}_{face}.png").read_bytes()
+        assert raw[:8] == b"\\x89PNG\\r\\n\\x1a\\n" and raw[12:16] == b"IHDR"
+        assert struct.unpack(">II", raw[16:24]) == (16, 16)
+        if face == "top":
+            assert raw[25] == 2, "Grape crate tops must use RGB (fully opaque) PNG"
+    shaped = load(data / f"italiansdelight/recipe/{crate}.json")
+    unpack = load(data / f"italiansdelight/recipe/{fruit}_from_crate.json")
+    loot = load(data / f"italiansdelight/loot_table/blocks/{crate}.json")
+    assert shaped["result"]["id"] == f"italiansdelight:{crate}"
+    assert shaped["key"]["#"] == f"italiansdelight:{fruit}"
+    assert unpack["result"] == {"id": f"italiansdelight:{fruit}", "count": 9}
+    assert loot["pools"][0]["entries"][0]["name"] == f"italiansdelight:{crate}"
+    for kind in ("block", "item"):
+        common = load(data / f"c/tags/{kind}/storage_blocks.json")
+        specific = load(data / f"c/tags/{kind}/storage_blocks/{variant}.json")
+        assert f"italiansdelight:{crate}" in common["values"]
+        assert f"italiansdelight:{crate}" in specific["values"]
+print("PASSED: red/white grape crates are registered, modeled, opaque and craftable")
