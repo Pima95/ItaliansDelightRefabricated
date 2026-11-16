@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "italiansdelight:white_grape_crate"
+  ],
+  "result": {
+    "id": "italiansdelight:white_grapes",
+    "count": 9
+  }
+}

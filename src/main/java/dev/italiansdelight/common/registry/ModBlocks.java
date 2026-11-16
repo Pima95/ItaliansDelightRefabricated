@@ -782,6 +782,22 @@ public final class ModBlocks {
             .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(CARDOON_CRATE_KEY))
     );
 
+    public static final ResourceKey<Block> GRAPE_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("grape_crate"));
+    public static final Block GRAPE_CRATE = register(
+        GRAPE_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(GRAPE_CRATE_KEY))
+    );
+
+    public static final ResourceKey<Block> WHITE_GRAPE_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("white_grape_crate"));
+    public static final Block WHITE_GRAPE_CRATE = register(
+        WHITE_GRAPE_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(WHITE_GRAPE_CRATE_KEY))
+    );
+
     // -------------------- Basil --------------------
     // The cultivated crop uses the same registry id for its BlockItem, so the
     // harvested basil itself can be replanted directly on farmland.
@@ -1378,6 +1394,8 @@ public final class ModBlocks {
         fire.add(CHERRY_CRATE, 5, 20);
         fire.add(BASIL_CRATE, 5, 20);
         fire.add(CARDOON_CRATE, 5, 20);
+        fire.add(GRAPE_CRATE, 5, 20);
+        fire.add(WHITE_GRAPE_CRATE, 5, 20);
         fire.add(CROP_STAKE, 5, 20);
         fire.add(SPRUCE_CROP_STAKE, 5, 20);
         fire.add(BIRCH_CROP_STAKE, 5, 20);

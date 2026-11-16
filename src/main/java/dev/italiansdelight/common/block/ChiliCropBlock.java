@@ -11,7 +11,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -21,8 +20,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import vectorwing.farmersdelight.common.block.TomatoBlock;
 
 /**
@@ -46,35 +43,8 @@ public class ChiliCropBlock extends TomatoBlock {
     private static final int FRUIT_REGROWTH_AGE = 4;
 
 
-    /**
-     * FDR TomatoBlock.getShape always returns a 12x16x12 outline, even for
-     * its youngest crop. That is appropriate for FDR's mature-looking tomato
-     * seedlings, but not for our eight visibly growing pepper stages.
-     *
-     * These are SELECTION/OUTLINE shapes only: chili blocks remain
-     * non-colliding as set by ModBlocks. The age property and all crop
-     * growth/harvest behavior are unchanged (savegame compatible).
-     */
-    private static final VoxelShape[] AGE_SHAPES = {
-        Block.box(6, 0, 6, 10, 3, 10),  // 0: tiny seedling
-        Block.box(6, 0, 6, 10, 5, 10),  // 1
-        Block.box(5, 0, 5, 11, 7, 11),  // 2
-        Block.box(5, 0, 5, 11, 9, 11),  // 3
-        Block.box(4, 0, 4, 12, 11, 12), // 4: mature foliage, regrowth
-        Block.box(3, 0, 3, 13, 13, 13), // 5: unripe fruit
-        Block.box(2, 0, 2, 14, 15, 14), // 6
-        Block.box(2, 0, 2, 14, 16, 14)  // 7: ripe, full-height plant
-    };
-
-    protected static VoxelShape shapeForAge(int age) {
-        return AGE_SHAPES[Math.max(0, Math.min(age, AGE_SHAPES.length - 1))];
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos,
-            CollisionContext context) {
-        return shapeForAge(state.getValue(CHILI_AGE));
-    }
+    // Use Farmer's Delight TomatoBlock selection shape, no local voxel geometry.
+    // AGE_7 and age-4 regrowth remain intact for save compatibility.
 
     public ChiliCropBlock(Properties properties) {
         super(properties);

@@ -6,13 +6,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import vectorwing.farmersdelight.common.Configuration;
 import vectorwing.farmersdelight.common.block.HangingTomatoBlock;
 import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
@@ -29,30 +25,7 @@ public final class HangingChiliBlock extends ChiliCropBlock implements ReplaceOn
     }
 
 
-    /**
-     * A hanging chili consists of both a climbable rope visual and an
-     * age-dependent crop. Preserve a narrow full-height selection for the
-     * rope while expanding only the plant's selection as it grows.
-     *
-     * Cache shapes once to avoid rebuilding voxel unions every frame.
-     */
-    private static final VoxelShape ROPE_OUTLINE =
-        Block.box(7, 0, 7, 9, 16, 9);
-    private static final VoxelShape[] HANGING_SHAPES = createHangingShapes();
-
-    private static VoxelShape[] createHangingShapes() {
-        VoxelShape[] shapes = new VoxelShape[8];
-        for (int age = 0; age < shapes.length; age++) {
-            shapes[age] = Shapes.or(ROPE_OUTLINE, shapeForAge(age));
-        }
-        return shapes;
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos,
-            CollisionContext context) {
-        return HANGING_SHAPES[state.getValue(CHILI_AGE)];
-    }
+    // Reuse FDR TomatoBlock#getShape for hanging peppers as well.
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

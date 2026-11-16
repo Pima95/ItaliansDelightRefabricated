@@ -142,6 +142,8 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CHERRY_CRATE);
                 output.accept(ModBlocks.BASIL_CRATE);
                 output.accept(ModBlocks.CARDOON_CRATE);
+                output.accept(ModBlocks.GRAPE_CRATE);
+                output.accept(ModBlocks.WHITE_GRAPE_CRATE);
 
                 // OLIVE WOOD: identical derivative order; leaves and sapling last.
                 output.accept(ModBlocks.OLIVE_LOG);
