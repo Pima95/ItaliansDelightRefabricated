@@ -280,7 +280,7 @@ crop_sprites = {
 }
 for sprite_name, expected_sha in crop_sprites.items():
     png_data = (assets/"textures/block"/f"{sprite_name}.png").read_bytes()
-    actual_sha = hashlib.sha1(f"blob {len(png_data)}\\0".encode() + png_data).hexdigest()
+    actual_sha = hashlib.sha1(f"blob {len(png_data)}\0".encode() + png_data).hexdigest()
     assert actual_sha == expected_sha, f"Unexpected texture regression: {sprite_name}"
     rgba = rgba_png_rows(png_data)
     green_pixels = [(r, g, b) for line in rgba for r, g, b, a in line
@@ -290,7 +290,7 @@ for sprite_name, expected_sha in crop_sprites.items():
                          for r,g,b in green_pixels) / len(green_pixels)
     assert mean_luminance >= 130, f"Cultivated chili still has dark foliage: {sprite_name}"
 wild_png = (assets/"textures/block/wild_chili.png").read_bytes()
-assert hashlib.sha1(f"blob {len(wild_png)}\\0".encode() + wild_png).hexdigest() == \
+assert hashlib.sha1(f"blob {len(wild_png)}\0".encode() + wild_png).hexdigest() == \
        "2b817c690cdeb36f6e4a87c3b2c848da14d7fa9e", \
        "The wild pepper artwork was not meant to change"
 print("PASSED: all cultivated chili shades brightened, red fruit and wild plant preserved")
