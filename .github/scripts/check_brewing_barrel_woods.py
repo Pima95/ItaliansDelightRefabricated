@@ -204,6 +204,12 @@ for wood in woods:
         assert all(px[0] > px[1] and px[1] >= px[2] - 5
                    for px in woody), "Mangrove palette lost red-brown undertones"
     if wood == "pale_oak":
+        # The atlas was rebuilt from scratch using the spruce keg wood mask;
+        # source log colors determine the warmer hue and micro-grain.
+        assert len({tuple(px[:3]) for px in woody}) >= 100, \
+               "The rebuilt pale oak lost its detailed warm shading"
+        assert all(px[0] > px[1] + 10 and px[1] > px[2] + 7
+                   for px in woody), "Rebuilt pale oak turned neutral gray again"
         # The 26.3 stripped pale_oak_log SIDE has only five close shades.
         # Reduce extreme highlights without losing the wood's subtle lines.
         assert max(px[0] for px in woody) <= 225, \

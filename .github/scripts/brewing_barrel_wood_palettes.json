@@ -633,7 +633,7 @@
     "dark_oak": "0aa69ce9fb73a5b4af6e7f674fe277171d30c1b9",
     "mangrove": "52445b53b245d52083e4941aef5b7a50c5dca26f",
     "cherry": "5326ec04b299fa162ea98812d0f9de1c366b40bf",
-    "pale_oak": "0388bf8048e46fd065eb15c5ade4c456c52642b4",
+    "pale_oak": "2d4899c61749db08f2879826b3ee0ea9a1e59518",
     "poplar": "49c9990b5c5455761c0f14ce8ac61c00fa1ea007",
     "bamboo": "77ea561485f46c79b314f405019af272fcc11ae7",
     "crimson": "2b4ca709580c8f166707c38b428de9d0dc44ffa6",
@@ -651,7 +651,7 @@
     "dark_oak": 53,
     "mangrove": 44,
     "cherry": 91,
-    "pale_oak": 50,
+    "pale_oak": 49,
     "poplar": 126,
     "bamboo": 80,
     "crimson": 72,
@@ -666,7 +666,7 @@
     "acacia": 68,
     "cherry": 100,
     "almond": 118,
-    "pale_oak": 60,
+    "pale_oak": 56,
     "bamboo": 93,
     "mangrove": 51
   },
@@ -739,7 +739,7 @@
     ]
   ],
   "mangroveMethod": "Transfer the original spruce barrel sprite's per-pixel luminance using a continuous seven-anchor dark red-brown ramp bounded by vanilla mangrove_planks maxima RGB (139,77,58); preserve alpha and all metal exactly. Specifically retain contrast on lid/top (22 shades) and lower panel (16 shades), rather than clipping most pixels to one color.",
-  "paleOakMethod": "Exact per-wood-pixel channel translation (+7 red, +0 green, -14 blue) of prior approved 64x64 pale oak barrel art. Keeps all 69 wood shades and spatial luminance contrast, warms neutral grays to pale beige/ivory; does not touch alpha, steel, model or game logic.",
+  "paleOakMethod": "Fully repainted from spruce_brewing_barrel.png wood pixels, NOT recolored from the previous pale oak sprite: preserve its wood silhouette and stave shadows; interpolate nine warm ivory-beige shades (from [145,127,113] to [222,206,190]) mapped to source spruce luminance, with subtle 16x16 fine-grain modulations following the exact index usage of the vanilla 26.3 stripped_pale_oak_log.png (five color palette). Metal and alpha byte-for-byte preserved.",
   "profileSource": "src/main/resources/assets/italiansdelight/textures/block/spruce_brewing_barrel.png, wood surface per-pixel luminance used to recreate top and bottom grain on mangrove and pale oak.",
   "surfaceDiagnosticRectangles": {
     "top": [
@@ -768,10 +768,89 @@
       "maxWoodRed": 218
     }
   },
-  "paleOakTintRGB": [
-    7,
-    0,
-    -14
+  "paleOakTintRGB": null,
+  "paleOakTintSourceBlob": null,
+  "strippedPaleOakSourceBlob": "ddfff87b1967af2b4eaeb3bbfc4c268b4086d756",
+  "strippedPaleOakLogPalette": [
+    [
+      255,
+      251,
+      248
+    ],
+    [
+      248,
+      240,
+      240
+    ],
+    [
+      240,
+      231,
+      229
+    ],
+    [
+      235,
+      224,
+      224
+    ],
+    [
+      230,
+      219,
+      219
+    ]
   ],
-  "paleOakTintSourceBlob": "39c20e92a6d753b435c7b0473e24ea59a798e13e"
+  "strippedPaleOakLogIndexFrequency": [
+    65,
+    94,
+    61,
+    25,
+    11
+  ],
+  "paleOakRebuiltPalette": [
+    [
+      145,
+      127,
+      113
+    ],
+    [
+      155,
+      136,
+      121
+    ],
+    [
+      167,
+      148,
+      131
+    ],
+    [
+      178,
+      159,
+      142
+    ],
+    [
+      188,
+      169,
+      150
+    ],
+    [
+      198,
+      179,
+      160
+    ],
+    [
+      207,
+      189,
+      171
+    ],
+    [
+      215,
+      198,
+      181
+    ],
+    [
+      222,
+      206,
+      190
+    ]
+  ],
+  "paleOakWoodUniqueShades": 126
 }

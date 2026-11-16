@@ -62,3 +62,16 @@ Static checks now protect the upper and lower UV panels independently, with mini
 The previous spruce-based pixel arrangement was accepted, but looked too gray. We have **not** moved any pixel or recomputed its luminance ramp. The wood area is recolored by a constant `RGB (+7, 0, -14)` translation: it shifts neutral gray to subtly warm ivory/cream, retains **all 69 original distinct wood shades**, preserves the same 5–95 percentile luminance spread (approx. 50.43 units), and keeps wood red <= 225 (no white hotspots).
 
 The 2492 wood pixels are changed in hue only. All 1604 other atlas pixels (including steel, rivets and transparent areas), alpha, geometry, block IDs and fermentation behavior remain byte-identical to the prior version. Tests pin the new image blob and assert its warmer hue and highlight ceiling. No changes to vines or server-test behavior were made.
+
+## Full pale-oak repaint from spruce + vanilla stripped log (16 November 2026)
+
+The pale oak needed a **new sprite**, not another correction of the gray previous version. We rebuilt all **2492 wooden pixels from scratch** using the approved `spruce_brewing_barrel.png` sprite as the source of *pixel placement, stave seams, highlights and surface depth*. We did **not use the previous pale-oak RGB pixels**. The other **1604 pixels** (metal, bolts, transparent pixels) and all alpha values match the spruce model exactly.
+
+The original vanilla Java 26.3 side texture `stripped_pale_oak_log.png` is a 16×16 indexed, 4-bit PNG with palette:
+`#FFFBF8`, `#F8F0F0`, `#F0E7E5`, `#EBE0E0`, `#E6DBDB`, occurring **65, 94, 61, 25, 11** times respectively. The darkest shades are intentionally much rarer. We reuse this *distribution and its actual spatial grain pattern* to introduce subtle light/dark shifts, rather than copying the nearly-white RGB values unchanged.
+
+For the keg's deeper 3D shape we interpolate a custom **nine-shade warm ivory/beige palette**, from RGB `(145,127,113)` for the recesses to `(222,206,190)` for highlights. Spruce's existing pixel luminance determines the shade, and a small additional deviation from the original 16×16 stripped-log pixel pattern adds texture. This combines the game's restrained pale-oak hue with readable stave depth and avoids gray or nearly-white clipping.
+
+Results: **126 distinct wooden RGB shades**, wood luminance 5th–95th percentile roughly **149–199**, upper front surface **174–199**, lower front surface **159–183**. No white highlights. JSON models, registration IDs, recipes, saved worlds and growth code remain unchanged by this texture edit.
+
+Source: Minecraft Java 26.3 `stripped_pale_oak_log.png`, Git blob `ddfff87b1967af2b4eaeb3bbfc4c268b4086d756` in the vanilla [26.3 asset archive](https://github.com/InventivetalentDev/minecraft-assets/tree/26.3/assets/minecraft/textures/block).
