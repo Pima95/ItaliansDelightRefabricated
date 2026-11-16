@@ -61,7 +61,7 @@ assert not any((resources/"assets/farmersdelight"/p).exists() for p in
 import re
 shape_section = chili.split("private static final VoxelShape[] AGE_SHAPES = {", 1)[1].split("};", 1)[0]
 shape_rows = [tuple(map(int, groups)) for groups in re.findall(
-    r"Block\\.box\\(\\s*(\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+)\\s*\\)", shape_section)]
+    r"Block\.box\(\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)\s*\)", shape_section)]
 assert len(shape_rows) == 8, "The chili needs one distinct outline per age"
 heights = [row[4] for row in shape_rows]
 assert heights == sorted(set(heights)) and heights[0] <= 4 and heights[-1] == 16, heights
