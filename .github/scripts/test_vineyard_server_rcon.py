@@ -202,6 +202,12 @@ def test():
         assert_block(rcon, 10, 82, 6, "italiansdelight:white_grape_leaves[distance=0,axis=x]")
         assert_block(rcon, 10, 81, 6, "italiansdelight:white_grape_stem[age=7]")
 
+        # Reproduce the white-grape knot regression: a rope that turns into
+        # a lateral leaf must still count as tied to the adjacent wooden stake.
+        # Use identical arrangements for both cultivars to prevent divergence.
+        run(rcon, "setblock 8 82 0 italiansdelight:crop_stake[axis=y]")
+        run(rcon, "setblock 8 82 6 italiansdelight:crop_stake[axis=y]")
+
         # Explicitly replace the adjacent ropes with the lateral stages,
         # then let real server ticks verify that the states remain supported.
         for x in (9, 11):
@@ -210,6 +216,12 @@ def test():
         for x in (9, 11):
             assert_block(rcon, x, 82, 0, "italiansdelight:grape_leaves[distance=1,axis=x]")
             assert_block(rcon, x, 82, 6, "italiansdelight:white_grape_leaves[distance=1,axis=x]")
+        assert_block(rcon, 8, 82, 0, "italiansdelight:crop_stake[rope_tied=true]")
+        assert_block(rcon, 8, 82, 6, "italiansdelight:crop_stake[rope_tied=true]")
+        assert_block(rcon, 9, 82, 0, "italiansdelight:grape_leaves[tied_negative=true]")
+        assert_block(rcon, 9, 82, 6, "italiansdelight:white_grape_leaves[tied_negative=true]")
+        print("PASSED: purple and white grapes both preserve pole rope knots after side leaves grow", flush=True)
+
 
         # Test rope attachment of mature chili stages without assuming that
         # random ticks fire on an empty dedicated server.

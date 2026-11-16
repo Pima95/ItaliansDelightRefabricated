@@ -46,7 +46,11 @@ public final class CropStakeBlock extends RotatedPillarBlock {
             if (neighbor.is(ModBlocks.HORIZONTAL_ROPE)
                     && neighbor.getValue(HorizontalRopeBlock.AXIS) == direction.getAxis())
                 return true;
-            if (neighbor.is(ModBlocks.GRAPE_LEAVES)
+            // Both cultivars replace the rope with leaves while growing.
+            // Missing WHITE_GRAPE_LEAVES here untied the visible wooden post
+            // even though the white canopy still held the horizontal rope.
+            if ((neighbor.is(ModBlocks.GRAPE_LEAVES)
+                    || neighbor.is(ModBlocks.WHITE_GRAPE_LEAVES))
                     && neighbor.getValue(GrapeLeavesBlock.AXIS) == direction.getAxis())
                 return true;
         }

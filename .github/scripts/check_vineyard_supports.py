@@ -364,6 +364,16 @@ assert "WHITE_GRAPES = registerFoodItem(\"white_grapes\", 2, 0.2f)" in items_cod
 assert "whiteGrapes ? ModBlocks.WHITE_GRAPE_SEEDS : ModBlocks.GRAPE_SEEDS" in grape_stem
 assert "ModBlocks.WHITE_GRAPE_LEAVES" in grape_stem
 assert "ModBlocks.WHITE_GRAPE_STEM" in leaves_code
+# White and purple grapes use the exact same GrapeStemBlock and
+# GrapeLeavesBlock implementation. A rope changing into either canopy
+# must keep the crop-stake's rope_tied flag and its rendered knot.
+assert 'new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)' in registry
+assert "new GrapeLeavesBlock(" in registry
+assert "(neighbor.is(ModBlocks.GRAPE_LEAVES)" in stake
+assert "|| neighbor.is(ModBlocks.WHITE_GRAPE_LEAVES))" in stake
+assert "neighbor.getValue(GrapeLeavesBlock.AXIS) == direction.getAxis()" in stake
+assert "neighbor.is(ModBlocks.HORIZONTAL_ROPE)" in stake
+
 assert "neighbor.is(this)" in leaves_code, "Canopy must not connect across varieties"
 assert "ModItems.WHITE_GRAPES" in leaves_code
 assert "ModItems.WHITE_GRAPES" in crush and "ModBlocks.WHITE_GRAPE_SEEDS" in crush
