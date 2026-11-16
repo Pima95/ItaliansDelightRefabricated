@@ -191,14 +191,26 @@ for wood in woods:
     if wood in metadata["moderatedContrastP05P95Upper"]:
         assert contrast <= metadata["moderatedContrastP05P95Upper"][wood], \
                f"{wood}: contrast too harsh ({contrast:.2f})"
+    if wood in ("mangrove", "pale_oak"):
+        woody = [px for src, px in zip(base_sprite, recolored)
+                 if src[3] and src[0] > src[1] + 7 and src[1] > src[2] + 7]
+        assert len(woody) == 2492
     if wood == "mangrove":
-        assert sha == "26a66116e14b1d32dc57d44f67544ac0e2d8e794", \
-               "Mangrove must be exactly reverted to the earlier approved atlas"
+        # Sampled from Minecraft Java 26.3 mangrove_planks: the seven-color
+        # source never exceeds RGB (139,77,58); any brighter barrel pixel
+        # looks artificially orange/red against the vanilla wood.
+        assert all(px[0] <= 139 and px[1] <= 77 and px[2] <= 58
+                   for px in woody), "Mangrove barrel brighter than actual vanilla planks"
+        assert all(px[0] > px[1] and px[1] >= px[2] - 5
+                   for px in woody), "Mangrove palette lost red-brown undertones"
     if wood == "pale_oak":
-        assert not any(all(channel >= 248 for channel in px[:3])
-                       for src, px in zip(base_sprite, recolored)
-                       if src[3] and src[0] > src[1] + 7 and src[1] > src[2] + 7), \
-               "Pale oak must not have fully white blown-out wood pixels"
+        # The 26.3 stripped pale_oak_log SIDE has only five close shades.
+        # Reduce extreme highlights without losing the wood's subtle lines.
+        assert max(px[0] for px in woody) <= 229, \
+               "Pale oak still contains overbright ivory wood pixels"
+        assert not any(px[0] >= 230 and px[1] >= 225 and px[2] >= 225
+                       for px in woody), \
+               "Pale oak must not have isolated almost-white points"
     if wood == "bamboo":
         # Bamboo preserves real vanilla stalk bands/joints, not only yellow RGB.
         assert len({tuple(px[:3]) for orig, px in zip(base_sprite, recolored)

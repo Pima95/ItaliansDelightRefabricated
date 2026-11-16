@@ -35,3 +35,14 @@ After in-game review, the strongest grading was **too contrasty** for birch, aca
 The original metal, nails, transparency, block IDs, geometry, blockstates, game mechanics and source attribution are unchanged. Pixel tests check the committed SHA of every barrel, the new contrast ceilings, restored mangrove and the absence of white hotspots in pale oak.
 
 This revision supersedes the stronger contrast guidance in the **Revised design** section above for these seven wood varieties.
+## Matching vanilla mangrove planks and stripped pale oak log (16 November 2026)
+
+Two remaining cosmetic issues were observed in Minecraft after the previous revision.
+
+**Mangrove:** the earlier restored sprite had wood-pixel red up to **207** and median wood luminance **67.4**, whereas the actual Minecraft 26.3 `mangrove_planks.png` has only seven reddish-brown colors with RGB maximum **(139, 77, 58)**. The wood region has now been remapped to those seven real plank tones, preserving grain and original steel/nails: the new median luminance is **58.8**, upper 95th-percentile **77.4**, red capped at **139**. The previous mangrove rollback is now superseded.
+
+**Pale oak:** the side of Minecraft 26.3 `stripped_pale_oak_log.png` contains **five tightly grouped warm-grey/ivory shades**, not strong isolated white flashes. The barrel previously contained **757 nearly white wood pixels**. Instead of repainting the whole atlas, only wood highlights above luminance 203 have been gently compressed (0.62 gradient factor); the new maximum red channel is **227**, the upper 95th-percentile wood luminance **222.1**, and there are **zero nearly-white wood pixels**. Lower shadows and texture detail are preserved.
+
+The source sprites used for visual/color analysis are Minecraft's original `mangrove_planks.png` and `stripped_pale_oak_log.png` from the [26.3 asset archive](https://github.com/InventivetalentDev/minecraft-assets/tree/26.3/assets/minecraft/textures/block). The source colors and their provenance are recorded in `.github/scripts/brewing_barrel_wood_palettes.json`. Automated tests guard the wood maximum RGB, lack of bright pale-oak hotspots, transparency, original metal pixels and all committed hashes.
+
+Only `mangrove_brewing_barrel.png` and `pale_oak_brewing_barrel.png` are changed by this revision. All models, NBT, registry IDs, game code, other 14 barrel textures, and credits remain untouched.

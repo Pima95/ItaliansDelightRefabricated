@@ -631,9 +631,9 @@
     "jungle": "781608e6c270c5576e8d11a1fbb1486a1fc8a79f",
     "acacia": "cc8f983f1c253d1a9546f4c7b6ced35fb017d185",
     "dark_oak": "0aa69ce9fb73a5b4af6e7f674fe277171d30c1b9",
-    "mangrove": "26a66116e14b1d32dc57d44f67544ac0e2d8e794",
+    "mangrove": "12e7257b476df4dbf47eb70896f00ce31a1f76a9",
     "cherry": "5326ec04b299fa162ea98812d0f9de1c366b40bf",
-    "pale_oak": "f9124273a239bee5ad391fde954db8b2cf39b1e4",
+    "pale_oak": "c87e0b2a8c0e9c2395a6a5a05e1dcd1c8e09ae40",
     "poplar": "49c9990b5c5455761c0f14ce8ac61c00fa1ea007",
     "bamboo": "77ea561485f46c79b314f405019af272fcc11ae7",
     "crimson": "2b4ca709580c8f166707c38b428de9d0dc44ffa6",
@@ -649,9 +649,9 @@
     "jungle": 129,
     "acacia": 61,
     "dark_oak": 53,
-    "mangrove": 0,
+    "mangrove": 33,
     "cherry": 91,
-    "pale_oak": 71,
+    "pale_oak": 59,
     "poplar": 126,
     "bamboo": 80,
     "crimson": 72,
@@ -660,15 +660,84 @@
     "almond": 107,
     "fruit_cherry": 114
   },
-  "restoredMangroveFromCommit": "1f1182136e57c12af7fe9bdf061704a1fec51b06",
+  "restoredMangroveFromCommit": "1f1182136e57c12af7fe9bdf061704a1fec51b06 (historical only; overridden by the current darker mangrove-planks revision)",
   "moderatedContrastP05P95Upper": {
     "birch": 107,
     "acacia": 68,
     "cherry": 100,
     "almond": 118,
-    "pale_oak": 80,
-    "bamboo": 93
+    "pale_oak": 65,
+    "bamboo": 93,
+    "mangrove": 38
   },
-  "paleOakWhitePixelCap": 237,
-  "bambooSource": "Minecraft 26.3 assets/minecraft/textures/block/bamboo_planks.png, 16x16 actual horizontal plank facade"
+  "paleOakWhitePixelCap": 229,
+  "bambooSource": "Minecraft 26.3 assets/minecraft/textures/block/bamboo_planks.png, 16x16 actual horizontal plank facade",
+  "mangroveSource": "Minecraft Java 26.3 assets/minecraft/textures/block/mangrove_planks.png (7 RGB colors, sampled directly)",
+  "strippedPaleOakLogSource": "Minecraft Java 26.3 assets/minecraft/textures/block/stripped_pale_oak_log.png (5 RGB colors, subtle ivory/warm grey gradations)",
+  "mangrovePlanksPalette": [
+    [
+      93,
+      28,
+      30
+    ],
+    [
+      100,
+      36,
+      35
+    ],
+    [
+      111,
+      42,
+      45
+    ],
+    [
+      117,
+      49,
+      54
+    ],
+    [
+      119,
+      57,
+      52
+    ],
+    [
+      127,
+      66,
+      52
+    ],
+    [
+      139,
+      77,
+      58
+    ]
+  ],
+  "strippedPaleOakSidePalette": [
+    [
+      230,
+      219,
+      219
+    ],
+    [
+      235,
+      224,
+      224
+    ],
+    [
+      240,
+      231,
+      229
+    ],
+    [
+      248,
+      240,
+      240
+    ],
+    [
+      255,
+      251,
+      248
+    ]
+  ],
+  "mangroveMethod": "Seven-color vanilla mangrove-plank ramp with eased wood-grain luminance plus a small preserved-shading contribution; clamp wood pixels to vanilla RGB maxima (139,77,58)",
+  "paleOakMethod": "Highlights compressed above luminance 203 by a factor 0.62, guided by the stripped pale oak log's five closely-spaced shades, eliminating all nearly-white wood pixels (red max 227)"
 }
