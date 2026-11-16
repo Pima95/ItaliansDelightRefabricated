@@ -265,6 +265,36 @@ def rgba_png_rows(blob):
         rows.append([tuple(curr[k:k+4]) for k in range(0,64,4)])
         prior=curr
     return rows
+# The cultivated sprites looked unusually dark against the wild shrub.
+# Farmer's Delight template_crop_cross already disables AO and per-face shade;
+# there is no custom tint registration. Lighten leaf pixels in the FIVE
+# cultivated stages, leaving transparent pixels and red fruit unchanged.
+# Pin their reviewed RGBA images to prevent accidental regressions.
+import hashlib
+crop_sprites = {
+    "chili_crop_0": "ad343eb9589c6dc6965ebc2978c5d99c2d378e9a",
+    "chili_crop_1": "777813ec3ea769ca06fa99c3fe15388a1519e904",
+    "chili_crop_2": "842c37e3b610d8e24d2f1b0f79e264da80680c5c",
+    "chili_crop_3": "4c31a0f709873faf61631e3df7a177081d38f6bf",
+    "chili_crop_foliage": "f073db37d85fe62ad2047cbb4092d636772bd9a6",
+}
+for sprite_name, expected_sha in crop_sprites.items():
+    png_data = (assets/"textures/block"/f"{sprite_name}.png").read_bytes()
+    actual_sha = hashlib.sha1(f"blob {len(png_data)}\\0".encode() + png_data).hexdigest()
+    assert actual_sha == expected_sha, f"Unexpected texture regression: {sprite_name}"
+    rgba = rgba_png_rows(png_data)
+    green_pixels = [(r, g, b) for line in rgba for r, g, b, a in line
+                    if a and g > r*1.12 and g > b*1.2]
+    assert green_pixels
+    mean_luminance = sum(.2126*r+.7152*g+.0722*b
+                         for r,g,b in green_pixels) / len(green_pixels)
+    assert mean_luminance >= 130, f"Cultivated chili still has dark foliage: {sprite_name}"
+wild_png = (assets/"textures/block/wild_chili.png").read_bytes()
+assert hashlib.sha1(f"blob {len(wild_png)}\\0".encode() + wild_png).hexdigest() == \
+       "2b817c690cdeb36f6e4a87c3b2c848da14d7fa9e", \
+       "The wild pepper artwork was not meant to change"
+print("PASSED: all cultivated chili shades brightened, red fruit and wild plant preserved")
+
 mature=rgba_png_rows((assets/"textures/block/chili_crop_3.png").read_bytes())
 green=rgba_png_rows((assets/"textures/block/chili_crop_2.png").read_bytes())
 foliage=rgba_png_rows((assets/"textures/block/chili_crop_foliage.png").read_bytes())

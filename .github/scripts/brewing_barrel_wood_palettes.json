@@ -633,7 +633,7 @@
     "dark_oak": "0aa69ce9fb73a5b4af6e7f674fe277171d30c1b9",
     "mangrove": "52445b53b245d52083e4941aef5b7a50c5dca26f",
     "cherry": "5326ec04b299fa162ea98812d0f9de1c366b40bf",
-    "pale_oak": "2d4899c61749db08f2879826b3ee0ea9a1e59518",
+    "pale_oak": "87b2368e929decf342e0fdef2bbe230660b19edc",
     "poplar": "49c9990b5c5455761c0f14ce8ac61c00fa1ea007",
     "bamboo": "77ea561485f46c79b314f405019af272fcc11ae7",
     "crimson": "2b4ca709580c8f166707c38b428de9d0dc44ffa6",
@@ -651,7 +651,7 @@
     "dark_oak": 53,
     "mangrove": 44,
     "cherry": 91,
-    "pale_oak": 49,
+    "pale_oak": 35,
     "poplar": 126,
     "bamboo": 80,
     "crimson": 72,
@@ -666,11 +666,11 @@
     "acacia": 68,
     "cherry": 100,
     "almond": 118,
-    "pale_oak": 56,
+    "pale_oak": 50,
     "bamboo": 93,
     "mangrove": 51
   },
-  "paleOakWhitePixelCap": 225,
+  "paleOakWhitePixelCap": 255,
   "bambooSource": "Minecraft 26.3 assets/minecraft/textures/block/bamboo_planks.png, 16x16 actual horizontal plank facade",
   "mangroveSource": "Minecraft Java 26.3 assets/minecraft/textures/block/mangrove_planks.png (7 RGB colors, sampled directly)",
   "strippedPaleOakLogSource": "Minecraft Java 26.3 assets/minecraft/textures/block/stripped_pale_oak_log.png (5 RGB colors, subtle ivory/warm grey gradations)",
@@ -739,7 +739,7 @@
     ]
   ],
   "mangroveMethod": "Transfer the original spruce barrel sprite's per-pixel luminance using a continuous seven-anchor dark red-brown ramp bounded by vanilla mangrove_planks maxima RGB (139,77,58); preserve alpha and all metal exactly. Specifically retain contrast on lid/top (22 shades) and lower panel (16 shades), rather than clipping most pixels to one color.",
-  "paleOakMethod": "Fully repainted from spruce_brewing_barrel.png wood pixels, NOT recolored from the previous pale oak sprite: preserve its wood silhouette and stave shadows; interpolate nine warm ivory-beige shades (from [145,127,113] to [222,206,190]) mapped to source spruce luminance, with subtle 16x16 fine-grain modulations following the exact index usage of the vanilla 26.3 stripped_pale_oak_log.png (five color palette). Metal and alpha byte-for-byte preserved.",
+  "paleOakMethod": "New from the spruce barrel 2492-wood-pixel mask and original per-pixel surface shading. Use the actual FIVE RGB colors of Minecraft 26.3 stripped_pale_oak_log as 93% of wood pixels, plus two derived dark recess shades matching the log's near-neutral pink-grey hues; distribute shades by spruce luminosity rank with subtle placement adjustments from the vanilla 16x16 stripped-log indices. Remove all previous beige grading.",
   "profileSource": "src/main/resources/assets/italiansdelight/textures/block/spruce_brewing_barrel.png, wood surface per-pixel luminance used to recreate top and bottom grain on mangrove and pale oak.",
   "surfaceDiagnosticRectangles": {
     "top": [
@@ -763,9 +763,9 @@
       "bottomP05P95Min": 15
     },
     "pale_oak": {
-      "topUniqueMin": 20,
-      "topP05P95Min": 20,
-      "maxWoodRed": 218
+      "topUniqueMin": 4,
+      "topP05P95Min": 15,
+      "maxWoodRed": 255
     }
   },
   "paleOakTintRGB": null,
@@ -807,50 +807,42 @@
   ],
   "paleOakRebuiltPalette": [
     [
-      145,
-      127,
-      113
-    ],
-    [
-      155,
-      136,
-      121
-    ],
-    [
-      167,
-      148,
-      131
-    ],
-    [
-      178,
-      159,
-      142
-    ],
-    [
-      188,
-      169,
-      150
-    ],
-    [
-      198,
-      179,
-      160
-    ],
-    [
       207,
-      189,
-      171
+      197,
+      197
     ],
     [
-      215,
-      198,
-      181
+      219,
+      209,
+      209
     ],
     [
-      222,
-      206,
-      190
+      230,
+      219,
+      219
+    ],
+    [
+      235,
+      224,
+      224
+    ],
+    [
+      240,
+      231,
+      229
+    ],
+    [
+      248,
+      240,
+      240
+    ],
+    [
+      255,
+      251,
+      248
     ]
   ],
-  "paleOakWoodUniqueShades": 126
+  "paleOakWoodUniqueShades": 7,
+  "paleOakVanillaShadeCoverage": "2318 / 2492 wood pixels (93.02%) identical to original stripped_pale_oak_log palette",
+  "paleOakScreenshotComparison": "Reference stripped log sampled at RGB (248, 240, 240) in user's in-game screenshot; previous barrel (182, 163, 145) was visibly brown, so the previous warm beige ramp has been eliminated."
 }

@@ -204,21 +204,19 @@ for wood in woods:
         assert all(px[0] > px[1] and px[1] >= px[2] - 5
                    for px in woody), "Mangrove palette lost red-brown undertones"
     if wood == "pale_oak":
-        # The atlas was rebuilt from scratch using the spruce keg wood mask;
-        # source log colors determine the warmer hue and micro-grain.
-        assert len({tuple(px[:3]) for px in woody}) >= 100, \
-               "The rebuilt pale oak lost its detailed warm shading"
-        assert all(px[0] > px[1] + 10 and px[1] > px[2] + 7
-                   for px in woody), "Rebuilt pale oak turned neutral gray again"
-        # The 26.3 stripped pale_oak_log SIDE has only five close shades.
-        # Reduce extreme highlights without losing the wood's subtle lines.
-        assert max(px[0] for px in woody) <= 225, \
-               "Pale oak still contains overbright ivory wood pixels"
-        assert (sum(px[0] - px[2] for px in woody) / len(woody)) >= 22, \
-               "Pale oak lost the warm ivory tint and became too gray"
-        assert not any(px[0] >= 230 and px[1] >= 225 and px[2] >= 225
-                       for px in woody), \
-               "Pale oak must not have isolated almost-white points"
+        # This is a NEW pale-oak sprite based on SPRUCE wood geometry, not
+        # an RGB warm-up of the incorrect beige image. The vanilla 26.3
+        # stripped_pale_oak_log actually contains white and very light pink.
+        # Reject the last attempt's beige (large R-G and G-B gaps).
+        vanilla = {(255, 251, 248), (248, 240, 240), (240, 231, 229),
+                   (235, 224, 224), (230, 219, 219)}
+        recesses = {(219, 209, 209), (207, 197, 197)}
+        shades = {tuple(px[:3]) for px in woody}
+        assert shades == vanilla | recesses, "Pale oak lost the vanilla color palette"
+        assert sum(tuple(px[:3]) in vanilla for px in woody) >= 2318, \
+               "Not enough original stripped-pale-oak colors used"
+        assert all(4 <= px[0] - px[1] <= 11 and 0 <= px[1] - px[2] <= 3
+                   for px in woody), "Pale oak became brown/beige again"
     if wood == "bamboo":
         # Bamboo preserves real vanilla stalk bands/joints, not only yellow RGB.
         assert len({tuple(px[:3]) for orig, px in zip(base_sprite, recolored)

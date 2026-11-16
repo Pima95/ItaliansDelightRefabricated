@@ -75,3 +75,11 @@ For the keg's deeper 3D shape we interpolate a custom **nine-shade warm ivory/be
 Results: **126 distinct wooden RGB shades**, wood luminance 5th–95th percentile roughly **149–199**, upper front surface **174–199**, lower front surface **159–183**. No white highlights. JSON models, registration IDs, recipes, saved worlds and growth code remain unchanged by this texture edit.
 
 Source: Minecraft Java 26.3 `stripped_pale_oak_log.png`, Git blob `ddfff87b1967af2b4eaeb3bbfc4c268b4086d756` in the vanilla [26.3 asset archive](https://github.com/InventivetalentDev/minecraft-assets/tree/26.3/assets/minecraft/textures/block).
+
+## Pale oak corrected to the actual white vanilla log palette (16 November 2026)
+
+An in-game screenshot showed the `stripped_pale_oak_log` at RGB roughly `(248,240,240)`, alongside our erroneously brown keg at roughly `(182,163,145)`. The previous nine-color warm-beige palette was based on incorrect color assumptions; it is now **completely replaced**.
+
+This sprite is built from the **spruce brewing barrel's** original wooden pixel mask and its existing distribution of stave lines, shadows and lid shading. Of 2492 wooden pixels, **2318 use precisely one of the five original Minecraft 26.3 stripped-pale-oak-log colors**: `#FFFBF8`, `#F8F0F0`, `#F0E7E5`, `#EBE0E0`, `#E6DBDB`. The remaining 174 use two darker, neutral rose-grey derivatives `#DBD1D1` and `#CFC5C5` exclusively for deeper wood recesses. We sampled the original 16x16 vanilla log pixel indices and combined their local 1-pixel pattern with the SPRUCE barrel's luminance-ranked geometry, instead of recoloring the previous pale-oak PNG. The seven exact wood colors preserve pixel edges and match the vanilla color family, including the very light highlights that Minecraft itself uses.
+
+All 1604 original non-wood atlas pixels, the exact alpha mask, iron hoops, fasteners and Minecraft block models are preserved. No branch, registry ID or save compatibility changes.
