@@ -92,3 +92,50 @@ print("OK: five registered crates, ten opaque textures, block/item assets, drops
 print("OK: 9-in and 9-out recipes for olives, almonds, cherries, basil and cultivated cardoon")
 print("OK: author-controlled cherry item art remains untouched, alpha 0/255")
 print("OK: restored historical crate sides, FDR wooden frames intact, dense crops in all top quadrants")
+
+
+# Grape crate artwork is PREPARED ONLY, pending review. Do not register new
+# blocks, recipes, loot tables or storage tags until the four sprites are
+# approved. Each texture follows the SAME FDR crate frame as cherry crates.
+for cultivar in ("grape", "white_grape"):
+    for face in ("top", "side"):
+        sprite = check_rgba_pixel_art(
+            A/f"textures/block/{cultivar}_crate_{face}.png", (16, 16))
+        reference = check_rgba_pixel_art(
+            A/f"textures/block/cherry_crate_{face}.png", (16, 16))
+        assert all(p[3] == 255 for row in sprite for p in row)
+        original_wood = {
+            (0x78,0x58,0x36), (0x80,0x5e,0x36), (0x8b,0x67,0x3c),
+            (0x55,0x3a,0x1f), (0x40,0x29,0x13), (0x99,0x71,0x40),
+            (0x66,0x4d,0x28)
+        }
+        # Keep wood frame and small vine-green accents untouched.
+        vine_green = {
+            (37,72,51), (54,86,59), (76,120,76),
+            (66,101,68), (30,53,38), (73,123,73)
+        }
+        recolored = 0
+        wood_count = 0
+        for y in range(16):
+            for x in range(16):
+                old = reference[y][x]
+                new = sprite[y][x]
+                if old[:3] in original_wood or old[:3] in vine_green:
+                    assert old == new, (cultivar, face, x, y, "crate frame or leaves changed")
+                    wood_count += old[:3] in original_wood
+                else:
+                    assert new[:3] != old[:3], (cultivar, face, x, y, "fruit not recolored")
+                    recolored += 1
+        assert recolored >= (100 if face == "top" else 50)
+        assert wood_count >= 80
+    assert not (A/f"models/block/{cultivar}_crate.json").exists(), \
+           "Crate artwork is awaiting approval before registration"
+purple = check_rgba_pixel_art(A/"textures/block/grape_crate_top.png", (16,16))
+golden = check_rgba_pixel_art(A/"textures/block/white_grape_crate_top.png", (16,16))
+def luma(p):
+    return 0.2126*p[0] + 0.7152*p[1] + 0.0722*p[2]
+colors_to_compare = [(purple[y][x], golden[y][x]) for y in range(2,14)
+                     for x in range(2,14) if purple[y][x] != golden[y][x]]
+assert len(colors_to_compare) >= 90
+assert sum(luma(b) - luma(a) for a,b in colors_to_compare) / len(colors_to_compare) >= 50
+print("OK: four provisional grape crate sprites, unchanged FDR wood, two distinct fruit palettes")
