@@ -56,3 +56,9 @@ The previous update correctly darkened mangrove but made the upper and lower woo
 **Pale oak:** replaces the concentrated near-white highlights with warm-neutral grays, based on the subtle tone of `stripped_pale_oak_log` but preserving the detailed spruce grain transitions. The highest wood red-channel value is **218**; the main upper UV region ranges from brightness **185** (p05) to **210** (p95), rather than **209–222**. No white or near-white wooden pixels remain.
 
 Static checks now protect the upper and lower UV panels independently, with minima for the number of distinct wood shades and their luminance spread. The 14 other wood variants and the block model remain unchanged. This supersedes the previous rendering method for these two wooden barrels.
+
+## Pale oak hue only — warm ivory without moving shades (16 November 2026)
+
+The previous spruce-based pixel arrangement was accepted, but looked too gray. We have **not** moved any pixel or recomputed its luminance ramp. The wood area is recolored by a constant `RGB (+7, 0, -14)` translation: it shifts neutral gray to subtly warm ivory/cream, retains **all 69 original distinct wood shades**, preserves the same 5–95 percentile luminance spread (approx. 50.43 units), and keeps wood red <= 225 (no white hotspots).
+
+The 2492 wood pixels are changed in hue only. All 1604 other atlas pixels (including steel, rivets and transparent areas), alpha, geometry, block IDs and fermentation behavior remain byte-identical to the prior version. Tests pin the new image blob and assert its warmer hue and highlight ceiling. No changes to vines or server-test behavior were made.

@@ -633,7 +633,7 @@
     "dark_oak": "0aa69ce9fb73a5b4af6e7f674fe277171d30c1b9",
     "mangrove": "52445b53b245d52083e4941aef5b7a50c5dca26f",
     "cherry": "5326ec04b299fa162ea98812d0f9de1c366b40bf",
-    "pale_oak": "39c20e92a6d753b435c7b0473e24ea59a798e13e",
+    "pale_oak": "0388bf8048e46fd065eb15c5ade4c456c52642b4",
     "poplar": "49c9990b5c5455761c0f14ce8ac61c00fa1ea007",
     "bamboo": "77ea561485f46c79b314f405019af272fcc11ae7",
     "crimson": "2b4ca709580c8f166707c38b428de9d0dc44ffa6",
@@ -670,7 +670,7 @@
     "bamboo": 93,
     "mangrove": 51
   },
-  "paleOakWhitePixelCap": 218,
+  "paleOakWhitePixelCap": 225,
   "bambooSource": "Minecraft 26.3 assets/minecraft/textures/block/bamboo_planks.png, 16x16 actual horizontal plank facade",
   "mangroveSource": "Minecraft Java 26.3 assets/minecraft/textures/block/mangrove_planks.png (7 RGB colors, sampled directly)",
   "strippedPaleOakLogSource": "Minecraft Java 26.3 assets/minecraft/textures/block/stripped_pale_oak_log.png (5 RGB colors, subtle ivory/warm grey gradations)",
@@ -739,7 +739,7 @@
     ]
   ],
   "mangroveMethod": "Transfer the original spruce barrel sprite's per-pixel luminance using a continuous seven-anchor dark red-brown ramp bounded by vanilla mangrove_planks maxima RGB (139,77,58); preserve alpha and all metal exactly. Specifically retain contrast on lid/top (22 shades) and lower panel (16 shades), rather than clipping most pixels to one color.",
-  "paleOakMethod": "Rebuild wood shading from spruce sprite's proven wood-grain luminance profile, with neutral warm gray ramp RGB (139,136,135)..(218,212,210) and interpolated shadows. No whites, no flattened top highlight band; original metal and alpha preserved.",
+  "paleOakMethod": "Exact per-wood-pixel channel translation (+7 red, +0 green, -14 blue) of prior approved 64x64 pale oak barrel art. Keeps all 69 wood shades and spatial luminance contrast, warms neutral grays to pale beige/ivory; does not touch alpha, steel, model or game logic.",
   "profileSource": "src/main/resources/assets/italiansdelight/textures/block/spruce_brewing_barrel.png, wood surface per-pixel luminance used to recreate top and bottom grain on mangrove and pale oak.",
   "surfaceDiagnosticRectangles": {
     "top": [
@@ -767,5 +767,11 @@
       "topP05P95Min": 20,
       "maxWoodRed": 218
     }
-  }
+  },
+  "paleOakTintRGB": [
+    7,
+    0,
+    -14
+  ],
+  "paleOakTintSourceBlob": "39c20e92a6d753b435c7b0473e24ea59a798e13e"
 }

@@ -206,8 +206,10 @@ for wood in woods:
     if wood == "pale_oak":
         # The 26.3 stripped pale_oak_log SIDE has only five close shades.
         # Reduce extreme highlights without losing the wood's subtle lines.
-        assert max(px[0] for px in woody) <= 218, \
+        assert max(px[0] for px in woody) <= 225, \
                "Pale oak still contains overbright ivory wood pixels"
+        assert (sum(px[0] - px[2] for px in woody) / len(woody)) >= 22, \
+               "Pale oak lost the warm ivory tint and became too gray"
         assert not any(px[0] >= 230 and px[1] >= 225 and px[2] >= 225
                        for px in woody), \
                "Pale oak must not have isolated almost-white points"
