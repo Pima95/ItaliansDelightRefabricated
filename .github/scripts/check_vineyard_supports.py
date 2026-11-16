@@ -637,7 +637,7 @@ for variant, fruit in (("grape", "grapes"), ("white_grape", "white_grapes")):
     assert (assets / f"models/item/{crate}.json").is_file()
     for face in ("top", "side"):
         raw = (assets / f"textures/block/{crate}_{face}.png").read_bytes()
-        assert raw[:8] == b"\\x89PNG\\r\\n\\x1a\\n" and raw[12:16] == b"IHDR"
+        assert raw[:8] == bytes.fromhex("89504e470d0a1a0a") and raw[12:16] == b"IHDR"
         assert struct.unpack(">II", raw[16:24]) == (16, 16)
         if face == "top":
             assert raw[25] == 2, "Grape crate tops must use RGB (fully opaque) PNG"
