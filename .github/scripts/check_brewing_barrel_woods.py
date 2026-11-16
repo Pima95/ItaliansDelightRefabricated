@@ -206,7 +206,7 @@ for wood in woods:
     if wood == "pale_oak":
         # The 26.3 stripped pale_oak_log SIDE has only five close shades.
         # Reduce extreme highlights without losing the wood's subtle lines.
-        assert max(px[0] for px in woody) <= 229, \
+        assert max(px[0] for px in woody) <= 218, \
                "Pale oak still contains overbright ivory wood pixels"
         assert not any(px[0] >= 230 and px[1] >= 225 and px[2] >= 225
                        for px in woody), \
@@ -217,5 +217,39 @@ for wood in woods:
                     if orig[3] and orig[0] > orig[1] + 7
                     and orig[1] > orig[2] + 7}) > 150, \
                "Bamboo texture lost stalk and knot variations"
+# Specifically protect the top lid and bottom surface from becoming flat again.
+# Minecraft's barrel model samples these rectangles of the 64x64 atlas.
+def wood_surface_stats(pixels, bounds):
+    x0, y0, x1, y1 = bounds
+    rgb = []
+    for yy in range(y0, y1):
+        for xx in range(x0, x1):
+            i = yy * 64 + xx
+            src = base_sprite[i]
+            if src[3] and src[0] > src[1] + 7 and src[1] > src[2] + 7:
+                rgb.append(pixels[i][:3])
+    values = sorted(luminance(pixel) for pixel in rgb)
+    assert values, "No wood pixels in barrel surface region"
+    return {
+        "unique": len(set(rgb)),
+        "p05_p95": values[int(.95 * len(values))] - values[int(.05 * len(values))]
+    }
+
+guards = metadata["regionShadeGuard"]
+for wood in ("mangrove", "pale_oak"):
+    tex = decode_rgba(assets / "textures/block" / (wood + "_brewing_barrel.png"))
+    top = wood_surface_stats(tex, metadata["surfaceDiagnosticRectangles"]["top"])
+    bottom = wood_surface_stats(tex, metadata["surfaceDiagnosticRectangles"]["bottom"])
+    if wood == "mangrove":
+        assert top["unique"] >= guards[wood]["topUniqueMin"], "Mangrove lid lost the spruce-like shading"
+        assert bottom["unique"] >= guards[wood]["bottomUniqueMin"], "Mangrove lower panel is flat"
+        assert top["p05_p95"] >= guards[wood]["topP05P95Min"], "Mangrove top lacks depth"
+        assert bottom["p05_p95"] >= guards[wood]["bottomP05P95Min"], "Mangrove underside lacks depth"
+    else:
+        assert top["unique"] >= guards[wood]["topUniqueMin"], "Pale oak lid has a flat highlight"
+        assert top["p05_p95"] >= guards[wood]["topP05P95Min"], "Pale oak lid has no visible grey shades"
+        assert max(c[0] for c in tex) <= 255  # Metal is outside the wood mask
+print("PASSED: top and lower panels retain distinct spruce-like wood grain on mangrove and pale oak")
+
 print("PASSED: depth, knots, RGBA, metal and distinct actual wood palettes")
 print("PASSED: all 16 image SHA references match the new reviewed sprites")

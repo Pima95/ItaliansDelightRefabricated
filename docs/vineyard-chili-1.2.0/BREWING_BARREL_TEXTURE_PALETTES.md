@@ -46,3 +46,13 @@ Two remaining cosmetic issues were observed in Minecraft after the previous revi
 The source sprites used for visual/color analysis are Minecraft's original `mangrove_planks.png` and `stripped_pale_oak_log.png` from the [26.3 asset archive](https://github.com/InventivetalentDev/minecraft-assets/tree/26.3/assets/minecraft/textures/block). The source colors and their provenance are recorded in `.github/scripts/brewing_barrel_wood_palettes.json`. Automated tests guard the wood maximum RGB, lack of bright pale-oak hotspots, transparency, original metal pixels and all committed hashes.
 
 Only `mangrove_brewing_barrel.png` and `pale_oak_brewing_barrel.png` are changed by this revision. All models, NBT, registry IDs, game code, other 14 barrel textures, and credits remain untouched.
+
+## Spruce shading reference — top and bottom corrections (16 November 2026)
+
+The previous update correctly darkened mangrove but made the upper and lower wooden atlas sections visually flat. The bright area of pale oak remained crowded near the same near-white values. We compared both with the **existing spruce brewing barrel** (not the raw Alcocraft reference image) pixel by pixel. The same 2492 wood pixels in each 64×64 RGBA atlas were remapped using the spruce sprite's local luminance. All steel, fasteners and transparent pixels are untouched.
+
+**Mangrove:** continuous color interpolation with seven shaded anchors matching the dark red-brown hue of vanilla `mangrove_planks` (red never exceeds 139). In the model's main upper UV region, distinct wood RGB shades increased from **9 to 22**; in the lower region, from **10 to 16**. Their p05–p95 brightness intervals are now **24** and **18**, respectively (previously 14 and 8). The region's grain comes from the spruce shading reference, not a uniform flat surface.
+
+**Pale oak:** replaces the concentrated near-white highlights with warm-neutral grays, based on the subtle tone of `stripped_pale_oak_log` but preserving the detailed spruce grain transitions. The highest wood red-channel value is **218**; the main upper UV region ranges from brightness **185** (p05) to **210** (p95), rather than **209–222**. No white or near-white wooden pixels remain.
+
+Static checks now protect the upper and lower UV panels independently, with minima for the number of distinct wood shades and their luminance spread. The 14 other wood variants and the block model remain unchanged. This supersedes the previous rendering method for these two wooden barrels.

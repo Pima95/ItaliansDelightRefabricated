@@ -631,9 +631,9 @@
     "jungle": "781608e6c270c5576e8d11a1fbb1486a1fc8a79f",
     "acacia": "cc8f983f1c253d1a9546f4c7b6ced35fb017d185",
     "dark_oak": "0aa69ce9fb73a5b4af6e7f674fe277171d30c1b9",
-    "mangrove": "12e7257b476df4dbf47eb70896f00ce31a1f76a9",
+    "mangrove": "52445b53b245d52083e4941aef5b7a50c5dca26f",
     "cherry": "5326ec04b299fa162ea98812d0f9de1c366b40bf",
-    "pale_oak": "c87e0b2a8c0e9c2395a6a5a05e1dcd1c8e09ae40",
+    "pale_oak": "39c20e92a6d753b435c7b0473e24ea59a798e13e",
     "poplar": "49c9990b5c5455761c0f14ce8ac61c00fa1ea007",
     "bamboo": "77ea561485f46c79b314f405019af272fcc11ae7",
     "crimson": "2b4ca709580c8f166707c38b428de9d0dc44ffa6",
@@ -649,9 +649,9 @@
     "jungle": 129,
     "acacia": 61,
     "dark_oak": 53,
-    "mangrove": 33,
+    "mangrove": 44,
     "cherry": 91,
-    "pale_oak": 59,
+    "pale_oak": 50,
     "poplar": 126,
     "bamboo": 80,
     "crimson": 72,
@@ -666,11 +666,11 @@
     "acacia": 68,
     "cherry": 100,
     "almond": 118,
-    "pale_oak": 65,
+    "pale_oak": 60,
     "bamboo": 93,
-    "mangrove": 38
+    "mangrove": 51
   },
-  "paleOakWhitePixelCap": 229,
+  "paleOakWhitePixelCap": 218,
   "bambooSource": "Minecraft 26.3 assets/minecraft/textures/block/bamboo_planks.png, 16x16 actual horizontal plank facade",
   "mangroveSource": "Minecraft Java 26.3 assets/minecraft/textures/block/mangrove_planks.png (7 RGB colors, sampled directly)",
   "strippedPaleOakLogSource": "Minecraft Java 26.3 assets/minecraft/textures/block/stripped_pale_oak_log.png (5 RGB colors, subtle ivory/warm grey gradations)",
@@ -738,6 +738,34 @@
       248
     ]
   ],
-  "mangroveMethod": "Seven-color vanilla mangrove-plank ramp with eased wood-grain luminance plus a small preserved-shading contribution; clamp wood pixels to vanilla RGB maxima (139,77,58)",
-  "paleOakMethod": "Highlights compressed above luminance 203 by a factor 0.62, guided by the stripped pale oak log's five closely-spaced shades, eliminating all nearly-white wood pixels (red max 227)"
+  "mangroveMethod": "Transfer the original spruce barrel sprite's per-pixel luminance using a continuous seven-anchor dark red-brown ramp bounded by vanilla mangrove_planks maxima RGB (139,77,58); preserve alpha and all metal exactly. Specifically retain contrast on lid/top (22 shades) and lower panel (16 shades), rather than clipping most pixels to one color.",
+  "paleOakMethod": "Rebuild wood shading from spruce sprite's proven wood-grain luminance profile, with neutral warm gray ramp RGB (139,136,135)..(218,212,210) and interpolated shadows. No whites, no flattened top highlight band; original metal and alpha preserved.",
+  "profileSource": "src/main/resources/assets/italiansdelight/textures/block/spruce_brewing_barrel.png, wood surface per-pixel luminance used to recreate top and bottom grain on mangrove and pale oak.",
+  "surfaceDiagnosticRectangles": {
+    "top": [
+      26,
+      10,
+      36,
+      26
+    ],
+    "bottom": [
+      26,
+      26,
+      36,
+      42
+    ]
+  },
+  "regionShadeGuard": {
+    "mangrove": {
+      "topUniqueMin": 20,
+      "bottomUniqueMin": 14,
+      "topP05P95Min": 20,
+      "bottomP05P95Min": 15
+    },
+    "pale_oak": {
+      "topUniqueMin": 20,
+      "topP05P95Min": 20,
+      "maxWoodRed": 218
+    }
+  }
 }
