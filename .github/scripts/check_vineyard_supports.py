@@ -55,6 +55,27 @@ assert not any((resources/"assets/farmersdelight"/p).exists() for p in
 # Cultivated chili now follows Farmer's Delight tomato classes literally:
 # the same CropBlock growth/bonemeal tick, no detached custom grow algorithm.
 # Eight old ages and both registry IDs are retained for save compatibility.
+# Unlike the constant 12x16x12 selection inherited from FDR's TomatoBlock,
+# our 0..7 planted peppers must grow upward at every age while remaining
+# fully passable. Hanging peppers retain a thin targetable vertical rope.
+import re
+shape_section = chili.split("private static final VoxelShape[] AGE_SHAPES = {", 1)[1].split("};", 1)[0]
+shape_rows = [tuple(map(int, groups)) for groups in re.findall(
+    r"Block\\.box\\(\\s*(\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+)\\s*\\)", shape_section)]
+assert len(shape_rows) == 8, "The chili needs one distinct outline per age"
+heights = [row[4] for row in shape_rows]
+assert heights == sorted(set(heights)) and heights[0] <= 4 and heights[-1] == 16, heights
+assert all(row[1] == 0 and row[0] < row[3] and row[2] < row[5]
+           for row in shape_rows)
+assert "return shapeForAge(state.getValue(CHILI_AGE));" in chili
+assert "BlockGetter level" in chili and "CollisionContext context" in chili
+assert "private static final VoxelShape ROPE_OUTLINE" in hanging
+assert "Shapes.or(ROPE_OUTLINE, shapeForAge(age))" in hanging
+assert "return HANGING_SHAPES[state.getValue(CHILI_AGE)];" in hanging
+assert ".noOcclusion().noCollision().forceSolidOff()" in registry
+assert ".setId(CHILI_ON_ROPE_KEY).noCollision().noOcclusion()" in registry
+print("PASSED: every chili age has increasing selection, rope stays clickable, no collision")
+
 assert "extends TomatoBlock" in chili and "super(properties)" in chili
 assert "BlockStateProperties.AGE_7" in chili and "getMaxAge()" in chili
 assert "getClimbingState" in chili and "ModBlocks.CHILI_ON_ROPE.defaultBlockState()" in chili
