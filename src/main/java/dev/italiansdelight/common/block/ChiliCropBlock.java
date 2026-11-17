@@ -34,13 +34,12 @@ public class ChiliCropBlock extends TomatoBlock {
     public static final IntegerProperty CHILI_AGE = BlockStateProperties.AGE_7;
 
     /**
-     * Picking must retain the adult bush instead of reverting to a seedling.
-     * Ages 0-3 are the initial sprout/foliage growth, age 4 is established
-     * leaf-only foliage, ages 5-6 are unripe green peppers, age 7 is ripe.
-     * FDR tomatoes return to zero because their stage-zero artwork depicts
-     * foliage already developed, unlike our actual sprout texture.
+     * Picking leaves the adult chili vine rather than a tiny seedling.
+     * Germination now belongs to BuddingChiliBlock (as in FDR tomatoes),
+     * so age zero here displays ADULT foliage. Pepper fruit ripens through
+     * subsequent vine ages and an old saved age 0..7 always remains loadable.
      */
-    private static final int FRUIT_REGROWTH_AGE = 4;
+    private static final int FRUIT_REGROWTH_AGE = 0;
 
 
     // Use Farmer's Delight TomatoBlock selection shape, no local voxel geometry.

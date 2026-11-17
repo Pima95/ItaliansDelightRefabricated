@@ -1,17 +1,23 @@
-# Peperoncini: hitbox FDR e crate uva — 1.2.0
+# Chili lifecycle and grape crate top artwork — 1.2.0 revision
 
-## Hitbox
-I peperoncini, anche quelli appesi, ereditano direttamente `TomatoBlock#getShape` di Farmer's Delight Refabricated 26.3. Sono state rimosse tutte le voxel shape personalizzate introdotte precedentemente. FDR utilizza un outline fisso 12×16×12; questo è ora lo stesso del peperoncino a tutti gli stadi. La collisione resta disattivata; gli stati AGE_7, i registri, la crescita e la raccolta con ricrescita da età 4 sono preservati.
+## Root cause: only the adult tomato block had been extended
 
-## Crate
-Le nuove texture superiori 16×16 sono disegnate partendo dal layout e dalla cornice del crate dei pomodori di FDR. I frutti ora sono piccoli acini raggruppati in grappoli triangolari riconoscibili, con palette distinte viola e giallo-verde; non sono recolor del crate delle ciliegie. Nessun pixel trasparente o antialias. Le texture laterali già presenti sono mantenute per una successiva revisione visiva.
+Farmer's Delight has **two** tomato blocks: `BuddingTomatoBlock` for seedling ages 0–3 and `TomatoBlock` for the mature plant. Our chili seeds incorrectly placed the adult vine directly, so the original progressive growth phase never occurred. The old mature chili reused identical textures for consecutive ages and even jumped back to a sprout mid-growth.
 
-Entrambi i crate sono registrati come blocchi piazzabili con BlockItem, modelli blocco/item, blockstates, traduzioni italiane/inglesi, gruppo Creative, combustibilità, loot table, tag storage/axe e ricette reversibili 9 grappoli ↔ 1 crate.
+**Fix:** a new `BuddingChiliBlock extends BuddingTomatoBlock` handles the true FDR seedling phase, including inherited age-dependent shape, random ticks and bonemeal behavior. The three FDR conversion methods which hardcode the normal tomato are redirected to the existing chili adult ID. The same chili seed item now places this budding phase. Seedling stages reuse the **four original FDR vegetative sprites** (different every age). At maturity the plant turns into the existing `ChiliCropBlock extends TomatoBlock`, with leaf-only mature foliage, green fruit and finally red fruit. Both normal and hanging adult plants retain the upstream tomato selection shape and collision-free behavior.
 
-Comandi di prova:
-```
-/give @p italiansdelight:grape_crate
-/give @p italiansdelight:white_grape_crate
-```
+Saved chili crops `chili_crop` and `chili_on_rope`, including age 0–7 states, remain registered and load. Existing saved seedlings weren't a separate ID before. Adult fruit regrowth now resets to adult foliage age 0 (not a tiny seedling). No changes to stakes, horizontal rope, grape cultivation or the red/white juices.
 
-La verifica in gioco e la build Java devono ancora essere eseguite localmente.
+## Crate textures
+
+Replaced **both grape crate top sprites from scratch**. The wooden frame is sampled directly from the FDR `tomato_crate_top`, not from Italian's Delight cherries. Four separate small triangular clusters of grapes use different shades for berries and stems on the dark packing surface. Purple and yellow-green bunches have their own palette, with clear gaps between clusters. Output: 16×16 RGB PNG, fully opaque, hard-edged pixels. Existing side textures are left untouched pending in-game review.
+
+## Tests
+
+`/give @p italiansdelight:chili_pepper_seeds`
+
+`/give @p italiansdelight:grape_crate`
+
+`/give @p italiansdelight:white_grape_crate`
+
+Plant a chili seed on farmland and verify the four growing-seedling states, conversion to adult vine, foliage -> unripe -> ripe peppers, harvesting and regrowth. Apply bonemeal to seedling and adult, repeat on ropes, and load an existing saved chili. Place both grape crates and inspect top/sides in daylight. Build and dedicated-server smoke test are CI checks, not replacements for visual gameplay verification.

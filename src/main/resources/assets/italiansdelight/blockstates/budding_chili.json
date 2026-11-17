@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "italiansdelight:block/budding_chili_stage0"
+    },
+    "age=1": {
+      "model": "italiansdelight:block/budding_chili_stage1"
+    },
+    "age=2": {
+      "model": "italiansdelight:block/budding_chili_stage2"
+    },
+    "age=3": {
+      "model": "italiansdelight:block/budding_chili_stage3"
+    },
+    "age=4": {
+      "model": "italiansdelight:block/budding_chili_stage3"
+    }
+  }
+}

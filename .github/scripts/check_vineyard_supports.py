@@ -52,58 +52,60 @@ assert not any((resources/"assets/farmersdelight"/p).exists() for p in
   ("models/block/rope_side.json", "models/block/rope_side_alt.json",
    "textures/block/rope.png"))
 
-# Chili keeps the real Farmer's Delight tomato crop behavior and shape,
-# not a copied or newly designed set of voxel boxes. The 26.3 upstream
-# TomatoBlock's 12x16x12 getShape is inherited by both root and rope chili.
-# Existing AGE_7 save states, regrowth and non-collision stay unchanged.
+# Seedling -> mature vine is a two-block transition, matching upstream FDR.
+# The FDR BuddingTomatoBlock transitions to vanilla tomatoes by hardcoded ID;
+# our subclass redirects all three transition paths to the original chili ID.
+budding = read(src/"common/block/BuddingChiliBlock.java")
+assert "extends BuddingTomatoBlock" in budding
+for method in ("growPastMaxAge", "updateShape", "performBonemeal"):
+    assert method in budding
+assert "ModBlocks.CHILI_CROP.defaultBlockState()" in budding
+assert "BuddingBushBlock.AGE" in budding
+assert "return ModBlocks.CHILI_PEPPER_SEEDS;" in budding
+assert "new BlockItem(BUDDING_CHILI" in registry
+assert 'ModRegistries.id("budding_chili")' in registry
 assert "extends TomatoBlock" in chili
-assert "extends ChiliCropBlock" in hanging
-for code in (chili, hanging):
-    assert "getShape(" not in code, "Chili must inherit FDR's outline directly"
-    assert "AGE_SHAPES" not in code and "HANGING_SHAPES" not in code
-    assert "shapeForAge" not in code
-assert ".noOcclusion().noCollision().forceSolidOff()" in registry
-assert ".setId(CHILI_ON_ROPE_KEY).noCollision().noOcclusion()" in registry
-print("PASSED: chili directly inherits FDR tomato outline; both plants remain passable")
-
-assert "extends TomatoBlock" in chili and "super(properties)" in chili
-assert "BlockStateProperties.AGE_7" in chili and "getMaxAge()" in chili
-assert "getClimbingState" in chili and "ModBlocks.CHILI_ON_ROPE.defaultBlockState()" in chili
-assert "climbRopeAbove" in chili and "height >= 3" in chili
 assert "extends ChiliCropBlock implements ReplaceOnRemoval" in hanging
 assert "super(properties, true)" in hanging
+for code in (chili, hanging):
+    assert "getShape(" not in code, "Use FDR block geometry directly"
+    assert "AGE_SHAPES" not in code and "HANGING_SHAPES" not in code
+assert ".noOcclusion().noCollision().forceSolidOff()" in registry
+assert ".setId(CHILI_ON_ROPE_KEY).noCollision().noOcclusion()" in registry
+assert "BlockStateProperties.AGE_7" in chili
+assert "getClimbingState" in chili and "ModBlocks.CHILI_ON_ROPE.defaultBlockState()" in chili
+assert "climbRopeAbove" in chili and "height >= 3" in chili
 assert "HangingTomatoBlock.placeRope" in hanging
 assert "builder.add(CHILI_AGE);" in hanging
 assert "builder.add(CHILI_AGE, ROPELOGGED);" in chili
 assert "StakeSoilTilling.isFarmland" in chili
-assert "CropStakeBlock.CROP" not in chili
-assert "crop_stake" not in chili.lower()
-assert "private static final int FRUIT_REGROWTH_AGE = 4;" in chili
+assert "private static final int FRUIT_REGROWTH_AGE = 0;" in chili
 assert "current.setValue(CHILI_AGE, FRUIT_REGROWTH_AGE)" in chili
-assert "current.setValue(CHILI_AGE, 0)" not in chili
-assert "getMaxAge()" in chili and "return 7;" in chili
+assert "return 7;" in chili
 assert not (src/"common/item/ChiliSeedsItem.java").exists()
-assert "new BlockItem(CHILI_CROP" in registry
-assert "ChiliSeedsItem" not in registry
 assert not (src/"mixin/TomatoOnStakeSupportMixin.java").exists()
-assert "TomatoOnStakeSupportMixin" not in load(resources/"italiansdelight.mixins.json")["mixins"]
 assert "TOMATO_CROP.get()" in read(src/"common/block/StakedTomatoBlock.java")
 
-# FDR TomatoBlock has one boolean ROPELOGGED for the root and only AGE
-# for the separate hanging block. Every state must resolve to a real model.
-# Age 4 represents adult foliage after harvesting, not the seedling at age 0.
-# 5-6 regenerate green peppers and 7 produces ripe red ones.
-ages=[0,0,1,1,"foliage",2,2,3]
+# Each budding phase has a distinct original FDR growth sprite and the inherited
+# age-dependent BuddingBushBlock selection box. The mature vine is foliage first,
+# then green peppers, then red fruit, without resetting to seedlings mid-growth.
+budstates=load(assets/"blockstates/budding_chili.json")["variants"]
+assert len(budstates)==5
+for age in range(5):
+    assert budstates[f"age={age}"]["model"] == f"italiansdelight:block/budding_chili_stage{min(age,3)}"
+for age in range(4):
+    seedling=load(assets/f"models/block/budding_chili_stage{age}.json")
+    assert seedling["parent"]=="farmersdelight:block/template_crop_cross"
+    assert seedling["textures"]["cross"]==f"farmersdelight:block/budding_tomatoes_stage{age}"
+assert load(data/"italiansdelight/loot_table/blocks/budding_chili.json")["pools"][0]["entries"][0]["name"] == "italiansdelight:chili_pepper_seeds"
+ages=["foliage","foliage","stage_2","stage_2","stage_2","stage_2","stage_3","stage_3"]
 rootstates=load(assets/"blockstates/chili_crop.json")
 ropestates=load(assets/"blockstates/chili_on_rope.json")
-assert set(rootstates)==set(ropestates)=={"variants"}
 assert len(rootstates["variants"])==16 and len(ropestates["variants"])==8
 for age,stage in enumerate(ages):
-    suffix="foliage" if stage=="foliage" else f"stage_{stage}"
-    for value in ("false","true"):
-        key=f"age={age},ropelogged={value}"
-        assert rootstates["variants"][key]["model"]==f"italiansdelight:block/chili_free_{suffix}",key
-    assert ropestates["variants"][f"age={age}"]["model"]==f"italiansdelight:block/chili_rope_{suffix}"
+    for flag in ("false","true"):
+        assert rootstates["variants"][f"age={age},ropelogged={flag}"]["model"] == f"italiansdelight:block/chili_free_{stage}"
+    assert ropestates["variants"][f"age={age}"]["model"] == f"italiansdelight:block/chili_rope_{stage}"
 for i in range(4):
     free=load(assets/f"models/block/chili_free_stage_{i}.json")
     raised=load(assets/f"models/block/chili_rope_stage_{i}.json")
@@ -112,23 +114,14 @@ for i in range(4):
     assert free["textures"]["cross"]==raised["textures"]["crop"]==f"italiansdelight:block/chili_crop_{i}"
     assert raised["textures"]["rope_side"]=="farmersdelight:block/tomatoes_coiled_rope"
     assert raised["textures"]["rope_top"]=="farmersdelight:block/rope_top"
-# An established pepper has its own mature, fruitless foliage sprite.
-# Both free and rope models use the identical texture; no juvenile seedling.
 free_foliage=load(assets/"models/block/chili_free_foliage.json")
 rope_foliage=load(assets/"models/block/chili_rope_foliage.json")
-assert free_foliage["parent"]=="farmersdelight:block/template_crop_cross"
-assert rope_foliage["parent"]=="farmersdelight:block/template_crop_with_rope"
 assert free_foliage["textures"]["cross"]=="italiansdelight:block/chili_crop_foliage"
 assert rope_foliage["textures"]["crop"]=="italiansdelight:block/chili_crop_foliage"
-assert rope_foliage["textures"]["rope_side"]=="farmersdelight:block/tomatoes_coiled_rope"
-assert rope_foliage["textures"]["rope_top"]=="farmersdelight:block/rope_top"
-assert rootstates["variants"]["age=0,ropelogged=false"]["model"]!="italiansdelight:block/chili_free_foliage"
-
-for old in ("template_chili_crop_cross", "template_chili_crop_with_rope"):
-    assert not (assets/f"models/block/{old}.json").exists(), old
 for name in ("chili_crop","chili_on_rope"):
     loot=load(data/f"italiansdelight/loot_table/blocks/{name}.json")
     assert loot["pools"][-1]["condition"]["state"]["age"]=="7"
+print("PASSED: chili seeds use FDR budding stage then adult tomato-derived vine; fruit matures without resets")
 
 # All vanilla + 26.3 + addon wood types, same model geometry, own recipe/drop.
 en=load(assets/"lang/en_us.json")
@@ -229,9 +222,9 @@ for stage in range(4):
     assert load(assets/f"models/block/chili_rope_stage_{stage}.json")["textures"]["crop"]==f"italiansdelight:block/chili_crop_{stage}"
 
 
-# The eight preserved age states map to four FDR-style stages, but all
-# crop models and animations are inherited directly from FDR's templates.
-assert len(ages)==8 and ages[0]==0 and ages[4]=="foliage" and ages[7]==3
+# The eight legacy mature states still load; new seedlings are separate.
+# Age zero of the vine is already fully grown foliage, not a tiny sprout.
+assert len(ages)==8 and ages[0]=="foliage" and ages[7]=="stage_3"
 
 # Check the actual alpha pixels rather than only checking a PNG's dimensions.
 # This catches a plant that visually floats above the dirt or whose ripe

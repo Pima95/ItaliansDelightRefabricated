@@ -1,34 +1,34 @@
 {
   "variants": {
     "age=0,ropelogged=false": {
-      "model": "italiansdelight:block/chili_free_stage_0"
+      "model": "italiansdelight:block/chili_free_foliage"
     },
     "age=0,ropelogged=true": {
-      "model": "italiansdelight:block/chili_free_stage_0"
+      "model": "italiansdelight:block/chili_free_foliage"
     },
     "age=1,ropelogged=false": {
-      "model": "italiansdelight:block/chili_free_stage_0"
+      "model": "italiansdelight:block/chili_free_foliage"
     },
     "age=1,ropelogged=true": {
-      "model": "italiansdelight:block/chili_free_stage_0"
+      "model": "italiansdelight:block/chili_free_foliage"
     },
     "age=2,ropelogged=false": {
-      "model": "italiansdelight:block/chili_free_stage_1"
+      "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=2,ropelogged=true": {
-      "model": "italiansdelight:block/chili_free_stage_1"
+      "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=3,ropelogged=false": {
-      "model": "italiansdelight:block/chili_free_stage_1"
+      "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=3,ropelogged=true": {
-      "model": "italiansdelight:block/chili_free_stage_1"
+      "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=4,ropelogged=false": {
-      "model": "italiansdelight:block/chili_free_foliage"
+      "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=4,ropelogged=true": {
-      "model": "italiansdelight:block/chili_free_foliage"
+      "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=5,ropelogged=false": {
       "model": "italiansdelight:block/chili_free_stage_2"
@@ -37,10 +37,10 @@
       "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=6,ropelogged=false": {
-      "model": "italiansdelight:block/chili_free_stage_2"
+      "model": "italiansdelight:block/chili_free_stage_3"
     },
     "age=6,ropelogged=true": {
-      "model": "italiansdelight:block/chili_free_stage_2"
+      "model": "italiansdelight:block/chili_free_stage_3"
     },
     "age=7,ropelogged=false": {
       "model": "italiansdelight:block/chili_free_stage_3"

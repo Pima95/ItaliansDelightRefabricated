@@ -24,6 +24,7 @@ import dev.italiansdelight.common.block.GrapeStemBlock;
 import dev.italiansdelight.common.block.GrapeLeavesBlock;
 import dev.italiansdelight.common.block.ChiliCropBlock;
 import dev.italiansdelight.common.block.HangingChiliBlock;
+import dev.italiansdelight.common.block.BuddingChiliBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.WildChiliBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
@@ -912,6 +913,13 @@ public final class ModBlocks {
         new GrapeLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)
             .setId(WHITE_GRAPE_LEAVES_KEY).noOcclusion().randomTicks(), true));
 
+    // FDR tomato-style seedling block; existing mature chili ID remains untouched.
+    public static final ResourceKey<Block> BUDDING_CHILI_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("budding_chili"));
+    public static final Block BUDDING_CHILI = registerBlockOnly(BUDDING_CHILI_KEY,
+        new BuddingChiliBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
+            .setId(BUDDING_CHILI_KEY).randomTicks()));
+
     public static final ResourceKey<Block> CHILI_CROP_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));
     public static final Block CHILI_CROP = registerBlockOnly(CHILI_CROP_KEY,
@@ -921,7 +929,7 @@ public final class ModBlocks {
     public static final ResourceKey<Item> CHILI_PEPPER_SEEDS_KEY = ResourceKey.create(
         BuiltInRegistries.ITEM.key(), ModRegistries.id("chili_pepper_seeds"));
     public static final Item CHILI_PEPPER_SEEDS = Registry.register(BuiltInRegistries.ITEM,
-        CHILI_PEPPER_SEEDS_KEY, new BlockItem(CHILI_CROP,
+        CHILI_PEPPER_SEEDS_KEY, new BlockItem(BUDDING_CHILI,
             new Item.Properties().setId(CHILI_PEPPER_SEEDS_KEY)));
 
     public static final ResourceKey<Block> CHILI_ON_ROPE_KEY = ResourceKey.create(
