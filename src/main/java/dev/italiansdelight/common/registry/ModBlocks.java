@@ -799,6 +799,24 @@ public final class ModBlocks {
             .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(WHITE_GRAPE_CRATE_KEY))
     );
 
+    // Farmer's Delight-style packed pepper crates (nine items each).
+
+    public static final ResourceKey<Block> CHILI_PEPPER_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_pepper_crate"));
+    public static final Block CHILI_PEPPER_CRATE = register(
+        CHILI_PEPPER_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(CHILI_PEPPER_CRATE_KEY))
+    );
+
+    public static final ResourceKey<Block> GHOST_PEPPER_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("ghost_pepper_crate"));
+    public static final Block GHOST_PEPPER_CRATE = register(
+        GHOST_PEPPER_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(GHOST_PEPPER_CRATE_KEY))
+    );
+
     // -------------------- Basil --------------------
     // The cultivated crop uses the same registry id for its BlockItem, so the
     // harvested basil itself can be replanted directly on farmland.
@@ -1405,6 +1423,8 @@ public final class ModBlocks {
         fire.add(CARDOON_CRATE, 5, 20);
         fire.add(GRAPE_CRATE, 5, 20);
         fire.add(WHITE_GRAPE_CRATE, 5, 20);
+        fire.add(CHILI_PEPPER_CRATE, 5, 20);
+        fire.add(GHOST_PEPPER_CRATE, 5, 20);
         fire.add(CROP_STAKE, 5, 20);
         fire.add(SPRUCE_CROP_STAKE, 5, 20);
         fire.add(BIRCH_CROP_STAKE, 5, 20);

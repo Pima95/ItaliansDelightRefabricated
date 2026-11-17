@@ -25,3 +25,20 @@ Plant a chili seed on farmland and verify the four growing-seedling states, conv
 ## Startup fix from CI
 
 Server smoke caught an exception on startup: copying vanilla wheat properties copied a state-dependent function expecting vanilla AGE_7, not budding age 0–4. The budding block now uses explicit non-colliding crop properties rather than `ofFullCopy(Blocks.WHEAT)`. JAR validation now checks both blocks and all new age-to-model mappings.
+
+## 17 November 2026 — four fruit-filled crate tops
+
+Rebuilt `grape_crate_top` and `white_grape_crate_top` by comparing Farmer's Delight Refabricated `tomato.png` to `tomato_crate_top.png`, not by arranging four isolated grape doodles. **Root cause of the visual problem:** previous versions used tiny, separate graphic clusters over exposed dark floor; an FDR crate instead shows a continuous *pile of food*, filling the inner 12×12 pixels, overlapping and partially obscured by the wooden lip.
+
+For all four tops, the outer 16×16 rim is pixel-identical to the original Farmer's Delight tomato crate. The food-packed interior follows the original tomato-crate lighting/overlap composition, with colors sampled from our approved `grape.png`, `white_grape.png`, `chili_pepper.png` and `ghost_pepper.png` item sprites. Portions of actual source fruit artwork are overlaid at staggered positions and clipped by the wooden rim. Thus the fruits are visually dense and use source-item shading, not a recolored cherry crate.
+
+Added `chili_pepper_crate` and `ghost_pepper_crate`, placeable storage blocks with side/top textures, 9 fruits -> 1 crate / 1 crate -> 9 fruits, loot, en_us/it_it, creative tab, axe and common storage tags, flammability, all consistent with established mod crates. Pepper cultivation, ghost drop rates and growth are unchanged.
+
+To verify in-game:
+```mcfunction
+/give @p italiansdelight:grape_crate
+/give @p italiansdelight:white_grape_crate
+/give @p italiansdelight:chili_pepper_crate
+/give @p italiansdelight:ghost_pepper_crate
+```
+Build + dedicated server smoke on GitHub Actions check loading, not client-side aesthetic approval.

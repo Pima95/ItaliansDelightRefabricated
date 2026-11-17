@@ -613,37 +613,97 @@ print("PASSED: white grapes have independent seeds/harvest, full age stages, tin
 print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")
 
 
-# Both grape crates must have complete asset/data registration (not just PNG drafts).
-# Top textures are 16x16 opaque RGB, deliberately showing small grape bunches.
+# Farmer's Delight tomato crate reference: a packed, overlapping fruit surface,
+# not small disconnected motifs in an empty box. Every variant must be fully
+# registered/craftable and ship both top and side textures in the block atlas.
 import struct
-for variant, fruit in (("grape", "grapes"), ("white_grape", "white_grapes")):
-    crate = variant + "_crate"
-    assert f'public static final Block {crate.upper()}' in registry
-    assert f'output.accept(ModBlocks.{crate.upper()})' in creative
-    state = load(assets / f"blockstates/{crate}.json")
-    model = load(assets / f"models/block/{crate}.json")
-    item = load(assets / f"items/{crate}.json")
-    assert state["variants"][""]["model"] == f"italiansdelight:block/{crate}"
-    assert model["textures"]["top"] == f"italiansdelight:block/{crate}_top"
-    assert model["textures"]["side"] == f"italiansdelight:block/{crate}_side"
-    assert item["model"]["model"] == f"italiansdelight:block/{crate}"
-    assert (assets / f"models/item/{crate}.json").is_file()
-    for face in ("top", "side"):
-        raw = (assets / f"textures/block/{crate}_{face}.png").read_bytes()
-        assert raw[:8] == bytes.fromhex("89504e470d0a1a0a") and raw[12:16] == b"IHDR"
-        assert struct.unpack(">II", raw[16:24]) == (16, 16)
-        if face == "top":
-            assert raw[25] == 2, "Grape crate tops must use RGB (fully opaque) PNG"
-    shaped = load(data / f"italiansdelight/recipe/{crate}.json")
-    unpack = load(data / f"italiansdelight/recipe/{fruit}_from_crate.json")
-    loot = load(data / f"italiansdelight/loot_table/blocks/{crate}.json")
-    assert shaped["result"]["id"] == f"italiansdelight:{crate}"
-    assert shaped["key"]["#"] == f"italiansdelight:{fruit}"
-    assert unpack["result"] == {"id": f"italiansdelight:{fruit}", "count": 9}
-    assert loot["pools"][0]["entries"][0]["name"] == f"italiansdelight:{crate}"
-    for kind in ("block", "item"):
-        common = load(data / f"c/tags/{kind}/storage_blocks.json")
-        specific = load(data / f"c/tags/{kind}/storage_blocks/{variant}.json")
+import zlib
+fruit_crates=(
+    ("grape_crate","grapes","grape"),
+    ("white_grape_crate","white_grapes","white_grape"),
+    ("chili_pepper_crate","chili_pepper","chili_pepper"),
+    ("ghost_pepper_crate","ghost_pepper","ghost_pepper"),
+)
+def packed_top_pixels(blob):
+    assert blob.startswith(bytes.fromhex("89504e470d0a1a0a"))
+    assert struct.unpack(">II",blob[16:24])==(16,16)
+    assert blob[24:26]==bytes((8,2)), "16x16 RGB, opaque"
+    stream=bytearray()
+    off=8
+    while off<len(blob):
+        n=int.from_bytes(blob[off:off+4],"big")
+        name=blob[off+4:off+8]
+        if name==b"IDAT":stream.extend(blob[off+8:off+8+n])
+        off+=n+12
+        if name==b"IEND":break
+    raw=zlib.decompress(stream)
+    assert len(raw)==16*(1+16*3)
+    prior=[0]*48
+    rgb=[]
+    at=0
+    for _ in range(16):
+        typ=raw[at];at+=1
+        line=list(raw[at:at+48]);at+=48
+        for j in range(48):
+            a=line[j-3] if j>=3 else 0
+            b=prior[j]
+            c=prior[j-3] if j>=3 else 0
+            if typ==0:pred=0
+            elif typ==1:pred=a
+            elif typ==2:pred=b
+            elif typ==3:pred=(a+b)//2
+            elif typ==4:
+                p=a+b-c;dist=(abs(p-a),abs(p-b),abs(p-c))
+                pred=(a,b,c)[dist.index(min(dist))]
+            else:raise AssertionError("unsupported filter")
+            line[j]=(line[j]+pred)&255
+        rgb.append([tuple(line[i:i+3]) for i in range(0,48,3)])
+        prior=line
+    return rgb
+
+top_sprites=[]
+for crate,fruit,tag in fruit_crates:
+    upper=crate.upper()
+    assert f"public static final Block {upper}" in registry
+    assert f"output.accept(ModBlocks.{upper})" in creative
+    assert f"fire.add({upper}, 5, 20)" in registry
+    state=load(assets/f"blockstates/{crate}.json")
+    model=load(assets/f"models/block/{crate}.json")
+    item=load(assets/f"items/{crate}.json")
+    assert state["variants"][""]["model"]==f"italiansdelight:block/{crate}"
+    assert model["parent"]=="minecraft:block/cube_bottom_top"
+    assert model["textures"]=={
+        "bottom":"farmersdelight:block/crate_bottom",
+        "side":f"italiansdelight:block/{crate}_side",
+        "top":f"italiansdelight:block/{crate}_top"
+    }
+    assert item["model"]["model"]==f"italiansdelight:block/{crate}"
+    assert load(assets/f"models/item/{crate}.json")["parent"]==f"italiansdelight:block/{crate}"
+    for face in ("top","side"):
+        raw=(assets/f"textures/block/{crate}_{face}.png").read_bytes()
+        assert raw[:8]==bytes.fromhex("89504e470d0a1a0a")
+        assert struct.unpack(">II",raw[16:24])==(16,16)
+    top=packed_top_pixels((assets/f"textures/block/{crate}_top.png").read_bytes())
+    top_sprites.append(top)
+    assert top[0][0]==(128,94,54), "Retain original FDR tomato crate wooden rim"
+    # A tightly packed crate has colored fruits across all inner quadrants.
+    assert all(len({p for row in top[y:y+5] for p in row[x:x+5]})>=5
+               for x,y in ((2,2),(9,2),(2,9),(9,9))), "Crate must show detailed packed fruit"
+    shaped=load(data/f"italiansdelight/recipe/{crate}.json")
+    unpack=load(data/f"italiansdelight/recipe/{fruit}_from_crate.json")
+    loot=load(data/f"italiansdelight/loot_table/blocks/{crate}.json")
+    assert shaped["pattern"]==["###"]*3
+    assert shaped["result"]["id"]==f"italiansdelight:{crate}"
+    assert shaped["key"]["#"]==f"italiansdelight:{fruit}"
+    assert unpack["result"]=={"id":f"italiansdelight:{fruit}","count":9}
+    assert loot["pools"][0]["entries"][0]["name"]==f"italiansdelight:{crate}"
+    for kind in ("block","item"):
+        common=load(data/f"c/tags/{kind}/storage_blocks.json")
+        specific=load(data/f"c/tags/{kind}/storage_blocks/{tag}.json")
         assert f"italiansdelight:{crate}" in common["values"]
         assert f"italiansdelight:{crate}" in specific["values"]
-print("PASSED: red/white grape crates are registered, modeled, opaque and craftable")
+    assert f"italiansdelight:{crate}" in load(data/"minecraft/tags/block/mineable/axe.json")["values"]
+    for locale in (en,it):
+        assert locale[f"block.italiansdelight.{crate}"]
+assert all(top_sprites[i]!=top_sprites[j] for i in range(4) for j in range(i+1,4))
+print("PASSED: four packed FDR-reference crates, visible fruits, 9->1/1->9 recipes, loot, tags, models and labels")

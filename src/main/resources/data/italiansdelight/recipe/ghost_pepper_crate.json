@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": "italiansdelight:ghost_pepper"
+  },
+  "result": {
+    "id": "italiansdelight:ghost_pepper_crate"
+  }
+}
