@@ -721,9 +721,17 @@ for crate,fruit,tag in fruit_crates:
 assert all(top_sprites[i]!=top_sprites[j] for i in range(4) for j in range(i+1,4))
 print("PASSED: four packed FDR-reference crates, visible fruits, 9->1/1->9 recipes, loot, tags, models and labels")
 
-# Wild grapevines use the FDR WildCropBlock and its shears_harvest ability,
-# not right-click repeat harvesting. Both cultivars have identical odds.
-assert "extends WildCropBlock" in read(src/"common/block/WildGrapeBlock.java")
+# Double-height wild grapes follow FDR WildRiceBlock + WildRiceFeature.
+wild=read(src/"common/block/WildGrapeBlock.java")
+feat=read(src/"common/worldgen/WildGrapeFeature.java")
+worldreg=read(src/"common/registry/ModWorldGeneration.java")
+assert "extends DoublePlantBlock implements BonemealableBlock" in wild
+assert "FDRefabricatedTags.Blocks.GROWS_WILD_CROPS" in wild
+assert "DoubleBlockHalf.UPPER" in wild
+assert "DoublePlantBlock.placeAt(level, lower, pos, 2)" in feat
+assert "getBlockState(pos.above()).isAir()" in feat
+assert "WildGrapeFeature.RED_CODEC" in worldreg
+assert "WildGrapeFeature.WHITE_CODEC" in worldreg
 for name,seed,fruit,reg in (
     ("wild_grape_vine","grape_seeds","grapes","WILD_GRAPE_VINE"),
     ("wild_white_grape_vine","white_grape_seeds","white_grapes","WILD_WHITE_GRAPE_VINE")
@@ -731,21 +739,38 @@ for name,seed,fruit,reg in (
     assert f"public static final Block {reg}" in registry
     assert f"output.accept(ModBlocks.{reg})" in creative
     assert f"block.italiansdelight.{name}" in en and f"block.italiansdelight.{name}" in it
-    assert load(assets/f"blockstates/{name}.json")["variants"][""]["model"]==f"italiansdelight:block/{name}"
-    assert load(assets/f"models/block/{name}.json")["textures"]["cross"]==f"italiansdelight:block/{name}"
+    assert load(assets/f"blockstates/{name}.json")["variants"]=={
+        "half=lower":{"model":f"italiansdelight:block/{name}_bottom"},
+        "half=upper":{"model":f"italiansdelight:block/{name}_top"}}
+    assert not (assets/f"models/block/{name}.json").exists()
+    assert not (assets/f"textures/block/{name}.png").exists()
+    for half in ("lower","upper"):
+        part="bottom" if half=="lower" else "top"
+        m=load(assets/f"models/block/{name}_{part}.json")
+        assert m["parent"]=="minecraft:block/cross"
+        assert m["render_type"]=="minecraft:cutout"
+        assert m["textures"]["cross"]==f"italiansdelight:block/{name}_{part}"
+        verify_crop_png(assets/f"textures/block/{name}_{part}.png")
     assert load(assets/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
-    assert load(assets/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:block/{name}"
-    verify_crop_png(assets/f"textures/block/{name}.png")
-    wildloot=load(data/f"italiansdelight/loot_table/blocks/{name}.json")
-    assert wildloot["pools"][0]["entries"][0]["name"]==f"italiansdelight:{fruit}"
-    assert wildloot["pools"][0]["condition"]["terms"][0]["chance"]==0.2
-    assert wildloot["pools"][1]["entries"][0]["children"][0]["name"]==f"italiansdelight:{name}"
-    assert wildloot["pools"][1]["entries"][0]["children"][0]["condition"]["type"]=="farmersdelight:can_item_perform_ability"
-    assert wildloot["pools"][1]["entries"][0]["children"][1]["name"]==f"italiansdelight:{seed}"
-    assert load(data/f"italiansdelight/worldgen/feature/{name}.json")["to_place"]["state"]["id"]==f"italiansdelight:{name}"
-    place=load(data/f"italiansdelight/worldgen/placed_feature/{name}_patch.json")
-    assert place["feature"]==f"italiansdelight:{name}" and place["placement"][0]["chance"]==100
-    assert f"{reg}_PATCH" in read(src/"common/registry/ModWorldGeneration.java")
+    assert load(assets/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:block/{name}_top"
+    pools=load(data/f"italiansdelight/loot_table/blocks/{name}.json")["pools"]
+    assert len(pools)==4
+    for half,i in (("lower",0),("upper",2)):
+        fruitpool,harvestpool=pools[i:i+2]
+        assert fruitpool["condition"]["terms"][0]["terms"][0]["state"]["half"]==half
+        assert fruitpool["condition"]["terms"][1]["chance"]==0.2
+        assert fruitpool["entries"][0]["name"]==f"italiansdelight:{fruit}"
+        assert harvestpool["condition"]["terms"][0]["state"]["half"]==half
+        children=harvestpool["entries"][0]["children"]
+        assert children[0]["name"]==f"italiansdelight:{name}"
+        assert children[0]["condition"]["type"]=="farmersdelight:can_item_perform_ability"
+        assert children[1]["name"]==f"italiansdelight:{seed}"
+    assert load(data/f"italiansdelight/worldgen/feature/{name}.json")["type"]==f"italiansdelight:{name}"
+    placed=load(data/f"italiansdelight/worldgen/placed_feature/{name}_patch.json")
+    assert placed["feature"]==f"italiansdelight:{name}" and placed["placement"][0]["chance"]==100
+    assert f"{reg}_PATCH" in worldreg
+print("PASSED: double-height wild grapevines, both halves placed and looted as FDR wild rice")
+
 assert not (assets/"textures/block/wild_grapes.png").exists()
 leafcode=read(src/"common/block/GrapeLeavesBlock.java")
 assert 'IntegerProperty FRUIT_STAGE = IntegerProperty.create("fruit_stage", 0, 3)' in leafcode

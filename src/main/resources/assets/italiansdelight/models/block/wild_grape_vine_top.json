@@ -2,6 +2,6 @@
   "parent": "minecraft:block/cross",
   "render_type": "minecraft:cutout",
   "textures": {
-    "cross": "italiansdelight:block/wild_white_grape_vine"
+    "cross": "italiansdelight:block/wild_grape_vine_top"
   }
 }
