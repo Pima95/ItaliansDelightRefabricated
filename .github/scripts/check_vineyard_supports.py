@@ -98,7 +98,7 @@ for age in range(4):
     assert seedling["parent"]=="farmersdelight:block/template_crop_cross"
     assert seedling["textures"]["cross"]==f"farmersdelight:block/budding_tomatoes_stage{age}"
 assert load(data/"italiansdelight/loot_table/blocks/budding_chili.json")["pools"][0]["entries"][0]["name"] == "italiansdelight:chili_pepper_seeds"
-ages=["foliage","foliage","stage_2","stage_2","stage_2","stage_2","stage_3","stage_3"]
+ages=["foliage","foliage","stage_2","stage_2","stage_2","stage_2","stage_2","stage_3"]
 rootstates=load(assets/"blockstates/chili_crop.json")
 ropestates=load(assets/"blockstates/chili_on_rope.json")
 assert len(rootstates["variants"])==16 and len(ropestates["variants"])==8
@@ -106,6 +106,16 @@ for age,stage in enumerate(ages):
     for flag in ("false","true"):
         assert rootstates["variants"][f"age={age},ropelogged={flag}"]["model"] == f"italiansdelight:block/chili_free_{stage}"
     assert ropestates["variants"][f"age={age}"]["model"] == f"italiansdelight:block/chili_rope_{stage}"
+# The ripe-red sprite is reserved for the only harvestable adult stage:
+# Tomato-derived ChiliCropBlock.getMaxAge() == 7; this also covers vines on rope.
+for age in range(8):
+    for rootflag in ("false", "true"):
+        model=rootstates["variants"][f"age={age},ropelogged={rootflag}"]["model"]
+        assert model.endswith("stage_3") == (age==7), ("root ripe before harvest", age, rootflag)
+    model=ropestates["variants"][f"age={age}"]["model"]
+    assert model.endswith("stage_3") == (age==7), ("rope ripe before harvest", age)
+assert 'if (!isMaxAge(state) || player.isSpectator())' in chili
+assert 'if (!current.is(this) || !isMaxAge(current))' in chili
 for i in range(4):
     free=load(assets/f"models/block/chili_free_stage_{i}.json")
     raised=load(assets/f"models/block/chili_rope_stage_{i}.json")
@@ -224,7 +234,7 @@ for stage in range(4):
 
 # The eight legacy mature states still load; new seedlings are separate.
 # Age zero of the vine is already fully grown foliage, not a tiny sprout.
-assert len(ages)==8 and ages[0]=="foliage" and ages[7]=="stage_3"
+assert len(ages)==8 and ages[0]=="foliage" and ages[6]=="stage_2" and ages[7]=="stage_3"
 
 # Check the actual alpha pixels rather than only checking a PNG's dimensions.
 # This catches a plant that visually floats above the dirt or whose ripe

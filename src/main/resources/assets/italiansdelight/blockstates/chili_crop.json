@@ -37,10 +37,10 @@
       "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=6,ropelogged=false": {
-      "model": "italiansdelight:block/chili_free_stage_3"
+      "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=6,ropelogged=true": {
-      "model": "italiansdelight:block/chili_free_stage_3"
+      "model": "italiansdelight:block/chili_free_stage_2"
     },
     "age=7,ropelogged=false": {
       "model": "italiansdelight:block/chili_free_stage_3"

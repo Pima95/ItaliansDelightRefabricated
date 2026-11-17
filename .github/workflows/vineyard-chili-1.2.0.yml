@@ -78,14 +78,18 @@ jobs:
               # The existing 0..7 adult age states remain loadable; the
               # grown plant renders foliage, then green and ripe peppers.
               stages = ('foliage', 'foliage', 'stage_2', 'stage_2',
-                        'stage_2', 'stage_2', 'stage_3', 'stage_3')
+                        'stage_2', 'stage_2', 'stage_2', 'stage_3')
               for block, prefix, parent, texture_key in (
                   ('chili_crop', 'chili_free_', 'farmersdelight:block/template_crop_cross', 'cross'),
                   ('chili_on_rope', 'chili_rope_', 'farmersdelight:block/template_crop_with_rope', 'crop'),
               ):
                   states = json.loads(jar.read(f'assets/italiansdelight/blockstates/{block}.json'))['variants']
                   assert len(states) == (16 if block == 'chili_crop' else 8)
+                  # Only age 7 may display ripe red peppers; at age 6 the
+                  # player must still see green fruit and cannot pick it.
+                  assert stages[6] == 'stage_2' and stages[7] == 'stage_3'
                   for age, stage in enumerate(stages):
+                      assert (stage == 'stage_3') == (age == 7)
                       keys = [f'age={age},ropelogged={flag}' for flag in ('false','true')] if block == 'chili_crop' else [f'age={age}']
                       for key in keys:
                           model = states[key]['model'].split(':')[1]
