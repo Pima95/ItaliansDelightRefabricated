@@ -456,7 +456,7 @@
   "block.italiansdelight.almond_crop_stake": "Almond Decorative Pole",
   "block.italiansdelight.fruit_cherry_crop_stake": "Fruit Cherry Decorative Pole",
   "block.italiansdelight.wild_chili": "Wild Chili Peppers",
-  "jei.italiansdelight.plants.grape": "Grow red and white grapes in farmland and train the canopy along horizontal ropes. Each cultivar keeps separate vines, seeds and harvests, including in saved worlds; ripe bunches can be harvested without destroying the plant.\n\nEach bunch yields 250 mB of its own juice in the Crushing Tub: red or white. White juice has distinct bottles, buckets and a fluid registry ID; only the existing red juice currently fuels the wine brewer. Neither juice is drinkable yet.\n\nLeaves follow biome foliage colors and Serene Seasons if installed. Buckets are shown before bottles in the Creative tab.",
+  "jei.italiansdelight.plants.grape": "Grow red and white grapes in farmland and train the canopy along horizontal ropes. Each cultivar keeps separate vines, seeds and harvests, including in saved worlds; ripe bunches can be harvested without destroying the plant.\n\nEach bunch yields 250 mB of its own juice in the Crushing Tub: red or white. White juice has distinct bottles, buckets and a fluid registry ID; only the existing red juice currently fuels the wine brewer. Neither juice is drinkable yet.\n\nLeaves follow biome foliage colors and Serene Seasons if installed. Buckets are shown before bottles in the Creative tab.\n\nWild grapevines drop grape seeds and sometimes fruit when broken. Shears collect the whole wild plant, just like Farmer's Delight wild tomatoes. Cultivated bunches grow through three visible unripe stages before harvesting.",
   "jei.italiansdelight.plants.chili": "Find wild chili bushes in plains, savannas or jungles. Break them to obtain chili seeds, then plant the seeds on ordinary or Farmer's Delight rich-soil farmland. Wild plants do not require a decorative post.\n\nA ripe chili crop can grow onto Farmer's Delight vertical rope up to three total blocks. Its stages progress through sprout, leaves, green peppers and red peppers; right-click ripe plants to harvest. Ghost peppers are an occasional rare harvest.\n\nWith Serene Seasons installed, growth may depend on the configured integration. Decorative poles cannot grow crops and remain independent of the ropes.",
   "jei.italiansdelight.decorative_stakes": "All sixteen wood variants are decorative poles. Place them on any block face to choose a vertical or horizontal orientation. They remain solid and do not host tomato or chili seeds.\n\nPlace Farmer's Delight ropes next to them to build supports for climbing plants. Poles appear together between cheese-aging racks and food crates in the Creative inventory. JEI's ingredient list may use a different order depending on its selected sorting mode.",
   "block.italiansdelight.white_grape_stem": "White Grapevine",
@@ -486,5 +486,7 @@
   "block.italiansdelight.fruit_cherry_brewing_barrel": "Fruit Cherry Brewing Barrel",
   "block.italiansdelight.budding_chili": "Growing Chili Seedling",
   "block.italiansdelight.chili_pepper_crate": "Chili Pepper Crate",
-  "block.italiansdelight.ghost_pepper_crate": "Ghost Pepper Crate"
+  "block.italiansdelight.ghost_pepper_crate": "Ghost Pepper Crate",
+  "block.italiansdelight.wild_grape_vine": "Wild Red Grapevine",
+  "block.italiansdelight.wild_white_grape_vine": "Wild White Grapevine"
 }

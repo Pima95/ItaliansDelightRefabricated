@@ -42,7 +42,10 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
     public static final IntegerProperty DISTANCE = IntegerProperty.create("distance", 0, 1);
     public static final EnumProperty<Direction.Axis> AXIS =
         EnumProperty.create("axis", Direction.Axis.class, Direction.Axis.X, Direction.Axis.Z);
+    // Keep the old ripe flag for existing saves. Three new stages are unripe.
     public static final BooleanProperty GRAPES = BooleanProperty.create("grapes");
+    public static final IntegerProperty FRUIT_STAGE = IntegerProperty.create("fruit_stage", 0, 3);
+    private static final int FINAL_UNRIPE_STAGE = 3;
     public static final BooleanProperty TIED_NEGATIVE = BooleanProperty.create("tied_negative");
     public static final BooleanProperty TIED_POSITIVE = BooleanProperty.create("tied_positive");
 
@@ -55,11 +58,11 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
         this.whiteGrapes = whiteGrapes;
         registerDefaultState(stateDefinition.any().setValue(DISTANCE, 0)
             .setValue(AXIS, Direction.Axis.X).setValue(GRAPES, false)
-            .setValue(TIED_NEGATIVE, false).setValue(TIED_POSITIVE, false));
+            .setValue(FRUIT_STAGE, 0).setValue(TIED_NEGATIVE, false).setValue(TIED_POSITIVE, false));
     }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> b) {
-        b.add(DISTANCE, AXIS, GRAPES, TIED_NEGATIVE, TIED_POSITIVE);
+        b.add(DISTANCE, AXIS, GRAPES, FRUIT_STAGE, TIED_NEGATIVE, TIED_POSITIVE);
     }
 
     // Match the *unchanged* 10x10x16 side-leaf model after the axis rotation;
@@ -135,18 +138,31 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
         }
         if (state.getValue(DISTANCE) == 0) {
             if (random.nextInt(5) == 0) spread(level, pos, state);
-        } else if (!state.getValue(GRAPES) && level.getBlockState(pos.below()).isAir()
-                && random.nextInt(6) == 0) {
-            level.setBlock(pos, state.setValue(GRAPES, true), Block.UPDATE_CLIENTS);
-        } else if (state.getValue(GRAPES) && !level.getBlockState(pos.below()).isAir()) {
-            level.setBlock(pos, state.setValue(GRAPES, false), Block.UPDATE_CLIENTS);
+        } else if (!level.getBlockState(pos.below()).isAir()) {
+            if (state.getValue(GRAPES) || state.getValue(FRUIT_STAGE) != 0)
+                level.setBlock(pos, state.setValue(GRAPES, false)
+                    .setValue(FRUIT_STAGE, 0), Block.UPDATE_CLIENTS);
+        } else if (!state.getValue(GRAPES) && random.nextInt(6) == 0) {
+            level.setBlock(pos, advanceFruit(state), Block.UPDATE_CLIENTS);
         }
+    }
+
+    private static BlockState advanceFruit(BlockState state) {
+        if (state.getValue(GRAPES)) return state;
+        int stage = state.getValue(FRUIT_STAGE);
+        return stage < FINAL_UNRIPE_STAGE
+            ? state.setValue(FRUIT_STAGE, stage + 1)
+            : state.setValue(GRAPES, true);
     }
 
     @Override protected BlockState updateShape(BlockState state, LevelReader level,
             ScheduledTickAccess ticks, BlockPos pos, Direction side, BlockPos neighborPos,
             BlockState neighbor, RandomSource random) {
         if (!state.canSurvive(level, pos)) ticks.scheduleTick(pos, this, 1);
+        if (state.getValue(DISTANCE) == 1 && side == Direction.DOWN
+                && !neighbor.isAir()
+                && (state.getValue(GRAPES) || state.getValue(FRUIT_STAGE) > 0))
+            state = state.setValue(GRAPES, false).setValue(FRUIT_STAGE, 0);
         Direction.Axis axis = state.getValue(AXIS);
         if ((axis == Direction.Axis.X && side == Direction.WEST)
                 || (axis == Direction.Axis.Z && side == Direction.NORTH))
@@ -169,7 +185,8 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
             BlockState current = server.getBlockState(pos);
             if (!current.is(this) || !current.getValue(GRAPES)
                     || !server.getBlockState(pos.below()).isAir()) return InteractionResult.PASS;
-            server.setBlock(pos, current.setValue(GRAPES, false), Block.UPDATE_CLIENTS);
+            server.setBlock(pos, current.setValue(GRAPES, false)
+                .setValue(FRUIT_STAGE, 0), Block.UPDATE_CLIENTS);
             Block.popResource(server, pos.below(), new ItemStack(
                 whiteGrapes ? dev.italiansdelight.common.registry.ModItems.WHITE_GRAPES
                     : dev.italiansdelight.common.registry.ModItems.GRAPES,
@@ -192,7 +209,7 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
         if (!state.canSurvive(level, pos)) return;
         if (state.getValue(DISTANCE) == 0) spread(level, pos, state);
         else if (level.getBlockState(pos.below()).isAir())
-            level.setBlock(pos, state.setValue(GRAPES, true), Block.UPDATE_CLIENTS);
+            level.setBlock(pos, advanceFruit(state), Block.UPDATE_CLIENTS);
     }
 
     @Override public boolean onRemove(BlockState state, BlockState newState,

@@ -352,7 +352,10 @@ wild=(assets/"textures/block/wild_chili.png").read_bytes()
 assert wild[:8]==bytes.fromhex("89504e470d0a1a0a")
 assert struct.unpack(">II",wild[16:24])==(16,16)
 wildloot=load(data/"italiansdelight/loot_table/blocks/wild_chili.json")
-assert wildloot["pools"][0]["entries"][0]["name"]=="italiansdelight:chili_pepper_seeds"
+assert wildloot["pools"][0]["entries"][0]["name"]=="italiansdelight:chili_pepper"
+assert wildloot["pools"][0]["condition"]["terms"][0]["chance"]==0.2
+assert wildloot["pools"][1]["entries"][0]["children"][0]["name"]=="italiansdelight:wild_chili"
+assert wildloot["pools"][1]["entries"][0]["children"][1]["name"]=="italiansdelight:chili_pepper_seeds"
 wildfeature=load(data/"italiansdelight/worldgen/feature/wild_chili.json")
 assert wildfeature["to_place"]["state"]["id"]=="italiansdelight:wild_chili"
 wildplaced=load(data/"italiansdelight/worldgen/placed_feature/wild_chili_patch.json")
@@ -717,3 +720,45 @@ for crate,fruit,tag in fruit_crates:
         assert locale[f"block.italiansdelight.{crate}"]
 assert all(top_sprites[i]!=top_sprites[j] for i in range(4) for j in range(i+1,4))
 print("PASSED: four packed FDR-reference crates, visible fruits, 9->1/1->9 recipes, loot, tags, models and labels")
+
+# Wild grapevines use the FDR WildCropBlock and its shears_harvest ability,
+# not right-click repeat harvesting. Both cultivars have identical odds.
+assert "extends WildCropBlock" in read(src/"common/block/WildGrapeBlock.java")
+for name,seed,fruit,reg in (
+    ("wild_grape_vine","grape_seeds","grapes","WILD_GRAPE_VINE"),
+    ("wild_white_grape_vine","white_grape_seeds","white_grapes","WILD_WHITE_GRAPE_VINE")
+):
+    assert f"public static final Block {reg}" in registry
+    assert f"output.accept(ModBlocks.{reg})" in creative
+    assert f"block.italiansdelight.{name}" in en and f"block.italiansdelight.{name}" in it
+    assert load(assets/f"blockstates/{name}.json")["variants"][""]["model"]==f"italiansdelight:block/{name}"
+    assert load(assets/f"models/block/{name}.json")["textures"]["cross"]==f"italiansdelight:block/{name}"
+    assert load(assets/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
+    assert load(assets/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:block/{name}"
+    verify_crop_png(assets/f"textures/block/{name}.png")
+    wildloot=load(data/f"italiansdelight/loot_table/blocks/{name}.json")
+    assert wildloot["pools"][0]["entries"][0]["name"]==f"italiansdelight:{fruit}"
+    assert wildloot["pools"][0]["condition"]["terms"][0]["chance"]==0.2
+    assert wildloot["pools"][1]["entries"][0]["children"][0]["name"]==f"italiansdelight:{name}"
+    assert wildloot["pools"][1]["entries"][0]["children"][0]["condition"]["type"]=="farmersdelight:can_item_perform_ability"
+    assert wildloot["pools"][1]["entries"][0]["children"][1]["name"]==f"italiansdelight:{seed}"
+    assert load(data/f"italiansdelight/worldgen/feature/{name}.json")["to_place"]["state"]["id"]==f"italiansdelight:{name}"
+    place=load(data/f"italiansdelight/worldgen/placed_feature/{name}_patch.json")
+    assert place["feature"]==f"italiansdelight:{name}" and place["placement"][0]["chance"]==100
+    assert f"{reg}_PATCH" in read(src/"common/registry/ModWorldGeneration.java")
+assert not (assets/"textures/block/wild_grapes.png").exists()
+leafcode=read(src/"common/block/GrapeLeavesBlock.java")
+assert 'IntegerProperty FRUIT_STAGE = IntegerProperty.create("fruit_stage", 0, 3)' in leafcode
+assert "b.add(DISTANCE, AXIS, GRAPES, FRUIT_STAGE" in leafcode
+assert "advanceFruit(state)" in leafcode and "current.setValue(GRAPES, false)" in leafcode
+for canopy,fruit in (("grape_leaves","grapes"),("white_grape_leaves","white_grapes")):
+    entries=load(assets/f"blockstates/{canopy}.json")["multipart"]
+    ripe=[x for x in entries if x.get("when",{}).get("grapes")=="true"]
+    assert len(ripe)==1 and ripe[0]["apply"]["model"]==f"italiansdelight:block/{fruit}"
+    for stage in (1,2,3):
+        found=[x for x in entries if x.get("when",{}).get("fruit_stage")==str(stage)]
+        assert len(found)==1 and found[0]["when"]["grapes"]=="false"
+        assert found[0]["apply"]["model"]==f"italiansdelight:block/{fruit}_unripe_{stage}"
+        assert load(assets/f"models/block/{fruit}_unripe_{stage}.json")["textures"]["0"]==f"italiansdelight:block/{fruit}_unripe_{stage}"
+        verify_crop_png(assets/f"textures/block/{fruit}_unripe_{stage}.png")
+print("PASSED: FDR shears on all wild crops, two new wild grapevines, three unripe grape stages, existing ripe states preserved")

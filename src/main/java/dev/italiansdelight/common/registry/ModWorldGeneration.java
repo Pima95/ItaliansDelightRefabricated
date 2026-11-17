@@ -16,6 +16,10 @@ public final class ModWorldGeneration {
         Registries.PLACED_FEATURE, ModRegistries.id("wild_basil_patch"));
     private static final ResourceKey<PlacedFeature> WILD_CHILI_PATCH = ResourceKey.create(
         Registries.PLACED_FEATURE, ModRegistries.id("wild_chili_patch"));
+    private static final ResourceKey<PlacedFeature> WILD_GRAPE_VINE_PATCH = ResourceKey.create(
+        Registries.PLACED_FEATURE, ModRegistries.id("wild_grape_vine_patch"));
+    private static final ResourceKey<PlacedFeature> WILD_WHITE_GRAPE_VINE_PATCH = ResourceKey.create(
+        Registries.PLACED_FEATURE, ModRegistries.id("wild_white_grape_vine_patch"));
     // Data-driven natural placements reuse the original, already-tested
     // sapling tree features and their custom trunk/foliage placers.
     // Plains/Savanna: 1/40 olive + 1/40 almond = 1/20 expected attempts
@@ -74,6 +78,19 @@ public final class ModWorldGeneration {
                 Biomes.MEADOW, Biomes.FOREST, Biomes.FLOWER_FOREST, Biomes.BIRCH_FOREST,
                 Biomes.CHERRY_GROVE, Biomes.SPARSE_JUNGLE),
             GenerationStep.Decoration.VEGETAL_DECORATION, WILD_BASIL_PATCH
+        );
+        // Same natural patch frequency, same permitted biomes for both grape types.
+        BiomeModifications.addFeature(
+            BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
+                Biomes.MEADOW, Biomes.FOREST, Biomes.FLOWER_FOREST,
+                Biomes.BIRCH_FOREST, Biomes.SPARSE_JUNGLE),
+            GenerationStep.Decoration.VEGETAL_DECORATION, WILD_GRAPE_VINE_PATCH
+        );
+        BiomeModifications.addFeature(
+            BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
+                Biomes.MEADOW, Biomes.FOREST, Biomes.FLOWER_FOREST,
+                Biomes.BIRCH_FOREST, Biomes.SPARSE_JUNGLE),
+            GenerationStep.Decoration.VEGETAL_DECORATION, WILD_WHITE_GRAPE_VINE_PATCH
         );
         // Warm open biomes and tropical forest edges. Only new chunks
         // receive these patches; cultivated peppers stay player-controlled.

@@ -229,8 +229,10 @@ public final class ModItemGroups {
 
                 // GRAPE FAMILY: seeds, harvest, juice and wine (buckets first).
                 output.accept(ModBlocks.GRAPE_SEEDS);
+                output.accept(ModBlocks.WILD_GRAPE_VINE);
                 output.accept(ModItems.GRAPES);
                 output.accept(ModBlocks.WHITE_GRAPE_SEEDS);
+                output.accept(ModBlocks.WILD_WHITE_GRAPE_VINE);
                 output.accept(ModItems.WHITE_GRAPES);
                 output.accept(ModItems.GRAPE_JUICE_BUCKET);
                 output.accept(ModItems.GRAPE_JUICE_BOTTLE);

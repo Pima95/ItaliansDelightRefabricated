@@ -54,6 +54,33 @@
     },
     {
       "when": {
+        "grapes": "false",
+        "fruit_stage": "1"
+      },
+      "apply": {
+        "model": "italiansdelight:block/white_grapes_unripe_1"
+      }
+    },
+    {
+      "when": {
+        "grapes": "false",
+        "fruit_stage": "2"
+      },
+      "apply": {
+        "model": "italiansdelight:block/white_grapes_unripe_2"
+      }
+    },
+    {
+      "when": {
+        "grapes": "false",
+        "fruit_stage": "3"
+      },
+      "apply": {
+        "model": "italiansdelight:block/white_grapes_unripe_3"
+      }
+    },
+    {
+      "when": {
         "grapes": "true"
       },
       "apply": {

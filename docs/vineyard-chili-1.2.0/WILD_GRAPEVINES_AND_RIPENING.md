@@ -1,0 +1,9 @@
+# Wild grapevines and grape maturation — 1.2.0
+
+Based on Farmer's Delight Refabricated 26.3 `WildCropBlock.java` and generated `wild_tomatoes.json`: wild crops are **broken** to obtain 1 seed (plus Fortune) and 20% chance of fruit. With a tool supporting the `shears_harvest` ability, the whole wild crop drops instead. Bone meal spreads wild crops nearby; wild harvesting by right-click is not allowed.
+
+New blocks `wild_grape_vine` and `wild_white_grape_vine` extend WildCropBlock, have original 16×16 pixel art, spawn from sparse 1/100 patches (same for both varieties), register BlockItems and crafting-compatible seeds, and follow the exact FDR tomato loot pattern. Existing `wild_chili` loot now likewise supports shears and FDR tomato seeds/Fortune/20% fruit. The obsolete `wild_grapes.png` is removed.
+
+Cultivated `GrapeLeavesBlock` keeps the original `GRAPES` boolean and block IDs. Old `grapes=true` remains ripe, visible and harvestable. A new `FRUIT_STAGE` (0–3) adds tiny green, enlarged yellow-green and nearly ripe intermediate fruit (different palettes for red/white cultivars). Random ticks and bone meal move forward one stage at a time. The fourth growth event sets GRAPES true and reveals the existing approved ripe sprite. Only ripe grapes can be picked. Harvest resets both states. An occupied block below the hanging canopy clears unfinished or ripe fruit. No difference in wild-vs-cultivated fruit yield has been invented.
+
+Test: `/give @p italiansdelight:wild_grape_vine`, `/give @p italiansdelight:wild_white_grape_vine`, and `/give @p italiansdelight:wild_chili`. Compare hand-breaking and shears on all wild plants, bone meal propagation, four-step growth on both cultivar canopies, ripe-only picking and an existing saved ripe vineyard. Wild patches appear only in newly generated chunks.

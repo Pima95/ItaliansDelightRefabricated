@@ -27,6 +27,7 @@ import dev.italiansdelight.common.block.HangingChiliBlock;
 import dev.italiansdelight.common.block.BuddingChiliBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
 import dev.italiansdelight.common.block.WildChiliBlock;
+import dev.italiansdelight.common.block.WildGrapeBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
 import dev.italiansdelight.common.block.PizzaOvenBlock;
@@ -852,6 +853,19 @@ public final class ModBlocks {
     public static final Block WILD_CHILI = register(WILD_CHILI_KEY,
         new WildChiliBlock(Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(WILD_CHILI_KEY))
     );
+
+    // FDR wild crop: break for seeds / occasional fruit; shears collect whole plant.
+    public static final ResourceKey<Block> WILD_GRAPE_VINE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("wild_grape_vine"));
+    public static final Block WILD_GRAPE_VINE = register(WILD_GRAPE_VINE_KEY,
+        new WildGrapeBlock(Block.Properties.ofFullCopy(Blocks.TALL_GRASS)
+            .setId(WILD_GRAPE_VINE_KEY)));
+
+    public static final ResourceKey<Block> WILD_WHITE_GRAPE_VINE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("wild_white_grape_vine"));
+    public static final Block WILD_WHITE_GRAPE_VINE = register(WILD_WHITE_GRAPE_VINE_KEY,
+        new WildGrapeBlock(Block.Properties.ofFullCopy(Blocks.TALL_GRASS)
+            .setId(WILD_WHITE_GRAPE_VINE_KEY)));
 
     // Decorative posts only: the original crop_stake is the oak variant.
     public static final ResourceKey<Block> CROP_STAKE_KEY = ResourceKey.create(
