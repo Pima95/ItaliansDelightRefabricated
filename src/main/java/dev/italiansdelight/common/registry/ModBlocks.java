@@ -917,8 +917,9 @@ public final class ModBlocks {
     public static final ResourceKey<Block> BUDDING_CHILI_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("budding_chili"));
     public static final Block BUDDING_CHILI = registerBlockOnly(BUDDING_CHILI_KEY,
-        new BuddingChiliBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
-            .setId(BUDDING_CHILI_KEY).randomTicks()));
+        new BuddingChiliBlock(Block.Properties.of()
+            .setId(BUDDING_CHILI_KEY).noCollision().noOcclusion().forceSolidOff()
+            .randomTicks().instabreak().sound(SoundType.CROP)));
 
     public static final ResourceKey<Block> CHILI_CROP_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));

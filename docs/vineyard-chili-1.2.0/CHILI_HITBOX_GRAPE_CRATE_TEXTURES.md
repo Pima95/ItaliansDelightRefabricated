@@ -10,7 +10,7 @@ Saved chili crops `chili_crop` and `chili_on_rope`, including age 0–7 states, 
 
 ## Crate textures
 
-Replaced **both grape crate top sprites from scratch**. The wooden frame is sampled directly from the FDR `tomato_crate_top`, not from Italian's Delight cherries. Four separate small triangular clusters of grapes use different shades for berries and stems on the dark packing surface. Purple and yellow-green bunches have their own palette, with clear gaps between clusters. Output: 16×16 RGB PNG, fully opaque, hard-edged pixels. Existing side textures are left untouched pending in-game review.
+Replaced **both grape crate top sprites from scratch**. The wooden frame is sampled directly from the FDR `tomato_crate_top`, not from Italian's Delight cherries. Three recognizable tapered bunches of grapes use different shades for berries and stems on the dark packing surface. Purple and yellow-green bunches have their own palette, with clear gaps between clusters. The artistic pass replaces a too-regular four-flower pattern with layered, teardrop-shaped berry bunches. Output: 16×16 RGB PNG, fully opaque, hard-edged pixels. Existing side textures are left untouched pending in-game review.
 
 ## Tests
 
@@ -21,3 +21,7 @@ Replaced **both grape crate top sprites from scratch**. The wooden frame is samp
 `/give @p italiansdelight:white_grape_crate`
 
 Plant a chili seed on farmland and verify the four growing-seedling states, conversion to adult vine, foliage -> unripe -> ripe peppers, harvesting and regrowth. Apply bonemeal to seedling and adult, repeat on ropes, and load an existing saved chili. Place both grape crates and inspect top/sides in daylight. Build and dedicated-server smoke test are CI checks, not replacements for visual gameplay verification.
+
+## Startup fix from CI
+
+Server smoke caught an exception on startup: copying vanilla wheat properties copied a state-dependent function expecting vanilla AGE_7, not budding age 0–4. The budding block now uses explicit non-colliding crop properties rather than `ofFullCopy(Blocks.WHEAT)`. JAR validation now checks both blocks and all new age-to-model mappings.
