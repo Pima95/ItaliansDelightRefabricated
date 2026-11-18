@@ -405,13 +405,18 @@ jei_grapes=read(src/"integration/jei/OrchardPlantJeiInfo.java")
 jei_crush=read(src/"integration/jei/CrushingTubJeiRecipe.java")
 assert "new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)" in registry
 assert "new GrapeLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)" in registry
-# The planted grape stems (both colors) must break like vanilla leaves,
-# rather than inheriting wheat's instant-break hardness. Canopies already
-# inherit oak leaf properties; preserve the existing crop/loot behavior.
+# Both cultivars use the same age-dependent break behavior. Ages 0-5 are
+# soft seedlings; only the woody trunk model at ages 6-7 uses leaf hardness.
 for stem in ("GRAPE_STEM", "WHITE_GRAPE_STEM"):
     declaration = registry.split(f"public static final Block {stem} = registerBlockOnly(", 1)[1].split(");", 1)[0]
     assert "new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)" in declaration
-    assert ".strength(0.2F)" in declaration, f"{stem} should have oak leaf break hardness"
+    assert ".strength(0.2F)" in declaration, f"{stem} must use leaf hardness for the trunk"
+stem_variants=load(assets/"blockstates/grape_stem.json")["variants"]
+assert all(stem_variants[f"age={age}"]["model"] == f"italiansdelight:block/grape_stem_{min(age//2, 3)}"
+    for age in range(8)), "Update the woody age threshold if the visuals change"
+assert "getDestroyProgress(BlockState state, Player player," in grape_stem
+assert "state.getValue(AGE) < 6 ? 1.0F" in grape_stem, "Seedlings must still break instantly"
+assert "super.getDestroyProgress(state, player, level, pos)" in grape_stem, "Trunks use registered hardness"
 for id in ("WHITE_GRAPE_STEM","WHITE_GRAPE_SEEDS","WHITE_GRAPE_LEAVES"):
     assert f"public static final" in registry and id in registry,id
 assert "WHITE_GRAPES = registerFoodItem(\"white_grapes\", 2, 0.2f)" in items_code
