@@ -310,20 +310,26 @@ def test():
         for x,z,stem,canopy,grapes,seeds in (
                 (2, 12, "grape_stem", "grape_leaves", "grapes", "grape_seeds"),
                 (7, 12, "white_grape_stem", "white_grape_leaves", "white_grapes", "white_grape_seeds")):
-            run(rcon, f"setblock {x} 80 {z} minecraft:farmland[moisture=7]")
-            run(rcon, f"setblock {x} 81 {z} italiansdelight:{stem}[age=7]")
-            run(rcon, f"setblock {x} 82 {z} italiansdelight:{canopy}[distance=0,axis=x]")
-            run(rcon, f"setblock {x+1} 82 {z} italiansdelight:{canopy}[distance=1,axis=x,grapes=true,fruit_stage=3]")
-            run(rcon, f"setblock {x-1} 82 {z} italiansdelight:{canopy}[distance=1,axis=x,grapes=false,fruit_stage=3]")
-            assert_block(rcon, x+1, 82, z, f"italiansdelight:{canopy}[grapes=true]")
-            run(rcon, f"setblock {x} 81 {z} minecraft:air destroy")
-            wait_block(rcon, x+1, 82, z, "italiansdelight:horizontal_rope")
+            # Existing brewing-barrel tests occupy y=81 around these x/z,
+            # which would correctly prevent hanging fruit from developing.
+            # Place the isolated orchard 10 blocks higher, above all fixtures.
+            run(rcon, f"setblock {x} 90 {z} minecraft:farmland[moisture=7]")
+            for side in (-1, 1):
+                run(rcon, f"setblock {x+side} 91 {z} minecraft:air")
+                assert_block(rcon, x+side, 91, z, "minecraft:air")
+            run(rcon, f"setblock {x} 91 {z} italiansdelight:{stem}[age=7]")
+            run(rcon, f"setblock {x} 92 {z} italiansdelight:{canopy}[distance=0,axis=x]")
+            run(rcon, f"setblock {x+1} 92 {z} italiansdelight:{canopy}[distance=1,axis=x,grapes=true,fruit_stage=3]")
+            run(rcon, f"setblock {x-1} 92 {z} italiansdelight:{canopy}[distance=1,axis=x,grapes=false,fruit_stage=3]")
+            assert_block(rcon, x+1, 92, z, f"italiansdelight:{canopy}[grapes=true]")
+            run(rcon, f"setblock {x} 91 {z} minecraft:air destroy")
+            wait_block(rcon, x+1, 92, z, "italiansdelight:horizontal_rope")
             # The seed is delivered via the root's loot table and ripe fruit
             # by the unsupported-canopy tick, independently of its age 7.
             for item in (seeds, grapes):
                 nbt='{Item:{id:"italiansdelight:'+item+'"}}'
                 reply=run(rcon,
-                    f"execute if entity @e[type=minecraft:item,x={x-2},y=80,z={z-2},dx=5,dy=4,dz=5,nbt={nbt}]")
+                    f"execute if entity @e[type=minecraft:item,x={x-2},y=90,z={z-2},dx=5,dy=4,dz=5,nbt={nbt}]")
                 if "Test passed" not in reply:
                     raise AssertionError(f"Expected drop {item} after stem break: {reply}")
         print("PASSED: both cultivated stems yield seeds plus ripe lateral grapes on support loss", flush=True)
