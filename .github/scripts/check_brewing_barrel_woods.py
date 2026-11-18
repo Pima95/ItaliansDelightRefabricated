@@ -39,6 +39,44 @@ assert "builder.add(FACING)" in block_code
 assert 'register("brewing_barrel", BrewingBarrelBlockEntity::new' in entities
 assert "getTicker(" in block_code
 assert "preserveContents(stack" in block_code, "Keep item contents on breaking"
+# Rustic 1.12.2 GUI layout, but native Fabric 26.3 menu and preserved tank IO.
+barrel_entity = (java/"common/block/entity/BrewingBarrelBlockEntity.java").read_text(encoding="utf-8")
+barrel_menu = (java/"common/block/entity/container/BrewingBarrelMenu.java").read_text(encoding="utf-8")
+barrel_screen = (java/"client/gui/BrewingBarrelScreen.java").read_text(encoding="utf-8")
+menu_registry = (java/"common/registry/ModMenuTypes.java").read_text(encoding="utf-8")
+client_init = (java/"ItaliansDelightClient.java").read_text(encoding="utf-8")
+assert 'public static final MenuType<BrewingBarrelMenu> BREWING_BARREL' in menu_registry
+assert 'MenuScreens.register(\n            ModMenuTypes.BREWING_BARREL' in client_init
+assert "player.openMenu(barrel)" in block_code
+assert "implements Container, MenuProvider" in barrel_entity
+assert "ContainerHelper.saveAllItems(output, items)" in barrel_entity
+assert "ContainerHelper.loadAllItems(input, items)" in barrel_entity
+assert "if (isEmpty() && juiceAmount == 0" in barrel_entity
+for index,x,y in (("INPUT_IN",62,7),("OUTPUT_IN",116,7),("CULTURE_IN",26,15),
+                  ("INPUT_OUT",62,63),("OUTPUT_OUT",116,63),("CULTURE_OUT",26,55)):
+    name=f"BrewingBarrelBlockEntity.{index}"
+    action="addInputSlot" if index.endswith("_IN") else "addReturnSlot"
+    assert f"{action}({name}, {x}, {y})" in barrel_menu, index
+for required in ("case INPUT_IN", "case OUTPUT_IN", "case CULTURE_IN",
+                 "case CULTURE_IN -> stack.is(Items.GLASS_BOTTLE)"):
+    assert required in barrel_entity, required
+assert "return false; // Result slots are extraction-only." in barrel_entity
+assert "handleInputContainer()" in barrel_entity
+assert "handleOutputContainer()" in barrel_entity
+assert "handleCultureContainer()" in barrel_entity
+assert "if (++barrel.progress" not in barrel_entity, "Wine fermentation is deferred"
+assert "barrel.juiceAmount -= amount;\n            barrel.wineAmount += amount" not in barrel_entity
+assert 'textures/gui/brewing_barrel.png' in barrel_screen
+assert all(label in lang_it for label in (
+    "gui.italiansdelight.brewing_barrel.input",
+    "gui.italiansdelight.brewing_barrel.output",
+    "gui.italiansdelight.brewing_barrel.culture"))
+gui_atlas=load(root/"assets/minecraft/atlases/gui.json")
+sprites={entry.get("sprite") for entry in gui_atlas["sources"]}
+for sprite in ("grape_juice_still","white_grape_juice_still","wine_still"):
+    assert "italiansdelight:fluids/"+sprite in sprites
+print("PASSED: Rustic six-slot GUI, persisted inventory, vessel IO, and disabled fermentation")
+
 
 original = (Path(".github/scripts/fixtures/alcocraft_spruce_keg.png").read_bytes())
 assert hashlib.sha1(f"blob {len(original)}\0".encode("ascii") + original).hexdigest() == \
