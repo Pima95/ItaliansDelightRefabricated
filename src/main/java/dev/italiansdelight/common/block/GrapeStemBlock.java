@@ -5,6 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
@@ -36,6 +38,15 @@ public final class GrapeStemBlock extends CropBlock {
     }
 
     public boolean isWhiteGrapes() { return whiteGrapes; }
+
+    // Ages 0-5 are soft seedlings and must still break instantly like wheat.
+    // Ages 6-7 use grape_stem_3 (the wooden trunk), which breaks like leaves
+    // thanks to the registered 0.2F hardness. Shared by both grape cultivars.
+    @Override protected float getDestroyProgress(BlockState state, Player player,
+            BlockGetter level, BlockPos pos) {
+        return state.getValue(AGE) < 6 ? 1.0F
+            : super.getDestroyProgress(state, player, level, pos);
+    }
 
     /** Vineyard leaves use ONLY the dedicated horizontal rope, never FDR's vertical rope. */
     public static Direction.Axis ropeAxis(BlockState rope) {
