@@ -830,10 +830,10 @@ for stem,canopy,seed,fruit in (
     assert lf["pools"]==[{"rolls":1,
         "condition":{"type":"minecraft:match_block","blocks":f"italiansdelight:{canopy}","state":{"grapes":"true"}},
         "entries":[{"type":"minecraft:item","name":f"italiansdelight:{fruit}"}]}]
-assert "removeUnsupportedCanopy(level, pos);" in leafcode
-assert "private void removeUnsupportedCanopy(ServerLevel level, BlockPos pos)" in leafcode
-assert "current.getValue(DISTANCE) == 1 && current.getValue(GRAPES)" in leafcode
-assert "level.removeBlock(pos, false);" in leafcode
+assert "removeUnsupportedCanopy(level, pos);" in leaves_code
+assert "private void removeUnsupportedCanopy(ServerLevel level, BlockPos pos)" in leaves_code
+assert "current.getValue(DISTANCE) == 1 && current.getValue(GRAPES)" in leaves_code
+assert "level.removeBlock(pos, false);" in leaves_code
 # Worldgen biomes are temperate; both cultivars have the same distribution.
 grape_biomes=worldreg.split("VEGETAL_DECORATION, WILD_GRAPE_VINE_PATCH")[0].split("BiomeSelectors.includeByKey(")[-1]
 white_grape_biomes=worldreg.split("VEGETAL_DECORATION, WILD_WHITE_GRAPE_VINE_PATCH")[0].split("BiomeSelectors.includeByKey(")[-1]
