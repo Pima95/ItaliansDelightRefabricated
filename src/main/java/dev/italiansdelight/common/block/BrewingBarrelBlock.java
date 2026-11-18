@@ -80,64 +80,23 @@ public final class BrewingBarrelBlock extends BaseEntityBlock {
         return null;
     }
 
-    @Override protected InteractionResult useItemOn(ItemStack held, BlockState state,
-            Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        boolean juiceBottle = held.is(ModItems.GRAPE_JUICE_BOTTLE);
-        boolean juiceBucket = held.is(ModItems.GRAPE_JUICE_BUCKET);
-        boolean wineBottle = held.is(ModItems.WINE_BOTTLE);
-        boolean emptyBottle = held.is(Items.GLASS_BOTTLE);
-        boolean emptyBucket = held.is(Items.BUCKET);
-        if (!juiceBottle && !juiceBucket && !wineBottle && !emptyBottle && !emptyBucket)
-            return InteractionResult.PASS;
+    private static InteractionResult openMenu(Level level, BlockPos pos, Player player) {
         if (player.isSpectator()) return InteractionResult.PASS;
-        if (level.isClientSide()) return InteractionResult.SUCCESS;
-        if (!(level.getBlockEntity(pos) instanceof BrewingBarrelBlockEntity barrel))
-            return InteractionResult.FAIL;
-
-        if (juiceBottle || juiceBucket) {
-            int amount = juiceBucket ? 1000 : 250;
-            if (barrel.insertJuice(amount)) {
-                ItemStack empty = new ItemStack(juiceBucket ? Items.BUCKET : Items.GLASS_BOTTLE);
-                player.setItemInHand(hand, ItemUtils.createFilledResult(held, player, empty));
-                level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1, 1);
-            }
-            return InteractionResult.SUCCESS;
-        }
-        if (wineBottle) {
-            // A single bottle primes the yeast culture; it is held separately
-            // from the output tank, just like Rustic's auxiliary tank.
-            int quality = held.getOrDefault(ModDataComponents.WINE_QUALITY, 0);
-            if (barrel.insertCulture(quality)) {
-                player.setItemInHand(hand, ItemUtils.createFilledResult(held, player,
-                        new ItemStack(Items.GLASS_BOTTLE)));
-                level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1, 1);
-            }
-            return InteractionResult.SUCCESS;
-        }
-
-        int quantity = emptyBucket ? 1000 : 250;
-        int quality = player.isShiftKeyDown() && emptyBottle
-                ? barrel.takeCulture() : barrel.extractWine(quantity);
-        if (quality >= 0) {
-            ItemStack result = emptyBucket ? BrewingBarrelBlockEntity.wineBucket(quality)
-                    : BrewingBarrelBlockEntity.wineBottle(quality);
-            player.setItemInHand(hand, ItemUtils.createFilledResult(held, player, result));
-            level.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1, 1);
+        if (!level.isClientSide()
+                && level.getBlockEntity(pos) instanceof BrewingBarrelBlockEntity barrel) {
+            player.openMenu(barrel);
         }
         return InteractionResult.SUCCESS;
     }
 
+    @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state,
+            Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        return openMenu(level, pos, player);
+    }
+
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level,
             BlockPos pos, Player player, BlockHitResult hit) {
-        if (level instanceof ServerLevel server &&
-                server.getBlockEntity(pos) instanceof BrewingBarrelBlockEntity barrel) {
-            player.sendSystemMessage(Component.translatable(
-                    "message.italiansdelight.brewing_barrel.status",
-                    barrel.getJuiceAmount(), barrel.getWineAmount(),
-                    barrel.getProgress(), BrewingBarrelBlockEntity.BREW_TIME,
-                    barrel.getWineQuality()));
-        }
-        return InteractionResult.SUCCESS;
+        return openMenu(level, pos, player);
     }
 
     @Override protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
