@@ -133,7 +133,7 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
 
     @Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!state.canSurvive(level, pos)) {
-            level.removeBlock(pos, false);
+            removeUnsupportedCanopy(level, pos);
             return;
         }
         if (state.getValue(DISTANCE) == 0) {
@@ -173,8 +173,26 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
         return state;
     }
 
+    /**
+     * Lateral bunches are the only sources of ripe grapes, never the stem.
+     * A broken stem removes the center leaves, and a scheduled update later
+     * removes each unsupported side. Without this helper, that removal drops
+     * no fruit, even when the bunch was completely mature.
+     */
+    private void removeUnsupportedCanopy(ServerLevel level, BlockPos pos) {
+        BlockState current = level.getBlockState(pos);
+        if (!current.is(this) || current.canSurvive(level, pos)) return;
+        if (current.getValue(DISTANCE) == 1 && current.getValue(GRAPES)
+                && level.getBlockState(pos.below()).isAir()) {
+            Block.popResource(level, pos.below(), new ItemStack(
+                whiteGrapes ? dev.italiansdelight.common.registry.ModItems.WHITE_GRAPES
+                    : dev.italiansdelight.common.registry.ModItems.GRAPES));
+        }
+        level.removeBlock(pos, false);
+    }
+
     @Override protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (!state.canSurvive(level, pos)) level.removeBlock(pos, false);
+        if (!state.canSurvive(level, pos)) removeUnsupportedCanopy(level, pos);
     }
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level,

@@ -461,7 +461,7 @@ assert load(data/"italiansdelight/recipe/white_grape_seeds.json")["result"]["id"
 white_stem_loot=load(data/"italiansdelight/loot_table/blocks/white_grape_stem.json")
 white_leaf_loot=load(data/"italiansdelight/loot_table/blocks/white_grape_leaves.json")
 assert "italiansdelight:white_grape_seeds" in str(white_stem_loot)
-assert "italiansdelight:white_grapes" in str(white_stem_loot)
+assert "italiansdelight:white_grapes" not in str(white_stem_loot)
 assert "italiansdelight:white_grapes" in str(white_leaf_loot)
 assert "italiansdelight:grapes" not in str(white_stem_loot)
 assert "italiansdelight:grapes" not in str(white_leaf_loot)
@@ -759,13 +759,23 @@ for name,seed,fruit,reg in (
     for half,i in (("lower",0),("upper",2)):
         fruitpool,harvestpool=pools[i:i+2]
         assert fruitpool["condition"]["terms"][0]["terms"][0]["state"]["half"]==half
-        assert fruitpool["condition"]["terms"][1]["chance"]==0.2
-        assert fruitpool["entries"][0]["name"]==f"italiansdelight:{fruit}"
+        assert len(fruitpool["condition"]["terms"])==2
+        assert fruitpool["condition"]["terms"][1]=={
+            "type":"minecraft:inverted",
+            "term":{"type":"farmersdelight:can_item_perform_ability","ability":"shears_harvest"}}
+        fruits=fruitpool["entries"][0]
+        assert fruits["name"]==f"italiansdelight:{fruit}"
+        assert fruits["modifier"]==[
+            {"type":"minecraft:set_count","count":{"type":"minecraft:uniform","min":0,"max":2}},
+            {"type":"minecraft:explosion_decay"}]
         assert harvestpool["condition"]["terms"][0]["state"]["half"]==half
         children=harvestpool["entries"][0]["children"]
         assert children[0]["name"]==f"italiansdelight:{name}"
         assert children[0]["condition"]["type"]=="farmersdelight:can_item_perform_ability"
         assert children[1]["name"]==f"italiansdelight:{seed}"
+        assert children[1]["modifier"]==[
+            {"type":"minecraft:set_count","count":{"type":"minecraft:uniform","min":1,"max":4}},
+            {"type":"minecraft:explosion_decay"}]
     assert load(data/f"italiansdelight/worldgen/feature/{name}.json")["type"]==f"italiansdelight:{name}"
     placed=load(data/f"italiansdelight/worldgen/placed_feature/{name}_patch.json")
     assert placed["feature"]==f"italiansdelight:{name}_cluster" and placed["placement"][0]["chance"]==100
@@ -807,6 +817,23 @@ for name,seed,fruit,reg in (
         "minecraft:grass_block","minecraft:dirt","minecraft:coarse_dirt",
         "minecraft:podzol","minecraft:rooted_dirt"],"offset":[0,-1,0]}
     assert f"{reg}_PATCH" in worldreg
+# Cultivated root loot always gives ONE seed, while the leaves only
+# give grapes when ripe. Unsupported ripe side branches drop on detachment.
+for stem,canopy,seed,fruit in (
+    ("grape_stem","grape_leaves","grape_seeds","grapes"),
+    ("white_grape_stem","white_grape_leaves","white_grape_seeds","white_grapes")
+):
+    st=load(data/f"italiansdelight/loot_table/blocks/{stem}.json")
+    lf=load(data/f"italiansdelight/loot_table/blocks/{canopy}.json")
+    assert st["pools"]==[{"rolls":1,"entries":[{"type":"minecraft:item","name":f"italiansdelight:{seed}"}]}]
+    assert f"italiansdelight:{fruit}" not in str(st)
+    assert lf["pools"]==[{"rolls":1,
+        "condition":{"type":"minecraft:match_block","blocks":f"italiansdelight:{canopy}","state":{"grapes":"true"}},
+        "entries":[{"type":"minecraft:item","name":f"italiansdelight:{fruit}"}]}]
+assert "removeUnsupportedCanopy(level, pos);" in leafcode
+assert "private void removeUnsupportedCanopy(ServerLevel level, BlockPos pos)" in leafcode
+assert "current.getValue(DISTANCE) == 1 && current.getValue(GRAPES)" in leafcode
+assert "level.removeBlock(pos, false);" in leafcode
 # Worldgen biomes are temperate; both cultivars have the same distribution.
 grape_biomes=worldreg.split("VEGETAL_DECORATION, WILD_GRAPE_VINE_PATCH")[0].split("BiomeSelectors.includeByKey(")[-1]
 white_grape_biomes=worldreg.split("VEGETAL_DECORATION, WILD_WHITE_GRAPE_VINE_PATCH")[0].split("BiomeSelectors.includeByKey(")[-1]

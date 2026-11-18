@@ -14,22 +14,6 @@
           "name": "italiansdelight:white_grape_seeds"
         }
       ]
-    },
-    {
-      "rolls": 1,
-      "condition": {
-        "type": "minecraft:match_block",
-        "blocks": "italiansdelight:white_grape_stem",
-        "state": {
-          "age": "7"
-        }
-      },
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "italiansdelight:white_grapes"
-        }
-      ]
     }
   ]
 }
