@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 import dev.italiansdelight.client.gui.CheeseVatScreen;
+import dev.italiansdelight.client.gui.BrewingBarrelScreen;
 import dev.italiansdelight.client.gui.PizzaOvenScreen;
 import dev.italiansdelight.client.particle.WhiteBubblePopParticle;
 import dev.italiansdelight.client.render.PizzaDivisionOverlay;
@@ -230,6 +231,11 @@ public class ItaliansDelightClient implements ClientModInitializer {
         MenuScreens.register(
             ModMenuTypes.CHEESE_VAT,
             CheeseVatScreen::new
+        );
+
+        MenuScreens.register(
+            ModMenuTypes.BREWING_BARREL,
+            BrewingBarrelScreen::new
         );
 
         // Dedicated pizza-only screen, no vanilla furnace recipe book.
