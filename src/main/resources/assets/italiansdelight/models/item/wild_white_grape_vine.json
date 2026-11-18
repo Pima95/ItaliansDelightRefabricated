@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "italiansdelight:block/wild_white_grape_vine_rose_top"
+    "layer0": "italiansdelight:block/wild_white_grape_vine_top"
   }
 }
