@@ -405,6 +405,13 @@ jei_grapes=read(src/"integration/jei/OrchardPlantJeiInfo.java")
 jei_crush=read(src/"integration/jei/CrushingTubJeiRecipe.java")
 assert "new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)" in registry
 assert "new GrapeLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)" in registry
+# The planted grape stems (both colors) must break like vanilla leaves,
+# rather than inheriting wheat's instant-break hardness. Canopies already
+# inherit oak leaf properties; preserve the existing crop/loot behavior.
+for stem in ("GRAPE_STEM", "WHITE_GRAPE_STEM"):
+    declaration = registry.split(f"public static final Block {stem} = registerBlockOnly(", 1)[1].split(");", 1)[0]
+    assert "new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)" in declaration
+    assert ".strength(0.2F)" in declaration, f"{stem} should have oak leaf break hardness"
 for id in ("WHITE_GRAPE_STEM","WHITE_GRAPE_SEEDS","WHITE_GRAPE_LEAVES"):
     assert f"public static final" in registry and id in registry,id
 assert "WHITE_GRAPES = registerFoodItem(\"white_grapes\", 2, 0.2f)" in items_code
