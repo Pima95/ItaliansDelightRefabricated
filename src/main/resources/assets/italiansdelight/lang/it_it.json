@@ -431,7 +431,7 @@
   "item.italiansdelight.wine_bottle": "Bottiglia di vino",
   "fluid.italiansdelight.wine": "Vino",
   "message.italiansdelight.brewing_barrel.status": "Succo: %s mB | Vino: %s mB | Fermentazione: %s / %s tick | Qualità: %s%%",
-  "jei.italiansdelight.fluids.wine": "Fermentazione ispirata a Rustic: riempi la botte con succo d'uva (bottiglie da 250 mB, secchi da 1.000 mB). Attendi 12.000 tick lato server. Raccogli il vino in bottiglie vuote. Clic destro a mano vuota per vedere lo stato. Una bottiglia di vino può essere usata come coltura iniziale opzionale, conservata nel piccolo vano coltura; Shift+clic con bottiglia vuota la recupera. La qualità è registrata per ogni bottiglia.",
+  "jei.italiansdelight.fluids.wine": "GUI della botte di fermentazione (disposizione Rustic): serbatoio centrale per il succo d'uva, destro per il vino pronto, sinistro per la coltura. Inserisci i contenitori negli slot superiori e ritirali da quelli inferiori. La fermentazione e le ricette del vino non sono ancora attive.",
   "tooltip.italiansdelight.wine_quality": "Qualità: %s%%",
   "block.italiansdelight.grape_juice": "Succo d'uva rossa",
   "block.italiansdelight.wine": "Vino",
@@ -488,5 +488,8 @@
   "block.italiansdelight.chili_pepper_crate": "Cassa di peperoncini",
   "block.italiansdelight.ghost_pepper_crate": "Cassa di peperoncini fantasma",
   "block.italiansdelight.wild_grape_vine": "Vite selvatica d'uva rossa",
-  "block.italiansdelight.wild_white_grape_vine": "Vite selvatica d'uva bianca"
+  "block.italiansdelight.wild_white_grape_vine": "Vite selvatica d'uva bianca",
+  "gui.italiansdelight.brewing_barrel.input": "Succo d'uva non fermentato",
+  "gui.italiansdelight.brewing_barrel.output": "Vino fermentato (solo già conservato)",
+  "gui.italiansdelight.brewing_barrel.culture": "Coltura di vino"
 }
