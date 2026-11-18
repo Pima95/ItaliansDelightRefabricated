@@ -60,7 +60,7 @@ for index,x,y in (("INPUT_IN",62,7),("OUTPUT_IN",116,7),("CULTURE_IN",26,15),
 for required in ("case INPUT_IN", "case OUTPUT_IN", "case CULTURE_IN",
                  "case CULTURE_IN -> stack.is(Items.GLASS_BOTTLE)"):
     assert required in barrel_entity, required
-assert "return false; // Result slots are extraction-only." in barrel_entity
+assert "default -> false; // Result slots are extraction-only." in barrel_entity
 assert "handleInputContainer()" in barrel_entity
 assert "handleOutputContainer()" in barrel_entity
 assert "handleCultureContainer()" in barrel_entity
