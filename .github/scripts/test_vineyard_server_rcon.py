@@ -321,7 +321,7 @@ def test():
             # The seed is delivered via the root's loot table and ripe fruit
             # by the unsupported-canopy tick, independently of its age 7.
             for item in (seeds, grapes):
-                nbt='{{Item:{{id:"italiansdelight:'+item+'"}}}}'
+                nbt='{Item:{id:"italiansdelight:'+item+'"}}'
                 reply=run(rcon,
                     f"execute if entity @e[type=minecraft:item,x={x-2},y=80,z={z-2},dx=5,dy=4,dz=5,nbt={nbt}]")
                 if "Test passed" not in reply:
