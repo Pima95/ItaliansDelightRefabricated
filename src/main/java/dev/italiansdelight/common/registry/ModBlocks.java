@@ -910,11 +910,12 @@ public final class ModBlocks {
 
     // Rustic-inspired grapevine and chili plants; seeds are BlockItems with their own IDs.
     // Both crops retain their roots on a successful empty-hand harvest.
+    // Cultivated grape stems break as slowly as vanilla leaves (0.2F), not instantly like wheat.
     public static final ResourceKey<Block> GRAPE_STEM_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("grape_stem"));
     public static final Block GRAPE_STEM = registerBlockOnly(GRAPE_STEM_KEY,
         new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
-            .setId(GRAPE_STEM_KEY).randomTicks()));
+            .setId(GRAPE_STEM_KEY).randomTicks().strength(0.2F)));
     public static final ResourceKey<Item> GRAPE_SEEDS_KEY = ResourceKey.create(
         BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_seeds"));
     public static final Item GRAPE_SEEDS = Registry.register(BuiltInRegistries.ITEM,
@@ -933,7 +934,7 @@ public final class ModBlocks {
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("white_grape_stem"));
     public static final Block WHITE_GRAPE_STEM = registerBlockOnly(WHITE_GRAPE_STEM_KEY,
         new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
-            .setId(WHITE_GRAPE_STEM_KEY).randomTicks(), true));
+            .setId(WHITE_GRAPE_STEM_KEY).randomTicks().strength(0.2F), true));
     public static final ResourceKey<Item> WHITE_GRAPE_SEEDS_KEY = ResourceKey.create(
         BuiltInRegistries.ITEM.key(), ModRegistries.id("white_grape_seeds"));
     public static final Item WHITE_GRAPE_SEEDS = Registry.register(BuiltInRegistries.ITEM,
