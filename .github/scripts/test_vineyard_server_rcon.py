@@ -274,6 +274,22 @@ def test():
             assert_block(rcon, x, 81, 15, f"italiansdelight:{wild}[half=lower]")
             assert_block(rcon, x, 82, 15, f"italiansdelight:{wild}[half=upper]")
         print("PASSED: both wild grape variants generate two synchronized halves on grass", flush=True)
+        # The natural patch now uses Farmer's Delight "in_order" features:
+        # tall vine, surrounding coarse dirt, then dead bushes. Direct feature
+        # tests above still guarantee precise two-block placement.
+        # Exercise both actual composite configured features on grass so
+        # malformed FDR codec/placed-feature references fail at server startup.
+        run(rcon, "fill 7 80 21 19 80 36 minecraft:grass_block")
+        run(rcon, "fill 7 81 21 19 84 36 minecraft:air")
+        for x, z, wild in ((10, 26, "wild_grape_vine"),
+                           (16, 31, "wild_white_grape_vine")):
+            reply = run(rcon, f"place feature italiansdelight:{wild}_cluster {x} 81 {z}")
+            if "Placed" not in reply:
+                raise AssertionError(f"FDR in_order wild-grape cluster failed: {reply}")
+            assert_block(rcon, x, 81, z, f"italiansdelight:{wild}[half=lower]")
+            assert_block(rcon, x, 82, z, f"italiansdelight:{wild}[half=upper]")
+        print("PASSED: FDR in_order grape clusters load, grow tall vines and accept surrounding vegetation", flush=True)
+
 
         # Legacy stage seven must remain a valid root and hanging state.
         run(rcon, "setblock 11 80 2 minecraft:farmland[moisture=7]")

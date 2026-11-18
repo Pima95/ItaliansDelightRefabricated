@@ -768,7 +768,32 @@ for name,seed,fruit,reg in (
         assert children[1]["name"]==f"italiansdelight:{seed}"
     assert load(data/f"italiansdelight/worldgen/feature/{name}.json")["type"]==f"italiansdelight:{name}"
     placed=load(data/f"italiansdelight/worldgen/placed_feature/{name}_patch.json")
-    assert placed["feature"]==f"italiansdelight:{name}" and placed["placement"][0]["chance"]==100
+    assert placed["feature"]==f"italiansdelight:{name}_cluster" and placed["placement"][0]["chance"]==100
+    # FDR carrots + tomatoes: vegetation, coarse dirt and dead bushes in_order.
+    cluster=load(data/f"italiansdelight/worldgen/feature/{name}_cluster.json")
+    assert cluster["type"]=="farmersdelight:in_order"
+    primary,bare,bush=cluster["features"]
+    assert primary=={"feature":f"italiansdelight:{name}","placement":[]}
+    assert bare["feature"]["type"]=="minecraft:simple_block"
+    assert bare["feature"]["to_place"]["state"]["id"]=="minecraft:coarse_dirt"
+    assert bush["feature"]["type"]=="minecraft:simple_block"
+    assert bush["feature"]["to_place"]["state"]["id"]=="minecraft:dead_bush"
+    assert bare["placement"][0]=={"type":"minecraft:rarity_filter","chance":3}
+    assert bush["placement"][0]=={"type":"minecraft:rarity_filter","chance":4}
+    assert bare["placement"][1]["x"]["min"]==-4 and bare["placement"][1]["x"]["max"]==4
+    assert bush["placement"][1]["x"]["min"]==-5 and bush["placement"][1]["x"]["max"]==5
+    assert bare["placement"][2]=={"type":"minecraft:offset","x":0,"y":-1,"z":0}
+    # Coarse dirt can only replace open grass/dirt, never vines or trees.
+    bare_pred=bare["placement"][3]["predicate"]["predicates"]
+    assert bare_pred==[
+      {"type":"minecraft:matching_blocks","blocks":["minecraft:grass_block","minecraft:dirt"]},
+      {"type":"minecraft:matching_blocks","blocks":"minecraft:air","offset":[0,1,0]}]
+    bush_pred=bush["placement"][2]["predicate"]["predicates"]
+    assert bush_pred==[
+      {"type":"minecraft:matching_blocks","blocks":"minecraft:air"},
+      {"type":"minecraft:matching_blocks","blocks":[
+       "minecraft:grass_block","minecraft:dirt","minecraft:coarse_dirt",
+       "minecraft:podzol","minecraft:rooted_dirt"],"offset":[0,-1,0]}]
     steps=placed["placement"]
     assert steps[2]=={"type":"minecraft:count","count":24}
     assert steps[3]=={"type":"minecraft:heightmap","heightmap":"MOTION_BLOCKING_NO_LEAVES"}
