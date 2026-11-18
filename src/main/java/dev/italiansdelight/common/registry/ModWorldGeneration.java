@@ -86,17 +86,19 @@ public final class ModWorldGeneration {
                 Biomes.CHERRY_GROVE, Biomes.SPARSE_JUNGLE),
             GenerationStep.Decoration.VEGETAL_DECORATION, WILD_BASIL_PATCH
         );
-        // Same natural patch frequency, same permitted biomes for both grape types.
+        // FDR-style rare patches of wild grapevines on temperate exposed ground.
+        // Dense canopy isn't a valid ground target. Both cultivars use exactly
+        // the same list and rarity; a vanilla biome boundary is not required.
         BiomeModifications.addFeature(
             BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
                 Biomes.MEADOW, Biomes.FOREST, Biomes.FLOWER_FOREST,
-                Biomes.BIRCH_FOREST, Biomes.SPARSE_JUNGLE),
+                Biomes.BIRCH_FOREST, Biomes.CHERRY_GROVE),
             GenerationStep.Decoration.VEGETAL_DECORATION, WILD_GRAPE_VINE_PATCH
         );
         BiomeModifications.addFeature(
             BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
                 Biomes.MEADOW, Biomes.FOREST, Biomes.FLOWER_FOREST,
-                Biomes.BIRCH_FOREST, Biomes.SPARSE_JUNGLE),
+                Biomes.BIRCH_FOREST, Biomes.CHERRY_GROVE),
             GenerationStep.Decoration.VEGETAL_DECORATION, WILD_WHITE_GRAPE_VINE_PATCH
         );
         // Warm open biomes and tropical forest edges. Only new chunks

@@ -1,4 +1,4 @@
-# Viti selvatiche: texture definitive ispirate al cespuglio di rose
+# Viti selvatiche: texture approvate ispirate al cespuglio di rose
 
 Le due viti selvatiche (`wild_grape_vine` e `wild_white_grape_vine`) restano alte due blocchi. La silhouette viene dal *principio stilistico* del cespuglio di rose vanilla (rami ariosi, foglie separate), senza riutilizzare le texture originali Minecraft.
 
@@ -11,3 +11,7 @@ Le due viti selvatiche (`wild_grape_vine` e `wild_white_grape_vine`) restano alt
 - Nessuna modifica a classi Java, coltivazioni, raccolta, generazione naturale o altri blocchi.
 
 Le versioni precedenti restano recuperabili dalla cronologia Git, ma non vengono mantenute come asset duplicati nel branch di sviluppo.
+
+## 18 novembre 2026 — approvazione grappoli e pulizia
+
+I nuovi grappoli con sagome irregolari e affusolate sono stati approvati nel commit `3cf6e46a6139e349622880266bb63cbad190fdf4`. I quattro PNG di backup nella cartella `saved-textures/wild-grapevines` sono stati rimossi su richiesta; il codice e i modelli attivi restano collegati esclusivamente ai quattro file canonici.

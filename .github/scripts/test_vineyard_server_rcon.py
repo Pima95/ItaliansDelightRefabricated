@@ -260,6 +260,21 @@ def test():
         run(rcon, "setblock 15 81 0 italiansdelight:cardoon")
         assert_block(rcon, 14, 81, 0, "italiansdelight:wild_basil")
         assert_block(rcon, 15, 81, 0, "italiansdelight:cardoon")
+        # /place feature exercises the actual configured Feature instead of
+        # constructing tall plants by hand. Each vine must generate BOTH halves.
+        # Put test soil and two air blocks in a prepared, force-loaded chunk.
+        for x, wild in ((13, "wild_grape_vine"),
+                        (14, "wild_white_grape_vine")):
+            run(rcon, f"setblock {x} 80 15 minecraft:grass_block")
+            run(rcon, f"setblock {x} 81 15 minecraft:air")
+            run(rcon, f"setblock {x} 82 15 minecraft:air")
+            reply = run(rcon, f"place feature italiansdelight:{wild} {x} 81 15")
+            if "Failed" in reply or "Unknown" in reply:
+                raise AssertionError(f"Worldgen placement failed for {wild}: {reply}")
+            assert_block(rcon, x, 81, 15, f"italiansdelight:{wild}[half=lower]")
+            assert_block(rcon, x, 82, 15, f"italiansdelight:{wild}[half=upper]")
+        print("PASSED: both wild grape variants generate two synchronized halves on grass", flush=True)
+
         # Legacy stage seven must remain a valid root and hanging state.
         run(rcon, "setblock 11 80 2 minecraft:farmland[moisture=7]")
         run(rcon, "setblock 11 81 2 italiansdelight:chili_crop[age=7,ropelogged=false]")

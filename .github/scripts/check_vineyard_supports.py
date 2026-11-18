@@ -769,9 +769,32 @@ for name,seed,fruit,reg in (
     assert load(data/f"italiansdelight/worldgen/feature/{name}.json")["type"]==f"italiansdelight:{name}"
     placed=load(data/f"italiansdelight/worldgen/placed_feature/{name}_patch.json")
     assert placed["feature"]==f"italiansdelight:{name}" and placed["placement"][0]["chance"]==100
+    steps=placed["placement"]
+    assert steps[2]=={"type":"minecraft:count","count":24}
+    assert steps[3]=={"type":"minecraft:heightmap","heightmap":"MOTION_BLOCKING_NO_LEAVES"}
+    assert steps[5]["x"]["min"]==-4 and steps[5]["x"]["max"]==4
+    assert steps[5]["z"]["min"]==-4 and steps[5]["z"]["max"]==4
+    assert steps[5]["y"]["min"]==-2 and steps[5]["y"]["max"]==2
+    predicates=steps[6]["predicate"]["predicates"]
+    assert predicates[0]=={"type":"minecraft:matching_blocks","blocks":"minecraft:air"}
+    assert predicates[1]=={"type":"minecraft:matching_blocks","blocks":"minecraft:air","offset":[0,1,0]}
+    assert predicates[2]=={"type":"minecraft:matching_blocks","blocks":[
+        "minecraft:grass_block","minecraft:dirt","minecraft:coarse_dirt",
+        "minecraft:podzol","minecraft:rooted_dirt"],"offset":[0,-1,0]}
     assert f"{reg}_PATCH" in worldreg
-# The approved rose-bush-inspired artwork replaces old redundant copies.
-# No stale _rose_ names remain: models and canonical 16x16 PNGs match.
+# Worldgen biomes are temperate; both cultivars have the same distribution.
+grape_biomes=worldreg.split("VEGETAL_DECORATION, WILD_GRAPE_VINE_PATCH")[0].split("BiomeSelectors.includeByKey(")[-1]
+white_grape_biomes=worldreg.split("VEGETAL_DECORATION, WILD_WHITE_GRAPE_VINE_PATCH")[0].split("BiomeSelectors.includeByKey(")[-1]
+assert grape_biomes==white_grape_biomes
+for biome in ("Biomes.PLAINS", "Biomes.SUNFLOWER_PLAINS", "Biomes.MEADOW",
+              "Biomes.FOREST", "Biomes.FLOWER_FOREST",
+              "Biomes.BIRCH_FOREST", "Biomes.CHERRY_GROVE"):
+    assert biome in grape_biomes
+assert "Biomes.SPARSE_JUNGLE" not in grape_biomes
+# Approved fruits are active; the old backup copies were explicitly removed.
+archived=Path("docs/vineyard-chili-1.2.0/saved-textures/wild-grapevines")
+assert not archived.exists() or not any(archived.iterdir())
+# No stale _rose_ sprite names remain; canonical 16x16 PNGs match the models.
 print("PASSED: double-height wild grapevines, both halves placed and looted as FDR wild rice")
 
 assert not (assets/"textures/block/wild_grapes.png").exists()
