@@ -749,10 +749,11 @@ for name,seed,fruit,reg in (
         m=load(assets/f"models/block/{name}_{part}.json")
         assert m["parent"]=="minecraft:block/cross"
         assert m["render_type"]=="minecraft:cutout"
-        assert m["textures"]["cross"]==f"italiansdelight:block/{name}_{part}"
-        verify_crop_png(assets/f"textures/block/{name}_{part}.png")
+        assert m["textures"]["cross"]==f"italiansdelight:block/{name}_rose_{part}"
+        verify_crop_png(assets/f"textures/block/{name}_{part}.png")  # retain the previous version
+        verify_crop_png(assets/f"textures/block/{name}_rose_{part}.png")
     assert load(assets/f"items/{name}.json")["model"]["model"]==f"italiansdelight:item/{name}"
-    assert load(assets/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:block/{name}_top"
+    assert load(assets/f"models/item/{name}.json")["textures"]["layer0"]==f"italiansdelight:block/{name}_rose_top"
     pools=load(data/f"italiansdelight/loot_table/blocks/{name}.json")["pools"]
     assert len(pools)==4
     for half,i in (("lower",0),("upper",2)):
@@ -769,6 +770,10 @@ for name,seed,fruit,reg in (
     placed=load(data/f"italiansdelight/worldgen/placed_feature/{name}_patch.json")
     assert placed["feature"]==f"italiansdelight:{name}" and placed["placement"][0]["chance"]==100
     assert f"{reg}_PATCH" in worldreg
+# Candidate rose-bush-style variants must not destroy or overwrite the original 4 sprites.
+assert all((assets/f"textures/block/{n}_{part}.png").exists()
+           for n in ("wild_grape_vine","wild_white_grape_vine")
+           for part in ("bottom","top"))
 print("PASSED: double-height wild grapevines, both halves placed and looted as FDR wild rice")
 
 assert not (assets/"textures/block/wild_grapes.png").exists()
