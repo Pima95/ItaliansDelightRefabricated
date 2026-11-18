@@ -4,6 +4,21 @@
       "type": "minecraft:single",
       "resource": "italiansdelight:block/fluids/whey_still",
       "sprite": "italiansdelight:fluids/whey_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/grape_juice_still",
+      "sprite": "italiansdelight:fluids/grape_juice_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/white_grape_juice_still",
+      "sprite": "italiansdelight:fluids/white_grape_juice_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/wine_still",
+      "sprite": "italiansdelight:fluids/wine_still"
     }
   ]
 }
