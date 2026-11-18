@@ -431,7 +431,7 @@
   "item.italiansdelight.wine_bottle": "Bottle of Wine",
   "fluid.italiansdelight.wine": "Wine",
   "message.italiansdelight.brewing_barrel.status": "Grape juice: %s mB | Wine: %s mB | Ferment: %s / %s ticks | Quality: %s%%",
-  "jei.italiansdelight.fluids.wine": "Rustic-style fermentation: fill the Brewing Barrel with grape juice (bottle 250 mB, bucket 1,000 mB). Wait 12,000 server ticks for wine. Collect wine with empty glass bottles. Right-click the barrel without an item to see status. One wine bottle may be used as an optional, non-consuming yeast culture held in a separate 250 mB culture slot; sneak-use an empty glass bottle to retrieve it. Quality is saved on every wine bottle.",
+  "jei.italiansdelight.fluids.wine": "Brewing Barrel GUI (Rustic layout): center tank for grape juice, right tank for finished wine, left tank for culture. Place containers in the top slots and collect returned containers below. Wine fermentation and recipe processing are not implemented yet.",
   "tooltip.italiansdelight.wine_quality": "Quality: %s%%",
   "block.italiansdelight.grape_juice": "Red Grape Juice",
   "block.italiansdelight.wine": "Wine",
@@ -488,5 +488,8 @@
   "block.italiansdelight.chili_pepper_crate": "Chili Pepper Crate",
   "block.italiansdelight.ghost_pepper_crate": "Ghost Pepper Crate",
   "block.italiansdelight.wild_grape_vine": "Wild Red Grapevine",
-  "block.italiansdelight.wild_white_grape_vine": "Wild White Grapevine"
+  "block.italiansdelight.wild_white_grape_vine": "Wild White Grapevine",
+  "gui.italiansdelight.brewing_barrel.input": "Unfermented grape juice",
+  "gui.italiansdelight.brewing_barrel.output": "Fermented wine (stored only)",
+  "gui.italiansdelight.brewing_barrel.culture": "Wine culture"
 }
