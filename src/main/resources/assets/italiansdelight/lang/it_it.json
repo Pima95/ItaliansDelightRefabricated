@@ -491,5 +491,8 @@
   "block.italiansdelight.wild_white_grape_vine": "Vite selvatica d'uva bianca",
   "gui.italiansdelight.brewing_barrel.input": "Succo d'uva non fermentato",
   "gui.italiansdelight.brewing_barrel.output": "Vino fermentato (solo già conservato)",
-  "gui.italiansdelight.brewing_barrel.culture": "Coltura di vino"
+  "gui.italiansdelight.brewing_barrel.culture": "Coltura di vino",
+  "gui.italiansdelight.jei.brewing_barrel.title": "Botte di fermentazione: guida GUI",
+  "gui.italiansdelight.jei.brewing_barrel.slots": "Sinistra: coltura di vino. Centro: succo d'uva viola/bianca. Destra: prelievo del vino già presente. Contenitori sopra i serbatoi e restituzione sotto.",
+  "gui.italiansdelight.jei.brewing_barrel.disabled": "Fermentazione non ancora implementata. Questa pagina spiega soltanto gli slot della botte."
 }
