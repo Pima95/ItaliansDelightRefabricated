@@ -2,6 +2,8 @@ package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.ItaliansDelight;
 import dev.italiansdelight.client.gui.CheeseVatScreen;
+import dev.italiansdelight.client.gui.BrewingBarrelScreen;
+import dev.italiansdelight.common.block.entity.container.BrewingBarrelMenu;
 import dev.italiansdelight.client.gui.PizzaOvenScreen;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModItems;
@@ -83,6 +85,9 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new CrushingTubRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
+            new BrewingBarrelJeiRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
             new SaltEvaporationRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
@@ -107,6 +112,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         OrchardPlantJeiInfo.register(registration);
         DecorativePoleJeiInfo.register(registration);
         ModFluidJeiInfo.register(registration);
+
+        // Help page only: the barrel GUI moves containers, but NO recipe
+        // converts grape juice to wine in the current development phase.
+        registration.addRecipes(
+            BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE,
+            java.util.List.of(new BrewingBarrelJeiGuide("layout"))
+        );
 
         CheeseVatJeiRecipes recipes =
             new CheeseVatJeiRecipes();
@@ -246,6 +258,33 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             );
         }
 
+        // All wood types open the same *information* category through JEI Uses (U).
+        // There is deliberately no fermenting recipe or wine output.
+        for (net.minecraft.world.level.block.Block barrel :
+                new net.minecraft.world.level.block.Block[] {
+                    ModBlocks.BREWING_BARREL,
+                    ModBlocks.SPRUCE_BREWING_BARREL,
+                    ModBlocks.BIRCH_BREWING_BARREL,
+                    ModBlocks.JUNGLE_BREWING_BARREL,
+                    ModBlocks.ACACIA_BREWING_BARREL,
+                    ModBlocks.DARK_OAK_BREWING_BARREL,
+                    ModBlocks.MANGROVE_BREWING_BARREL,
+                    ModBlocks.CHERRY_BREWING_BARREL,
+                    ModBlocks.PALE_OAK_BREWING_BARREL,
+                    ModBlocks.POPLAR_BREWING_BARREL,
+                    ModBlocks.BAMBOO_BREWING_BARREL,
+                    ModBlocks.CRIMSON_BREWING_BARREL,
+                    ModBlocks.WARPED_BREWING_BARREL,
+                    ModBlocks.OLIVE_BREWING_BARREL,
+                    ModBlocks.ALMOND_BREWING_BARREL,
+                    ModBlocks.FRUIT_CHERRY_BREWING_BARREL
+                }) {
+            registration.addCraftingStation(
+                BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE,
+                new ItemStack(barrel)
+            );
+        }
+
         registration.addCraftingStation(
             SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
             new ItemStack(net.minecraft.world.level.block.Blocks.CAULDRON)
@@ -281,6 +320,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             17,
 
             CheeseVatJeiRecipeTypes.CHEESE_VAT
+        );
+
+        // The original Rustic arrow opens the GUI guide, not a wine recipe.
+        registration.addRecipeClickArea(
+            BrewingBarrelScreen.class,
+            85, 35 + BrewingBarrelMenu.MACHINE_Y_OFFSET, 24, 16,
+            BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE
         );
 
         // Vanilla-layout arrow in our dedicated pizza furnace screen.
