@@ -56,7 +56,39 @@ for index,x,y in (("INPUT_IN",62,7),("OUTPUT_IN",116,7),("CULTURE_IN",26,15),
                   ("INPUT_OUT",62,63),("OUTPUT_OUT",116,63),("CULTURE_OUT",26,55)):
     name=f"BrewingBarrelBlockEntity.{index}"
     action="addInputSlot" if index.endswith("_IN") else "addReturnSlot"
-    assert f"{action}({name}, {x}, {y})" in barrel_menu, index
+    assert f"{action}({name}, {x}, {y} + MACHINE_Y_OFFSET)" in barrel_menu, index
+assert "public static final int MACHINE_Y_OFFSET = 20" in barrel_menu
+assert "public static final int INVENTORY_Y_OFFSET = 32" in barrel_menu
+assert "addStandardInventorySlots(inventory, 8, 84 + INVENTORY_Y_OFFSET)" in barrel_menu
+assert "GUI_HEIGHT = 198" in barrel_screen
+assert "this.inventoryLabelY = 104" in barrel_screen
+assert "this.titleLabelY = 6" in barrel_screen
+assert "font.split(title, GUI_WIDTH - 16)" in barrel_screen
+assert "drawExtendedBackground(graphics)" in barrel_screen
+assert "Component.translatable(getBlockState().getBlock().getDescriptionId())" in barrel_entity
+# Every registered wood still has a translated display key and its own identity.
+assert "getBlockState().getBlock().getDescriptionId()" in barrel_entity
+jei_plugin=(java/"integration/jei/ItaliansDelightJeiPlugin.java").read_text(encoding="utf-8")
+jei_category=(java/"integration/jei/BrewingBarrelJeiRecipeCategory.java").read_text(encoding="utf-8")
+jei_guide=(java/"integration/jei/BrewingBarrelJeiGuide.java").read_text(encoding="utf-8")
+jei_types=(java/"integration/jei/BrewingBarrelJeiRecipeTypes.java").read_text(encoding="utf-8")
+assert 'new BrewingBarrelJeiRecipeCategory(' in jei_plugin
+assert 'BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE' in jei_plugin
+assert 'new BrewingBarrelJeiGuide("layout")' in jei_plugin
+assert 'BrewingBarrelScreen.class' in jei_plugin
+assert "extends AbstractRecipeCategory<BrewingBarrelJeiGuide>" in jei_category
+assert "NO wine output" in jei_category
+assert 'brewing_barrel_gui_guide' in jei_types
+assert "record BrewingBarrelJeiGuide" in jei_guide
+for wood in woods:
+    name=("BREWING_BARREL" if wood=="oak" else wood.upper()+"_BREWING_BARREL")
+    assert f"ModBlocks.{name}" in jei_plugin, name
+for locale in (lang_en,lang_it):
+    for key in ("gui.italiansdelight.jei.brewing_barrel.title",
+                "gui.italiansdelight.jei.brewing_barrel.slots",
+                "gui.italiansdelight.jei.brewing_barrel.disabled"):
+        assert locale[key], key
+
 for required in ("case INPUT_IN", "case OUTPUT_IN", "case CULTURE_IN",
                  "case CULTURE_IN -> stack.is(Items.GLASS_BOTTLE)"):
     assert required in barrel_entity, required
