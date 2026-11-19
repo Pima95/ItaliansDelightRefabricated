@@ -90,7 +90,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     public int getJuiceKind() { return juiceKind; }
 
     @Override public Component getDisplayName() {
-        return Component.translatable("block.italiansdelight.brewing_barrel");
+        return Component.translatable(getBlockState().getBlock().getDescriptionId());
     }
     @Override public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         return new BrewingBarrelMenu(id, inventory, this, menuData);
