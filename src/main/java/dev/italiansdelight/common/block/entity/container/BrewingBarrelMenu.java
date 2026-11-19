@@ -14,13 +14,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 /**
- * Port of Rustic's brewing barrel slot arrangement (176x166 GUI):
- * 0 input (62,7), 1 output-tank vessel (116,7), 2 culture vessel (26,15);
- * 3,4,5 returned containers respectively at (62,63), (116,63), (26,55).
+ * Rustic six-slot arrangement extended to a 176x198 GUI with a 20px header:
+ * 0 input (62,27), 1 output-tank vessel (116,27), 2 culture vessel (26,35);
+ * 3,4,5 returned containers at (62,83), (116,83), (26,75).
  *
  * Only vessels are handled here: there is intentionally no wine recipe.
  */
 public final class BrewingBarrelMenu extends AbstractContainerMenu {
+    public static final int MACHINE_Y_OFFSET = 20;
+    public static final int INVENTORY_Y_OFFSET = 32;
     private static final int MACHINE_END = BrewingBarrelBlockEntity.SIZE;
     private static final int PLAYER_START = MACHINE_END;
     private static final int PLAYER_END = PLAYER_START + Inventory.INVENTORY_SIZE;
@@ -39,13 +41,13 @@ public final class BrewingBarrelMenu extends AbstractContainerMenu {
         this.data = data;
         container.startOpen(inventory.player);
 
-        addInputSlot(BrewingBarrelBlockEntity.INPUT_IN, 62, 7);
-        addInputSlot(BrewingBarrelBlockEntity.OUTPUT_IN, 116, 7);
-        addInputSlot(BrewingBarrelBlockEntity.CULTURE_IN, 26, 15);
-        addReturnSlot(BrewingBarrelBlockEntity.INPUT_OUT, 62, 63);
-        addReturnSlot(BrewingBarrelBlockEntity.OUTPUT_OUT, 116, 63);
-        addReturnSlot(BrewingBarrelBlockEntity.CULTURE_OUT, 26, 55);
-        addStandardInventorySlots(inventory, 8, 84);
+        addInputSlot(BrewingBarrelBlockEntity.INPUT_IN, 62, 7 + MACHINE_Y_OFFSET);
+        addInputSlot(BrewingBarrelBlockEntity.OUTPUT_IN, 116, 7 + MACHINE_Y_OFFSET);
+        addInputSlot(BrewingBarrelBlockEntity.CULTURE_IN, 26, 15 + MACHINE_Y_OFFSET);
+        addReturnSlot(BrewingBarrelBlockEntity.INPUT_OUT, 62, 63 + MACHINE_Y_OFFSET);
+        addReturnSlot(BrewingBarrelBlockEntity.OUTPUT_OUT, 116, 63 + MACHINE_Y_OFFSET);
+        addReturnSlot(BrewingBarrelBlockEntity.CULTURE_OUT, 26, 55 + MACHINE_Y_OFFSET);
+        addStandardInventorySlots(inventory, 8, 84 + INVENTORY_Y_OFFSET);
         addDataSlots(data);
     }
 
