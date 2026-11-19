@@ -491,5 +491,8 @@
   "block.italiansdelight.wild_white_grape_vine": "Wild White Grapevine",
   "gui.italiansdelight.brewing_barrel.input": "Unfermented grape juice",
   "gui.italiansdelight.brewing_barrel.output": "Fermented wine (stored only)",
-  "gui.italiansdelight.brewing_barrel.culture": "Wine culture"
+  "gui.italiansdelight.brewing_barrel.culture": "Wine culture",
+  "gui.italiansdelight.jei.brewing_barrel.title": "Brewing Barrel: GUI guide",
+  "gui.italiansdelight.jei.brewing_barrel.slots": "Left: wine culture. Center: grape juice (purple/white). Right: collect existing wine. Place vessels above the tanks; collect returned vessels below.",
+  "gui.italiansdelight.jei.brewing_barrel.disabled": "Fermentation is not implemented yet. This page documents the container slots only."
 }
