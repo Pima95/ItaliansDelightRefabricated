@@ -36,8 +36,8 @@ import net.minecraft.world.phys.BlockHitResult;
 
 /**
  * Rustic brewing barrel interactions adapted for Fabric 26.3.
- * In this initial stage, fluid input/output uses bottles/buckets directly;
- * output wine quality is stored on each individual wine bottle.
+ * All wood variants share Rustic's brewing behavior and the same six-slot
+ * menu. Quality is retained on the output tank and on each wine vessel.
  */
 public final class BrewingBarrelBlock extends BaseEntityBlock {
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
