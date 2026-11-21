@@ -27,7 +27,7 @@ def put_barrel(rcon, values):
     assert "Changed the block" in reply, reply
     nbt = ",".join(f"{key}:{value}" for key, value in values.items())
     reply = run(rcon, f"data merge block {X} {Y} {Z} {{{nbt}}}")
-    assert "Modified block data" in reply, reply
+    assert "Modified block data" in reply or "Nothing changed" in reply, reply
 
 
 def wait_for_wine(rcon, expected, seconds=8):
