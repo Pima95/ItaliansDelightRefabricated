@@ -11,8 +11,8 @@ La texture già esistente `assets/italiansdelight/textures/gui/brewing_barrel.pn
 
 | Index | Posizione | Funzione | Contenuti ammessi |
 |---|---|---|---|
-| 0 | 62,27 | Contenitore serbatoio input (centro) | Bottiglia/secchio con succo d'uva viola o bianca; bottiglia e secchio vuoti per prelievo |
-| 1 | 116,27 | Contenitore serbatoio output (destra) | Solo bottiglia di vetro vuota |
+| 0 | 62,27 | Contenitore serbatoio input (centro) | Bottiglie/secchi con succo d'uva rossa, succo d'uva bianca o succo di mela; contenitori vuoti per il prelievo |
+| 1 | 116,27 | Contenitore serbatoio output (destra) | Bottiglia di vetro o secchio vuoto, per prelevare vino rosso oppure aceto di mele |
 | 2 | 26,35 | Contenitore coltura (sinistra) | Bottiglia/secchio di vino di qualità nota, oppure bottiglia/secchio vuoto per recuperare la coltura |
 | 3 | 62,83 | Restituzione contenitore input | Solo prelievo |
 | 4 | 116,83 | Restituzione contenitore output | Solo prelievo |
@@ -20,9 +20,9 @@ La texture già esistente `assets/italiansdelight/textures/gui/brewing_barrel.pn
 
 L'inventario giocatore parte da (8,116), la hotbar da y=174. La scritta `Inventory` si trova a y=104. La fascia del titolo parte da (8,6); nomi lunghi vengono spezzati in due righe, senza abbreviare il tipo di legno. Il titolo deriva dall'ID del blocco effettivamente posizionato: ad esempio `mangrove_brewing_barrel` usa la localizzazione `block.italiansdelight.mangrove_brewing_barrel`.
 
-Gli slot superiori sono vere posizioni d'inventario persistenti; gli slot inferiori sono **solo output**. I contenitori sono trasformati solamente se il serbatoio può accettare/fornire il liquido **e** lo slot di ritorno non è bloccato. Non vengono scartate bottiglie né duplicati oggetti quando i serbatoi sono pieni. La selezione del succo bianco/viola è memorizzata per impedire miscele fra le due varietà.
+Gli slot superiori sono vere posizioni d'inventario persistenti; gli slot inferiori sono **solo output**. I contenitori sono trasformati solamente se il serbatoio può accettare/fornire il liquido **e** lo slot di ritorno non è bloccato. Non vengono scartate bottiglie né duplicati oggetti quando i serbatoi sono pieni. Il tipo del succo (rosso, bianco, mela) è memorizzato per evitare miscele di liquidi diversi.
 
-Serbatoi: succo centrale **8000 mB**, vino destro **8000 mB**, coltura sinistra **1000 mB** come Rustic. GUI, progresso, quantità e qualità dei serbatoi sono sincronizzati tramite sette valori di `ContainerData`. Il serbatoio destro mostra il vino prodotto e consente di estrarlo nelle bottiglie, che conservano la qualità in `WINE_QUALITY`. La coltura conserva sia i mB sia la propria qualità quando viene depositata o recuperata.
+Serbatoi: ingresso centrale **8000 mB**, uscita a destra **8000 mB**, coltura a sinistra **1000 mB**. I dati sincronizzati sono **otto**, inclusi tipo di succo, tipo di prodotto e qualità. Il serbatoio di uscita contiene **o vino o aceto**, senza miscelarli. La qualità `WINE_QUALITY` si applica solo al vino. Il tipo è persistito nella nuova chiave `OutputKind`, con valore predefinito vino per conservare i salvataggi precedenti.
 
 ## Correzione rendering (21/11/2026)
 
@@ -47,7 +47,13 @@ Serbatoi: succo centrale **8000 mB**, vino destro **8000 mB**, coltura sinistra 
 
 ## JEI (ricette attive)
 
-La categoria JEI esistente `brewing_barrel_gui_guide` (identificatore conservato per evitare regressioni) mostra ora **due ricette vere**: succo d'uva viola o bianca → vino. L'anteprima usa i fluidi registrati e il volume massimo di 8000 mB. Tutte le 16 varianti dei barili sono stazioni JEI; il clic sulla freccia apre entrambe le ricette. Il testo distingue la coltura facoltativa dalla quantità di succo obbligatoria.
+La categoria JEI conserva il vecchio identificatore `brewing_barrel_gui_guide`, ma usa **l'asset originale già presente** `assets/italiansdelight/textures/gui/jei/brewing_barrel.png`, a **130×80 pixel**, senza stiramenti. Le caselle dei fluidi sono quelle di Rustic: ingresso **(40,24)**, uscita **(94,24)** e coltura opzionale **(4,32)**. Le frecce e le bolle animate sono ricavate dalle aree già presenti nello stesso PNG, non sono aggiunti file grafici. Nessun paragrafo è più disegnato sopra la GUI; le informazioni su durata e coltura sono visualizzate in tooltip.
+
+Sono registrate **solo due ricette funzionanti**, visibili anche cliccando la freccia nella GUI e disponibili per tutte le 16 varianti di legno:
+- **Succo d'uva rossa → vino**, 12.000 tick, coltura di vino facoltativa per qualità;
+- **Succo di mela → aceto di mele**, 12.000 tick, nessuna coltura necessaria.
+
+**Il succo d'uva bianca non fermenta** fino all'introduzione di un prodotto separato per il vino bianco. Rimane depositabile e prelevabile per non perdere contenuto salvato nei mondi.
 
 ## Funzionamento completo del ciclo di fermentazione (adattamento Rustic)
 
@@ -56,16 +62,16 @@ Il codice sorgente originale Rustic è il riferimento per le meccaniche:
 - [BrewingBarrelRecipe](https://github.com/cadaverous-eris/Rustic/blob/master/src/main/java/rustic/common/crafting/BrewingBarrelRecipe.java)
 - [Configurazione](https://github.com/cadaverous-eris/Rustic/blob/master/src/main/java/rustic/common/Config.java)
 
-1. Inserendo succo d'uva viola/bianca nello slot centrale superiore, il serbatoio si riempie in unità da 250 mB (bottiglia) o 1000 mB (secchio). Un singolo serbatoio non miscela succhi viola e bianchi; i contenitori vuoti tornano nello slot inferiore.
-2. Se c'è almeno del succo e il serbatoio del vino non è pieno, il barile fermenta automaticamente per **12.000 tick = 10 minuti reali a 20 TPS**, indipendentemente dalla quantità. Qualsiasi trasferimento effettivo di contenitore in uno dei tre serbatoi azzera il timer, come in Rustic.
-3. Al termine vengono trasformati in vino `min(succo presente, 8000 - vino presente)` mB in un'unica operazione. Il liquido non scompare quando l'uscita è piena; si riavvia un ciclo solo se rimangono succo e spazio. Il vino prodotto è lo stesso tipo registrato `italiansdelight:wine`, anche partendo dal succo bianco: **non esiste ancora un oggetto `white_wine` distinto**.
+1. Inserendo succo d'uva rossa, bianca o succo di mela nello slot centrale superiore, il serbatoio si riempie in unità da 250 mB (bottiglia) o 1000 mB (secchio). Liquidi diversi non si mescolano. I contenitori vuoti tornano nello slot inferiore.
+2. Il barile fermenta automaticamente per **12.000 tick = 10 minuti a 20 TPS** soltanto se l'ingresso contiene succo d'uva rossa o succo di mela, l'uscita dispone di spazio e il tipo di prodotto corrisponde. Qualunque trasferimento effettivo nei serbatoi azzera il timer, come in Rustic. Il succo bianco rimane fermo, senza produrre vino rosso.
+3. Al termine viene trasformata la quantità `min(ingresso, 8000 - uscita)` mB in un'unica operazione. L'uva rossa produce `italiansdelight:wine`; la mela produce `italiansdelight:apple_cider_vinegar`, già registrato nella mod, usando le sue bottiglie e i suoi secchi. Se l'uscita contiene un prodotto diverso, la ricetta non parte e non viene perso liquido. **Nessun vino bianco viene generato per errore.**
 4. La qualità di un serbatoio di vino prima vuoto è casuale **5–75%** in assenza di coltura, come l'originale `5 + nextInt(71)`. Con una coltura di vino disponibile, la qualità del nuovo lotto è `clamp(qualità coltura + casuale[-1,+4], 0, 100)`; la coltura non si consuma durante la fermentazione e può servire a generazioni successive.
 5. Una coltura può essere aggiunta o recuperata con bottiglie da 250 mB e secchi da 1000 mB nell'ingresso sinistro. Non si mescolano nello stesso serbatoio colture di qualità diverse. Se l'uscita contiene già vino, Rustic **mantiene la qualità del lotto già presente** anche quando si aggiunge altro vino.
-6. Bottiglie vuote nell'ingresso destro prelevano 250 mB di vino; la qualità viene salvata nel componente `WINE_QUALITY` della singola bottiglia. Gli slot inferiori sono sempre di sola estrazione; se il contenitore di ritorno non può essere collocato, il trasferimento non avviene.
+6. Bottiglie di vetro e secchi vuoti prelevano rispettivamente 250 e 1000 mB dal serbatoio destro, ottenendo vino o aceto coerentemente con il prodotto presente. Il vino conserva `WINE_QUALITY` su ogni recipiente; l'aceto non ha qualità. Gli slot inferiori sono sempre di sola estrazione e i trasferimenti non avvengono quando il relativo ritorno è bloccato.
 
 ### Compatibilità salvataggi
 
-Sono mantenute le chiavi NBT `JuiceAmount`, `JuiceKind`, `WineAmount`, `WineQuality`, `CultureQuality`, `BrewTime` e l'inventario dei sei slot. La nuova chiave `CultureAmount` conserva i mB; negli attuali mondi già salvati, se è presente `CultureQuality` ma manca `CultureAmount`, la coltura viene recuperata come **250 mB** senza perdere qualità. I valori sono limitati alla capacità in lettura.
+Sono mantenute le chiavi NBT `JuiceAmount`, `JuiceKind`, `WineAmount`, `WineQuality`, `CultureQuality`, `BrewTime` e l'inventario dei sei slot. **`WineAmount` continua a essere la chiave storica del volume in uscita**, anche per l'aceto, evitando modifiche incompatibili ai salvataggi. `OutputKind` (0=vino, 1=aceto) distingue il prodotto, con 0 per i mondi precedenti. La nuova chiave `CultureAmount` conserva i mB; negli attuali mondi già salvati, se è presente `CultureQuality` ma manca `CultureAmount`, la coltura viene recuperata come **250 mB** senza perdere qualità. I valori sono limitati alla capacità in lettura.
 
 ### Conservate dal prototipo GUI
 - Apertura con click destro tenendo qualunque oggetto o a mano vuota (non più accesso diretto ai serbatoi bypassando la GUI).
@@ -81,10 +87,10 @@ Sono mantenute le chiavi NBT `JuiceAmount`, `JuiceKind`, `WineAmount`, `WineQual
 3. Inserire succo bianco in una botte vuota separata; provare ad aggiungere viola alla stessa botte: la miscela deve essere rifiutata senza perdite.
 4. Provare l'inserimento manuale e lo shift-click; i tre slot inferiori non devono accettare nulla.
 5. Rompere/riposizionare la botte e riaprire la GUI: contenitori e livelli devono rimanere salvati.
-6. Lasciare 12.000 tick una botte con succo: verificare la produzione della stessa quantità di vino, frecce e bolle animate, qualità visibile e bottiglie prodotte con il componente qualità.
+6. Lasciare 12.000 tick una botte con succo d'uva rossa: verificare produzione di vino, frecce e bolle animate, qualità e bottiglie. Ripetere con succo di mela: deve produrre aceto; la qualità non va mostrata.
 7. Aggiungere una coltura di 250 mB e testare cinque cicli successivi; non deve consumarsi durante la fermentazione. La qualità dei vini nuovi deve restare nel limite di ±1/+4 punti rispetto alla coltura.
 8. Riempire il serbatoio di uscita fino a 8000 mB e lasciare del succo nell'ingresso: niente perdita, niente fermentazione mentre il vino è pieno. Dopo il prelievo, deve avviarsi un nuovo ciclo.
 9. In un mondo con una vecchia botte già contenente vino o coltura, verificare che il recupero tramite bottiglia funzioni e mantenga la qualità. La vecchia coltura senza volume deve riapparire come 250 mB.
-10. Confermare che JEI mostri succo viola e bianco come due ricette, l'uscita vino e i 16 catalizzatori.
+10. Confermare che JEI mostri **rosso→vino e mela→aceto** sopra l'asset originale 130×80, senza testi sovrapposti, e tutti i 16 catalizzatori. Con succo bianco controllare che il progresso resti fermo.
 
 Questa versione è un'implementazione nuova per Fabric/Minecraft 26.3, non un porting dei file Java Forge 1.12 di Rustic.
