@@ -15,6 +15,37 @@ public final class ModFluidJeiInfo {
 
     public static void register(IRecipeRegistration registration) {
         registration.addItemStackInfo(List.of(
+            new ItemStack(ModItems.CHERRY_JUICE_BOTTLE),
+            new ItemStack(ModItems.CHERRY_JUICE_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.cherry_juice"));
+
+        registration.addItemStackInfo(List.of(
+            new ItemStack(ModItems.WHITE_WINE_BOTTLE),
+            new ItemStack(ModItems.WHITE_WINE_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.white_wine"));
+
+        registration.addItemStackInfo(List.of(
+            new ItemStack(ModItems.CHERRY_WINE_BOTTLE),
+            new ItemStack(ModItems.CHERRY_WINE_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.cherry_wine"));
+
+        registration.addItemStackInfo(List.of(
+            new ItemStack(ModItems.MEAD_BOTTLE),
+            new ItemStack(ModItems.MEAD_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.mead"));
+
+        registration.addItemStackInfo(List.of(
+            new ItemStack(ModItems.CIDER_BOTTLE),
+            new ItemStack(ModItems.CIDER_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.cider"));
+
+        registration.addItemStackInfo(List.of(
+            new ItemStack(ModItems.RED_WINE_VINEGAR_BOTTLE),
+            new ItemStack(ModItems.RED_WINE_VINEGAR_BUCKET)),
+            Component.translatable("jei.italiansdelight.fluids.red_wine_vinegar"));
+
+
+        registration.addItemStackInfo(List.of(
                 new ItemStack(ModItems.OLIVE_OIL_BOTTLE),
                 new ItemStack(ModItems.OLIVE_OIL_BUCKET)),
             Component.translatable("jei.italiansdelight.fluids.olive_oil"));
