@@ -987,6 +987,7 @@ public final class ModItems {
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("wine_bottle"));
         public static final Item WINE_BOTTLE = register(WINE_BOTTLE_KEY,
                 WineBottleItem::new, new Item.Properties().stacksTo(1)
+                        .craftRemainder(Items.GLASS_BOTTLE)
                         .component(ModDataComponents.WINE_QUALITY, 0));
 
         // Grape juice: a real Fabric storage fluid, intentionally not world-placeable.
@@ -1089,13 +1090,13 @@ public final class ModItems {
         // Rustic-style wine, cider, mead and cherry juice families.
         public static final Item CHERRY_JUICE_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_juice_bottle")), ConsumableItem::new, drinkBottleProperties(Consumables.DEFAULT_DRINK));
         public static final Item CHERRY_JUICE_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_juice_bucket")), new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET));
-        public static final Item WHITE_WINE_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("white_wine_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item WHITE_WINE_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("white_wine_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).component(ModDataComponents.WINE_QUALITY, 0));
         public static final Item WHITE_WINE_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("white_wine_bucket")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).component(ModDataComponents.WINE_QUALITY, 0));
-        public static final Item CHERRY_WINE_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_wine_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item CHERRY_WINE_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_wine_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).component(ModDataComponents.WINE_QUALITY, 0));
         public static final Item CHERRY_WINE_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_wine_bucket")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).component(ModDataComponents.WINE_QUALITY, 0));
-        public static final Item MEAD_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("mead_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item MEAD_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("mead_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).component(ModDataComponents.WINE_QUALITY, 0));
         public static final Item MEAD_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("mead_bucket")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).component(ModDataComponents.WINE_QUALITY, 0));
-        public static final Item CIDER_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cider_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item CIDER_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cider_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).component(ModDataComponents.WINE_QUALITY, 0));
         public static final Item CIDER_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cider_bucket")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).component(ModDataComponents.WINE_QUALITY, 0));
         public static final Item RED_WINE_VINEGAR_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("red_wine_vinegar_bottle")), new Item.Properties().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE));
         public static final Item RED_WINE_VINEGAR_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("red_wine_vinegar_bucket")), new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET));
