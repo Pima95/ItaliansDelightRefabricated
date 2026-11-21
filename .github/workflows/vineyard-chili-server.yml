@@ -49,6 +49,9 @@ jobs:
             sleep 1
           done
           if [ "$started" -eq 1 ]; then
+            # Validate real 12,000-tick wine fermentation without a 10-minute
+            # wall-clock wait by seeding a disposable barrel near completion.
+            python3 .github/scripts/test_brewing_rcon.py
             python3 .github/scripts/test_vineyard_server_rcon.py
           fi
           kill -INT "$runner" 2>/dev/null || true
