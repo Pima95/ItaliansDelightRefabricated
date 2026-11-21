@@ -80,6 +80,29 @@ def main():
         assert read_field(client, "CultureAmount") == 250
         print("PASSED: apple juice -> 1000 mB cider vinegar, wine culture unaffected", flush=True)
 
+        # Check the ACTUAL vessel-to-tank transfer on the server (not only
+        # seeded NBT): an empty bottle in output slot 1 must be replaced with
+        # the mod's preexisting cider vinegar item in the lower return slot.
+        run(client, f"item replace block {X} {Y} {Z} container.1 with minecraft:glass_bottle 1")
+        wait_for_wine(client, 750)
+        output_items = run(client, f"data get block {X} {Y} {Z} Items")
+        assert "italiansdelight:apple_cider_vinegar" in output_items, output_items
+        print("PASSED: vinegar bottle is produced by the actual output slot", flush=True)
+
+        # Likewise, feeding an actual apple-juice bucket into slot 0 fills
+        # the internal tank and sends an empty bucket to the lower return slot.
+        put_barrel(client, {"JuiceAmount": 0, "JuiceKind": 0,
+                            "WineAmount": 0, "OutputKind": 0, "BrewTime": 0})
+        run(client, f"item replace block {X} {Y} {Z} container.0 with italiansdelight:apple_juice_bucket 1")
+        deadline = time.monotonic() + 5
+        while read_field(client, "JuiceAmount") != 1000 and time.monotonic() < deadline:
+            time.sleep(.1)
+        assert read_field(client, "JuiceAmount") == 1000
+        assert read_field(client, "JuiceKind") == 2
+        returned_items = run(client, f"data get block {X} {Y} {Z} Items")
+        assert "minecraft:bucket" in returned_items, returned_items
+        print("PASSED: apple juice bucket feeds the fermentation tank and returns the empty bucket", flush=True)
+
         # The same tank must never mix red wine with apple cider vinegar.
         put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 2,
                             "WineAmount": 500, "OutputKind": 0,
