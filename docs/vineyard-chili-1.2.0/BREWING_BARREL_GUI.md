@@ -38,6 +38,13 @@ Serbatoi: succo centrale **8000 mB**, vino destro **8000 mB**, coltura sinistra 
 4. Con oggetti negli slot, i segnaposto devono sparire. La GUI, il titolo e JEI devono restare identici.
 5. Lasciare il succo inserito per molti tick: non deve essere creato vino.
 
+## Rifiniture slot e leggibilità dei liquidi rossi (21/11/2026)
+
+- **Secchio**: eliminato il disegno dell'item `minecraft:textures/item/bucket.png` con tinta `0x88888888` che sembrava una patina; ripristinata esclusivamente la silhouette vuota, già presente nel PNG della GUI Rustic ai pixel `(176,54)`. L'interno resta trasparente.
+- **Ampolle**: si mantiene lo sprite moderno vanilla `minecraft:container/slot/potion`, ma adesso viene disegnato in un'area 14×14, con 1px di margine interno e una compensazione ottica di +1px in orizzontale. Le coordinate si ricavano dagli slot effettivi del menu e quindi restano valide per tutte le 16 varianti.
+- **Succo d'uva viola e vino rosso**: i pixel animati trasparenti sopra al fondo scuro del serbatoio rendevano difficile distinguere le variazioni. Il metodo `tank` aggiunge un fondo opaco color vinaccia **soltanto nell'area occupata dal liquido**, delimitata dallo stesso scissor del livello; i frame animati 16×16 vengono disegnati sopra senza modificarli. Il succo bianco continua a usare la resa originale. L'animazione e la trasparenza degli asset in mondo/JEI sono invariate.
+- Nessuna logica di fermentazione abilitata. Rimangono da verificare nel client allineamento visivo e contrasto a 250, 4000 e 8000 mB.
+
 ## JEI (guida, non ricetta)
 
 È stata introdotta una categoria informativa `brewing_barrel_gui_guide`, con una pagina che descrive gli slot realmente disponibili e segnala la fermentazione disattivata. Tutte le 16 varianti dei barili sono registrate come stazioni JEI; il clic sull'area della freccia (posizione adattata) apre la guida. La categoria non presenta output di vino, non registra ricette di produzione e non abilita gameplay inesistente.
