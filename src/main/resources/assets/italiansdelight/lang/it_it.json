@@ -522,5 +522,15 @@
   "item.italiansdelight.red_wine_vinegar_bucket": "Secchio di aceto di vino rosso",
   "fluid.italiansdelight.red_wine_vinegar": "Aceto di vino rosso",
   "jei.italiansdelight.fluids.red_wine_vinegar": "Inserisci vino rosso nel serbatoio centrale del Brewing Barrel. Dopo 12.000 tick otterrai aceto di vino rosso. Non richiede coltura e non ha qualità alcolica; si usa per insalata di mozzarella e bruschetta alle olive.",
-  "gui.italiansdelight.jei.brewing_barrel.required_culture": "Sidro: serve almeno una bottiglia di vino nel serbatoio della coltura. Senza coltura la mela diventa aceto."
+  "gui.italiansdelight.jei.brewing_barrel.required_culture": "Sidro: serve almeno una bottiglia di vino nel serbatoio della coltura. Senza coltura la mela diventa aceto.",
+  "fluid.italiansdelight.apple_juice": "Succo di mela",
+  "block.italiansdelight.apple_juice": "Succo di mela",
+  "block.italiansdelight.cherry_juice": "Succo di ciliegie",
+  "block.italiansdelight.white_wine": "Vino bianco",
+  "block.italiansdelight.cherry_wine": "Vino di ciliegie",
+  "block.italiansdelight.mead": "Idromele",
+  "block.italiansdelight.cider": "Sidro di mele",
+  "block.italiansdelight.red_wine_vinegar": "Aceto di vino rosso",
+  "fluid.italiansdelight.olive_oil": "Olio d'oliva",
+  "block.italiansdelight.olive_oil": "Olio d'oliva"
 }

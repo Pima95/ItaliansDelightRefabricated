@@ -522,5 +522,15 @@
   "item.italiansdelight.red_wine_vinegar_bucket": "Red Wine Vinegar Bucket",
   "fluid.italiansdelight.red_wine_vinegar": "Red Wine Vinegar",
   "jei.italiansdelight.fluids.red_wine_vinegar": "Ferment red wine in the Brewing Barrel for 12,000 ticks. Red wine vinegar needs no culture and has no alcohol quality. Use it in mozzarella salad or olive bruschetta.",
-  "gui.italiansdelight.jei.brewing_barrel.required_culture": "Cider: at least one wine bottle of culture is required. Without culture, apple juice becomes vinegar."
+  "gui.italiansdelight.jei.brewing_barrel.required_culture": "Cider: at least one wine bottle of culture is required. Without culture, apple juice becomes vinegar.",
+  "fluid.italiansdelight.apple_juice": "Apple Juice",
+  "block.italiansdelight.apple_juice": "Apple Juice",
+  "block.italiansdelight.cherry_juice": "Cherry Juice",
+  "block.italiansdelight.white_wine": "White Wine",
+  "block.italiansdelight.cherry_wine": "Cherry Wine",
+  "block.italiansdelight.mead": "Mead",
+  "block.italiansdelight.cider": "Apple Cider",
+  "block.italiansdelight.red_wine_vinegar": "Red Wine Vinegar",
+  "fluid.italiansdelight.olive_oil": "Olive Oil",
+  "block.italiansdelight.olive_oil": "Olive Oil"
 }
