@@ -3,7 +3,7 @@ package dev.italiansdelight.integration.jei;
 import dev.italiansdelight.ItaliansDelight;
 import mezz.jei.api.recipe.types.IRecipeType;
 
-/** Informational JEI category; no fermenting recipes have been implemented. */
+/** Real wine-fermentation recipes; preserve the original JEI category identifier. */
 public final class BrewingBarrelJeiRecipeTypes {
     private BrewingBarrelJeiRecipeTypes() {}
 
