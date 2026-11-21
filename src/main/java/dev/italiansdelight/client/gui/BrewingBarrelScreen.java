@@ -30,6 +30,18 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
         "italiansdelight", "fluids/apple_cider_vinegar_still");
     private static final Identifier WINE = Identifier.fromNamespaceAndPath(
         "italiansdelight", "fluids/wine_still");
+    private static final Identifier CHERRY_JUICE = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "fluids/cherry_juice_still");
+    private static final Identifier WHITE_WINE = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "fluids/white_wine_still");
+    private static final Identifier CHERRY_WINE = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "fluids/cherry_wine_still");
+    private static final Identifier MEAD = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "fluids/mead_still");
+    private static final Identifier CIDER = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "fluids/cider_still");
+    private static final Identifier WINE_VINEGAR = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "fluids/red_wine_vinegar_still");
 
     // Both modern 16x16 silhouettes are drawn from the spare sprite cells in
     // the SAME 256x256 brewing_barrel.png GUI texture, at u=176, v=54/70.
@@ -159,19 +171,38 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
         super.extractBackground(graphics, mouseX, mouseY, delta);
         drawExtendedBackground(graphics);
 
-        Identifier inputSprite = menu.isAppleJuice() ? APPLE
-            : menu.hasWhiteGrapeJuice() ? WHITE : PURPLE;
-        tank(graphics, inputSprite,
-            62, 27 + MACHINE_SHIFT, 32, menu.getInputAmount(),
+        Identifier inputSprite = switch (menu.getInputKind()) {
+            case BrewingBarrelBlockEntity.JUICE_WHITE -> WHITE;
+            case BrewingBarrelBlockEntity.JUICE_APPLE -> APPLE;
+            case BrewingBarrelBlockEntity.JUICE_CHERRY -> CHERRY_JUICE;
+            case BrewingBarrelBlockEntity.JUICE_HONEY -> MEAD;
+            case BrewingBarrelBlockEntity.JUICE_RED_WINE -> WINE;
+            case BrewingBarrelBlockEntity.JUICE_CIDER -> CIDER;
+            default -> PURPLE;
+        };
+        Identifier outputSprite = switch (menu.getOutputKind()) {
+            case BrewingBarrelBlockEntity.OUTPUT_VINEGAR -> VINEGAR;
+            case BrewingBarrelBlockEntity.OUTPUT_WHITE_WINE -> WHITE_WINE;
+            case BrewingBarrelBlockEntity.OUTPUT_CHERRY_WINE -> CHERRY_WINE;
+            case BrewingBarrelBlockEntity.OUTPUT_MEAD -> MEAD;
+            case BrewingBarrelBlockEntity.OUTPUT_CIDER -> CIDER;
+            case BrewingBarrelBlockEntity.OUTPUT_WINE_VINEGAR -> WINE_VINEGAR;
+            default -> WINE;
+        };
+        boolean paleInput = menu.getInputKind() == BrewingBarrelBlockEntity.JUICE_WHITE
+            || menu.getInputKind() == BrewingBarrelBlockEntity.JUICE_APPLE
+            || menu.getInputKind() == BrewingBarrelBlockEntity.JUICE_HONEY
+            || menu.getInputKind() == BrewingBarrelBlockEntity.JUICE_CIDER;
+        boolean paleOutput = menu.getOutputKind() == BrewingBarrelBlockEntity.OUTPUT_WHITE_WINE
+            || menu.getOutputKind() == BrewingBarrelBlockEntity.OUTPUT_MEAD
+            || menu.getOutputKind() == BrewingBarrelBlockEntity.OUTPUT_CIDER
+            || menu.hasVinegarOutput();
+        tank(graphics, inputSprite, 62, 27 + MACHINE_SHIFT, 32, menu.getInputAmount(),
             BrewingBarrelBlockEntity.CAPACITY,
-            menu.isAppleJuice() ? 0xFFD8B45D
-                : menu.hasWhiteGrapeJuice() ? 0xBFE9DE9B : 0xBFB78FCA,
-            menu.isAppleJuice() ? 0 : menu.hasWhiteGrapeJuice() ? 0 : 0xFF87395F);
-        tank(graphics, menu.hasVinegarOutput() ? VINEGAR : WINE,
-            116, 27 + MACHINE_SHIFT, 32, menu.getOutputAmount(),
+            paleInput ? 0xFFDFC284 : 0xFFC78AB9, paleInput ? 0 : 0xFF87395F);
+        tank(graphics, outputSprite, 116, 27 + MACHINE_SHIFT, 32, menu.getOutputAmount(),
             BrewingBarrelBlockEntity.CAPACITY,
-            menu.hasVinegarOutput() ? 0xFFD9AE74 : 0xBFCA8FA6,
-            menu.hasVinegarOutput() ? 0 : 0xFF7B304D);
+            paleOutput ? 0xFFE5CB8D : 0xFFC789A8, paleOutput ? 0 : 0xFF7B304D);
         tank(graphics, WINE, 26, 35 + MACHINE_SHIFT, 16, menu.getCultureAmount(),
             BrewingBarrelBlockEntity.CULTURE_CAPACITY, 0xBFCA8FA6, 0xFF7B304D);
 
