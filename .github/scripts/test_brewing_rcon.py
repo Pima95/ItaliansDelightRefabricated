@@ -122,6 +122,34 @@ def main():
         assert read_field(client, "WineQuality") == 0
         print("PASSED: red wine -> wine vinegar (no alcoholic quality)", flush=True)
 
+        # Test the actual new bottle IDs through the block inventory, not
+        # only NBT output-kind discriminators.
+        for kind, bottle_id in (
+            (2, "white_wine_bottle"),
+            (3, "cherry_wine_bottle"),
+            (4, "mead_bottle"),
+            (5, "cider_bottle"),
+            (6, "red_wine_vinegar_bottle"),
+        ):
+            put_barrel(client, {"JuiceAmount": 0, "WineAmount": 1000,
+                                "WineQuality": 65, "OutputKind": kind,
+                                "BrewTime": 0})
+            run(client, f"item replace block {X} {Y} {Z} container.1 with minecraft:glass_bottle 1")
+            wait_for_wine(client, 750)
+            returned = run(client, f"data get block {X} {Y} {Z} Items")
+            assert "italiansdelight:" + bottle_id in returned, (kind, returned)
+            print(f"PASSED: actual output item {bottle_id}", flush=True)
+
+        # A real honey bottle is accepted as input and returns the glass.
+        put_barrel(client, {"JuiceAmount": 0, "WineAmount": 0, "BrewTime": 0})
+        run(client, f"item replace block {X} {Y} {Z} container.0 with minecraft:honey_bottle 1")
+        deadline = time.monotonic() + 5
+        while read_field(client, "JuiceAmount") != 250 and time.monotonic() < deadline:
+            time.sleep(.1)
+        assert read_field(client, "JuiceAmount") == 250
+        assert read_field(client, "JuiceKind") == 4
+        print("PASSED: real honey bottle transfers into mead must", flush=True)
+
         # Restore vinegar output for the bottle-return test below.
         put_barrel(client, {"JuiceAmount": 0, "JuiceKind": 2,
                             "WineAmount": 1000, "OutputKind": 1,
