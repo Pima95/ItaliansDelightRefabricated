@@ -84,5 +84,41 @@ public final class ModFluids {
         BuiltInRegistries.FLUID, WINE_KEY,
         new ContainedFluid(() -> ModItems.WINE_BUCKET));
 
+    public static final ResourceKey<Fluid> CHERRY_JUICE_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("cherry_juice"));
+    public static final Fluid CHERRY_JUICE = Registry.register(
+        BuiltInRegistries.FLUID, CHERRY_JUICE_KEY,
+        new ContainedFluid(() -> ModItems.CHERRY_JUICE_BUCKET));
+
+    public static final ResourceKey<Fluid> WHITE_WINE_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("white_wine"));
+    public static final Fluid WHITE_WINE = Registry.register(
+        BuiltInRegistries.FLUID, WHITE_WINE_KEY,
+        new ContainedFluid(() -> ModItems.WHITE_WINE_BUCKET));
+
+    public static final ResourceKey<Fluid> CHERRY_WINE_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("cherry_wine"));
+    public static final Fluid CHERRY_WINE = Registry.register(
+        BuiltInRegistries.FLUID, CHERRY_WINE_KEY,
+        new ContainedFluid(() -> ModItems.CHERRY_WINE_BUCKET));
+
+    public static final ResourceKey<Fluid> MEAD_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("mead"));
+    public static final Fluid MEAD = Registry.register(
+        BuiltInRegistries.FLUID, MEAD_KEY,
+        new ContainedFluid(() -> ModItems.MEAD_BUCKET));
+
+    public static final ResourceKey<Fluid> CIDER_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("cider"));
+    public static final Fluid CIDER = Registry.register(
+        BuiltInRegistries.FLUID, CIDER_KEY,
+        new ContainedFluid(() -> ModItems.CIDER_BUCKET));
+
+    public static final ResourceKey<Fluid> RED_WINE_VINEGAR_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("red_wine_vinegar"));
+    public static final Fluid RED_WINE_VINEGAR = Registry.register(
+        BuiltInRegistries.FLUID, RED_WINE_VINEGAR_KEY,
+        new ContainedFluid(() -> ModItems.RED_WINE_VINEGAR_BUCKET));
+
     public static void register() {}
 }
