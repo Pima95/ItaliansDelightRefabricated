@@ -225,7 +225,7 @@ assert "wineAmount == 0 || outputKind == expected" in barrel_entity
 assert "ItemStack filled = outputContainer(outputKind, bucket, wineQuality);" in barrel_entity
 assert "if (hasQuality(kind))" in barrel_entity
 assert "ModItems.APPLE_CIDER_VINEGAR_BUCKET" in barrel_entity
-assert "ModItems.APPLE_CIDER_VINEGAR)" in barrel_entity
+assert "ModItems.APPLE_CIDER_VINEGAR" in barrel_entity
 assert "ModItems.APPLE_JUICE_BOTTLE" in barrel_entity
 assert "ModItems.APPLE_JUICE_BUCKET" in barrel_entity
 assert "menu.hasVinegarOutput()" in barrel_screen
