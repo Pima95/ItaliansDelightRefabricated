@@ -27,6 +27,14 @@ public final class BarrelFluidContainers {
             return new Portion("italiansdelight:rennet", 1000, Items.BUCKET);
         if (stack.is(ModItems.APPLE_CIDER_VINEGAR_BUCKET))
             return new Portion("italiansdelight:apple_cider_vinegar", 1000, Items.BUCKET);
+        if (stack.is(ModItems.CHERRY_JUICE_BOTTLE))
+            return new Portion("italiansdelight:cherry_juice", 250, Items.GLASS_BOTTLE);
+        if (stack.is(ModItems.CHERRY_JUICE_BUCKET))
+            return new Portion("italiansdelight:cherry_juice", 1000, Items.BUCKET);
+        if (stack.is(ModItems.RED_WINE_VINEGAR_BOTTLE))
+            return new Portion("italiansdelight:red_wine_vinegar", 250, Items.GLASS_BOTTLE);
+        if (stack.is(ModItems.RED_WINE_VINEGAR_BUCKET))
+            return new Portion("italiansdelight:red_wine_vinegar", 1000, Items.BUCKET);
         // Farmer's Delight cow milk bottles must behave like our sheep milk.
         if (stack.is(vectorwing.farmersdelight.common.registry.ModItems.MILK_BOTTLE.get()))
             return new Portion("minecraft:milk", 250, Items.GLASS_BOTTLE);
@@ -82,6 +90,8 @@ public final class BarrelFluidContainers {
         if (size == 250) {
             if ("italiansdelight:rennet".equals(id)) return new ItemStack(ModItems.RENNET);
             if ("italiansdelight:apple_cider_vinegar".equals(id)) return new ItemStack(ModItems.APPLE_CIDER_VINEGAR);
+            if ("italiansdelight:cherry_juice".equals(id)) return new ItemStack(ModItems.CHERRY_JUICE_BOTTLE);
+            if ("italiansdelight:red_wine_vinegar".equals(id)) return new ItemStack(ModItems.RED_WINE_VINEGAR_BOTTLE);
             if ("italiansdelight:sheep_milk".equals(id)) return new ItemStack(ModItems.SHEEP_MILK_BOTTLE);
             if ("minecraft:milk".equals(id)) return new ItemStack(
                 vectorwing.farmersdelight.common.registry.ModItems.MILK_BOTTLE.get());
@@ -102,6 +112,8 @@ public final class BarrelFluidContainers {
         if (size != 1000) return ItemStack.EMPTY;
         if ("italiansdelight:rennet".equals(id)) return new ItemStack(ModItems.RENNET_BUCKET);
         if ("italiansdelight:apple_cider_vinegar".equals(id)) return new ItemStack(ModItems.APPLE_CIDER_VINEGAR_BUCKET);
+        if ("italiansdelight:cherry_juice".equals(id)) return new ItemStack(ModItems.CHERRY_JUICE_BUCKET);
+        if ("italiansdelight:red_wine_vinegar".equals(id)) return new ItemStack(ModItems.RED_WINE_VINEGAR_BUCKET);
         if ("minecraft:milk".equals(id)) return new ItemStack(Items.MILK_BUCKET);
         if ("italiansdelight:sheep_milk".equals(id)) return new ItemStack(ModItems.SHEEP_MILK_BUCKET);
         if ("italiansdelight:whey".equals(id)) return new ItemStack(ModItems.WHEY_BUCKET);
