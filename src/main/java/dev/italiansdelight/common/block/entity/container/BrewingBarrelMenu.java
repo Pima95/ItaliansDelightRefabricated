@@ -30,13 +30,13 @@ public final class BrewingBarrelMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public BrewingBarrelMenu(int id, Inventory inventory) {
-        this(id, inventory, new SimpleContainer(MACHINE_END), new SimpleContainerData(7));
+        this(id, inventory, new SimpleContainer(MACHINE_END), new SimpleContainerData(8));
     }
 
     public BrewingBarrelMenu(int id, Inventory inventory, Container container, ContainerData data) {
         super(ModMenuTypes.BREWING_BARREL, id);
         checkContainerSize(container, MACHINE_END);
-        checkContainerDataCount(data, 7);
+        checkContainerDataCount(data, 8);
         this.container = container;
         this.data = data;
         container.startOpen(inventory.player);
@@ -72,6 +72,10 @@ public final class BrewingBarrelMenu extends AbstractContainerMenu {
     public int getMaxBrewTime() { return BrewingBarrelBlockEntity.BREW_TIME; }
     public int getOutputQuality() { return data.get(5); }
     public int getCultureQuality() { return data.get(6); }
+    public int getOutputKind() { return data.get(7); }
+    public int getInputKind() { return data.get(4); }
+    public boolean isAppleJuice() { return getInputKind() == BrewingBarrelBlockEntity.JUICE_APPLE; }
+    public boolean hasVinegarOutput() { return getOutputKind() == BrewingBarrelBlockEntity.OUTPUT_VINEGAR; }
     public boolean isBrewing() { return getProgress() > 0; }
     public boolean hasWhiteGrapeJuice() { return data.get(4) == BrewingBarrelBlockEntity.JUICE_WHITE; }
 
