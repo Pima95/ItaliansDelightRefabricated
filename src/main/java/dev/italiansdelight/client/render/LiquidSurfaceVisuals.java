@@ -60,6 +60,22 @@ public final class LiquidSurfaceVisuals {
         // Map.of permits only ten entries; extend the mutable map explicitly.
         SURFACES.put("italiansdelight:white_grape_juice",
             new Surface(ModRegistries.id("block/fluids/white_grape_juice_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:grape_juice",
+            new Surface(ModRegistries.id("block/fluids/grape_juice_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:wine",
+            new Surface(ModRegistries.id("block/fluids/booze/wine_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:cherry_juice",
+            new Surface(ModRegistries.id("block/fluids/booze/cherry_juice_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:white_wine",
+            new Surface(ModRegistries.id("block/fluids/booze/white_wine_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:cherry_wine",
+            new Surface(ModRegistries.id("block/fluids/booze/cherry_wine_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:mead",
+            new Surface(ModRegistries.id("block/fluids/booze/mead_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:cider",
+            new Surface(ModRegistries.id("block/fluids/booze/cider_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:red_wine_vinegar",
+            new Surface(ModRegistries.id("block/fluids/booze/red_wine_vinegar_still"), 0xFFFFFFFF));
     }
 
     // Only external/unregistered fluids need the conventional five-path atlas
