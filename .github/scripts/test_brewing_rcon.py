@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Functional 26.3 Rustic brewing test in an isolated GitHub Actions world.
+"""Functional 26.3 red-wine and cider-vinegar brewing test in an isolated Actions world.
 
 This never touches the player's actual worlds. We use vanilla /data on a
 fresh test barrel to seed the last few ticks of an otherwise 12,000-tick
@@ -56,21 +56,44 @@ def main():
         assert 5 <= quality <= 75, quality
         print(f"PASSED: purple grape fermentation, 1000 mB, base quality {quality}", flush=True)
 
-        # White-grape wine: same registered wine result, but a different
-        # input juice. A 250 mB culture remains available and affects quality.
+        # White grapes have NO corresponding wine: must stay untouched and
+        # cannot quietly produce the existing red wine.
         put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 1,
                             "WineAmount": 0, "CultureAmount": 250,
                             "CultureQuality": 75, "BrewTime": 11995})
+        time.sleep(.35)
+        assert read_field(client, "JuiceAmount") == 1000
+        assert read_field(client, "WineAmount") == 0
+        assert read_field(client, "BrewTime") == 0
+        print("PASSED: white grapes do NOT ferment into red wine", flush=True)
+
+        # Apple juice produces the preexisting vinegar (not wine) after one
+        # Rustic 12,000-tick cycle. Culture has no effect on vinegar quality.
+        put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 2,
+                            "WineAmount": 0, "OutputKind": 0,
+                            "CultureAmount": 250, "CultureQuality": 75,
+                            "BrewTime": 11995})
         wait_for_wine(client, 1000)
-        quality = read_field(client, "WineQuality")
-        assert 74 <= quality <= 79, quality
+        assert read_field(client, "JuiceAmount") == 0
+        assert read_field(client, "OutputKind") == 1
+        assert read_field(client, "WineQuality") == 0
         assert read_field(client, "CultureAmount") == 250
-        assert read_field(client, "CultureQuality") == 75
-        print(f"PASSED: white grape fermentation, conserved culture, quality {quality}", flush=True)
+        print("PASSED: apple juice -> 1000 mB cider vinegar, wine culture unaffected", flush=True)
+
+        # The same tank must never mix red wine with apple cider vinegar.
+        put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 2,
+                            "WineAmount": 500, "OutputKind": 0,
+                            "WineQuality": 60, "BrewTime": 11995})
+        time.sleep(.35)
+        assert read_field(client, "JuiceAmount") == 1000
+        assert read_field(client, "WineAmount") == 500
+        assert read_field(client, "OutputKind") == 0
+        assert read_field(client, "BrewTime") == 0
+        print("PASSED: no mixing of vinegar into existing wine", flush=True)
 
         # Rustic does not average qualities when adding to existing wine.
         put_barrel(client, {"JuiceAmount": 500, "JuiceKind": 0,
-                            "WineAmount": 250, "WineQuality": 89,
+                            "WineAmount": 250, "OutputKind": 0, "WineQuality": 89,
                             "CultureAmount": 0, "CultureQuality": -1,
                             "BrewTime": 11995})
         wait_for_wine(client, 750)
@@ -79,8 +102,8 @@ def main():
         print("PASSED: existing output batch retains its quality", flush=True)
 
         # No wine loss or fermentation with a full output tank.
-        put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 1,
-                            "WineAmount": 8000, "WineQuality": 40,
+        put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 0,
+                            "WineAmount": 8000, "OutputKind": 0, "WineQuality": 40,
                             "BrewTime": 11995})
         time.sleep(.35)
         assert read_field(client, "WineAmount") == 8000
