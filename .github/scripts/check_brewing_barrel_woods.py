@@ -52,6 +52,7 @@ assert "implements Container, MenuProvider" in barrel_entity
 assert "ContainerHelper.saveAllItems(output, items)" in barrel_entity
 assert "ContainerHelper.loadAllItems(input, items)" in barrel_entity
 assert "if (isEmpty() && juiceAmount == 0" in barrel_entity
+assert "cultureAmount == 0 && progress == 0" in barrel_entity
 for index,x,y in (("INPUT_IN",62,7),("OUTPUT_IN",116,7),("CULTURE_IN",26,15),
                   ("INPUT_OUT",62,63),("OUTPUT_OUT",116,63),("CULTURE_OUT",26,55)):
     name=f"BrewingBarrelBlockEntity.{index}"
@@ -126,7 +127,12 @@ assert 'BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE' in jei_plugin
 assert 'new BrewingBarrelJeiGuide("layout")' in jei_plugin
 assert 'BrewingBarrelScreen.class' in jei_plugin
 assert "extends AbstractRecipeCategory<BrewingBarrelJeiGuide>" in jei_category
-assert "NO wine output" in jei_category
+assert "builder.addOutputSlot(" in jei_category
+assert "ModFluids.WINE" in jei_category
+assert "ModFluids.GRAPE_JUICE" in jei_category
+assert "ModFluids.WHITE_GRAPE_JUICE" in jei_category
+assert 'new BrewingBarrelJeiGuide("purple")' in jei_plugin
+assert 'new BrewingBarrelJeiGuide("white")' in jei_plugin
 assert 'brewing_barrel_gui_guide' in jei_types
 assert "record BrewingBarrelJeiGuide" in jei_guide
 for wood in woods:
@@ -135,7 +141,7 @@ for wood in woods:
 for locale in (lang_en,lang_it):
     for key in ("gui.italiansdelight.jei.brewing_barrel.title",
                 "gui.italiansdelight.jei.brewing_barrel.slots",
-                "gui.italiansdelight.jei.brewing_barrel.disabled"):
+                "gui.italiansdelight.jei.brewing_barrel.details"):
         assert locale[key], key
 
 for required in ("case INPUT_IN", "case OUTPUT_IN", "case CULTURE_IN",
@@ -145,8 +151,49 @@ assert "default -> false; // Result slots are extraction-only." in barrel_entity
 assert "handleInputContainer()" in barrel_entity
 assert "handleOutputContainer()" in barrel_entity
 assert "handleCultureContainer()" in barrel_entity
-assert "if (++barrel.progress" not in barrel_entity, "Wine fermentation is deferred"
-assert "barrel.juiceAmount -= amount;\n            barrel.wineAmount += amount" not in barrel_entity
+# Rustic 1.12.2 behavior: 8L input/output, 1L reusable culture, 12,000-tick
+# cycles and 5..75 / cultureQuality+(-1..+4) quality generation.
+for required in (
+    "public static final int CAPACITY = 8000;",
+    "public static final int BREW_TIME = 12000;",
+    "public static final int CULTURE_CAPACITY = 1000;",
+    "public static final int QUALITY_CHANGE_MIN = -1;",
+    "public static final int QUALITY_CHANGE_MAX = 4;",
+    "if (++barrel.progress >= BREW_TIME)",
+    "barrel.finishBrewing(level);",
+    "int amount = Math.min(juiceAmount, CAPACITY - wineAmount);",
+    "if (wineAmount == 0) {",
+    "wineQuality = brewedQuality(cultureAmount, cultureQuality, level.getRandom());",
+    "return 5 + random.nextInt(71);",
+    "QUALITY_CHANGE_MIN",
+    "barrel.progress = 0;",
+    "juiceAmount -= amount;",
+    "wineAmount += amount;",
+    "output.putInt(\"CultureAmount\", cultureAmount);",
+    "input.getIntOr(\"CultureAmount\",",
+    "cultureAmount > 0 && cultureQuality < 0",
+    "ItemStack.isSameItemSameComponents(slot, result)"
+):
+    assert required in barrel_entity, f"Missing Rustic brewing rule: {required}"
+assert "case 2 -> cultureAmount;" in barrel_entity
+assert "case 5 -> wineQuality;" in barrel_entity
+assert "case 6 -> cultureQuality;" in barrel_entity
+assert "@Override public int getCount() { return 7; }" in barrel_entity
+assert "new SimpleContainerData(7)" in barrel_menu
+assert "checkContainerDataCount(data, 7)" in barrel_menu
+assert "BrewingBarrelBlockEntity.BREW_TIME" in barrel_menu
+assert "progress > 0" in barrel_screen
+assert "Math.min(24, progress * 24 / duration + 1)" in barrel_screen
+assert "Math.min(10, progress * 10 / duration + 1)" in barrel_screen
+assert "5600) % 28" in barrel_screen
+assert "tooltip.italiansdelight.wine_quality" in barrel_screen
+assert "ModItems.WINE_BUCKET" in barrel_entity, "A 1L bucket must be usable as a culture"
+assert "if (cultureAmount == 0) cultureQuality = -1;" in barrel_entity
+assert 'gui.italiansdelight.jei.brewing_barrel.disabled' not in lang_it
+assert 'gui.italiansdelight.jei.brewing_barrel.disabled' not in lang_en
+assert "fermentation is not implemented yet" not in jei_category.lower()
+assert "isWhite()" in jei_category
+
 assert 'textures/gui/brewing_barrel.png' in barrel_screen
 assert all(label in lang_it for label in (
     "gui.italiansdelight.brewing_barrel.input",
@@ -156,7 +203,7 @@ gui_atlas=load(root/"assets/minecraft/atlases/gui.json")
 sprites={entry.get("sprite") for entry in gui_atlas["sources"]}
 for sprite in ("grape_juice_still","white_grape_juice_still","wine_still"):
     assert "italiansdelight:fluids/"+sprite in sprites
-print("PASSED: Rustic six-slot GUI, persisted inventory, vessel IO, and disabled fermentation")
+print("PASSED: Rustic wine fermentation, quality ranges, persistent 1L culture, GUI and real JEI recipes")
 
 
 original = (Path(".github/scripts/fixtures/alcocraft_spruce_keg.png").read_bytes())
