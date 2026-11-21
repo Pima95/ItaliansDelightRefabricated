@@ -43,6 +43,8 @@ public final class CrushingTubRecipes {
         if (stack.is(ModItems.WHITE_GRAPES))
             return new Recipe("italiansdelight:white_grape_juice", STANDARD_AMOUNT,
                 new ItemStack(dev.italiansdelight.common.registry.ModBlocks.WHITE_GRAPE_SEEDS));
+        if (stack.is(ModItems.CHERRIES))
+            return new Recipe("italiansdelight:cherry_juice", STANDARD_AMOUNT, ItemStack.EMPTY);
         if (stack.is(Items.APPLE))
             return new Recipe("italiansdelight:apple_juice", STANDARD_AMOUNT,
                 new ItemStack(ModItems.APPLE_SEEDS));
