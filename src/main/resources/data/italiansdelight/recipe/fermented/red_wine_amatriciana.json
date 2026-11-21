@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "italiansdelight:wine_bottle",
+    "italiansdelight:tomato_sauce",
+    "italiansdelight:pasta",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "id": "italiansdelight:pasta_all_amatriciana",
+    "count": 1
+  }
+}

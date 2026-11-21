@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "italiansdelight:mead_bottle",
+    "italiansdelight:almonds",
+    "italiansdelight:almonds",
+    "farmersdelight:pie_crust"
+  ],
+  "result": {
+    "id": "italiansdelight:almond_cake",
+    "count": 1
+  }
+}

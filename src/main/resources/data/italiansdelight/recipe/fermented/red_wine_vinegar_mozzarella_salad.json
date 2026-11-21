@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "italiansdelight:red_wine_vinegar_bottle",
+    "italiansdelight:mozzarella",
+    "italiansdelight:basil",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "id": "italiansdelight:mozzarella_salad",
+    "count": 1
+  }
+}

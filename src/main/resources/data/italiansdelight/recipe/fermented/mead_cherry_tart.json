@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "italiansdelight:mead_bottle",
+    "italiansdelight:cherries",
+    "italiansdelight:cherry_jam_bottle",
+    "farmersdelight:pie_crust"
+  ],
+  "result": {
+    "id": "italiansdelight:cherry_tart",
+    "count": 1
+  }
+}
