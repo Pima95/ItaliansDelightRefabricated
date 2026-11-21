@@ -41,8 +41,12 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     public static final int INPUT_IN = 0, OUTPUT_IN = 1, CULTURE_IN = 2;
     public static final int INPUT_OUT = 3, OUTPUT_OUT = 4, CULTURE_OUT = 5;
     public static final int SIZE = 6;
+    // Persisted identifiers: keep 0/1/2 and 0/1 stable for existing worlds.
     public static final int JUICE_PURPLE = 0, JUICE_WHITE = 1, JUICE_APPLE = 2;
+    public static final int JUICE_CHERRY = 3, JUICE_HONEY = 4, JUICE_RED_WINE = 5, JUICE_CIDER = 6;
     public static final int OUTPUT_WINE = 0, OUTPUT_VINEGAR = 1;
+    public static final int OUTPUT_WHITE_WINE = 2, OUTPUT_CHERRY_WINE = 3;
+    public static final int OUTPUT_MEAD = 4, OUTPUT_CIDER = 5, OUTPUT_WINE_VINEGAR = 6;
     private NonNullList<ItemStack> items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
     private int juiceKind = JUICE_PURPLE;
     // 0 by default so barrels saved before vinegar support retain their wine.
@@ -67,10 +71,10 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
                 case 1 -> wineAmount = Math.clamp(value, 0, CAPACITY);
                 case 2 -> cultureAmount = Math.clamp(value, 0, CULTURE_CAPACITY);
                 case 3 -> progress = Math.clamp(value, 0, BREW_TIME);
-                case 4 -> juiceKind = Math.clamp(value, JUICE_PURPLE, JUICE_APPLE);
+                case 4 -> juiceKind = Math.clamp(value, JUICE_PURPLE, JUICE_CIDER);
                 case 5 -> wineQuality = Math.clamp(value, 0, 100);
                 case 6 -> cultureQuality = Math.clamp(value, -1, 100);
-                case 7 -> outputKind = Math.clamp(value, OUTPUT_WINE, OUTPUT_VINEGAR);
+                case 7 -> outputKind = Math.clamp(value, OUTPUT_WINE, OUTPUT_WINE_VINEGAR);
                 default -> {}
             }
         }
@@ -148,7 +152,11 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
             case INPUT_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(Items.BUCKET)
                 || stack.is(ModItems.GRAPE_JUICE_BOTTLE) || stack.is(ModItems.GRAPE_JUICE_BUCKET)
                 || stack.is(ModItems.WHITE_GRAPE_JUICE_BOTTLE) || stack.is(ModItems.WHITE_GRAPE_JUICE_BUCKET)
-                || stack.is(ModItems.APPLE_JUICE_BOTTLE) || stack.is(ModItems.APPLE_JUICE_BUCKET);
+                || stack.is(ModItems.APPLE_JUICE_BOTTLE) || stack.is(ModItems.APPLE_JUICE_BUCKET)
+                || stack.is(ModItems.CHERRY_JUICE_BOTTLE) || stack.is(ModItems.CHERRY_JUICE_BUCKET)
+                || stack.is(Items.HONEY_BOTTLE) || stack.is(ModItems.HONEY_BUCKET)
+                || stack.is(ModItems.WINE_BOTTLE) || stack.is(ModItems.WINE_BUCKET)
+                || stack.is(ModItems.CIDER_BOTTLE) || stack.is(ModItems.CIDER_BUCKET);
             case OUTPUT_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(Items.BUCKET);
             case CULTURE_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(ModItems.WINE_BOTTLE)
                 || stack.is(Items.BUCKET) || stack.is(ModItems.WINE_BUCKET);
@@ -245,12 +253,34 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         }
     }
 
-    /** Only recipes with a corresponding registered output may run. */
+    /**
+     * Input + optional reusable wine culture selects an exact recipe.
+     * Apple juice alone still makes the original apple cider vinegar.
+     * A seeded apple batch instead makes cider; remove culture to select
+     * vinegar again. This preserves legacy behavior without requiring a
+     * second GUI selector or an ambiguous item-only recipe.
+     */
+    public static int recipeOutput(int input, boolean hasCulture) {
+        return switch (input) {
+            case JUICE_PURPLE -> OUTPUT_WINE;
+            case JUICE_WHITE -> OUTPUT_WHITE_WINE;
+            case JUICE_APPLE -> hasCulture ? OUTPUT_CIDER : OUTPUT_VINEGAR;
+            case JUICE_CHERRY -> OUTPUT_CHERRY_WINE;
+            case JUICE_HONEY -> OUTPUT_MEAD;
+            case JUICE_RED_WINE -> OUTPUT_WINE_VINEGAR;
+            case JUICE_CIDER -> OUTPUT_VINEGAR;
+            default -> -1;
+        };
+    }
+
     private boolean hasMatchingRecipe() {
         if (juiceAmount <= 0 || wineAmount >= CAPACITY) return false;
-        if (juiceKind == JUICE_WHITE) return false;
-        int expected = juiceKind == JUICE_APPLE ? OUTPUT_VINEGAR : OUTPUT_WINE;
-        return wineAmount == 0 || outputKind == expected;
+        int expected = recipeOutput(juiceKind, cultureAmount > 0);
+        return expected >= 0 && (wineAmount == 0 || outputKind == expected);
+    }
+
+    private static boolean hasQuality(int output) {
+        return output != OUTPUT_VINEGAR && output != OUTPUT_WINE_VINEGAR;
     }
 
     /**
@@ -276,11 +306,11 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
             return;
         }
         int amount = Math.min(juiceAmount, CAPACITY - wineAmount);
-        int resultKind = juiceKind == JUICE_APPLE ? OUTPUT_VINEGAR : OUTPUT_WINE;
+        int resultKind = recipeOutput(juiceKind, cultureAmount > 0);
         if (wineAmount == 0) {
             outputKind = resultKind;
-            // Vinegar is not wine and has no wine quality or booze culture.
-            wineQuality = resultKind == OUTPUT_WINE
+            // Every fermented drink has batch quality; both vinegars have none.
+            wineQuality = hasQuality(resultKind)
                 ? brewedQuality(cultureAmount, cultureQuality, level.getRandom()) : 0;
         }
         juiceAmount -= amount;
@@ -303,39 +333,79 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         changedAndSync();
     }
 
+    private static int incomingKind(ItemStack stack) {
+        if (stack.is(ModItems.GRAPE_JUICE_BOTTLE) || stack.is(ModItems.GRAPE_JUICE_BUCKET))
+            return JUICE_PURPLE;
+        if (stack.is(ModItems.WHITE_GRAPE_JUICE_BOTTLE) || stack.is(ModItems.WHITE_GRAPE_JUICE_BUCKET))
+            return JUICE_WHITE;
+        if (stack.is(ModItems.APPLE_JUICE_BOTTLE) || stack.is(ModItems.APPLE_JUICE_BUCKET))
+            return JUICE_APPLE;
+        if (stack.is(ModItems.CHERRY_JUICE_BOTTLE) || stack.is(ModItems.CHERRY_JUICE_BUCKET))
+            return JUICE_CHERRY;
+        if (stack.is(Items.HONEY_BOTTLE) || stack.is(ModItems.HONEY_BUCKET))
+            return JUICE_HONEY;
+        if (stack.is(ModItems.WINE_BOTTLE) || stack.is(ModItems.WINE_BUCKET))
+            return JUICE_RED_WINE;
+        if (stack.is(ModItems.CIDER_BOTTLE) || stack.is(ModItems.CIDER_BUCKET))
+            return JUICE_CIDER;
+        return -1;
+    }
+
+    private static boolean isIncomingBucket(ItemStack stack) {
+        return stack.is(ModItems.GRAPE_JUICE_BUCKET)
+            || stack.is(ModItems.WHITE_GRAPE_JUICE_BUCKET)
+            || stack.is(ModItems.APPLE_JUICE_BUCKET)
+            || stack.is(ModItems.CHERRY_JUICE_BUCKET)
+            || stack.is(ModItems.HONEY_BUCKET)
+            || stack.is(ModItems.WINE_BUCKET)
+            || stack.is(ModItems.CIDER_BUCKET);
+    }
+
+    private static ItemStack inputContainer(int kind, boolean bucket) {
+        return new ItemStack(switch (kind) {
+            case JUICE_WHITE -> bucket ? ModItems.WHITE_GRAPE_JUICE_BUCKET : ModItems.WHITE_GRAPE_JUICE_BOTTLE;
+            case JUICE_APPLE -> bucket ? ModItems.APPLE_JUICE_BUCKET : ModItems.APPLE_JUICE_BOTTLE;
+            case JUICE_CHERRY -> bucket ? ModItems.CHERRY_JUICE_BUCKET : ModItems.CHERRY_JUICE_BOTTLE;
+            case JUICE_HONEY -> bucket ? ModItems.HONEY_BUCKET : Items.HONEY_BOTTLE;
+            case JUICE_RED_WINE -> bucket ? ModItems.WINE_BUCKET : ModItems.WINE_BOTTLE;
+            case JUICE_CIDER -> bucket ? ModItems.CIDER_BUCKET : ModItems.CIDER_BOTTLE;
+            default -> bucket ? ModItems.GRAPE_JUICE_BUCKET : ModItems.GRAPE_JUICE_BOTTLE;
+        });
+    }
+
+    private static ItemStack outputContainer(int kind, boolean bucket, int quality) {
+        if (kind == OUTPUT_WINE) return bucket ? wineBucket(quality) : wineBottle(quality);
+        ItemStack stack = new ItemStack(switch (kind) {
+            case OUTPUT_VINEGAR -> bucket ? ModItems.APPLE_CIDER_VINEGAR_BUCKET : ModItems.APPLE_CIDER_VINEGAR;
+            case OUTPUT_WHITE_WINE -> bucket ? ModItems.WHITE_WINE_BUCKET : ModItems.WHITE_WINE_BOTTLE;
+            case OUTPUT_CHERRY_WINE -> bucket ? ModItems.CHERRY_WINE_BUCKET : ModItems.CHERRY_WINE_BOTTLE;
+            case OUTPUT_MEAD -> bucket ? ModItems.MEAD_BUCKET : ModItems.MEAD_BOTTLE;
+            case OUTPUT_CIDER -> bucket ? ModItems.CIDER_BUCKET : ModItems.CIDER_BOTTLE;
+            case OUTPUT_WINE_VINEGAR -> bucket ? ModItems.RED_WINE_VINEGAR_BUCKET : ModItems.RED_WINE_VINEGAR_BOTTLE;
+            default -> bucket ? ModItems.WINE_BUCKET : ModItems.WINE_BOTTLE;
+        });
+        if (hasQuality(kind))
+            stack.set(ModDataComponents.WINE_QUALITY, Math.clamp(quality, 0, 100));
+        return stack;
+    }
+
     private void handleInputContainer() {
         ItemStack vessel = items.get(INPUT_IN);
         if (vessel.isEmpty()) return;
-        boolean purple = vessel.is(ModItems.GRAPE_JUICE_BOTTLE)
-                || vessel.is(ModItems.GRAPE_JUICE_BUCKET);
-        boolean white = vessel.is(ModItems.WHITE_GRAPE_JUICE_BOTTLE)
-                || vessel.is(ModItems.WHITE_GRAPE_JUICE_BUCKET);
-        boolean apple = vessel.is(ModItems.APPLE_JUICE_BOTTLE)
-                || vessel.is(ModItems.APPLE_JUICE_BUCKET);
-        if (purple || white || apple) {
-            int kind = apple ? JUICE_APPLE : white ? JUICE_WHITE : JUICE_PURPLE;
-            int amount = vessel.is(ModItems.GRAPE_JUICE_BUCKET)
-                    || vessel.is(ModItems.WHITE_GRAPE_JUICE_BUCKET)
-                    || vessel.is(ModItems.APPLE_JUICE_BUCKET) ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
-            ItemStack empty = new ItemStack(amount == BUCKET_AMOUNT
-                ? Items.BUCKET : Items.GLASS_BOTTLE);
-            if ((juiceAmount == 0 || juiceKind == kind)
-                    && juiceAmount <= CAPACITY - amount
+        int kind = incomingKind(vessel);
+        if (kind >= 0) {
+            int amount = isIncomingBucket(vessel) ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
+            ItemStack empty = new ItemStack(amount == BUCKET_AMOUNT ? Items.BUCKET : Items.GLASS_BOTTLE);
+            if ((juiceAmount == 0 || juiceKind == kind) && juiceAmount <= CAPACITY - amount
                     && canReturn(items.get(INPUT_OUT), empty)) {
                 if (juiceAmount == 0) juiceKind = kind;
                 juiceAmount += amount;
                 returnContainer(INPUT_IN, INPUT_OUT, empty);
             }
         } else if (vessel.is(Items.BUCKET) || vessel.is(Items.GLASS_BOTTLE)) {
-            int amount = vessel.is(Items.BUCKET) ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
-            ItemStack filled = new ItemStack(switch (juiceKind) {
-                case JUICE_APPLE -> amount == BUCKET_AMOUNT
-                    ? ModItems.APPLE_JUICE_BUCKET : ModItems.APPLE_JUICE_BOTTLE;
-                case JUICE_WHITE -> amount == BUCKET_AMOUNT
-                    ? ModItems.WHITE_GRAPE_JUICE_BUCKET : ModItems.WHITE_GRAPE_JUICE_BOTTLE;
-                default -> amount == BUCKET_AMOUNT
-                    ? ModItems.GRAPE_JUICE_BUCKET : ModItems.GRAPE_JUICE_BOTTLE;
-            });
+            boolean bucket = vessel.is(Items.BUCKET);
+            int amount = bucket ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
+            ItemStack filled = inputContainer(juiceKind, bucket);
             if (juiceAmount >= amount && canReturn(items.get(INPUT_OUT), filled)) {
                 juiceAmount -= amount;
                 returnContainer(INPUT_IN, INPUT_OUT, filled);
@@ -345,15 +415,11 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
 
     private void handleOutputContainer() {
         ItemStack vessel = items.get(OUTPUT_IN);
-        if (vessel.isEmpty()) return;
-        boolean bottle = vessel.is(Items.GLASS_BOTTLE);
         boolean bucket = vessel.is(Items.BUCKET);
+        boolean bottle = vessel.is(Items.GLASS_BOTTLE);
         int amount = bucket ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
         if ((!bottle && !bucket) || wineAmount < amount) return;
-        ItemStack filled = outputKind == OUTPUT_VINEGAR
-            ? new ItemStack(bucket ? ModItems.APPLE_CIDER_VINEGAR_BUCKET
-                                   : ModItems.APPLE_CIDER_VINEGAR)
-            : bucket ? wineBucket(wineQuality) : wineBottle(wineQuality);
+        ItemStack filled = outputContainer(outputKind, bucket, wineQuality);
         if (canReturn(items.get(OUTPUT_OUT), filled)) {
             wineAmount -= amount;
             if (wineAmount == 0) wineQuality = 0;
@@ -434,9 +500,9 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         super.loadAdditional(input);
         items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(input, items);
-        juiceKind = Math.clamp(input.getIntOr("JuiceKind", JUICE_PURPLE), JUICE_PURPLE, JUICE_APPLE);
+        juiceKind = Math.clamp(input.getIntOr("JuiceKind", JUICE_PURPLE), JUICE_PURPLE, JUICE_CIDER);
         outputKind = Math.clamp(input.getIntOr("OutputKind", OUTPUT_WINE),
-            OUTPUT_WINE, OUTPUT_VINEGAR);
+            OUTPUT_WINE, OUTPUT_WINE_VINEGAR);
         juiceAmount = Math.clamp(input.getIntOr("JuiceAmount", 0), 0, CAPACITY);
         wineAmount = Math.clamp(input.getIntOr("WineAmount", 0), 0, CAPACITY);
         wineQuality = Math.clamp(input.getIntOr("WineQuality", 0), 0, 100);
