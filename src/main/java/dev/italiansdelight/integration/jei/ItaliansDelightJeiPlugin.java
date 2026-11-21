@@ -113,13 +113,19 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         DecorativePoleJeiInfo.register(registration);
         ModFluidJeiInfo.register(registration);
 
-        // Only executable fermentations have JEI recipes. White grape juice
-        // stays in the input tank without processing until white wine exists.
+        // Explicit registered recipes only: wine, white/cherry wine, mead,
+        // seeded cider, apple vinegar and red-wine vinegar.
         registration.addRecipes(
             BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE,
             java.util.List.of(
                 new BrewingBarrelJeiGuide("red_wine"),
-                new BrewingBarrelJeiGuide("apple_cider_vinegar"))
+                new BrewingBarrelJeiGuide("white_wine"),
+                new BrewingBarrelJeiGuide("cherry_wine"),
+                new BrewingBarrelJeiGuide("mead"),
+                new BrewingBarrelJeiGuide("cider"),
+                new BrewingBarrelJeiGuide("apple_cider_vinegar"),
+                new BrewingBarrelJeiGuide("cider_vinegar"),
+                new BrewingBarrelJeiGuide("red_wine_vinegar"))
         );
 
         CheeseVatJeiRecipes recipes =
