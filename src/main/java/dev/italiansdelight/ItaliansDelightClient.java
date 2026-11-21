@@ -179,6 +179,21 @@ public class ItaliansDelightClient implements ClientModInitializer {
             ModRegistries.id("block/fluids/white_grape_juice_still"));
         registerContainedFluid(ModFluids.WINE,
             ModRegistries.id("block/fluids/booze/wine_still"));
+        // Every non-world fermentation Fluid used by JEI needs its OWN
+        // FluidModel. A GUI atlas entry alone does not register a fluid
+        // renderer; without this JEI draws a magenta/black checkerboard.
+        registerContainedFluid(ModFluids.CHERRY_JUICE,
+            ModRegistries.id("block/fluids/booze/cherry_juice_still"));
+        registerContainedFluid(ModFluids.WHITE_WINE,
+            ModRegistries.id("block/fluids/booze/white_wine_still"));
+        registerContainedFluid(ModFluids.CHERRY_WINE,
+            ModRegistries.id("block/fluids/booze/cherry_wine_still"));
+        registerContainedFluid(ModFluids.MEAD,
+            ModRegistries.id("block/fluids/booze/mead_still"));
+        registerContainedFluid(ModFluids.CIDER,
+            ModRegistries.id("block/fluids/booze/cider_still"));
+        registerContainedFluid(ModFluids.RED_WINE_VINEGAR,
+            ModRegistries.id("block/fluids/booze/red_wine_vinegar_still"));
         // Almond and Fruit Cherry react to foliage biome colors independently.
         // Olive, both saplings, and the rest of the orchard art remain untinted.
         BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);
