@@ -24,6 +24,10 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
         "italiansdelight", "fluids/grape_juice_still");
     private static final Identifier WHITE = Identifier.fromNamespaceAndPath(
         "italiansdelight", "fluids/white_grape_juice_still");
+    private static final Identifier APPLE = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "fluids/apple_juice_still");
+    private static final Identifier VINEGAR = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "fluids/apple_cider_vinegar_still");
     private static final Identifier WINE = Identifier.fromNamespaceAndPath(
         "italiansdelight", "fluids/wine_still");
 
@@ -155,13 +159,19 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
         super.extractBackground(graphics, mouseX, mouseY, delta);
         drawExtendedBackground(graphics);
 
-        tank(graphics, menu.hasWhiteGrapeJuice() ? WHITE : PURPLE,
+        Identifier inputSprite = menu.isAppleJuice() ? APPLE
+            : menu.hasWhiteGrapeJuice() ? WHITE : PURPLE;
+        tank(graphics, inputSprite,
             62, 27 + MACHINE_SHIFT, 32, menu.getInputAmount(),
             BrewingBarrelBlockEntity.CAPACITY,
-            menu.hasWhiteGrapeJuice() ? 0xBFE9DE9B : 0xBFB78FCA,
-            menu.hasWhiteGrapeJuice() ? 0 : 0xFF87395F);
-        tank(graphics, WINE, 116, 27 + MACHINE_SHIFT, 32, menu.getOutputAmount(),
-            BrewingBarrelBlockEntity.CAPACITY, 0xBFCA8FA6, 0xFF7B304D);
+            menu.isAppleJuice() ? 0xFFD8B45D
+                : menu.hasWhiteGrapeJuice() ? 0xBFE9DE9B : 0xBFB78FCA,
+            menu.isAppleJuice() ? 0 : menu.hasWhiteGrapeJuice() ? 0 : 0xFF87395F);
+        tank(graphics, menu.hasVinegarOutput() ? VINEGAR : WINE,
+            116, 27 + MACHINE_SHIFT, 32, menu.getOutputAmount(),
+            BrewingBarrelBlockEntity.CAPACITY,
+            menu.hasVinegarOutput() ? 0xFFD9AE74 : 0xBFCA8FA6,
+            menu.hasVinegarOutput() ? 0 : 0xFF7B304D);
         tank(graphics, WINE, 26, 35 + MACHINE_SHIFT, 16, menu.getCultureAmount(),
             BrewingBarrelBlockEntity.CULTURE_CAPACITY, 0xBFCA8FA6, 0xFF7B304D);
 
@@ -215,7 +225,8 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
             BrewingBarrelBlockEntity.CAPACITY, -1);
         tankTooltip(graphics, mouseX, mouseY, 116, 27 + MACHINE_SHIFT, 16, 32,
             "gui.italiansdelight.brewing_barrel.output", menu.getOutputAmount(),
-            BrewingBarrelBlockEntity.CAPACITY, menu.getOutputQuality());
+            BrewingBarrelBlockEntity.CAPACITY,
+            menu.hasVinegarOutput() ? -1 : menu.getOutputQuality());
         tankTooltip(graphics, mouseX, mouseY, 26, 35 + MACHINE_SHIFT, 16, 16,
             "gui.italiansdelight.brewing_barrel.culture", menu.getCultureAmount(),
             BrewingBarrelBlockEntity.CULTURE_CAPACITY, menu.getCultureQuality());
