@@ -41,9 +41,12 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     public static final int INPUT_IN = 0, OUTPUT_IN = 1, CULTURE_IN = 2;
     public static final int INPUT_OUT = 3, OUTPUT_OUT = 4, CULTURE_OUT = 5;
     public static final int SIZE = 6;
-    public static final int JUICE_PURPLE = 0, JUICE_WHITE = 1;
+    public static final int JUICE_PURPLE = 0, JUICE_WHITE = 1, JUICE_APPLE = 2;
+    public static final int OUTPUT_WINE = 0, OUTPUT_VINEGAR = 1;
     private NonNullList<ItemStack> items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
     private int juiceKind = JUICE_PURPLE;
+    // 0 by default so barrels saved before vinegar support retain their wine.
+    private int outputKind = OUTPUT_WINE;
     private final ContainerData menuData = new ContainerData() {
         @Override public int get(int index) {
             return switch (index) {
@@ -54,6 +57,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
                 case 4 -> juiceKind;
                 case 5 -> wineQuality;
                 case 6 -> cultureQuality;
+                case 7 -> outputKind;
                 default -> 0;
             };
         }
@@ -63,13 +67,14 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
                 case 1 -> wineAmount = Math.clamp(value, 0, CAPACITY);
                 case 2 -> cultureAmount = Math.clamp(value, 0, CULTURE_CAPACITY);
                 case 3 -> progress = Math.clamp(value, 0, BREW_TIME);
-                case 4 -> juiceKind = Math.clamp(value, JUICE_PURPLE, JUICE_WHITE);
+                case 4 -> juiceKind = Math.clamp(value, JUICE_PURPLE, JUICE_APPLE);
                 case 5 -> wineQuality = Math.clamp(value, 0, 100);
                 case 6 -> cultureQuality = Math.clamp(value, -1, 100);
+                case 7 -> outputKind = Math.clamp(value, OUTPUT_WINE, OUTPUT_VINEGAR);
                 default -> {}
             }
         }
-        @Override public int getCount() { return 7; }
+        @Override public int getCount() { return 8; }
     };
 
     public static final int CAPACITY = 8000;
@@ -100,6 +105,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     public int getCultureQuality() { return cultureQuality; }
     public int getCultureAmount() { return cultureAmount; }
     public int getJuiceKind() { return juiceKind; }
+    public int getOutputKind() { return outputKind; }
 
     @Override public Component getDisplayName() {
         return Component.translatable(getBlockState().getBlock().getDescriptionId());
@@ -141,8 +147,9 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         return switch (slot) {
             case INPUT_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(Items.BUCKET)
                 || stack.is(ModItems.GRAPE_JUICE_BOTTLE) || stack.is(ModItems.GRAPE_JUICE_BUCKET)
-                || stack.is(ModItems.WHITE_GRAPE_JUICE_BOTTLE) || stack.is(ModItems.WHITE_GRAPE_JUICE_BUCKET);
-            case OUTPUT_IN -> stack.is(Items.GLASS_BOTTLE);
+                || stack.is(ModItems.WHITE_GRAPE_JUICE_BOTTLE) || stack.is(ModItems.WHITE_GRAPE_JUICE_BUCKET)
+                || stack.is(ModItems.APPLE_JUICE_BOTTLE) || stack.is(ModItems.APPLE_JUICE_BUCKET);
+            case OUTPUT_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(Items.BUCKET);
             case CULTURE_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(ModItems.WINE_BOTTLE)
                 || stack.is(Items.BUCKET) || stack.is(ModItems.WINE_BUCKET);
             default -> false; // Result slots are extraction-only.
@@ -202,14 +209,10 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     }
 
     /**
-     * Rustic 1.12.2 fermentation cycle ported to native Fabric 26.3:
-     *  - transfers run first; any successful transfer resets the timer;
-     *  - fermentation needs juice and output capacity, NOT a culture;
-     *  - after 12,000 ticks, transfer as much as fits, preserving output
-     *    quality if there is already wine in that tank;
-     *  - culture is optional, affects only quality, and is never consumed.
-     * Both purple and white must use the registered wine result. The two
-     * juice variants cannot be mixed inside a single input tank.
+     * Fermentation is recipe-gated: red grapes -> wine, apples -> cider
+     * vinegar. White grapes remain storable until white wine is implemented.
+     * An existing output of another type blocks processing to avoid mixing.
+     * Any successful vessel transfer restarts the current brew as in Rustic.
      */
     public static void serverTick(ServerLevel level, BlockPos pos, BlockState state,
                                   BrewingBarrelBlockEntity barrel) {
@@ -227,7 +230,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
             barrel.changedAndSync();
         }
 
-        if (barrel.juiceAmount <= 0 || barrel.wineAmount >= CAPACITY) {
+        if (!barrel.hasMatchingRecipe()) {
             if (barrel.progress != 0) {
                 barrel.progress = 0;
                 barrel.changedAndSync();
@@ -238,10 +241,16 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         if (++barrel.progress >= BREW_TIME) {
             barrel.finishBrewing(level);
         } else if (barrel.progress % 20 == 0) {
-            // Persist progress and sync tank/quality data at Rustic's 20-tick
-            // recipe-check cadence, not via an expensive block update/tick.
             barrel.changedAndSync();
         }
+    }
+
+    /** Only recipes with a corresponding registered output may run. */
+    private boolean hasMatchingRecipe() {
+        if (juiceAmount <= 0 || wineAmount >= CAPACITY) return false;
+        if (juiceKind == JUICE_WHITE) return false;
+        int expected = juiceKind == JUICE_APPLE ? OUTPUT_VINEGAR : OUTPUT_WINE;
+        return wineAmount == 0 || outputKind == expected;
     }
 
     /**
@@ -261,16 +270,18 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     }
 
     private void finishBrewing(ServerLevel level) {
-        int amount = Math.min(juiceAmount, CAPACITY - wineAmount);
-        if (amount <= 0) {
+        if (!hasMatchingRecipe()) {
             progress = 0;
             changedAndSync();
             return;
         }
-        // Original Rustic keeps the existing output fluid's quality, rather
-        // than blending two batches. Generate once for an empty output tank.
+        int amount = Math.min(juiceAmount, CAPACITY - wineAmount);
+        int resultKind = juiceKind == JUICE_APPLE ? OUTPUT_VINEGAR : OUTPUT_WINE;
         if (wineAmount == 0) {
-            wineQuality = brewedQuality(cultureAmount, cultureQuality, level.getRandom());
+            outputKind = resultKind;
+            // Vinegar is not wine and has no wine quality or booze culture.
+            wineQuality = resultKind == OUTPUT_WINE
+                ? brewedQuality(cultureAmount, cultureQuality, level.getRandom()) : 0;
         }
         juiceAmount -= amount;
         wineAmount += amount;
@@ -299,22 +310,32 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
                 || vessel.is(ModItems.GRAPE_JUICE_BUCKET);
         boolean white = vessel.is(ModItems.WHITE_GRAPE_JUICE_BOTTLE)
                 || vessel.is(ModItems.WHITE_GRAPE_JUICE_BUCKET);
-        if (purple || white) {
-            int kind = white ? JUICE_WHITE : JUICE_PURPLE;
+        boolean apple = vessel.is(ModItems.APPLE_JUICE_BOTTLE)
+                || vessel.is(ModItems.APPLE_JUICE_BUCKET);
+        if (purple || white || apple) {
+            int kind = apple ? JUICE_APPLE : white ? JUICE_WHITE : JUICE_PURPLE;
             int amount = vessel.is(ModItems.GRAPE_JUICE_BUCKET)
-                    || vessel.is(ModItems.WHITE_GRAPE_JUICE_BUCKET) ? 1000 : 250;
-            ItemStack empty = new ItemStack(amount == 1000 ? Items.BUCKET : Items.GLASS_BOTTLE);
-            if ((juiceAmount == 0 || juiceKind == kind) && juiceAmount <= CAPACITY - amount
+                    || vessel.is(ModItems.WHITE_GRAPE_JUICE_BUCKET)
+                    || vessel.is(ModItems.APPLE_JUICE_BUCKET) ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
+            ItemStack empty = new ItemStack(amount == BUCKET_AMOUNT
+                ? Items.BUCKET : Items.GLASS_BOTTLE);
+            if ((juiceAmount == 0 || juiceKind == kind)
+                    && juiceAmount <= CAPACITY - amount
                     && canReturn(items.get(INPUT_OUT), empty)) {
                 if (juiceAmount == 0) juiceKind = kind;
                 juiceAmount += amount;
                 returnContainer(INPUT_IN, INPUT_OUT, empty);
             }
-        } else {
-            int amount = vessel.is(Items.BUCKET) ? 1000 : 250;
-            ItemStack filled = new ItemStack(juiceKind == JUICE_WHITE
-                ? (amount == 1000 ? ModItems.WHITE_GRAPE_JUICE_BUCKET : ModItems.WHITE_GRAPE_JUICE_BOTTLE)
-                : (amount == 1000 ? ModItems.GRAPE_JUICE_BUCKET : ModItems.GRAPE_JUICE_BOTTLE));
+        } else if (vessel.is(Items.BUCKET) || vessel.is(Items.GLASS_BOTTLE)) {
+            int amount = vessel.is(Items.BUCKET) ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
+            ItemStack filled = new ItemStack(switch (juiceKind) {
+                case JUICE_APPLE -> amount == BUCKET_AMOUNT
+                    ? ModItems.APPLE_JUICE_BUCKET : ModItems.APPLE_JUICE_BOTTLE;
+                case JUICE_WHITE -> amount == BUCKET_AMOUNT
+                    ? ModItems.WHITE_GRAPE_JUICE_BUCKET : ModItems.WHITE_GRAPE_JUICE_BOTTLE;
+                default -> amount == BUCKET_AMOUNT
+                    ? ModItems.GRAPE_JUICE_BUCKET : ModItems.GRAPE_JUICE_BOTTLE;
+            });
             if (juiceAmount >= amount && canReturn(items.get(INPUT_OUT), filled)) {
                 juiceAmount -= amount;
                 returnContainer(INPUT_IN, INPUT_OUT, filled);
@@ -324,10 +345,17 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
 
     private void handleOutputContainer() {
         ItemStack vessel = items.get(OUTPUT_IN);
-        if (!vessel.is(Items.GLASS_BOTTLE) || wineAmount < 250) return;
-        ItemStack filled = wineBottle(wineQuality);
+        if (vessel.isEmpty()) return;
+        boolean bottle = vessel.is(Items.GLASS_BOTTLE);
+        boolean bucket = vessel.is(Items.BUCKET);
+        int amount = bucket ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
+        if ((!bottle && !bucket) || wineAmount < amount) return;
+        ItemStack filled = outputKind == OUTPUT_VINEGAR
+            ? new ItemStack(bucket ? ModItems.APPLE_CIDER_VINEGAR_BUCKET
+                                   : ModItems.APPLE_CIDER_VINEGAR)
+            : bucket ? wineBucket(wineQuality) : wineBottle(wineQuality);
         if (canReturn(items.get(OUTPUT_OUT), filled)) {
-            wineAmount -= 250;
+            wineAmount -= amount;
             if (wineAmount == 0) wineQuality = 0;
             returnContainer(OUTPUT_IN, OUTPUT_OUT, filled);
         }
@@ -394,6 +422,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         ContainerHelper.saveAllItems(output, items);
         output.putInt("JuiceAmount", juiceAmount);
         output.putInt("JuiceKind", juiceKind);
+        output.putInt("OutputKind", outputKind);
         output.putInt("WineAmount", wineAmount);
         output.putInt("WineQuality", wineQuality);
         output.putInt("CultureQuality", cultureQuality);
@@ -405,7 +434,9 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         super.loadAdditional(input);
         items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(input, items);
-        juiceKind = Math.clamp(input.getIntOr("JuiceKind", JUICE_PURPLE), JUICE_PURPLE, JUICE_WHITE);
+        juiceKind = Math.clamp(input.getIntOr("JuiceKind", JUICE_PURPLE), JUICE_PURPLE, JUICE_APPLE);
+        outputKind = Math.clamp(input.getIntOr("OutputKind", OUTPUT_WINE),
+            OUTPUT_WINE, OUTPUT_VINEGAR);
         juiceAmount = Math.clamp(input.getIntOr("JuiceAmount", 0), 0, CAPACITY);
         wineAmount = Math.clamp(input.getIntOr("WineAmount", 0), 0, CAPACITY);
         wineQuality = Math.clamp(input.getIntOr("WineQuality", 0), 0, 100);
@@ -418,6 +449,6 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         if (cultureAmount > 0 && cultureQuality < 0) cultureAmount = 0;
         progress = Math.clamp(input.getIntOr("BrewTime", 0), 0, BREW_TIME - 1);
         if (wineAmount == 0) wineQuality = 0;
-        if (juiceAmount == 0 || wineAmount >= CAPACITY) progress = 0;
+        if (!hasMatchingRecipe()) progress = 0;
     }
 }
