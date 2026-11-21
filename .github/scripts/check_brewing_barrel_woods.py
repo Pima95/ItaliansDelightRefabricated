@@ -73,12 +73,23 @@ assert "absoluteX, absoluteY + row, FLUID_FRAME_SIZE, FLUID_FRAME_SIZE" in barre
 assert "graphics.enableScissor(absoluteX, surfaceY" in barrel_screen
 assert "graphics.fill(absoluteX, surfaceY" in barrel_screen
 assert "absoluteX, absoluteY, 16, height" not in barrel_screen
-# The two glass-bottle hints use the current vanilla brewing stand sprite
-# rather than deprecated 1.12 Rustic art. The bucket uses the vanilla item.
+# The potion cue is optically centered inside each menu slot. Bucket cue
+# uses ONLY the transparent Rustic outline, not a gray-tinted item texture.
 assert '"minecraft", "container/slot/potion"' in barrel_screen
-assert '"minecraft", "textures/item/bucket.png"' in barrel_screen
+assert '"minecraft", "textures/item/bucket.png"' not in barrel_screen
+assert "BUCKET_OUTLINE_U = 176" in barrel_screen
+assert "BUCKET_OUTLINE_V = 54" in barrel_screen
+assert "int centeredX = iconX + (16 - BOTTLE_ICON_SIZE) / 2 + 1;" in barrel_screen
+assert "int centeredY = iconY + (16 - BOTTLE_ICON_SIZE) / 2;" in barrel_screen
+assert "centeredX, centeredY, BOTTLE_ICON_SIZE, BOTTLE_ICON_SIZE" in barrel_screen
 assert "int iconX = leftPos + slot.x;" in barrel_screen
 assert "int iconY = topPos + slot.y;" in barrel_screen
+# Opaque but GUI-only backing is clipped to the actual filled liquid height;
+# the original animated textures remain unchanged for the world and JEI.
+assert "if (backingColor != 0)" in barrel_screen
+assert "graphics.fill(absoluteX, surfaceY," in barrel_screen
+assert "0xFF87395F" in barrel_screen and "0xFF7B304D" in barrel_screen
+assert "menu.hasWhiteGrapeJuice() ? 0 : 0xFF87395F" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.INPUT_IN, true)" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.OUTPUT_IN, false)" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.CULTURE_IN, false)" in barrel_screen
