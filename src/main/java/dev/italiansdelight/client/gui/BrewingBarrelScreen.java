@@ -27,6 +27,16 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
     private static final Identifier WINE = Identifier.fromNamespaceAndPath(
         "italiansdelight", "fluids/wine_still");
 
+    // Vanilla's current brewing-stand empty-slot icon (updated after the
+    // Texture Update), rather than the pre-1.21 Rustic bottle silhouette.
+    // Vanilla item texture for the bucket: no duplicated/dated mod asset.
+    private static final Identifier MODERN_BOTTLE_SLOT = Identifier.fromNamespaceAndPath(
+        "minecraft", "container/slot/potion");
+    private static final Identifier MODERN_BUCKET_ITEM = Identifier.fromNamespaceAndPath(
+        "minecraft", "textures/item/bucket.png");
+    private static final int TANK_WIDTH = 16;
+    private static final int FLUID_FRAME_SIZE = 16;
+
     private static final int GUI_WIDTH = 176;
     private static final int GUI_HEIGHT = 198;
     private static final int MACHINE_SHIFT = BrewingBarrelMenu.MACHINE_Y_OFFSET;
@@ -86,19 +96,47 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
             166 - ORIGINAL_INVENTORY_START, 256, 256);
     }
 
+    /**
+     * Each grape/wine fluid has a 16x16 animated atlas frame (16x512 sprite
+     * sheet with 32 frames). Never stretch the live 16px frame to 16x32:
+     * repeat native 16x16 tiles instead, then scissor to the liquid level.
+     * This keeps the artwork crisp and synchronized in both tank heights.
+     */
     private void tank(GuiGraphicsExtractor graphics, Identifier sprite,
-                      int x, int y, int height, int amount, int capacity) {
+                      int x, int y, int height, int amount, int capacity, int surfaceColor) {
         if (amount <= 0) return;
         int level = Math.clamp((int) Math.ceil(amount * height / (double) capacity), 1, height);
-        int absoluteX = leftPos + x, absoluteY = topPos + y;
-        graphics.enableScissor(absoluteX, absoluteY + height - level,
-                               absoluteX + 16, absoluteY + height);
+        int absoluteX = leftPos + x;
+        int absoluteY = topPos + y;
+        int surfaceY = absoluteY + height - level;
+        graphics.enableScissor(absoluteX, surfaceY, absoluteX + TANK_WIDTH, absoluteY + height);
         try {
-            // Fluid GUI atlas sprites retain the existing animated Rustic art.
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite,
-                                absoluteX, absoluteY, 16, height);
+            for (int row = 0; row < height; row += FLUID_FRAME_SIZE) {
+                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite,
+                    absoluteX, absoluteY + row, FLUID_FRAME_SIZE, FLUID_FRAME_SIZE);
+            }
         } finally {
             graphics.disableScissor();
+        }
+        // Single-pixel meniscus distinguishes the surface from the dark tank
+        // background even at a low fill level; it is not a second animation.
+        graphics.fill(absoluteX, surfaceY, absoluteX + TANK_WIDTH, surfaceY + 1, surfaceColor);
+    }
+
+    /** Use live vanilla icons centered on the actual (16x16) menu slots. */
+    private void emptyVesselIcon(GuiGraphicsExtractor graphics, int slotIndex, boolean bucket) {
+        var slot = menu.getSlot(slotIndex);
+        if (slot.hasItem()) return;
+        int iconX = leftPos + slot.x;
+        int iconY = topPos + slot.y;
+        if (bucket) {
+            // Ghosted vanilla 26.3 bucket model artwork, not Rustic's old bucket.
+            graphics.blit(RenderPipelines.GUI_TEXTURED, MODERN_BUCKET_ITEM,
+                iconX, iconY, 0, 0, 16, 16, 16, 16, 0x88888888);
+        } else {
+            // Official modern brewing-stand placeholder, centered in its slot.
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, MODERN_BOTTLE_SLOT,
+                iconX, iconY, 16, 16);
         }
     }
 
@@ -108,22 +146,17 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
         drawExtendedBackground(graphics);
 
         tank(graphics, menu.hasWhiteGrapeJuice() ? WHITE : PURPLE,
-            62, 27 + MACHINE_SHIFT, 32, menu.getInputAmount(), BrewingBarrelBlockEntity.CAPACITY);
+            62, 27 + MACHINE_SHIFT, 32, menu.getInputAmount(),
+            BrewingBarrelBlockEntity.CAPACITY,
+            menu.hasWhiteGrapeJuice() ? 0xBFE9DE9B : 0xBFB78FCA);
         tank(graphics, WINE, 116, 27 + MACHINE_SHIFT, 32, menu.getOutputAmount(),
-            BrewingBarrelBlockEntity.CAPACITY);
+            BrewingBarrelBlockEntity.CAPACITY, 0xBFCA8FA6);
         tank(graphics, WINE, 26, 35 + MACHINE_SHIFT, 16, menu.getCultureAmount(),
-            BrewingBarrelBlockEntity.CULTURE_CAPACITY);
+            BrewingBarrelBlockEntity.CULTURE_CAPACITY, 0xBFCA8FA6);
 
-        // Original Rustic icons for empty container slots, from the existing PNG.
-        if (!menu.getSlot(BrewingBarrelBlockEntity.INPUT_IN).hasItem())
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
-                leftPos + 62, topPos + 7 + MACHINE_SHIFT, 176, 54, 16, 16, 256, 256);
-        if (!menu.getSlot(BrewingBarrelBlockEntity.OUTPUT_IN).hasItem())
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
-                leftPos + 116, topPos + 7 + MACHINE_SHIFT, 176, 70, 16, 16, 256, 256);
-        if (!menu.getSlot(BrewingBarrelBlockEntity.CULTURE_IN).hasItem())
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
-                leftPos + 26, topPos + 15 + MACHINE_SHIFT, 176, 70, 16, 16, 256, 256);
+        emptyVesselIcon(graphics, BrewingBarrelBlockEntity.INPUT_IN, true);
+        emptyVesselIcon(graphics, BrewingBarrelBlockEntity.OUTPUT_IN, false);
+        emptyVesselIcon(graphics, BrewingBarrelBlockEntity.CULTURE_IN, false);
     }
 
     private void tankTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY,
