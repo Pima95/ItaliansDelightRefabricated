@@ -113,11 +113,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         DecorativePoleJeiInfo.register(registration);
         ModFluidJeiInfo.register(registration);
 
-        // Help page only: the barrel GUI moves containers, but NO recipe
-        // converts grape juice to wine in the current development phase.
+        // True processing recipes: both grape musts ferment to the mod's
+        // single registered wine fluid. Quality and culture are dynamic.
         registration.addRecipes(
             BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE,
-            java.util.List.of(new BrewingBarrelJeiGuide("layout"))
+            java.util.List.of(
+                new BrewingBarrelJeiGuide("purple"),
+                new BrewingBarrelJeiGuide("white"))
         );
 
         CheeseVatJeiRecipes recipes =
@@ -258,8 +260,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             );
         }
 
-        // All wood types open the same *information* category through JEI Uses (U).
-        // There is deliberately no fermenting recipe or wine output.
+        // All wood variants expose the same actual brewing recipes in JEI.
         for (net.minecraft.world.level.block.Block barrel :
                 new net.minecraft.world.level.block.Block[] {
                     ModBlocks.BREWING_BARREL,
@@ -322,7 +323,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             CheeseVatJeiRecipeTypes.CHEESE_VAT
         );
 
-        // The original Rustic arrow opens the GUI guide, not a wine recipe.
+        // The Rustic arrow opens the active wine-fermentation recipes.
         registration.addRecipeClickArea(
             BrewingBarrelScreen.class,
             85, 35 + BrewingBarrelMenu.MACHINE_Y_OFFSET, 24, 16,
