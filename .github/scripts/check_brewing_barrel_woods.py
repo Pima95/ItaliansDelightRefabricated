@@ -503,7 +503,7 @@ print("PASSED: all 16 image SHA references match the new reviewed sprites")
 # Regression guard: all newly registered fermentation fluids MUST have a
 # client FluidModel and a stitched blocks-atlas sprite. A GUI sprite alone
 # does not prevent magenta/black missing-liquid tiles in JEI.
-client_code=(java.parent/"ItaliansDelightClient.java").read_text(encoding="utf-8")
+client_code=(java/"ItaliansDelightClient.java").read_text(encoding="utf-8")
 blocks_atlas=load(root/"assets/minecraft/atlases/blocks.json")
 gui_atlas=load(root/"assets/minecraft/atlases/gui.json")
 block_resources={x["resource"] for x in blocks_atlas["sources"]}
