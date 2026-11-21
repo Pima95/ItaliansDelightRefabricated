@@ -98,8 +98,13 @@ assert hashlib.sha256(atlas_bytes).hexdigest() == "533ddfce1aff9f4b49a59ac108c83
 assert "if (backingColor != 0)" in barrel_screen
 assert "graphics.fill(absoluteX, surfaceY," in barrel_screen
 assert "0xFF87395F" in barrel_screen and "0xFF7B304D" in barrel_screen
-assert "menu.isAppleJuice() ? APPLE" in barrel_screen
-assert "menu.hasVinegarOutput() ? VINEGAR : WINE" in barrel_screen
+assert "case BrewingBarrelBlockEntity.JUICE_CHERRY -> CHERRY_JUICE;" in barrel_screen
+assert "case BrewingBarrelBlockEntity.JUICE_HONEY -> MEAD;" in barrel_screen
+assert "case BrewingBarrelBlockEntity.OUTPUT_WHITE_WINE -> WHITE_WINE;" in barrel_screen
+assert "case BrewingBarrelBlockEntity.OUTPUT_CHERRY_WINE -> CHERRY_WINE;" in barrel_screen
+assert "case BrewingBarrelBlockEntity.OUTPUT_MEAD -> MEAD;" in barrel_screen
+assert "case BrewingBarrelBlockEntity.OUTPUT_CIDER -> CIDER;" in barrel_screen
+assert "case BrewingBarrelBlockEntity.OUTPUT_WINE_VINEGAR -> WINE_VINEGAR;" in barrel_screen
 assert "menu.hasVinegarOutput() ? -1 : menu.getOutputQuality()" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.INPUT_IN, true)" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.OUTPUT_IN, false)" in barrel_screen
@@ -141,14 +146,20 @@ assert "builder.addText(" not in jei_category
 assert "createRecipeExtras" not in jei_category
 assert (assets/"textures/gui/jei/brewing_barrel.png").exists()
 assert "builder.addOutputSlot(" in jei_category
-assert "ModFluids.WINE" in jei_category
-assert "ModFluids.GRAPE_JUICE" in jei_category
-assert "ModFluids.APPLE_JUICE_STILL" in jei_category
-assert "ModFluids.APPLE_CIDER_VINEGAR" in jei_category
-assert "ModFluids.WHITE_GRAPE_JUICE" not in jei_category
+assert "recipe.input()" in jei_category
+assert "recipe.output()" in jei_category
+assert "recipe.isHoney()" in jei_category
+assert "recipe.requiresCulture()" in jei_category
+assert "ModFluids.WHITE_GRAPE_JUICE" in jei_guide
+assert "ModFluids.CHERRY_JUICE" in jei_guide
+assert "ModFluids.MEAD" in jei_guide
+assert "ModFluids.CIDER" in jei_guide
+assert "ModFluids.RED_WINE_VINEGAR" in jei_guide
 assert 'new BrewingBarrelJeiGuide("red_wine")' in jei_plugin
 assert 'new BrewingBarrelJeiGuide("apple_cider_vinegar")' in jei_plugin
 assert 'new BrewingBarrelJeiGuide("white")' not in jei_plugin
+for key in ("white_wine","cherry_wine","mead","cider","red_wine_vinegar","cider_vinegar"):
+    assert f'new BrewingBarrelJeiGuide("{key}")' in jei_plugin, key
 assert 'brewing_barrel_gui_guide' in jei_types
 assert "record BrewingBarrelJeiGuide" in jei_guide
 for wood in woods:
@@ -202,9 +213,17 @@ assert 'output.putInt("OutputKind", outputKind);' in barrel_entity
 assert 'input.getIntOr("OutputKind", OUTPUT_WINE)' in barrel_entity
 assert "JUICE_APPLE = 2" in barrel_entity
 assert "OUTPUT_VINEGAR = 1" in barrel_entity
-assert "if (juiceKind == JUICE_WHITE) return false;" in barrel_entity
+for path in (
+    "case JUICE_WHITE -> OUTPUT_WHITE_WINE;",
+    "case JUICE_CHERRY -> OUTPUT_CHERRY_WINE;",
+    "case JUICE_HONEY -> OUTPUT_MEAD;",
+    "case JUICE_RED_WINE -> OUTPUT_WINE_VINEGAR;",
+    "case JUICE_CIDER -> OUTPUT_VINEGAR;",
+    "case JUICE_APPLE -> hasCulture ? OUTPUT_CIDER : OUTPUT_VINEGAR;"):
+    assert path in barrel_entity, path
 assert "wineAmount == 0 || outputKind == expected" in barrel_entity
-assert "ItemStack filled = outputKind == OUTPUT_VINEGAR" in barrel_entity
+assert "ItemStack filled = outputContainer(outputKind, bucket, wineQuality);" in barrel_entity
+assert "if (hasQuality(kind))" in barrel_entity
 assert "ModItems.APPLE_CIDER_VINEGAR_BUCKET" in barrel_entity
 assert "ModItems.APPLE_CIDER_VINEGAR)" in barrel_entity
 assert "ModItems.APPLE_JUICE_BOTTLE" in barrel_entity
@@ -236,9 +255,28 @@ assert all(label in lang_it for label in (
 gui_atlas=load(root/"assets/minecraft/atlases/gui.json")
 sprites={entry.get("sprite") for entry in gui_atlas["sources"]}
 for sprite in ("grape_juice_still","white_grape_juice_still","wine_still",
-               "apple_juice_still","apple_cider_vinegar_still"):
+               "apple_juice_still","apple_cider_vinegar_still",
+               "white_wine_still","cherry_juice_still","cherry_wine_still",
+               "mead_still","cider_still","red_wine_vinegar_still"):
     assert "italiansdelight:fluids/"+sprite in sprites
-print("PASSED: only red wine and apple cider vinegar brew; white grapes stay inert; compact original Rustic JEI GUI and native tanks")
+# Added liquids use authentic 16x16 Rustic frame animations, not flattened art.
+for id_ in ("white_wine","cherry_wine","mead","cherry_juice","red_wine_vinegar"):
+    source=assets/"textures/block/fluids/booze"/(id_+"_still.png")
+    assert source.is_file(), id_
+    assert struct.unpack(">II", source.read_bytes()[16:24])==(16,512), id_
+    assert load(source.with_suffix(source.suffix+".mcmeta"))["animation"]["frametime"]>0, id_
+# Every product, including pre-existing wine/vinegar, is used in at least two
+# new tangible alternative crafting recipes, not just display-only JEI entries.
+fermented=root/"data/italiansdelight/recipe/fermented"
+recipe_files=list(fermented.glob("*.json"))
+assert len(recipe_files)>=16
+products=("white_wine_bottle","cherry_wine_bottle","mead_bottle",
+          "cider_bottle","red_wine_vinegar_bottle","cherry_juice_bottle",
+          "wine_bottle","apple_cider_vinegar")
+for prod in products:
+    uses=[p for p in recipe_files if "italiansdelight:"+prod in load(p)["ingredients"]]
+    assert len(uses)>=2, f"Missing kitchen uses: {prod}"
+print("PASSED: all fermented beverage recipes, native Rustic sprites and two crafting uses per product")
 
 
 original = (Path(".github/scripts/fixtures/alcocraft_spruce_keg.png").read_bytes())
