@@ -98,7 +98,9 @@ assert hashlib.sha256(atlas_bytes).hexdigest() == "533ddfce1aff9f4b49a59ac108c83
 assert "if (backingColor != 0)" in barrel_screen
 assert "graphics.fill(absoluteX, surfaceY," in barrel_screen
 assert "0xFF87395F" in barrel_screen and "0xFF7B304D" in barrel_screen
-assert "menu.hasWhiteGrapeJuice() ? 0 : 0xFF87395F" in barrel_screen
+assert "menu.isAppleJuice() ? APPLE" in barrel_screen
+assert "menu.hasVinegarOutput() ? VINEGAR : WINE" in barrel_screen
+assert "menu.hasVinegarOutput() ? -1 : menu.getOutputQuality()" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.INPUT_IN, true)" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.OUTPUT_IN, false)" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.CULTURE_IN, false)" in barrel_screen
@@ -125,13 +127,28 @@ jei_types=(java/"integration/jei/BrewingBarrelJeiRecipeTypes.java").read_text(en
 assert 'new BrewingBarrelJeiRecipeCategory(' in jei_plugin
 assert 'BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE' in jei_plugin
 assert 'BrewingBarrelScreen.class' in jei_plugin
-assert "extends AbstractRecipeCategory<BrewingBarrelJeiGuide>" in jei_category
+assert "implements IRecipeCategory<BrewingBarrelJeiGuide>" in jei_category
+assert 'textures/gui/jei/brewing_barrel.png' in jei_category
+assert "private static final int WIDTH = 130;" in jei_category
+assert "private static final int HEIGHT = 80;" in jei_category
+assert "background.draw(graphics);" in jei_category
+assert "arrow.draw(graphics, 63, 32)" in jei_category
+assert "bubbles.draw(graphics, 117, 26)" in jei_category
+assert "cultureArrow.draw(graphics, 23, 35)" in jei_category
+assert "builder.addInputSlot(40, 24)" in jei_category
+assert "builder.addOutputSlot(94, 24)" in jei_category
+assert "builder.addText(" not in jei_category
+assert "createRecipeExtras" not in jei_category
+assert (assets/"textures/gui/jei/brewing_barrel.png").exists()
 assert "builder.addOutputSlot(" in jei_category
 assert "ModFluids.WINE" in jei_category
 assert "ModFluids.GRAPE_JUICE" in jei_category
-assert "ModFluids.WHITE_GRAPE_JUICE" in jei_category
-assert 'new BrewingBarrelJeiGuide("purple")' in jei_plugin
-assert 'new BrewingBarrelJeiGuide("white")' in jei_plugin
+assert "ModFluids.APPLE_JUICE_STILL" in jei_category
+assert "ModFluids.APPLE_CIDER_VINEGAR" in jei_category
+assert "ModFluids.WHITE_GRAPE_JUICE" not in jei_category
+assert 'new BrewingBarrelJeiGuide("red_wine")' in jei_plugin
+assert 'new BrewingBarrelJeiGuide("apple_cider_vinegar")' in jei_plugin
+assert 'new BrewingBarrelJeiGuide("white")' not in jei_plugin
 assert 'brewing_barrel_gui_guide' in jei_types
 assert "record BrewingBarrelJeiGuide" in jei_guide
 for wood in woods:
@@ -162,7 +179,7 @@ for required in (
     "barrel.finishBrewing(level);",
     "int amount = Math.min(juiceAmount, CAPACITY - wineAmount);",
     "if (wineAmount == 0) {",
-    "wineQuality = brewedQuality(cultureAmount, cultureQuality, level.getRandom());",
+    "? brewedQuality(cultureAmount, cultureQuality, level.getRandom()) : 0;",
     "return 5 + random.nextInt(71);",
     "QUALITY_CHANGE_MIN",
     "barrel.progress = 0;",
@@ -177,9 +194,24 @@ for required in (
 assert "case 2 -> cultureAmount;" in barrel_entity
 assert "case 5 -> wineQuality;" in barrel_entity
 assert "case 6 -> cultureQuality;" in barrel_entity
-assert "@Override public int getCount() { return 7; }" in barrel_entity
-assert "new SimpleContainerData(7)" in barrel_menu
-assert "checkContainerDataCount(data, 7)" in barrel_menu
+assert "@Override public int getCount() { return 8; }" in barrel_entity
+assert "new SimpleContainerData(8)" in barrel_menu
+assert "checkContainerDataCount(data, 8)" in barrel_menu
+assert "case 7 -> outputKind;" in barrel_entity
+assert 'output.putInt("OutputKind", outputKind);' in barrel_entity
+assert 'input.getIntOr("OutputKind", OUTPUT_WINE)' in barrel_entity
+assert "JUICE_APPLE = 2" in barrel_entity
+assert "OUTPUT_VINEGAR = 1" in barrel_entity
+assert "if (juiceKind == JUICE_WHITE) return false;" in barrel_entity
+assert "wineAmount == 0 || outputKind == expected" in barrel_entity
+assert "ItemStack filled = outputKind == OUTPUT_VINEGAR" in barrel_entity
+assert "ModItems.APPLE_CIDER_VINEGAR_BUCKET" in barrel_entity
+assert "ModItems.APPLE_CIDER_VINEGAR)" in barrel_entity
+assert "ModItems.APPLE_JUICE_BOTTLE" in barrel_entity
+assert "ModItems.APPLE_JUICE_BUCKET" in barrel_entity
+assert "menu.hasVinegarOutput()" in barrel_screen
+assert 'OutputKind' in barrel_entity
+assert "isVinegar()" in jei_category
 assert "BrewingBarrelBlockEntity.BREW_TIME" in barrel_menu
 assert "progress > 0" in barrel_screen
 assert "Math.min(24, progress * 24 / duration + 1)" in barrel_screen
@@ -191,7 +223,10 @@ assert "if (cultureAmount == 0) cultureQuality = -1;" in barrel_entity
 assert 'gui.italiansdelight.jei.brewing_barrel.disabled' not in lang_it
 assert 'gui.italiansdelight.jei.brewing_barrel.disabled' not in lang_en
 assert "fermentation is not implemented yet" not in jei_category.lower()
-assert "isWhite()" in jei_category
+assert "isVinegar()" in jei_category
+assert lang_it["gui.italiansdelight.brewing_barrel.input"] == "Serbatoio d'ingresso"
+assert lang_it["gui.italiansdelight.brewing_barrel.output"] == "Serbatoio d'uscita"
+assert lang_en["gui.italiansdelight.brewing_barrel.input"] == "Input tank"
 
 assert 'textures/gui/brewing_barrel.png' in barrel_screen
 assert all(label in lang_it for label in (
@@ -200,9 +235,10 @@ assert all(label in lang_it for label in (
     "gui.italiansdelight.brewing_barrel.culture"))
 gui_atlas=load(root/"assets/minecraft/atlases/gui.json")
 sprites={entry.get("sprite") for entry in gui_atlas["sources"]}
-for sprite in ("grape_juice_still","white_grape_juice_still","wine_still"):
+for sprite in ("grape_juice_still","white_grape_juice_still","wine_still",
+               "apple_juice_still","apple_cider_vinegar_still"):
     assert "italiansdelight:fluids/"+sprite in sprites
-print("PASSED: Rustic wine fermentation, quality ranges, persistent 1L culture, GUI and real JEI recipes")
+print("PASSED: only red wine and apple cider vinegar brew; white grapes stay inert; compact original Rustic JEI GUI and native tanks")
 
 
 original = (Path(".github/scripts/fixtures/alcocraft_spruce_keg.png").read_bytes())
