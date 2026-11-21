@@ -27,7 +27,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "italiansdelight:block/liquid_surface/apple_cider_vinegar",
+      "resource": "italiansdelight:block/fluids/booze/cider_still",
       "sprite": "italiansdelight:fluids/apple_cider_vinegar_still"
     }
   ]
