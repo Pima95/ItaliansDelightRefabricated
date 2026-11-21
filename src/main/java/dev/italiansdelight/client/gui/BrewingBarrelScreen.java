@@ -27,14 +27,13 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
     private static final Identifier WINE = Identifier.fromNamespaceAndPath(
         "italiansdelight", "fluids/wine_still");
 
-    // Vanilla brewing stand's current empty potion slot sprite. The original
-    // Rustic GUI already includes a correct OUTLINE-ONLY bucket placeholder.
-    // Reuse that silhouette, never the tinted/filled vanilla bucket item.
-    private static final Identifier MODERN_BOTTLE_SLOT = Identifier.fromNamespaceAndPath(
-        "minecraft", "container/slot/potion");
-    private static final int BUCKET_OUTLINE_U = 176;
-    private static final int BUCKET_OUTLINE_V = 54;
-    private static final int BOTTLE_ICON_SIZE = 14;
+    // Modern item silhouettes, pixel-matched to Minecraft's 16x16 inventory
+    // items. They are 16px placeholders in a 32x16 RGBA strip:
+    // x=0: bucket border only (interior transparent); x=16: bottle outline.
+    // The glass bottle is derived from the vanilla glass_bottle item mask
+    // rather than scaling the narrower brewing-stand potion slot hint.
+    private static final Identifier VESSEL_ICONS = Identifier.fromNamespaceAndPath(
+        "italiansdelight", "textures/gui/brewing_vessel_icons.png");
     private static final int TANK_WIDTH = 16;
     private static final int FLUID_FRAME_SIZE = 16;
 
@@ -134,30 +133,21 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
     }
 
     /**
-     * Empty vessel slot cues. The source art is not visually centered just
-     * because the draw call uses slot.x/y: the potion sprite's own blank pixel
-     * margin is asymmetric. Fit it inside a 14px square and shift its visible
-     * center one pixel to the right; leave the bucket as an unfilled outline.
-     * Both cues live entirely within the slot's 16x16 interior.
+     * Render the real, unscaled 16x16 silhouette at exactly the same
+     * coordinates as the 16x16 ItemStack that can occupy this slot. The source
+     * PNG itself has pixel-centered alpha: bottle ink spans x=4..12 and
+     * y=2..14, matching the modern glass bottle item; bucket ink spans
+     * x=2..13 and y=1..14, matching the modern bucket's outer contour.
+     *
+     * No resizing, optical nudges or dark wash over the empty bucket.
      */
     private void emptyVesselIcon(GuiGraphicsExtractor graphics, int slotIndex, boolean bucket) {
         var slot = menu.getSlot(slotIndex);
         if (slot.hasItem()) return;
         int iconX = leftPos + slot.x;
         int iconY = topPos + slot.y;
-        if (bucket) {
-            // Transparent center, only the old GUI's gray bucket contour.
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
-                iconX, iconY, BUCKET_OUTLINE_U, BUCKET_OUTLINE_V,
-                16, 16, 256, 256);
-        } else {
-            // Geometric centering: 14px inside 16px gives 1px padding.
-            // +1 optical correction compensates vanilla potion sprite ink.
-            int centeredX = iconX + (16 - BOTTLE_ICON_SIZE) / 2 + 1;
-            int centeredY = iconY + (16 - BOTTLE_ICON_SIZE) / 2;
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, MODERN_BOTTLE_SLOT,
-                centeredX, centeredY, BOTTLE_ICON_SIZE, BOTTLE_ICON_SIZE);
-        }
+        graphics.blit(RenderPipelines.GUI_TEXTURED, VESSEL_ICONS,
+            iconX, iconY, bucket ? 0 : 16, 0, 16, 16, 32, 16);
     }
 
     @Override public void extractBackground(

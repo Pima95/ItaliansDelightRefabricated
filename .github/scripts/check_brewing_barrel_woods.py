@@ -73,17 +73,23 @@ assert "absoluteX, absoluteY + row, FLUID_FRAME_SIZE, FLUID_FRAME_SIZE" in barre
 assert "graphics.enableScissor(absoluteX, surfaceY" in barrel_screen
 assert "graphics.fill(absoluteX, surfaceY" in barrel_screen
 assert "absoluteX, absoluteY, 16, height" not in barrel_screen
-# The potion cue is optically centered inside each menu slot. Bucket cue
-# uses ONLY the transparent Rustic outline, not a gray-tinted item texture.
-assert '"minecraft", "container/slot/potion"' in barrel_screen
-assert '"minecraft", "textures/item/bucket.png"' not in barrel_screen
-assert "BUCKET_OUTLINE_U = 176" in barrel_screen
-assert "BUCKET_OUTLINE_V = 54" in barrel_screen
-assert "int centeredX = iconX + (16 - BOTTLE_ICON_SIZE) / 2 + 1;" in barrel_screen
-assert "int centeredY = iconY + (16 - BOTTLE_ICON_SIZE) / 2;" in barrel_screen
-assert "centeredX, centeredY, BOTTLE_ICON_SIZE, BOTTLE_ICON_SIZE" in barrel_screen
+# Verify full-size pixel-art vessel hints. The bottle's alpha bounding box
+# (x=4..12, y=2..14) matches the actual Minecraft 16x16 glass bottle item.
+# The bucket uses the current item silhouette border ONLY: no gray fill.
+assert '"textures/gui/brewing_vessel_icons.png"' in barrel_screen
+assert "VESSEL_ICONS" in barrel_screen
+assert "iconX, iconY, bucket ? 0 : 16, 0, 16, 16, 32, 16" in barrel_screen
 assert "int iconX = leftPos + slot.x;" in barrel_screen
 assert "int iconY = topPos + slot.y;" in barrel_screen
+assert "BOTTLE_ICON_SIZE" not in barrel_screen
+assert "MODERN_BOTTLE_SLOT" not in barrel_screen
+assert "BUCKET_OUTLINE_U" not in barrel_screen
+icon_file=assets/"textures/gui/brewing_vessel_icons.png"
+assert icon_file.is_file(), "Missing full-resolution ghost icons"
+icon_bytes=icon_file.read_bytes()
+assert icon_bytes[:8] == bytes.fromhex("89504e470d0a1a0a")
+assert struct.unpack(">II", icon_bytes[16:24]) == (32,16)
+assert icon_bytes[24:26] == bytes((8,6)), "Ghost icon strip must be RGBA8"
 # Opaque but GUI-only backing is clipped to the actual filled liquid height;
 # the original animated textures remain unchanged for the world and JEI.
 assert "if (backingColor != 0)" in barrel_screen
