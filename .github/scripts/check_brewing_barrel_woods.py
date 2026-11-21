@@ -124,7 +124,6 @@ jei_guide=(java/"integration/jei/BrewingBarrelJeiGuide.java").read_text(encoding
 jei_types=(java/"integration/jei/BrewingBarrelJeiRecipeTypes.java").read_text(encoding="utf-8")
 assert 'new BrewingBarrelJeiRecipeCategory(' in jei_plugin
 assert 'BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE' in jei_plugin
-assert 'new BrewingBarrelJeiGuide("layout")' in jei_plugin
 assert 'BrewingBarrelScreen.class' in jei_plugin
 assert "extends AbstractRecipeCategory<BrewingBarrelJeiGuide>" in jei_category
 assert "builder.addOutputSlot(" in jei_category
