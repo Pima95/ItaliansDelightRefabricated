@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Functional 26.3 red-wine and cider-vinegar brewing test in an isolated Actions world.
+"""Test every original and new Rustic-style fermentation on the dedicated server.
 
 This never touches the player's actual worlds. We use vanilla /data on a
 fresh test barrel to seed the last few ticks of an otherwise 12,000-tick
@@ -56,29 +56,76 @@ def main():
         assert 5 <= quality <= 75, quality
         print(f"PASSED: purple grape fermentation, 1000 mB, base quality {quality}", flush=True)
 
-        # White grapes have NO corresponding wine: must stay untouched and
-        # cannot quietly produce the existing red wine.
+        # White grapes now ferment into their OWN stable white-wine ID.
         put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 1,
                             "WineAmount": 0, "CultureAmount": 250,
                             "CultureQuality": 75, "BrewTime": 11995})
-        time.sleep(.35)
-        assert read_field(client, "JuiceAmount") == 1000
-        assert read_field(client, "WineAmount") == 0
-        assert read_field(client, "BrewTime") == 0
-        print("PASSED: white grapes do NOT ferment into red wine", flush=True)
+        wait_for_wine(client, 1000)
+        assert read_field(client, "OutputKind") == 2
+        assert 74 <= read_field(client, "WineQuality") <= 79
+        assert read_field(client, "CultureAmount") == 250
+        print("PASSED: white grape must -> distinct white wine (culture preserved)", flush=True)
+
+        # Cherry juice from the Crushing Tub becomes cherry wine (kind 3).
+        put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 3,
+                            "WineAmount": 0, "CultureAmount": 0,
+                            "CultureQuality": -1, "BrewTime": 11995})
+        wait_for_wine(client, 1000)
+        assert read_field(client, "OutputKind") == 3
+        print("PASSED: cherry juice -> cherry wine", flush=True)
+
+        # Original Rustic honey in bottles/buckets is an input, not a
+        # placeholder registered Fluid that does not exist in Minecraft.
+        put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 4,
+                            "WineAmount": 0, "CultureAmount": 0,
+                            "CultureQuality": -1, "BrewTime": 11995})
+        wait_for_wine(client, 1000)
+        assert read_field(client, "OutputKind") == 4
+        print("PASSED: honey -> quality-bearing mead", flush=True)
 
         # Apple juice produces the preexisting vinegar (not wine) after one
         # Rustic 12,000-tick cycle. Culture has no effect on vinegar quality.
         put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 2,
                             "WineAmount": 0, "OutputKind": 0,
-                            "CultureAmount": 250, "CultureQuality": 75,
+                            "CultureAmount": 0, "CultureQuality": -1,
                             "BrewTime": 11995})
         wait_for_wine(client, 1000)
         assert read_field(client, "JuiceAmount") == 0
         assert read_field(client, "OutputKind") == 1
         assert read_field(client, "WineQuality") == 0
+        assert read_field(client, "CultureAmount") == 0
+        print("PASSED: unseeded apple juice -> 1000 mB cider vinegar", flush=True)
+
+        # Seeded apple juice instead yields CIDER while reusing the culture.
+        put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 2,
+                            "WineAmount": 0, "OutputKind": 0,
+                            "CultureAmount": 250, "CultureQuality": 70,
+                            "BrewTime": 11995})
+        wait_for_wine(client, 1000)
+        assert read_field(client, "OutputKind") == 5
         assert read_field(client, "CultureAmount") == 250
-        print("PASSED: apple juice -> 1000 mB cider vinegar, wine culture unaffected", flush=True)
+        assert 69 <= read_field(client, "WineQuality") <= 74
+        print("PASSED: seeded apple juice -> cider, not vinegar", flush=True)
+
+        # Distinct two-stage route: cider can ferment into apple cider vinegar.
+        put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 6,
+                            "WineAmount": 0, "BrewTime": 11995})
+        wait_for_wine(client, 1000)
+        assert read_field(client, "OutputKind") == 1
+        print("PASSED: cider -> apple cider vinegar", flush=True)
+
+        # Red wine itself is a fermenter input for red-wine vinegar.
+        put_barrel(client, {"JuiceAmount": 1000, "JuiceKind": 5,
+                            "WineAmount": 0, "BrewTime": 11995})
+        wait_for_wine(client, 1000)
+        assert read_field(client, "OutputKind") == 6
+        assert read_field(client, "WineQuality") == 0
+        print("PASSED: red wine -> wine vinegar (no alcoholic quality)", flush=True)
+
+        # Restore vinegar output for the bottle-return test below.
+        put_barrel(client, {"JuiceAmount": 0, "JuiceKind": 2,
+                            "WineAmount": 1000, "OutputKind": 1,
+                            "WineQuality": 0, "BrewTime": 0})
 
         # Check the ACTUAL vessel-to-tank transfer on the server (not only
         # seeded NBT): an empty bottle in output slot 1 must be replaced with
