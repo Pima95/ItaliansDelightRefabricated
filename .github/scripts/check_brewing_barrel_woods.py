@@ -498,3 +498,44 @@ print("PASSED: top and lower panels retain distinct spruce-like wood grain on ma
 
 print("PASSED: depth, knots, RGBA, metal and distinct actual wood palettes")
 print("PASSED: all 16 image SHA references match the new reviewed sprites")
+
+
+# Regression guard: all newly registered fermentation fluids MUST have a
+# client FluidModel and a stitched blocks-atlas sprite. A GUI sprite alone
+# does not prevent magenta/black missing-liquid tiles in JEI.
+client_code=(java.parent/"ItaliansDelightClient.java").read_text(encoding="utf-8")
+blocks_atlas=load(root/"assets/minecraft/atlases/blocks.json")
+gui_atlas=load(root/"assets/minecraft/atlases/gui.json")
+block_resources={x["resource"] for x in blocks_atlas["sources"]}
+gui_sprites={x.get("sprite") for x in gui_atlas["sources"]}
+new_fluids=("cherry_juice", "white_wine", "cherry_wine",
+            "mead", "cider", "red_wine_vinegar")
+for drink in new_fluids:
+    assert f"registerContainedFluid(ModFluids.{drink.upper()}," in client_code, drink
+    still=f"italiansdelight:block/fluids/booze/{drink}_still"
+    assert still in block_resources, (drink,"blocks atlas")
+    assert f"italiansdelight:fluids/{drink}_still" in gui_sprites, (drink,"gui atlas")
+    png=assets/"textures/block/fluids/booze"/(drink+"_still.png")
+    assert png.is_file(), drink
+    assert struct.unpack(">II", png.read_bytes()[16:24])==(16,512), drink
+
+# New 16x16 item art must have real linked sprites, not the placeholders that
+# accidentally reused grape juice and wine buckets or vanilla potion tints.
+changed_art=("white_wine_bucket", "white_wine_bottle",
+             "cherry_juice_bucket", "cherry_juice_bottle",
+             "cherry_wine_bucket", "cherry_wine_bottle")
+for name in changed_art:
+    tex=assets/"textures/item"/(name+".png")
+    assert struct.unpack(">II", tex.read_bytes()[16:24])==(16,16), name
+    model=load(assets/"models/item"/(name+".json"))
+    assert model["textures"]["layer0"]=="italiansdelight:item/"+name, name
+    item=load(assets/"items"/(name+".json"))
+    assert item["model"]["model"]=="italiansdelight:item/"+name, name
+assert (assets/"textures/item/white_wine_bucket.png").read_bytes() != (
+    assets/"textures/item/white_grape_juice_bucket.png").read_bytes()
+for lang in (lang_en,lang_it):
+    for name in new_fluids:
+        for suffix in ("bottle","bucket"):
+            label=lang["item.italiansdelight."+name+"_"+suffix]
+            assert label and "(" not in label and ")" not in label, (name,suffix,label)
+print("PASSED: six JEI fluid renderers, stitched atlases, paired item textures and clean locales")
