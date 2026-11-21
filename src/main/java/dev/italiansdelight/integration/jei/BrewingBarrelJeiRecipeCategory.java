@@ -15,6 +15,9 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import dev.italiansdelight.common.registry.ModItems;
 
 /**
  * Restore the owner's original Rustic JEI art at native 130x80 pixels.
@@ -63,16 +66,23 @@ public final class BrewingBarrelJeiRecipeCategory
 
     @Override public void setRecipe(IRecipeLayoutBuilder builder,
                                    BrewingBarrelJeiGuide recipe, IFocusGroup focuses) {
-        builder.addInputSlot(40, 24)
-            .setFluidRenderer(MAX_BATCH, false, 16, 32)
-            .add(recipe.isVinegar() ? ModFluids.APPLE_JUICE_STILL : ModFluids.GRAPE_JUICE,
-                 MAX_BATCH);
+        if (recipe.isHoney()) {
+            // Honey uses the original Rustic virtual "minecraft:honey", not
+            // a made-up registered fluid. JEI shows its real obtainable bottle.
+            builder.addInputSlot(40, 24).add(new ItemStack(Items.HONEY_BOTTLE));
+        } else {
+            builder.addInputSlot(40, 24)
+                .setFluidRenderer(MAX_BATCH, false, 16, 32)
+                .add(recipe.input(), MAX_BATCH);
+        }
         builder.addOutputSlot(94, 24)
             .setFluidRenderer(MAX_BATCH, false, 16, 32)
-            .add(recipe.isVinegar() ? ModFluids.APPLE_CIDER_VINEGAR : ModFluids.WINE,
-                 MAX_BATCH);
-        // Auxiliary tank (4,32) is intentionally not an input ingredient:
-        // wine culture is optional, and no culture is used for vinegar.
+            .add(recipe.output(), MAX_BATCH);
+        if (recipe.requiresCulture()) {
+            // Cider is selected by inoculating apple juice with wine culture;
+            // otherwise the old unseeded apple-vinegar recipe remains active.
+            builder.addInputSlot(4, 32).add(new ItemStack(ModItems.WINE_BOTTLE));
+        }
     }
 
     @Override public void draw(BrewingBarrelJeiGuide recipe, IRecipeSlotsView slots,
@@ -91,9 +101,11 @@ public final class BrewingBarrelJeiRecipeCategory
             tooltip.add(Component.translatable(
                 "gui.italiansdelight.jei.brewing_barrel.duration"));
         } else if (mouseX >= 4 && mouseX < 21 && mouseY >= 32 && mouseY < 49) {
-            tooltip.add(Component.translatable(recipe.isVinegar()
-                ? "gui.italiansdelight.jei.brewing_barrel.no_culture"
-                : "gui.italiansdelight.jei.brewing_barrel.optional_culture"));
+            tooltip.add(Component.translatable(recipe.requiresCulture()
+                ? "gui.italiansdelight.jei.brewing_barrel.required_culture"
+                : recipe.isVinegar()
+                    ? "gui.italiansdelight.jei.brewing_barrel.no_culture"
+                    : "gui.italiansdelight.jei.brewing_barrel.optional_culture"));
         }
     }
 }
