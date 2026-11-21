@@ -240,6 +240,14 @@ public final class ModItemGroups {
                 output.accept(ModItems.WHITE_GRAPE_JUICE_BOTTLE);
                 output.accept(ModItems.WINE_BUCKET);
                 output.accept(ModItems.WINE_BOTTLE);
+                output.accept(ModItems.WHITE_WINE_BUCKET);
+                output.accept(ModItems.WHITE_WINE_BOTTLE);
+                output.accept(ModItems.CHERRY_WINE_BUCKET);
+                output.accept(ModItems.CHERRY_WINE_BOTTLE);
+                output.accept(ModItems.MEAD_BUCKET);
+                output.accept(ModItems.MEAD_BOTTLE);
+                output.accept(ModItems.CIDER_BUCKET);
+                output.accept(ModItems.CIDER_BOTTLE);
 
                 // CHILI FAMILY: seed, wild shrub, common and rare fruit.
                 output.accept(ModBlocks.CHILI_PEPPER_SEEDS);
@@ -274,6 +282,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.OLIVE_OIL_BOTTLE);
                 output.accept(ModItems.APPLE_JUICE_BUCKET);
                 output.accept(ModItems.APPLE_JUICE_BOTTLE);
+                output.accept(ModItems.CHERRY_JUICE_BUCKET);
+                output.accept(ModItems.CHERRY_JUICE_BOTTLE);
 
 
 
@@ -295,6 +305,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.BLUE_MOLD_CULTURE);
                 output.accept(ModItems.APPLE_CIDER_VINEGAR_BUCKET);
                 output.accept(ModItems.APPLE_CIDER_VINEGAR); // bottled vinegar
+                output.accept(ModItems.RED_WINE_VINEGAR_BUCKET);
+                output.accept(ModItems.RED_WINE_VINEGAR_BOTTLE);
 
                 // CHEESES: fresh products followed by each family's stages.
                 output.accept(ModItems.MOZZARELLA);
