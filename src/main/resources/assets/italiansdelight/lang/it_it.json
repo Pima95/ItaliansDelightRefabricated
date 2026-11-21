@@ -431,7 +431,7 @@
   "item.italiansdelight.wine_bottle": "Bottiglia di vino",
   "fluid.italiansdelight.wine": "Vino",
   "message.italiansdelight.brewing_barrel.status": "Succo: %s mB | Vino: %s mB | Fermentazione: %s / %s tick | Qualità: %s%%",
-  "jei.italiansdelight.fluids.wine": "GUI della botte di fermentazione (disposizione Rustic): serbatoio centrale per il succo d'uva, destro per il vino pronto, sinistro per la coltura. Inserisci i contenitori negli slot superiori e ritirali da quelli inferiori. La fermentazione e le ricette del vino non sono ancora attive.",
+  "jei.italiansdelight.fluids.wine": "Il succo d'uva viola o bianca si trasforma in vino nel Brewing Barrel dopo 12.000 tick. I serbatoi di ingresso e uscita contengono 8.000 mB ciascuno. Una coltura facoltativa varia la qualità da −1 a +4 punti percentuali senza essere consumata. Le bottiglie conservano la qualità.",
   "tooltip.italiansdelight.wine_quality": "Qualità: %s%%",
   "block.italiansdelight.grape_juice": "Succo d'uva rossa",
   "block.italiansdelight.wine": "Vino",
@@ -489,10 +489,10 @@
   "block.italiansdelight.ghost_pepper_crate": "Cassa di peperoncini fantasma",
   "block.italiansdelight.wild_grape_vine": "Vite selvatica d'uva rossa",
   "block.italiansdelight.wild_white_grape_vine": "Vite selvatica d'uva bianca",
-  "gui.italiansdelight.brewing_barrel.input": "Succo d'uva non fermentato",
-  "gui.italiansdelight.brewing_barrel.output": "Vino fermentato (solo già conservato)",
-  "gui.italiansdelight.brewing_barrel.culture": "Coltura di vino",
-  "gui.italiansdelight.jei.brewing_barrel.title": "Botte di fermentazione: guida GUI",
-  "gui.italiansdelight.jei.brewing_barrel.slots": "Sinistra: coltura di vino. Centro: succo d'uva viola/bianca. Destra: prelievo del vino già presente. Contenitori sopra i serbatoi e restituzione sotto.",
-  "gui.italiansdelight.jei.brewing_barrel.disabled": "Fermentazione non ancora implementata. Questa pagina spiega soltanto gli slot della botte."
+  "gui.italiansdelight.brewing_barrel.input": "Succo d'uva viola o bianca",
+  "gui.italiansdelight.brewing_barrel.output": "Vino fermentato",
+  "gui.italiansdelight.brewing_barrel.culture": "Coltura di vino opzionale",
+  "gui.italiansdelight.jei.brewing_barrel.title": "Fermentazione del vino",
+  "gui.italiansdelight.jei.brewing_barrel.slots": "Fermenta dopo 12.000 tick (10 minuti). Fino a 8.000 mB per ciclo. Inserisci bottiglie o secchi negli slot superiori e ritira i contenitori sotto.",
+  "gui.italiansdelight.jei.brewing_barrel.details": "Coltura facoltativa (massimo 1.000 mB). Primo vino: qualità 5–75%. Con coltura: variazione da −1 a +4 punti."
 }
