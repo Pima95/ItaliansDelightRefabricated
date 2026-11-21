@@ -18,7 +18,7 @@ import net.minecraft.world.item.Items;
  * 0 input (62,27), 1 output-tank vessel (116,27), 2 culture vessel (26,35);
  * 3,4,5 returned containers at (62,83), (116,83), (26,75).
  *
- * Only vessels are handled here: there is intentionally no wine recipe.
+ * Transfers and brewing follow Rustic: six vessel slots and three synced tanks.
  */
 public final class BrewingBarrelMenu extends AbstractContainerMenu {
     public static final int MACHINE_Y_OFFSET = 20;
@@ -30,13 +30,13 @@ public final class BrewingBarrelMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public BrewingBarrelMenu(int id, Inventory inventory) {
-        this(id, inventory, new SimpleContainer(MACHINE_END), new SimpleContainerData(5));
+        this(id, inventory, new SimpleContainer(MACHINE_END), new SimpleContainerData(7));
     }
 
     public BrewingBarrelMenu(int id, Inventory inventory, Container container, ContainerData data) {
         super(ModMenuTypes.BREWING_BARREL, id);
         checkContainerSize(container, MACHINE_END);
-        checkContainerDataCount(data, 5);
+        checkContainerDataCount(data, 7);
         this.container = container;
         this.data = data;
         container.startOpen(inventory.player);
@@ -69,6 +69,10 @@ public final class BrewingBarrelMenu extends AbstractContainerMenu {
     public int getOutputAmount() { return data.get(1); }
     public int getCultureAmount() { return data.get(2); }
     public int getProgress() { return data.get(3); }
+    public int getMaxBrewTime() { return BrewingBarrelBlockEntity.BREW_TIME; }
+    public int getOutputQuality() { return data.get(5); }
+    public int getCultureQuality() { return data.get(6); }
+    public boolean isBrewing() { return getProgress() > 0; }
     public boolean hasWhiteGrapeJuice() { return data.get(4) == BrewingBarrelBlockEntity.JUICE_WHITE; }
 
     @Override public boolean stillValid(Player player) {
