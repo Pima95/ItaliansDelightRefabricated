@@ -431,7 +431,7 @@
   "item.italiansdelight.wine_bottle": "Bottle of Wine",
   "fluid.italiansdelight.wine": "Wine",
   "message.italiansdelight.brewing_barrel.status": "Grape juice: %s mB | Wine: %s mB | Ferment: %s / %s ticks | Quality: %s%%",
-  "jei.italiansdelight.fluids.wine": "Brewing Barrel GUI (Rustic layout): center tank for grape juice, right tank for finished wine, left tank for culture. Place containers in the top slots and collect returned containers below. Wine fermentation and recipe processing are not implemented yet.",
+  "jei.italiansdelight.fluids.wine": "Grape juice (purple or white) ferments into wine in the Brewing Barrel after 12,000 ticks. Input/output tanks each hold 8,000 mB. An optional wine culture raises or lowers the next batch's quality by −1 to +4 percentage points without being consumed. Bottles store their quality.",
   "tooltip.italiansdelight.wine_quality": "Quality: %s%%",
   "block.italiansdelight.grape_juice": "Red Grape Juice",
   "block.italiansdelight.wine": "Wine",
@@ -489,10 +489,10 @@
   "block.italiansdelight.ghost_pepper_crate": "Ghost Pepper Crate",
   "block.italiansdelight.wild_grape_vine": "Wild Red Grapevine",
   "block.italiansdelight.wild_white_grape_vine": "Wild White Grapevine",
-  "gui.italiansdelight.brewing_barrel.input": "Unfermented grape juice",
-  "gui.italiansdelight.brewing_barrel.output": "Fermented wine (stored only)",
-  "gui.italiansdelight.brewing_barrel.culture": "Wine culture",
-  "gui.italiansdelight.jei.brewing_barrel.title": "Brewing Barrel: GUI guide",
-  "gui.italiansdelight.jei.brewing_barrel.slots": "Left: wine culture. Center: grape juice (purple/white). Right: collect existing wine. Place vessels above the tanks; collect returned vessels below.",
-  "gui.italiansdelight.jei.brewing_barrel.disabled": "Fermentation is not implemented yet. This page documents the container slots only."
+  "gui.italiansdelight.brewing_barrel.input": "Grape juice (purple or white)",
+  "gui.italiansdelight.brewing_barrel.output": "Fermented wine",
+  "gui.italiansdelight.brewing_barrel.culture": "Optional wine culture",
+  "gui.italiansdelight.jei.brewing_barrel.title": "Wine fermentation",
+  "gui.italiansdelight.jei.brewing_barrel.slots": "Ferments after 12,000 ticks (10 min). Up to 8,000 mB per batch. Transfer bottles or buckets in the upper slots; collect returned containers below.",
+  "gui.italiansdelight.jei.brewing_barrel.details": "Culture is optional (up to 1,000 mB). First brew: 5–75% quality. Reused culture: quality −1 to +4 points."
 }
