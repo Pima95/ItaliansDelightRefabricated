@@ -31,6 +31,12 @@ public final class FabricFluidItemContainers {
         storageOnly(ModFluids.APPLE_CIDER_VINEGAR,
             ModItems.APPLE_CIDER_VINEGAR_BUCKET, ModItems.APPLE_CIDER_VINEGAR);
 
+        storageOnly(ModFluids.CHERRY_JUICE, ModItems.CHERRY_JUICE_BUCKET, ModItems.CHERRY_JUICE_BOTTLE);
+        storageOnly(ModFluids.RED_WINE_VINEGAR,
+            ModItems.RED_WINE_VINEGAR_BUCKET, ModItems.RED_WINE_VINEGAR_BOTTLE);
+        // Alcoholic fluids carry quality; keep them in Brewer-specific IO,
+        // avoiding generic API transfers that would erase that component.
+
         // Their normal BucketItems are already exposed by Fabric, but their
         // additional 250mB bottle items are not automatically recognized.
         bottle(ModFluids.OLIVE_OIL_STILL, ModItems.OLIVE_OIL_BOTTLE);
