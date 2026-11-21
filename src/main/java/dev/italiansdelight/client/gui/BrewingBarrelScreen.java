@@ -14,8 +14,8 @@ import java.util.List;
 
 /**
  * Rustic 176px-wide art, split into a 198px-tall screen with a real header.
- * Only vessels and existing tank contents work during this phase. Progress
- * is deliberately not drawn: brewing recipes and timers remain disabled.
+ * Rustic's brewing-time bubbles and arrow overlays are redrawn over the
+ * approved texture, while all 16 wood-title variants share the same screen.
  */
 public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBarrelMenu> {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
@@ -168,29 +168,56 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
         emptyVesselIcon(graphics, BrewingBarrelBlockEntity.INPUT_IN, true);
         emptyVesselIcon(graphics, BrewingBarrelBlockEntity.OUTPUT_IN, false);
         emptyVesselIcon(graphics, BrewingBarrelBlockEntity.CULTURE_IN, false);
+        // Same overlays as Rustic GuiBrewingBarrel: the 24x16 progress
+        // arrow, 10x10 culture arrow and 11x28 bubble animation.
+        // The art lives in the existing brewing_barrel.png and needs the
+        // same 20px machine offset used by the six inventory slots.
+        int progress = menu.getProgress();
+        int duration = menu.getMaxBrewTime();
+        if (progress > 0 && duration > 0) {
+            int arrow = Math.min(24, progress * 24 / duration + 1);
+            int smallArrow = Math.min(10, progress * 10 / duration + 1);
+            int bubbles = (int) ((progress / (float) duration) * 5600) % 28;
+            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+                leftPos + 85, topPos + 35 + MACHINE_SHIFT,
+                176, 28, arrow, 16, 256, 256);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+                leftPos + 45, topPos + 38 + MACHINE_SHIFT,
+                176, 44, smallArrow, 10, 256, 256);
+            if (bubbles > 0) {
+                graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+                    leftPos + 139, topPos + 29 + MACHINE_SHIFT + 28 - bubbles,
+                    176, 28 - bubbles, 11, bubbles, 256, 256);
+            }
+        }
     }
 
     private void tankTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY,
                              int x, int y, int w, int h, String key,
-                             int amount, int capacity) {
+                             int amount, int capacity, int quality) {
         if (mouseX < leftPos+x || mouseX >= leftPos+x+w
                 || mouseY < topPos+y || mouseY >= topPos+y+h) return;
-        graphics.setComponentTooltipForNextFrame(font, List.of(
-            Component.translatable(key).withStyle(ChatFormatting.WHITE),
-            Component.literal(amount + " / " + capacity + " mB").withStyle(ChatFormatting.GRAY)
-        ), mouseX, mouseY);
+        List<Component> lines = new java.util.ArrayList<>();
+        lines.add(Component.translatable(key).withStyle(ChatFormatting.WHITE));
+        lines.add(Component.literal(amount + " / " + capacity + " mB")
+            .withStyle(ChatFormatting.GRAY));
+        if (amount > 0 && quality >= 0) {
+            lines.add(Component.translatable("tooltip.italiansdelight.wine_quality",
+                quality).withStyle(ChatFormatting.GOLD));
+        }
+        graphics.setComponentTooltipForNextFrame(font, lines, mouseX, mouseY);
     }
 
     @Override protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
         super.extractTooltip(graphics, mouseX, mouseY);
         tankTooltip(graphics, mouseX, mouseY, 62, 27 + MACHINE_SHIFT, 16, 32,
             "gui.italiansdelight.brewing_barrel.input", menu.getInputAmount(),
-            BrewingBarrelBlockEntity.CAPACITY);
+            BrewingBarrelBlockEntity.CAPACITY, -1);
         tankTooltip(graphics, mouseX, mouseY, 116, 27 + MACHINE_SHIFT, 16, 32,
             "gui.italiansdelight.brewing_barrel.output", menu.getOutputAmount(),
-            BrewingBarrelBlockEntity.CAPACITY);
+            BrewingBarrelBlockEntity.CAPACITY, menu.getOutputQuality());
         tankTooltip(graphics, mouseX, mouseY, 26, 35 + MACHINE_SHIFT, 16, 16,
             "gui.italiansdelight.brewing_barrel.culture", menu.getCultureAmount(),
-            BrewingBarrelBlockEntity.CULTURE_CAPACITY);
+            BrewingBarrelBlockEntity.CULTURE_CAPACITY, menu.getCultureQuality());
     }
 }
