@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "italiansdelight:item/white_grape_juice_bucket"
+    "layer0": "italiansdelight:item/white_wine_bucket"
   }
 }

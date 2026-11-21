@@ -1,12 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "minecraft:item/potion",
-    "tints": [
-      {
-        "type": "minecraft:constant",
-        "value": 10303068
-      }
-    ]
+    "model": "italiansdelight:item/cherry_wine_bottle"
   }
 }
