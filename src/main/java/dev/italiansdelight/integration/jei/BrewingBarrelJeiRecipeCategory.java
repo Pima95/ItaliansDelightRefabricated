@@ -75,9 +75,11 @@ public final class BrewingBarrelJeiRecipeCategory
                 .setFluidRenderer(MAX_BATCH, false, 16, 32)
                 .add(recipe.input(), MAX_BATCH);
         }
+        // One honey bottle is only 250mB, not 8L.
+        long outputAmount = recipe.isHoney() ? FluidConstants.BOTTLE : MAX_BATCH;
         builder.addOutputSlot(94, 24)
-            .setFluidRenderer(MAX_BATCH, false, 16, 32)
-            .add(recipe.output(), MAX_BATCH);
+            .setFluidRenderer(recipe.isHoney() ? FluidConstants.BOTTLE : MAX_BATCH, false, 16, 32)
+            .add(recipe.output(), outputAmount);
         if (recipe.requiresCulture()) {
             // Cider is selected by inoculating apple juice with wine culture;
             // otherwise the old unseeded apple-vinegar recipe remains active.
