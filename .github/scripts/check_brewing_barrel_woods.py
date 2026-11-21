@@ -65,6 +65,36 @@ assert "this.inventoryLabelY = 104" in barrel_screen
 assert "this.titleLabelY = 6" in barrel_screen
 assert "font.split(title, GUI_WIDTH - 16)" in barrel_screen
 assert "drawExtendedBackground(graphics)" in barrel_screen
+# Fluids are 16x512 animated strips (32 native 16px frames). They must be
+# repeated at the actual sprite size, never stretched to the 32px tall tanks.
+assert "private static final int FLUID_FRAME_SIZE = 16;" in barrel_screen
+assert "row += FLUID_FRAME_SIZE" in barrel_screen
+assert "absoluteX, absoluteY + row, FLUID_FRAME_SIZE, FLUID_FRAME_SIZE" in barrel_screen
+assert "graphics.enableScissor(absoluteX, surfaceY" in barrel_screen
+assert "graphics.fill(absoluteX, surfaceY" in barrel_screen
+assert "absoluteX, absoluteY, 16, height" not in barrel_screen
+# The two glass-bottle hints use the current vanilla brewing stand sprite
+# rather than deprecated 1.12 Rustic art. The bucket uses the vanilla item.
+assert '"minecraft", "container/slot/potion"' in barrel_screen
+assert '"minecraft", "textures/item/bucket.png"' in barrel_screen
+assert "int iconX = leftPos + slot.x;" in barrel_screen
+assert "int iconY = topPos + slot.y;" in barrel_screen
+assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.INPUT_IN, true)" in barrel_screen
+assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.OUTPUT_IN, false)" in barrel_screen
+assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.CULTURE_IN, false)" in barrel_screen
+assert "leftPos + 62, topPos + 7 + MACHINE_SHIFT, 176, 54" not in barrel_screen
+for relative in (
+    "block/fluids/grape_juice_still.png",
+    "block/fluids/white_grape_juice_still.png",
+    "block/fluids/booze/wine_still.png",
+):
+    path=assets/"textures"/relative
+    raw=path.read_bytes()
+    assert raw[:8]==bytes.fromhex("89504e470d0a1a0a")
+    assert struct.unpack(">II", raw[16:24])==(16,512), relative
+    animated=load(path.with_suffix(path.suffix+".mcmeta"))
+    assert animated["animation"]["frametime"]>0, relative
+
 assert "Component.translatable(getBlockState().getBlock().getDescriptionId())" in barrel_entity
 # Every registered wood still has a translated display key and its own identity.
 assert "getBlockState().getBlock().getDescriptionId()" in barrel_entity
