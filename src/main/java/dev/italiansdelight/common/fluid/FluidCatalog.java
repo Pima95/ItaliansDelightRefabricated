@@ -24,7 +24,13 @@ public final class FluidCatalog {
         new Definition("italiansdelight:golden_apple_juice", false, ""),
         new Definition("italiansdelight:grape_juice", false, ""),
         new Definition("italiansdelight:white_grape_juice", false, ""),
-        new Definition("italiansdelight:wine", false, "")
+        new Definition("italiansdelight:wine", false, ""),
+        new Definition("italiansdelight:cherry_juice", false, ""),
+        new Definition("italiansdelight:white_wine", false, ""),
+        new Definition("italiansdelight:cherry_wine", false, ""),
+        new Definition("italiansdelight:mead", false, ""),
+        new Definition("italiansdelight:cider", false, ""),
+        new Definition("italiansdelight:red_wine_vinegar", false, "")
     );
 
     public static boolean canBePlaced(String id) {
