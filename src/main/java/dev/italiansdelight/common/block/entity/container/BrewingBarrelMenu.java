@@ -93,8 +93,10 @@ public final class BrewingBarrelMenu extends AbstractContainerMenu {
             if (!moveItemStackTo(stack, PLAYER_START, PLAYER_END, true)) return ItemStack.EMPTY;
         } else {
             boolean placed = false;
-            if (stack.is(Items.GLASS_BOTTLE)) {
-                // Reuse the output tank first, then source and culture tanks.
+            if (stack.is(Items.GLASS_BOTTLE) || stack.is(Items.BUCKET)) {
+                // Empty bottles/buckets: prefer the finished product first,
+                // then the input and culture tanks. This also allows the new
+                // cider-vinegar bucket to be collected with shift-click.
                 for (int target : new int[] {BrewingBarrelBlockEntity.OUTPUT_IN,
                         BrewingBarrelBlockEntity.INPUT_IN, BrewingBarrelBlockEntity.CULTURE_IN}) {
                     if (container.canPlaceItem(target, stack)
