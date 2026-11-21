@@ -75,7 +75,10 @@ public final class BrewingBarrelMenu extends AbstractContainerMenu {
     public int getOutputKind() { return data.get(7); }
     public int getInputKind() { return data.get(4); }
     public boolean isAppleJuice() { return getInputKind() == BrewingBarrelBlockEntity.JUICE_APPLE; }
-    public boolean hasVinegarOutput() { return getOutputKind() == BrewingBarrelBlockEntity.OUTPUT_VINEGAR; }
+    public boolean hasVinegarOutput() {
+        return getOutputKind() == BrewingBarrelBlockEntity.OUTPUT_VINEGAR
+            || getOutputKind() == BrewingBarrelBlockEntity.OUTPUT_WINE_VINEGAR;
+    }
     public boolean isBrewing() { return getProgress() > 0; }
     public boolean hasWhiteGrapeJuice() { return data.get(4) == BrewingBarrelBlockEntity.JUICE_WHITE; }
 
