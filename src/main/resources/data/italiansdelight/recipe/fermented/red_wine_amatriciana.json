@@ -3,8 +3,9 @@
   "category": "food",
   "ingredients": [
     "italiansdelight:wine_bottle",
-    "italiansdelight:tomato_sauce",
-    "italiansdelight:pasta",
+    "farmersdelight:tomato_sauce",
+    "#c:foods/pasta",
+    "italiansdelight:guanciale_slice",
     "minecraft:bowl"
   ],
   "result": {
