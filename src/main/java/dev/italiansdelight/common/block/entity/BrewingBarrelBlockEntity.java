@@ -49,9 +49,11 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
             return switch (index) {
                 case 0 -> juiceAmount;
                 case 1 -> wineAmount;
-                case 2 -> cultureQuality >= 0 ? CULTURE_CAPACITY : 0;
+                case 2 -> cultureAmount;
                 case 3 -> progress;
                 case 4 -> juiceKind;
+                case 5 -> wineQuality;
+                case 6 -> cultureQuality;
                 default -> 0;
             };
         }
@@ -59,23 +61,32 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
             switch (index) {
                 case 0 -> juiceAmount = Math.clamp(value, 0, CAPACITY);
                 case 1 -> wineAmount = Math.clamp(value, 0, CAPACITY);
-                case 2 -> { /* The auxiliary fill is represented by cultureQuality. */ }
+                case 2 -> cultureAmount = Math.clamp(value, 0, CULTURE_CAPACITY);
                 case 3 -> progress = Math.clamp(value, 0, BREW_TIME);
                 case 4 -> juiceKind = Math.clamp(value, JUICE_PURPLE, JUICE_WHITE);
+                case 5 -> wineQuality = Math.clamp(value, 0, 100);
+                case 6 -> cultureQuality = Math.clamp(value, -1, 100);
                 default -> {}
             }
         }
-        @Override public int getCount() { return 5; }
+        @Override public int getCount() { return 7; }
     };
 
     public static final int CAPACITY = 8000;
     public static final int BREW_TIME = 12000;
-    public static final int CULTURE_CAPACITY = 250;
+    // Rustic has an independent 1,000 mB auxiliary/booze culture tank.
+    // The previous GUI-only version had 250 mB and stored only a quality.
+    public static final int CULTURE_CAPACITY = 1000;
+    public static final int BOTTLE_AMOUNT = 250;
+    public static final int BUCKET_AMOUNT = 1000;
+    public static final int QUALITY_CHANGE_MIN = -1;
+    public static final int QUALITY_CHANGE_MAX = 4;
 
     private int juiceAmount;
     private int wineAmount;
     private int wineQuality;
     private int cultureQuality = -1;
+    private int cultureAmount;
     private int progress;
 
     public BrewingBarrelBlockEntity(BlockPos pos, BlockState state) {
@@ -87,6 +98,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     public int getProgress() { return progress; }
     public int getWineQuality() { return wineQuality; }
     public int getCultureQuality() { return cultureQuality; }
+    public int getCultureAmount() { return cultureAmount; }
     public int getJuiceKind() { return juiceKind; }
 
     @Override public Component getDisplayName() {
@@ -131,7 +143,8 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
                 || stack.is(ModItems.GRAPE_JUICE_BOTTLE) || stack.is(ModItems.GRAPE_JUICE_BUCKET)
                 || stack.is(ModItems.WHITE_GRAPE_JUICE_BOTTLE) || stack.is(ModItems.WHITE_GRAPE_JUICE_BUCKET);
             case OUTPUT_IN -> stack.is(Items.GLASS_BOTTLE);
-            case CULTURE_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(ModItems.WINE_BOTTLE);
+            case CULTURE_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(ModItems.WINE_BOTTLE)
+                || stack.is(Items.BUCKET) || stack.is(ModItems.WINE_BUCKET);
             default -> false; // Result slots are extraction-only.
         };
     }
@@ -156,18 +169,22 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         return quality;
     }
 
-    /** A single inoculation bottle seeds future batches without being consumed. */
+    /** Optional inoculation: a culture can be stored, extracted and reused. */
     public boolean insertCulture(int quality) {
-        if (cultureQuality >= 0 || quality < 0 || quality > 100) return false;
+        if (cultureAmount > CULTURE_CAPACITY - BOTTLE_AMOUNT || quality < 0 || quality > 100
+                || (cultureAmount != 0 && cultureQuality != quality)) return false;
         cultureQuality = quality;
+        cultureAmount += BOTTLE_AMOUNT;
         changedAndSync();
         return true;
     }
 
+    /** Drain one 250 mB bottle of culture, retaining the remaining liquid. */
     public int takeCulture() {
-        if (cultureQuality < 0) return -1;
+        if (cultureAmount < BOTTLE_AMOUNT) return -1;
         int quality = cultureQuality;
-        cultureQuality = -1;
+        cultureAmount -= BOTTLE_AMOUNT;
+        if (cultureAmount == 0) cultureQuality = -1;
         changedAndSync();
         return quality;
     }
@@ -185,15 +202,80 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     }
 
     /**
-     * Phase 1: handle Rustic-style container transfers ONLY. No recipe lookup,
-     * fermentation timer, juice-to-wine conversion or new wine generation.
-     * Existing worlds' stored wine and culture remain accessible.
+     * Rustic 1.12.2 fermentation cycle ported to native Fabric 26.3:
+     *  - transfers run first; any successful transfer resets the timer;
+     *  - fermentation needs juice and output capacity, NOT a culture;
+     *  - after 12,000 ticks, transfer as much as fits, preserving output
+     *    quality if there is already wine in that tank;
+     *  - culture is optional, affects only quality, and is never consumed.
+     * Both purple and white must use the registered wine result. The two
+     * juice variants cannot be mixed inside a single input tank.
      */
     public static void serverTick(ServerLevel level, BlockPos pos, BlockState state,
                                   BrewingBarrelBlockEntity barrel) {
+        int originalInput = barrel.juiceAmount;
+        int originalOutput = barrel.wineAmount;
+        int originalCulture = barrel.cultureAmount;
         barrel.handleInputContainer();
         barrel.handleOutputContainer();
         barrel.handleCultureContainer();
+
+        if (originalInput != barrel.juiceAmount
+                || originalOutput != barrel.wineAmount
+                || originalCulture != barrel.cultureAmount) {
+            barrel.progress = 0;
+            barrel.changedAndSync();
+        }
+
+        if (barrel.juiceAmount <= 0 || barrel.wineAmount >= CAPACITY) {
+            if (barrel.progress != 0) {
+                barrel.progress = 0;
+                barrel.changedAndSync();
+            }
+            return;
+        }
+
+        if (++barrel.progress >= BREW_TIME) {
+            barrel.finishBrewing(level);
+        } else if (barrel.progress % 20 == 0) {
+            // Persist progress and sync tank/quality data at Rustic's 20-tick
+            // recipe-check cadence, not via an expensive block update/tick.
+            barrel.changedAndSync();
+        }
+    }
+
+    /**
+     * Rustic BrewingBarrelRecipe: no culture yields 5..75 quality (inclusive);
+     * a matching wine culture yields cultureQuality-1..cultureQuality+4.
+     * The generated value is a percentage, stored in the stable component
+     * used by preexisting Italian's Delight wine bottles and buckets.
+     */
+    public static int brewedQuality(int auxiliaryAmount, int auxiliaryQuality,
+                                    net.minecraft.util.RandomSource random) {
+        if (auxiliaryAmount <= 0 || auxiliaryQuality < 0) {
+            return 5 + random.nextInt(71);
+        }
+        return Math.clamp(auxiliaryQuality
+            + QUALITY_CHANGE_MIN
+            + random.nextInt(QUALITY_CHANGE_MAX - QUALITY_CHANGE_MIN + 1), 0, 100);
+    }
+
+    private void finishBrewing(ServerLevel level) {
+        int amount = Math.min(juiceAmount, CAPACITY - wineAmount);
+        if (amount <= 0) {
+            progress = 0;
+            changedAndSync();
+            return;
+        }
+        // Original Rustic keeps the existing output fluid's quality, rather
+        // than blending two batches. Generate once for an empty output tank.
+        if (wineAmount == 0) {
+            wineQuality = brewedQuality(cultureAmount, cultureQuality, level.getRandom());
+        }
+        juiceAmount -= amount;
+        wineAmount += amount;
+        progress = 0;
+        changedAndSync();
     }
 
     private static boolean canReturn(ItemStack slot, ItemStack result) {
@@ -253,23 +335,39 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
 
     private void handleCultureContainer() {
         ItemStack vessel = items.get(CULTURE_IN);
-        if (vessel.is(ModItems.WINE_BOTTLE) && cultureQuality < 0) {
-            ItemStack empty = new ItemStack(Items.GLASS_BOTTLE);
-            if (canReturn(items.get(CULTURE_OUT), empty)) {
-                cultureQuality = Math.clamp(vessel.getOrDefault(ModDataComponents.WINE_QUALITY, 0), 0, 100);
+        if (vessel.isEmpty()) return;
+
+        boolean wineBottle = vessel.is(ModItems.WINE_BOTTLE);
+        boolean wineBucket = vessel.is(ModItems.WINE_BUCKET);
+        if (wineBottle || wineBucket) {
+            int amount = wineBucket ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
+            int quality = Math.clamp(vessel.getOrDefault(ModDataComponents.WINE_QUALITY, 0), 0, 100);
+            ItemStack empty = new ItemStack(wineBucket ? Items.BUCKET : Items.GLASS_BOTTLE);
+            if (cultureAmount <= CULTURE_CAPACITY - amount
+                    && (cultureAmount == 0 || cultureQuality == quality)
+                    && canReturn(items.get(CULTURE_OUT), empty)) {
+                cultureAmount += amount;
+                cultureQuality = quality;
                 returnContainer(CULTURE_IN, CULTURE_OUT, empty);
             }
-        } else if (vessel.is(Items.GLASS_BOTTLE) && cultureQuality >= 0) {
-            ItemStack filled = wineBottle(cultureQuality);
+            return;
+        }
+
+        boolean emptyBottle = vessel.is(Items.GLASS_BOTTLE);
+        boolean emptyBucket = vessel.is(Items.BUCKET);
+        int amount = emptyBucket ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
+        if ((emptyBottle || emptyBucket) && cultureAmount >= amount) {
+            ItemStack filled = emptyBucket ? wineBucket(cultureQuality) : wineBottle(cultureQuality);
             if (canReturn(items.get(CULTURE_OUT), filled)) {
-                cultureQuality = -1;
+                cultureAmount -= amount;
+                if (cultureAmount == 0) cultureQuality = -1;
                 returnContainer(CULTURE_IN, CULTURE_OUT, filled);
             }
         }
     }
 
     public void preserveContents(ItemStack stack, HolderLookup.Provider registries) {
-        if (isEmpty() && juiceAmount == 0 && wineAmount == 0 && cultureQuality < 0 && progress == 0) return;
+        if (isEmpty() && juiceAmount == 0 && wineAmount == 0 && cultureAmount == 0 && progress == 0) return;
         TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
         saveAdditional(output);
         BlockItem.setBlockEntityData(stack, getType(), output);
@@ -299,6 +397,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         output.putInt("WineAmount", wineAmount);
         output.putInt("WineQuality", wineQuality);
         output.putInt("CultureQuality", cultureQuality);
+        output.putInt("CultureAmount", cultureAmount);
         output.putInt("BrewTime", progress);
     }
 
@@ -311,6 +410,12 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         wineAmount = Math.clamp(input.getIntOr("WineAmount", 0), 0, CAPACITY);
         wineQuality = Math.clamp(input.getIntOr("WineQuality", 0), 0, 100);
         cultureQuality = Math.clamp(input.getIntOr("CultureQuality", -1), -1, 100);
+        // Older saved barrels stored only the quality of a 250 mB culture
+        // bottle. Migrate it without discarding the player's existing wine.
+        cultureAmount = Math.clamp(input.getIntOr("CultureAmount",
+            cultureQuality >= 0 ? BOTTLE_AMOUNT : 0), 0, CULTURE_CAPACITY);
+        if (cultureAmount == 0) cultureQuality = -1;
+        if (cultureAmount > 0 && cultureQuality < 0) cultureAmount = 0;
         progress = Math.clamp(input.getIntOr("BrewTime", 0), 0, BREW_TIME - 1);
         if (wineAmount == 0) wineQuality = 0;
         if (juiceAmount == 0 || wineAmount >= CAPACITY) progress = 0;
