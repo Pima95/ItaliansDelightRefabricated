@@ -27,13 +27,12 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
     private static final Identifier WINE = Identifier.fromNamespaceAndPath(
         "italiansdelight", "fluids/wine_still");
 
-    // Modern item silhouettes, pixel-matched to Minecraft's 16x16 inventory
-    // items. They are 16px placeholders in a 32x16 RGBA strip:
-    // x=0: bucket border only (interior transparent); x=16: bottle outline.
-    // The glass bottle is derived from the vanilla glass_bottle item mask
-    // rather than scaling the narrower brewing-stand potion slot hint.
-    private static final Identifier VESSEL_ICONS = Identifier.fromNamespaceAndPath(
-        "italiansdelight", "textures/gui/brewing_vessel_icons.png");
+    // Both modern 16x16 silhouettes are drawn from the spare sprite cells in
+    // the SAME 256x256 brewing_barrel.png GUI texture, at u=176, v=54/70.
+    // The bucket includes a curved inner rim to show its depth.
+    private static final int VESSEL_U = 176;
+    private static final int BUCKET_V = 54;
+    private static final int BOTTLE_V = 70;
     private static final int TANK_WIDTH = 16;
     private static final int FLUID_FRAME_SIZE = 16;
 
@@ -135,19 +134,20 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
     /**
      * Render the real, unscaled 16x16 silhouette at exactly the same
      * coordinates as the 16x16 ItemStack that can occupy this slot. The source
-     * PNG itself has pixel-centered alpha: bottle ink spans x=4..12 and
-     * y=2..14, matching the modern glass bottle item; bucket ink spans
-     * x=2..13 and y=1..14, matching the modern bucket's outer contour.
+     * built-in GUI texture preserves the original 16x16 scale: bottle
+     * ink spans x=4..12 and y=2..14; modern bucket outline spans
+     * x=2..13 and y=1..14 with an internal curved rim at rows 6-7.
      *
-     * No resizing, optical nudges or dark wash over the empty bucket.
+     * No separate sprite file, resizing or dark wash over the bucket.
      */
     private void emptyVesselIcon(GuiGraphicsExtractor graphics, int slotIndex, boolean bucket) {
         var slot = menu.getSlot(slotIndex);
         if (slot.hasItem()) return;
         int iconX = leftPos + slot.x;
         int iconY = topPos + slot.y;
-        graphics.blit(RenderPipelines.GUI_TEXTURED, VESSEL_ICONS,
-            iconX, iconY, bucket ? 0 : 16, 0, 16, 16, 32, 16);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+            iconX, iconY, VESSEL_U, bucket ? BUCKET_V : BOTTLE_V,
+            16, 16, 256, 256);
     }
 
     @Override public void extractBackground(

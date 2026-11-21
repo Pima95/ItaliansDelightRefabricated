@@ -73,23 +73,25 @@ assert "absoluteX, absoluteY + row, FLUID_FRAME_SIZE, FLUID_FRAME_SIZE" in barre
 assert "graphics.enableScissor(absoluteX, surfaceY" in barrel_screen
 assert "graphics.fill(absoluteX, surfaceY" in barrel_screen
 assert "absoluteX, absoluteY, 16, height" not in barrel_screen
-# Verify full-size pixel-art vessel hints. The bottle's alpha bounding box
-# (x=4..12, y=2..14) matches the actual Minecraft 16x16 glass bottle item.
-# The bucket uses the current item silhouette border ONLY: no gray fill.
-assert '"textures/gui/brewing_vessel_icons.png"' in barrel_screen
-assert "VESSEL_ICONS" in barrel_screen
-assert "iconX, iconY, bucket ? 0 : 16, 0, 16, 16, 32, 16" in barrel_screen
+# New full-resolution vessel silhouettes live INSIDE the existing 256x256
+# brewing_barrel.png, not a second texture atlas. The redesigned bucket has
+# the curved inner rim (rows 6-7) from the original Rustic depth indicator.
+assert "VESSEL_U = 176" in barrel_screen
+assert "BUCKET_V = 54" in barrel_screen
+assert "BOTTLE_V = 70" in barrel_screen
+assert "iconX, iconY, VESSEL_U, bucket ? BUCKET_V : BOTTLE_V," in barrel_screen
+assert "16, 16, 256, 256" in barrel_screen
 assert "int iconX = leftPos + slot.x;" in barrel_screen
 assert "int iconY = topPos + slot.y;" in barrel_screen
+assert "VESSEL_ICONS" not in barrel_screen
 assert "BOTTLE_ICON_SIZE" not in barrel_screen
-assert "MODERN_BOTTLE_SLOT" not in barrel_screen
-assert "BUCKET_OUTLINE_U" not in barrel_screen
-icon_file=assets/"textures/gui/brewing_vessel_icons.png"
-assert icon_file.is_file(), "Missing full-resolution ghost icons"
-icon_bytes=icon_file.read_bytes()
-assert icon_bytes[:8] == bytes.fromhex("89504e470d0a1a0a")
-assert struct.unpack(">II", icon_bytes[16:24]) == (32,16)
-assert icon_bytes[24:26] == bytes((8,6)), "Ghost icon strip must be RGBA8"
+assert not (assets/"textures/gui/brewing_vessel_icons.png").exists()
+atlas=assets/"textures/gui/brewing_barrel.png"
+atlas_bytes=atlas.read_bytes()
+assert atlas_bytes[:8] == bytes.fromhex("89504e470d0a1a0a")
+assert struct.unpack(">II", atlas_bytes[16:24]) == (256,256)
+assert atlas_bytes[24:26] == bytes((8,6)), "GUI must be RGBA8"
+assert hashlib.sha256(atlas_bytes).hexdigest() == "533ddfce1aff9f4b49a59ac108c83d45d028d705577452adf4e3245888198e17", "Unexpected modification to approved GUI art"
 # Opaque but GUI-only backing is clipped to the actual filled liquid height;
 # the original animated textures remain unchanged for the world and JEI.
 assert "if (backingColor != 0)" in barrel_screen
