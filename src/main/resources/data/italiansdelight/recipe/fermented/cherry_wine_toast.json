@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
+  "category": "misc",
   "ingredients": [
     "italiansdelight:cherry_wine_bottle",
     "italiansdelight:cherry_jam_bottle",

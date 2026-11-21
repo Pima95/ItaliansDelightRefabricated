@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
+  "category": "misc",
   "ingredients": [
     "italiansdelight:red_wine_vinegar_bottle",
     "italiansdelight:mozzarella",

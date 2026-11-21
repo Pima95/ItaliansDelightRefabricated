@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
+  "category": "misc",
   "ingredients": [
     "italiansdelight:apple_cider_vinegar",
     "italiansdelight:olive_pate",
