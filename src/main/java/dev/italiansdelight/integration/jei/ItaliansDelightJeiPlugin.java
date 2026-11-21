@@ -113,13 +113,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         DecorativePoleJeiInfo.register(registration);
         ModFluidJeiInfo.register(registration);
 
-        // True processing recipes: both grape musts ferment to the mod's
-        // single registered wine fluid. Quality and culture are dynamic.
+        // Only executable fermentations have JEI recipes. White grape juice
+        // stays in the input tank without processing until white wine exists.
         registration.addRecipes(
             BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE,
             java.util.List.of(
-                new BrewingBarrelJeiGuide("purple"),
-                new BrewingBarrelJeiGuide("white"))
+                new BrewingBarrelJeiGuide("red_wine"),
+                new BrewingBarrelJeiGuide("apple_cider_vinegar"))
         );
 
         CheeseVatJeiRecipes recipes =
