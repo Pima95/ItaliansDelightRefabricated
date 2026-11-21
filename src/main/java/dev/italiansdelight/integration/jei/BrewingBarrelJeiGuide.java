@@ -1,9 +1,9 @@
 package dev.italiansdelight.integration.jei;
 
 /**
- * Two real wine-brewing recipes: purple and white grape must both yield the
- * mod's existing wine fluid. No distinct white-wine item is registered yet.
+ * Actual brewing-barrel production paths. White grapes deliberately remain
+ * unregistered until a separate white-wine fluid and vessels exist.
  */
 public record BrewingBarrelJeiGuide(String id) {
-    public boolean isWhite() { return "white".equals(id); }
+    public boolean isVinegar() { return "apple_cider_vinegar".equals(id); }
 }
