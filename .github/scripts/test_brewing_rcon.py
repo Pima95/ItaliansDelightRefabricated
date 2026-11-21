@@ -15,13 +15,14 @@ X, Y, Z = 0, 98, 8
 
 def read_field(rcon, field):
     result = rcon.command(f"data get block {X} {Y} {Z} {field}")
-    match = re.search(r":\\s*(-?\\d+)(?:[bslL])?\\s*$", result)
+    match = re.search(r":\s*(-?\d+)(?:[bslL])?\s*$", result)
     if not match:
         raise AssertionError(f"Cannot parse {field} from server response {result!r}")
     return int(match.group(1))
 
 
 def put_barrel(rcon, values):
+    run(rcon, f"setblock {X} {Y} {Z} minecraft:air replace")
     reply = run(rcon, f"setblock {X} {Y} {Z} italiansdelight:brewing_barrel replace")
     assert "Changed the block" in reply, reply
     nbt = ",".join(f"{key}:{value}" for key, value in values.items())
@@ -90,6 +91,9 @@ def main():
         # Legacy culture from the GUI-only build had quality but no amount.
         put_barrel(client, {"JuiceAmount": 0, "WineAmount": 0,
                             "CultureQuality": 62})
+        # /data merge starts from the *current* NBT which already has the
+        # new key. Remove it to faithfully emulate a pre-upgrade save.
+        run(client, f"data remove block {X} {Y} {Z} CultureAmount")
         assert read_field(client, "CultureAmount") == 250
         assert read_field(client, "CultureQuality") == 62
         print("PASSED: GUI-only old culture NBT migrates to 250 mB", flush=True)
