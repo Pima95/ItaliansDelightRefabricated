@@ -24,6 +24,20 @@ Gli slot superiori sono vere posizioni d'inventario persistenti; gli slot inferi
 
 Serbatoi: succo centrale **8000 mB**, vino destro **8000 mB**, coltura sinistra **250 mB**. GUI e progressi sincronizzati tramite `ContainerData`. Il serbatoio destro mostra e permette di recuperare **solo vino già memorizzato** nei vecchi salvataggi; non lo crea. La coltura conserva la qualità del vino quando viene depositata e recuperata.
 
+## Correzione rendering (21/11/2026)
+
+- I fluidi animati (succo viola, succo bianco, vino) contengono **32 frame da 16×16**, salvati in texture 16×512 e gestiti dai relativi file `.png.mcmeta` (`frametime: 2`). Invece di deformare un singolo frame fino a 16×32, `BrewingBarrelScreen.tank` disegna tile da 16×16 **in scala 1:1**, una sopra l'altra, con scissor per mostrare solo la parte realmente piena. È aggiunta una sottile linea superficiale per riconoscere visivamente il livello anche con succhi scuri.
+- Le vecchie silhouette bottiglia/secchio importate da Rustic non sono più utilizzate. I due slot ampolla ora disegnano lo **sprite ufficiale della GUI moderna del Brewing Stand** `minecraft:container/slot/potion`, recuperato dall'atlante di Minecraft. Lo slot del secchio disegna una versione attenuata del texture vanilla `minecraft:textures/item/bucket.png`. Tutti gli sprite seguono direttamente `slot.x` e `slot.y` (quadrato 16×16), quindi restano centrati sui sei slot anche quando cambiano le coordinate del menu.
+- Non sono state ritoccate texture di blocchi, contenitori o liquidi, né attivata la fermentazione. Si modificano esclusivamente la visualizzazione dei serbatoi e le icone guida degli slot vuoti.
+- Riferimenti: [Fabric Docs: GUI graphics](https://docs.fabricmc.net/develop/rendering/gui-graphics), [Minecraft 1.21.4: introduzione sprite separati per slot del Brewing Stand](https://www.minecraft.net/en-us/article/minecraft-java-edition-1-21-4), [GUI sprite moderno: container/slot/potion](https://mcasset.cloud/26.2-pre-3/assets/minecraft/textures/gui/sprites/container/slot).
+
+### Verifiche client necessarie
+1. Con 250 mB e 4000 mB di succo viola/bianco i pixel devono restare **quadrati**, non allungati. La superficie deve essere visibile e il livello crescere dal basso.
+2. Osservare il movimento dei 32 frame della sprite (1 frame ogni 2 tick) e verificare che non si disegnino oltre i bordi.
+3. Con botti vuote, lo slot del secchio usa l'icona attuale di Minecraft e i due slot bottiglia usano la sagoma della Brewing Stand moderna, tutti centrati sui 16×16 pixel.
+4. Con oggetti negli slot, i segnaposto devono sparire. La GUI, il titolo e JEI devono restare identici.
+5. Lasciare il succo inserito per molti tick: non deve essere creato vino.
+
 ## JEI (guida, non ricetta)
 
 È stata introdotta una categoria informativa `brewing_barrel_gui_guide`, con una pagina che descrive gli slot realmente disponibili e segnala la fermentazione disattivata. Tutte le 16 varianti dei barili sono registrate come stazioni JEI; il clic sull'area della freccia (posizione adattata) apre la guida. La categoria non presenta output di vino, non registra ricette di produzione e non abilita gameplay inesistente.
