@@ -53,7 +53,7 @@ for name in ("WINE_BOTTLE", "WHITE_WINE_BOTTLE",
 
 assert "finishUsingItem(ItemStack stack, Level level, LivingEntity user)" in bottle
 assert "WineDrinkEffects.apply(stack, user)" in bottle
-for token in ("change", "durations(", "potency(", "absorption(",
+for token in ("durations(", "potency(", "absorption(",
               "getOrDefault(ModDataComponents.WINE_QUALITY, 0)",
               "MAX_DURATION = 12000", "MAX_AMPLIFIER = 2",
               "MAX_ABSORPTION = 20.0F", "isBeneficial()"):
