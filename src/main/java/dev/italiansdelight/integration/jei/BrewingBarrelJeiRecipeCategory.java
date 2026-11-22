@@ -16,8 +16,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import dev.italiansdelight.common.registry.ModItems;
 
 /**
  * Restore the owner's original Rustic JEI art at native 130x80 pixels.
@@ -66,24 +64,20 @@ public final class BrewingBarrelJeiRecipeCategory
 
     @Override public void setRecipe(IRecipeLayoutBuilder builder,
                                    BrewingBarrelJeiGuide recipe, IFocusGroup focuses) {
-        if (recipe.isHoney()) {
-            // Honey uses the original Rustic virtual "minecraft:honey", not
-            // a made-up registered fluid. JEI shows its real obtainable bottle.
-            builder.addInputSlot(40, 24).add(new ItemStack(Items.HONEY_BOTTLE));
-        } else {
-            builder.addInputSlot(40, 24)
-                .setFluidRenderer(MAX_BATCH, false, 16, 32)
-                .add(recipe.input(), MAX_BATCH);
-        }
-        // One honey bottle is only 250mB, not 8L.
-        long outputAmount = recipe.isHoney() ? FluidConstants.BOTTLE : MAX_BATCH;
+        builder.addInputSlot(40, 24)
+            .setFluidRenderer(MAX_BATCH, false, 16, 32)
+            .add(recipe.input(), MAX_BATCH);
         builder.addOutputSlot(94, 24)
-            .setFluidRenderer(recipe.isHoney() ? FluidConstants.BOTTLE : MAX_BATCH, false, 16, 32)
-            .add(recipe.output(), outputAmount);
+            .setFluidRenderer(MAX_BATCH, false, 16, 32)
+            .add(recipe.output(), MAX_BATCH);
         if (recipe.requiresCulture()) {
             // Cider is selected by inoculating apple juice with wine culture;
             // otherwise the old unseeded apple-vinegar recipe remains active.
-            builder.addInputSlot(4, 32).add(new ItemStack(ModItems.WINE_BOTTLE));
+            builder.addInputSlot(4, 32)
+                .setFluidRenderer(FluidConstants.BOTTLE, false, 16, 16)
+                .add(ModFluids.WINE, FluidConstants.BOTTLE)
+                .add(ModFluids.WHITE_WINE, FluidConstants.BOTTLE)
+                .add(ModFluids.CHERRY_WINE, FluidConstants.BOTTLE);
         }
     }
 

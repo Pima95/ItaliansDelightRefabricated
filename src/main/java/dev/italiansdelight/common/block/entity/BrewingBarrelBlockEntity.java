@@ -96,6 +96,8 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     private int wineQuality;
     private int cultureQuality = -1;
     private int cultureAmount;
+    // 0 = red, 1 = white, 2 = cherry. Missing key in old saves means red.
+    private int cultureWineKind;
     private int progress;
 
     public BrewingBarrelBlockEntity(BlockPos pos, BlockState state) {
@@ -108,6 +110,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
     public int getWineQuality() { return wineQuality; }
     public int getCultureQuality() { return cultureQuality; }
     public int getCultureAmount() { return cultureAmount; }
+    public int getCultureWineKind() { return cultureWineKind; }
     public int getJuiceKind() { return juiceKind; }
     public int getOutputKind() { return outputKind; }
 
@@ -158,8 +161,8 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
                 || stack.is(ModItems.WINE_BOTTLE) || stack.is(ModItems.WINE_BUCKET)
                 || stack.is(ModItems.CIDER_BOTTLE) || stack.is(ModItems.CIDER_BUCKET);
             case OUTPUT_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(Items.BUCKET);
-            case CULTURE_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(ModItems.WINE_BOTTLE)
-                || stack.is(Items.BUCKET) || stack.is(ModItems.WINE_BUCKET);
+            case CULTURE_IN -> stack.is(Items.GLASS_BOTTLE) || stack.is(Items.BUCKET)
+                || cultureWineKind(stack) >= 0;
             default -> false; // Result slots are extraction-only.
         };
     }
@@ -427,21 +430,40 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         }
     }
 
+    private static int cultureWineKind(ItemStack stack) {
+        if (stack.is(ModItems.WINE_BOTTLE) || stack.is(ModItems.WINE_BUCKET)) return 0;
+        if (stack.is(ModItems.WHITE_WINE_BOTTLE) || stack.is(ModItems.WHITE_WINE_BUCKET)) return 1;
+        if (stack.is(ModItems.CHERRY_WINE_BOTTLE) || stack.is(ModItems.CHERRY_WINE_BUCKET)) return 2;
+        return -1;
+    }
+
+    private static ItemStack cultureWineContainer(int kind, boolean bucket, int quality) {
+        ItemStack filled = new ItemStack(switch (kind) {
+            case 1 -> bucket ? ModItems.WHITE_WINE_BUCKET : ModItems.WHITE_WINE_BOTTLE;
+            case 2 -> bucket ? ModItems.CHERRY_WINE_BUCKET : ModItems.CHERRY_WINE_BOTTLE;
+            default -> bucket ? ModItems.WINE_BUCKET : ModItems.WINE_BOTTLE;
+        });
+        filled.set(ModDataComponents.WINE_QUALITY, Math.clamp(quality, 0, 100));
+        return filled;
+    }
+
     private void handleCultureContainer() {
         ItemStack vessel = items.get(CULTURE_IN);
         if (vessel.isEmpty()) return;
 
-        boolean wineBottle = vessel.is(ModItems.WINE_BOTTLE);
-        boolean wineBucket = vessel.is(ModItems.WINE_BUCKET);
-        if (wineBottle || wineBucket) {
+        int incomingWineKind = cultureWineKind(vessel);
+        boolean wineBucket = vessel.is(ModItems.WINE_BUCKET)
+            || vessel.is(ModItems.WHITE_WINE_BUCKET) || vessel.is(ModItems.CHERRY_WINE_BUCKET);
+        if (incomingWineKind >= 0) {
             int amount = wineBucket ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
             int quality = Math.clamp(vessel.getOrDefault(ModDataComponents.WINE_QUALITY, 0), 0, 100);
             ItemStack empty = new ItemStack(wineBucket ? Items.BUCKET : Items.GLASS_BOTTLE);
             if (cultureAmount <= CULTURE_CAPACITY - amount
-                    && (cultureAmount == 0 || cultureQuality == quality)
+                    && (cultureAmount == 0 || (cultureQuality == quality && cultureWineKind == incomingWineKind))
                     && canReturn(items.get(CULTURE_OUT), empty)) {
                 cultureAmount += amount;
                 cultureQuality = quality;
+                cultureWineKind = incomingWineKind;
                 returnContainer(CULTURE_IN, CULTURE_OUT, empty);
             }
             return;
@@ -451,7 +473,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         boolean emptyBucket = vessel.is(Items.BUCKET);
         int amount = emptyBucket ? BUCKET_AMOUNT : BOTTLE_AMOUNT;
         if ((emptyBottle || emptyBucket) && cultureAmount >= amount) {
-            ItemStack filled = emptyBucket ? wineBucket(cultureQuality) : wineBottle(cultureQuality);
+            ItemStack filled = cultureWineContainer(cultureWineKind, emptyBucket, cultureQuality);
             if (canReturn(items.get(CULTURE_OUT), filled)) {
                 cultureAmount -= amount;
                 if (cultureAmount == 0) cultureQuality = -1;
@@ -493,6 +515,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         output.putInt("WineQuality", wineQuality);
         output.putInt("CultureQuality", cultureQuality);
         output.putInt("CultureAmount", cultureAmount);
+        output.putInt("CultureWineKind", cultureWineKind);
         output.putInt("BrewTime", progress);
     }
 
@@ -507,6 +530,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         wineAmount = Math.clamp(input.getIntOr("WineAmount", 0), 0, CAPACITY);
         wineQuality = Math.clamp(input.getIntOr("WineQuality", 0), 0, 100);
         cultureQuality = Math.clamp(input.getIntOr("CultureQuality", -1), -1, 100);
+        cultureWineKind = Math.clamp(input.getIntOr("CultureWineKind", 0), 0, 2);
         // Older saved barrels stored only the quality of a 250 mB culture
         // bottle. Migrate it without discarding the player's existing wine.
         cultureAmount = Math.clamp(input.getIntOr("CultureAmount",

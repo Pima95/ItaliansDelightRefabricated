@@ -28,6 +28,7 @@ public final class FluidCatalog {
         new Definition("italiansdelight:cherry_juice", false, ""),
         new Definition("italiansdelight:white_wine", false, ""),
         new Definition("italiansdelight:cherry_wine", false, ""),
+        new Definition("italiansdelight:honey", false, ""),
         new Definition("italiansdelight:mead", false, ""),
         new Definition("italiansdelight:cider", false, ""),
         new Definition("italiansdelight:red_wine_vinegar", false, "")

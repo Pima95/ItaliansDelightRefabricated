@@ -15,7 +15,7 @@ public record BrewingBarrelJeiGuide(String id) {
         return switch (id) {
             case "white_wine" -> ModFluids.WHITE_GRAPE_JUICE;
             case "cherry_wine" -> ModFluids.CHERRY_JUICE;
-            case "mead" -> ModFluids.MEAD; // virtual honey: display a honey bottle instead
+            case "mead" -> ModFluids.HONEY;
             case "cider", "apple_cider_vinegar" -> ModFluids.APPLE_JUICE_STILL;
             case "cider_vinegar" -> ModFluids.CIDER;
             case "red_wine_vinegar" -> ModFluids.WINE;

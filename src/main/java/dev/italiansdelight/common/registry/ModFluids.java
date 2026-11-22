@@ -120,5 +120,12 @@ public final class ModFluids {
         BuiltInRegistries.FLUID, RED_WINE_VINEGAR_KEY,
         new ContainedFluid(() -> ModItems.RED_WINE_VINEGAR_BUCKET));
 
+    // Dedicated display/transfer fluid for honey; barrel saves keep their legacy JUICE_HONEY kind.
+    public static final ResourceKey<Fluid> HONEY_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("honey"));
+    public static final Fluid HONEY = Registry.register(
+        BuiltInRegistries.FLUID, HONEY_KEY,
+        new ContainedFluid(() -> ModItems.HONEY_BUCKET));
+
     public static void register() {}
 }
