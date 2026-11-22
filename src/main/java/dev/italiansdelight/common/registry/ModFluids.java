@@ -12,25 +12,11 @@ import net.minecraft.world.level.material.FlowingFluid;
 
 public final class ModFluids {
     private ModFluids() {}
-    public static final ResourceKey<Fluid> OLIVE_OIL_STILL_KEY =
-        ResourceKey.create(Registries.FLUID, ModRegistries.id("olive_oil"));
-    public static final ResourceKey<Fluid> OLIVE_OIL_FLOWING_KEY =
-        ResourceKey.create(Registries.FLUID, ModRegistries.id("flowing_olive_oil"));
-    public static final FlowingFluid OLIVE_OIL_STILL =
-        Registry.register(BuiltInRegistries.FLUID, OLIVE_OIL_STILL_KEY, new OliveOilFluid.Source());
-    public static final FlowingFluid OLIVE_OIL_FLOWING =
-        Registry.register(BuiltInRegistries.FLUID, OLIVE_OIL_FLOWING_KEY, new OliveOilFluid.Flowing());
-    public static final ResourceKey<Fluid> APPLE_JUICE_STILL_KEY =
-        ResourceKey.create(Registries.FLUID, ModRegistries.id("apple_juice"));
-    public static final ResourceKey<Fluid> APPLE_JUICE_FLOWING_KEY =
-        ResourceKey.create(Registries.FLUID, ModRegistries.id("flowing_apple_juice"));
-    public static final FlowingFluid APPLE_JUICE_STILL =
-        Registry.register(BuiltInRegistries.FLUID, APPLE_JUICE_STILL_KEY, new AppleJuiceFluid.Source());
-    public static final FlowingFluid APPLE_JUICE_FLOWING =
-        Registry.register(BuiltInRegistries.FLUID, APPLE_JUICE_FLOWING_KEY, new AppleJuiceFluid.Flowing());
 
-    // Registered non-world fluids for storage and recipe APIs.
-    // Vanilla cow milk remains its historical virtual "minecraft:milk" ID.
+    // Preserve all stable resource IDs: only registry insertion order changes.
+    // JEI 'Original' ordering for built-in fluid ingredients follows this order.
+
+    // 1. Animal-derived liquids: milk, whey, rennet and bee honey.
     public static final ResourceKey<Fluid> SHEEP_MILK_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("sheep_milk"));
     public static final Fluid SHEEP_MILK = Registry.register(
@@ -49,14 +35,34 @@ public final class ModFluids {
         BuiltInRegistries.FLUID, RENNET_KEY,
         new ContainedFluid(() -> ModItems.RENNET_BUCKET));
 
-    public static final ResourceKey<Fluid> APPLE_CIDER_VINEGAR_KEY =
-        ResourceKey.create(Registries.FLUID, ModRegistries.id("apple_cider_vinegar"));
-    public static final Fluid APPLE_CIDER_VINEGAR = Registry.register(
-        BuiltInRegistries.FLUID, APPLE_CIDER_VINEGAR_KEY,
-        new ContainedFluid(() -> ModItems.APPLE_CIDER_VINEGAR_BUCKET));
+    public static final ResourceKey<Fluid> HONEY_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("honey"));
+    public static final Fluid HONEY = Registry.register(
+        BuiltInRegistries.FLUID, HONEY_KEY,
+        new ContainedFluid(() -> ModItems.HONEY_BUCKET));
 
-    // Golden Apple Juice: a non-placeable Fluid with a storage-only bucket.
-    // It has no world block or vanilla water physics/source generation.
+
+    // 2. Crushing Tub products and non-fermented vegetable liquids.
+    public static final ResourceKey<Fluid> OLIVE_OIL_STILL_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("olive_oil"));
+    public static final FlowingFluid OLIVE_OIL_STILL =
+        Registry.register(BuiltInRegistries.FLUID, OLIVE_OIL_STILL_KEY, new OliveOilFluid.Source());
+
+    public static final ResourceKey<Fluid> OLIVE_OIL_FLOWING_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("flowing_olive_oil"));
+    public static final FlowingFluid OLIVE_OIL_FLOWING =
+        Registry.register(BuiltInRegistries.FLUID, OLIVE_OIL_FLOWING_KEY, new OliveOilFluid.Flowing());
+
+    public static final ResourceKey<Fluid> APPLE_JUICE_STILL_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("apple_juice"));
+    public static final FlowingFluid APPLE_JUICE_STILL =
+        Registry.register(BuiltInRegistries.FLUID, APPLE_JUICE_STILL_KEY, new AppleJuiceFluid.Source());
+
+    public static final ResourceKey<Fluid> APPLE_JUICE_FLOWING_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("flowing_apple_juice"));
+    public static final FlowingFluid APPLE_JUICE_FLOWING =
+        Registry.register(BuiltInRegistries.FLUID, APPLE_JUICE_FLOWING_KEY, new AppleJuiceFluid.Flowing());
+
     public static final ResourceKey<Fluid> GOLDEN_APPLE_JUICE_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("golden_apple_juice"));
     public static final Fluid GOLDEN_APPLE_JUICE = Registry.register(
@@ -69,26 +75,25 @@ public final class ModFluids {
         BuiltInRegistries.FLUID, GRAPE_JUICE_KEY,
         new ContainedFluid(() -> ModItems.GRAPE_JUICE_BUCKET));
 
-    // Distinct must for white grapes; old grape_juice keeps its stable ID.
     public static final ResourceKey<Fluid> WHITE_GRAPE_JUICE_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("white_grape_juice"));
     public static final Fluid WHITE_GRAPE_JUICE = Registry.register(
         BuiltInRegistries.FLUID, WHITE_GRAPE_JUICE_KEY,
         new ContainedFluid(() -> ModItems.WHITE_GRAPE_JUICE_BUCKET));
 
-    public static final ResourceKey<Fluid> WINE_KEY =
-        ResourceKey.create(Registries.FLUID, ModRegistries.id("wine"));
-    // This stage bottles wine only through the brewer. No generic
-    // fluid-bottle provider is registered until wine quality can round-trip.
-    public static final Fluid WINE = Registry.register(
-        BuiltInRegistries.FLUID, WINE_KEY,
-        new ContainedFluid(() -> ModItems.WINE_BUCKET));
-
     public static final ResourceKey<Fluid> CHERRY_JUICE_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("cherry_juice"));
     public static final Fluid CHERRY_JUICE = Registry.register(
         BuiltInRegistries.FLUID, CHERRY_JUICE_KEY,
         new ContainedFluid(() -> ModItems.CHERRY_JUICE_BUCKET));
+
+
+    // 3. Wines, fermented drinks, then wine/cider vinegars.
+    public static final ResourceKey<Fluid> WINE_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("wine"));
+    public static final Fluid WINE = Registry.register(
+        BuiltInRegistries.FLUID, WINE_KEY,
+        new ContainedFluid(() -> ModItems.WINE_BUCKET));
 
     public static final ResourceKey<Fluid> WHITE_WINE_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("white_wine"));
@@ -114,18 +119,17 @@ public final class ModFluids {
         BuiltInRegistries.FLUID, CIDER_KEY,
         new ContainedFluid(() -> ModItems.CIDER_BUCKET));
 
+    public static final ResourceKey<Fluid> APPLE_CIDER_VINEGAR_KEY =
+        ResourceKey.create(Registries.FLUID, ModRegistries.id("apple_cider_vinegar"));
+    public static final Fluid APPLE_CIDER_VINEGAR = Registry.register(
+        BuiltInRegistries.FLUID, APPLE_CIDER_VINEGAR_KEY,
+        new ContainedFluid(() -> ModItems.APPLE_CIDER_VINEGAR_BUCKET));
+
     public static final ResourceKey<Fluid> RED_WINE_VINEGAR_KEY =
         ResourceKey.create(Registries.FLUID, ModRegistries.id("red_wine_vinegar"));
     public static final Fluid RED_WINE_VINEGAR = Registry.register(
         BuiltInRegistries.FLUID, RED_WINE_VINEGAR_KEY,
         new ContainedFluid(() -> ModItems.RED_WINE_VINEGAR_BUCKET));
-
-    // Dedicated display/transfer fluid for honey; barrel saves keep their legacy JUICE_HONEY kind.
-    public static final ResourceKey<Fluid> HONEY_KEY =
-        ResourceKey.create(Registries.FLUID, ModRegistries.id("honey"));
-    public static final Fluid HONEY = Registry.register(
-        BuiltInRegistries.FLUID, HONEY_KEY,
-        new ContainedFluid(() -> ModItems.HONEY_BUCKET));
 
     public static void register() {}
 }
