@@ -38,6 +38,11 @@ jobs:
         run: python3 .github/scripts/check_pizza_support_drops.py
       - name: Verify new dishes, sauce order, and named spicy olive pizza
         run: python3 .github/scripts/check_new_foods_and_pizza_sauces.py
+      - name: Validate approved pizza art, individual slices and new chili atlas
+        run: |
+          python3 .github/scripts/check_named_pizza_artwork.py
+          python3 .github/scripts/check_named_pizza_slices.py
+          python3 .github/scripts/check_pizza_topping_textures.py
       - name: Build Java 25 experimental artifact
         run: bash ./gradlew build --no-daemon --max-workers=2 --console=plain
       - name: Verify JAR
