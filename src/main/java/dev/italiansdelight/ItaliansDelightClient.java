@@ -188,6 +188,11 @@ public class ItaliansDelightClient implements ClientModInitializer {
             ModRegistries.id("block/fluids/booze/white_wine_still"));
         registerContainedFluid(ModFluids.CHERRY_WINE,
             ModRegistries.id("block/fluids/booze/cherry_wine_still"));
+        // Honey is a registered storage-only fluid. Its JEI entry was purple/black
+        // because, unlike mead, it had no client fluid sprite mapping.
+        // Rustic's golden mead sheet is reused for the honey-colored liquid.
+        registerContainedFluid(ModFluids.HONEY,
+            ModRegistries.id("block/fluids/booze/mead_still"));
         registerContainedFluid(ModFluids.MEAD,
             ModRegistries.id("block/fluids/booze/mead_still"));
         registerContainedFluid(ModFluids.CIDER,

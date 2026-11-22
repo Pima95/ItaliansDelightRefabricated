@@ -234,20 +234,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.WHITE_GRAPE_SEEDS);
                 output.accept(ModBlocks.WILD_WHITE_GRAPE_VINE);
                 output.accept(ModItems.WHITE_GRAPES);
-                output.accept(ModItems.GRAPE_JUICE_BUCKET);
-                output.accept(ModItems.GRAPE_JUICE_BOTTLE);
-                output.accept(ModItems.WHITE_GRAPE_JUICE_BUCKET);
-                output.accept(ModItems.WHITE_GRAPE_JUICE_BOTTLE);
-                output.accept(ModItems.WINE_BUCKET);
-                output.accept(ModItems.WINE_BOTTLE);
-                output.accept(ModItems.WHITE_WINE_BUCKET);
-                output.accept(ModItems.WHITE_WINE_BOTTLE);
-                output.accept(ModItems.CHERRY_WINE_BUCKET);
-                output.accept(ModItems.CHERRY_WINE_BOTTLE);
-                output.accept(ModItems.MEAD_BUCKET);
-                output.accept(ModItems.MEAD_BOTTLE);
-                output.accept(ModItems.CIDER_BUCKET);
-                output.accept(ModItems.CIDER_BOTTLE);
 
                 // CHILI FAMILY: seed, wild shrub, common and rare fruit.
                 output.accept(ModBlocks.CHILI_PEPPER_SEEDS);
@@ -277,36 +263,50 @@ public final class ModItemGroups {
                 output.accept(ModItems.CARROT_SLICE);
                 output.accept(ModItems.POTATO_SLICE);
 
-                // OILS, JUICES AND OTHER STORED LIQUIDS.
-                output.accept(ModItems.OLIVE_OIL_BUCKET);
-                output.accept(ModItems.OLIVE_OIL_BOTTLE);
-                output.accept(ModItems.APPLE_JUICE_BUCKET);
-                output.accept(ModItems.APPLE_JUICE_BOTTLE);
-                output.accept(ModItems.CHERRY_JUICE_BUCKET);
-                output.accept(ModItems.CHERRY_JUICE_BOTTLE);
-
-
-
-
-                output.accept(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
-                output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
-                output.accept(ModItems.HONEY_BUCKET);
-
-                // MILK, CULTURES AND CHEESE-PRODUCTION INGREDIENTS.
-                // Each fluid pair always lists BUCKET before BOTTLE.
+                // LIQUIDS (Creative + JEI item order): buckets before bottles.
+                // 1. Animal-derived liquids, including whey and rennet.
                 output.accept(ModItems.SHEEP_MILK_BUCKET);
                 output.accept(ModItems.SHEEP_MILK_BOTTLE);
                 output.accept(ModItems.WHEY_BUCKET);
                 output.accept(ModItems.WHEY_BOTTLE);
                 output.accept(ModItems.RENNET_BUCKET);
-                output.accept(ModItems.RENNET); // bottled rennet
+                output.accept(ModItems.RENNET);
+                output.accept(ModItems.HONEY_BUCKET); // Vanilla honey bottle belongs to Minecraft.
+
+                // 2. Crushing Tub / non-fermented plant fluids.
+                output.accept(ModItems.OLIVE_OIL_BUCKET);
+                output.accept(ModItems.OLIVE_OIL_BOTTLE);
+                output.accept(ModItems.APPLE_JUICE_BUCKET);
+                output.accept(ModItems.APPLE_JUICE_BOTTLE);
+                output.accept(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
+                output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
+                output.accept(ModItems.GRAPE_JUICE_BUCKET);
+                output.accept(ModItems.GRAPE_JUICE_BOTTLE);
+                output.accept(ModItems.WHITE_GRAPE_JUICE_BUCKET);
+                output.accept(ModItems.WHITE_GRAPE_JUICE_BOTTLE);
+                output.accept(ModItems.CHERRY_JUICE_BUCKET);
+                output.accept(ModItems.CHERRY_JUICE_BOTTLE);
+
+                // 3. Wines and other fermented liquids, then vinegar.
+                output.accept(ModItems.WINE_BUCKET);
+                output.accept(ModItems.WINE_BOTTLE);
+                output.accept(ModItems.WHITE_WINE_BUCKET);
+                output.accept(ModItems.WHITE_WINE_BOTTLE);
+                output.accept(ModItems.CHERRY_WINE_BUCKET);
+                output.accept(ModItems.CHERRY_WINE_BOTTLE);
+                output.accept(ModItems.MEAD_BUCKET);
+                output.accept(ModItems.MEAD_BOTTLE);
+                output.accept(ModItems.CIDER_BUCKET);
+                output.accept(ModItems.CIDER_BOTTLE);
+                output.accept(ModItems.APPLE_CIDER_VINEGAR_BUCKET);
+                output.accept(ModItems.APPLE_CIDER_VINEGAR);
+                output.accept(ModItems.RED_WINE_VINEGAR_BUCKET);
+                output.accept(ModItems.RED_WINE_VINEGAR_BOTTLE);
+
+                // Non-liquid ingredients used in cheese making.
                 output.accept(ModItems.CURD);
                 output.accept(ModItems.CREAM_BOWL);
                 output.accept(ModItems.BLUE_MOLD_CULTURE);
-                output.accept(ModItems.APPLE_CIDER_VINEGAR_BUCKET);
-                output.accept(ModItems.APPLE_CIDER_VINEGAR); // bottled vinegar
-                output.accept(ModItems.RED_WINE_VINEGAR_BUCKET);
-                output.accept(ModItems.RED_WINE_VINEGAR_BOTTLE);
 
                 // CHEESES: fresh products followed by each family's stages.
                 output.accept(ModItems.MOZZARELLA);
