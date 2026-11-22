@@ -22,6 +22,34 @@
     },
     "italiansdelight:olive_oil_bottle": {
       "thirst": 0
+    },
+    "italiansdelight:sheep_milk_bucket": {
+      "thirst": 4,
+      "quenched": 0
+    },
+    "italiansdelight:cherry_juice_bottle": {
+      "thirst": 6,
+      "quenched": 4
+    },
+    "italiansdelight:wine_bottle": {
+      "thirst": 2,
+      "quenched": 0
+    },
+    "italiansdelight:white_wine_bottle": {
+      "thirst": 2,
+      "quenched": 0
+    },
+    "italiansdelight:cherry_wine_bottle": {
+      "thirst": 2,
+      "quenched": 0
+    },
+    "italiansdelight:mead_bottle": {
+      "thirst": 2,
+      "quenched": 0
+    },
+    "italiansdelight:cider_bottle": {
+      "thirst": 2,
+      "quenched": 0
     }
   }
 }
