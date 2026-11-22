@@ -44,7 +44,7 @@ assert normal["type"]=="farmersdelight:cooking"
 assert normal["result"]["id"]=="italiansdelight:pasta_all_amatriciana"
 for path in RECIPES.rglob("*.json"):
     recipe=json.loads(path.read_text())
-    if recipe.get("result",{}).get("id")=="italiansdelight:pasta_all_amatriciana":
+    if isinstance(recipe,dict) and isinstance(recipe.get("result"),dict) and recipe["result"].get("id")=="italiansdelight:pasta_all_amatriciana":
         assert recipe["type"]=="farmersdelight:cooking", path
 for locale in ("it_it","en_us"):
     labels=json.loads((ASSETS/"lang"/(locale+".json")).read_text())

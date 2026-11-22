@@ -104,5 +104,5 @@ assert get(amatriciana)["type"]=="farmersdelight:cooking"
 assert not (recipes/"fermented/red_wine_amatriciana.json").exists()
 for recipe in recipes.rglob("*.json"):
     obj=get(recipe)
-    if obj.get("result",{}).get("id")=="italiansdelight:pasta_all_amatriciana":
+    if isinstance(obj,dict) and isinstance(obj.get("result"),dict) and obj["result"].get("id")=="italiansdelight:pasta_all_amatriciana":
         assert obj.get("type")=="farmersdelight:cooking", recipe
