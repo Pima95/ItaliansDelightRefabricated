@@ -16,7 +16,7 @@ import static dev.italiansdelight.common.pizza.PizzaToppingType.Role.*;
 /**
  * Authoritative, read-only 1.0.0 pizza topping catalogue.
  *
- * <p>33 canonical ingredient kinds, backed by 37 native registered item
+ * <p>34 canonical ingredient kinds, backed by 38 native registered item
  * IDs (including carrot, potato, pitted olive and chopped almond portions). Only items
  * listed here are native toppings. In particular, broad c: food tags NEVER
  * cause whole cheeses, whole meats or other unprepared items to be accepted.
@@ -117,10 +117,12 @@ public final class PizzaToppingCatalog {
         add(types, nativeItems, "olive_pitted", VEGETABLE, SOLID, "italiansdelight", "olive_pitted");
         // Chopped almonds are the only approved almond pizza topping.
         add(types, nativeItems, "chopped_almonds", OILS_FATS, SOLID, "italiansdelight", "chopped_almonds");
+        // Native chili is already edible; now it can top the spicy olive pizza.
+        add(types, nativeItems, "chili_pepper", VEGETABLE, SOLID, "italiansdelight", "chili_pepper");
 
         // Catch accidental omissions, aliases or newly added items before
         // anything relies on the canonical identity mapping.
-        if (types.size() != 33 || nativeItems.size() != 37
+        if (types.size() != 34 || nativeItems.size() != 38
                 || types.values().stream().filter(PizzaToppingType::planned).count() != 0) {
             throw new IllegalStateException("Unexpected pizza topping catalogue size: "
                     + types.size() + " types, " + nativeItems.size() + " native item IDs");

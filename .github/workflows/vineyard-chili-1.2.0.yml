@@ -36,6 +36,8 @@ jobs:
         run: python3 .github/scripts/check_fdr_compatibility.py
       - name: Validate Farmer's Delight pizza support surfaces and saved drops
         run: python3 .github/scripts/check_pizza_support_drops.py
+      - name: Verify new dishes, sauce order, and named spicy olive pizza
+        run: python3 .github/scripts/check_new_foods_and_pizza_sauces.py
       - name: Build Java 25 experimental artifact
         run: bash ./gradlew build --no-daemon --max-workers=2 --console=plain
       - name: Verify JAR

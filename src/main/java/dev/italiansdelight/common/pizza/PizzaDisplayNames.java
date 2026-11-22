@@ -33,8 +33,8 @@ public final class PizzaDisplayNames {
     private static final String CANONICAL_PREFIX = "pizza_toppings/";
     private static final Identifier LEGACY_MOZZARELLA =
             Identifier.parse("italiansdelight:pizza_toppings/legacy_mozzarella");
-    // 21 currently possible recipes. Principessa remains SUSPENDED
-    // because tomato sauce and cream cannot share a physical quarter.
+    // 22 named pizzas. Principessa is now composable but deliberately not
+    // a recognized preset (only spicy olives were authorized as a new name).
     private static final Map<Set<Identifier>, String> PRESETS = buildPresets();
 
     private PizzaDisplayNames() {
@@ -84,7 +84,9 @@ public final class PizzaDisplayNames {
         // White pizza: ricotta, mortadella, almond granella; no tomato sauce.
         add(presets, "mortadella_ricotta_mandorle",
                 "ricotta", "mortadella_slice", "chopped_almonds");
-        if (presets.size() != 21) {
+        add(presets, "piccante_olive", "tomato_sauce", "mozzarella_slice",
+                "olive_pitted", "chili_pepper");
+        if (presets.size() != 22) {
             throw new IllegalStateException("Unexpected count of active pizza presets");
         }
         return Collections.unmodifiableMap(presets);

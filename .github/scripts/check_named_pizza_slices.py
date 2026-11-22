@@ -177,8 +177,8 @@ def main() -> None:
 
     names_src = (SRC / "PizzaDisplayNames.java").read_text()
     named = re.findall(r'add\(presets,\s*"([^"]+)"', names_src)
-    if len(named) != 21 or len(set(named)) != 21 or "principessa" in named:
-        raise ValueError("Expected 18 canonical presets, without Principessa")
+    if len(named) != 22 or len(set(named)) != 22 or "principessa" in named:
+        raise ValueError("Expected 22 canonical presets, without Principessa")
     expected = [id for id in named if id != "margherita"] + ["custom"]
     hashes = {original}
     appearances = {"margherita": original}

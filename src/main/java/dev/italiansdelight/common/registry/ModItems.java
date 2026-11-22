@@ -966,6 +966,24 @@ public final class ModItems {
         public static final Item PASTA_WITH_ALMOND_PESTO =
                 registerBowlFoodItem("pasta_with_almond_pesto", 10, 0.7f,
                         FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        // 1.2.0 finished dishes. All required ingredients already exist.
+        public static final Item SPICY_OLIVE_PASTA =
+                registerBowlFoodItem("spicy_olive_pasta", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_WITH_RICOTTA_AND_PANCETTA =
+                registerBowlFoodItem("pasta_with_ricotta_and_pancetta", 14, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item RISOTTO_WITH_SCAMORZA_AND_OLIVES =
+                registerBowlFoodItem("risotto_with_scamorza_and_olives", 12, 0.8f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_WITH_ALMOND_PESTO_AND_SPECK =
+                registerBowlFoodItem("pasta_with_almond_pesto_and_speck", 14, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item GRAPE_CHERRY_FRUIT_SALAD =
+                registerBowlFoodItem("grape_cherry_fruit_salad", 6, 0.35f,
+                        Consumables.DEFAULT_FOOD);
+        public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
+
         public static final Item CHERRIES = registerFoodItem("cherries", 2, 0.2f);
 
         // The Cooking Pot serves this jam into a glass bottle; crafting with
