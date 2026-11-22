@@ -153,7 +153,11 @@ assert (assets/"textures/gui/jei/brewing_barrel.png").exists()
 assert "builder.addOutputSlot(" in jei_category
 assert "recipe.input()" in jei_category
 assert "recipe.output()" in jei_category
-assert "recipe.isHoney()" in jei_category
+# Mead now consumes the registered honey Fluid, not a visible honey-bottle
+# item. Check the actual recipe mapping and the fluid renderer instead.
+assert "ModFluids.HONEY" in jei_guide
+assert ".setFluidRenderer(MAX_BATCH, false, 16, 32)" in jei_category
+assert "new ItemStack(Items.HONEY_BOTTLE)" not in jei_category
 assert "recipe.requiresCulture()" in jei_category
 assert "ModFluids.WHITE_GRAPE_JUICE" in jei_guide
 assert "ModFluids.CHERRY_JUICE" in jei_guide
