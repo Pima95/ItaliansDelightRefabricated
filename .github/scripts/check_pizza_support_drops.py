@@ -45,9 +45,9 @@ check("CookedPizzaBlock.java", (
 ))
 print("NOTE: verify scheduled tick and item drops in Survival")
 
-// The pizza support rule must be IDENTICAL to Farmer's Delight FeastBlock
-// canSurvive(), not an ad hoc vanilla block allowlist. All pizza placement
-// and survival paths must flow through the same helper.
+# The pizza support rule must be IDENTICAL to Farmer's Delight FeastBlock
+# canSurvive(), not an ad hoc vanilla block allowlist. All pizza placement
+# and survival paths must flow through the same helper.
 ROOT = Path("src/main/java/dev/italiansdelight")
 support = (ROOT / "common/pizza/PizzaDoughSupport.java").read_text(encoding="utf-8")
 assert "Block.canSupportRigidBlock(level, supportPos)" in support
