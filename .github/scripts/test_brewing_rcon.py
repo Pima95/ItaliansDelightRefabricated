@@ -218,6 +218,31 @@ def main():
         assert read_field(client, "CultureAmount") == 250
         assert read_field(client, "CultureQuality") == 62
         print("PASSED: new culture amount and quality survive NBT updates", flush=True)
+
+        # Wine cultures must preserve the red/white/cherry identity when
+        # transferred in and back out, even with the quality component.
+        # The old save default is 0 (red); index 8 is only an appended
+        # menu field and does not alter the stable NBT discriminator IDs.
+        for kind, item_id in ((0, "wine_bottle"),
+                              (1, "white_wine_bottle"),
+                              (2, "cherry_wine_bottle")):
+            put_barrel(client, {"JuiceAmount": 0, "WineAmount": 0,
+                                "CultureAmount": 0, "CultureQuality": -1,
+                                "CultureWineKind": 0, "BrewTime": 0})
+            run(client, f"item replace block {X} {Y} {Z} container.2 with italiansdelight:{item_id} 1")
+            deadline = time.monotonic() + 5
+            while read_field(client, "CultureAmount") != 250 and time.monotonic() < deadline:
+                time.sleep(.1)
+            assert read_field(client, "CultureAmount") == 250
+            assert read_field(client, "CultureWineKind") == kind
+            run(client, f"item replace block {X} {Y} {Z} container.2 with minecraft:glass_bottle 1")
+            deadline = time.monotonic() + 5
+            while read_field(client, "CultureAmount") != 0 and time.monotonic() < deadline:
+                time.sleep(.1)
+            assert read_field(client, "CultureAmount") == 0
+            items = run(client, f"data get block {X} {Y} {Z} Items")
+            assert "italiansdelight:" + item_id in items, (kind, items)
+            print(f"PASSED: culture wine kind {kind} round-trips with correct item", flush=True)
         run(client, "save-all")
     finally:
         client.close()

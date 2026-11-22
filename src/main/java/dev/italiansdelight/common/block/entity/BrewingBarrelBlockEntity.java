@@ -62,6 +62,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
                 case 5 -> wineQuality;
                 case 6 -> cultureQuality;
                 case 7 -> outputKind;
+                case 8 -> cultureWineKind;
                 default -> 0;
             };
         }
@@ -75,10 +76,11 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
                 case 5 -> wineQuality = Math.clamp(value, 0, 100);
                 case 6 -> cultureQuality = Math.clamp(value, -1, 100);
                 case 7 -> outputKind = Math.clamp(value, OUTPUT_WINE, OUTPUT_WINE_VINEGAR);
+                case 8 -> cultureWineKind = Math.clamp(value, 0, 2);
                 default -> {}
             }
         }
-        @Override public int getCount() { return 8; }
+        @Override public int getCount() { return 9; }
     };
 
     public static final int CAPACITY = 8000;
@@ -221,7 +223,7 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
 
     /**
      * Fermentation is recipe-gated: red grapes -> wine, apples -> cider
-     * vinegar. White grapes remain storable until white wine is implemented.
+     * vinegar. White grapes, cherries and honey each produce their own drink.
      * An existing output of another type blocks processing to avoid mixing.
      * Any successful vessel transfer restarts the current brew as in Rustic.
      */

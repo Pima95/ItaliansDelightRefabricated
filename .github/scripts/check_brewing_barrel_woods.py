@@ -106,6 +106,11 @@ assert "case BrewingBarrelBlockEntity.OUTPUT_MEAD -> MEAD;" in barrel_screen
 assert "case BrewingBarrelBlockEntity.OUTPUT_CIDER -> CIDER;" in barrel_screen
 assert "case BrewingBarrelBlockEntity.OUTPUT_WINE_VINEGAR -> WINE_VINEGAR;" in barrel_screen
 assert "menu.hasVinegarOutput() ? -1 : menu.getOutputQuality()" in barrel_screen
+assert "switch (menu.getCultureWineKind())" in barrel_screen
+assert "case 1 -> WHITE_WINE;" in barrel_screen
+assert "case 2 -> CHERRY_WINE;" in barrel_screen
+assert 'input.getIntOr("CultureWineKind", 0)' in barrel_entity
+assert 'output.putInt("CultureWineKind", cultureWineKind);' in barrel_entity
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.INPUT_IN, true)" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.OUTPUT_IN, false)" in barrel_screen
 assert "emptyVesselIcon(graphics, BrewingBarrelBlockEntity.CULTURE_IN, false)" in barrel_screen
@@ -205,9 +210,12 @@ for required in (
 assert "case 2 -> cultureAmount;" in barrel_entity
 assert "case 5 -> wineQuality;" in barrel_entity
 assert "case 6 -> cultureQuality;" in barrel_entity
-assert "@Override public int getCount() { return 8; }" in barrel_entity
-assert "new SimpleContainerData(8)" in barrel_menu
-assert "checkContainerDataCount(data, 8)" in barrel_menu
+assert "case 8 -> cultureWineKind;" in barrel_entity
+assert "case 8 -> cultureWineKind = Math.clamp(value, 0, 2);" in barrel_entity
+assert "@Override public int getCount() { return 9; }" in barrel_entity
+assert "new SimpleContainerData(9)" in barrel_menu
+assert "public int getCultureWineKind() { return data.get(8); }" in barrel_menu
+assert "checkContainerDataCount(data, 9)" in barrel_menu
 assert "case 7 -> outputKind;" in barrel_entity
 assert 'output.putInt("OutputKind", outputKind);' in barrel_entity
 assert 'input.getIntOr("OutputKind", OUTPUT_WINE)' in barrel_entity

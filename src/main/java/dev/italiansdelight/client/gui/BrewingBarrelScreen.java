@@ -207,8 +207,18 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
             BrewingBarrelBlockEntity.CAPACITY,
             whiteWineOutput ? 0xFFF0F5DC : (paleOutput ? 0xFFE5CB8D : 0xFFC789A8),
             paleOutput ? 0 : 0xFF7B304D);
-        tank(graphics, WINE, 26, 35 + MACHINE_SHIFT, 16, menu.getCultureAmount(),
-            BrewingBarrelBlockEntity.CULTURE_CAPACITY, 0xBFCA8FA6, 0xFF7B304D);
+        // The culture is not always red: synchronize and render the actual
+        // red/white/cherry type stored in the barrel, including after reload.
+        Identifier cultureSprite = switch (menu.getCultureWineKind()) {
+            case 1 -> WHITE_WINE;
+            case 2 -> CHERRY_WINE;
+            default -> WINE;
+        };
+        boolean whiteCulture = menu.getCultureWineKind() == 1;
+        tank(graphics, cultureSprite, 26, 35 + MACHINE_SHIFT, 16, menu.getCultureAmount(),
+            BrewingBarrelBlockEntity.CULTURE_CAPACITY,
+            whiteCulture ? 0xFFF0F5DC : 0xBFCA8FA6,
+            whiteCulture ? 0 : 0xFF7B304D);
 
         emptyVesselIcon(graphics, BrewingBarrelBlockEntity.INPUT_IN, true);
         emptyVesselIcon(graphics, BrewingBarrelBlockEntity.OUTPUT_IN, false);
