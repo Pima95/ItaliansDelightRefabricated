@@ -112,8 +112,8 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
     }
 
     /**
-     * Each grape/wine fluid has a 16x16 animated atlas frame (16x512 sprite
-     * sheet with 32 frames). Never stretch the live 16px frame to 16x32:
+     * Each grape/wine fluid has a 16x16 animated atlas frame (spritesheets
+     * may have different frame counts). Never stretch the live frame to 16x32:
      * repeat native 16x16 tiles instead, then scissor to the liquid level.
      * This keeps the artwork crisp and synchronized in both tank heights.
      */
@@ -200,9 +200,13 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
         tank(graphics, inputSprite, 62, 27 + MACHINE_SHIFT, 32, menu.getInputAmount(),
             BrewingBarrelBlockEntity.CAPACITY,
             paleInput ? 0xFFDFC284 : 0xFFC78AB9, paleInput ? 0 : 0xFF87395F);
+        // White wine has a cool, pale straw/green surface. Do not reuse the
+        // warm honey/mead meniscus that previously made it look amber in the GUI.
+        boolean whiteWineOutput = menu.getOutputKind() == BrewingBarrelBlockEntity.OUTPUT_WHITE_WINE;
         tank(graphics, outputSprite, 116, 27 + MACHINE_SHIFT, 32, menu.getOutputAmount(),
             BrewingBarrelBlockEntity.CAPACITY,
-            paleOutput ? 0xFFE5CB8D : 0xFFC789A8, paleOutput ? 0 : 0xFF7B304D);
+            whiteWineOutput ? 0xFFF0F5DC : (paleOutput ? 0xFFE5CB8D : 0xFFC789A8),
+            paleOutput ? 0 : 0xFF7B304D);
         tank(graphics, WINE, 26, 35 + MACHINE_SHIFT, 16, menu.getCultureAmount(),
             BrewingBarrelBlockEntity.CULTURE_CAPACITY, 0xBFCA8FA6, 0xFF7B304D);
 
