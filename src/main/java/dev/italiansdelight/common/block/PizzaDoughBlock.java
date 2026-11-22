@@ -102,7 +102,7 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockPos supportPos = pos.below();
-        return PizzaDoughSupport.canSupport(level.getBlockState(supportPos), level, supportPos);
+        return PizzaDoughSupport.canSupport(level, supportPos);
     }
 
     @Override

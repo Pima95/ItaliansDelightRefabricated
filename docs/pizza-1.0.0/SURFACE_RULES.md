@@ -1,78 +1,68 @@
-# Superfici di appoggio dell'impasto — decisioni 1.0.0
+# Pizza placement supports — same rule as Farmer's Delight Refabricated
 
-> **Confermato dall'autore e aggiornato** il 10 ottobre 2026. La Soul Sand è stata esclusa su richiesta successiva. Non ampliare i casi particolari senza una nuova decisione.
+**Updated 22 November 2026 for 1.2.0 / Fabric 26.3.**
+This replaces the custom vanilla-only 10 October 2026 surface allowlist.
+The author has requested the same supports accepted by placeable food in
+Farmer's Delight Refabricated.
 
-## Criterio di base
+## Canonical rule
 
-La palla di Wheat Dough di Farmer's Delight si può piazzare solo **sopra una superficie approvata e orizzontale**. Il gioco controlla lo **stato attuale del blocco**, non solo il tipo: una scala normale non è equivalente a una scala capovolta.
+The upstream source
+`vectorwing.farmersdelight.common.block.FeastBlock.canSurvive()`
+on branch `fabric/latest/26.3` returns
+`canSupportRigidBlock(level, pos.below())`.
 
-Regola prudente per i blocchi non elencati: **consentire soltanto blocchi con collisione di cubo pieno**. Una superficie non piena/atipica non è automaticamente approvata. Le eccezioni esplicitamente confermate sono riportate sotto.
+Our equivalent lives in
+`dev.italiansdelight.common.pizza.PizzaDoughSupport.canSupport()`
+and delegates directly to **`Block.canSupportRigidBlock(level, supportPos)`**.
 
-## Confermati CONSENTITI
+This is a world-aware, collision-face-based rule, not a fixed set of vanilla
+block IDs. It therefore accepts modded furniture/cabinets when Minecraft
+considers their upper face rigid enough, exactly as FDR does.
 
-| Superficie | Dettagli implementativi |
-| --- | --- |
-| Blocco pieno (pietra, terra, assi, ecc.) | Collisione di cubo pieno |
-| Slab superiore | `SlabBlock.TYPE=TOP` |
-| Slab doppia | `SlabBlock.TYPE=DOUBLE` |
-| Scala capovolta | `StairBlock.HALF=TOP`; tutti gli orientamenti |
-| Botola superiore chiusa | `TrapDoorBlock.HALF=TOP` e `OPEN=false` |
-| Incudini | Tutte le condizioni di usura (`AnvilBlock`) |
+## Which pizza variants use the rule
 
-## Confermati VIETATI
+* **Dough balls and all four stretching stages:** `PizzaDoughBlock.canSurvive`
+* **Already prepared raw pizza (including mixed toppings):** the same dough block
+* **Whole baked pizza:** `CookedPizzaBlock.canSurvive`
+* **Standalone cooked quarter (pizza slice):** the same cooked pizza block
+* **Reinserted cooked quarter:** keeps using an existing cooked pizza block
 
-| Superficie | Dettagli implementativi |
-| --- | --- |
-| Sabbia delle anime | `Blocks.SOUL_SAND`: **vietata** (decisione aggiornata) |
-| Slab inferiore | `SlabBlock.TYPE=BOTTOM` |
-| Scale normali | `StairBlock.HALF=BOTTOM` |
-| Botola inferiore chiusa | `TrapDoorBlock.HALF=BOTTOM`, `OPEN=false` |
-| Botole aperte | Nessuna faccia superiore orizzontale utile, `OPEN=true` |
-| Sentiero di terra | `Blocks.DIRT_PATH` |
-| Terra arata | `Blocks.FARMLAND` |
-| Strati di neve | `Blocks.SNOW`; non confondere con il blocco pieno di neve |
-| Tappeti | `CarpetBlock` e varianti |
-| Bauli | Normali, trappola ed Ender |
-| Tavolo degli incantesimi | `Blocks.ENCHANTING_TABLE` |
-| Letti | `BedBlock` e varianti colore |
-| Calderoni | `AbstractCauldronBlock`, anche quelli riempiti |
-| Compostiere | `Blocks.COMPOSTER` |
+Both item placement callbacks (`PizzaDoughPlacement` and
+`PizzaSlicePlacement`) use the block's `canSurvive`. Thus client/server
+placement and support loss use the same validation.
 
-## Casi ancora APERTI
+No changes to entity NBT, saved composition, block IDs, textures, recipes,
+stretching, baking, cutting, or drop rules.
 
-Le altre superfici particolari, incluse superfici parziali di mod esterne, non sono state automaticamente approvate. La categoria generica dei **blocchi con collisione cubica piena** continua a essere consentita; tutti i nuovi tipi di supporto speciale richiedono una nuova valutazione.
+## Testing (not yet performed by author)
 
-## Comportamento del prototipo
+Use the same surfaces to compare a Farmer's Delight placeable Feast against
+Italian's Delight wheat dough, raw pizza, baked pizza and a loose cooked slice:
 
-- Il clic destro su una superficie approvata inserisce il `pizza_dough` nel blocco d'aria soprastante.
-- Il blocco impasto usa **lo stesso controllo** in `canSurvive`, quindi non può continuare a rimanere su un supporto che non è più consentito.
-- Non esistono più le varianti `lowered`: tutte le superfici permesse usano i modelli normali, senza spostamenti verticali.
-- **Recupero alla perdita del supporto — FIX PUBBLICATO, DA COLLAUDARE:** la pizza non viene più sostituita subito con aria. Il blocco programma un tick server che ricontrolla il sostegno e, se resta invalido, esegue la distruzione vanilla con loot della BlockEntity. La palla/base vuota restituisce Wheat Dough, la pizza cruda preparata restituisce un solo item completo; la pizza cotta intera restituisce la pizza, quella già servita soltanto gli spicchi rimasti. Nessun topping o recipiente extra. Verificare in Survival.
-- I cinque modelli 3D mantengono la geometria del prototipo e usano texture dedicate all'impasto crudo, documentate in [TEXTURES.md](TEXTURES.md).
+- [ ] Full solid blocks (stone, planks, etc.).
+- [ ] Full-top supports such as **upper slabs** and supported top-half stair
+      shapes, where FDR actually permits placement.
+- [ ] Farmer's Delight cabinets and optional mod furniture/table blocks:
+      only when the same block state supports an FDR feast.
+- [ ] Non-supporting surfaces (bottom slabs, carpets, open trapdoors,
+      unsupported furniture): should not work in either mod.
+- [ ] Replace/remove the support under a raw pizza, an intact baked pizza
+      and a partly served pizza; verify exactly one correctly composed raw
+      pizza, one intact baked pizza, or only the remaining slices.
+- [ ] Reload a chunk/world containing pizzas on a modded support, and check
+      that the pizza survives whenever the support still passes the rule.
+- [ ] Verify standalone slices can be reinserted into a partially served pizza.
 
-## Checklist test manuale
+The exact behavior of unusual blocks (anvils, soul sand, chests, custom
+furniture) is dictated by FDR's **rigid support** predicate, not by the old
+custom allowlist. If any such block differs from previous releases, this is
+an intentional consequence of matching FDR and should be verified in-game.
 
-- [ ] Slab BOTTOM vietata / TOP consentita / DOUBLE consentita.
-- [ ] Stair BOTTOM vietata / TOP consentita (tutti gli orientamenti).
-- [ ] Trapdoor TOP chiusa consentita; TOP aperta, BOTTOM chiusa o aperta vietate.
-- [ ] Soul Sand vietata (anche dopo cambio del blocco di supporto).
-- [ ] Incudini normali, scheggiate e danneggiate consentite.
-- [ ] DIRT_PATH, FARMLAND, SNOW, CARPET, CHEST, ENDER_CHEST, ENCHANTING_TABLE, BED, CAULDRON, COMPOSTER vietati.
-- [x] Blocchi cubici normali ancora consentiti (test confermato dall'autore).
-- [ ] Cambio di stato del supporto: la palla non rimane su supporto vietato.
-- [ ] La rottura del supporto non duplica ne' perde il Wheat Dough per l'impasto non ancora completamente steso e restituisce invece **un solo item pizza** completo quando la pizza e' gia' formata.
+Automated static regression:
+`.github/scripts/check_pizza_support_drops.py`.
+This checks delegation, all placement pathways, and preservation of
+BlockEntity-backed drops. It does not simulate client clicking.
 
-I test qui sopra sono **ancora da svolgere dall'autore** sul client Minecraft 26.2 con la mod caricata.
-
-## Test mirato: rimozione del supporto (fix pre-release)
-
-Da eseguire in **Survival**, in un mondo di prova, con i drop vanilla abilitati.
-
-- [ ] Rompere il blocco sotto un impasto allo stadio 0–3 o una base stesa non divisa e senza condimenti: **esattamente un Wheat Dough**.
-- [ ] Rompere il supporto sotto una pizza cruda divisa o condita: **una raw_pizza** che mantiene composizione, maschere e orientamento, senza ingredienti separati.
-- [ ] Rompere il supporto sotto una pizza cotta ancora intera: **una cooked_pizza**, zero ciotole aggiuntive.
-- [ ] Dopo aver raccolto uno, due o tre spicchi, rompere il supporto: **solo** i tre, due o uno spicchi non ancora raccolti; nessun duplicato.
-- [ ] Ripetere su una botola superiore che passa da chiusa ad aperta e dopo un salvataggio/riavvio. Supporti nuovamente validi prima del tick programmato non devono provocare la rottura.
-- [ ] Verificare gli stessi dati dopo aver riposizionato la pizza; confrontare con la normale rottura del blocco pizza.
-
-Il test automatico `.github/scripts/check_pizza_support_drops.py` controlla gli invarianti nel codice, **non** simula eventi di Minecraft.
+Upstream source:
+https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/fabric/latest/26.3/src/main/java/vectorwing/farmersdelight/common/block/FeastBlock.java
