@@ -231,8 +231,8 @@ def main() -> None:
             raise ValueError(f"Duplicate named slice artwork: {item}")
         hashes.add(texture)
         appearances[taste] = texture
-    if len(hashes) != 22:
-        raise ValueError("Expected 18 named variants and a neutral fallback")
+    if len(hashes) != 23:
+        raise ValueError("Expected 21 named variants and one neutral fallback")
 
     # Matching only byte-for-byte misses the actual defect reported in game:
     # two slices may differ at three or four pixels but look identical in
@@ -270,7 +270,7 @@ def main() -> None:
         raise ValueError("Named slices must be accessible in Creative")
 
     print(f"OK: {len(expected)} distinctive 16x16 RGBA slices plus original Margherita")
-    print("OK: 19 sprites checked pairwise for at least 10 pronounced pixel differences")
+    print("OK: 23 sprites checked pairwise for at least 10 pronounced pixel differences")
     print("OK: 218 outside-topping pixels preserved except approved crust-tip edits")
     print("OK: straight diagonal tips, no raised hooks or cheese; 38 topping pixels intact")
     print("OK: each quarter selects its own preset; examples are edible stacks")
