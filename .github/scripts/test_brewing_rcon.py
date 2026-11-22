@@ -235,6 +235,10 @@ def main():
                 time.sleep(.1)
             assert read_field(client, "CultureAmount") == 250
             assert read_field(client, "CultureWineKind") == kind
+            # Filling the culture tank returns the EMPTY glass bottle in slot 5.
+            # Clear that return slot before requesting a filled wine bottle;
+            # the barrel correctly refuses to overwrite a different item.
+            run(client, f"data remove block {X} {Y} {Z} Items[{{Slot:5b}}]")
             run(client, f"item replace block {X} {Y} {Z} container.2 with minecraft:glass_bottle 1")
             deadline = time.monotonic() + 5
             while read_field(client, "CultureAmount") != 0 and time.monotonic() < deadline:
