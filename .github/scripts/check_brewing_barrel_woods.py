@@ -534,8 +534,7 @@ for drink in new_fluids:
 # New 16x16 item art must have real linked sprites, not the placeholders that
 # accidentally reused grape juice and wine buckets or vanilla potion tints.
 changed_art=("white_wine_bucket", "white_wine_bottle",
-             "cherry_juice_bucket", "cherry_juice_bottle",
-             "cherry_wine_bucket", "cherry_wine_bottle")
+             "cherry_juice_bucket", "cherry_wine_bucket", "cherry_wine_bottle")
 for name in changed_art:
     tex=assets/"textures/item"/(name+".png")
     assert struct.unpack(">II", tex.read_bytes()[16:24])==(16,16), name
@@ -543,6 +542,11 @@ for name in changed_art:
     assert model["textures"]["layer0"]=="italiansdelight:item/"+name, name
     item=load(assets/"items"/(name+".json"))
     assert item["model"]["model"]=="italiansdelight:item/"+name, name
+# Cherry juice intentionally uses the standard Minecraft potion bottle
+# instead of its obsolete custom cherry-juice sprite.
+juice_bottle_model=load(assets/"models/item/cherry_juice_bottle.json")
+assert juice_bottle_model["parent"]=="minecraft:item/potion"
+assert load(assets/"items/cherry_juice_bottle.json")["model"]["model"]=="italiansdelight:item/cherry_juice_bottle"
 assert (assets/"textures/item/white_wine_bucket.png").read_bytes() != (
     assets/"textures/item/white_grape_juice_bucket.png").read_bytes()
 for lang in (lang_en,lang_it):
