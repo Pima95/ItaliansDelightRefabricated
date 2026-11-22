@@ -39,6 +39,8 @@ EXPECTED = {
     "mediterranea": (4, 3.5),
     "olive_scamorza_bianca": (4, 4.5),
     "mortadella_ricotta_mandorle": (4, 6.0),
+    "piccante_olive": (5, 4.0),
+    "principessa": (6, 6.0),
 }
 
 CATEGORY_BONUSES = {
@@ -64,8 +66,8 @@ def recipes_from_java() -> dict[str, list[str]]:
         taste = match.group(1)
         require(taste not in recipes, f"Duplicate preset {taste}")
         recipes[taste] = re.findall(r'"([^"]+)"', match.group(2))
-    require(len(recipes) == 21 and "principessa" not in recipes,
-            f"Expected 21 active presets excluding Principessa, got {len(recipes)}")
+    require(len(recipes) == 23 and "principessa" in recipes,
+            f"Expected 23 active presets including Principessa, got {len(recipes)}")
     require(set(recipes) == set(EXPECTED),
             "Changed preset identities: review and update the balance snapshot")
     return recipes
@@ -79,8 +81,8 @@ def catalogue_from_java() -> dict[str, str]:
         source,
     )
     result = dict(matches)
-    require(len(matches) == 33 and len(result) == 33,
-            f"Expected 33 distinct canonical topping types, got {len(result)}")
+    require(len(matches) == 34 and len(result) == 34,
+            f"Expected 34 distinct canonical topping types, got {len(result)}")
     for must_not in ("mozzarella", "scamorza", "mascarpone"):
         require(must_not not in result,
                 f"Whole/unprepared {must_not} wrongly permitted as topping")
@@ -158,7 +160,7 @@ def audit_nourishment(recipes: dict[str, list[str]], catalogue: dict[str, str]) 
     no_effect = {name for name, toppings in recipes.items()
                  if food_values(toppings, catalogue)[0] < 3}
     require(no_effect == {"bianca", "rossa"},
-            f"Incorrect Nourishment eligibility among 18 presets: {no_effect}")
+            f"Incorrect Nourishment eligibility among 23 presets: {no_effect}")
     for toppings, expected in [
         ([], False),
         (["tomato_sauce"], False),
@@ -308,10 +310,10 @@ def main() -> None:
     audit_nourishment_tooltip()
     audit_saved_slice_compatibility()
     audit_baking()
-    print("OK: all 18 canonical pizza presets match updated per-slice nutrition")
+    print("OK: all 23 canonical pizza presets match updated per-slice nutrition")
     print("OK: max 2 DISTINCT canonical types per category, max 6 hunger/saturation")
     print("OK: duplicate types, old mozzarella and custom pizza categories checked")
-    print("OK: short Nourishment on newly created slices >=3 hunger (16 of 18 named presets)")
+    print("OK: short Nourishment on newly created slices >=3 hunger (21 of 23 named presets)")
     print("OK: tooltip uses Farmer\'s Delight effect name/duration and respects its config")
     print("OK: saved pizza slices refresh legacy food/consumable components idempotently")
     print("OK: pizza oven 400 ticks, smoker 600 ticks, furnace 1200 ticks")

@@ -43,6 +43,9 @@ jobs:
           python3 .github/scripts/check_named_pizza_artwork.py
           python3 .github/scripts/check_named_pizza_slices.py
           python3 .github/scripts/check_pizza_topping_textures.py
+          python3 .github/scripts/check_texture_fidelity_1_2.py
+          python3 .github/scripts/check_pizza_jei_sidebar.py
+          python3 .github/scripts/check_pizza_release_balance.py
       - name: Build Java 25 experimental artifact
         run: bash ./gradlew build --no-daemon --max-workers=2 --console=plain
       - name: Verify JAR

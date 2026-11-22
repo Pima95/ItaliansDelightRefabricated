@@ -19,17 +19,18 @@ Cooking Pot recipes consume a separate vanilla serving bowl. Ingredient
 crafting remainders (ricotta/cream/pesto) must be verified in-game to avoid
 duplicate or missing empty bowls.
 
-## The ONLY new named pizza
+## Recognized pizzas added in 1.2.0
 
 **Pizza piccante alle olive**: tomato sauce, mozzarella slice,
-pitted olives, existing `italiansdelight:chili_pepper`. Chili becomes
-a verified solid topping. Its full-size pizza, raw pizza and cooked
-quarter all retain the original item IDs and data-backed composition;
-the 22nd named preset has dedicated 16×16 art.
+pitted olives and existing `italiansdelight:chili_pepper`. The 22nd
+named taste is backed by real 16×16 raw, cooked and slice models.
 
-No other named pizza preset is added: **Principessa** (tomato sauce,
-mozzarella, prosciutto crudo and cream) can now be made as an ordinary
-dynamic-name pizza but is **not a recognized taste yet**.
+**Pizza Principessa**: tomato sauce, mozzarella slice, prosciutto crudo
+slice and cream bowl. The 23rd recognized taste has its own real
+raw, cooked and edible-slice 16×16 textures and remains backed by
+the existing pizza item IDs, canonical topping components and oven.
+Both spreads persist independently with the existing per-quarter
+last-sauce-as-base / earlier-sauce-as-garnish rule.
 
 ## New sauce rule
 
@@ -58,3 +59,22 @@ independently, including previously saved and mixed pizzas.
   empty bowl handling with partially full inventory.
 * Save/reopen: old pizzas, new pizza with multiple sauces, removed support
   and three remaining slices. No missing toppings or extra drops.
+
+## November 2026 art and recipe corrections
+
+- `almond_biscuits.png` follows the exact single round cookie silhouette
+  of Farmer's Delight Honey Cookie / vanilla-style cookie, in toasted almond
+  colors. No stacked biscuits.
+- `grape_cherry_fruit_salad.png` reuses the actual Mozzarella Salad shape,
+  retaining its bowl/rim while recoloring the ingredients to white/purple
+  grapes and cherries.
+- `risotto_with_scamorza_and_olives.png` reuses the Mushroom Risotto shape
+  and bowl (also consistent with Tomato Risotto), with golden grains, cream
+  and pitted-olive speckles.
+- `pasta_with_ricotta_and_pancetta.png` changes the residual pesto-green
+  pasta to warm golden-yellow, preserving ricotta and pancetta.
+- The shapeless `fermented/red_wine_amatriciana.json` crafting-grid recipe
+  was removed. `cooking/pasta_all_amatriciana.json` is still the sole normal
+  cooking recipe for Pasta all'Amatriciana in the Cooking Pot.
+
+The above changes preserve original item registry IDs and existing saves.

@@ -70,8 +70,9 @@ assert "types.size() != 34 || nativeItems.size() != 38" in cat
 names=(source/"common/pizza/PizzaDisplayNames.java").read_text(encoding="utf-8")
 assert 'add(presets, "piccante_olive", "tomato_sauce", "mozzarella_slice",' in names
 assert '"olive_pitted", "chili_pepper"' in names
-assert 'if (presets.size() != 22)' in names
-assert 'add(presets, "principessa"' not in names
+assert 'if (presets.size() != 23)' in names
+assert 'add(presets, "principessa", "tomato_sauce", "mozzarella_slice",' in names
+assert '"prosciutto_crudo_slice", "cream_bowl"' in names
 ops=(source/"common/pizza/PizzaCompositionOperations.java").read_text(encoding="utf-8")
 assert "existing.occupiesSauceSlot()" not in ops
 assert "uncovered &= ~overlapping;" in ops
@@ -84,7 +85,8 @@ for marker in ("baseMasks[i] = covered & ~claimedBase;", "claimedBase |= covered
                "int garnish = covered & ~base;", "SAUCE_PREFIX : SPRITE_PREFIX"):
     assert marker in vis,marker
 
-for name in ("raw_pizza_piccante_olive","cooked_pizza_piccante_olive","pizza_slice_piccante_olive"):
+for name in ("raw_pizza_piccante_olive","cooked_pizza_piccante_olive","pizza_slice_piccante_olive",
+             "raw_pizza_principessa","cooked_pizza_principessa","pizza_slice_principessa"):
     for folder in ("items","models/item"):
         assert (assets/folder/(name+".json")).is_file(), name
     assert (assets/"textures/item"/(name+".png")).is_file(), name
@@ -94,3 +96,13 @@ for locale in ("it_it","en_us"):
     assert "pizza.italiansdelight.ingredient.chili_pepper" in data
 assert (assets/"textures/block/pizza_topping_sprites/chili_pepper.png").is_file()
 print("PASSED: six dishes + one recognized pizza, no focaccia, sauce reordering and legacy preservation")
+
+# Only the Cooking Pot recipe may produce normal Pasta all'Amatriciana.
+amatriciana=recipes/"cooking/pasta_all_amatriciana.json"
+assert amatriciana.exists()
+assert get(amatriciana)["type"]=="farmersdelight:cooking"
+assert not (recipes/"fermented/red_wine_amatriciana.json").exists()
+for recipe in recipes.rglob("*.json"):
+    obj=get(recipe)
+    if obj.get("result",{}).get("id")=="italiansdelight:pasta_all_amatriciana":
+        assert obj.get("type")=="farmersdelight:cooking", recipe
