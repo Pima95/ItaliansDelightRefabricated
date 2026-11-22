@@ -277,18 +277,21 @@ for id_ in ("white_wine","cherry_wine","mead","cherry_juice","red_wine_vinegar")
     assert source.is_file(), id_
     assert struct.unpack(">II", source.read_bytes()[16:24])==(16,512), id_
     assert load(source.with_suffix(source.suffix+".mcmeta"))["animation"]["frametime"]>0, id_
-# Every product, including pre-existing wine/vinegar, is used in at least two
-# new tangible alternative crafting recipes, not just display-only JEI entries.
+# Fermented products have direct kitchen uses. Regular red wine retains one
+# grid-crafting variant: the redundant grid Amatriciana was intentionally
+# removed in favor of the existing Cooking Pot recipe.
 fermented=root/"data/italiansdelight/recipe/fermented"
 recipe_files=list(fermented.glob("*.json"))
-assert len(recipe_files)>=16
+assert len(recipe_files)>=15
+assert not (fermented/"red_wine_amatriciana.json").exists()
 products=("white_wine_bottle","cherry_wine_bottle","mead_bottle",
           "cider_bottle","red_wine_vinegar_bottle","cherry_juice_bottle",
           "wine_bottle","apple_cider_vinegar")
 for prod in products:
     uses=[p for p in recipe_files if "italiansdelight:"+prod in load(p)["ingredients"]]
-    assert len(uses)>=2, f"Missing kitchen uses: {prod}"
-print("PASSED: all fermented beverage recipes, native Rustic sprites and two crafting uses per product")
+    expected_uses=1 if prod=="wine_bottle" else 2
+    assert len(uses)>=expected_uses, f"Missing kitchen uses: {prod}"
+print("PASSED: fermented kitchen uses, no crafting-table Amatriciana, native Rustic sprites")
 
 
 original = (Path(".github/scripts/fixtures/alcocraft_spruce_keg.png").read_bytes())
