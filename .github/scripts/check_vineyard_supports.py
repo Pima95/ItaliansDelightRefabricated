@@ -498,8 +498,13 @@ assert "ModFluids.WHITE_GRAPE_JUICE" in read(src/"common/fluid/FabricFluidItemCo
 assert "ModItems.WHITE_GRAPE_JUICE_BUCKET" in read(src/"common/fluid/FabricFluidItemContainers.java")
 assert "ModItems.WHITE_GRAPE_JUICE_BOTTLE" in read(src/"common/fluid/FabricFluidItemContainers.java")
 assert "new ContainedFluid(() -> ModItems.WHITE_GRAPE_JUICE_BUCKET)" in read(src/"common/registry/ModFluids.java")
-assert "new ItemStack(ModItems.WHITE_GRAPE_JUICE_BUCKET)" in read(src/"integration/jei/ModFluidJeiInfo.java")
-assert "new ItemStack(ModItems.WHITE_GRAPE_JUICE_BOTTLE)" in read(src/"integration/jei/ModFluidJeiInfo.java")
+# The shared JEI information helper builds real ItemStacks from the provided
+# bucket and bottle, rather than allocating a separate literal per fluid.
+fluid_jei_info = read(src/"integration/jei/ModFluidJeiInfo.java")
+assert "new ItemStack(bucket)" in fluid_jei_info
+assert "new ItemStack(bottle)" in fluid_jei_info
+assert 'info(registration, "white_grape_juice", ModItems.WHITE_GRAPE_JUICE_BUCKET,' in fluid_jei_info
+assert "ModItems.WHITE_GRAPE_JUICE_BOTTLE);" in fluid_jei_info
 assert "ModFluids.WHITE_GRAPE_JUICE, 250" in jei_crush
 assert 'new Surface(ModRegistries.id("block/fluids/white_grape_juice_still"), 0xFFFFFFFF)' in read(src/"client/render/LiquidSurfaceVisuals.java")
 renderer=read(src/"client/render/LiquidSurfaceVisuals.java")
