@@ -21,8 +21,9 @@ jobs:
         run: |
           grep -Fx 'mod_version=1.2.0-mc26.3-dev' gradle.properties
           grep -Fx 'minecraft_version=26.3' gradle.properties
-          test -f docs/vineyard-chili-1.2.0/ROADMAP.md
-          test -f docs/vineyard-chili-1.2.0/DESIGN.md
+          test -f docs/vineyard-chili-1.2.0/README.md
+          test -f docs/vineyard-chili-1.2.0/TECHNICAL.md
+          test -f docs/vineyard-chili-1.2.0/TESTING.md
           test -f src/main/resources/assets/italiansdelight/textures/item/grape.png
       - name: Audit JSON and recipes
         run: python3 .github/scripts/audit_project_consistency.py

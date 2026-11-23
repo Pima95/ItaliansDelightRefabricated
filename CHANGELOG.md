@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Italian's Delight Refabricated are documented here. The next update, **1.2.0** (Vineyard & Chili, Minecraft 26.3), is still in development on `feature/vineyard-chili-1.2.0`.
+All notable changes to Italian's Delight Refabricated are documented here. The next update, **1.2.0** (Vineyard & Chili, Minecraft 26.3), is still in development on `feature/vineyard-chili-1.2.0`. See the [1.2.0 overview](docs/vineyard-chili-1.2.0/README.md).
 
 ## 1.1.0 — Orchard Update (released 11 November 2026)
 
@@ -89,7 +89,7 @@ The Pizza Update is published as [v1.0.0](https://github.com/Pima95/ItaliansDeli
 - Bumped the JAR version to **1.0.0**, updated **Fabric Loader to 0.20.1** and **Farmer's Delight Refabricated 26.2 to 3.6.29**; **Fabric API 0.161.0+26.2** remains current for Minecraft 26.2.
 - Completed the final reported Cheese Vat and code-audit work (author confirmation, 23 October 2026).
 - Applied a conservative naming-path micro-optimization to avoid rebuilding the same quarter data and sorting the same topping list twice; previous baking, network update, bowl, peel and recipe-generation optimizations remain intact.
-- Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See [the optimization decision log](docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
+- Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See the [historical optimization decision log](https://github.com/Pima95/ItaliansDelightRefabricated/blob/3801dd9762312c30706137bf06da88023f0ad6a3/docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
 - The published 1.0.0 changes are summarized in the [1.0.0 changelog](docs/pizza-1.0.0/CHANGELOG.md).
 
 **Historical test record:** compilation and static checks do not substitute for multiplayer testing, which was not fully completed before publication. The archival [archived 1.0.0 readiness checklist](https://github.com/Pima95/ItaliansDelightRefabricated/blob/d351e1660eb4bea9327070edaa3d8c9c5fa5ff13/docs/pizza-1.0.0/RELEASE_READINESS.md) preserves the documented results. The author confirmed 1.0.0 was published and functioning.
