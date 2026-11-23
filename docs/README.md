@@ -19,7 +19,7 @@
 
 - [**1.0.0 — Pizza Update**](pizza-1.0.0/CHANGELOG.md) — pubblicata il **23 ottobre 2026** per Minecraft 26.2.
 - [**1.1.0 — Orchard Update**](orchards-1.1.0/CHANGELOG.md) — pubblicata l'**11 novembre 2026** per Minecraft 26.2; è l'ultima release pubblica.
-- **1.2.0 — Vineyard & Chili** — **candidata al rilascio, in collaudo**, per Minecraft 26.3 sul branch `feature/vineyard-chili-1.2.0`. Non è ancora una release.
+- **1.2.0 — Vineyard & Chili** — **candidata al rilascio, in collaudo**, per Minecraft 26.2 sul branch `feature/mc-26.2`. Questa build non è ancora una release. La build 26.3 è mantenuta su `main`.
 
 ## Per chi sviluppa
 

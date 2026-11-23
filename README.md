@@ -20,7 +20,7 @@
 | --- | --- | --- | --- |
 | [1.0.0 — Pizza Update](docs/pizza-1.0.0/CHANGELOG.md) | Pubblicata il 23/10/2026 | 26.2 | Pizze interattive, forno, pala, spicchi e JEI |
 | [1.1.0 — Orchard Update](docs/orchards-1.1.0/CHANGELOG.md) | **Ultima release pubblica** (11/11/2026) | 26.2 | Ulivi, mandorli, ciliegi da frutto, legni, frutta e Crushing Tub |
-| [1.2.0 — Vineyard & Chili](docs/vineyard-chili-1.2.0/README.md) | **Candidata al rilascio**, in collaudo sul branch esistente | **26.3** | Uva, peperoncini, fermentazione, bevande, nuovi piatti e pizze |
+| [1.2.0 — Vineyard & Chili](docs/vineyard-chili-1.2.0/README.md) | **Candidata al rilascio**, in collaudo sul branch esistente | **26.2** | Uva, peperoncini, fermentazione, bevande, nuovi piatti e pizze; 15 varianti di legno senza pioppo |
 
 ### Installare una versione pubblicata
 
@@ -30,7 +30,7 @@
 
 Le versioni delle dipendenze per la **1.0.0** e la **1.1.0** sono specificate nei rispettivi [changelog](docs/README.md) e nella [pagina delle release pubblicate](https://github.com/Pima95/ItaliansDelightRefabricated/releases).
 
-**La 1.2.0 non è ancora pubblicata.** Sul branch esistente si prepara il JAR completo `italiansdelight-1.2.0-mc26.3.jar` per i test. Dopo l'esito della [CI](https://github.com/Pima95/ItaliansDelightRefabricated/actions/workflows/vineyard-chili-1.2.0.yml) si possono scaricare il JAR candidato e `SHA256SUMS` dall'artifact della stessa esecuzione. Consultare la [documentazione 1.2.0](docs/vineyard-chili-1.2.0/README.md) e i [test manuali](docs/vineyard-chili-1.2.0/TESTING.md); un build riuscito non sostituisce la prova in gioco. Nessun tag o pubblicazione è stato effettuato.
+**Il port 1.2.0 per Minecraft 26.2 non è ancora pubblicato.** Il branch esistente `feature/mc-26.2` prepara il JAR `italiansdelight-1.2.0-mc26.2.jar` per i test. Dopo la [CI 26.2](https://github.com/Pima95/ItaliansDelightRefabricated/actions/workflows/mc-26.2.yml) si possono scaricare il JAR candidato e `SHA256SUMS` dall'artifact della stessa esecuzione. Consultare la [documentazione 1.2.0](docs/vineyard-chili-1.2.0/README.md) e i [test manuali](docs/vineyard-chili-1.2.0/TESTING.md); un build riuscito non sostituisce la prova in gioco. Nessun tag o pubblicazione è stato effettuato.
 
 ## Funzionalità
 
@@ -43,7 +43,7 @@ Le versioni delle dipendenze per la **1.0.0** e la **1.1.0** sono specificate ne
 
 ## Sviluppo
 
-Per il branch **1.2.0**: **Minecraft 26.3**, **Java 25**, **Fabric Loader 0.20.1**, **Fabric API 0.166.0+26.3** e **Farmer's Delight Refabricated 26.3-3.6.30+refabricated**. Consultare `gradle.properties` per la configurazione effettiva.
+Per questo branch **1.2.0-mc26.2**: **Minecraft 26.2**, **Java 25**, **Fabric Loader 0.20.1**, **Fabric API 0.161.0+26.2** e **Farmer's Delight Refabricated 26.2-3.6.29+refabricated**. Consultare `gradle.properties` per la configurazione effettiva.
 
 ```bash
 ./gradlew build

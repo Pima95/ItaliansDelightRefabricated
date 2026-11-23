@@ -4,11 +4,11 @@ Questo documento raccoglie le informazioni tecniche aggiornate e consolidate del
 
 ## 1. Baseline e compatibilità
 
-- Branch `feature/vineyard-chili-1.2.0`; build candidata `1.2.0-mc26.3` (non ancora pubblicata) per Minecraft **26.3**, Java **25** e Fabric. I requisiti reali sono definiti in `gradle.properties` e `build.gradle`.
+- Branch `feature/mc-26.2`; build candidata `1.2.0-mc26.2` (non ancora pubblicata) per Minecraft **26.2**, Java **25** e Fabric. I requisiti reali sono definiti in `gradle.properties` e `build.gradle`.
 - Preservare gli ID degli item, blocchi e fluidi della 1.0.0 e 1.1.0 e i dati dei mondi esistenti. Non effettuare rename distruttivi né sovrascrivere salvataggi durante i test.
 - Farmer's Delight Refabricated è una dipendenza obbligatoria; JEI fornisce categorie e visualizzazione di ricette. Serene Seasons/GlitchCore e Thirst Was Taken 2 sono integrazioni opzionali.
 - Le categorie e i tag `farmersdelight:*` / `c:*` facilitano l'interoperabilità, ma **non** implicano supporto verificato per qualsiasi altra mod.
-- Strategia dei porting: mantenere la release 1.1.0 su **26.2**; completare e verificare 1.2.0 su **26.3**, poi valutare `26.1.x` separatamente. Le versioni 1.21.x/1.20.x, Forge e NeoForge restano rinviate. Nessun JAR condiviso tra versioni è da presumere compatibile senza test.
+- Strategia dei porting: la base 1.2.0 per **26.3** è su `main`; questo branch porta le stesse funzionalità su **26.2** usando le API e il formato worldgen di quella versione, senza Poplar. Valutare poi `26.1.x` separatamente. Le versioni 1.21.x/1.20.x, Forge e NeoForge restano rinviate. Nessun JAR condiviso tra versioni è da presumere compatibile senza test.
 
 ## 2. Coltivazioni
 
