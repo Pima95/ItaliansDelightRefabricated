@@ -74,6 +74,26 @@ La **focaccia non è inclusa** in questa versione. La Pasta all'Amatriciana norm
 
 ## 5. Risorse grafiche, licenze e manutenzione
 
+### Prompt originale per le texture (approvato il 13 ottobre 2026)
+
+Il testo seguente è **riportato integralmente**, senza riscriverne le istruzioni.
+Era conservato nel precedente `docs/ASSET_GUIDELINES.md`:
+[versione originale nella cronologia Git](https://github.com/Pima95/ItaliansDelightRefabricated/blob/3801dd9762312c30706137bf06da88023f0ad6a3/docs/ASSET_GUIDELINES.md).
+
+> Crea texture in pixel art coerenti con lo stile vanilla di Minecraft e Farmer's Delight Refabricated.
+>
+> Le texture degli item devono essere PNG RGBA di dimensioni esattamente 16×16 pixel.
+>
+> Ogni pixel visibile deve essere completamente opaco (alpha 255). Lo sfondo esterno alla sagoma deve essere completamente trasparente (alpha 0).
+>
+> Non utilizzare pixel semitrasparenti, antialiasing o sfumature che alterino la nitidezza della pixel art.
+>
+> Rispetta le proporzioni degli oggetti di Minecraft, usa le texture già esistenti come riferimento e inserisci i file nelle cartelle corrette del progetto.
+>
+> Non sovrascrivere texture già approvate senza autorizzazione.
+
+**Regola da preservare:** queste istruzioni riguardano le nuove texture degli item. Qualunque eccezione tecnica per modelli o animazioni va valutata esplicitamente; non autorizza la sostituzione di texture già approvate.
+
 - Item in pixel art **16×16**, trasparenza netta (alpha 0/255), senza antialiasing sui pixel visibili, salvo eccezioni deliberate previste dai modelli; non sovrascrivere asset approvati senza verifica.
 - I modelli di blocco dei grappoli devono usare sprite dell'atlante **block**, non percorsi risolti solo nell'atlante degli item, per evitare il nero-magenta.
 - Le texture dei Brewing Barrel usano il modello a 22 elementi derivato da Alcocraft con palette dei legni adattate; le animazioni dei liquidi mantengono dimensioni/metadata corretti.

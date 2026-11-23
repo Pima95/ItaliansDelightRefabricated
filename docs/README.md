@@ -9,6 +9,7 @@
 | **Che cosa contiene la 1.2.0?** | [Vineyard & Chili — panoramica](vineyard-chili-1.2.0/README.md) |
 | **Come funzionano uva, peperoncini, liquidi, barili e pizze?** | [Riferimento tecnico 1.2.0](vineyard-chili-1.2.0/TECHNICAL.md) |
 | **Come compilarla e provarla prima della pubblicazione?** | [Checklist test 1.2.0](vineyard-chili-1.2.0/TESTING.md) |
+| **Dove sono i prompt e le regole approvate per le texture?** | [Prompt originale del 13 ottobre 2026](vineyard-chili-1.2.0/TECHNICAL.md#prompt-originale-per-le-texture-approvato-il-13-ottobre-2026) |
 | **Che cosa è cambiato nel tempo?** | [Changelog generale](../CHANGELOG.md) |
 | **Chi ha realizzato la mod e le risorse?** | [Crediti e provenienza](../CREDIT.md) |
 | **Quali licenze e attribuzioni si applicano?** | [LICENSE](../LICENSE) · [NOTICE](../NOTICE) · [Materiale di terzi](../THIRD_PARTY_NOTICES.md) · [MIT texture crate FDR](FDR_CRATES_LICENSE.md) |
