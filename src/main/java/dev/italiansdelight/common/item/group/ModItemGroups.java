@@ -415,6 +415,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.RISOTTO_WITH_PARMIGIANO);
                 output.accept(ModItems.RISOTTO_WITH_SPECK_AND_GORGONZOLA);
                 output.accept(ModItems.MOZZARELLA_SALAD);
+                output.accept(ModItems.GRAPE_CHERRY_FRUIT_SALAD);
 
                 // READY-TO-EAT SNACKS AND DESSERTS.
                 output.accept(ModItems.BRUSCHETTA);
@@ -424,7 +425,6 @@ public final class ModItemGroups {
                 output.accept(ModItems.ALMOND_CAKE_SLICE);
                 output.accept(ModBlocks.CHERRY_TART);
                 output.accept(ModItems.CHERRY_TART_SLICE);
-                output.accept(ModItems.GRAPE_CHERRY_FRUIT_SALAD);
                 output.accept(ModItems.ALMOND_BISCUITS);
             })
             .build();
