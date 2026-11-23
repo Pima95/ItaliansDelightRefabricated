@@ -47,7 +47,7 @@ dependencies {
     // JEI
     implementation "curse.maven:jei-238222:9384703"
 
-    // OPTIONAL: Serene Seasons Fabric Minecraft 26.1.2, version 26.1.2.0.4.
+    // OPTIONAL: Serene Seasons Fabric 26.1.2, version 26.1.2.0.4.
     // Compile API calls without shipping the mod, and never require it at runtime.
     // Users must install Serene Seasons + GlitchCore separately if desired.
     compileOnly "curse.maven:serene-seasons-291874:8351062"
@@ -66,7 +66,8 @@ processResources {
 // of bytecode or APIs from a different Java version.
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 25
-    it.options.compilerArgs.addAll(['-Xmaxerrs', '500'])
+    // During the 26.2 -> 26.1.2 API port, surface all compiler regressions.
+    it.options.compilerArgs.addAll(['-Xmaxerrs', '300'])
 }
 
 // Source/target toolchain configuration and sources JAR generation.
@@ -88,7 +89,10 @@ jar {
     from("THIRD_PARTY_NOTICES.md") {
         into("META-INF")
     }
-    from("docs/orchards-1.1.0/FDR_CRATES_LICENSE.md") {
+    from("CREDIT.md") {
+        into("META-INF")
+    }
+    from("docs/FDR_CRATES_LICENSE.md") {
         into("META-INF")
     }
 }

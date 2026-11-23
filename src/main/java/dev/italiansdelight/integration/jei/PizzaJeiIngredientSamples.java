@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 /**
  * Concrete ItemStacks displayed in JEI's ingredient sidebar, not just recipe
- * previews. Uses the single immutable 18-flavor catalogue shared by Creative,
+ * previews. Uses the single immutable flavor catalogue shared by Creative,
  * naming and the Pizza Oven; no second flavor/texture registry to maintain.
  *
  * No new game registry IDs: all examples carry the genuine saved components.
@@ -27,11 +27,11 @@ public final class PizzaJeiIngredientSamples {
     }
 
     /**
-     * Eighteen flavors x raw/cooked/slice, plus a representative mixed pizza
+     * Every recognized flavor x raw/cooked/slice, plus a representative mixed pizza
      * in both baking states. Each slice has real nutrition and effects.
      */
     public static List<ItemStack> createAll() {
-        List<ItemStack> stacks = new ArrayList<>(3 * 21 + 2);
+        List<ItemStack> stacks = new ArrayList<>(3 * 23 + 2);
         // Keep insertion order aligned with the Creative tab: all raw pizzas,
         // then cooked pizzas, then edible slices. JEI may apply its own user
         // sorting settings to the final sidebar presentation.

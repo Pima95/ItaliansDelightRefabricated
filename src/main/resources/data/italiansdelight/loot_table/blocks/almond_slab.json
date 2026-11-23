@@ -5,6 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "italiansdelight:almond_slab",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -22,8 +23,7 @@
             {
               "function": "minecraft:explosion_decay"
             }
-          ],
-          "name": "italiansdelight:almond_slab"
+          ]
         }
       ],
       "rolls": 1

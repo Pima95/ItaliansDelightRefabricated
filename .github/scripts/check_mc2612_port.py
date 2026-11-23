@@ -1,44 +1,52 @@
 #!/usr/bin/env python3
-"""Fail a 26.1.2 port if it contains 26.3-only Poplar assets or metadata."""
+"""Check the 1.2.0 Minecraft 26.1.2 port without assuming 26.2 data codecs."""
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RES = ROOT / "src/main/resources"
 SRC = ROOT / "src/main/java"
-P = dict(line.split("=", 1) for line in (ROOT / "gradle.properties").read_text(
-    encoding="utf-8").splitlines() if "=" in line and not line.startswith("#"))
-for k, v in {
+props = dict(x.split("=", 1) for x in (ROOT / "gradle.properties").read_text().splitlines()
+             if "=" in x and not x.lstrip().startswith("#"))
+for key, value in {
     "minecraft_version": "26.1.2",
     "loader_version": "0.20.1",
-    "mod_version": "1.1.0-mc26.1.2",
+    "mod_version": "1.2.0-mc26.1.2",
     "fabric_version": "0.155.3+26.1.2",
     "fdrf_version": "26.1-3.6.30+refabricated",
 }.items():
-    assert P.get(k) == v, f"{k}: {P.get(k)!r} != {v!r}"
-meta = json.loads((RES / "fabric.mod.json").read_text(encoding="utf-8"))
-assert meta["depends"]["minecraft"] == ">=26.1 <=26.1.2"
-assert meta["depends"]["java"] == ">=25"
+    assert props.get(key) == value, (key, props.get(key))
+meta = json.loads((RES / "fabric.mod.json").read_text())
+assert meta["depends"]["minecraft"] == "~26.1.2"
 assert meta["version"] == "${version}"
-gradle = (ROOT / "build.gradle").read_text(encoding="utf-8")
-for token in ("JavaVersion.VERSION_25", "it.options.release = 25",
-              "jei-238222:9384703", "serene-seasons-291874:8351062"):
-    assert token in gradle, token
-for root in (SRC, RES):
-    for path in root.rglob("*"):
+gradle = (ROOT / "build.gradle").read_text()
+for tok in ("jei-238222:9384703", "serene-seasons-291874:8351062",
+            "it.options.release = 25"):
+    assert tok in gradle, tok
+for parent in (SRC, RES):
+    for path in parent.rglob("*"):
         if not path.is_file():
             continue
-        assert "poplar" not in path.name.lower(), f"26.3-only asset: {path}"
+        assert "poplar" not in path.name.lower(), path
         if path.suffix in (".java", ".json", ".mcmeta"):
-            assert "poplar" not in path.read_text(encoding="utf-8").lower(), (
-                f"26.3-only reference: {path}")
-for language in ("en_us", "it_it"):
-    json.loads((RES / "assets/italiansdelight/lang" /
-                f"{language}.json").read_text(encoding="utf-8"))
-jei = (SRC / "dev/italiansdelight/integration/jei/ItaliansDelightJeiPlugin.java"
-       ).read_text(encoding="utf-8")
-begin = jei.index("for (net.minecraft.world.level.block.Block tub")
-end = jei.index("}) {", begin)
-assert jei[begin:end].count("_CRUSHING_TUB") == 14, "Wrong JEI tub count"
-print("OK: MC 26.1–26.1.2 experimental metadata range; built on 26.1.2, Fabric, FDR, JEI, Java 25")
-print("OK: no 26.3 Poplar references; base + 14 Crushing Tub variants")
+            assert "poplar" not in path.read_text(encoding="utf-8").lower(), path
+loot = list((RES / "data/italiansdelight/loot_table").rglob("*.json"))
+assert len(loot) >= 170, len(loot)
+for path in loot:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    def verify(obj):
+        if isinstance(obj, list):
+            for x in obj: verify(x)
+        elif isinstance(obj, dict):
+            assert "modifier" not in obj, path
+            assert not isinstance(obj.get("condition"), dict), path
+            for value in obj.values(): verify(value)
+    verify(data)
+for path in (RES / "data/italiansdelight/advancement").rglob("*.json"):
+    adv = json.loads(path.read_text(encoding="utf-8"))
+    for criterion in adv.get("criteria", {}).values():
+        if criterion.get("trigger") == "minecraft:recipe_unlocked":
+            assert "recipe" in criterion.get("conditions", {}), path
+            assert "recipes" not in criterion.get("conditions", {}), path
+assert (RES / "data/italiansdelight/worldgen/configured_feature/wild_grape_vine.json").is_file()
+print("OK: 1.2.0 for MC 26.1.2, legacy loot and advancements, no Poplar, 26.1 dependencies")

@@ -1,54 +1,34 @@
 # Documentazione — Italian's Delight Refabricated
 
-> **11 novembre 2026 — indice per la preparazione della 1.1.0.** La fonte di verità
-> per il comportamento del gioco rimane il codice, non le vecchie roadmap.
-> Alcuni documenti di sviluppo 1.0.0 descrivono fasi superate; consultare
-> i documenti attuali prima di considerarli requisiti ancora da implementare.
+**Da dove cominciare?** Tutta la documentazione corrente è raggiungibile da questa pagina. Le release precedenti hanno un solo changelog ciascuna, mentre la versione in sviluppo ha tre documenti: panoramica, funzionamento tecnico e collaudo.
 
-## Da leggere per la release 1.1.0
+| Sto cercando… | Dove leggere |
+| --- | --- |
+| **Cos'è la mod e quali versioni sono disponibili?** | [README del progetto](../README.md) |
+| **Come installarla?** | [Versioni e requisiti](../README.md#versioni-e-installazione) · [Release pubblicate](https://github.com/Pima95/ItaliansDelightRefabricated/releases) |
+| **Che cosa contiene la 1.2.0?** | [Vineyard & Chili — panoramica](vineyard-chili-1.2.0/README.md) |
+| **Come funzionano uva, peperoncini, liquidi, barili e pizze?** | [Riferimento tecnico 1.2.0](vineyard-chili-1.2.0/TECHNICAL.md) |
+| **Come compilarla e provarla prima della pubblicazione?** | [Checklist test 1.2.0](vineyard-chili-1.2.0/TESTING.md) |
+| **Dove sono i prompt e le regole approvate per le texture?** | [Prompt approvati](PROMPTS.md) |
+| **Che cosa è cambiato nel tempo?** | [Changelog generale](../CHANGELOG.md) |
+| **Chi ha realizzato la mod e le risorse?** | [Crediti e provenienza](../CREDIT.md) |
+| **Quali licenze e attribuzioni si applicano?** | [LICENSE](../LICENSE) · [NOTICE](../NOTICE) · [Materiale di terzi](../THIRD_PARTY_NOTICES.md) · [MIT texture crate FDR](FDR_CRATES_LICENSE.md) |
+| **Come segnalare un problema?** | [Issue GitHub](https://github.com/Pima95/ItaliansDelightRefabricated/issues) |
 
-1. [Stato e controlli prima del rilascio](orchards-1.1.0/RELEASE_READINESS.md) — checklist da non dichiarare superata senza prove
-2. [Bozza note di versione](orchards-1.1.0/RELEASE_NOTES_DRAFT.md)
-3. [Architettura e storia Orchard](orchards-1.1.0/ROADMAP.md) — note storiche, non tutte attuali
-4. [Generazione naturale](orchards-1.1.0/NATURAL_WORLDGEN_26_2.md)
-5. [Integrazione Serene Seasons](orchards-1.1.0/SERENE_SEASONS_INTEGRATION.md)
-6. [Verifica licenze e attribuzione degli asset](orchards-1.1.0/LICENSE_AND_ASSET_RC_REVIEW.md) — credito upstream e attività ancora aperte
-   - [Corrispondenze binarie Rustic](orchards-1.1.0/RUSTIC_ASSET_MATCHES.md)
-7. [Inventario Creative e JEI](orchards-1.1.0/CREATIVE_JEI_ORDER.md)
-8. [Audit e stato delle ottimizzazioni 1.1.0](CODE_OPTIMIZATION_AUDIT_2026-11-11.md) — interventi applicati, differiti e relativi rischi
-9. [Checklist di collaudo dopo ottimizzazione](orchards-1.1.0/RELEASE_QA_AFTER_OPTIMIZATIONS.md) — azioni effettivamente eseguibili dall'autore
+## Versioni
 
-## Documentazione tecnica ancora utile
+- [**1.0.0 — Pizza Update**](pizza-1.0.0/CHANGELOG.md) — pubblicata il **23 ottobre 2026** per Minecraft 26.2.
+- [**1.1.0 — Orchard Update**](orchards-1.1.0/CHANGELOG.md) — pubblicata l'**11 novembre 2026** per Minecraft 26.2; è una release storica.
+- **1.2.0 — Vineyard & Chili** — **candidata al rilascio, in collaudo**, per Minecraft 26.1.2 sul branch `feature/mc-26.1.2`. Questa build non è ancora una release, mentre le versioni superiori sono gestite separatamente.
 
-- [Requisiti](REQUISITI.md) / [Requirements](REQUIREMENTS.md)
-- [Bug e regressioni registrati](KNOWN_BUGS.md)
-- [Panoramica Pizza Update 1.0.0](pizza-1.0.0/CURRENT_STATUS.md)
-- [Persistenza e compatibilità pizze](pizza-1.0.0/DATA_AND_COMPATIBILITY.md)
-- [Composizione e quarti delle pizze](pizza-1.0.0/QUARTERS_AND_PEEL.md)
-- [Pizze e condimenti](pizza-1.0.0/INGREDIENT_CATALOG.md)
-- [Spicchi riposizionabili](pizza-1.0.0/REPLACEABLE_PIZZA_SLICES.md)
-- [Catena latticini](cheese-update/ROADMAP_FORMAGGI.md)
-- [Catena salumi](cured-meats/ROADMAP_SALUMI.md)
-- [Catena piatti — archivio storico](https://github.com/Pima95/ItaliansDelightRefabricated/blob/e0af7199879043d6f9dc597cfbc20b25b7314ebe/docs/dishes/ROADMAP_PIATTI.md) (esclusa dal branch corrente tramite `.gitignore`)
-- [Regole per le risorse grafiche](ASSET_GUIDELINES.md)
+## Per chi sviluppa
 
-## Pulizia delle anteprime
+Per la 1.2.0 consulta in ordine [panoramica](vineyard-chili-1.2.0/README.md), [riferimento tecnico](vineyard-chili-1.2.0/TECHNICAL.md) e [collaudo](vineyard-chili-1.2.0/TESTING.md). Il codice e `gradle.properties` restano la fonte autorevole per API, versioni e funzionamento.
 
-Rimossi da `docs` **solo file generati di presentazione**: HTML interattivi,
-JSON dei prompt di generazione e due immagini riassuntive (non texture di gioco).
-Sono copie di lavoro e non servono per compilare o distribuire la mod.
-Le specifiche Markdown, il codice, le texture del gioco, i dati salvati, i test
-CI, le decisioni approvate e le note sulle licenze sono stati mantenuti.
+La [CI del branch](../.github/workflows/mc-26.1.2.yml) compila ed esegue i controlli statici; il [test server](../.github/workflows/mc-26.1.2-server.yml) verifica avvio e riapertura di un mondo di prova. I due workflow **non** certificano la grafica e le interazioni nel client.
 
-I collegamenti rimasti in quei documenti Markdown portano alla
-[istantanea GitHub precedente alla pulizia](https://github.com/Pima95/ItaliansDelightRefabricated/tree/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs);
-tutte le risorse eliminate rimangono recuperabili dalla cronologia Git.
-La pulizia **non è una revisione o approvazione delle licenze**.
+## Documentazione storica
 
-## Convenzioni di manutenzione
+I vecchi audit, piani provvisori, prove per singola texture e annotazioni sui prototipi sono stati eliminati **solo dal branch di sviluppo attuale**: si recuperano nei [commit precedenti alla riorganizzazione](https://github.com/Pima95/ItaliansDelightRefabricated/tree/3801dd9762312c30706137bf06da88023f0ad6a3/docs). Non sono stati cancellati dalla cronologia Git, né dalle release già pubblicate.
 
-- Per 1.1.0 aggiungere scelte e rischi nel documento della release e nel
-  report di audit, invece di moltiplicare file «FASE X TEST» per ogni microintervento.
-- Non dichiarare verificati i test con Serene Seasons e server multiplayer
-  finché non esiste una prova reale; CI statico ≠ test in-game.
-- Non modificare `main`, versioni, tag o meccaniche senza approvazione.
+I documenti di licenza effettivamente necessari alla distribuzione rimangono presenti nel repository e nel JAR. Non confondere le vecchie note di progetto con le funzioni realmente disponibili nella 1.2.0.

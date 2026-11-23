@@ -420,11 +420,9 @@ public class CheeseVatBlock extends BaseEntityBlock {
 
         return null;
     }
-
+    // Minecraft 26.2 requires a block-entity codec.
     @Override
-        protected MapCodec<? extends BaseEntityBlock> codec() {
-            return simpleCodec(
-                CheeseVatBlock::new
-            );
-        }
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(CheeseVatBlock::new);
+    }
 }

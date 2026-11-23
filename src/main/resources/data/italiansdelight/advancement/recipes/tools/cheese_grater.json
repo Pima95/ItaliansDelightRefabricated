@@ -5,7 +5,9 @@
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
-          { "items": "minecraft:iron_ingot" }
+          {
+            "items": "minecraft:iron_ingot"
+          }
         ]
       }
     },
@@ -17,9 +19,14 @@
     }
   },
   "requirements": [
-    ["has_iron_ingot", "has_the_recipe"]
+    [
+      "has_iron_ingot",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["italiansdelight:cheese_grater"]
+    "recipes": [
+      "italiansdelight:cheese_grater"
+    ]
   }
 }

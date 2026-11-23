@@ -11,14 +11,19 @@
       ],
       "conditions": [
         {
-          "condition": "minecraft:block_state_property",
-          "block": "italiansdelight:almond_door",
-          "properties": {
-            "half": "lower"
-          }
-        },
-        {
-          "condition": "minecraft:survives_explosion"
+          "condition": "minecraft:all_of",
+          "terms": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "italiansdelight:almond_door",
+              "properties": {
+                "half": "lower"
+              }
+            },
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ]
         }
       ]
     }

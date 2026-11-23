@@ -70,16 +70,11 @@ public record PizzaComposition(
         // Validation is performed on canonical IDs and quarter bitmasks, not
         // broad food tags. Never accept overlapping same-type applications.
         //
-        // Intentional legacy compatibility: existing pizzas saved before
-        // the one-sauce-or-cream-per-quarter rule may already have tomato,
-        // cream and/or ricotta on the same physical quarter. This constructor
-        // must continue to load those complete original stacks and allow
-        // normal removals/refunds, NEVER discarding a topping on deserialize.
-        // All NEW placements are restricted by PizzaCompositionOperations.add
-        // using PizzaToppingType.occupiesSauceSlot() on the intended zone.
+        // Save-compatible: tomato sauce, cream and ricotta remain distinct
+        // applications. The renderer derives each quarter's base from their
+        // original order, with no schema migration or data loss.
         for (int quarter = 0; quarter < QUARTER_COUNT; quarter++) {
             Set<Identifier> distinctTypes = new LinkedHashSet<>();
-            int sauceCount = 0;
             for (PizzaToppingApplication application : applications) {
                 if (!application.covers(quarter)) {
                     continue;
@@ -88,17 +83,12 @@ public record PizzaComposition(
                     throw new IllegalArgumentException(
                             "Duplicate canonical topping on pizza quarter " + quarter);
                 }
-                // Unknown canonical IDs from older datapacks remain stored:
-                // don't destroy valid saved stacks when a mod is removed.
-                PizzaToppingType type =
-                        PizzaToppingCatalog.findType(application.canonicalId()).orElse(null);
-                if (type != null && type.role() == PizzaToppingType.Role.SAUCE) {
-                    sauceCount++;
-                }
+                // No exclusivity check: a previously placed spread can be
+                // rendered as garnish without changing its saved item.
             }
-            if (distinctTypes.size() > MAX_TOPPINGS_PER_QUARTER || sauceCount > 1) {
+            if (distinctTypes.size() > MAX_TOPPINGS_PER_QUARTER) {
                 throw new IllegalArgumentException(
-                        "Too many toppings or sauces on pizza quarter " + quarter);
+                        "Too many toppings on pizza quarter " + quarter);
             }
         }
         long previousId = 0;

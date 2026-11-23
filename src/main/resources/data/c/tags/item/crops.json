@@ -5,6 +5,12 @@
     "#c:crops/cardoon",
     "italiansdelight:olives",
     "italiansdelight:almonds",
-    "italiansdelight:cherries"
+    "italiansdelight:cherries",
+    "#c:crops/grape",
+    "#c:crops/chili_pepper",
+    "italiansdelight:italiansdelight:grapes",
+    "italiansdelight:italiansdelight:white_grapes",
+    "italiansdelight:italiansdelight:chili_pepper",
+    "italiansdelight:italiansdelight:ghost_pepper"
   ]
 }

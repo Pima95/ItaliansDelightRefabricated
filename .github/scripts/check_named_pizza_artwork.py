@@ -156,10 +156,10 @@ def main() -> None:
         if names.get("pizza.italiansdelight.assorted") != expected:
             raise ValueError(f"{locale}: mixed pizza name must be {expected!r}")
     presets = re.findall(r'add\(presets,\s*"([^"]+)"', src)
-    if len(presets) != 21 or len(set(presets)) != 21:
-        raise ValueError(f"Expected 18 distinct active pizza presets, got {presets}")
-    if "principessa" in presets:
-        raise ValueError("Suspended Principessa must not be enabled")
+    if len(presets) != 23 or len(set(presets)) != 23:
+        raise ValueError(f"Expected 23 distinct active pizza presets, got {presets}")
+    if "principessa" not in presets:
+        raise ValueError("Principessa must be registered as a named pizza")
     if 'return ModRegistries.id(base + "_" + (id == null ? "custom" : id))' not in src:
         raise ValueError("Raw/cooked saved-component model selection is missing")
     if "stack.set(DataComponents.ITEM_MODEL," not in src:
@@ -229,7 +229,7 @@ def main() -> None:
 
     creative = CREATIVE.read_text(encoding="utf-8")
     if "PizzaDisplayNames.allPresets().entrySet()" not in creative:
-        raise ValueError("Named pizzas do not appear as 18 real Creative sample pairs")
+        raise ValueError("Named pizzas do not appear as real Creative sample pairs")
     if creative.count("PizzaCreativeSamples.create(preset.getKey(),") != 2:
         raise ValueError("Creative requires one raw and one cooked sample per taste")
     samples = SAMPLES.read_text(encoding="utf-8")

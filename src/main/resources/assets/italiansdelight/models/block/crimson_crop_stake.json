@@ -1,0 +1,8 @@
+{
+  "parent": "italiansdelight:block/crop_stake",
+  "textures": {
+    "0": "minecraft:block/crimson_planks",
+    "2": "minecraft:block/crimson_stem_top",
+    "particle": "minecraft:block/crimson_planks"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "italiansdelight:pasta_with_tomato_sauce",
+    "italiansdelight:risotto_with_tomato_sauce",
+    "italiansdelight:pasta_alla_carbonara",
+    "italiansdelight:pasta_alla_gricia",
+    "italiansdelight:pasta_all_amatriciana",
+    "italiansdelight:pasta_with_speck_and_gorgonzola",
+    "italiansdelight:risotto_with_speck_and_gorgonzola",
+    "italiansdelight:risotto_with_parmigiano",
+    "italiansdelight:mozzarella_salad",
+    "italiansdelight:risotto_with_mushroom",
+    "italiansdelight:pasta_with_pesto",
+    "italiansdelight:pasta_with_almond_pesto",
+    "italiansdelight:spicy_olive_pasta",
+    "italiansdelight:pasta_with_ricotta_and_pancetta",
+    "italiansdelight:risotto_with_scamorza_and_olives",
+    "italiansdelight:pasta_with_almond_pesto_and_speck",
+    "italiansdelight:grape_cherry_fruit_salad"
+  ]
+}

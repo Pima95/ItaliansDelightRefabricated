@@ -4,6 +4,61 @@
       "type": "minecraft:single",
       "resource": "italiansdelight:block/fluids/whey_still",
       "sprite": "italiansdelight:fluids/whey_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/grape_juice_still",
+      "sprite": "italiansdelight:fluids/grape_juice_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/white_grape_juice_still",
+      "sprite": "italiansdelight:fluids/white_grape_juice_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/wine_still",
+      "sprite": "italiansdelight:fluids/wine_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/apple_juice_still",
+      "sprite": "italiansdelight:fluids/apple_juice_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/cider_still",
+      "sprite": "italiansdelight:fluids/apple_cider_vinegar_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/cherry_juice_still",
+      "sprite": "italiansdelight:fluids/cherry_juice_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/white_wine_still",
+      "sprite": "italiansdelight:fluids/white_wine_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/cherry_wine_still",
+      "sprite": "italiansdelight:fluids/cherry_wine_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/mead_still",
+      "sprite": "italiansdelight:fluids/mead_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/cider_still",
+      "sprite": "italiansdelight:fluids/cider_still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "italiansdelight:block/fluids/booze/red_wine_vinegar_still",
+      "sprite": "italiansdelight:fluids/red_wine_vinegar_still"
     }
   ]
 }

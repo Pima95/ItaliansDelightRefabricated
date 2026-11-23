@@ -196,8 +196,9 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
             drops.add(tub.getInput());
         return drops;
     }
-
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() {
-            return simpleCodec(CrushingTubBlock::new);
-        }
+    // Minecraft 26.2 requires a block-entity codec.
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(CrushingTubBlock::new);
+    }
 }

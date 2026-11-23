@@ -21,23 +21,17 @@ public record PizzaToppingType(
         Objects.requireNonNull(nutritionCategory, "nutritionCategory");
         Objects.requireNonNull(role, "role");
 
-        // Cream and ricotta remain DAIRY/Creamy for nutrition and model
-        // purposes. Their placement nevertheless occupies the same exclusive
-        // sauce/spread slot as tomato sauce (see occupiesSauceSlot()).
+        // Cream and ricotta retain DAIRY/Creamy nutrition and model roles,
+        // but distinct spreads are now allowed to share a physical quarter.
         if ((role == Role.SAUCE) != (nutritionCategory == NutritionCategory.SAUCES)) {
             throw new IllegalArgumentException("Pizza sauce role/category mismatch: " + id);
         }
     }
 
     /**
-     * Whether this topping occupies the ONE sauce/spread choice per physical
-     * pizza quarter. Tomato sauce, cream and ricotta are mutually exclusive
-     * for placement, even though cream/ricotta retain DAIRY nutrition and
-     * CREAMY rendering rather than receiving a tomato-sauce nutrition bonus.
-     *
-     * <p>This is intentionally distinct from role() == SAUCE: role and
-     * nutrition are part of already saved pizza recipes and must not be
-     * rewritten to enforce the player's updated placement rule.
+     * Historical helper name: whether this ingredient is a spread.
+     * It does NOT enforce exclusive placement any more. The latest spread
+     * becomes the base, older spreads become garnishes on each quarter.
      */
     public boolean occupiesSauceSlot() {
         return role == Role.SAUCE || role == Role.CREAMY;

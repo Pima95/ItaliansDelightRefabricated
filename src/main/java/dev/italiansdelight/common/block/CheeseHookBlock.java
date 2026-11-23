@@ -53,9 +53,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * advance while attached; finished products can be re-attached for decoration.
  */
 public final class CheeseHookBlock extends BaseEntityBlock {
-    public static final MapCodec<CheeseHookBlock> CODEC =
-            simpleCodec(CheeseHookBlock::new);
-
 
     public static final EnumProperty<Direction> FACING =
         BlockStateProperties.HORIZONTAL_FACING;
@@ -466,9 +463,9 @@ private static final VoxelShape HOOK_SHAPE =
 
         return null;
     }
-
+    // Minecraft 26.2 requires a block-entity codec.
     @Override
-        protected MapCodec<? extends BaseEntityBlock> codec() {
-            return CODEC;
-        }
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(CheeseHookBlock::new);
+    }
 }

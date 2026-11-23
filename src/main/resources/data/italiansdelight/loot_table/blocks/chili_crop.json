@@ -1,0 +1,52 @@
+{
+  "type": "minecraft:block",
+  "functions": [
+    {
+      "function": "minecraft:explosion_decay"
+    }
+  ],
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:chili_pepper_seeds"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "italiansdelight:chili_crop",
+          "properties": {
+            "age": "7"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "italiansdelight:ghost_pepper",
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.023809523809523808
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "italiansdelight:chili_pepper"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "italiansdelight:wine_bottle",
+    "italiansdelight:white_wine_bottle",
+    "italiansdelight:cherry_wine_bottle",
+    "italiansdelight:mead_bottle",
+    "italiansdelight:cider_bottle"
+  ]
+}

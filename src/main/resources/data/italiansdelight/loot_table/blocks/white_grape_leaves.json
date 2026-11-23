@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "italiansdelight:white_grape_leaves",
+          "properties": {
+            "grapes": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:white_grapes"
+        }
+      ]
+    }
+  ]
+}

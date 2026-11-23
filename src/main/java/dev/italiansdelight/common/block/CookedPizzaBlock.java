@@ -122,7 +122,7 @@ public static final IntegerProperty REMAINING = IntegerProperty.create("remainin
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockPos under = pos.below();
-        return PizzaDoughSupport.canSupport(level.getBlockState(under), level, under);
+        return PizzaDoughSupport.canSupport(level, under);
     }
 
     @Override

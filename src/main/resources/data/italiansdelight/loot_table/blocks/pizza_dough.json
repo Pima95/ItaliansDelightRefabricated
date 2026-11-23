@@ -19,14 +19,19 @@
       "rolls": 1,
       "conditions": [
         {
-          "condition": "minecraft:survives_explosion"
-        },
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "italiansdelight:pizza_dough",
-          "properties": {
-            "mozzarella": "true"
-          }
+          "condition": "minecraft:all_of",
+          "terms": [
+            {
+              "condition": "minecraft:survives_explosion"
+            },
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "italiansdelight:pizza_dough",
+              "properties": {
+                "mozzarella": "true"
+              }
+            }
+          ]
         }
       ],
       "entries": [

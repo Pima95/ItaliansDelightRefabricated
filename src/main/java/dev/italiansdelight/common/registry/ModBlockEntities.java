@@ -2,6 +2,7 @@ package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.entity.CheeseVatBlockEntity;
 import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
+import dev.italiansdelight.common.block.entity.BrewingBarrelBlockEntity;
 import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
@@ -15,7 +16,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 
 /**
  * Central registry for Italian's Delight BlockEntities.
@@ -38,6 +39,23 @@ public final class ModBlockEntities {
 
     public static final BlockEntityType<CrushingTubBlockEntity> CRUSHING_TUB =
         register("crushing_tub", CrushingTubBlockEntity::new, ModBlocks.CRUSHING_TUB);
+
+    public static final BlockEntityType<BrewingBarrelBlockEntity> BREWING_BARREL =
+        register("brewing_barrel", BrewingBarrelBlockEntity::new, ModBlocks.BREWING_BARREL,
+            ModBlocks.SPRUCE_BREWING_BARREL,
+            ModBlocks.BIRCH_BREWING_BARREL,
+            ModBlocks.JUNGLE_BREWING_BARREL,
+            ModBlocks.ACACIA_BREWING_BARREL,
+            ModBlocks.DARK_OAK_BREWING_BARREL,
+            ModBlocks.MANGROVE_BREWING_BARREL,
+            ModBlocks.CHERRY_BREWING_BARREL,
+            ModBlocks.PALE_OAK_BREWING_BARREL,
+            ModBlocks.BAMBOO_BREWING_BARREL,
+            ModBlocks.CRIMSON_BREWING_BARREL,
+            ModBlocks.WARPED_BREWING_BARREL,
+            ModBlocks.OLIVE_BREWING_BARREL,
+            ModBlocks.ALMOND_BREWING_BARREL,
+            ModBlocks.FRUIT_CHERRY_BREWING_BARREL);
 
     public static final BlockEntityType<BarrelBlockEntity> BARREL =
         register("barrel", BarrelBlockEntity::new, ModBlocks.BARREL);
@@ -132,24 +150,24 @@ public final class ModBlockEntities {
         BARREL.addValidBlock(ModBlocks.ALMOND_BARREL);
         BARREL.addValidBlock(ModBlocks.FRUIT_CHERRY_BARREL);
 
-        BlockEntityType.SHELF.addValidBlock(ModBlocks.OLIVE_SHELF);
-        BlockEntityType.SHELF.addValidBlock(ModBlocks.ALMOND_SHELF);
-        BlockEntityType.SHELF.addValidBlock(ModBlocks.FRUIT_CHERRY_SHELF);
+        BlockEntityTypes.SHELF.addValidBlock(ModBlocks.OLIVE_SHELF);
+        BlockEntityTypes.SHELF.addValidBlock(ModBlocks.ALMOND_SHELF);
+        BlockEntityTypes.SHELF.addValidBlock(ModBlocks.FRUIT_CHERRY_SHELF);
 
         // Vanilla sign block entities keep writable text, both sides and dye.
         // Keep their four modded block variants in the vanilla BE type.
-        BlockEntityType.SIGN.addValidBlock(ModBlocks.OLIVE_SIGN);
-        BlockEntityType.SIGN.addValidBlock(ModBlocks.OLIVE_WALL_SIGN);
-        BlockEntityType.SIGN.addValidBlock(ModBlocks.ALMOND_SIGN);
-        BlockEntityType.SIGN.addValidBlock(ModBlocks.ALMOND_WALL_SIGN);
-        BlockEntityType.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_SIGN);
-        BlockEntityType.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_SIGN);
-        BlockEntityType.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_HANGING_SIGN);
-        BlockEntityType.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_WALL_HANGING_SIGN);
-        BlockEntityType.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_HANGING_SIGN);
-        BlockEntityType.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_WALL_HANGING_SIGN);
-        BlockEntityType.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_HANGING_SIGN);
-        BlockEntityType.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_WALL_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_WALL_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_WALL_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_WALL_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN);
 
         // Reuse Farmer's Delight 27-slot cabinet BE: it already implements
         // screen, automation, sounds, comparator, save and open/close state.

@@ -143,16 +143,21 @@
           "name": "italiansdelight:almond_sapling",
           "conditions": [
             {
-              "condition": "minecraft:survives_explosion"
-            },
-            {
-              "condition": "minecraft:table_bonus",
-              "enchantment": "minecraft:fortune",
-              "chances": [
-                0.05,
-                0.0625,
-                0.083333336,
-                0.1
+              "condition": "minecraft:all_of",
+              "terms": [
+                {
+                  "condition": "minecraft:survives_explosion"
+                },
+                {
+                  "condition": "minecraft:table_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "chances": [
+                    0.05,
+                    0.0625,
+                    0.083333336,
+                    0.1
+                  ]
+                }
               ]
             }
           ]

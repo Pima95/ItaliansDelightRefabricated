@@ -151,6 +151,9 @@ public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterlog
                 if (stack.is(asItem())) tank.preserveContents(stack, params.getLevel().registryAccess());
         return drops;
     }
-
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(BarrelBlock::new); }
+    // Minecraft 26.2 requires a block-entity codec.
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(BarrelBlock::new);
+    }
 }

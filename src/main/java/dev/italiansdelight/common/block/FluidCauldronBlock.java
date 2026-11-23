@@ -110,8 +110,9 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
             SoundSource.BLOCKS, 1F, 1F);
         return InteractionResult.SUCCESS;
     }
-
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() {
-            return simpleCodec(FluidCauldronBlock::new);
-        }
+    // Minecraft 26.2 requires a block-entity codec.
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(FluidCauldronBlock::new);
+    }
 }

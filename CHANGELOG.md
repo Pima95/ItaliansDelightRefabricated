@@ -1,16 +1,40 @@
 # Changelog
 
-All notable changes to Italian's Delight Refabricated are documented here.
+All notable changes to Italian's Delight Refabricated are documented here. The latest published version is **1.1.0**. Version **1.2.0** is in release-candidate preparation on the existing branch. See the [1.2.0 overview](docs/vineyard-chili-1.2.0/README.md).
 
-## Unreleased — Orchard Update 1.1.0 (development branch)
+## 1.2.0 — Vineyard & Chili Update (release candidate, NOT YET PUBLISHED)
 
-**Full-version testing build (11 November 2026):**
-`mod_version=1.1.0` on the existing `feature/orchards-1.1.0` branch.
-The author approved the previous `1.1.0-rc.1` JAR in-game and
-compatibility with 1.0.0 saved worlds. The new full-version JAR must
-be built and tested separately before merging. Public 1.0.0 and `main`
-remain untouched; no public 1.1.0 release has been authorized.
-Serene Seasons + GlitchCore and real multiplayer remain untested.
+**Minecraft 26.3 · Fabric · Java 25**. The full-version `italiansdelight-1.2.0-mc26.3.jar` is prepared for client testing on the **existing** `feature/vineyard-chili-1.2.0` branch; it is not yet a published release. No new branch or tag is created during preparation.
+
+### Vineyard farming and wild crops
+- Added **red and white grapes**, distinct seeds and juices, trellis-trained vines with Farmer's Delight rope, seasonal/biome-tinted foliage, ripening stages and repeat harvesting.
+- Added two-block wild red/white grapevines, generating in suitable temperate biomes with occasional coarse dirt and dead bushes in newly generated chunks.
+- Added chilies with growth, regrowth and rope/stake support, plus a rare Ghost Pepper; retained existing FDR tomato behavior.
+
+### Fermentation, drinks and JEI
+- Introduced wood-variant **Brewing Barrels** with a working GUI, individual drink quality, persistent tanks/culture and recipe viewing in JEI.
+- Added **red and white wines, cherry wine, mead, cider, red wine vinegar**, and cherry juice, alongside existing apple cider vinegar and other compatible liquids.
+- Added drinkable juice and fermented drink bottles with appropriate quality effects and optional Thirst Was Taken 2 integration; olive oil remains drinkable but does not restore thirst.
+- Refined fluid bottles/buckets, language strings, color palettes, storage transfers and world/client rendering.
+
+### Foods, pizzas and compatibility
+- Added Spicy Olive Pasta, Pasta with Ricotta & Pancetta, Risotto with Scamorza & Olives, Pasta with Almond Pesto & Speck, Grape & Cherry Fruit Salad and Almond Biscuits.
+- Added two recognized pizzas: **Spicy Olive Pizza** and **Pizza Principessa**; total recognized flavors: **23**. Different sauces can coexist per quarter, with the latest applied sauce as the base and previous sauces as garnishes.
+- Corrected food pixel art, creative inventory order, individual pizza topping/slice art and removed the unintended crafting-table recipe for normal Pasta all'Amatriciana (Cooking Pot only).
+- Deferred focaccia and beer; do not label them as 1.2.0 features. Existing registry IDs and saved composition rules are preserved.
+
+### Requirements and validation
+- Minecraft **26.3**, **Fabric Loader 0.20.1+**, **Fabric API 0.166.0+26.3**, **Farmer's Delight Refabricated 26.3-3.6.30+refabricated**, **Java 25**.
+- JEI integration is included; Serene Seasons / GlitchCore and Thirst Was Taken 2 remain optional.
+- **Pending for the candidate:** verify the exact `1.2.0-mc26.3` JAR via GitHub Actions, inspect the SHA-256 checksum and packaged legal notices, then complete [client, save/reload and optional-mod tests](docs/vineyard-chili-1.2.0/TESTING.md). Prior development builds passed CI and dedicated-server smoke, but these are not equivalent to final client or multiplayer verification.
+- Back up worlds before trying the candidate; compatibility across Minecraft **26.2 to 26.3** must not be assumed without separately testing conversion and backups.
+- Original contributions are Apache-2.0; third-party MIT artwork and notices remain separately attributed in [CREDIT](CREDIT.md), [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md) and [FDR crate license](docs/FDR_CRATES_LICENSE.md). Attribution of some legacy assets still requires specific verification.
+
+**Distribution:** After author approval of the tested binary, publish the exact verified JAR and its `SHA256SUMS` from the same CI run. Do not distribute the `sources` or `dev` JAR as the playable download; do not create a release tag before approval.
+
+## 1.1.0 — Orchard Update (released 11 November 2026)
+
+Published as [v1.1.0](https://github.com/Pima95/ItaliansDelightRefabricated/releases/tag/v1.1.0) on 11 November 2026, with a tested full-version 1.1.0 JAR and preserved existing-world compatibility. The original release notes document the validations and limitations; two-player multiplayer and live Serene Seasons/GlitchCore tests were not confirmed.
 
 ### Additional content and RC hardening
 - Added Olive Pâté, Olive/Tomato-Basil bruschettas, two Olive pizzas,
@@ -63,10 +87,7 @@ Serene Seasons + GlitchCore and real multiplayer remain untested.
 ### Release preparation
 - Corrected Fabric mod-list icon metadata to point to the actual icon
   under `assets/italiansdelight/textures/icon.png`.
-- Prepared [the 1.1.0 readiness checklist](docs/orchards-1.1.0/RELEASE_READINESS.md)
-  and [draft release notes](docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md).
-  A green CI build does not establish unperformed dedicated-server,
-  multiplayer or saved-world compatibility tests.
+- Historical work records are available in the [1.1.0 changelog](docs/orchards-1.1.0/CHANGELOG.md) and [Git history](https://github.com/Pima95/ItaliansDelightRefabricated/blob/d351e1660eb4bea9327070edaa3d8c9c5fa5ff13/docs/orchards-1.1.0/RELEASE_READINESS.md). Build and server checks passed; real multiplayer and optional-mod tests were not confirmed.
 
 ## 1.0.0 — Pizza Update (released 23 October 2026)
 
@@ -98,10 +119,10 @@ The Pizza Update is published as [v1.0.0](https://github.com/Pima95/ItaliansDeli
 - Bumped the JAR version to **1.0.0**, updated **Fabric Loader to 0.20.1** and **Farmer's Delight Refabricated 26.2 to 3.6.29**; **Fabric API 0.161.0+26.2** remains current for Minecraft 26.2.
 - Completed the final reported Cheese Vat and code-audit work (author confirmation, 23 October 2026).
 - Applied a conservative naming-path micro-optimization to avoid rebuilding the same quarter data and sorting the same topping list twice; previous baking, network update, bowl, peel and recipe-generation optimizations remain intact.
-- Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See [the optimization decision log](docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
-- Prepared [the 1.0.0 release notes draft](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and updated the release checklist.
+- Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See the [historical optimization decision log](https://github.com/Pima95/ItaliansDelightRefabricated/blob/3801dd9762312c30706137bf06da88023f0ad6a3/docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
+- The published 1.0.0 changes are summarized in the [1.0.0 changelog](docs/pizza-1.0.0/CHANGELOG.md).
 
-**Historical test record:** compilation and static checks do not substitute for multiplayer testing, which was not fully completed before publication. The archival [1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) preserves the documented results. The author confirmed 1.0.0 was published and functioning.
+**Historical test record:** compilation and static checks do not substitute for multiplayer testing, which was not fully completed before publication. The archival [archived 1.0.0 readiness checklist](https://github.com/Pima95/ItaliansDelightRefabricated/blob/d351e1660eb4bea9327070edaa3d8c9c5fa5ff13/docs/pizza-1.0.0/RELEASE_READINESS.md) preserves the documented results. The author confirmed 1.0.0 was published and functioning.
 
 ## 0.4.0
 

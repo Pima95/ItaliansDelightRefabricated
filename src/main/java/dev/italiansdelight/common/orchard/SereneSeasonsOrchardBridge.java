@@ -16,7 +16,7 @@ final class SereneSeasonsOrchardBridge {
     private SereneSeasonsOrchardBridge() {}
 
     /**
-     * Match Serene Seasons 26.2 SeasonalCropGrowthHandler.isGlassAboveBlock:
+     * Match Serene Seasons 26.1.2 SeasonalCropGrowthHandler.isGlassAboveBlock:
      * any block in the native greenhouse_glass tag 1..16 blocks above
      * the target is enough. The same test applies to leaf canopy and crops.
      */

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "italiansdelight:red_wine_vinegar_bottle",
+    "italiansdelight:olive_pate",
+    "minecraft:bread"
+  ],
+  "result": {
+    "id": "italiansdelight:olive_bruschetta",
+    "count": 1
+  }
+}

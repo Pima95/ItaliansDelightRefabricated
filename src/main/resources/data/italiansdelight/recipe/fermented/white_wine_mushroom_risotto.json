@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "italiansdelight:white_wine_bottle",
+    "#c:crops/rice",
+    "#c:mushrooms",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "id": "italiansdelight:risotto_with_mushroom",
+    "count": 1
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "italiansdelight:block/acacia_brewing_barrel"
+    },
+    "facing=east": {
+      "model": "italiansdelight:block/acacia_brewing_barrel",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "italiansdelight:block/acacia_brewing_barrel",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "italiansdelight:block/acacia_brewing_barrel",
+      "y": 270
+    }
+  }
+}

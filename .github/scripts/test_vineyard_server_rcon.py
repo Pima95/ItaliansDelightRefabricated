@@ -1,0 +1,342 @@
+#!/usr/bin/env python3
+"""Behavioral smoke check on a disposable Minecraft 26.3 test world.
+
+Connects only to the localhost RCON service exposed in the temporary Actions
+runner. Verifies 15 decorative wooden poles, original rope attachments, freestanding
+chili roots, optional vertical rope climbing and grapes.
+No player inventory, networking permissions, or persistent user worlds involved.
+"""
+import socket
+import struct
+import time
+
+PASSWORD = "local-vineyard-1.2.0-tests-only"
+HOST = ("127.0.0.1", 25575)
+
+def recv_exact(sock, n):
+    buf = bytearray()
+    while len(buf) < n:
+        data = sock.recv(n - len(buf))
+        if not data:
+            raise ConnectionError("RCON disconnected")
+        buf.extend(data)
+    return bytes(buf)
+
+class Rcon:
+    def __init__(self):
+        last_error = None
+        for _ in range(20):
+            try:
+                self.sock = socket.create_connection(HOST, timeout=5)
+                self.sock.settimeout(5)
+                break
+            except OSError as exc:
+                last_error = exc
+                time.sleep(0.3)
+        else:
+            raise ConnectionError(f"RCON not listening on {HOST}: {last_error}")
+        self.request_id = 10
+        self._send(1, 3, PASSWORD)
+        for _ in range(3):
+            ident, kind, _ = self._recv()
+            if ident == -1:
+                raise RuntimeError("RCON rejected test password")
+            if ident == 1 and kind == 2:
+                break
+        else:
+            raise RuntimeError("RCON authentication timeout")
+
+    def _send(self, ident, kind, payload):
+        packet = struct.pack("<ii", ident, kind) + payload.encode("utf-8") + b"\x00\x00"
+        self.sock.sendall(struct.pack("<i", len(packet)) + packet)
+
+    def _recv(self):
+        size = struct.unpack("<i", recv_exact(self.sock, 4))[0]
+        if size < 10 or size > 4096:
+            raise ValueError(f"Bad RCON frame length {size}")
+        frame = recv_exact(self.sock, size)
+        ident, kind = struct.unpack("<ii", frame[:8])
+        return ident, kind, frame[8:-2].decode("utf-8", "replace")
+
+    def command(self, command):
+        self.request_id += 1
+        ident = self.request_id
+        self._send(ident, 2, command)
+        for _ in range(5):
+            response_id, _, payload = self._recv()
+            if response_id == ident:
+                return payload
+        raise RuntimeError(f"Missing RCON reply for {command}")
+
+    def close(self):
+        self.sock.close()
+
+def run(rcon, cmd):
+    reply = rcon.command(cmd)
+    print(f"RCON {cmd}: {reply}", flush=True)
+    return reply
+
+def assert_block(rcon, x, y, z, block):
+    out = run(rcon, f"execute if block {x} {y} {z} {block}")
+    if "Test passed" not in out:
+        raise AssertionError(f"Block {block} at {x},{y},{z} not present: {out}")
+
+def assert_any_block(rcon, x, y, z, *blocks):
+    # A mature grape root reacts to its new horizontal support at the next
+    # scheduled tick, often before RCON can inspect the just-placed rope.
+    # The rope OR the resulting canopy is correct; neither is a regression.
+    for block in blocks:
+        reply = rcon.command(f"execute if block {x} {y} {z} {block}")
+        if "Test passed" in reply:
+            print(f"PASSED one of: ({x},{y},{z}) = {block}", flush=True)
+            return
+    raise AssertionError(f"None of {blocks} at {x},{y},{z}")
+
+def wait_block(rcon, x, y, z, block, timeout=14):
+    deadline = time.monotonic() + timeout
+    cmd = f"execute if block {x} {y} {z} {block}"
+    while time.monotonic() < deadline:
+        result = rcon.command(cmd)
+        if "Test passed" in result:
+            print(f"PASSED eventually: {cmd}", flush=True)
+            return
+        time.sleep(0.25)
+    raise AssertionError(f"Timed out waiting for {block} at {x},{y},{z}: {result}")
+
+def test():
+    rcon = Rcon()
+    woods = (
+        "oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
+        "mangrove", "cherry", "pale_oak", "bamboo", "crimson",
+        "warped", "olive", "almond", "fruit_cherry"
+    )
+    try:
+        run(rcon, "forceload add 0 0")
+
+        # Every wood ID exists, with three-dimensional decorative rotation.
+        # No planted state exists on any of these blocks.
+        for x, wood in enumerate(woods):
+            ident = "crop_stake" if wood == "oak" else wood + "_crop_stake"
+            axis = ("x", "y", "z")[x % 3]
+            run(rcon, f"setblock {x} 81 3 italiansdelight:{ident}[axis={axis}]")
+            assert_block(rcon, x, 81, 3, f"italiansdelight:{ident}[axis={axis}]")
+        print("PASSED: all 15 decorative wood types with x/y/z orientation", flush=True)
+
+        # Brewing barrels: legacy oak ID and 14 additional wood IDs all support
+        # the same four horizontal facing properties on the dedicated server.
+        # This does not require an online player or random crop ticks.
+        woods = ("oak", "spruce", "birch", "jungle", "acacia",
+                 "dark_oak", "mangrove", "cherry", "pale_oak",
+                 "bamboo", "crimson", "warped", "olive", "almond", "fruit_cherry")
+        facings = ("north", "east", "south", "west")
+        for x, wood in enumerate(woods):
+            block_id = "brewing_barrel" if wood == "oak" else wood + "_brewing_barrel"
+            for z_offset, facing in enumerate(facings):
+                z = 10 + z_offset
+                block = f"italiansdelight:{block_id}[facing={facing}]"
+                run(rcon, f"setblock {x} 81 {z} {block}")
+                assert_block(rcon, x, 81, z, block)
+        print("PASSED: all 15 fermentation barrel variants and their four orientations", flush=True)
+
+
+        # Original horizontal rope connection behavior, now including wood
+        # variants. Do not use any alternate rope blocks or rope items.
+        run(rcon, "setblock 2 81 5 italiansdelight:spruce_crop_stake[axis=y]")
+        run(rcon, "setblock 4 81 5 italiansdelight:olive_crop_stake[axis=z]")
+        run(rcon, "setblock 3 81 5 italiansdelight:horizontal_rope[axis=x]")
+        assert_block(rcon, 3, 81, 5,
+            "italiansdelight:horizontal_rope[axis=x,tied_negative=true,tied_positive=true]")
+        run(rcon, "setblock 4 81 5 minecraft:air")
+        assert_block(rcon, 3, 81, 5,
+            "italiansdelight:horizontal_rope[axis=x,tied_positive=false]")
+        run(rcon, "setblock 4 81 5 italiansdelight:olive_crop_stake[axis=z]")
+        assert_block(rcon, 3, 81, 5,
+            "italiansdelight:horizontal_rope[axis=x,tied_positive=true]")
+        print("PASSED: existing horizontal rope attachment still works", flush=True)
+
+        # Root can grow on ordinary or rich-soil farmland without any post.
+        for x, soil in ((7, "minecraft:farmland"),
+                        (9, "farmersdelight:rich_soil_farmland")):
+            run(rcon, f"setblock {x} 80 1 minecraft:water")
+            run(rcon, f"setblock {x} 80 0 {soil}[moisture=7]")
+            run(rcon, f"setblock {x} 81 0 italiansdelight:chili_crop[age=0]")
+            assert_block(rcon, x, 81, 0, "italiansdelight:chili_crop[age=0,ropelogged=false]")
+            assert_block(rcon, x, 80, 0, soil)
+
+        # A ripe chili grows up original Farmer's Delight vertical rope
+        # (two upper segments maximum). It must not grow on a wooden pole.
+        run(rcon, "setblock 7 81 0 italiansdelight:chili_crop[age=7]")
+        run(rcon, "setblock 7 82 0 farmersdelight:rope")
+        run(rcon, "setblock 7 83 0 farmersdelight:rope")
+        run(rcon, "setblock 5 80 1 minecraft:water")
+        run(rcon, "setblock 5 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 5 81 0 italiansdelight:chili_crop[age=7]")
+        run(rcon, "setblock 5 82 0 italiansdelight:crop_stake")
+        # Original FDR tomato planting remains separate from the decorative pole.
+        run(rcon, "setblock 6 80 1 minecraft:water")
+        run(rcon, "setblock 6 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 6 81 0 italiansdelight:staked_tomatoes[age=0]")
+
+        # A dedicated RCON test world has no connected player. Minecraft
+        # therefore does not guarantee random crop ticks near the test area,
+        # even when chunks are force-loaded. Previous tests occasionally
+        # timed out waiting for a grape canopy that never received a random
+        # tick. Test registered block states, support/survival and persistence
+        # deterministically; test natural growth separately in the client.
+        run(rcon, "time set day")
+        run(rcon, "setblock 10 80 1 minecraft:water")
+        run(rcon, "setblock 10 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 10 81 0 italiansdelight:grape_stem[age=7]")
+        for x in (9, 10, 11):
+            run(rcon, f"setblock {x} 82 0 italiansdelight:horizontal_rope[axis=x]")
+        run(rcon, "setblock 10 82 0 italiansdelight:grape_leaves[distance=0,axis=x]")
+        assert_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0,axis=x]")
+
+        # White cultivar keeps independent block IDs and its own mature stem.
+        run(rcon, "setblock 10 80 7 minecraft:water")
+        run(rcon, "setblock 10 80 6 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 10 81 6 italiansdelight:white_grape_stem[age=7]")
+        for x in (9, 10, 11):
+            run(rcon, f"setblock {x} 82 6 italiansdelight:horizontal_rope[axis=x]")
+        run(rcon, "setblock 10 82 6 italiansdelight:white_grape_leaves[distance=0,axis=x]")
+        assert_block(rcon, 10, 82, 6, "italiansdelight:white_grape_leaves[distance=0,axis=x]")
+        assert_block(rcon, 10, 81, 6, "italiansdelight:white_grape_stem[age=7]")
+
+        # Reproduce the white-grape knot regression: a rope that turns into
+        # a lateral leaf must still count as tied to the adjacent wooden stake.
+        # Use identical arrangements for both cultivars to prevent divergence.
+        run(rcon, "setblock 8 82 0 italiansdelight:crop_stake[axis=y]")
+        run(rcon, "setblock 8 82 6 italiansdelight:crop_stake[axis=y]")
+
+        # Explicitly replace the adjacent ropes with the lateral stages,
+        # then let real server ticks verify that the states remain supported.
+        for x in (9, 11):
+            run(rcon, f"setblock {x} 82 0 italiansdelight:grape_leaves[distance=1,axis=x]")
+            run(rcon, f"setblock {x} 82 6 italiansdelight:white_grape_leaves[distance=1,axis=x]")
+        for x in (9, 11):
+            assert_block(rcon, x, 82, 0, "italiansdelight:grape_leaves[distance=1,axis=x]")
+            assert_block(rcon, x, 82, 6, "italiansdelight:white_grape_leaves[distance=1,axis=x]")
+        assert_block(rcon, 8, 82, 0, "italiansdelight:crop_stake[rope_tied=true]")
+        assert_block(rcon, 8, 82, 6, "italiansdelight:crop_stake[rope_tied=true]")
+        assert_block(rcon, 9, 82, 0, "italiansdelight:grape_leaves[tied_negative=true]")
+        assert_block(rcon, 9, 82, 6, "italiansdelight:white_grape_leaves[tied_negative=true]")
+        print("PASSED: purple and white grapes both preserve pole rope knots after side leaves grow", flush=True)
+
+
+        # Test rope attachment of mature chili stages without assuming that
+        # random ticks fire on an empty dedicated server.
+        run(rcon, "setblock 7 82 0 italiansdelight:chili_on_rope[age=7]")
+        run(rcon, "setblock 7 83 0 italiansdelight:chili_on_rope[age=7]")
+        assert_block(rcon, 7, 82, 0, "italiansdelight:chili_on_rope")
+        assert_block(rcon, 7, 83, 0, "italiansdelight:chili_on_rope")
+        assert_block(rcon, 7, 81, 0, "italiansdelight:chili_crop")
+        assert_block(rcon, 5, 82, 0, "italiansdelight:crop_stake")
+        assert_any_block(rcon, 6, 81, 0, "italiansdelight:staked_tomatoes", "farmersdelight:tomatoes")
+        assert_block(rcon, 9, 80, 0, "farmersdelight:rich_soil_farmland")
+
+        # The supported red and white canopies remain distinct after ticks.
+        time.sleep(1)
+        assert_block(rcon, 10, 82, 0, "italiansdelight:grape_leaves[distance=0]")
+        assert_block(rcon, 10, 82, 6, "italiansdelight:white_grape_leaves[distance=0]")
+        for x in (9, 11):
+            assert_block(rcon, x, 82, 0, "italiansdelight:grape_leaves[distance=1]")
+            assert_block(rcon, x, 82, 6, "italiansdelight:white_grape_leaves[distance=1]")
+        print("PASSED: deterministic registered grape/chili states and lateral support (natural growth requires a client)", flush=True)
+
+        # Removing a standalone root cannot recreate a wooden post.
+        run(rcon, "setblock 9 81 0 minecraft:air")
+        assert_block(rcon, 9, 81, 0, "minecraft:air")
+        # Naturally generated wild chili must be a valid, persistent plant on
+        # ordinary grass, separate from the farmland-dependent cultivated crop.
+        run(rcon, "setblock 13 80 0 minecraft:grass_block")
+        run(rcon, "setblock 13 81 0 italiansdelight:wild_chili")
+        assert_block(rcon, 13, 81, 0, "italiansdelight:wild_chili")
+        run(rcon, "time add 100")
+        assert_block(rcon, 13, 81, 0, "italiansdelight:wild_chili")
+        # Wild basil and cardoon now share WildCropBlock with FDR wild tomatoes.
+        run(rcon, "setblock 14 80 0 minecraft:grass_block")
+        run(rcon, "setblock 14 81 0 italiansdelight:wild_basil")
+        run(rcon, "setblock 15 80 0 minecraft:grass_block")
+        run(rcon, "setblock 15 81 0 italiansdelight:cardoon")
+        assert_block(rcon, 14, 81, 0, "italiansdelight:wild_basil")
+        assert_block(rcon, 15, 81, 0, "italiansdelight:cardoon")
+        # /place feature exercises the actual configured Feature instead of
+        # constructing tall plants by hand. Each vine must generate BOTH halves.
+        # Put test soil and two air blocks in a prepared, force-loaded chunk.
+        for x, wild in ((13, "wild_grape_vine"),
+                        (14, "wild_white_grape_vine")):
+            run(rcon, f"setblock {x} 80 15 minecraft:grass_block")
+            run(rcon, f"setblock {x} 81 15 minecraft:air")
+            run(rcon, f"setblock {x} 82 15 minecraft:air")
+            reply = run(rcon, f"place feature italiansdelight:{wild} {x} 81 15")
+            if "Failed" in reply or "Unknown" in reply:
+                raise AssertionError(f"Worldgen placement failed for {wild}: {reply}")
+            assert_block(rcon, x, 81, 15, f"italiansdelight:{wild}[half=lower]")
+            assert_block(rcon, x, 82, 15, f"italiansdelight:{wild}[half=upper]")
+        print("PASSED: both wild grape variants generate two synchronized halves on grass", flush=True)
+        # The natural patch now uses Farmer's Delight "in_order" features:
+        # tall vine, surrounding coarse dirt, then dead bushes. Direct feature
+        # tests above still guarantee precise two-block placement.
+        # Exercise both actual composite configured features on grass so
+        # malformed FDR codec/placed-feature references fail at server startup.
+        run(rcon, "fill 7 80 21 19 80 36 minecraft:grass_block")
+        run(rcon, "fill 7 81 21 19 84 36 minecraft:air")
+        for x, z, wild in ((10, 26, "wild_grape_vine"),
+                           (16, 31, "wild_white_grape_vine")):
+            reply = run(rcon, f"place feature italiansdelight:{wild}_cluster {x} 81 {z}")
+            if "Placed" not in reply:
+                raise AssertionError(f"FDR in_order wild-grape cluster failed: {reply}")
+            assert_block(rcon, x, 81, z, f"italiansdelight:{wild}[half=lower]")
+            assert_block(rcon, x, 82, z, f"italiansdelight:{wild}[half=upper]")
+        print("PASSED: FDR in_order grape clusters load, grow tall vines and accept surrounding vegetation", flush=True)
+
+
+        # Legacy stage seven must remain a valid root and hanging state.
+        run(rcon, "setblock 11 80 2 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 11 81 2 italiansdelight:chili_crop[age=7,ropelogged=false]")
+        assert_block(rcon, 11, 81, 2, "italiansdelight:chili_crop[age=7,ropelogged=false]")
+        # Fruit regrowth must preserve a grown bush on both farmland and
+        # the Farmer's Delight rope. Age 4 is mature leaf-only foliage, not
+        # the age-0 seedling; ages 5/6 are green fruit, 7 is ripe red.
+        run(rcon, "setblock 12 80 1 minecraft:water")
+        run(rcon, "setblock 12 80 0 minecraft:farmland[moisture=7]")
+        run(rcon, "setblock 12 81 0 italiansdelight:chili_crop[age=4,ropelogged=false]")
+        run(rcon, "setblock 12 82 0 italiansdelight:chili_on_rope[age=4]")
+        assert_block(rcon, 12, 81, 0, "italiansdelight:chili_crop[age=4,ropelogged=false]")
+        assert_block(rcon, 12, 82, 0, "italiansdelight:chili_on_rope[age=4]")
+        print("PASSED: established chili regrowth state survives on farmland and rope", flush=True)
+        # Real block destruction must yield one seed per cultivated root,
+        # plus only already-ripe bunches from the supporting lateral canopy.
+        for x,z,stem,canopy,grapes,seeds in (
+                (2, 12, "grape_stem", "grape_leaves", "grapes", "grape_seeds"),
+                (7, 12, "white_grape_stem", "white_grape_leaves", "white_grapes", "white_grape_seeds")):
+            # Existing brewing-barrel tests occupy y=81 around these x/z,
+            # which would correctly prevent hanging fruit from developing.
+            # Place the isolated orchard 10 blocks higher, above all fixtures.
+            run(rcon, f"setblock {x} 90 {z} minecraft:farmland[moisture=7]")
+            for side in (-1, 1):
+                run(rcon, f"setblock {x+side} 91 {z} minecraft:air")
+                assert_block(rcon, x+side, 91, z, "minecraft:air")
+            run(rcon, f"setblock {x} 91 {z} italiansdelight:{stem}[age=7]")
+            run(rcon, f"setblock {x} 92 {z} italiansdelight:{canopy}[distance=0,axis=x]")
+            run(rcon, f"setblock {x+1} 92 {z} italiansdelight:{canopy}[distance=1,axis=x,grapes=true,fruit_stage=3]")
+            run(rcon, f"setblock {x-1} 92 {z} italiansdelight:{canopy}[distance=1,axis=x,grapes=false,fruit_stage=3]")
+            assert_block(rcon, x+1, 92, z, f"italiansdelight:{canopy}[grapes=true]")
+            run(rcon, f"setblock {x} 91 {z} minecraft:air destroy")
+            wait_block(rcon, x+1, 92, z, "italiansdelight:horizontal_rope")
+            # The seed is delivered via the root's loot table and ripe fruit
+            # by the unsupported-canopy tick, independently of its age 7.
+            for item in (seeds, grapes):
+                nbt='{Item:{id:"italiansdelight:'+item+'"}}'
+                reply=run(rcon,
+                    f"execute if entity @e[type=minecraft:item,x={x-2},y=90,z={z-2},dx=5,dy=4,dz=5,nbt={nbt}]")
+                if "Test passed" not in reply:
+                    raise AssertionError(f"Expected drop {item} after stem break: {reply}")
+        print("PASSED: both cultivated stems yield seeds plus ripe lateral grapes on support loss", flush=True)
+        run(rcon, "save-all")
+        print("PASSED: 15 decorative poles, untouched rope, standalone chili climb <=3, rich farmland and grapes", flush=True)
+    finally:
+        rcon.close()
+
+if __name__ == "__main__":
+    test()

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "S S",
+    "PIP"
+  ],
+  "key": {
+    "P": "minecraft:acacia_planks",
+    "I": "minecraft:iron_ingot",
+    "S": "minecraft:acacia_slab"
+  },
+  "result": {
+    "id": "italiansdelight:acacia_brewing_barrel",
+    "count": 1
+  }
+}

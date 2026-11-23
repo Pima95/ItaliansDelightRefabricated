@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:wheat",
+    "minecraft:wheat",
+    "italiansdelight:chopped_almonds",
+    "italiansdelight:chopped_almonds",
+    "minecraft:egg",
+    "minecraft:sugar"
+  ],
+  "result": {
+    "id": "italiansdelight:almond_biscuits",
+    "count": 4
+  }
+}
