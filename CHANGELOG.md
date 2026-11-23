@@ -1,16 +1,10 @@
 # Changelog
 
-All notable changes to Italian's Delight Refabricated are documented here.
+All notable changes to Italian's Delight Refabricated are documented here. The next update, **1.2.0** (Vineyard & Chili, Minecraft 26.3), is still in development on `feature/vineyard-chili-1.2.0`.
 
-## Unreleased — Orchard Update 1.1.0 (development branch)
+## 1.1.0 — Orchard Update (released 11 November 2026)
 
-**Full-version testing build (11 November 2026):**
-`mod_version=1.1.0` on the existing `feature/orchards-1.1.0` branch.
-The author approved the previous `1.1.0-rc.1` JAR in-game and
-compatibility with 1.0.0 saved worlds. The new full-version JAR must
-be built and tested separately before merging. Public 1.0.0 and `main`
-remain untouched; no public 1.1.0 release has been authorized.
-Serene Seasons + GlitchCore and real multiplayer remain untested.
+Published as [v1.1.0](https://github.com/Pima95/ItaliansDelightRefabricated/releases/tag/v1.1.0) on 11 November 2026, with a tested full-version 1.1.0 JAR and preserved existing-world compatibility. The original release notes document the validations and limitations; two-player multiplayer and live Serene Seasons/GlitchCore tests were not confirmed.
 
 ### Additional content and RC hardening
 - Added Olive Pâté, Olive/Tomato-Basil bruschettas, two Olive pizzas,
@@ -63,10 +57,7 @@ Serene Seasons + GlitchCore and real multiplayer remain untested.
 ### Release preparation
 - Corrected Fabric mod-list icon metadata to point to the actual icon
   under `assets/italiansdelight/textures/icon.png`.
-- Prepared [the 1.1.0 readiness checklist](docs/orchards-1.1.0/RELEASE_READINESS.md)
-  and [draft release notes](docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md).
-  A green CI build does not establish unperformed dedicated-server,
-  multiplayer or saved-world compatibility tests.
+- Historical work records are available in the [1.1.0 changelog](docs/orchards-1.1.0/CHANGELOG.md) and [Git history](https://github.com/Pima95/ItaliansDelightRefabricated/blob/d351e1660eb4bea9327070edaa3d8c9c5fa5ff13/docs/orchards-1.1.0/RELEASE_READINESS.md). Build and server checks passed; real multiplayer and optional-mod tests were not confirmed.
 
 ## 1.0.0 — Pizza Update (released 23 October 2026)
 
@@ -99,9 +90,9 @@ The Pizza Update is published as [v1.0.0](https://github.com/Pima95/ItaliansDeli
 - Completed the final reported Cheese Vat and code-audit work (author confirmation, 23 October 2026).
 - Applied a conservative naming-path micro-optimization to avoid rebuilding the same quarter data and sorting the same topping list twice; previous baking, network update, bowl, peel and recipe-generation optimizations remain intact.
 - Classified remaining optimization ideas as measurement-dependent or optional, avoiding speculative caching of mutable renderer states and recipe/world data. See [the optimization decision log](docs/OPTIMIZATION_CLOSURE_2026-10-23.md).
-- Prepared [the 1.0.0 release notes draft](docs/pizza-1.0.0/RELEASE_NOTES_DRAFT.md) and updated the release checklist.
+- The published 1.0.0 changes are summarized in the [1.0.0 changelog](docs/pizza-1.0.0/CHANGELOG.md).
 
-**Historical test record:** compilation and static checks do not substitute for multiplayer testing, which was not fully completed before publication. The archival [1.0.0 readiness checklist](docs/pizza-1.0.0/RELEASE_READINESS.md) preserves the documented results. The author confirmed 1.0.0 was published and functioning.
+**Historical test record:** compilation and static checks do not substitute for multiplayer testing, which was not fully completed before publication. The archival [archived 1.0.0 readiness checklist](https://github.com/Pima95/ItaliansDelightRefabricated/blob/d351e1660eb4bea9327070edaa3d8c9c5fa5ff13/docs/pizza-1.0.0/RELEASE_READINESS.md) preserves the documented results. The author confirmed 1.0.0 was published and functioning.
 
 ## 0.4.0
 

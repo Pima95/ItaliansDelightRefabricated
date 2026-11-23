@@ -90,7 +90,7 @@ jar {
     from("CREDIT.md") {
         into("META-INF")
     }
-    from("docs/orchards-1.1.0/FDR_CRATES_LICENSE.md") {
+    from("docs/FDR_CRATES_LICENSE.md") {
         into("META-INF")
     }
 }

@@ -4,130 +4,49 @@
   <img src="src/main/resources/assets/italiansdelight/textures/italians_delight_refabricated.png" alt="Italian's Delight Refabricated" width="50%">
 </p>
 
-## Overview
+**Italian's Delight Refabricated** è un add-on per [Farmer's Delight Refabricated](https://github.com/MehVahdJukaar/FarmersDelightRefabricated) su **Fabric**. Aggiunge lavorazioni e piatti della tradizione italiana, integrati con Cooking Pot, Cutting Board, JEI e le altre meccaniche di Farmer's Delight.
 
-**Italian's Delight Refabricated** is a **Farmer's Delight Refabricated** add-on for Fabric that expands Minecraft cooking with ingredients, dishes, and production systems inspired by Italian cuisine.
+## Versioni
 
-Rather than adding isolated food items, the mod is designed around Farmer's Delight mechanics such as the **Cooking Pot**, **Cutting Board**, heat sources, containers, and shared ingredient tags.
+| Versione | Stato | Minecraft | Principali novità |
+| --- | --- | --- | --- |
+| [1.0.0 — Pizza Update](docs/pizza-1.0.0/CHANGELOG.md) | Pubblicata il 23/10/2026 | 26.2 | Pizze interattive, forno, pala, spicchi e JEI |
+| [1.1.0 — Orchard Update](docs/orchards-1.1.0/CHANGELOG.md) | **Ultima release pubblica** (11/11/2026) | 26.2 | Ulivi, mandorli, ciliegi da frutto, legni, frutta e Crushing Tub |
+| 1.2.0 — Vineyard & Chili | In sviluppo su `feature/vineyard-chili-1.2.0` | **26.3** | Uva, peperoncini, fermentazione, bevande, nuovi piatti e pizze |
 
-Current features include:
+**La 1.2.0 non è ancora pubblicata.** Il numero di versione nel branch di sviluppo è `1.2.0-mc26.3-dev`. Consultare la [documentazione 1.2.0](docs/vineyard-chili-1.2.0/ROADMAP.md) e i [test manuali](docs/vineyard-chili-1.2.0/TESTING.md); una build CI riuscita non sostituisce una prova in gioco.
 
-- the **Cheese Vat**, with heat-based processing, container handling, whey storage, automation, and JEI support;
-- an expanded dairy chain with **rennet, curd, mozzarella, ricotta, mascarpone, burrata, bocconcini, Parmigiano Reggiano, Pecorino Romano, Gorgonzola, Provolone, and Scamorza**;
-- **cheese aging and drying** through dedicated racks, hanging hooks, and placeable aging cheese;
-- **sheep milk**, cream, whey, blue mold culture, apple cider vinegar, and other dairy ingredients;
-- a **cheese grater** and Farmer's Delight Cutting Board integration for sliced and grated cheeses;
-- **cardoon** generation and cultivation as a source used in the dairy chain;
-- **basil** cultivation and naturally generated Wild Basil, with common-tag compatibility for recipes;
-- **salt production** by naturally evaporating water in vanilla cauldrons, with a dedicated JEI evaporation recipe;
-- a complete **cured-meat chain** with Prosciutto Crudo, Salame, Mortadella, Pancetta, Guanciale, Bresaola, Coppa, and Speck;
-- hanging aging/drying for cheeses and cured meats through the shared **Hanging Hook**;
-- Italian dishes including **Carbonara, Gricia, Amatriciana, Speck and Gorgonzola pasta/risotto, Parmigiano risotto, Mushroom risotto, Mozzarella Salad**, and the existing tomato-sauce dishes;
-- **Nourishment** support for complete meals, balanced against Farmer's Delight Refabricated;
-- integration with **JEI** and Farmer's Delight systems, including Cheese Vat, aging/drying, and salt evaporation.
+## Funzionalità
 
-**Pizza Update 1.0.0** is now published. It introduces interactive dough stretching and topping placement, 18 recognized pizza flavors, Mixed Pizza, a reusable Pizza Peel, the Pizza Oven, vanilla furnace/smoker support, individual ingredient-bearing slices and searchable JEI guides. See the [v1.0.0 release](https://github.com/Pima95/ItaliansDelightRefabricated/releases/tag/v1.0.0).
+- Produzione e stagionatura dei formaggi (mozzarella, ricotta, burrata, mascarpone, Parmigiano, Pecorino, Gorgonzola, Provolone e Scamorza), Cheese Vat, grattugia, rastrelliere e uncini.
+- Preparazione e stagionatura dei salumi: prosciutto crudo, salame, mortadella, pancetta, guanciale, bresaola, coppa e speck.
+- Coltivazione di cardo e basilico, sale da evaporazione, cucina italiana con pasta e risotti.
+- Pizze personalizzabili con condimenti su quarti indipendenti, forno, pala, spicchi e guide JEI.
+- Nella 1.1.0: tre specie di alberi da frutto con legni e derivati, estrazione con Crushing Tub, bottiglie e secchi per i liquidi.
+- Nel branch 1.2.0: vitigni, peperoncini, Brewing Barrel, bevande fermentate, ricette e gusti aggiuntivi.
 
-**In development: Orchard Update 1.1.0** — on the
-[`feature/orchards-1.1.0` branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/feature/orchards-1.1.0).
-It adds three complete orchard species with their own wood families:
-**Olive** (including the rare monumental 2×2 Ancient Olive), **Almond**,
-and a green-leaved **Fruit Cherry** distinct from vanilla pink Cherry.
-Each has its own sapling, original tree shapes, foliage stages, fruit
-harvesting and wood-derived furniture (signs, doors, shelves, cabinets,
-boats and aging racks). Natural generation in the chosen biomes is enabled
-and its lower density has been accepted in-game: normal Olives and Almonds
-each attempt 1/40 eligible Plains/Savanna chunks, Almonds attempt 1/100
-Meadow chunks; rare Ancient Olive 1/96 and Fruit Cherry 1/7 are unchanged.
+## Sviluppo
 
-The update also provides Orchard fruit crates; Rustic-style
-**Crushing Tubs in all 15 wood variants**; **Barrels and cauldrons** with
-liquid handling, bottles and buckets; recipes for olives, apples, sugar
-cane, honeycombs and golden apples; JEI guidance; and optional
-**Serene Seasons** compatibility. Natural leaves use a rotating
-approximately **65% fruiting eligibility** rather than always ripening.
-**Grapes, grape juice and wine are reserved for a later version**, even
-though some unused texture resources are already present in the tree.
-
-The public release is still **1.0.0**. The existing Orchard
-development branch builds the **full-version `italiansdelight-1.1.0.jar`
-for final testing**; it has **not** been tagged, merged to `main` or
-published on any platform. The version inside the JAR is already
-`1.1.0`, but that does not make it a public release. Test the
-feature-branch GitHub Actions JAR before approving any merge. See the
-[Orchard readiness checklist](docs/orchards-1.1.0/RELEASE_READINESS.md),
-[draft release notes](docs/orchards-1.1.0/RELEASE_NOTES_DRAFT.md)
-and [technical roadmap](docs/orchards-1.1.0/ROADMAP.md).
-These development features are **not part of the published 1.0.0 JAR**.
-
-## Requirements
-
-The current **published version is 1.0.0**, targeting **Minecraft 26.2**. It requires:
-
-- **Java 25**
-- **Fabric Loader 0.20.1 or newer**
-- **Fabric API 0.161.0+26.2**
-- **Farmer's Delight Refabricated 26.2-3.6.29+refabricated**
-
-The development toolchain uses **Fabric Loom 1.18.3** and **Gradle 9.8.1**.
-
-JEI is supported for recipe viewing, including Cheese Vat and cheese-aging recipes.
-
-## Development
-
-Clone the repository and build the mod with:
+Per il branch **1.2.0**: **Minecraft 26.3**, **Java 25**, **Fabric Loader 0.20.1**, **Fabric API 0.166.0+26.3** e **Farmer's Delight Refabricated 26.3-3.6.30+refabricated**. Consultare `gradle.properties` per la configurazione effettiva.
 
 ```bash
 ./gradlew build
 ```
 
-On Windows:
+Su Windows: `./gradlew.bat build`. I JAR vengono generati in `build/libs/`.
 
-```powershell
-.\gradlew build
-```
+Per i requisiti delle versioni pubblicate 1.0.0 e 1.1.0, consultare le rispettive [release GitHub](https://github.com/Pima95/ItaliansDelightRefabricated/releases) e i changelog sopra indicati.
 
-The generated JAR can be found in:
+## Documentazione e contributi
 
-```text
-build/libs/
-```
+- [Indice della documentazione](docs/README.md)
+- [Changelog generale](CHANGELOG.md)
+- [Problemi](docs/KNOWN_BUGS.md)
 
-For detailed technical requirements, design decisions, and the development roadmap:
+Segnalazioni di problemi e pull request sono benvenute.
 
-- [Current 1.0.0 implementation, tests and remaining audits](docs/pizza-1.0.0/CURRENT_STATUS.md)
-- [Requirements and Roadmap](docs/REQUIREMENTS.md)
-- [Requisiti e Roadmap — Italian version](docs/REQUISITI.md)
+## Licenze e crediti
 
-## Contributing
+Il progetto contiene contributi originali distribuiti sotto [Apache License 2.0](LICENSE) a partire dalla 1.1.0. La 1.0.0 precedentemente distribuita conserva i suoi termini MIT. I materiali di terzi conservano le condizioni e attribuzioni proprie.
 
-Feedback, bug reports, and pull requests are welcome.
-
-If you find an issue or have an idea for improving the mod, feel free to open an issue or submit a pull request.
-
-## Credits
-
-Italian's Delight Refabricated is built as an add-on for [Farmer's Delight Refabricated](https://github.com/MehVahdJukaar/FarmersDelightRefabricated).
-
-## License and asset attribution
-
-Original code and artwork contributed to Italian's Delight Refabricated by
-**Piergiuseppe Mastroserio (Pima95)** are distributed under the
-[Apache License 2.0](LICENSE) on the unreleased Orchard 1.1.0 development
-branch. The [NOTICE](NOTICE) file provides the required original-work
-attribution. Users may use, modify and redistribute the covered original
-material under the license terms, including preservation of applicable
-copyright, license and NOTICE attributions; the license does **not** require
-a credit specifically on CurseForge or Modrinth project descriptions.
-
-**The publicly released version 1.0.0 remains under its published MIT terms**;
-changing the development branch's license does not revoke rights already
-provided with older versions.
-
-Third-party artwork is **not** relicensed to Apache 2.0. See
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for Rustic and the original
-Italian's Delight, and
-[Farmer's Delight crate attribution](docs/orchards-1.1.0/FDR_CRATES_LICENSE.md)
-for reused crate pixels. The provenance and individual rights of some legacy
-assets remain under review before publishing 1.1.0. The JAR packages the
-Apache license, project NOTICE and applicable third-party notices.
+Consultare [NOTICE](NOTICE), [CREDIT](CREDIT.md), [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md) e la [licenza MIT delle texture crate derivate da Farmer's Delight](docs/FDR_CRATES_LICENSE.md). La documentazione di provenienza degli asset delle versioni precedenti è recuperabile nella cronologia Git; le attribuzioni individuali di alcuni sprite legacy restano da verificare.

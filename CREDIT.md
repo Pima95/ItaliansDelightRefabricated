@@ -20,13 +20,13 @@ Aggiornato il 15 novembre 2026. Crediti, provenienza delle risorse e attribuzion
 
 - **vectorwing**: Farmer's Delight originale, copyright esplicito `Copyright (c) 2020 vectorwing` e licenza MIT.
 - Port e contributi Refabricated: https://github.com/MehVahdJukaar/FarmersDelightRefabricated.
-- Italian's Delight Refabricated utilizza API e meccaniche di Farmer's Delight, oltre a elementi grafici di alcune cassette adattate. Per i file e la licenza MIT applicabile alle cassette: `docs/orchards-1.1.0/FDR_CRATES_LICENSE.md`.
+- Italian's Delight Refabricated utilizza API e meccaniche di Farmer's Delight, oltre a elementi grafici di alcune cassette adattate. Per i file e la licenza MIT applicabile alle cassette: `docs/FDR_CRATES_LICENSE.md`.
 
 ## Rustic e Rustic Delight
 
 - **cadaverous_queen**: Rustic originale, https://github.com/cadaverous-eris/Rustic.
 - La descrizione di Rustic ringrazia anche **Nazenn** (interventi sulle texture) e **Copygirl** (permesso d'uso per modelli/texture dei locker). Ciò non prova la paternità di uno specifico asset presente nella nostra mod.
-- Rustic è una fonte di riferimento per gli impianti di lavorazione/fermentazione; esistono inoltre risorse legacy confrontate con Rustic: `docs/orchards-1.1.0/RUSTIC_ASSET_MATCHES.md`.
+- Rustic è una fonte di riferimento per gli impianti di lavorazione/fermentazione; esistono inoltre risorse legacy confrontate con Rustic: `https://github.com/Pima95/ItaliansDelightRefabricated/blob/d351e1660eb4bea9327070edaa3d8c9c5fa5ff13/docs/orchards-1.1.0/RUSTIC_ASSET_MATCHES.md`.
 - **Rustic Delight** è un progetto distinto usato per confronto tecnico: https://github.com/PhantomWing/RusticDelight. Non attribuiamo a quest'ultimo gli asset di Rustic senza prova.
 
 ## Alcocraft — modello della botte di fermentazione
