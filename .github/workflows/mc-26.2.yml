@@ -1,0 +1,212 @@
+name: Vineyard Chili 1.2.0 Minecraft 26.2 CI
+on:
+  push:
+    branches:
+      - feature/mc-26.2
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Verify Minecraft 26.2 port on existing branch
+        run: |
+          grep -Fx 'mod_version=1.2.0-mc26.2' gradle.properties
+          grep -Fx 'minecraft_version=26.2' gradle.properties
+          test -f docs/vineyard-chili-1.2.0/README.md
+          test -f docs/vineyard-chili-1.2.0/TECHNICAL.md
+          test -f docs/vineyard-chili-1.2.0/TESTING.md
+          test -f docs/PROMPTS.md
+          test -f docs/FDR_CRATES_LICENSE.md
+          test -f NOTICE
+          test -f CREDIT.md
+          test -f src/main/resources/assets/italiansdelight/textures/item/grape.png
+      - name: Audit JSON and recipes
+        run: python3 .github/scripts/audit_project_consistency.py
+      - name: Check vineyard, stake, wine fluid models and tags
+        run: python3 .github/scripts/check_vineyard_supports.py
+      - name: Verify wood brewing barrels, recipes and upstream credits
+        run: python3 .github/scripts/check_brewing_barrel_woods.py
+      - name: Verify thirst compatibility and wine consumption effects
+        run: python3 .github/scripts/check_wine_drinks_thirst.py
+      - name: Verify Farmer's Delight ecosystem opt-in compatibility
+        run: python3 .github/scripts/check_fdr_compatibility.py
+      - name: Validate Farmer's Delight pizza support surfaces and saved drops
+        run: python3 .github/scripts/check_pizza_support_drops.py
+      - name: Verify new dishes, sauce order, and named spicy olive pizza
+        run: python3 .github/scripts/check_new_foods_and_pizza_sauces.py
+      - name: Validate approved pizza art, individual slices and new chili atlas
+        run: |
+          python3 .github/scripts/check_named_pizza_artwork.py
+          python3 .github/scripts/check_named_pizza_slices.py
+          python3 .github/scripts/check_pizza_topping_textures.py
+          python3 .github/scripts/check_texture_fidelity_1_2.py
+          python3 .github/scripts/check_pizza_jei_sidebar.py
+          python3 .github/scripts/check_pizza_release_balance.py
+      - name: Build Java 25 full-version release candidate
+        run: bash ./gradlew build --no-daemon --max-workers=2 --console=plain
+      - name: Verify JAR
+        run: |
+          python3 - <<'PY'
+          import json, zipfile, binascii, zlib, struct
+          def validate_png(data, height=16):
+              assert data[:8] == bytes.fromhex("89504e470d0a1a0a")
+              offset, seen_end, zdata = 8, False, bytearray()
+              while offset < len(data):
+                  assert offset + 12 <= len(data), "Truncated PNG chunk header"
+                  size = int.from_bytes(data[offset:offset+4], "big")
+                  kind = data[offset+4:offset+8]
+                  end = offset + size + 12
+                  assert end <= len(data), f"Truncated {kind!r}"
+                  payload = data[offset+8:end-4]
+                  assert binascii.crc32(kind + payload) & 0xffffffff == int.from_bytes(data[end-4:end], "big"), f"Corrupt {kind!r} checksum"
+                  if kind == b"IHDR":
+                      assert payload[:8] == (16).to_bytes(4, "big") + height.to_bytes(4, "big")
+                      assert payload[8:10] == bytes([8, 6])
+                  elif kind == b"IDAT":
+                      zdata.extend(payload)
+                  elif kind == b"IEND":
+                      assert size == 0 and end == len(data)
+                      seen_end = True
+                  offset = end
+              assert seen_end and len(zlib.decompress(bytes(zdata))) == height * 65, "Incomplete PNG data"
+          path = 'build/libs/italiansdelight-1.2.0-mc26.2.jar'
+          with zipfile.ZipFile(path) as jar:
+              m = json.loads(jar.read('fabric.mod.json'))
+              assert m['version'] == '1.2.0-mc26.2'
+              assert m['id'] == 'italiansdelight'
+              assert m['license'] == 'Apache-2.0'
+              assert m['depends']['farmersdelight']
+              for required in ('LICENSE_italiansdelight', 'META-INF/NOTICE',
+                               'META-INF/THIRD_PARTY_NOTICES.md', 'META-INF/FDR_CRATES_LICENSE.md',
+                               'META-INF/CREDIT.md', 'dev/italiansdelight/ItaliansDelight.class'):
+                  assert required in jar.namelist(), required
+              assert b'Apache License' in jar.read('LICENSE_italiansdelight')
+              assert b'Piergiuseppe Mastroserio (Pima95)' in jar.read('META-INF/NOTICE')
+              assert b'Copyright (c) 2020 vectorwing' in jar.read('META-INF/FDR_CRATES_LICENSE.md')
+              assert struct.unpack('>H', jar.read('dev/italiansdelight/ItaliansDelight.class')[6:8])[0] == 69
+              assert m['depends']['minecraft'] == '~26.3'
+              assert m['depends']['java'] == '>=25'
+              # Inspect both lifecycle blocks packed into the real JAR.
+              budding = json.loads(jar.read('assets/italiansdelight/blockstates/budding_chili.json'))['variants']
+              assert len(budding) == 5
+              for age in range(5):
+                  model = budding[f'age={age}']['model'].split(':')[1]
+                  assert model == f'block/budding_chili_stage{min(age,3)}'
+                  entry = json.loads(jar.read(f'assets/italiansdelight/models/{model}.json'))
+                  assert entry['parent'] == 'farmersdelight:block/template_crop_cross'
+                  assert entry['textures']['cross'] == f'farmersdelight:block/budding_tomatoes_stage{min(age,3)}'
+              assert 'dev/italiansdelight/common/block/BuddingChiliBlock.class' in jar.namelist()
+              budding_loot = json.loads(jar.read('data/italiansdelight/loot_table/blocks/budding_chili.json'))
+              assert budding_loot['pools'][0]['entries'][0]['name'] == 'italiansdelight:chili_pepper_seeds'
+              # The existing 0..7 adult age states remain loadable; the
+              # grown plant renders foliage, then green and ripe peppers.
+              stages = ('foliage', 'foliage', 'stage_2', 'stage_2',
+                        'stage_2', 'stage_2', 'stage_2', 'stage_3')
+              for block, prefix, parent, texture_key in (
+                  ('chili_crop', 'chili_free_', 'farmersdelight:block/template_crop_cross', 'cross'),
+                  ('chili_on_rope', 'chili_rope_', 'farmersdelight:block/template_crop_with_rope', 'crop'),
+              ):
+                  states = json.loads(jar.read(f'assets/italiansdelight/blockstates/{block}.json'))['variants']
+                  assert len(states) == (16 if block == 'chili_crop' else 8)
+                  # Only age 7 may display ripe red peppers; at age 6 the
+                  # player must still see green fruit and cannot pick it.
+                  assert stages[6] == 'stage_2' and stages[7] == 'stage_3'
+                  for age, stage in enumerate(stages):
+                      assert (stage == 'stage_3') == (age == 7)
+                      keys = [f'age={age},ropelogged={flag}' for flag in ('false','true')] if block == 'chili_crop' else [f'age={age}']
+                      for key in keys:
+                          model = states[key]['model'].split(':')[1]
+                          assert model == f'block/{prefix}{stage}', key
+                          data = json.loads(jar.read(f'assets/italiansdelight/models/{model}.json'))
+                          assert data['parent'] == parent
+                          assert data['render_type'] == 'minecraft:cutout'
+                          texture = data['textures'][texture_key]
+                          expected = 'chili_crop_foliage' if stage == 'foliage' else f'chili_crop_{stage.split("_")[-1]}'
+                          assert texture == f'italiansdelight:block/{expected}', key
+                          validate_png(jar.read(f'assets/italiansdelight/textures/{texture.split(":")[1]}.png'))
+              for model in ('chili_free_foliage','chili_rope_foliage'):
+                  assert f'assets/italiansdelight/models/block/{model}.json' in jar.namelist()
+              validate_png(jar.read('assets/italiansdelight/textures/block/chili_crop_foliage.png'))
+              for clz in ('WildBasilBlock','CardoonBlock','ChiliCropBlock','HangingChiliBlock'):
+                  assert f'dev/italiansdelight/common/block/{clz}.class' in jar.namelist()
+              bamboo = json.loads(jar.read('assets/italiansdelight/models/block/bamboo_crop_stake.json'))
+              assert bamboo['textures']['2'] == 'minecraft:block/bamboo_fence'
+              assert bamboo['elements'][0]['faces']['up']['uv'] == [4, 0, 8, 4]
+              # The second grape cultivar is an actual registered crop, not
+              # only a reskinned inventory icon. Validate all packed assets.
+              for name in ('white_grape_stem','white_grape_leaves'):
+                  assert f'assets/italiansdelight/blockstates/{name}.json' in jar.namelist()
+                  assert f'data/italiansdelight/loot_table/blocks/{name}.json' in jar.namelist()
+              assert len(json.loads(jar.read('assets/italiansdelight/blockstates/white_grape_stem.json'))['variants']) == 8
+              canopy = json.loads(jar.read('assets/italiansdelight/blockstates/white_grape_leaves.json'))
+              assert sum(p['apply']['model']=='italiansdelight:block/white_grapes'
+                         for p in canopy['multipart']) == 1
+              for item in ('white_grape_seeds','white_grapes'):
+                  assert f'assets/italiansdelight/items/{item}.json' in jar.namelist()
+                  assert f'assets/italiansdelight/models/item/{item}.json' in jar.namelist()
+              for texture in ('block/white_grapes','item/white_grapes','item/white_grape_seeds'):
+                  validate_png(jar.read(f'assets/italiansdelight/textures/{texture}.png'))
+              assert 'data/italiansdelight/recipe/white_grape_seeds.json' in jar.namelist()
+              # Inventory renders the existing singular grape sprites; the
+              # white-juice bucket and bottle are separate functional items.
+              for name, singular in (('grapes','grape'),('white_grapes','white_grape')):
+                  model = json.loads(jar.read(f'assets/italiansdelight/models/item/{name}.json'))
+                  assert model['textures']['layer0']==f'italiansdelight:item/{singular}'
+                  validate_png(jar.read(f'assets/italiansdelight/textures/item/{singular}.png'))
+              for name in ('white_grape_juice_bucket','white_grape_juice_bottle'):
+                  assert f'assets/italiansdelight/items/{name}.json' in jar.namelist()
+                  assert f'assets/italiansdelight/models/item/{name}.json' in jar.namelist()
+              bottle = json.loads(jar.read('assets/italiansdelight/items/white_grape_juice_bottle.json'))
+              assert bottle['model']['model']=='minecraft:item/potion'
+              assert len(bottle['model']['tints'])==1
+              validate_png(jar.read('assets/italiansdelight/textures/item/white_grape_juice_bucket.png'))
+              validate_png(jar.read('assets/italiansdelight/textures/block/fluids/white_grape_juice_still.png'), 512)
+              assert 'assets/italiansdelight/textures/block/fluids/white_grape_juice_still.png.mcmeta' in jar.namelist()
+              for name, tex in (('grapes', 'grape'), ('white_grapes', 'white_grape')):
+                  block_model = json.loads(jar.read(f'assets/italiansdelight/models/block/{name}.json'))
+                  assert block_model['textures']['0'] == f'italiansdelight:block/{name}'
+                  # Guard against missing block-atlas sprites in client.
+                  block_sprite = jar.read(f'assets/italiansdelight/textures/block/{name}.png')
+                  item_sprite = jar.read(f'assets/italiansdelight/textures/item/{tex}.png')
+                  assert block_sprite == item_sprite
+                  validate_png(block_sprite)
+              beverages = ('apple_juice', 'golden_apple_juice', 'grape_juice', 'white_grape_juice', 'olive_oil')
+              for liquid in beverages:
+                  assert f'dev/italiansdelight/common/registry/ModItems.class' in jar.namelist()
+                  assert f'assets/italiansdelight/items/{liquid}_bottle.json' in jar.namelist()
+              thirst = json.loads(jar.read('data/italiansdelight/thirstwastaken2/drinks/italiansdelight_beverages.json'))['values']
+              assert thirst['italiansdelight:olive_oil_bottle']['thirst'] == 0
+              for locale in ('it_it', 'en_us'):
+                  labels = json.loads(jar.read(f'assets/italiansdelight/lang/{locale}.json'))
+                  expected = "Succo d'uva bianca" if locale == 'it_it' else 'White Grape Juice'
+                  assert labels['block.italiansdelight.white_grape_juice'] == expected
+                  assert labels['fluid.italiansdelight.white_grape_juice'] == expected
+              for liquid in beverages[:-1]:
+                  assert thirst[f'italiansdelight:{liquid}_bottle']['thirst'] == 6
+              assert 'dev/italiansdelight/common/block/WildChiliBlock.class' in jar.namelist()
+          print('OK: FDR seedling -> adult chili lifecycle, crate assets, save-compatible ages, wild crops and bamboo')
+          PY
+      - name: Generate SHA-256 checksum for the candidate JAR
+        run: |
+          set -euo pipefail
+          cd build/libs
+          sha256sum italiansdelight-1.2.0-mc26.2.jar > SHA256SUMS
+          cat SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: italiansdelight-1.2.0-mc26.2-release-candidate-${{ github.sha }}
+          path: |
+            build/libs/italiansdelight-1.2.0-mc26.2.jar
+            build/libs/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 30
