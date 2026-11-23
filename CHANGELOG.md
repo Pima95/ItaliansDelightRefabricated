@@ -4,7 +4,7 @@ All notable changes to Italian's Delight Refabricated are documented here. The l
 
 ## 1.2.0 — Vineyard & Chili Update (release candidate, NOT YET PUBLISHED)
 
-**Minecraft 26.3 · Fabric · Java 25**. The full-version `italiansdelight-1.2.0.jar` is prepared for client testing on the **existing** `feature/vineyard-chili-1.2.0` branch; it is not yet a published release. No new branch or tag is created during preparation.
+**Minecraft 26.3 · Fabric · Java 25**. The full-version `italiansdelight-1.2.0-mc26.3.jar` is prepared for client testing on the **existing** `feature/vineyard-chili-1.2.0` branch; it is not yet a published release. No new branch or tag is created during preparation.
 
 ### Vineyard farming and wild crops
 - Added **red and white grapes**, distinct seeds and juices, trellis-trained vines with Farmer's Delight rope, seasonal/biome-tinted foliage, ripening stages and repeat harvesting.
@@ -26,7 +26,7 @@ All notable changes to Italian's Delight Refabricated are documented here. The l
 ### Requirements and validation
 - Minecraft **26.3**, **Fabric Loader 0.20.1+**, **Fabric API 0.166.0+26.3**, **Farmer's Delight Refabricated 26.3-3.6.30+refabricated**, **Java 25**.
 - JEI integration is included; Serene Seasons / GlitchCore and Thirst Was Taken 2 remain optional.
-- **Pending for the candidate:** verify the exact `1.2.0` JAR via GitHub Actions, inspect the SHA-256 checksum and packaged legal notices, then complete [client, save/reload and optional-mod tests](docs/vineyard-chili-1.2.0/TESTING.md). Prior development builds passed CI and dedicated-server smoke, but these are not equivalent to final client or multiplayer verification.
+- **Pending for the candidate:** verify the exact `1.2.0-mc26.3` JAR via GitHub Actions, inspect the SHA-256 checksum and packaged legal notices, then complete [client, save/reload and optional-mod tests](docs/vineyard-chili-1.2.0/TESTING.md). Prior development builds passed CI and dedicated-server smoke, but these are not equivalent to final client or multiplayer verification.
 - Back up worlds before trying the candidate; compatibility across Minecraft **26.2 to 26.3** must not be assumed without separately testing conversion and backups.
 - Original contributions are Apache-2.0; third-party MIT artwork and notices remain separately attributed in [CREDIT](CREDIT.md), [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md) and [FDR crate license](docs/FDR_CRATES_LICENSE.md). Attribution of some legacy assets still requires specific verification.
 

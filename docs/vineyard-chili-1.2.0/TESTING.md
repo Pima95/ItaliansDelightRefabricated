@@ -41,7 +41,7 @@ Non usare `clean` se il sistema ha poco spazio o processi Gradle che tengono blo
 - [ ] **Optional:** ripeti i test pertinenti con Serene Seasons/GlitchCore e Thirst Was Taken 2, senza convertirli in dipendenze obbligatorie.
 - [ ] **Server:** conferma oltre al test automatico anche le interazioni rilevanti con un client collegato; segnala chiaramente se il multiplayer reale non è stato provato.
 - [ ] **Distribuzione:** apri il JAR destinato al rilascio e verifica versione `fabric.mod.json`, dipendenze, traduzioni, asset e presenza di `LICENSE_italiansdelight`, `META-INF/NOTICE`, `META-INF/THIRD_PARTY_NOTICES.md`, `META-INF/FDR_CRATES_LICENSE.md` e crediti.
-- [ ] **Pubblicazione:** verifica che il JAR sia esattamente `1.2.0`, approva il commit e il checksum della build testata; crea tag e release **solo dopo** autorizzazione. In caso di modifiche successive al test, rigenera e ricollauda un nuovo JAR.
+- [ ] **Pubblicazione:** verifica che il JAR sia esattamente `1.2.0-mc26.3`, approva il commit e il checksum della build testata; crea tag e release **solo dopo** autorizzazione. In caso di modifiche successive al test, rigenera e ricollauda un nuovo JAR.
 
 ## 4. Comandi utili per il mondo di prova
 
@@ -66,7 +66,7 @@ Annota qui la versione/commit effettivamente verificato, le prove eseguite e i p
 ## 5. Scaricare e identificare il candidato corretto
 
 1. Aprire la [CI Vineyard & Chili 1.2.0](https://github.com/Pima95/ItaliansDelightRefabricated/actions/workflows/vineyard-chili-1.2.0.yml) e scegliere l'esecuzione **riuscita relativa al commit che si vuole approvare**.
-2. Scaricare l'artifact `italiansdelight-1.2.0-release-candidate-<SHA del commit>`, contenente **un JAR giocabile** `italiansdelight-1.2.0.jar` e il suo `SHA256SUMS`.
-3. Su Windows eseguire `Get-FileHash -Algorithm SHA256 .\italiansdelight-1.2.0.jar` e confrontare il valore con `SHA256SUMS`. Su Linux/macOS: `sha256sum -c SHA256SUMS`.
+2. Scaricare l'artifact `italiansdelight-1.2.0-mc26.3-release-candidate-<SHA del commit>`, contenente **un JAR giocabile** `italiansdelight-1.2.0-mc26.3.jar` e il suo `SHA256SUMS`.
+3. Su Windows eseguire `Get-FileHash -Algorithm SHA256 .\italiansdelight-1.2.0-mc26.3.jar` e confrontare il valore con `SHA256SUMS`. Su Linux/macOS: `sha256sum -c SHA256SUMS`.
 4. Provare quel medesimo file nel client, annotando **commit, checksum, dipendenze e risultati**. Non usare `sources` o `dev` JAR.
 5. Solo dopo approvazione esplicita scegliere la procedura di merge/tag/pubblicazione. **Questa preparazione non crea un nuovo branch, un tag o una GitHub Release.**

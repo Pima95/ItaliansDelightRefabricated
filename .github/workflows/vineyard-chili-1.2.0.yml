@@ -19,7 +19,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Verify full-version 1.2.0 candidate on existing branch
         run: |
-          grep -Fx 'mod_version=1.2.0' gradle.properties
+          grep -Fx 'mod_version=1.2.0-mc26.3' gradle.properties
           grep -Fx 'minecraft_version=26.3' gradle.properties
           test -f docs/vineyard-chili-1.2.0/README.md
           test -f docs/vineyard-chili-1.2.0/TECHNICAL.md
@@ -78,10 +78,10 @@ jobs:
                       seen_end = True
                   offset = end
               assert seen_end and len(zlib.decompress(bytes(zdata))) == height * 65, "Incomplete PNG data"
-          path = 'build/libs/italiansdelight-1.2.0.jar'
+          path = 'build/libs/italiansdelight-1.2.0-mc26.3.jar'
           with zipfile.ZipFile(path) as jar:
               m = json.loads(jar.read('fabric.mod.json'))
-              assert m['version'] == '1.2.0'
+              assert m['version'] == '1.2.0-mc26.3'
               assert m['id'] == 'italiansdelight'
               assert m['license'] == 'Apache-2.0'
               assert m['depends']['farmersdelight']
@@ -199,14 +199,14 @@ jobs:
         run: |
           set -euo pipefail
           cd build/libs
-          sha256sum italiansdelight-1.2.0.jar > SHA256SUMS
+          sha256sum italiansdelight-1.2.0-mc26.3.jar > SHA256SUMS
           cat SHA256SUMS
       - uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: italiansdelight-1.2.0-release-candidate-${{ github.sha }}
+          name: italiansdelight-1.2.0-mc26.3-release-candidate-${{ github.sha }}
           path: |
-            build/libs/italiansdelight-1.2.0.jar
+            build/libs/italiansdelight-1.2.0-mc26.3.jar
             build/libs/SHA256SUMS
           if-no-files-found: error
           retention-days: 30

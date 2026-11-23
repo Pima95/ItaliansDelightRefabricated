@@ -30,7 +30,7 @@
 
 Le versioni delle dipendenze per la **1.0.0** e la **1.1.0** sono specificate nei rispettivi [changelog](docs/README.md) e nella [pagina delle release pubblicate](https://github.com/Pima95/ItaliansDelightRefabricated/releases).
 
-**La 1.2.0 non è ancora pubblicata.** Sul branch esistente si prepara il JAR completo `italiansdelight-1.2.0.jar` per i test. Dopo l'esito della [CI](https://github.com/Pima95/ItaliansDelightRefabricated/actions/workflows/vineyard-chili-1.2.0.yml) si possono scaricare il JAR candidato e `SHA256SUMS` dall'artifact della stessa esecuzione. Consultare la [documentazione 1.2.0](docs/vineyard-chili-1.2.0/README.md) e i [test manuali](docs/vineyard-chili-1.2.0/TESTING.md); un build riuscito non sostituisce la prova in gioco. Nessun tag o pubblicazione è stato effettuato.
+**La 1.2.0 non è ancora pubblicata.** Sul branch esistente si prepara il JAR completo `italiansdelight-1.2.0-mc26.3.jar` per i test. Dopo l'esito della [CI](https://github.com/Pima95/ItaliansDelightRefabricated/actions/workflows/vineyard-chili-1.2.0.yml) si possono scaricare il JAR candidato e `SHA256SUMS` dall'artifact della stessa esecuzione. Consultare la [documentazione 1.2.0](docs/vineyard-chili-1.2.0/README.md) e i [test manuali](docs/vineyard-chili-1.2.0/TESTING.md); un build riuscito non sostituisce la prova in gioco. Nessun tag o pubblicazione è stato effettuato.
 
 ## Funzionalità
 

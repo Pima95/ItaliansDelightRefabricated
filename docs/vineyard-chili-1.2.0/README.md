@@ -1,6 +1,6 @@
 # Versione 1.2.0 — Vineyard & Chili
 
-**Stato:** candidata al rilascio con JAR a versione piena 1.2.0, **non ancora pubblicata**.  
+**Stato:** candidata al rilascio con JAR versione `1.2.0-mc26.3`, **non ancora pubblicata**.  
 **Branch:** `feature/vineyard-chili-1.2.0` · **Minecraft:** 26.3 · **Java:** 25 · **Mod loader:** Fabric.
 
 Questa versione amplia Italian's Delight Refabricated con coltivazione dell'uva e dei peperoncini, bevande, fermentazione e nuove ricette. Mantiene le meccaniche già distribuite della 1.0.0 (Pizza Update) e 1.1.0 (Orchard Update).
@@ -27,7 +27,7 @@ Aggiunte quattro preparazioni in Cooking Pot (due paste e due risotti), la maced
 
 Il ramo 1.2.0 usa Minecraft **26.3**, Fabric Loader **0.20.1**, Fabric API **0.166.0+26.3**, Farmer's Delight Refabricated **26.3-3.6.30+refabricated** e Java **25**. I valori effettivi sono in [gradle.properties](../../gradle.properties).
 
-**Il JAR 1.2.0 è un candidato da collaudare: non presentarlo come una release stabile finché il test client e la pubblicazione non sono stati autorizzati.** La 1.1.0 già pubblicata usa invece Minecraft 26.2. Per il download di una versione stabile consulta [Releases](https://github.com/Pima95/ItaliansDelightRefabricated/releases).
+**Il JAR `italiansdelight-1.2.0-mc26.3.jar` è un candidato da collaudare: non presentarlo come una release stabile finché il test client e la pubblicazione non sono stati autorizzati.** La 1.1.0 già pubblicata usa invece Minecraft 26.2. Per il download di una versione stabile consulta [Releases](https://github.com/Pima95/ItaliansDelightRefabricated/releases).
 
 ## Dove leggere
 
