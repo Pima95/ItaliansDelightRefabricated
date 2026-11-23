@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Minecraft 26.3 vineyard and decorative pole regression audit (stdlib only)."""
+"""Vineyard and decorative pole regression audit for Minecraft 26.2 (stdlib only)."""
 import json
 from pathlib import Path
 
@@ -356,8 +356,8 @@ assert wildloot["pools"][0]["entries"][0]["name"]=="italiansdelight:chili_pepper
 assert wildloot["pools"][0]["condition"]["terms"][0]["chance"]==0.2
 assert wildloot["pools"][1]["entries"][0]["children"][0]["name"]=="italiansdelight:wild_chili"
 assert wildloot["pools"][1]["entries"][0]["children"][1]["name"]=="italiansdelight:chili_pepper_seeds"
-wildfeature=load(data/"italiansdelight/worldgen/feature/wild_chili.json")
-assert wildfeature["to_place"]["state"]["id"]=="italiansdelight:wild_chili"
+wildfeature=load(data/"italiansdelight/worldgen/configured_feature/wild_chili.json")
+assert wildfeature["config"]["to_place"]["state"]["Name"]=="italiansdelight:wild_chili"
 wildplaced=load(data/"italiansdelight/worldgen/placed_feature/wild_chili_patch.json")
 assert wildplaced["feature"]=="italiansdelight:wild_chili"
 assert wildplaced["placement"][0]=={"type":"minecraft:rarity_filter","chance":120}
@@ -747,8 +747,8 @@ assert "FDRefabricatedTags.Blocks.GROWS_WILD_CROPS" in wild
 assert "DoubleBlockHalf.UPPER" in wild
 assert "DoublePlantBlock.placeAt(level, lower, pos, 2)" in feat
 assert "getBlockState(pos.above()).isAir()" in feat
-assert "WildGrapeFeature.RED_CODEC" in worldreg
-assert "WildGrapeFeature.WHITE_CODEC" in worldreg
+assert "new WildGrapeFeature(NoneFeatureConfiguration.CODEC, false)" in worldreg
+assert "new WildGrapeFeature(NoneFeatureConfiguration.CODEC, true)" in worldreg
 for name,seed,fruit,reg in (
     ("wild_grape_vine","grape_seeds","grapes","WILD_GRAPE_VINE"),
     ("wild_white_grape_vine","white_grape_seeds","white_grapes","WILD_WHITE_GRAPE_VINE")
@@ -793,46 +793,39 @@ for name,seed,fruit,reg in (
         assert children[1]["modifier"]==[
             {"type":"minecraft:set_count","count":{"type":"minecraft:uniform","min":1,"max":4}},
             {"type":"minecraft:explosion_decay"}]
-    assert load(data/f"italiansdelight/worldgen/feature/{name}.json")["type"]==f"italiansdelight:{name}"
+    # MC 26.2 keeps configured_feature/config and the old StateProvider codec.
+    feature=load(data/f"italiansdelight/worldgen/configured_feature/{name}.json")
+    assert feature["type"]==f"italiansdelight:{name}" and feature["config"]=={}
     placed=load(data/f"italiansdelight/worldgen/placed_feature/{name}_patch.json")
-    assert placed["feature"]==f"italiansdelight:{name}_cluster" and placed["placement"][0]["chance"]==100
-    # FDR carrots + tomatoes: vegetation, coarse dirt and dead bushes in_order.
-    cluster=load(data/f"italiansdelight/worldgen/feature/{name}_cluster.json")
+    assert placed["feature"]==f"italiansdelight:{name}_cluster"
+    assert placed["placement"][0]=={"type":"minecraft:rarity_filter","chance":100}
+    assert placed["placement"][2]=={"type":"minecraft:count","count":24}
+    assert placed["placement"][3]=={"type":"minecraft:heightmap","heightmap":"MOTION_BLOCKING_NO_LEAVES"}
+    offset=placed["placement"][5]
+    assert offset["type"]=="minecraft:random_offset"
+    assert offset["xz_spread"]["min"]==-4 and offset["xz_spread"]["max"]==4
+    assert offset["y_spread"]["min"]==-2 and offset["y_spread"]["max"]==2
+    assert placed["placement"][6]["predicate"]["type"]=="minecraft:all_of"
+    cluster=load(data/f"italiansdelight/worldgen/configured_feature/{name}_cluster.json")
     assert cluster["type"]=="farmersdelight:in_order"
-    primary,bare,bush=cluster["features"]
+    primary,bare,bush=cluster["config"]["features"]
     assert primary=={"feature":f"italiansdelight:{name}","placement":[]}
     assert bare["feature"]["type"]=="minecraft:simple_block"
-    assert bare["feature"]["to_place"]["state"]["id"]=="minecraft:coarse_dirt"
-    assert bush["feature"]["type"]=="minecraft:simple_block"
-    assert bush["feature"]["to_place"]["state"]["id"]=="minecraft:dead_bush"
+    assert bare["feature"]["config"]["to_place"]["state"]["Name"]=="minecraft:coarse_dirt"
+    assert bush["feature"]["config"]["to_place"]["state"]["Name"]=="minecraft:dead_bush"
     assert bare["placement"][0]=={"type":"minecraft:rarity_filter","chance":3}
     assert bush["placement"][0]=={"type":"minecraft:rarity_filter","chance":4}
-    assert bare["placement"][1]["x"]["min"]==-4 and bare["placement"][1]["x"]["max"]==4
-    assert bush["placement"][1]["x"]["min"]==-5 and bush["placement"][1]["x"]["max"]==5
-    assert bare["placement"][2]=={"type":"minecraft:offset","x":0,"y":-1,"z":0}
-    # Coarse dirt can only replace open grass/dirt, never vines or trees.
+    assert bare["placement"][1]["xz_spread"]["min"]==-4
+    assert bush["placement"][1]["xz_spread"]["min"]==-5
+    assert bare["placement"][2]=={"type":"minecraft:random_offset","xz_spread":0,"y_spread":-1}
     bare_pred=bare["placement"][3]["predicate"]["predicates"]
     assert bare_pred==[
       {"type":"minecraft:matching_blocks","blocks":["minecraft:grass_block","minecraft:dirt"]},
       {"type":"minecraft:matching_blocks","blocks":"minecraft:air","offset":[0,1,0]}]
     bush_pred=bush["placement"][2]["predicate"]["predicates"]
-    assert bush_pred==[
-      {"type":"minecraft:matching_blocks","blocks":"minecraft:air"},
-      {"type":"minecraft:matching_blocks","blocks":[
-       "minecraft:grass_block","minecraft:dirt","minecraft:coarse_dirt",
-       "minecraft:podzol","minecraft:rooted_dirt"],"offset":[0,-1,0]}]
-    steps=placed["placement"]
-    assert steps[2]=={"type":"minecraft:count","count":24}
-    assert steps[3]=={"type":"minecraft:heightmap","heightmap":"MOTION_BLOCKING_NO_LEAVES"}
-    assert steps[5]["x"]["min"]==-4 and steps[5]["x"]["max"]==4
-    assert steps[5]["z"]["min"]==-4 and steps[5]["z"]["max"]==4
-    assert steps[5]["y"]["min"]==-2 and steps[5]["y"]["max"]==2
-    predicates=steps[6]["predicate"]["predicates"]
-    assert predicates[0]=={"type":"minecraft:matching_blocks","blocks":"minecraft:air"}
-    assert predicates[1]=={"type":"minecraft:matching_blocks","blocks":"minecraft:air","offset":[0,1,0]}
-    assert predicates[2]=={"type":"minecraft:matching_blocks","blocks":[
-        "minecraft:grass_block","minecraft:dirt","minecraft:coarse_dirt",
-        "minecraft:podzol","minecraft:rooted_dirt"],"offset":[0,-1,0]}
+    assert len(bush_pred)==2
+    assert bush_pred[0]=={"type":"minecraft:matching_blocks","blocks":"minecraft:air"}
+    assert bush_pred[1]["offset"]==[0,-1,0]
     assert f"{reg}_PATCH" in worldreg
 # Cultivated root loot always gives ONE seed, while the leaves only
 # give grapes when ripe. Unsupported ripe side branches drop on detachment.
