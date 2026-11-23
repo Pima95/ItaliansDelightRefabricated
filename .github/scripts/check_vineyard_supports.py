@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Vineyard and decorative pole regression audit for Minecraft 26.2 (stdlib only)."""
+"""Vineyard regression audit for Minecraft 26.1.2 (normalized read-only loot view) (stdlib only)."""
 import json
+from mc2612_audit_compat import load as load_compatible_json
 from pathlib import Path
 
 src = Path("src/main/java/dev/italiansdelight")
@@ -13,7 +14,7 @@ woods = ("oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
 
 def load(path):
     assert path.is_file(), f"Missing {path}"
-    return json.loads(path.read_text(encoding="utf-8"))
+    return load_compatible_json(path)
 
 def read(path):
     assert path.is_file(), f"Missing {path}"

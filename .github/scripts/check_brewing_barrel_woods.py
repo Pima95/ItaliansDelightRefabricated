@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Static reproducible checks: Alcocraft-derived geometry and 15 available Minecraft 26.2 wood fermenters."""
+"""Static reproducible checks: Alcocraft-derived geometry and 15 available Minecraft 26.1.2 wood fermenters."""
 from pathlib import Path
 import hashlib
 import json
+from mc2612_audit_compat import load as load_compatible_json
 import struct
 
 root = Path("src/main/resources")
@@ -17,7 +18,7 @@ woods = (
 custom = {"olive", "almond", "fruit_cherry"}
 
 def load(path):
-    return json.loads(path.read_text(encoding="utf-8"))
+    return load_compatible_json(path)
 
 model = load(assets / "models/block/brewing_barrel.json")
 assert model["texture_size"] == [64, 64]
