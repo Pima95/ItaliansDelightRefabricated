@@ -15,7 +15,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
@@ -57,7 +57,7 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
         RandomSource random,
         int treeHeight,
         BlockPos origin,
-        TreeFeature config
+        TreeConfiguration config
     ) {
         Direction initialLean = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         boolean clockwise = random.nextBoolean();

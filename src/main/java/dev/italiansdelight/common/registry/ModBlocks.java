@@ -1218,7 +1218,7 @@ public final class ModBlocks {
         registerRack("pale_oak", Blocks.PALE_OAK_PLANKS);
 
     public static final Block POPLAR_CHEESE_AGING_RACK =
-        registerRack("poplar", Blocks.POPLAR_PLANKS);
+        registerRack("poplar", Blocks.OAK_PLANKS);
 
     public static final Block BAMBOO_CHEESE_AGING_RACK =
         registerRack("bamboo", Blocks.BAMBOO_PLANKS);
