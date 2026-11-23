@@ -1,6 +1,36 @@
 # Changelog
 
-All notable changes to Italian's Delight Refabricated are documented here. The next update, **1.2.0** (Vineyard & Chili, Minecraft 26.3), is still in development on `feature/vineyard-chili-1.2.0`. See the [1.2.0 overview](docs/vineyard-chili-1.2.0/README.md).
+All notable changes to Italian's Delight Refabricated are documented here. The latest published version is **1.1.0**. Version **1.2.0** is in release-candidate preparation on the existing branch. See the [1.2.0 overview](docs/vineyard-chili-1.2.0/README.md).
+
+## 1.2.0 — Vineyard & Chili Update (release candidate, NOT YET PUBLISHED)
+
+**Minecraft 26.3 · Fabric · Java 25**. The full-version `italiansdelight-1.2.0.jar` is prepared for client testing on the **existing** `feature/vineyard-chili-1.2.0` branch; it is not yet a published release. No new branch or tag is created during preparation.
+
+### Vineyard farming and wild crops
+- Added **red and white grapes**, distinct seeds and juices, trellis-trained vines with Farmer's Delight rope, seasonal/biome-tinted foliage, ripening stages and repeat harvesting.
+- Added two-block wild red/white grapevines, generating in suitable temperate biomes with occasional coarse dirt and dead bushes in newly generated chunks.
+- Added chilies with growth, regrowth and rope/stake support, plus a rare Ghost Pepper; retained existing FDR tomato behavior.
+
+### Fermentation, drinks and JEI
+- Introduced wood-variant **Brewing Barrels** with a working GUI, individual drink quality, persistent tanks/culture and recipe viewing in JEI.
+- Added **red and white wines, cherry wine, mead, cider, red wine vinegar**, and cherry juice, alongside existing apple cider vinegar and other compatible liquids.
+- Added drinkable juice and fermented drink bottles with appropriate quality effects and optional Thirst Was Taken 2 integration; olive oil remains drinkable but does not restore thirst.
+- Refined fluid bottles/buckets, language strings, color palettes, storage transfers and world/client rendering.
+
+### Foods, pizzas and compatibility
+- Added Spicy Olive Pasta, Pasta with Ricotta & Pancetta, Risotto with Scamorza & Olives, Pasta with Almond Pesto & Speck, Grape & Cherry Fruit Salad and Almond Biscuits.
+- Added two recognized pizzas: **Spicy Olive Pizza** and **Pizza Principessa**; total recognized flavors: **23**. Different sauces can coexist per quarter, with the latest applied sauce as the base and previous sauces as garnishes.
+- Corrected food pixel art, creative inventory order, individual pizza topping/slice art and removed the unintended crafting-table recipe for normal Pasta all'Amatriciana (Cooking Pot only).
+- Deferred focaccia and beer; do not label them as 1.2.0 features. Existing registry IDs and saved composition rules are preserved.
+
+### Requirements and validation
+- Minecraft **26.3**, **Fabric Loader 0.20.1+**, **Fabric API 0.166.0+26.3**, **Farmer's Delight Refabricated 26.3-3.6.30+refabricated**, **Java 25**.
+- JEI integration is included; Serene Seasons / GlitchCore and Thirst Was Taken 2 remain optional.
+- **Pending for the candidate:** verify the exact `1.2.0` JAR via GitHub Actions, inspect the SHA-256 checksum and packaged legal notices, then complete [client, save/reload and optional-mod tests](docs/vineyard-chili-1.2.0/TESTING.md). Prior development builds passed CI and dedicated-server smoke, but these are not equivalent to final client or multiplayer verification.
+- Back up worlds before trying the candidate; compatibility across Minecraft **26.2 to 26.3** must not be assumed without separately testing conversion and backups.
+- Original contributions are Apache-2.0; third-party MIT artwork and notices remain separately attributed in [CREDIT](CREDIT.md), [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md) and [FDR crate license](docs/FDR_CRATES_LICENSE.md). Attribution of some legacy assets still requires specific verification.
+
+**Distribution:** After author approval of the tested binary, publish the exact verified JAR and its `SHA256SUMS` from the same CI run. Do not distribute the `sources` or `dev` JAR as the playable download; do not create a release tag before approval.
 
 ## 1.1.0 — Orchard Update (released 11 November 2026)
 

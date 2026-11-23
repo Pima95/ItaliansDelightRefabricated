@@ -4,7 +4,7 @@ Questo documento raccoglie le informazioni tecniche aggiornate e consolidate del
 
 ## 1. Baseline e compatibilità
 
-- Branch `feature/vineyard-chili-1.2.0`; build attuale `1.2.0-mc26.3-dev` per Minecraft **26.3**, Java **25** e Fabric. I requisiti reali sono definiti in `gradle.properties` e `build.gradle`.
+- Branch `feature/vineyard-chili-1.2.0`; build candidata `1.2.0` (non ancora pubblicata) per Minecraft **26.3**, Java **25** e Fabric. I requisiti reali sono definiti in `gradle.properties` e `build.gradle`.
 - Preservare gli ID degli item, blocchi e fluidi della 1.0.0 e 1.1.0 e i dati dei mondi esistenti. Non effettuare rename distruttivi né sovrascrivere salvataggi durante i test.
 - Farmer's Delight Refabricated è una dipendenza obbligatoria; JEI fornisce categorie e visualizzazione di ricette. Serene Seasons/GlitchCore e Thirst Was Taken 2 sono integrazioni opzionali.
 - Le categorie e i tag `farmersdelight:*` / `c:*` facilitano l'interoperabilità, ma **non** implicano supporto verificato per qualsiasi altra mod.

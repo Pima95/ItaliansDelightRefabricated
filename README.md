@@ -20,7 +20,7 @@
 | --- | --- | --- | --- |
 | [1.0.0 — Pizza Update](docs/pizza-1.0.0/CHANGELOG.md) | Pubblicata il 23/10/2026 | 26.2 | Pizze interattive, forno, pala, spicchi e JEI |
 | [1.1.0 — Orchard Update](docs/orchards-1.1.0/CHANGELOG.md) | **Ultima release pubblica** (11/11/2026) | 26.2 | Ulivi, mandorli, ciliegi da frutto, legni, frutta e Crushing Tub |
-| 1.2.0 — Vineyard & Chili | In sviluppo su `feature/vineyard-chili-1.2.0` | **26.3** | Uva, peperoncini, fermentazione, bevande, nuovi piatti e pizze |
+| [1.2.0 — Vineyard & Chili](docs/vineyard-chili-1.2.0/README.md) | **Candidata al rilascio**, in collaudo sul branch esistente | **26.3** | Uva, peperoncini, fermentazione, bevande, nuovi piatti e pizze |
 
 ### Installare una versione pubblicata
 
@@ -30,7 +30,7 @@
 
 Le versioni delle dipendenze per la **1.0.0** e la **1.1.0** sono specificate nei rispettivi [changelog](docs/README.md) e nella [pagina delle release pubblicate](https://github.com/Pima95/ItaliansDelightRefabricated/releases).
 
-**La 1.2.0 non è ancora pubblicata.** Il numero di versione nel branch di sviluppo è `1.2.0-mc26.3-dev`. Consultare la [documentazione 1.2.0](docs/vineyard-chili-1.2.0/README.md) e i [test manuali](docs/vineyard-chili-1.2.0/TESTING.md); una build CI riuscita non sostituisce una prova in gioco.
+**La 1.2.0 non è ancora pubblicata.** Sul branch esistente si prepara il JAR completo `italiansdelight-1.2.0.jar` per i test. Dopo l'esito della [CI](https://github.com/Pima95/ItaliansDelightRefabricated/actions/workflows/vineyard-chili-1.2.0.yml) si possono scaricare il JAR candidato e `SHA256SUMS` dall'artifact della stessa esecuzione. Consultare la [documentazione 1.2.0](docs/vineyard-chili-1.2.0/README.md) e i [test manuali](docs/vineyard-chili-1.2.0/TESTING.md); un build riuscito non sostituisce la prova in gioco. Nessun tag o pubblicazione è stato effettuato.
 
 ## Funzionalità
 

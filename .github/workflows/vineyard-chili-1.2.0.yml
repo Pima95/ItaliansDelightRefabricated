@@ -17,13 +17,17 @@ jobs:
           distribution: temurin
           java-version: '25'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Verify development branch
+      - name: Verify full-version 1.2.0 candidate on existing branch
         run: |
-          grep -Fx 'mod_version=1.2.0-mc26.3-dev' gradle.properties
+          grep -Fx 'mod_version=1.2.0' gradle.properties
           grep -Fx 'minecraft_version=26.3' gradle.properties
           test -f docs/vineyard-chili-1.2.0/README.md
           test -f docs/vineyard-chili-1.2.0/TECHNICAL.md
           test -f docs/vineyard-chili-1.2.0/TESTING.md
+          test -f docs/PROMPTS.md
+          test -f docs/FDR_CRATES_LICENSE.md
+          test -f NOTICE
+          test -f CREDIT.md
           test -f src/main/resources/assets/italiansdelight/textures/item/grape.png
       - name: Audit JSON and recipes
         run: python3 .github/scripts/audit_project_consistency.py
@@ -47,12 +51,12 @@ jobs:
           python3 .github/scripts/check_texture_fidelity_1_2.py
           python3 .github/scripts/check_pizza_jei_sidebar.py
           python3 .github/scripts/check_pizza_release_balance.py
-      - name: Build Java 25 experimental artifact
+      - name: Build Java 25 full-version release candidate
         run: bash ./gradlew build --no-daemon --max-workers=2 --console=plain
       - name: Verify JAR
         run: |
           python3 - <<'PY'
-          import json, zipfile, binascii, zlib
+          import json, zipfile, binascii, zlib, struct
           def validate_png(data, height=16):
               assert data[:8] == bytes.fromhex("89504e470d0a1a0a")
               offset, seen_end, zdata = 8, False, bytearray()
@@ -74,10 +78,21 @@ jobs:
                       seen_end = True
                   offset = end
               assert seen_end and len(zlib.decompress(bytes(zdata))) == height * 65, "Incomplete PNG data"
-          path = 'build/libs/italiansdelight-1.2.0-mc26.3-dev.jar'
+          path = 'build/libs/italiansdelight-1.2.0.jar'
           with zipfile.ZipFile(path) as jar:
               m = json.loads(jar.read('fabric.mod.json'))
-              assert m['version'] == '1.2.0-mc26.3-dev'
+              assert m['version'] == '1.2.0'
+              assert m['id'] == 'italiansdelight'
+              assert m['license'] == 'Apache-2.0'
+              assert m['depends']['farmersdelight']
+              for required in ('LICENSE_italiansdelight', 'META-INF/NOTICE',
+                               'META-INF/THIRD_PARTY_NOTICES.md', 'META-INF/FDR_CRATES_LICENSE.md',
+                               'META-INF/CREDIT.md', 'dev/italiansdelight/ItaliansDelight.class'):
+                  assert required in jar.namelist(), required
+              assert b'Apache License' in jar.read('LICENSE_italiansdelight')
+              assert b'Piergiuseppe Mastroserio (Pima95)' in jar.read('META-INF/NOTICE')
+              assert b'Copyright (c) 2020 vectorwing' in jar.read('META-INF/FDR_CRATES_LICENSE.md')
+              assert struct.unpack('>H', jar.read('dev/italiansdelight/ItaliansDelight.class')[6:8])[0] == 69
               assert m['depends']['minecraft'] == '~26.3'
               assert m['depends']['java'] == '>=25'
               # Inspect both lifecycle blocks packed into the real JAR.
@@ -180,10 +195,18 @@ jobs:
               assert 'dev/italiansdelight/common/block/WildChiliBlock.class' in jar.namelist()
           print('OK: FDR seedling -> adult chili lifecycle, crate assets, save-compatible ages, wild crops and bamboo')
           PY
+      - name: Generate SHA-256 checksum for the candidate JAR
+        run: |
+          set -euo pipefail
+          cd build/libs
+          sha256sum italiansdelight-1.2.0.jar > SHA256SUMS
+          cat SHA256SUMS
       - uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: italiansdelight-1.2.0-mc26.3-dev
-          path: build/libs/italiansdelight-1.2.0-mc26.3-dev.jar
+          name: italiansdelight-1.2.0-release-candidate-${{ github.sha }}
+          path: |
+            build/libs/italiansdelight-1.2.0.jar
+            build/libs/SHA256SUMS
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 30
