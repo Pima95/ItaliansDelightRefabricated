@@ -90,9 +90,26 @@ public final class PizzaToppingVisuals {
         int frontX = facing.getStepX();
         int frontZ = facing.getStepZ();
 
+        List<PizzaToppingApplication> applications = composition.applications();
+        // Resolve the most recent sauce independently for all four quarters.
+        // This does not rewrite saved ingredients or convert their ItemStacks.
+        int[] baseMasks = new int[applications.size()];
+        int claimedBase = 0;
+        for (int i = applications.size() - 1; i >= 0; i--) {
+            PizzaToppingApplication application = applications.get(i);
+            PizzaToppingType type = PizzaToppingCatalog
+                    .findType(application.canonicalId()).orElse(null);
+            if (type != null && type.occupiesSauceSlot()) {
+                int covered = application.remainingMask() & mask;
+                baseMasks[i] = covered & ~claimedBase;
+                claimedBase |= covered;
+            }
+        }
+
         List<Layer> sauces = new ArrayList<>();
         List<Solid> solids = new ArrayList<>();
-        for (PizzaToppingApplication application : composition.applications()) {
+        for (int i = 0; i < applications.size(); i++) {
+            PizzaToppingApplication application = applications.get(i);
             int covered = application.remainingMask() & mask;
             if (covered == 0) {
                 continue;
@@ -103,13 +120,19 @@ public final class PizzaToppingVisuals {
                     ? type.id().getPath().substring(
                             type.id().getPath().lastIndexOf('/') + 1)
                     : "unknown";
-            if (type != null && type.occupiesSauceSlot()) {
-                // The approved continuous 12x12 sauce artwork is unchanged.
+            int base = baseMasks[i];
+            if (base != 0) {
                 sauces.add(new Layer(texture(SAUCE_PREFIX, name),
-                        covered, sauces.size()));
-            } else {
-                solids.add(new Solid(texture(SPRITE_PREFIX, name),
-                        covered, application.sequence()));
+                        base, sauces.size()));
+            }
+            int garnish = covered & ~base;
+            if (garnish != 0) {
+                // Previous sauces reuse their approved full-layer texture
+                // sampled as small fragments, not as a second base sheet.
+                String prefix = type != null && type.occupiesSauceSlot()
+                        ? SAUCE_PREFIX : SPRITE_PREFIX;
+                solids.add(new Solid(texture(prefix, name),
+                        garnish, application.sequence()));
             }
         }
         if ((legacyMozzarellaMask & mask) != 0) {

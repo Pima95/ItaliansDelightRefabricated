@@ -56,6 +56,28 @@ public final class LiquidSurfaceVisuals {
             ModRegistries.id("block/fluids/booze/cider_still"), 0xFFFFFFFF)
     ));
 
+    static {
+        // Map.of permits only ten entries; extend the mutable map explicitly.
+        SURFACES.put("italiansdelight:white_grape_juice",
+            new Surface(ModRegistries.id("block/fluids/white_grape_juice_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:grape_juice",
+            new Surface(ModRegistries.id("block/fluids/grape_juice_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:wine",
+            new Surface(ModRegistries.id("block/fluids/booze/wine_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:cherry_juice",
+            new Surface(ModRegistries.id("block/fluids/booze/cherry_juice_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:white_wine",
+            new Surface(ModRegistries.id("block/fluids/booze/white_wine_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:cherry_wine",
+            new Surface(ModRegistries.id("block/fluids/booze/cherry_wine_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:mead",
+            new Surface(ModRegistries.id("block/fluids/booze/mead_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:cider",
+            new Surface(ModRegistries.id("block/fluids/booze/cider_still"), 0xFFFFFFFF));
+        SURFACES.put("italiansdelight:red_wine_vinegar",
+            new Surface(ModRegistries.id("block/fluids/booze/red_wine_vinegar_still"), 0xFFFFFFFF));
+    }
+
     // Only external/unregistered fluids need the conventional five-path atlas
     // search. Remember resolved IDs for the active atlas, never the sprite
     // object itself; rendering still samples current animated atlas frames.
@@ -107,7 +129,13 @@ public final class LiquidSurfaceVisuals {
                 : 0xFFFFFFFF);
         // Preserve alpha supplied by other mods, plus vanilla water's alpha.
         if ((color >>> 24) == 0) color |= 0xFF000000;
-        boolean translucent = water || custom || (color >>> 24) < 255;
+        // Both grape juices have semi-transparent animated RGBA sprites.
+        // A known fluid usually uses cutout, which discards alpha blending:
+        // explicitly choose translucent for grape juices so their texture's
+        // alpha channel produces real in-world transparency in barrels/tanks.
+        boolean translucent = water || custom || (color >>> 24) < 255
+            || "italiansdelight:grape_juice".equals(fluidId)
+            || "italiansdelight:white_grape_juice".equals(fluidId);
         final int vertexColor = color;
         queue.submitCustomGeometry(stack,
             translucent ? RenderTypes.entityTranslucent(TextureAtlas.LOCATION_BLOCKS)

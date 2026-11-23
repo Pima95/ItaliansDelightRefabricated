@@ -2,6 +2,8 @@ package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.ItaliansDelight;
 import dev.italiansdelight.client.gui.CheeseVatScreen;
+import dev.italiansdelight.client.gui.BrewingBarrelScreen;
+import dev.italiansdelight.common.block.entity.container.BrewingBarrelMenu;
 import dev.italiansdelight.client.gui.PizzaOvenScreen;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModItems;
@@ -83,6 +85,9 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new CrushingTubRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
+            new BrewingBarrelJeiRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+            ),
             new SaltEvaporationRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
             ),
@@ -102,10 +107,26 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
     public void registerRecipes(
         IRecipeRegistration registration
     ) {
-        // Native JEI Information tabs: five plants, covering their linked
+        // Native JEI Information tabs: seven plant families, covering their linked
         // fruits/saplings/leaves or wild/cultivated forms (as in the video).
         OrchardPlantJeiInfo.register(registration);
+        DecorativePoleJeiInfo.register(registration);
         ModFluidJeiInfo.register(registration);
+
+        // Explicit registered recipes only: wine, white/cherry wine, mead,
+        // seeded cider, apple vinegar and red-wine vinegar.
+        registration.addRecipes(
+            BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE,
+            java.util.List.of(
+                new BrewingBarrelJeiGuide("red_wine"),
+                new BrewingBarrelJeiGuide("white_wine"),
+                new BrewingBarrelJeiGuide("cherry_wine"),
+                new BrewingBarrelJeiGuide("mead"),
+                new BrewingBarrelJeiGuide("cider"),
+                new BrewingBarrelJeiGuide("apple_cider_vinegar"),
+                new BrewingBarrelJeiGuide("cider_vinegar"),
+                new BrewingBarrelJeiGuide("red_wine_vinegar"))
+        );
 
         CheeseVatJeiRecipes recipes =
             new CheeseVatJeiRecipes();
@@ -219,7 +240,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             new ItemStack(ModBlocks.CHEESE_HOOK)
         );
 
-        // Every one of the fifteen actual Crushing Tub wood variants handles
+        // Every Crushing Tub variant (including Minecraft 26.3 Poplar) handles
         // the same recipes. They must all open the JEI category via Uses (U).
         for (net.minecraft.world.level.block.Block tub : new net.minecraft.world.level.block.Block[] {
             ModBlocks.CRUSHING_TUB,
@@ -231,6 +252,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             ModBlocks.MANGROVE_CRUSHING_TUB,
             ModBlocks.CHERRY_CRUSHING_TUB,
             ModBlocks.PALE_OAK_CRUSHING_TUB,
+            ModBlocks.POPLAR_CRUSHING_TUB,
             ModBlocks.BAMBOO_CRUSHING_TUB,
             ModBlocks.CRIMSON_CRUSHING_TUB,
             ModBlocks.WARPED_CRUSHING_TUB,
@@ -241,6 +263,32 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             registration.addCraftingStation(
                 CrushingTubJeiRecipeTypes.CRUSHING_TUB,
                 new ItemStack(tub)
+            );
+        }
+
+        // All wood variants expose the same actual brewing recipes in JEI.
+        for (net.minecraft.world.level.block.Block barrel :
+                new net.minecraft.world.level.block.Block[] {
+                    ModBlocks.BREWING_BARREL,
+                    ModBlocks.SPRUCE_BREWING_BARREL,
+                    ModBlocks.BIRCH_BREWING_BARREL,
+                    ModBlocks.JUNGLE_BREWING_BARREL,
+                    ModBlocks.ACACIA_BREWING_BARREL,
+                    ModBlocks.DARK_OAK_BREWING_BARREL,
+                    ModBlocks.MANGROVE_BREWING_BARREL,
+                    ModBlocks.CHERRY_BREWING_BARREL,
+                    ModBlocks.PALE_OAK_BREWING_BARREL,
+                    ModBlocks.POPLAR_BREWING_BARREL,
+                    ModBlocks.BAMBOO_BREWING_BARREL,
+                    ModBlocks.CRIMSON_BREWING_BARREL,
+                    ModBlocks.WARPED_BREWING_BARREL,
+                    ModBlocks.OLIVE_BREWING_BARREL,
+                    ModBlocks.ALMOND_BREWING_BARREL,
+                    ModBlocks.FRUIT_CHERRY_BREWING_BARREL
+                }) {
+            registration.addCraftingStation(
+                BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE,
+                new ItemStack(barrel)
             );
         }
 
@@ -279,6 +327,13 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             17,
 
             CheeseVatJeiRecipeTypes.CHEESE_VAT
+        );
+
+        // The Rustic arrow opens the active wine-fermentation recipes.
+        registration.addRecipeClickArea(
+            BrewingBarrelScreen.class,
+            85, 35 + BrewingBarrelMenu.MACHINE_Y_OFFSET, 24, 16,
+            BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE
         );
 
         // Vanilla-layout arrow in our dedicated pizza furnace screen.

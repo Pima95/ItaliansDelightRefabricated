@@ -35,6 +35,16 @@ public final class CrushingTubRecipes {
         if (stack.is(ModItems.OLIVES))
             return new Recipe("italiansdelight:olive_oil", STANDARD_AMOUNT,
                 new ItemStack(ModItems.OLIVE_SEED));
+        if (stack.is(ModItems.GRAPES))
+            return new Recipe("italiansdelight:grape_juice", STANDARD_AMOUNT,
+                new ItemStack(dev.italiansdelight.common.registry.ModBlocks.GRAPE_SEEDS));
+        // White bunches produce their own light must without altering the
+        // already-saved purple grape juice or wine fermentation.
+        if (stack.is(ModItems.WHITE_GRAPES))
+            return new Recipe("italiansdelight:white_grape_juice", STANDARD_AMOUNT,
+                new ItemStack(dev.italiansdelight.common.registry.ModBlocks.WHITE_GRAPE_SEEDS));
+        if (stack.is(ModItems.CHERRIES))
+            return new Recipe("italiansdelight:cherry_juice", STANDARD_AMOUNT, ItemStack.EMPTY);
         if (stack.is(Items.APPLE))
             return new Recipe("italiansdelight:apple_juice", STANDARD_AMOUNT,
                 new ItemStack(ModItems.APPLE_SEEDS));

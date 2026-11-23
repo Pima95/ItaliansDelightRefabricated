@@ -4,7 +4,8 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.HangingSignItem;
 
 /**
@@ -18,7 +19,7 @@ public final class ModSigns {
         ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_sign"));
     public static final Item OLIVE_SIGN = Registry.register(
         BuiltInRegistries.ITEM, OLIVE_SIGN_KEY,
-        new SignItem(ModBlocks.OLIVE_SIGN, ModBlocks.OLIVE_WALL_SIGN,
+        new StandingAndWallBlockItem(ModBlocks.OLIVE_SIGN, ModBlocks.OLIVE_WALL_SIGN, Direction.DOWN,
             new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
                 .setId(OLIVE_SIGN_KEY))
     );
@@ -37,7 +38,7 @@ public final class ModSigns {
         ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("almond_sign"));
     public static final Item ALMOND_SIGN = Registry.register(
         BuiltInRegistries.ITEM, ALMOND_SIGN_KEY,
-        new SignItem(ModBlocks.ALMOND_SIGN, ModBlocks.ALMOND_WALL_SIGN,
+        new StandingAndWallBlockItem(ModBlocks.ALMOND_SIGN, ModBlocks.ALMOND_WALL_SIGN, Direction.DOWN,
             new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
                 .setId(ALMOND_SIGN_KEY))
     );
@@ -58,7 +59,7 @@ public final class ModSigns {
         ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("fruit_cherry_sign"));
     public static final Item FRUIT_CHERRY_SIGN = Registry.register(
         BuiltInRegistries.ITEM, FRUIT_CHERRY_SIGN_KEY,
-        new SignItem(ModBlocks.FRUIT_CHERRY_SIGN, ModBlocks.FRUIT_CHERRY_WALL_SIGN,
+        new StandingAndWallBlockItem(ModBlocks.FRUIT_CHERRY_SIGN, ModBlocks.FRUIT_CHERRY_WALL_SIGN, Direction.DOWN,
             new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
                 .setId(FRUIT_CHERRY_SIGN_KEY))
     );

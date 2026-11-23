@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "italiansdelight:block/wild_grape_vine_bottom"
+    },
+    "half=upper": {
+      "model": "italiansdelight:block/wild_grape_vine_top"
+    }
+  }
+}

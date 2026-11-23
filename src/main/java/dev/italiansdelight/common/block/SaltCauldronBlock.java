@@ -1,8 +1,8 @@
 package dev.italiansdelight.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.registry.ModItems;
 
+import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -25,11 +25,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * collect a random amount of salt and restores an empty cauldron.
  */
 public final class SaltCauldronBlock extends Block {
-
-    public static final MapCodec<SaltCauldronBlock> CODEC =
-        simpleCodec(SaltCauldronBlock::new);
-
-    private static final int MIN_SALT_DROP = 3;
+private static final int MIN_SALT_DROP = 3;
     private static final int MAX_SALT_DROP = 7;
 
     private static final VoxelShape SHAPE =
@@ -45,13 +41,7 @@ public final class SaltCauldronBlock extends Block {
     ) {
         super(properties);
     }
-
-    @Override
-    protected MapCodec<? extends Block> codec() {
-        return CODEC;
-    }
-
-    @Override
+@Override
     public VoxelShape getShape(
         BlockState state,
         BlockGetter level,
@@ -145,8 +135,7 @@ public final class SaltCauldronBlock extends Block {
 
         if (!player.addItem(salt)) {
             player.drop(
-                salt,
-                false
+                salt, false, Prediction.SERVER_ONLY
             );
         }
 

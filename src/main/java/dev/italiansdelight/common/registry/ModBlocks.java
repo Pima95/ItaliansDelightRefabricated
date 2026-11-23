@@ -4,6 +4,7 @@ import dev.italiansdelight.common.block.CrushingTubBlock;
 import dev.italiansdelight.common.block.OliveOilCauldronBlock;
 import dev.italiansdelight.common.block.FluidCauldronBlock;
 import dev.italiansdelight.common.block.BarrelBlock;
+import dev.italiansdelight.common.block.BrewingBarrelBlock;
 import dev.italiansdelight.common.block.CheeseVatBlock;
 import dev.italiansdelight.common.block.CheeseHookBlock;
 import dev.italiansdelight.common.block.CheeseHookOccupiedSpaceBlock;
@@ -15,7 +16,18 @@ import dev.italiansdelight.common.block.OliveLeavesBlock;
 import dev.italiansdelight.common.block.AlmondLeavesBlock;
 import dev.italiansdelight.common.block.FruitCherryLeavesBlock;
 import dev.italiansdelight.common.block.BasilCropBlock;
+import dev.italiansdelight.common.block.RepeatHarvestCropBlock;
+import dev.italiansdelight.common.block.CropStakeBlock;
+import dev.italiansdelight.common.block.HorizontalRopeBlock;
+import dev.italiansdelight.common.block.StakedTomatoBlock;
+import dev.italiansdelight.common.block.GrapeStemBlock;
+import dev.italiansdelight.common.block.GrapeLeavesBlock;
+import dev.italiansdelight.common.block.ChiliCropBlock;
+import dev.italiansdelight.common.block.HangingChiliBlock;
+import dev.italiansdelight.common.block.BuddingChiliBlock;
 import dev.italiansdelight.common.block.WildBasilBlock;
+import dev.italiansdelight.common.block.WildChiliBlock;
+import dev.italiansdelight.common.block.WildGrapeBlock;
 import dev.italiansdelight.common.block.SaltCauldronBlock;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
 import dev.italiansdelight.common.block.PizzaOvenBlock;
@@ -35,7 +47,8 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.grower.TreeGrower;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.util.random.WeightedList;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.core.registries.Registries;
 import java.util.Optional;
 import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
@@ -60,7 +73,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.minecraft.world.level.block.SoundType;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import net.fabricmc.fabric.api.item.v1.BlockTransformerHelper;
 
 /**
  * Central registry for mod blocks and their BlockItems when they need to be placeable from the inventory.
@@ -345,11 +358,11 @@ public final class ModBlocks {
         new FruitCherryLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(FRUIT_CHERRY_LEAVES_KEY))
     );
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FRUIT_CHERRY_TREE_FEATURE =
-        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("fruit_cherry_tree"));
+    public static final ResourceKey<Feature> FRUIT_CHERRY_TREE_FEATURE =
+        ResourceKey.create(Registries.FEATURE, ModRegistries.id("fruit_cherry_tree"));
     public static final TreeGrower FRUIT_CHERRY_TREE_GROWER = new TreeGrower(
-        "italiansdelight:fruit_cherry", Optional.empty(),
-        Optional.of(FRUIT_CHERRY_TREE_FEATURE), Optional.empty()
+        "italiansdelight:fruit_cherry", WeightedList.of(FRUIT_CHERRY_TREE_FEATURE),
+        WeightedList.of(), WeightedList.of(), null
     );
     public static final ResourceKey<Block> FRUIT_CHERRY_SAPLING_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("fruit_cherry_sapling"));
@@ -377,11 +390,11 @@ public final class ModBlocks {
         new AlmondLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(ALMOND_LEAVES_KEY))
     );
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ALMOND_TREE_FEATURE =
-        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("almond_tree"));
+    public static final ResourceKey<Feature> ALMOND_TREE_FEATURE =
+        ResourceKey.create(Registries.FEATURE, ModRegistries.id("almond_tree"));
     public static final TreeGrower ALMOND_TREE_GROWER = new TreeGrower(
-        "italiansdelight:almond", Optional.empty(),
-        Optional.of(ALMOND_TREE_FEATURE), Optional.empty()
+        "italiansdelight:almond", WeightedList.of(ALMOND_TREE_FEATURE),
+        WeightedList.of(), WeightedList.of(), null
     );
     public static final ResourceKey<Block> ALMOND_SAPLING_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("almond_sapling"));
@@ -416,15 +429,13 @@ public final class ModBlocks {
     // One seedling: regular olive. Four identical seedlings in a 2x2:
     // ancient (secular) olive, via vanilla TreeGrower mega-tree detection.
     // Features are data-driven, using our non-Rustic log and silver leaves.
-    public static final ResourceKey<ConfiguredFeature<?, ?>> OLIVE_TREE_FEATURE =
-        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("olive_tree"));
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ANCIENT_OLIVE_TREE_FEATURE =
-        ResourceKey.create(Registries.CONFIGURED_FEATURE, ModRegistries.id("ancient_olive_tree"));
+    public static final ResourceKey<Feature> OLIVE_TREE_FEATURE =
+        ResourceKey.create(Registries.FEATURE, ModRegistries.id("olive_tree"));
+    public static final ResourceKey<Feature> ANCIENT_OLIVE_TREE_FEATURE =
+        ResourceKey.create(Registries.FEATURE, ModRegistries.id("ancient_olive_tree"));
     public static final TreeGrower OLIVE_TREE_GROWER = new TreeGrower(
-        "italiansdelight:olive",
-        Optional.of(ANCIENT_OLIVE_TREE_FEATURE),
-        Optional.of(OLIVE_TREE_FEATURE),
-        Optional.empty()
+        "italiansdelight:olive", WeightedList.of(OLIVE_TREE_FEATURE),
+        WeightedList.of(ANCIENT_OLIVE_TREE_FEATURE), WeightedList.of(), null
     );
     public static final ResourceKey<Block> OLIVE_SAPLING_KEY =
         ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_sapling"));
@@ -688,7 +699,7 @@ public final class ModBlocks {
     // Historical ID stays wild to preserve old worlds and flower pots.
     public static final Block CARDOON = register(
         CARDOON_KEY,
-        new CardoonBlock(Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(CARDOON_KEY))
+        new CardoonBlock(Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(CARDOON_KEY))
     );
 
     // New crop + BlockItem; harvested cardoon replants directly as with basil.
@@ -773,6 +784,40 @@ public final class ModBlocks {
             .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(CARDOON_CRATE_KEY))
     );
 
+    public static final ResourceKey<Block> GRAPE_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("grape_crate"));
+    public static final Block GRAPE_CRATE = register(
+        GRAPE_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(GRAPE_CRATE_KEY))
+    );
+
+    public static final ResourceKey<Block> WHITE_GRAPE_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("white_grape_crate"));
+    public static final Block WHITE_GRAPE_CRATE = register(
+        WHITE_GRAPE_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(WHITE_GRAPE_CRATE_KEY))
+    );
+
+    // Farmer's Delight-style packed pepper crates (nine items each).
+
+    public static final ResourceKey<Block> CHILI_PEPPER_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_pepper_crate"));
+    public static final Block CHILI_PEPPER_CRATE = register(
+        CHILI_PEPPER_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(CHILI_PEPPER_CRATE_KEY))
+    );
+
+    public static final ResourceKey<Block> GHOST_PEPPER_CRATE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("ghost_pepper_crate"));
+    public static final Block GHOST_PEPPER_CRATE = register(
+        GHOST_PEPPER_CRATE_KEY,
+        new Block(Block.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+            .strength(2.0F, 3.0F).sound(SoundType.WOOD).setId(GHOST_PEPPER_CRATE_KEY))
+    );
+
     // -------------------- Basil --------------------
     // The cultivated crop uses the same registry id for its BlockItem, so the
     // harvested basil itself can be replanted directly on farmland.
@@ -796,9 +841,137 @@ public final class ModBlocks {
     public static final Block WILD_BASIL = register(
         WILD_BASIL_KEY,
         new WildBasilBlock(
-            Block.Properties.ofFullCopy(Blocks.ALLIUM).setId(WILD_BASIL_KEY)
+            Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(WILD_BASIL_KEY)
         )
     );
+
+    // Wild peppers are a separate overworld plant; breaking them yields
+    // the existing chili seeds, while cultivated chili remains unchanged.
+    public static final ResourceKey<Block> WILD_CHILI_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("wild_chili")
+    );
+    public static final Block WILD_CHILI = register(WILD_CHILI_KEY,
+        new WildChiliBlock(Block.Properties.ofFullCopy(Blocks.TALL_GRASS).setId(WILD_CHILI_KEY))
+    );
+
+    // FDR wild crop: break for seeds / occasional fruit; shears collect whole plant.
+    public static final ResourceKey<Block> WILD_GRAPE_VINE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("wild_grape_vine"));
+    public static final Block WILD_GRAPE_VINE = register(WILD_GRAPE_VINE_KEY,
+        new WildGrapeBlock(Block.Properties.ofFullCopy(Blocks.TALL_GRASS)
+            .setId(WILD_GRAPE_VINE_KEY)));
+
+    public static final ResourceKey<Block> WILD_WHITE_GRAPE_VINE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("wild_white_grape_vine"));
+    public static final Block WILD_WHITE_GRAPE_VINE = register(WILD_WHITE_GRAPE_VINE_KEY,
+        new WildGrapeBlock(Block.Properties.ofFullCopy(Blocks.TALL_GRASS)
+            .setId(WILD_WHITE_GRAPE_VINE_KEY)));
+
+    // Decorative posts only: the original crop_stake is the oak variant.
+    public static final ResourceKey<Block> CROP_STAKE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("crop_stake"));
+    public static final Block CROP_STAKE = register(CROP_STAKE_KEY,
+        new CropStakeBlock(Block.Properties.of()
+            .setId(CROP_STAKE_KEY).noOcclusion()
+            .forceSolidOff().strength(0.7F).sound(SoundType.WOOD)));
+
+    // All 15 other wood types (vanilla, 26.3 poplar, and custom orchard woods).
+    public static final Block SPRUCE_CROP_STAKE = registerCropStakeVariant("spruce");
+    public static final Block BIRCH_CROP_STAKE = registerCropStakeVariant("birch");
+    public static final Block JUNGLE_CROP_STAKE = registerCropStakeVariant("jungle");
+    public static final Block ACACIA_CROP_STAKE = registerCropStakeVariant("acacia");
+    public static final Block DARK_OAK_CROP_STAKE = registerCropStakeVariant("dark_oak");
+    public static final Block MANGROVE_CROP_STAKE = registerCropStakeVariant("mangrove");
+    public static final Block CHERRY_CROP_STAKE = registerCropStakeVariant("cherry");
+    public static final Block PALE_OAK_CROP_STAKE = registerCropStakeVariant("pale_oak");
+    public static final Block POPLAR_CROP_STAKE = registerCropStakeVariant("poplar");
+    public static final Block BAMBOO_CROP_STAKE = registerCropStakeVariant("bamboo");
+    public static final Block CRIMSON_CROP_STAKE = registerCropStakeVariant("crimson");
+    public static final Block WARPED_CROP_STAKE = registerCropStakeVariant("warped");
+    public static final Block OLIVE_CROP_STAKE = registerCropStakeVariant("olive");
+    public static final Block ALMOND_CROP_STAKE = registerCropStakeVariant("almond");
+    public static final Block FRUIT_CHERRY_CROP_STAKE = registerCropStakeVariant("fruit_cherry");
+
+    // Reuses Farmer's Delight rope *items* and texture; no second rope item.
+    // The axis is saved in the block state to allow horizontal placement.
+    public static final ResourceKey<Block> HORIZONTAL_ROPE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("horizontal_rope"));
+    public static final Block HORIZONTAL_ROPE = registerBlockOnly(HORIZONTAL_ROPE_KEY,
+        new HorizontalRopeBlock(Block.Properties.of()
+            .setId(HORIZONTAL_ROPE_KEY).noCollision().noOcclusion()
+            .instabreak().sound(SoundType.WOOL)));
+
+    public static final ResourceKey<Block> STAKED_TOMATOES_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("staked_tomatoes"));
+    public static final Block STAKED_TOMATOES = registerBlockOnly(STAKED_TOMATOES_KEY,
+        new StakedTomatoBlock(Block.Properties.of()
+            .setId(STAKED_TOMATOES_KEY).noOcclusion().forceSolidOff()
+            .randomTicks().instabreak().sound(SoundType.CROP)));
+
+    // Rustic-inspired grapevine and chili plants; seeds are BlockItems with their own IDs.
+    // Both crops retain their roots on a successful empty-hand harvest.
+    // Cultivated grape stems break as slowly as vanilla leaves (0.2F), not instantly like wheat.
+    public static final ResourceKey<Block> GRAPE_STEM_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("grape_stem"));
+    public static final Block GRAPE_STEM = registerBlockOnly(GRAPE_STEM_KEY,
+        new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
+            .setId(GRAPE_STEM_KEY).randomTicks().strength(0.2F)));
+    public static final ResourceKey<Item> GRAPE_SEEDS_KEY = ResourceKey.create(
+        BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_seeds"));
+    public static final Item GRAPE_SEEDS = Registry.register(BuiltInRegistries.ITEM,
+        GRAPE_SEEDS_KEY, new BlockItem(GRAPE_STEM, new Item.Properties().setId(GRAPE_SEEDS_KEY)));
+
+    // Grapes are harvested from horizontal canopy branches, not the stem.
+    public static final ResourceKey<Block> GRAPE_LEAVES_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("grape_leaves"));
+    public static final Block GRAPE_LEAVES = registerBlockOnly(GRAPE_LEAVES_KEY,
+        new GrapeLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+            .setId(GRAPE_LEAVES_KEY).noOcclusion().randomTicks()));
+
+    // A second grape cultivar: distinct seeds, root and canopy IDs preserve
+    // old-world purple vineyards and avoid accidental cross-variety changes.
+    public static final ResourceKey<Block> WHITE_GRAPE_STEM_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("white_grape_stem"));
+    public static final Block WHITE_GRAPE_STEM = registerBlockOnly(WHITE_GRAPE_STEM_KEY,
+        new GrapeStemBlock(Block.Properties.ofFullCopy(Blocks.WHEAT)
+            .setId(WHITE_GRAPE_STEM_KEY).randomTicks().strength(0.2F), true));
+    public static final ResourceKey<Item> WHITE_GRAPE_SEEDS_KEY = ResourceKey.create(
+        BuiltInRegistries.ITEM.key(), ModRegistries.id("white_grape_seeds"));
+    public static final Item WHITE_GRAPE_SEEDS = Registry.register(BuiltInRegistries.ITEM,
+        WHITE_GRAPE_SEEDS_KEY, new BlockItem(WHITE_GRAPE_STEM,
+            new Item.Properties().setId(WHITE_GRAPE_SEEDS_KEY)));
+    public static final ResourceKey<Block> WHITE_GRAPE_LEAVES_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("white_grape_leaves"));
+    public static final Block WHITE_GRAPE_LEAVES = registerBlockOnly(WHITE_GRAPE_LEAVES_KEY,
+        new GrapeLeavesBlock(Block.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+            .setId(WHITE_GRAPE_LEAVES_KEY).noOcclusion().randomTicks(), true));
+
+    // FDR tomato-style seedling block; existing mature chili ID remains untouched.
+    public static final ResourceKey<Block> BUDDING_CHILI_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("budding_chili"));
+    public static final Block BUDDING_CHILI = registerBlockOnly(BUDDING_CHILI_KEY,
+        new BuddingChiliBlock(Block.Properties.of()
+            .setId(BUDDING_CHILI_KEY).noCollision().noOcclusion().forceSolidOff()
+            .randomTicks().instabreak().sound(SoundType.CROP)));
+
+    public static final ResourceKey<Block> CHILI_CROP_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_crop"));
+    public static final Block CHILI_CROP = registerBlockOnly(CHILI_CROP_KEY,
+        new ChiliCropBlock(Block.Properties.of()
+            .setId(CHILI_CROP_KEY).noOcclusion().noCollision().forceSolidOff()
+            .randomTicks().instabreak().sound(SoundType.CROP)));
+    public static final ResourceKey<Item> CHILI_PEPPER_SEEDS_KEY = ResourceKey.create(
+        BuiltInRegistries.ITEM.key(), ModRegistries.id("chili_pepper_seeds"));
+    public static final Item CHILI_PEPPER_SEEDS = Registry.register(BuiltInRegistries.ITEM,
+        CHILI_PEPPER_SEEDS_KEY, new BlockItem(BUDDING_CHILI,
+            new Item.Properties().setId(CHILI_PEPPER_SEEDS_KEY)));
+
+    public static final ResourceKey<Block> CHILI_ON_ROPE_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("chili_on_rope"));
+    public static final Block CHILI_ON_ROPE = registerBlockOnly(CHILI_ON_ROPE_KEY,
+        new HangingChiliBlock(Block.Properties.of()
+            .setId(CHILI_ON_ROPE_KEY).noCollision().noOcclusion()
+            .randomTicks().instabreak().sound(SoundType.CROP)));
 
     // World representation of Farmer's Delight wheat dough; no additional dough item.
     public static final ResourceKey<Block> PIZZA_DOUGH_KEY = ResourceKey.create(
@@ -850,6 +1023,32 @@ public final class ModBlocks {
             .setId(BARREL_KEY).noOcclusion().randomTicks().strength(2.0F, 3.0F))
     );
 
+    // Separate, closed Rustic-style fermentation machine: does not modify the
+    // original liquid Barrel ID, inventory, tank, or save format.
+    public static final ResourceKey<Block> BREWING_BARREL_KEY = ResourceKey.create(
+        BuiltInRegistries.BLOCK.key(), ModRegistries.id("brewing_barrel"));
+    public static final Block BREWING_BARREL = register(
+        BREWING_BARREL_KEY,
+        new BrewingBarrelBlock(Block.Properties.ofFullCopy(Blocks.BARREL)
+            .setId(BREWING_BARREL_KEY).noOcclusion().strength(2.5F, 3.0F)));
+
+    // All wood variants share the old fermentation machine's logic and save format.
+    public static final Block SPRUCE_BREWING_BARREL = registerBrewingBarrelVariant("spruce");
+    public static final Block BIRCH_BREWING_BARREL = registerBrewingBarrelVariant("birch");
+    public static final Block JUNGLE_BREWING_BARREL = registerBrewingBarrelVariant("jungle");
+    public static final Block ACACIA_BREWING_BARREL = registerBrewingBarrelVariant("acacia");
+    public static final Block DARK_OAK_BREWING_BARREL = registerBrewingBarrelVariant("dark_oak");
+    public static final Block MANGROVE_BREWING_BARREL = registerBrewingBarrelVariant("mangrove");
+    public static final Block CHERRY_BREWING_BARREL = registerBrewingBarrelVariant("cherry");
+    public static final Block PALE_OAK_BREWING_BARREL = registerBrewingBarrelVariant("pale_oak");
+    public static final Block POPLAR_BREWING_BARREL = registerBrewingBarrelVariant("poplar");
+    public static final Block BAMBOO_BREWING_BARREL = registerBrewingBarrelVariant("bamboo");
+    public static final Block CRIMSON_BREWING_BARREL = registerBrewingBarrelVariant("crimson");
+    public static final Block WARPED_BREWING_BARREL = registerBrewingBarrelVariant("warped");
+    public static final Block OLIVE_BREWING_BARREL = registerBrewingBarrelVariant("olive");
+    public static final Block ALMOND_BREWING_BARREL = registerBrewingBarrelVariant("almond");
+    public static final Block FRUIT_CHERRY_BREWING_BARREL = registerBrewingBarrelVariant("fruit_cherry");
+
     // Apple juice created by the Rustic Crushing Tub; real source/flowing liquid.
     public static final ResourceKey<Block> APPLE_JUICE_FLUID_BLOCK_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("apple_juice_fluid"));
@@ -876,6 +1075,9 @@ public final class ModBlocks {
     public static final Block CHERRY_BARREL = registerBarrelVariant("cherry");
     public static final Block PALE_OAK_CRUSHING_TUB = registerCrushingTubVariant("pale_oak");
     public static final Block PALE_OAK_BARREL = registerBarrelVariant("pale_oak");
+    // Minecraft 26.3: Dappled Forest wood set.
+    public static final Block POPLAR_CRUSHING_TUB = registerCrushingTubVariant("poplar");
+    public static final Block POPLAR_BARREL = registerBarrelVariant("poplar");
     public static final Block BAMBOO_CRUSHING_TUB = registerCrushingTubVariant("bamboo");
     public static final Block BAMBOO_BARREL = registerBarrelVariant("bamboo");
     public static final Block CRIMSON_CRUSHING_TUB = registerCrushingTubVariant("crimson");
@@ -1014,6 +1216,9 @@ public final class ModBlocks {
     public static final Block PALE_OAK_CHEESE_AGING_RACK =
         registerRack("pale_oak", Blocks.PALE_OAK_PLANKS);
 
+    public static final Block POPLAR_CHEESE_AGING_RACK =
+        registerRack("poplar", Blocks.POPLAR_PLANKS);
+
     public static final Block BAMBOO_CHEESE_AGING_RACK =
         registerRack("bamboo", Blocks.BAMBOO_PLANKS);
 
@@ -1139,6 +1344,21 @@ public final class ModBlocks {
         );
     }
 
+    private static Block registerCropStakeVariant(String wood) {
+        ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(),
+            ModRegistries.id(wood + "_crop_stake"));
+        return register(key, new CropStakeBlock(Block.Properties.of()
+            .setId(key).noOcclusion().forceSolidOff()
+            .strength(0.7F).sound(SoundType.WOOD)));
+    }
+
+    private static Block registerBrewingBarrelVariant(String wood) {
+        ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(),
+            ModRegistries.id(wood + "_brewing_barrel"));
+        return register(key, new BrewingBarrelBlock(Block.Properties.ofFullCopy(Blocks.BARREL)
+            .setId(key).noOcclusion().strength(2.5F, 3.0F)));
+    }
+
     private static Block registerCrushingTubVariant(String wood) {
         ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(),
             ModRegistries.id(wood + "_crushing_tub"));
@@ -1156,12 +1376,12 @@ public final class ModBlocks {
     public static void register() {
         // Vanilla-style log stripping and fire spread: performed only after
         // the registered block fields are initialized.
-        StrippableBlockRegistry.register(OLIVE_LOG, STRIPPED_OLIVE_LOG);
-        StrippableBlockRegistry.register(OLIVE_WOOD, STRIPPED_OLIVE_WOOD);
-        StrippableBlockRegistry.register(ALMOND_LOG, STRIPPED_ALMOND_LOG);
-        StrippableBlockRegistry.register(ALMOND_WOOD, STRIPPED_ALMOND_WOOD);
-        StrippableBlockRegistry.register(FRUIT_CHERRY_LOG, STRIPPED_FRUIT_CHERRY_LOG);
-        StrippableBlockRegistry.register(FRUIT_CHERRY_WOOD, STRIPPED_FRUIT_CHERRY_WOOD);
+        BlockTransformerHelper.registerStripping(OLIVE_LOG, STRIPPED_OLIVE_LOG);
+        BlockTransformerHelper.registerStripping(OLIVE_WOOD, STRIPPED_OLIVE_WOOD);
+        BlockTransformerHelper.registerStripping(ALMOND_LOG, STRIPPED_ALMOND_LOG);
+        BlockTransformerHelper.registerStripping(ALMOND_WOOD, STRIPPED_ALMOND_WOOD);
+        BlockTransformerHelper.registerStripping(FRUIT_CHERRY_LOG, STRIPPED_FRUIT_CHERRY_LOG);
+        BlockTransformerHelper.registerStripping(FRUIT_CHERRY_WOOD, STRIPPED_FRUIT_CHERRY_WOOD);
         FlammableBlockRegistry fire = FlammableBlockRegistry.getDefaultInstance();
         fire.add(OLIVE_LOG, 5, 5);
         fire.add(OLIVE_WOOD, 5, 5);
@@ -1216,6 +1436,42 @@ public final class ModBlocks {
         fire.add(CHERRY_CRATE, 5, 20);
         fire.add(BASIL_CRATE, 5, 20);
         fire.add(CARDOON_CRATE, 5, 20);
+        fire.add(GRAPE_CRATE, 5, 20);
+        fire.add(WHITE_GRAPE_CRATE, 5, 20);
+        fire.add(CHILI_PEPPER_CRATE, 5, 20);
+        fire.add(GHOST_PEPPER_CRATE, 5, 20);
+        fire.add(CROP_STAKE, 5, 20);
+        fire.add(SPRUCE_CROP_STAKE, 5, 20);
+        fire.add(BIRCH_CROP_STAKE, 5, 20);
+        fire.add(JUNGLE_CROP_STAKE, 5, 20);
+        fire.add(ACACIA_CROP_STAKE, 5, 20);
+        fire.add(DARK_OAK_CROP_STAKE, 5, 20);
+        fire.add(MANGROVE_CROP_STAKE, 5, 20);
+        fire.add(CHERRY_CROP_STAKE, 5, 20);
+        fire.add(PALE_OAK_CROP_STAKE, 5, 20);
+        fire.add(POPLAR_CROP_STAKE, 5, 20);
+        fire.add(BAMBOO_CROP_STAKE, 5, 20);
+        fire.add(CRIMSON_CROP_STAKE, 5, 20);
+        fire.add(WARPED_CROP_STAKE, 5, 20);
+        fire.add(OLIVE_CROP_STAKE, 5, 20);
+        fire.add(ALMOND_CROP_STAKE, 5, 20);
+        fire.add(FRUIT_CHERRY_CROP_STAKE, 5, 20);
+        fire.add(BREWING_BARREL, 5, 20);
+        fire.add(SPRUCE_BREWING_BARREL, 5, 20);
+        fire.add(BIRCH_BREWING_BARREL, 5, 20);
+        fire.add(JUNGLE_BREWING_BARREL, 5, 20);
+        fire.add(ACACIA_BREWING_BARREL, 5, 20);
+        fire.add(DARK_OAK_BREWING_BARREL, 5, 20);
+        fire.add(MANGROVE_BREWING_BARREL, 5, 20);
+        fire.add(CHERRY_BREWING_BARREL, 5, 20);
+        fire.add(PALE_OAK_BREWING_BARREL, 5, 20);
+        fire.add(POPLAR_BREWING_BARREL, 5, 20);
+        fire.add(BAMBOO_BREWING_BARREL, 5, 20);
+        fire.add(CRIMSON_BREWING_BARREL, 5, 20);
+        fire.add(WARPED_BREWING_BARREL, 5, 20);
+        fire.add(OLIVE_BREWING_BARREL, 5, 20);
+        fire.add(ALMOND_BREWING_BARREL, 5, 20);
+        fire.add(FRUIT_CHERRY_BREWING_BARREL, 5, 20);
         fire.add(SPRUCE_BARREL, 5, 20);
         fire.add(SPRUCE_CRUSHING_TUB, 5, 20);
         fire.add(BIRCH_BARREL, 5, 20);

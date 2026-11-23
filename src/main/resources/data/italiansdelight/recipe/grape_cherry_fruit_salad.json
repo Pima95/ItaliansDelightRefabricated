@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "italiansdelight:grapes",
+    "italiansdelight:white_grapes",
+    "italiansdelight:cherries",
+    "italiansdelight:cherries"
+  ],
+  "result": {
+    "id": "italiansdelight:grape_cherry_fruit_salad",
+    "count": 1
+  }
+}

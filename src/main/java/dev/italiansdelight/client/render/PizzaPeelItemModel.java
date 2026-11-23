@@ -171,7 +171,7 @@ public record PizzaPeelItemModel(ItemModel peelModel) implements ItemModel {
             poseStack.translate(CARGO_X, CARGO_Y, CARGO_Z);
             // Real pizza item art lies in XY. Turn its front (+Z) upward (+Y)
             // so it rests horizontally on top of the loaded metal paddle.
-            poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
+            poseStack.rotate(Axis.XP.rotationDegrees(-90.0F));
             poseStack.scale(PIZZA_SCALE, PIZZA_SCALE, PIZZA_DEPTH);
             state.submit(poseStack, queue, light, overlay, outline);
             poseStack.popPose();

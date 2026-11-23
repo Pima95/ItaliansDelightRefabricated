@@ -1,6 +1,5 @@
 package dev.italiansdelight.common.block;
 
-import com.mojang.serialization.MapCodec;
 
 import dev.italiansdelight.common.registry.ModBlocks;
 
@@ -28,24 +27,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * another block or fluid cannot be placed through the hanging cheese.
  */
 public final class CheeseHookOccupiedSpaceBlock extends Block {
-
-    public static final MapCodec<CheeseHookOccupiedSpaceBlock> CODEC =
-        simpleCodec(
-            CheeseHookOccupiedSpaceBlock::new
-        );
-
-    public CheeseHookOccupiedSpaceBlock(
+public CheeseHookOccupiedSpaceBlock(
         Properties properties
     ) {
         super(properties);
     }
-
-    @Override
-    protected MapCodec<? extends Block> codec() {
-        return CODEC;
-    }
-
-    @Override
+@Override
     protected RenderShape getRenderShape(
         BlockState state
     ) {

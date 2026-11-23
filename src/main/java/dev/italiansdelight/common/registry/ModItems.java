@@ -14,6 +14,9 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.core.Registry;
@@ -25,6 +28,7 @@ import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 import dev.italiansdelight.common.item.PizzaNamedItem;
 import dev.italiansdelight.common.item.PizzaPeelItem;
+import dev.italiansdelight.common.item.WineBottleItem;
 
 import vectorwing.farmersdelight.common.FoodValues;
 import vectorwing.farmersdelight.common.item.ConsumableItem;
@@ -285,6 +289,18 @@ public final class ModItems {
                                 )
                                 .stacksTo(64)
                 );
+        }
+
+        /**
+         * Farmer's Delight-style drinkable bottle. ConsumableItem returns
+         * one empty bottle per use even from stacks; Fabric fluid transfer
+         * providers still handle filling/emptying via machines.
+         */
+        private static Item.Properties drinkBottleProperties(Consumable consumable) {
+                return new Item.Properties()
+                        .craftRemainder(Items.GLASS_BOTTLE)
+                        .component(DataComponents.CONSUMABLE, consumable)
+                        .stacksTo(16);
         }
 
         private static Item registerBowlFoodItem(
@@ -910,6 +926,12 @@ public final class ModItems {
 
         // Orchard fruits: Creative-only acquisition until harvesting is added.
         // Only reversible storage crafting is provided; no foods or tree drops.
+        // New vineyard/chili crop produce; seed BlockItems live in ModBlocks.
+        public static final Item GRAPES = registerFoodItem("grapes", 2, 0.2f);
+        public static final Item WHITE_GRAPES = registerFoodItem("white_grapes", 2, 0.2f);
+        public static final Item CHILI_PEPPER = registerFoodItem("chili_pepper", 3, 0.4f);
+        public static final Item GHOST_PEPPER = registerFoodItem("ghost_pepper", 4, 0.7f);
+
         // Rustic byproduct: apple pips. Tree planting will be added with the apple orchard.
         public static final Item APPLE_SEEDS = registerSimpleItem("apple_seeds", 64);
 
@@ -944,7 +966,25 @@ public final class ModItems {
         public static final Item PASTA_WITH_ALMOND_PESTO =
                 registerBowlFoodItem("pasta_with_almond_pesto", 10, 0.7f,
                         FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
-        public static final Item CHERRIES = registerSimpleItem("cherries", 64);
+        // 1.2.0 finished dishes. All required ingredients already exist.
+        public static final Item SPICY_OLIVE_PASTA =
+                registerBowlFoodItem("spicy_olive_pasta", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_WITH_RICOTTA_AND_PANCETTA =
+                registerBowlFoodItem("pasta_with_ricotta_and_pancetta", 14, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item RISOTTO_WITH_SCAMORZA_AND_OLIVES =
+                registerBowlFoodItem("risotto_with_scamorza_and_olives", 12, 0.8f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_WITH_ALMOND_PESTO_AND_SPECK =
+                registerBowlFoodItem("pasta_with_almond_pesto_and_speck", 14, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item GRAPE_CHERRY_FRUIT_SALAD =
+                registerBowlFoodItem("grape_cherry_fruit_salad", 6, 0.35f,
+                        Consumables.DEFAULT_FOOD);
+        public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
+
+        public static final Item CHERRIES = registerFoodItem("cherries", 2, 0.2f);
 
         // The Cooking Pot serves this jam into a glass bottle; crafting with
         // it leaves an empty bottle.
@@ -955,7 +995,50 @@ public final class ModItems {
         // Cherry Tart itself is registered as a placeable BlockItem by ModBlocks.
         public static final Item CHERRY_TART_SLICE = registerFoodItem("cherry_tart_slice", 4, 0.5f);
 
-        // Olive oil: a placeable fluid bucket and a non-drinkable bottle.
+        public static final ResourceKey<Item> WINE_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("wine_bucket"));
+        public static final Item WINE_BUCKET = register(WINE_BUCKET_KEY,
+                WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)
+                        .component(ModDataComponents.WINE_QUALITY, 0));
+
+        public static final ResourceKey<Item> WINE_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("wine_bottle"));
+        public static final Item WINE_BOTTLE = register(WINE_BOTTLE_KEY,
+                WineBottleItem::new, new Item.Properties().stacksTo(1)
+                        .craftRemainder(Items.GLASS_BOTTLE)
+                        .component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK)
+                        .usingConvertsTo(Items.GLASS_BOTTLE)
+                        .component(ModDataComponents.WINE_QUALITY, 0));
+
+        // Grape juice: a real Fabric storage fluid, intentionally not world-placeable.
+        // The buckets and bottles participate in the existing Barrel/Cauldron API.
+        public static final ResourceKey<Item> GRAPE_JUICE_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_juice_bucket"));
+        public static final Item GRAPE_JUICE_BUCKET = register(
+                GRAPE_JUICE_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+        public static final ResourceKey<Item> GRAPE_JUICE_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("grape_juice_bottle"));
+        public static final Item GRAPE_JUICE_BOTTLE = register(
+                GRAPE_JUICE_BOTTLE_KEY,
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.DEFAULT_DRINK));
+
+        // White grape juice uses a distinct, non-placeable fluid ID while
+        // its bottle remains interchangeable with the fluid transfer API.
+        public static final ResourceKey<Item> WHITE_GRAPE_JUICE_BUCKET_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("white_grape_juice_bucket"));
+        public static final Item WHITE_GRAPE_JUICE_BUCKET = register(
+                WHITE_GRAPE_JUICE_BUCKET_KEY,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+        public static final ResourceKey<Item> WHITE_GRAPE_JUICE_BOTTLE_KEY = ResourceKey.create(
+                BuiltInRegistries.ITEM.key(), ModRegistries.id("white_grape_juice_bottle"));
+        public static final Item WHITE_GRAPE_JUICE_BOTTLE = register(
+                WHITE_GRAPE_JUICE_BOTTLE_KEY,
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.DEFAULT_DRINK));
+
+        // Apple juice: a placeable fluid bucket and a drinkable bottle.
         public static final ResourceKey<Item> APPLE_JUICE_BUCKET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bucket"));
         public static final Item APPLE_JUICE_BUCKET = register(
@@ -967,15 +1050,22 @@ public final class ModItems {
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("apple_juice_bottle"));
         public static final Item APPLE_JUICE_BOTTLE = register(
                 APPLE_JUICE_BOTTLE_KEY,
-                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.DEFAULT_DRINK));
 
-        // Golden Apple Juice is a non-placeable processing fluid without
-        // potion effects, available in both bottle and storage-only bucket.
+        // Golden apple juice is non-placeable; drinking grants the NORMAL
+        // golden apple effects, not the enchanted golden apple effects.
         public static final ResourceKey<Item> GOLDEN_APPLE_JUICE_BOTTLE_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("golden_apple_juice_bottle"));
         public static final Item GOLDEN_APPLE_JUICE_BOTTLE = register(
                 GOLDEN_APPLE_JUICE_BOTTLE_KEY,
-                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.defaultDrink()
+                        .onConsume(new ApplyStatusEffectsConsumeEffect(
+                                new MobEffectInstance(MobEffects.REGENERATION, 100, 1)))
+                        .onConsume(new ApplyStatusEffectsConsumeEffect(
+                                new MobEffectInstance(MobEffects.ABSORPTION, 2400, 0)))
+                        .build()));
 
         // These are NON-PLACEABLE container items: no BucketItem.placeLiquid.
         // They still exchange 1000 mB in the Crushing Tub, Barrel and Cauldron.
@@ -1003,7 +1093,8 @@ public final class ModItems {
                 BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_oil_bottle"));
         public static final Item OLIVE_OIL_BOTTLE = register(
                 OLIVE_OIL_BOTTLE_KEY,
-                new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
+                ConsumableItem::new,
+                drinkBottleProperties(Consumables.DEFAULT_DRINK));
 
         // Salt
         public static final ResourceKey<Item> SALT_KEY = ResourceKey.create(
@@ -1014,6 +1105,21 @@ public final class ModItems {
                 SALT_KEY,
                 new Item.Properties()
                         .stacksTo(64));
+
+
+        // Rustic-style wine, cider, mead and cherry juice families.
+        public static final Item CHERRY_JUICE_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_juice_bottle")), ConsumableItem::new, drinkBottleProperties(Consumables.DEFAULT_DRINK));
+        public static final Item CHERRY_JUICE_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_juice_bucket")), new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET));
+        public static final Item WHITE_WINE_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("white_wine_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK).usingConvertsTo(Items.GLASS_BOTTLE).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item WHITE_WINE_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("white_wine_bucket")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item CHERRY_WINE_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_wine_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK).usingConvertsTo(Items.GLASS_BOTTLE).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item CHERRY_WINE_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cherry_wine_bucket")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item MEAD_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("mead_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK).usingConvertsTo(Items.GLASS_BOTTLE).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item MEAD_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("mead_bucket")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item CIDER_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cider_bottle")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK).usingConvertsTo(Items.GLASS_BOTTLE).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item CIDER_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("cider_bucket")), WineBottleItem::new, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).component(ModDataComponents.WINE_QUALITY, 0));
+        public static final Item RED_WINE_VINEGAR_BOTTLE = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("red_wine_vinegar_bottle")), new Item.Properties().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE));
+        public static final Item RED_WINE_VINEGAR_BUCKET = register(ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("red_wine_vinegar_bucket")), new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET));
 
         public static void register() {
         }

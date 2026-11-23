@@ -1,0 +1,163 @@
+{
+  "textures": {
+    "0": "italiansdelight:block/white_grapes_unripe_1"
+  },
+  "elements": [
+    {
+      "name": "Cube",
+      "from": [
+        0,
+        -9,
+        8
+      ],
+      "to": [
+        16,
+        7,
+        8
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          8,
+          8
+        ],
+        "axis": "y",
+        "angle": 45
+      },
+      "faces": {
+        "north": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ]
+        },
+        "down": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Cube",
+      "from": [
+        8,
+        -9,
+        0
+      ],
+      "to": [
+        8,
+        7,
+        16
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          8,
+          8
+        ],
+        "axis": "y",
+        "angle": 45
+      },
+      "faces": {
+        "north": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "down": {
+          "texture": "#0",
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        }
+      }
+    }
+  ]
+}

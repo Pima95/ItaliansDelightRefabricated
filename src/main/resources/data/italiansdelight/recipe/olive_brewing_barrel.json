@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "S S",
+    "PIP"
+  ],
+  "key": {
+    "P": "italiansdelight:olive_planks",
+    "I": "minecraft:iron_ingot",
+    "S": "italiansdelight:olive_slab"
+  },
+  "result": {
+    "id": "italiansdelight:olive_brewing_barrel",
+    "count": 1
+  }
+}

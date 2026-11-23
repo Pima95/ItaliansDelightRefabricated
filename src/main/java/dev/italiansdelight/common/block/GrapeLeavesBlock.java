@@ -1,0 +1,244 @@
+package dev.italiansdelight.common.block;
+
+import dev.italiansdelight.common.registry.ModBlocks;
+import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealSource;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.CrossCollisionBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
+
+/**
+ * Rustic vine canopy: center replaces a rope above a mature grape stem;
+ * it extends at most ONE rope block on each side along the horizontal axis.
+ * Fruit develops only on outer segments with air underneath. Breaking a
+ * canopy segment restores the existing FDR rope, never duplicates a rope item.
+ */
+public final class GrapeLeavesBlock extends Block implements BonemealableBlock, ReplaceOnRemoval {
+    private final boolean whiteGrapes;
+
+    public static final IntegerProperty DISTANCE = IntegerProperty.create("distance", 0, 1);
+    public static final EnumProperty<Direction.Axis> AXIS =
+        EnumProperty.create("axis", Direction.Axis.class, Direction.Axis.X, Direction.Axis.Z);
+    // Keep the old ripe flag for existing saves. Three new stages are unripe.
+    public static final BooleanProperty GRAPES = BooleanProperty.create("grapes");
+    public static final IntegerProperty FRUIT_STAGE = IntegerProperty.create("fruit_stage", 0, 3);
+    private static final int FINAL_UNRIPE_STAGE = 3;
+    public static final BooleanProperty TIED_NEGATIVE = BooleanProperty.create("tied_negative");
+    public static final BooleanProperty TIED_POSITIVE = BooleanProperty.create("tied_positive");
+
+    public GrapeLeavesBlock(Properties properties) {
+        this(properties, false);
+    }
+
+    public GrapeLeavesBlock(Properties properties, boolean whiteGrapes) {
+        super(properties);
+        this.whiteGrapes = whiteGrapes;
+        registerDefaultState(stateDefinition.any().setValue(DISTANCE, 0)
+            .setValue(AXIS, Direction.Axis.X).setValue(GRAPES, false)
+            .setValue(FRUIT_STAGE, 0).setValue(TIED_NEGATIVE, false).setValue(TIED_POSITIVE, false));
+    }
+
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> b) {
+        b.add(DISTANCE, AXIS, GRAPES, FRUIT_STAGE, TIED_NEGATIVE, TIED_POSITIVE);
+    }
+
+    // Match the *unchanged* 10x10x16 side-leaf model after the axis rotation;
+    // the default full-block outline/collision caused the oversized hitbox.
+    @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos,
+            CollisionContext context) {
+        if (state.getValue(DISTANCE) == 0) return Block.box(0, 0, 0, 16, 16, 16);
+        return state.getValue(AXIS) == Direction.Axis.X
+            ? Block.box(0, 3, 3, 16, 13, 13)
+            : Block.box(3, 3, 0, 13, 13, 16);
+    }
+
+    @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
+            CollisionContext context) {
+        return getShape(state, level, pos, context);
+    }
+
+    @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        if (state.getValue(DISTANCE) == 0) {
+            BlockState below = level.getBlockState(pos.below());
+            return below.is(whiteGrapes ? ModBlocks.WHITE_GRAPE_STEM : ModBlocks.GRAPE_STEM) &&
+                below.getValue(net.minecraft.world.level.block.CropBlock.AGE) == 7;
+        }
+        if (state.getValue(AXIS) == Direction.Axis.X) {
+            return isCenter(level, pos.east(), Direction.Axis.X)
+                || isCenter(level, pos.west(), Direction.Axis.X);
+        }
+        return isCenter(level, pos.north(), Direction.Axis.Z)
+            || isCenter(level, pos.south(), Direction.Axis.Z);
+    }
+
+    private boolean isCenter(LevelReader level, BlockPos pos, Direction.Axis axis) {
+        BlockState neighbor = level.getBlockState(pos);
+        // An unrelated cultivar cannot support or extend this canopy.
+        return neighbor.is(this)
+            && neighbor.getValue(DISTANCE) == 0 && neighbor.getValue(AXIS) == axis;
+    }
+
+    private void spread(ServerLevel level, BlockPos pos, BlockState state) {
+        if (state.getValue(DISTANCE) != 0) return;
+        Direction[] directions = state.getValue(AXIS) == Direction.Axis.X
+                ? new Direction[] {Direction.EAST, Direction.WEST}
+                : new Direction[] {Direction.NORTH, Direction.SOUTH};
+        for (Direction direction : directions) {
+            BlockPos target = pos.relative(direction);
+            // A neighboring horizontal line can run over a post or a crop.
+            // Only grape FRUIT needs air underneath, not the leafy canopy.
+            if (!level.isLoaded(target)) continue;
+            BlockState old = level.getBlockState(target);
+            // The new horizontal support has its own saved axis. Older FDR
+            // rope blocks are still accepted when their connections align.
+            Direction.Axis axis = GrapeStemBlock.ropeAxis(old);
+            if (axis != state.getValue(AXIS)) continue;
+            // Preserve the rope axis via the GrapeLeaves state until broken.
+            BlockState grown = defaultBlockState().setValue(AXIS,
+                state.getValue(AXIS)).setValue(DISTANCE, 1);
+            if (old.is(ModBlocks.HORIZONTAL_ROPE)) {
+                grown = grown.setValue(TIED_NEGATIVE,
+                        old.getValue(HorizontalRopeBlock.TIED_NEGATIVE))
+                    .setValue(TIED_POSITIVE,
+                        old.getValue(HorizontalRopeBlock.TIED_POSITIVE));
+            }
+            level.setBlock(target, grown, 3);
+        }
+    }
+
+    @Override public boolean isRandomlyTicking(BlockState state) { return true; }
+
+    @Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!state.canSurvive(level, pos)) {
+            removeUnsupportedCanopy(level, pos);
+            return;
+        }
+        if (state.getValue(DISTANCE) == 0) {
+            if (random.nextInt(5) == 0) spread(level, pos, state);
+        } else if (!level.getBlockState(pos.below()).isAir()) {
+            if (state.getValue(GRAPES) || state.getValue(FRUIT_STAGE) != 0)
+                level.setBlock(pos, state.setValue(GRAPES, false)
+                    .setValue(FRUIT_STAGE, 0), Block.UPDATE_CLIENTS);
+        } else if (!state.getValue(GRAPES) && random.nextInt(6) == 0) {
+            level.setBlock(pos, advanceFruit(state), Block.UPDATE_CLIENTS);
+        }
+    }
+
+    private static BlockState advanceFruit(BlockState state) {
+        if (state.getValue(GRAPES)) return state;
+        int stage = state.getValue(FRUIT_STAGE);
+        return stage < FINAL_UNRIPE_STAGE
+            ? state.setValue(FRUIT_STAGE, stage + 1)
+            : state.setValue(GRAPES, true);
+    }
+
+    @Override protected BlockState updateShape(BlockState state, LevelReader level,
+            ScheduledTickAccess ticks, BlockPos pos, Direction side, BlockPos neighborPos,
+            BlockState neighbor, RandomSource random) {
+        if (!state.canSurvive(level, pos)) ticks.scheduleTick(pos, this, 1);
+        if (state.getValue(DISTANCE) == 1 && side == Direction.DOWN
+                && !neighbor.isAir()
+                && (state.getValue(GRAPES) || state.getValue(FRUIT_STAGE) > 0))
+            state = state.setValue(GRAPES, false).setValue(FRUIT_STAGE, 0);
+        Direction.Axis axis = state.getValue(AXIS);
+        if ((axis == Direction.Axis.X && side == Direction.WEST)
+                || (axis == Direction.Axis.Z && side == Direction.NORTH))
+            return state.setValue(TIED_NEGATIVE, CropStakeBlock.isPost(neighbor));
+        if ((axis == Direction.Axis.X && side == Direction.EAST)
+                || (axis == Direction.Axis.Z && side == Direction.SOUTH))
+            return state.setValue(TIED_POSITIVE, CropStakeBlock.isPost(neighbor));
+        return state;
+    }
+
+    /**
+     * Lateral bunches are the only sources of ripe grapes, never the stem.
+     * A broken stem removes the center leaves, and a scheduled update later
+     * removes each unsupported side. Without this helper, that removal drops
+     * no fruit, even when the bunch was completely mature.
+     */
+    private void removeUnsupportedCanopy(ServerLevel level, BlockPos pos) {
+        BlockState current = level.getBlockState(pos);
+        if (!current.is(this) || current.canSurvive(level, pos)) return;
+        if (current.getValue(DISTANCE) == 1 && current.getValue(GRAPES)
+                && level.getBlockState(pos.below()).isAir()) {
+            Block.popResource(level, pos.below(), new ItemStack(
+                whiteGrapes ? dev.italiansdelight.common.registry.ModItems.WHITE_GRAPES
+                    : dev.italiansdelight.common.registry.ModItems.GRAPES));
+        }
+        level.removeBlock(pos, false);
+    }
+
+    @Override protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!state.canSurvive(level, pos)) removeUnsupportedCanopy(level, pos);
+    }
+
+    @Override protected InteractionResult useWithoutItem(BlockState state, Level level,
+            BlockPos pos, Player player, BlockHitResult hit) {
+        if (player.isSpectator() || !state.getValue(GRAPES)
+                || state.getValue(DISTANCE) == 0) return InteractionResult.PASS;
+        if (level instanceof ServerLevel server) {
+            BlockState current = server.getBlockState(pos);
+            if (!current.is(this) || !current.getValue(GRAPES)
+                    || !server.getBlockState(pos.below()).isAir()) return InteractionResult.PASS;
+            server.setBlock(pos, current.setValue(GRAPES, false)
+                .setValue(FRUIT_STAGE, 0), Block.UPDATE_CLIENTS);
+            Block.popResource(server, pos.below(), new ItemStack(
+                whiteGrapes ? dev.italiansdelight.common.registry.ModItems.WHITE_GRAPES
+                    : dev.italiansdelight.common.registry.ModItems.GRAPES,
+                1 + server.getRandom().nextInt(2)));
+            server.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
+                SoundSource.BLOCKS, 0.8F, 1.0F);
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos,
+            BlockState state, BonemealSource source) {
+        return state.getValue(DISTANCE) == 0
+            || (!state.getValue(GRAPES) && level.getBlockState(pos.below()).isAir());
+    }
+    @Override public boolean isBonemealSuccess(Level level, RandomSource random,
+            BlockPos pos, BlockState state, BonemealSource source) { return true; }
+    @Override public void performBonemeal(ServerLevel level, RandomSource random,
+            BlockPos pos, BlockState state, BonemealSource source) {
+        if (!state.canSurvive(level, pos)) return;
+        if (state.getValue(DISTANCE) == 0) spread(level, pos, state);
+        else if (level.getBlockState(pos.below()).isAir())
+            level.setBlock(pos, advanceFruit(state), Block.UPDATE_CLIENTS);
+    }
+
+    @Override public boolean onRemove(BlockState state, BlockState newState,
+            LevelAccessor level, BlockPos pos, int flags) {
+        if (newState.isAir() && !state.is(newState.getBlock())) {
+            BlockState rope = HorizontalRopeBlock.withConnections(
+                ModBlocks.HORIZONTAL_ROPE.defaultBlockState()
+                    .setValue(HorizontalRopeBlock.AXIS, state.getValue(AXIS)),
+                level, pos);
+            return level.setBlock(pos, rope, 3);
+        }
+        return false;
+    }
+}

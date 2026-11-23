@@ -58,6 +58,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_CRUSHING_TUB);
                 output.accept(ModBlocks.CHERRY_CRUSHING_TUB);
                 output.accept(ModBlocks.PALE_OAK_CRUSHING_TUB);
+                output.accept(ModBlocks.POPLAR_CRUSHING_TUB);
                 output.accept(ModBlocks.BAMBOO_CRUSHING_TUB);
                 output.accept(ModBlocks.CRIMSON_CRUSHING_TUB);
                 output.accept(ModBlocks.WARPED_CRUSHING_TUB);
@@ -73,12 +74,30 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_BARREL);
                 output.accept(ModBlocks.CHERRY_BARREL);
                 output.accept(ModBlocks.PALE_OAK_BARREL);
+                output.accept(ModBlocks.POPLAR_BARREL);
                 output.accept(ModBlocks.BAMBOO_BARREL);
                 output.accept(ModBlocks.CRIMSON_BARREL);
                 output.accept(ModBlocks.WARPED_BARREL);
                 output.accept(ModBlocks.OLIVE_BARREL);
                 output.accept(ModBlocks.ALMOND_BARREL);
                 output.accept(ModBlocks.FRUIT_CHERRY_BARREL);
+                // All fermentation barrel woods stay together: legacy ID is oak.
+                output.accept(ModBlocks.BREWING_BARREL);
+                output.accept(ModBlocks.SPRUCE_BREWING_BARREL);
+                output.accept(ModBlocks.BIRCH_BREWING_BARREL);
+                output.accept(ModBlocks.JUNGLE_BREWING_BARREL);
+                output.accept(ModBlocks.ACACIA_BREWING_BARREL);
+                output.accept(ModBlocks.DARK_OAK_BREWING_BARREL);
+                output.accept(ModBlocks.MANGROVE_BREWING_BARREL);
+                output.accept(ModBlocks.CHERRY_BREWING_BARREL);
+                output.accept(ModBlocks.PALE_OAK_BREWING_BARREL);
+                output.accept(ModBlocks.POPLAR_BREWING_BARREL);
+                output.accept(ModBlocks.BAMBOO_BREWING_BARREL);
+                output.accept(ModBlocks.CRIMSON_BREWING_BARREL);
+                output.accept(ModBlocks.WARPED_BREWING_BARREL);
+                output.accept(ModBlocks.OLIVE_BREWING_BARREL);
+                output.accept(ModBlocks.ALMOND_BREWING_BARREL);
+                output.accept(ModBlocks.FRUIT_CHERRY_BREWING_BARREL);
                 output.accept(ModBlocks.CHEESE_HOOK);
 
                 // Aging racks — all wood types stay together.
@@ -91,6 +110,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.CHERRY_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.PALE_OAK_CHEESE_AGING_RACK);
+                output.accept(ModBlocks.POPLAR_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.BAMBOO_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.CRIMSON_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);
@@ -98,12 +118,34 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.ALMOND_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK);
 
+                // DECORATIVE POLES — all 16 wood variants, after aging racks.
+                output.accept(ModBlocks.CROP_STAKE);
+                output.accept(ModBlocks.SPRUCE_CROP_STAKE);
+                output.accept(ModBlocks.BIRCH_CROP_STAKE);
+                output.accept(ModBlocks.JUNGLE_CROP_STAKE);
+                output.accept(ModBlocks.ACACIA_CROP_STAKE);
+                output.accept(ModBlocks.DARK_OAK_CROP_STAKE);
+                output.accept(ModBlocks.MANGROVE_CROP_STAKE);
+                output.accept(ModBlocks.CHERRY_CROP_STAKE);
+                output.accept(ModBlocks.PALE_OAK_CROP_STAKE);
+                output.accept(ModBlocks.POPLAR_CROP_STAKE);
+                output.accept(ModBlocks.BAMBOO_CROP_STAKE);
+                output.accept(ModBlocks.CRIMSON_CROP_STAKE);
+                output.accept(ModBlocks.WARPED_CROP_STAKE);
+                output.accept(ModBlocks.OLIVE_CROP_STAKE);
+                output.accept(ModBlocks.ALMOND_CROP_STAKE);
+                output.accept(ModBlocks.FRUIT_CHERRY_CROP_STAKE);
+
                 // CRATES AND CROP STORAGE.
                 output.accept(ModBlocks.OLIVE_CRATE);
                 output.accept(ModBlocks.ALMOND_CRATE);
                 output.accept(ModBlocks.CHERRY_CRATE);
                 output.accept(ModBlocks.BASIL_CRATE);
                 output.accept(ModBlocks.CARDOON_CRATE);
+                output.accept(ModBlocks.GRAPE_CRATE);
+                output.accept(ModBlocks.WHITE_GRAPE_CRATE);
+                output.accept(ModBlocks.CHILI_PEPPER_CRATE);
+                output.accept(ModBlocks.GHOST_PEPPER_CRATE);
 
                 // OLIVE WOOD: identical derivative order; leaves and sapling last.
                 output.accept(ModBlocks.OLIVE_LOG);
@@ -179,11 +221,25 @@ public final class ModItemGroups {
                 output.accept(ModItems.ROLLING_PIN);
                 output.accept(ModItems.PIZZA_PEEL);
 
-                // CROPS AND WILD PLANTS.
+                // CROPS AND WILD PLANTS — keep related forms and harvest together.
                 output.accept(ModBlocks.CARDOON);
                 output.accept(ModBlocks.CULTIVATED_CARDOON);
                 output.accept(ModBlocks.BASIL);
                 output.accept(ModBlocks.WILD_BASIL);
+
+                // GRAPE FAMILY: seeds, harvest, juice and wine (buckets first).
+                output.accept(ModBlocks.GRAPE_SEEDS);
+                output.accept(ModBlocks.WILD_GRAPE_VINE);
+                output.accept(ModItems.GRAPES);
+                output.accept(ModBlocks.WHITE_GRAPE_SEEDS);
+                output.accept(ModBlocks.WILD_WHITE_GRAPE_VINE);
+                output.accept(ModItems.WHITE_GRAPES);
+
+                // CHILI FAMILY: seed, wild shrub, common and rare fruit.
+                output.accept(ModBlocks.CHILI_PEPPER_SEEDS);
+                output.accept(ModBlocks.WILD_CHILI);
+                output.accept(ModItems.CHILI_PEPPER);
+                output.accept(ModItems.GHOST_PEPPER);
 
                 // ORCHARD FRUITS AND RAW INGREDIENTS.
                 output.accept(ModItems.OLIVES);
@@ -193,6 +249,9 @@ public final class ModItemGroups {
                 output.accept(ModItems.CHOPPED_ALMONDS);
                 output.accept(ModItems.CHERRIES);
                 output.accept(ModItems.APPLE_SEEDS);
+
+
+
 
                 // SAUCES, SEASONINGS AND PREPARED VEGETABLES.
                 output.accept(ModItems.OLIVE_PATE);
@@ -204,28 +263,50 @@ public final class ModItemGroups {
                 output.accept(ModItems.CARROT_SLICE);
                 output.accept(ModItems.POTATO_SLICE);
 
-                // OILS, JUICES AND OTHER STORED LIQUIDS.
+                // LIQUIDS (Creative + JEI item order): buckets before bottles.
+                // 1. Animal-derived liquids, including whey and rennet.
+                output.accept(ModItems.SHEEP_MILK_BUCKET);
+                output.accept(ModItems.SHEEP_MILK_BOTTLE);
+                output.accept(ModItems.WHEY_BUCKET);
+                output.accept(ModItems.WHEY_BOTTLE);
+                output.accept(ModItems.RENNET_BUCKET);
+                output.accept(ModItems.RENNET);
+                output.accept(ModItems.HONEY_BUCKET); // Vanilla honey bottle belongs to Minecraft.
+
+                // 2. Crushing Tub / non-fermented plant fluids.
                 output.accept(ModItems.OLIVE_OIL_BUCKET);
                 output.accept(ModItems.OLIVE_OIL_BOTTLE);
                 output.accept(ModItems.APPLE_JUICE_BUCKET);
                 output.accept(ModItems.APPLE_JUICE_BOTTLE);
                 output.accept(ModItems.GOLDEN_APPLE_JUICE_BUCKET);
                 output.accept(ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
-                output.accept(ModItems.HONEY_BUCKET);
+                output.accept(ModItems.GRAPE_JUICE_BUCKET);
+                output.accept(ModItems.GRAPE_JUICE_BOTTLE);
+                output.accept(ModItems.WHITE_GRAPE_JUICE_BUCKET);
+                output.accept(ModItems.WHITE_GRAPE_JUICE_BOTTLE);
+                output.accept(ModItems.CHERRY_JUICE_BUCKET);
+                output.accept(ModItems.CHERRY_JUICE_BOTTLE);
 
-                // MILK, CULTURES AND CHEESE-PRODUCTION INGREDIENTS.
-                // Each fluid pair always lists BUCKET before BOTTLE.
-                output.accept(ModItems.SHEEP_MILK_BUCKET);
-                output.accept(ModItems.SHEEP_MILK_BOTTLE);
-                output.accept(ModItems.WHEY_BUCKET);
-                output.accept(ModItems.WHEY_BOTTLE);
-                output.accept(ModItems.RENNET_BUCKET);
-                output.accept(ModItems.RENNET); // bottled rennet
+                // 3. Wines and other fermented liquids, then vinegar.
+                output.accept(ModItems.WINE_BUCKET);
+                output.accept(ModItems.WINE_BOTTLE);
+                output.accept(ModItems.WHITE_WINE_BUCKET);
+                output.accept(ModItems.WHITE_WINE_BOTTLE);
+                output.accept(ModItems.CHERRY_WINE_BUCKET);
+                output.accept(ModItems.CHERRY_WINE_BOTTLE);
+                output.accept(ModItems.MEAD_BUCKET);
+                output.accept(ModItems.MEAD_BOTTLE);
+                output.accept(ModItems.CIDER_BUCKET);
+                output.accept(ModItems.CIDER_BOTTLE);
+                output.accept(ModItems.APPLE_CIDER_VINEGAR_BUCKET);
+                output.accept(ModItems.APPLE_CIDER_VINEGAR);
+                output.accept(ModItems.RED_WINE_VINEGAR_BUCKET);
+                output.accept(ModItems.RED_WINE_VINEGAR_BOTTLE);
+
+                // Non-liquid ingredients used in cheese making.
                 output.accept(ModItems.CURD);
                 output.accept(ModItems.CREAM_BOWL);
                 output.accept(ModItems.BLUE_MOLD_CULTURE);
-                output.accept(ModItems.APPLE_CIDER_VINEGAR_BUCKET);
-                output.accept(ModItems.APPLE_CIDER_VINEGAR); // bottled vinegar
 
                 // CHEESES: fresh products followed by each family's stages.
                 output.accept(ModItems.MOZZARELLA);
@@ -319,6 +400,9 @@ public final class ModItemGroups {
                 output.accept(ModItems.PASTA_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.PASTA_WITH_PESTO);
                 output.accept(ModItems.PASTA_WITH_ALMOND_PESTO);
+                output.accept(ModItems.PASTA_WITH_ALMOND_PESTO_AND_SPECK);
+                output.accept(ModItems.SPICY_OLIVE_PASTA);
+                output.accept(ModItems.PASTA_WITH_RICOTTA_AND_PANCETTA);
                 output.accept(ModItems.PASTA_ALLA_CARBONARA);
                 output.accept(ModItems.PASTA_ALLA_GRICIA);
                 output.accept(ModItems.PASTA_ALL_AMATRICIANA);
@@ -327,9 +411,11 @@ public final class ModItemGroups {
                 // PREPARED DISHES — risottos and cold dishes.
                 output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.RISOTTO_WITH_MUSHROOM);
+                output.accept(ModItems.RISOTTO_WITH_SCAMORZA_AND_OLIVES);
                 output.accept(ModItems.RISOTTO_WITH_PARMIGIANO);
                 output.accept(ModItems.RISOTTO_WITH_SPECK_AND_GORGONZOLA);
                 output.accept(ModItems.MOZZARELLA_SALAD);
+                output.accept(ModItems.GRAPE_CHERRY_FRUIT_SALAD);
 
                 // READY-TO-EAT SNACKS AND DESSERTS.
                 output.accept(ModItems.BRUSCHETTA);
@@ -339,6 +425,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.ALMOND_CAKE_SLICE);
                 output.accept(ModBlocks.CHERRY_TART);
                 output.accept(ModItems.CHERRY_TART_SLICE);
+                output.accept(ModItems.ALMOND_BISCUITS);
             })
             .build();
 

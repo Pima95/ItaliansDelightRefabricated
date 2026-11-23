@@ -23,10 +23,9 @@ public final class PizzaCompositionOperations {
 
     /**
      * Add one original item to previously uncovered physical quarters only.
-     * A different sauce OR creamy spread (tomato, cream, ricotta) anywhere
-     * in the intended logical zone rejects the ENTIRE click, even if some
-     * other physical quarters are free. The three alternatives occupy one
-     * shared sauce slot per quarter, independently of nutrition category.
+     * Different spreads can coexist in the same quarter. The latest becomes
+     * the visible base; earlier sauces become toppings, retaining their
+     * canonical identities, original stacks and refund provenance.
      *
      * @return updated composition, or empty if invalid/duplicated/overfull
      */
@@ -54,24 +53,9 @@ public final class PizzaCompositionOperations {
             if (application.canonicalId().equals(type.id())) {
                 uncovered &= ~overlapping;
             }
-            // The three spread choices share a SINGLE sauce slot:
-            // tomato sauce, cream and ricotta are mutually exclusive on
-            // every physical quarter of the clicked logical zone.
-            // Check the entire target zone, not just "uncovered", so a
-            // click on a reunited/mixed pizza never silently paints over
-            // the other sauce on a partly occupied selection.
-            //
-            // This check is symmetric: a new creamy spread must be rejected
-            // over tomato, and tomato must be rejected over existing cream.
-            // Ignore legacy combinations already saved; they remain loaded
-            // and refundable without deleting or converting ItemStacks.
-            PizzaToppingType existing = PizzaToppingCatalog.findType(
-                    application.canonicalId()).orElse(null);
-            if (type.occupiesSauceSlot()
-                    && existing != null && existing.occupiesSauceSlot()
-                    && !existing.id().equals(type.id())) {
-                return Optional.empty();
-            }
+            // Different sauces are independently stored. The renderer uses
+            // their original chronological order to select the latest base,
+            // and displays earlier sauces as edible garnishes.
         }
         if (uncovered == 0) {
             return Optional.empty(); // Exact duplicate: consume nothing.

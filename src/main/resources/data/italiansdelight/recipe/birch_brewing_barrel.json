@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "S S",
+    "PIP"
+  ],
+  "key": {
+    "P": "minecraft:birch_planks",
+    "I": "minecraft:iron_ingot",
+    "S": "minecraft:birch_slab"
+  },
+  "result": {
+    "id": "italiansdelight:birch_brewing_barrel",
+    "count": 1
+  }
+}

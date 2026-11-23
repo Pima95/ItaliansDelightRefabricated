@@ -1,0 +1,61 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "axis": "y"
+      },
+      "apply": {
+        "model": "italiansdelight:block/warped_crop_stake"
+      }
+    },
+    {
+      "when": {
+        "axis": "x"
+      },
+      "apply": {
+        "model": "italiansdelight:block/warped_crop_stake",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z"
+      },
+      "apply": {
+        "model": "italiansdelight:block/warped_crop_stake",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "y",
+        "rope_tied": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/crop_stake_rope_loop"
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "rope_tied": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/crop_stake_rope_loop",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "rope_tied": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/crop_stake_rope_loop",
+        "x": 90
+      }
+    }
+  ]
+}

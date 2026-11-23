@@ -27,7 +27,8 @@ import net.minecraft.world.level.Level;
  *
  * <p>Each original topping application covers ALL FOUR physical quarters.
  * Using the same operations as preparation in the world preserves the
- * canonical equivalences, allowed items, topping limit and sauce exclusion.
+ * canonical equivalences, allowed items and topping limit. Different sauces
+ * can coexist; later additions become the base and earlier ones garnish.
  *
  * <p>Crafting returns empty bowls immediately, while world-applied toppings
  * continue to return them at baking. A persistent flag prevents double refunds.
@@ -125,7 +126,7 @@ public final class PizzaCraftingRecipe extends CustomRecipe {
             }
 
             // This also rejects forbidden/whole/planned items, duplicate
-            // canonical IDs (including raw/cooked), and overlapping sauces.
+            // canonical IDs (including raw/cooked) and new sauce layering.
             Optional<PizzaComposition> updated = PizzaCompositionOperations.add(
                     composition, ingredient, PizzaQuarterSelection.ALL_QUARTERS);
             if (updated.isEmpty()) {

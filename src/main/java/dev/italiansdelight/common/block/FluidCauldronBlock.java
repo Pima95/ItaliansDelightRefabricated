@@ -1,6 +1,5 @@
 package dev.italiansdelight.common.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import dev.italiansdelight.common.fluid.FluidTransferBridge;
 import net.minecraft.core.BlockPos;
@@ -42,11 +41,7 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
         super(props);
         registerDefaultState(stateDefinition.any().setValue(LEVEL, 4));
     }
-
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(FluidCauldronBlock::new);
-    }
-    @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new FluidCauldronBlockEntity(pos, state);
     }
     @Override public RenderShape getRenderShape(BlockState state) {

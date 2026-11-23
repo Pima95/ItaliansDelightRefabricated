@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "L",
+    "L"
+  ],
+  "key": {
+    "L": "minecraft:cherry_log"
+  },
+  "result": {
+    "id": "italiansdelight:cherry_crop_stake",
+    "count": 2
+  }
+}

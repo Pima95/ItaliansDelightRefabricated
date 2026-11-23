@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import dev.italiansdelight.common.block.entity.container.CheeseVatMenu;
+import dev.italiansdelight.common.block.entity.container.BrewingBarrelMenu;
 import dev.italiansdelight.common.block.entity.container.PizzaOvenMenu;
 
 import net.minecraft.core.Registry;
@@ -17,6 +18,9 @@ public final class ModMenuTypes {
 
     private ModMenuTypes() {
     }
+
+    public static final MenuType<BrewingBarrelMenu> BREWING_BARREL =
+        register("brewing_barrel", BrewingBarrelMenu::new);
 
     public static final MenuType<CheeseVatMenu> CHEESE_VAT =
         register("cheese_vat", CheeseVatMenu::new);

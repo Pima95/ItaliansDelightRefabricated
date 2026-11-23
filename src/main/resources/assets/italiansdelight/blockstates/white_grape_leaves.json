@@ -1,0 +1,146 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "distance": "0"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_leaves_0"
+      }
+    },
+    {
+      "when": {
+        "distance": "0"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_stem_top"
+      }
+    },
+    {
+      "when": {
+        "distance": "1",
+        "axis": "x"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_leaves_1",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "distance": "1",
+        "axis": "z"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_leaves_1"
+      }
+    },
+    {
+      "when": {
+        "axis": "x"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_vine",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_vine"
+      }
+    },
+    {
+      "when": {
+        "grapes": "false",
+        "fruit_stage": "1"
+      },
+      "apply": {
+        "model": "italiansdelight:block/white_grapes_unripe_1"
+      }
+    },
+    {
+      "when": {
+        "grapes": "false",
+        "fruit_stage": "2"
+      },
+      "apply": {
+        "model": "italiansdelight:block/white_grapes_unripe_2"
+      }
+    },
+    {
+      "when": {
+        "grapes": "false",
+        "fruit_stage": "3"
+      },
+      "apply": {
+        "model": "italiansdelight:block/white_grapes_unripe_3"
+      }
+    },
+    {
+      "when": {
+        "grapes": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/white_grapes"
+      }
+    },
+    {
+      "when": {
+        "axis": "x"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_horizontal",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "z"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_horizontal"
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "tied_negative": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_tie_negative"
+      }
+    },
+    {
+      "when": {
+        "axis": "z",
+        "tied_positive": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_tie_positive"
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "tied_negative": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_tie_positive",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis": "x",
+        "tied_positive": "true"
+      },
+      "apply": {
+        "model": "italiansdelight:block/grape_rope_tie_negative",
+        "y": 90
+      }
+    }
+  ]
+}
