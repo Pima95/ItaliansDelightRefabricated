@@ -8,7 +8,7 @@ resources = Path("src/main/resources")
 assets = resources / "assets/italiansdelight"
 data = resources / "data"
 woods = ("oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
-         "mangrove", "cherry", "pale_oak", "poplar", "bamboo", "crimson",
+         "mangrove", "cherry", "pale_oak", "bamboo", "crimson",
          "warped", "olive", "almond", "fruit_cherry")
 
 def load(path):

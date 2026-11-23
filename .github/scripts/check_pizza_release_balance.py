@@ -257,11 +257,10 @@ def audit_baking() -> None:
         require(recipe["result"]["id"] == "italiansdelight:cooked_pizza",
                 f"Unexpected output in {filename}")
         serializer = Path(java_file).read_text(encoding="utf-8")
-        # Minecraft 26.3 uses a one-argument cookingMapCodec factory;
-        # cooking duration is serialized in the recipe JSON rather than in
-        # the serializer's Java constructor.
+        # Minecraft 26.2 uses cookingMapCodec(factory, duration); the JSON
+        # also declares cookingtime, and both must match.
         cls = Path(java_file).stem
-        require(f"AbstractCookingRecipe.cookingMapCodec({cls}::new)" in serializer
+        require(f"AbstractCookingRecipe.cookingMapCodec({cls}::new, {codec_ticks})" in serializer
                 and ticks == codec_ticks,
                 f"Serializer codec or datapack cooking time differs: {java_file}")
         require("PizzaBaking.previewCookedPizza(input.item())"

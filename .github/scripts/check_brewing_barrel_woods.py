@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static reproducible checks: Alcocraft-derived geometry and 16 wood fermenters."""
+"""Static reproducible checks: Alcocraft-derived geometry and 15 available Minecraft 26.2 wood fermenters."""
 from pathlib import Path
 import hashlib
 import json
@@ -11,7 +11,7 @@ data = root / "data/italiansdelight"
 java = Path("src/main/java/dev/italiansdelight")
 woods = (
     "oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
-    "mangrove", "cherry", "pale_oak", "poplar", "bamboo",
+    "mangrove", "cherry", "pale_oak", "bamboo",
     "crimson", "warped", "olive", "almond", "fruit_cherry"
 )
 custom = {"olive", "almond", "fruit_cherry"}

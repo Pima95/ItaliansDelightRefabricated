@@ -58,7 +58,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_CRUSHING_TUB);
                 output.accept(ModBlocks.CHERRY_CRUSHING_TUB);
                 output.accept(ModBlocks.PALE_OAK_CRUSHING_TUB);
-                output.accept(ModBlocks.POPLAR_CRUSHING_TUB);
                 output.accept(ModBlocks.BAMBOO_CRUSHING_TUB);
                 output.accept(ModBlocks.CRIMSON_CRUSHING_TUB);
                 output.accept(ModBlocks.WARPED_CRUSHING_TUB);
@@ -74,7 +73,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_BARREL);
                 output.accept(ModBlocks.CHERRY_BARREL);
                 output.accept(ModBlocks.PALE_OAK_BARREL);
-                output.accept(ModBlocks.POPLAR_BARREL);
                 output.accept(ModBlocks.BAMBOO_BARREL);
                 output.accept(ModBlocks.CRIMSON_BARREL);
                 output.accept(ModBlocks.WARPED_BARREL);
@@ -91,7 +89,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_BREWING_BARREL);
                 output.accept(ModBlocks.CHERRY_BREWING_BARREL);
                 output.accept(ModBlocks.PALE_OAK_BREWING_BARREL);
-                output.accept(ModBlocks.POPLAR_BREWING_BARREL);
                 output.accept(ModBlocks.BAMBOO_BREWING_BARREL);
                 output.accept(ModBlocks.CRIMSON_BREWING_BARREL);
                 output.accept(ModBlocks.WARPED_BREWING_BARREL);
@@ -110,7 +107,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.CHERRY_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.PALE_OAK_CHEESE_AGING_RACK);
-                output.accept(ModBlocks.POPLAR_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.BAMBOO_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.CRIMSON_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.WARPED_CHEESE_AGING_RACK);
@@ -118,7 +114,7 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.ALMOND_CHEESE_AGING_RACK);
                 output.accept(ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK);
 
-                // DECORATIVE POLES — all 16 wood variants, after aging racks.
+                // DECORATIVE POLES — all 15 Minecraft 26.2 wood variants, after aging racks.
                 output.accept(ModBlocks.CROP_STAKE);
                 output.accept(ModBlocks.SPRUCE_CROP_STAKE);
                 output.accept(ModBlocks.BIRCH_CROP_STAKE);
@@ -128,7 +124,6 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MANGROVE_CROP_STAKE);
                 output.accept(ModBlocks.CHERRY_CROP_STAKE);
                 output.accept(ModBlocks.PALE_OAK_CROP_STAKE);
-                output.accept(ModBlocks.POPLAR_CROP_STAKE);
                 output.accept(ModBlocks.BAMBOO_CROP_STAKE);
                 output.accept(ModBlocks.CRIMSON_CROP_STAKE);
                 output.accept(ModBlocks.WARPED_CROP_STAKE);
