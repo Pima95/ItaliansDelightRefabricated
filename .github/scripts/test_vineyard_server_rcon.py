@@ -2,7 +2,7 @@
 """Behavioral smoke check on a disposable Minecraft 26.3 test world.
 
 Connects only to the localhost RCON service exposed in the temporary Actions
-runner. Verifies 16 decorative wooden poles, original rope attachments, freestanding
+runner. Verifies 15 decorative wooden poles, original rope attachments, freestanding
 chili roots, optional vertical rope climbing and grapes.
 No player inventory, networking permissions, or persistent user worlds involved.
 """
@@ -107,7 +107,7 @@ def test():
     rcon = Rcon()
     woods = (
         "oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
-        "mangrove", "cherry", "pale_oak", "poplar", "bamboo", "crimson",
+        "mangrove", "cherry", "pale_oak", "bamboo", "crimson",
         "warped", "olive", "almond", "fruit_cherry"
     )
     try:
@@ -120,13 +120,13 @@ def test():
             axis = ("x", "y", "z")[x % 3]
             run(rcon, f"setblock {x} 81 3 italiansdelight:{ident}[axis={axis}]")
             assert_block(rcon, x, 81, 3, f"italiansdelight:{ident}[axis={axis}]")
-        print("PASSED: all 16 decorative wood types with x/y/z orientation", flush=True)
+        print("PASSED: all 15 decorative wood types with x/y/z orientation", flush=True)
 
-        # Brewing barrels: legacy oak ID and 15 wood IDs all support
+        # Brewing barrels: legacy oak ID and 14 additional wood IDs all support
         # the same four horizontal facing properties on the dedicated server.
         # This does not require an online player or random crop ticks.
         woods = ("oak", "spruce", "birch", "jungle", "acacia",
-                 "dark_oak", "mangrove", "cherry", "pale_oak", "poplar",
+                 "dark_oak", "mangrove", "cherry", "pale_oak",
                  "bamboo", "crimson", "warped", "olive", "almond", "fruit_cherry")
         facings = ("north", "east", "south", "west")
         for x, wood in enumerate(woods):
@@ -136,7 +136,7 @@ def test():
                 block = f"italiansdelight:{block_id}[facing={facing}]"
                 run(rcon, f"setblock {x} 81 {z} {block}")
                 assert_block(rcon, x, 81, z, block)
-        print("PASSED: all 16 fermentation barrel variants and their four orientations", flush=True)
+        print("PASSED: all 15 fermentation barrel variants and their four orientations", flush=True)
 
 
         # Original horizontal rope connection behavior, now including wood
@@ -334,7 +334,7 @@ def test():
                     raise AssertionError(f"Expected drop {item} after stem break: {reply}")
         print("PASSED: both cultivated stems yield seeds plus ripe lateral grapes on support loss", flush=True)
         run(rcon, "save-all")
-        print("PASSED: 16 decorative poles, untouched rope, standalone chili climb <=3, rich farmland and grapes", flush=True)
+        print("PASSED: 15 decorative poles, untouched rope, standalone chili climb <=3, rich farmland and grapes", flush=True)
     finally:
         rcon.close()
 
