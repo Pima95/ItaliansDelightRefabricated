@@ -19,7 +19,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.CrossCollisionBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -216,14 +215,14 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
     }
 
     @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos,
-            BlockState state, BonemealSource source) {
+            BlockState state) {
         return state.getValue(DISTANCE) == 0
             || (!state.getValue(GRAPES) && level.getBlockState(pos.below()).isAir());
     }
     @Override public boolean isBonemealSuccess(Level level, RandomSource random,
-            BlockPos pos, BlockState state, BonemealSource source) { return true; }
+            BlockPos pos, BlockState state) { return true; }
     @Override public void performBonemeal(ServerLevel level, RandomSource random,
-            BlockPos pos, BlockState state, BonemealSource source) {
+            BlockPos pos, BlockState state) {
         if (!state.canSurvive(level, pos)) return;
         if (state.getValue(DISTANCE) == 0) spread(level, pos, state);
         else if (level.getBlockState(pos.below()).isAir())

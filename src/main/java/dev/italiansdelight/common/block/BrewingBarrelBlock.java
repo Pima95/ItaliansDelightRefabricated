@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import dev.italiansdelight.common.block.entity.BrewingBarrelBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModDataComponents;
@@ -107,5 +109,10 @@ public final class BrewingBarrelBlock extends BaseEntityBlock {
                 if (stack.is(asItem()))
                     barrel.preserveContents(stack, params.getLevel().registryAccess());
         return drops;
+    }
+    // Minecraft 26.2 requires a block-entity codec.
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(BrewingBarrelBlock::new);
     }
 }

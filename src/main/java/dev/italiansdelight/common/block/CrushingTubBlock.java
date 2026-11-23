@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import java.util.ArrayList;
@@ -193,5 +195,10 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
             instanceof CrushingTubBlockEntity tub && !tub.getInput().isEmpty())
             drops.add(tub.getInput());
         return drops;
+    }
+    // Minecraft 26.2 requires a block-entity codec.
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(CrushingTubBlock::new);
     }
 }

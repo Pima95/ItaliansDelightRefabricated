@@ -14,7 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -115,8 +114,8 @@ public class ChiliCropBlock extends TomatoBlock {
     /** Let bone meal travel into chili rope segments as it does for tomatoes. */
     @Override
     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos,
-            BlockState state, BonemealSource source) {
-        if (super.isValidBonemealTarget(level, pos, state, source)) return true;
+            BlockState state) {
+        if (super.isValidBonemealTarget(level, pos, state)) return true;
         if (!isMaxAge(state)) return true;
         for (int height = 1; height < 3; height++) {
             BlockState above = level.getBlockState(pos.above(height));
@@ -130,9 +129,9 @@ public class ChiliCropBlock extends TomatoBlock {
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random,
-            BlockPos pos, BlockState state, BonemealSource source) {
+            BlockPos pos, BlockState state) {
         if (!isMaxAge(state)) {
-            super.performBonemeal(level, random, pos, state, source);
+            super.performBonemeal(level, random, pos, state);
             return;
         }
         BlockState above = level.getBlockState(pos.above());
@@ -140,7 +139,7 @@ public class ChiliCropBlock extends TomatoBlock {
             climbRopeAbove(level, pos);
         } else if (above.is(ModBlocks.CHILI_ON_ROPE)) {
             ((ChiliCropBlock) above.getBlock()).performBonemeal(
-                level, random, pos.above(), above, source);
+                level, random, pos.above(), above);
         }
     }
 

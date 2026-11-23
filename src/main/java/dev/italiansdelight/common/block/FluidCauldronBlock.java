@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import dev.italiansdelight.common.fluid.FluidTransferBridge;
 import net.minecraft.core.BlockPos;
@@ -107,5 +109,10 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
             : (delta == 1000 ? SoundEvents.BUCKET_FILL : SoundEvents.BOTTLE_FILL),
             SoundSource.BLOCKS, 1F, 1F);
         return InteractionResult.SUCCESS;
+    }
+    // Minecraft 26.2 requires a block-entity codec.
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(FluidCauldronBlock::new);
     }
 }

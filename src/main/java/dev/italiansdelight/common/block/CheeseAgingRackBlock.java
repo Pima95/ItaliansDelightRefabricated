@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,6 @@ import dev.italiansdelight.common.block.entity.CheeseAgingRackBlockEntity;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -262,7 +263,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             && !player.addItem(stack)
         ) {
             player.drop(
-                stack, false, Prediction.SERVER_ONLY
+                stack, false
             );
         }
     }
@@ -280,7 +281,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         player.getInventory()
             .placeItemBackInInventory(
                 stack
-            , Prediction.SERVER_ONLY);
+            );
     }
 
     private static int shelfFromHit(
@@ -348,5 +349,10 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         }
 
         return null;
+    }
+    // Minecraft 26.2 requires a block-entity codec.
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(CheeseAgingRackBlock::new);
     }
 }

@@ -66,6 +66,8 @@ processResources {
 // of bytecode or APIs from a different Java version.
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 25
+    // During the 26.3 -> 26.2 API port, surface all compiler regressions.
+    it.options.compilerArgs.addAll(['-Xmaxerrs', '300'])
 }
 
 // Source/target toolchain configuration and sources JAR generation.

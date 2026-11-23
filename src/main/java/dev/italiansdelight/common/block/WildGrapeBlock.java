@@ -8,7 +8,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,17 +33,17 @@ public final class WildGrapeBlock extends DoublePlantBlock implements Bonemealab
     }
 
     @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos,
-            BlockState state, BonemealSource source) {
+            BlockState state) {
         return true;
     }
 
     @Override public boolean isBonemealSuccess(Level level, RandomSource random,
-            BlockPos pos, BlockState state, BonemealSource source) {
+            BlockPos pos, BlockState state) {
         return random.nextFloat() < 0.3F;
     }
 
     @Override public void performBonemeal(ServerLevel level, RandomSource random,
-            BlockPos pos, BlockState state, BonemealSource source) {
+            BlockPos pos, BlockState state) {
         // The same 30% whole-plant bonemeal behavior as wild rice.
         BlockPos root = state.getValue(HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos;
         BlockState low = level.getBlockState(root);

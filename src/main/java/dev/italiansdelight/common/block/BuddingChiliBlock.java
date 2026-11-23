@@ -52,7 +52,7 @@ public final class BuddingChiliBlock extends BuddingTomatoBlock {
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random,
-            BlockPos pos, BlockState state, net.minecraft.world.level.block.BonemealSource source) {
+            BlockPos pos, BlockState state) {
         // Same BuddingTomatoBlock growth calculation, but conversion targets chili.
         int grownAge = Math.min(getAge(state) + getBonemealAgeIncrease(level), 7);
         if (grownAge <= getMaxAge()) {

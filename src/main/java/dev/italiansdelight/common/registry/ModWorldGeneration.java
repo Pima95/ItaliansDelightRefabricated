@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.registry;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.Registry;
@@ -43,10 +44,12 @@ public final class ModWorldGeneration {
         Registries.PLACED_FEATURE, ModRegistries.id("fruit_cherry_tree_wild"));
     private ModWorldGeneration() {}
     public static void register() {
-        Registry.register(BuiltInRegistries.FEATURE_TYPE,
-            ModRegistries.id("wild_grape_vine"), WildGrapeFeature.RED_CODEC);
-        Registry.register(BuiltInRegistries.FEATURE_TYPE,
-            ModRegistries.id("wild_white_grape_vine"), WildGrapeFeature.WHITE_CODEC);
+        Registry.register(BuiltInRegistries.FEATURE,
+            ModRegistries.id("wild_grape_vine"),
+            new WildGrapeFeature(NoneFeatureConfiguration.CODEC, false));
+        Registry.register(BuiltInRegistries.FEATURE,
+            ModRegistries.id("wild_white_grape_vine"),
+            new WildGrapeFeature(NoneFeatureConfiguration.CODEC, true));
         // Orchard spawning occurs only during NEW chunk generation.
         // 2x2 ancient olive uses the same configured feature as 2x2 saplings,
         // but its attempt frequency is much lower than a regular olive.

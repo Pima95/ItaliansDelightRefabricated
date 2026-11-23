@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import dev.italiansdelight.common.block.entity.PizzaOvenBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -154,5 +156,10 @@ public static final EnumProperty<Direction> FACING =
                                     server, pos, current, oven));
         }
         return null;
+    }
+    // Minecraft 26.2 requires a block-entity codec.
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(PizzaOvenBlock::new);
     }
 }

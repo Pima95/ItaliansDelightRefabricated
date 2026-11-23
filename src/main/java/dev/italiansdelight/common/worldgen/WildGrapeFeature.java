@@ -1,6 +1,8 @@
 package dev.italiansdelight.common.worldgen;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import dev.italiansdelight.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -16,22 +18,18 @@ import net.minecraft.world.level.levelgen.feature.Feature;
  * Mirrors the two-half placement of FDR WildRiceFeature, on land.
  * Vanilla simple_block does not invoke DoublePlantBlock.setPlacedBy.
  */
-public final class WildGrapeFeature implements Feature {
-    public static final MapCodec<WildGrapeFeature> RED_CODEC =
-        MapCodec.unit(new WildGrapeFeature(false));
-    public static final MapCodec<WildGrapeFeature> WHITE_CODEC =
-        MapCodec.unit(new WildGrapeFeature(true));
-
+public final class WildGrapeFeature extends Feature<NoneFeatureConfiguration> {
     private final boolean white;
 
-    private WildGrapeFeature(boolean white) { this.white = white; }
-
-    @Override public MapCodec<? extends Feature> codec() {
-        return white ? WHITE_CODEC : RED_CODEC;
+    public WildGrapeFeature(Codec<NoneFeatureConfiguration> codec, boolean white) {
+        super(codec);
+        this.white = white;
     }
 
-    @Override public boolean place(WorldGenLevel level, ChunkGenerator generator,
-            RandomSource random, BlockPos pos) {
+    @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
+        WorldGenLevel level = context.level();
+        RandomSource random = context.random();
+        BlockPos pos = context.origin();
         if (pos.getY() >= level.getMaxY() - 1
                 || !level.getBlockState(pos).isAir()
                 || !level.getBlockState(pos.above()).isAir()) return false;

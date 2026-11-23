@@ -10,7 +10,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
-import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Block;
@@ -102,14 +101,14 @@ public final class GrapeStemBlock extends CropBlock {
     }
 
     @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos,
-            BlockState state, BonemealSource source) {
+            BlockState state) {
         if (!isMaxAge(state)) return true;
         return ropeAxis(level.getBlockState(pos.above())) != null;
     }
 
     @Override public void performBonemeal(ServerLevel level, RandomSource random,
-            BlockPos pos, BlockState state, BonemealSource source) {
-        if (!isMaxAge(state)) super.performBonemeal(level, random, pos, state, source);
+            BlockPos pos, BlockState state) {
+        if (!isMaxAge(state)) super.performBonemeal(level, random, pos, state);
         tryGrowCanopy(level, pos, level.getBlockState(pos));
     }
 }
