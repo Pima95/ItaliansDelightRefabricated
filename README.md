@@ -10,6 +10,7 @@
 
 - **[Documentazione e indice per argomenti](docs/README.md)** — installazione, funzionalità, guide tecniche e test.
 - **[Crediti degli autori](CREDIT.md)** — chi ha contribuito e provenienza degli asset.
+- **[Prompt approvati e regole grafiche](docs/PROMPTS.md)** — istruzioni originali da rispettare nello sviluppo.
 - **[Licenza e attribuzioni](LICENSE)** · [NOTICE](NOTICE) · [Materiali di terzi](THIRD_PARTY_NOTICES.md) · [Licenza crate FDR](docs/FDR_CRATES_LICENSE.md).
 - **[Changelog](CHANGELOG.md)** · [Release e download](https://github.com/Pima95/ItaliansDelightRefabricated/releases) · [Segnalazioni](https://github.com/Pima95/ItaliansDelightRefabricated/issues).
 
