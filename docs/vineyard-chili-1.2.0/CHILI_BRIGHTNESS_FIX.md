@@ -1,7 +1,0 @@
-# Cultivated chili foliage brightness (16 November 2026)
-
-The cultivated pepper looked dark next to the wild shrub. Inspection of the actual Minecraft 26.3 mod assets shows that the planted stages use `farmersdelight:block/template_crop_cross`, which already declares `ambientocclusion: false` and `shade: false` on the crossed faces. The block has no explicit foliage tint registration. Thus no *extra rendering tint* is evident in the source; the green palette itself is relatively dark.
-
-The leaf RGB pixels in `chili_crop_0.png`, `chili_crop_1.png`, `chili_crop_2.png`, `chili_crop_3.png` and `chili_crop_foliage.png` have been selectively brightened: green pixels (G > 1.12R and G > 1.20B) gain up to 22% depending on original luminance, with darkest leaves raised more than highlights. Mean green luminance rose by approximately 13–14 units, retaining the same green hierarchy and 16x16 opaque-pixel silhouette.
-
-**No model, red pepper pixels, transparent pixels, wild-chili PNG, registry IDs, crop growth/harvesting or Farmer's Delight template was changed.** This brightens both planted roots and their matching rope variants because their JSON models share the crop texture. The automated test pins all five new PNG blobs, checks mean green luminance and protects the unchanged wild sprite. Test the brighter planted crop in-game, because the dedicated server smoke test cannot validate client lighting.

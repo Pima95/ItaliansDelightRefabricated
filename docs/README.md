@@ -1,54 +1,53 @@
 # Documentazione — Italian's Delight Refabricated
 
-> **11 novembre 2026 — indice per la preparazione della 1.1.0.** La fonte di verità
-> per il comportamento del gioco rimane il codice, non le vecchie roadmap.
-> Alcuni documenti di sviluppo 1.0.0 descrivono fasi superate; consultare
-> i documenti attuali prima di considerarli requisiti ancora da implementare.
+Questa cartella contiene la **documentazione tecnica utile**. La cronologia Git
+conserva i vecchi diari di sviluppo, gli audit intermedi e i test di fase
+rimossi per mantenere il repository più leggibile.
 
-## Da leggere per la release 1.1.0
+## Versione 1.2.0 — Vineyard & Chili (branch di sviluppo)
 
-1. [Stato e controlli prima del rilascio](orchards-1.1.0/RELEASE_READINESS.md) — checklist da non dichiarare superata senza prove
-2. [Bozza note di versione](orchards-1.1.0/RELEASE_NOTES_DRAFT.md)
-3. [Architettura e storia Orchard](orchards-1.1.0/ROADMAP.md) — note storiche, non tutte attuali
-4. [Generazione naturale](orchards-1.1.0/NATURAL_WORLDGEN_26_2.md)
-5. [Integrazione Serene Seasons](orchards-1.1.0/SERENE_SEASONS_INTEGRATION.md)
-6. [Verifica licenze e attribuzione degli asset](orchards-1.1.0/LICENSE_AND_ASSET_RC_REVIEW.md) — credito upstream e attività ancora aperte
-   - [Corrispondenze binarie Rustic](orchards-1.1.0/RUSTIC_ASSET_MATCHES.md)
-7. [Inventario Creative e JEI](orchards-1.1.0/CREATIVE_JEI_ORDER.md)
-8. [Audit e stato delle ottimizzazioni 1.1.0](CODE_OPTIMIZATION_AUDIT_2026-11-11.md) — interventi applicati, differiti e relativi rischi
-9. [Checklist di collaudo dopo ottimizzazione](orchards-1.1.0/RELEASE_QA_AFTER_OPTIMIZATIONS.md) — azioni effettivamente eseguibili dall'autore
+- [Roadmap e vincoli di compatibilità](vineyard-chili-1.2.0/ROADMAP.md) — alcune note iniziali descrivono uno stato precedente all'implementazione.
+- [Design originale](vineyard-chili-1.2.0/DESIGN.md) — documento storico, non elenco aggiornato delle funzioni ancora mancanti.
+- [Nuovi piatti, pizze e regole dei condimenti](vineyard-chili-1.2.0/NEW_FOODS_AND_SAUCE_LAYERS.md).
+- [Brewing Barrel e trasformazioni](vineyard-chili-1.2.0/BREWING_BARREL_GUI.md).
+- [Texture del fermentatore e palette](vineyard-chili-1.2.0/BREWING_BARREL_TEXTURE_PALETTES.md).
+- [Uva bianca](vineyard-chili-1.2.0/WHITE_GRAPES.md) e [generazione delle viti selvatiche](vineyard-chili-1.2.0/WILD_GRAPES_SPAWN.md).
+- [Bevande e contenitori](vineyard-chili-1.2.0/BOTTLES_DRINKABILITY.md).
+- [Collaudo manuale in gioco](vineyard-chili-1.2.0/TESTING.md).
 
-## Documentazione tecnica ancora utile
+## Funzioni esistenti e compatibilità
 
-- [Requisiti](REQUISITI.md) / [Requirements](REQUIREMENTS.md)
-- [Bug e regressioni registrati](KNOWN_BUGS.md)
-- [Panoramica Pizza Update 1.0.0](pizza-1.0.0/CURRENT_STATUS.md)
-- [Persistenza e compatibilità pizze](pizza-1.0.0/DATA_AND_COMPATIBILITY.md)
-- [Composizione e quarti delle pizze](pizza-1.0.0/QUARTERS_AND_PEEL.md)
-- [Pizze e condimenti](pizza-1.0.0/INGREDIENT_CATALOG.md)
-- [Spicchi riposizionabili](pizza-1.0.0/REPLACEABLE_PIZZA_SLICES.md)
-- [Catena latticini](cheese-update/ROADMAP_FORMAGGI.md)
-- [Catena salumi](cured-meats/ROADMAP_SALUMI.md)
-- [Catena piatti — archivio storico](https://github.com/Pima95/ItaliansDelightRefabricated/blob/e0af7199879043d6f9dc597cfbc20b25b7314ebe/docs/dishes/ROADMAP_PIATTI.md) (esclusa dal branch corrente tramite `.gitignore`)
-- [Regole per le risorse grafiche](ASSET_GUIDELINES.md)
+- [Requisiti IT](REQUISITI.md) / [Requirements EN](REQUIREMENTS.md).
+- [Bug e regressioni registrati](KNOWN_BUGS.md).
+- [Pizza: composizione e dati dei salvataggi](pizza-1.0.0/DATA_AND_COMPATIBILITY.md),
+  [quarti e pala](pizza-1.0.0/QUARTERS_AND_PEEL.md) e
+  [catalogo ingredienti](pizza-1.0.0/INGREDIENT_CATALOG.md).
+- [Orchard: roadmap](orchards-1.1.0/ROADMAP.md),
+  [world generation](orchards-1.1.0/NATURAL_WORLDGEN_26_2.md) e
+  [Serene Seasons](orchards-1.1.0/SERENE_SEASONS_INTEGRATION.md).
+- [Compatibilità e licenze asset Orchard](orchards-1.1.0/LICENSE_AND_ASSET_RC_REVIEW.md)
+  e [attribuzioni Rustic](orchards-1.1.0/RUSTIC_ASSET_MATCHES.md).
+- [Catena formaggi](cheese-update/ROADMAP_FORMAGGI.md),
+  [salumi](cured-meats/ROADMAP_SALUMI.md) e [linee guida grafiche](ASSET_GUIDELINES.md).
 
-## Pulizia delle anteprime
+## Test e rilascio
 
-Rimossi da `docs` **solo file generati di presentazione**: HTML interattivi,
-JSON dei prompt di generazione e due immagini riassuntive (non texture di gioco).
-Sono copie di lavoro e non servono per compilare o distribuire la mod.
-Le specifiche Markdown, il codice, le texture del gioco, i dati salvati, i test
-CI, le decisioni approvate e le note sulle licenze sono stati mantenuti.
+Per il branch `feature/vineyard-chili-1.2.0` sono mantenuti i workflow
+[`vineyard-chili-1.2.0.yml`](../.github/workflows/vineyard-chili-1.2.0.yml)
+(build, audit essenziali, JAR) e
+[`vineyard-chili-server.yml`](../.github/workflows/vineyard-chili-server.yml)
+(boot/reload server e test RCON). I workflow e i controlli statici specifici
+delle precedenti versioni **rimangono nelle rispettive branch Git**;
+non sono duplicati qui.
 
-I collegamenti rimasti in quei documenti Markdown portano alla
-[istantanea GitHub precedente alla pulizia](https://github.com/Pima95/ItaliansDelightRefabricated/tree/8a0d32cac1807b7b6755c311722a5b158a04d7db/docs);
-tutte le risorse eliminate rimangono recuperabili dalla cronologia Git.
-La pulizia **non è una revisione o approvazione delle licenze**.
+**CI verde non sostituisce il collaudo nel client**: texture, GUI, interazioni,
+JEI, salvataggi reali e compatibilità opzionali richiedono verifiche di gioco.
+Non pubblicare la 1.2.0 solo sulla base dei test automatici.
 
-## Convenzioni di manutenzione
+## Manutenzione
 
-- Per 1.1.0 aggiungere scelte e rischi nel documento della release e nel
-  report di audit, invece di moltiplicare file «FASE X TEST» per ogni microintervento.
-- Non dichiarare verificati i test con Serene Seasons e server multiplayer
-  finché non esiste una prova reale; CI statico ≠ test in-game.
-- Non modificare `main`, versioni, tag o meccaniche senza approvazione.
+Aggiornare i documenti consolidati sopra indicati anziché creare un nuovo
+`.md` per ogni microcorrezione. Conservare sempre README, CHANGELOG,
+LICENSE, NOTICE, THIRD_PARTY_NOTICES e la documentazione di attribuzione.
+La rimozione di vecchi appunti non modifica codice di gioco, asset, ricette
+né diritti di terze parti.
