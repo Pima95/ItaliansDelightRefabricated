@@ -44,16 +44,10 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "italiansdelight:frittata_al_formaggio_slice",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 2
-            }
-          ]
+          "name": "italiansdelight:frittata_al_formaggio_slice"
         }
       ],
-      "rolls": 1
+      "rolls": 2
     },
     {
       "condition": {
@@ -66,16 +60,10 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "italiansdelight:frittata_al_formaggio_slice",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 3
-            }
-          ]
+          "name": "italiansdelight:frittata_al_formaggio_slice"
         }
       ],
-      "rolls": 1
+      "rolls": 3
     }
   ]
 }

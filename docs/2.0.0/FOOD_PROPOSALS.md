@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated – 2.0.0: proposte alimentari
 
-**Stato:** progettazione, 24 novembre 2026. Cinque ingredienti, dodici piatti di pasta e nove risotti approvati e implementati; le altre categorie restano da valutare.
+**Stato:** progettazione, 24 novembre 2026. Cinque ingredienti, dodici piatti di pasta, nove risotti e diciassette secondi approvati e implementati; le altre categorie restano da valutare.
 
 ## Obiettivo e vincoli
 
@@ -187,7 +187,7 @@ Le difficoltà sono stime riferite all'introduzione delle relative preparazioni 
 - Valorizzare maggiormente salumi e formaggi già implementati, soprattutto mortadella, bresaola, burrata e provolone.
 - Verificare le ricette già presenti per evitare duplicazioni; confermare gli ingredienti realmente disponibili e gli adattamenti prima di implementare.
 
-Per ora: nessuna focaccia, nessuna nuova coltivazione; le categorie pasta e risotti sono state valutate. Gli altri sette ingredienti non sono stati selezionati per questa fase.
+Per ora: nessuna focaccia, nessuna nuova coltivazione; le categorie pasta, risotti e secondi sono state valutate. Gli altri sette ingredienti non sono stati selezionati per questa fase.
 
 ## Riferimenti interni
 
