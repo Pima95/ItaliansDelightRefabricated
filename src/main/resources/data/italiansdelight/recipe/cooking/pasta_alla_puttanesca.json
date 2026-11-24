@@ -6,7 +6,7 @@
     "farmersdelight:tomato_sauce",
     "italiansdelight:olive_pitted",
     "italiansdelight:chili_pepper",
-    "minecraft:cod"
+    "#c:foods/raw_cod"
   ],
   "recipe_book_tab": "meals",
   "container": {

@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:porkchop",
+    "#c:foods/raw_pork",
     "italiansdelight:salt",
     "minecraft:egg"
   ],

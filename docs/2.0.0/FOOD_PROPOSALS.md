@@ -202,8 +202,12 @@ Tutte le 12 ricette usano Cooking Pot, 1 ciotola per il risultato, nessun crafti
 | `pasta_with_mortadella_and_ricotta` | `#c:foods/pasta`, `italiansdelight:mortadella_slice`, `italiansdelight:ricotta` | 12 | 0.75 | MEDIUM |
 | `pasta_with_mushroom_and_scamorza` | `#c:foods/pasta`, `#c:mushrooms`, `italiansdelight:scamorza_slice` | 12 | 0.75 | MEDIUM |
 | `pasta_with_ragu` | `#c:foods/pasta`, `italiansdelight:ragu`, `italiansdelight:grated_parmigiano_reggiano` | 14 | 0.75 | LONG |
-| `pasta_alla_puttanesca` | `#c:foods/pasta`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_pitted`, `italiansdelight:chili_pepper`, `minecraft:cod` | 14 | 0.75 | LONG |
-| `pasta_with_salmon` | `#c:foods/pasta`, `minecraft:salmon`, `italiansdelight:cream_bowl` | 12 | 0.75 | MEDIUM |
+| `pasta_alla_puttanesca` | `#c:foods/pasta`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_pitted`, `italiansdelight:chili_pepper`, `#c:foods/raw_cod` | 14 | 0.75 | LONG |
+| `pasta_with_salmon` | `#c:foods/pasta`, `#c:foods/raw_salmon`, `italiansdelight:cream_bowl` | 12 | 0.75 | MEDIUM |
 | `pasta_alla_zozzona` | `#c:foods/pasta`, `italiansdelight:sausage`, `italiansdelight:guanciale_slice`, `minecraft:egg`, `farmersdelight:tomato_sauce`, `italiansdelight:grated_pecorino_romano` | 16 | 0.8 | LONG |
 
 Verificare in gioco tutte le ricette, i contenitori restituiti, JEI e le texture.
+
+## Compatibilità carne e pesce
+
+Per le ricette che utilizzano carne o pesce vanilla, preferire i tag specifici di Farmer's Delight Refabricated che comprendono l'item intero e il suo taglio equivalente, mantenendo separati crudo e cotto e senza duplicare le ricette. Verificati sul branch `fabric/latest/26.3` (revisione `1b85d66f5e2aba88592d7f4fb203d582f4d3cbe3`): `#c:foods/raw_cod` (cod/cod_slice), `#c:foods/raw_salmon` (salmon/salmon_slice), `#c:foods/raw_beef` (beef/minced_beef), `#c:foods/raw_pork` (porkchop/bacon tramite raw_bacon). Per i futuri piatti verificare analogamente i tag di pollo e montone. Il ragù conserva `farmersdelight:minced_beef` come richiesto esplicitamente; le ricette dei salumi che richiedono specificamente ham o bacon restano invariate. Quantità, metodi e risultati invariati.

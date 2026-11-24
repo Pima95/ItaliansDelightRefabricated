@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:beef",
+    "#c:foods/raw_beef",
     "italiansdelight:salt"
   ],
   "result": {

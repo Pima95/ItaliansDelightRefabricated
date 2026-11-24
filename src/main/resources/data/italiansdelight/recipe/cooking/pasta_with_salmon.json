@@ -3,7 +3,7 @@
   "experience": 1,
   "ingredients": [
     "#c:foods/pasta",
-    "minecraft:salmon",
+    "#c:foods/raw_salmon",
     "italiansdelight:cream_bowl"
   ],
   "recipe_book_tab": "meals",
