@@ -146,7 +146,7 @@ Ricotta, mascarpone, panna, mandorle, ciliegie, uva e miele sono già disponibil
 | Besciamella | Latte, farina, burro | Cooking Pot | Da valutare |
 | Burro | Panna | Crafting | Da valutare |
 | Farina | Grano | Crafting | Da valutare |
-| Crema pasticciera | Latte, uovo, zucchero, grano (in sostituzione della farina) | Cooking Pot | Implementato |
+| Crema pasticciera | Latte vaccino o di pecora (bottiglia o secchio), uovo, zucchero, grano (in sostituzione della farina) | Cooking Pot | Implementato |
 | Pangrattato | Pane, coltello | Cutting Board | Implementato |
 | Salsiccia | Carne di maiale, sale | Crafting | Implementato |
 | Sfoglia di pasta | Wheat Dough (FDR), mattarello | Cutting Board | Implementato |

@@ -78,3 +78,11 @@ unmatched artwork has been individually reviewed.
 
 Full packaging and open questions are recorded in
 [the 1.1.0 RC asset/license review](https://github.com/Pima95/ItaliansDelightRefabricated/blob/d351e1660eb4bea9327070edaa3d8c9c5fa5ff13/docs/orchards-1.1.0/LICENSE_AND_ASSET_RC_REVIEW.md).
+
+## Farmer's Delight Refabricated — 2.0.0 ingredient artwork
+
+The `ragu.png` and `custard.png` item textures retain the original bowl pixels from the MIT-licensed `tomato_sauce.png` by Farmer's Delight / vectorwing. The sauce itself was recolored and redrawn, with the basil garnish removed. The new sausage, breadcrumbs and pasta sheet sprites are original pixel art; the visual references include upstream `minced_beef.png`, `raw_pasta.png` and `wheat_dough.png`.
+
+- Upstream revision: [1b85d66f5e2aba88592d7f4fb203d582f4d3cbe3](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/tree/1b85d66f5e2aba88592d7f4fb203d582f4d3cbe3/src/main/resources/assets/farmersdelight/textures/item), branch `fabric/latest/26.3`.
+- Source tomato sauce blob: `0d5c9334ebdf5b28b78df3a467a4d0f337d29268`.
+- MIT License, Copyright (c) 2020 vectorwing. The full verbatim copyright, permission and disclaimer are preserved in `docs/FDR_CRATES_LICENSE.md`, also included in the distributed JAR under `META-INF/`.

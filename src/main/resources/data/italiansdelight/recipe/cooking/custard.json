@@ -2,7 +2,7 @@
   "type": "farmersdelight:cooking",
   "experience": 0.5,
   "ingredients": [
-    "#italiansdelight:cow_milk",
+    "#italiansdelight:custard_milk",
     "minecraft:egg",
     "minecraft:sugar",
     "minecraft:wheat"
