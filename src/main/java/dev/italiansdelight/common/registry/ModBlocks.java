@@ -61,6 +61,7 @@ import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.WallHangingSignBlock;
 import vectorwing.farmersdelight.common.block.CabinetBlock;
 import vectorwing.farmersdelight.common.block.RotatedFeastBlock;
+import vectorwing.farmersdelight.common.item.PlaceableItem;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.ShelfBlock;
@@ -1356,11 +1357,21 @@ public final class ModBlocks {
     private static Block registerItalianFeast(String id, String servingId, boolean chicken) {
         ResourceKey<Block> blockKey = ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id(id));
         ResourceKey<Item> servingKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id(servingId));
-        return register(blockKey, new RotatedFeastBlock(
+        Block feast = new RotatedFeastBlock(
             Block.Properties.ofFullCopy(Blocks.CAKE).setId(blockKey).noOcclusion().strength(0.5F),
             servingKey, chicken,
             chicken ? vectorwing.farmersdelight.common.BlockShapes.ROAST_CHICKEN_SHAPES : frittataShapes(),
-            chicken ? vectorwing.farmersdelight.common.BlockShapes.TRAY_SHAPE : null));
+            chicken ? vectorwing.farmersdelight.common.BlockShapes.TRAY_SHAPE : null);
+        if (!chicken) {
+            return register(blockKey, feast);
+        }
+        // Use the original FDR tooltip (localized, italic dark gray Placeable).
+        Block registeredBlock = registerBlockOnly(blockKey, feast);
+        ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), blockKey.identifier());
+        Registry.register(BuiltInRegistries.ITEM, itemKey,
+            new PlaceableItem(registeredBlock, new Item.Properties()
+                .useBlockDescriptionPrefix().setId(itemKey)));
+        return registeredBlock;
     }
 
     private static net.minecraft.world.phys.shapes.VoxelShape[] frittataShapes() {

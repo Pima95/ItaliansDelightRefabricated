@@ -2,13 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "#c:foods/cooked_chicken",
-    "#c:foods/cooked_chicken",
-    "#c:foods/cooked_chicken",
-    "#c:foods/cooked_chicken",
+    "minecraft:cooked_chicken",
     "farmersdelight:tomato_sauce",
     "italiansdelight:olive_pitted",
     "italiansdelight:wine_bottle",
+    "#c:crops/onion",
+    "#c:crops/carrot",
+    "minecraft:baked_potato",
+    "minecraft:baked_potato",
     "minecraft:bowl"
   ],
   "result": {
