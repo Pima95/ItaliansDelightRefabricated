@@ -27,3 +27,7 @@ Fonte originale: [`docs/ASSET_GUIDELINES.md`](https://github.com/Pima95/Italians
 > Prima di creare o modificare una texture, esaminare gli asset esistenti più simili, preferendo le forme, le palette cromatiche, le proporzioni, i contorni, la direzione della luce e le ombreggiature già adottati. Riutilizzare le texture di riferimento quando appropriato e consentito dalla licenza, conservando le attribuzioni.
 >
 > Verificare la leggibilità alla risoluzione nativa e l'aspetto ingrandito senza interpolazione, evitando sagome ambigue, dettagli estranei all'oggetto e incoerenze con gli altri item. Conservare i dettagli già approvati quando la richiesta riguarda soltanto una parte della texture.
+
+## Recipienti canonici per pasta e risotti
+
+> Per tutti i piatti di pasta usare esclusivamente la forma del recipiente di `pasta_alla_carbonara.png`. Conservare i pixel del recipiente e variare la sagoma, le proporzioni e i condimenti della sola pasta, evitando sagome ripetute. Per tutti i risotti utilizzare il recipiente delle texture originali `risotto_with_tomato_sauce.png` e `risotto_with_mushroom.png`. Non copiare i chicchi fuori dal recipiente come se fossero parte del recipiente. Lasciare invariati gli asset già conformi.

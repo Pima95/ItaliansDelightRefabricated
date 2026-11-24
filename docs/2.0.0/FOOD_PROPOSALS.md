@@ -192,7 +192,7 @@ Sono stati aggiunti esclusivamente ragù, crema pasticciera, pangrattato, salsic
 
 ## 2.0.0 – Pasta: implementazione definitiva
 
-Tutte le 12 ricette usano Cooking Pot, 1 ciotola per il risultato, nessun crafting alternativo. Gli ingredienti sono item già esistenti; tag pasta e funghi come nelle ricette precedenti. Le texture mantengono i pixel del recipiente di `pasta_with_ricotta_and_pancetta.png`, con pasta e condimenti ridisegnati in gruppi distinti. Valori nutrizionali e Nourishment sono da bilanciare durante i test.
+Tutte le 12 ricette usano Cooking Pot, 1 ciotola per il risultato, nessun crafting alternativo. Gli ingredienti sono item già esistenti; tag pasta e funghi come nelle ricette precedenti. Le texture mantengono i pixel del recipiente di `pasta_alla_carbonara.png`, con pasta e condimenti ridisegnati in gruppi distinti. Valori nutrizionali e Nourishment sono da bilanciare durante i test.
 
 | Item | Ingredienti effettivi | Fame | Saturation modifier | Nourishment |
 | --- | --- | ---: | ---: | --- |
@@ -217,7 +217,7 @@ Per le ricette che utilizzano carne o pesce vanilla, preferire i tag specifici d
 
 ## 2.0.0 – Risotti: implementazione
 
-Approvati solo i nove risotti sotto. Gli altri risotti proposti non sono stati implementati. Tutti utilizzano Cooking Pot, una ciotola per il risultato e nessun crafting alternativo. Per il salmone si usa il tag FDR `#c:foods/raw_salmon`, valido per salmone intero o affettato. La zucca usa `farmersdelight:pumpkin_slice`. Le texture 16×16 RGBA mantengono i pixel del recipiente di `risotto_with_parmigiano.png`; il riso e i condimenti hanno profili e palette individuali.
+Approvati solo i nove risotti sotto. Gli altri risotti proposti non sono stati implementati. Tutti utilizzano Cooking Pot, una ciotola per il risultato e nessun crafting alternativo. Per il salmone si usa il tag FDR `#c:foods/raw_salmon`, valido per salmone intero o affettato. La zucca usa `farmersdelight:pumpkin_slice`. Le texture 16×16 RGBA mantengono i pixel del recipiente dei risotti originali `risotto_with_tomato_sauce.png` e `risotto_with_mushroom.png`; il riso e i condimenti hanno profili e palette individuali.
 
 | Item | Ingredienti effettivi | Fame | Saturation modifier | Nourishment |
 | --- | --- | ---: | ---: | --- |
@@ -232,3 +232,7 @@ Approvati solo i nove risotti sotto. Gli altri risotti proposti non sono stati i
 | `risotto_with_chili_pepper` | `#c:crops/rice`, `italiansdelight:chili_pepper`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_oil_bottle` | 10 | 0.7 | MEDIUM |
 
 Valori nutritivi proposti in continuità con i risotti precedenti. Test in gioco, JEI e compilazione da verificare.
+
+## Uniformazione recipienti
+
+Verificati tutti i 22 piatti di pasta e 14 risotti; aggiornati 21 piatti di pasta e 11 risotti. Carbonara, risotto al sugo, risotto ai funghi e risotto con scamorza e olive mantenuti invariati. Recipienti standard secondo `docs/PROMPTS.md`; sagome e condimenti distinti. Nessuna modifica alle ricette o al codice.
