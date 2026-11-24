@@ -10,39 +10,38 @@ import java.util.List;
 
 /**
  * One stomp in the Crushing Tub.
- * Vanilla honey has no registered Fluid, only a honey bottle; for that
- * recipe fluid is Fluids.EMPTY and bottlePreview is the EXTRACTED result.
- * No bottle materializes on landing: the 250 mB stays in the tub.
+ * Honey uses the existing registered storage-only ModFluids.HONEY in JEI.
+ * The tub retains its legacy minecraft:honey storage ID for save compatibility.
  */
 public record CrushingTubJeiRecipe(ItemStack ingredient, Fluid fluid, long amount,
-                                    ItemStack byproduct, ItemStack bottlePreview) {
+                                    ItemStack byproduct) {
     public CrushingTubJeiRecipe {
-        if (ingredient.isEmpty() || amount <= 0 || (fluid == Fluids.EMPTY) == bottlePreview.isEmpty())
+        if (ingredient.isEmpty() || amount <= 0 || fluid == Fluids.EMPTY)
             throw new IllegalArgumentException("Invalid Crushing Tub JEI recipe");
     }
 
     public static List<CrushingTubJeiRecipe> createExamples() {
         return List.of(
             new CrushingTubJeiRecipe(new ItemStack(ModItems.OLIVES),
-                ModFluids.OLIVE_OIL_STILL, 250, new ItemStack(ModItems.OLIVE_SEED), ItemStack.EMPTY),
+                ModFluids.OLIVE_OIL_STILL, 250, new ItemStack(ModItems.OLIVE_SEED)),
             new CrushingTubJeiRecipe(new ItemStack(ModItems.GRAPES),
                 ModFluids.GRAPE_JUICE, 250,
-                new ItemStack(dev.italiansdelight.common.registry.ModBlocks.GRAPE_SEEDS), ItemStack.EMPTY),
+                new ItemStack(dev.italiansdelight.common.registry.ModBlocks.GRAPE_SEEDS)),
             new CrushingTubJeiRecipe(new ItemStack(ModItems.WHITE_GRAPES),
                 ModFluids.WHITE_GRAPE_JUICE, 250,
-                new ItemStack(dev.italiansdelight.common.registry.ModBlocks.WHITE_GRAPE_SEEDS), ItemStack.EMPTY),
+                new ItemStack(dev.italiansdelight.common.registry.ModBlocks.WHITE_GRAPE_SEEDS)),
             new CrushingTubJeiRecipe(new ItemStack(ModItems.CHERRIES),
-                ModFluids.CHERRY_JUICE, 250, ItemStack.EMPTY, ItemStack.EMPTY),
+                ModFluids.CHERRY_JUICE, 250, ItemStack.EMPTY),
             new CrushingTubJeiRecipe(new ItemStack(Items.APPLE),
-                ModFluids.APPLE_JUICE_STILL, 250, new ItemStack(ModItems.APPLE_SEEDS), ItemStack.EMPTY),
+                ModFluids.APPLE_JUICE_STILL, 250, new ItemStack(ModItems.APPLE_SEEDS)),
             new CrushingTubJeiRecipe(new ItemStack(Items.SUGAR_CANE),
-                Fluids.WATER, 250, new ItemStack(Items.SUGAR, 2), ItemStack.EMPTY),
+                Fluids.WATER, 250, new ItemStack(Items.SUGAR, 2)),
             new CrushingTubJeiRecipe(new ItemStack(Items.HONEYCOMB),
-                Fluids.EMPTY, 250, ItemStack.EMPTY, new ItemStack(Items.HONEY_BOTTLE)),
+                ModFluids.HONEY, 250, ItemStack.EMPTY),
             new CrushingTubJeiRecipe(new ItemStack(Items.GOLDEN_APPLE),
-                ModFluids.GOLDEN_APPLE_JUICE, 100, new ItemStack(ModItems.APPLE_SEEDS), ItemStack.EMPTY),
+                ModFluids.GOLDEN_APPLE_JUICE, 100, new ItemStack(ModItems.APPLE_SEEDS)),
             new CrushingTubJeiRecipe(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE),
-                ModFluids.GOLDEN_APPLE_JUICE, 1000, new ItemStack(ModItems.APPLE_SEEDS), ItemStack.EMPTY)
+                ModFluids.GOLDEN_APPLE_JUICE, 1000, new ItemStack(ModItems.APPLE_SEEDS))
         );
     }
 }

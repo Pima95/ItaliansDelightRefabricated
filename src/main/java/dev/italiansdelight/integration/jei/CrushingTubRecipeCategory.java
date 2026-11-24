@@ -2,7 +2,6 @@ package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.common.registry.ModBlocks;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -58,15 +57,9 @@ public final class CrushingTubRecipeCategory implements IRecipeCategory<Crushing
         builder.addInputSlot(9, 26).add(recipe.ingredient());
 
         long fluidAmount = recipe.amount() * DROPLETS_PER_MB;
-        if (!recipe.bottlePreview().isEmpty()) {
-            // Virtual honey has no registry Fluid: preview the bottle obtainable
-            // AFTER transferring 250 mB from the tub into an empty glass bottle.
-            builder.addOutputSlot(93, 26).add(recipe.bottlePreview());
-        } else {
-            builder.addOutputSlot(93, 26)
-                .setFluidRenderer(fluidAmount, false, 16, 16)
-                .add(recipe.fluid(), fluidAmount);
-        }
+        builder.addOutputSlot(93, 26)
+            .setFluidRenderer(fluidAmount, false, 16, 16)
+            .add(recipe.fluid(), fluidAmount);
 
         if (!recipe.byproduct().isEmpty()) {
             builder.addOutputSlot(126, 26).add(recipe.byproduct());
@@ -82,15 +75,4 @@ public final class CrushingTubRecipeCategory implements IRecipeCategory<Crushing
         }
     }
 
-    @Override
-    public void getTooltip(ITooltipBuilder tooltipBuilder, CrushingTubJeiRecipe recipe,
-                           IRecipeSlotsView slots, double mouseX, double mouseY) {
-        // This only annotates the honey output; all approved artwork/coordinates
-        // and real-fluid JEI slots remain unchanged.
-        if (!recipe.bottlePreview().isEmpty()
-                && mouseX >= 92 && mouseX < 110 && mouseY >= 25 && mouseY < 43) {
-            tooltipBuilder.add(Component.translatable(
-                "gui.italiansdelight.jei.crushing_tub.honey_extraction"));
-        }
-    }
 }
