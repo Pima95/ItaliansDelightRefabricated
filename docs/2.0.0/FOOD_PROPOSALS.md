@@ -60,25 +60,33 @@ Il cavolo rosso non è standard in Farmer's Delight: il risotto al radicchio res
 
 ## 3. Secondi piatti
 
-| Piatto | Ingredienti principali | Difficoltà | Decisione |
+| Piatto | Ingredienti effettivi | Formato e metodo | Decisione |
 | --- | --- | --- | --- |
-| Pollo alla cacciatora | Pollo, pomodoro, olive, vino | Facile | Da valutare |
-| Carne alla pizzaiola | Manzo, pomodoro, olio, basilico | Facile | Da valutare |
-| Scaloppine al vino bianco | Carne, farina o impasto, vino bianco | Facile (con impasto esistente) | Da valutare |
-| Scaloppine ai funghi | Carne, funghi, panna | Facile | Da valutare |
-| Spezzatino con patate | Manzo, patate, carote, cipolla | Facile | Da valutare |
-| Pollo alle mandorle | Pollo, mandorle, olio | Facile | Da valutare |
-| Pollo al vino bianco | Pollo, vino bianco, olio | Facile | Da valutare |
-| Frittata di patate | Uova, patate, olio | Facile | Da valutare |
-| Frittata al formaggio | Uova, parmigiano, scamorza | Facile | Da valutare |
-| Frittata con pancetta | Uova, pancetta, formaggio | Facile | Da valutare |
-| Polpette al sugo | Carne macinata, uovo, pane, pomodoro | Facile | Da valutare |
-| Polpette di ricotta | Ricotta, uovo, pane, parmigiano | Facile | Da valutare |
-| Salsiccia e patate | Salsiccia, patate, olio | Intermedio | Da valutare |
-| Merluzzo alla livornese | Merluzzo, pomodoro, olive | Facile | Da valutare |
-| Salmone in crosta di mandorle | Salmone, mandorle, olio | Facile | Da valutare |
-
-Le scaloppine al vino bianco sono facili se si riutilizza un impasto esistente; diventano intermedie se si introduce la farina.
+| Pollo alla cacciatora | `#c:foods/cooked_chicken`, `#c:foods/cooked_chicken`, `#c:foods/cooked_chicken`, `#c:foods/cooked_chicken`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_pitted`, `italiansdelight:wine_bottle`, `minecraft:bowl` | Feast (4 porzioni), Crafting Table | Implementato |
+| Pollo alla diavola | `#c:foods/cooked_chicken`, `#c:foods/cooked_chicken`, `#c:foods/cooked_chicken`, `#c:foods/cooked_chicken`, `italiansdelight:chili_pepper`, `italiansdelight:chili_pepper`, `italiansdelight:olive_oil_bottle`, `minecraft:bowl` | Feast (4 porzioni), Crafting Table | Implementato |
+| Frittata di patate | `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `minecraft:potato`, `italiansdelight:olive_oil_bottle` | Piazzabile (4 fette), Cooking Pot | Implementato |
+| Frittata al formaggio | `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `italiansdelight:grated_parmigiano_reggiano`, `italiansdelight:scamorza_slice`, `italiansdelight:olive_oil_bottle` | Piazzabile (4 fette), Cooking Pot | Implementato |
+| Frittata con pancetta | `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `italiansdelight:pancetta_slice`, `italiansdelight:grated_parmigiano_reggiano`, `italiansdelight:olive_oil_bottle` | Piazzabile (4 fette), Cooking Pot | Implementato |
+| Spezzatino con patate | `#c:foods/raw_beef`, `minecraft:potato`, `minecraft:carrot`, `#c:crops/onion` | Piatto singolo, Cooking Pot | Implementato |
+| Salsiccia e patate | `italiansdelight:sausage`, `minecraft:potato`, `italiansdelight:olive_oil_bottle` | Piatto singolo, Cooking Pot | Implementato |
+| Carne alla pizzaiola | `#c:foods/raw_beef`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_oil_bottle`, `italiansdelight:basil` | Piatto singolo, Cooking Pot | Implementato |
+| Merluzzo gratinato | `#c:foods/raw_cod`, `italiansdelight:breadcrumbs`, `italiansdelight:olive_oil_bottle`, `italiansdelight:basil` | Piatto singolo, Cooking Pot | Implementato |
+| Scamorza alla pizzaiola | `italiansdelight:scamorza_slice`, `farmersdelight:tomato_sauce`, `italiansdelight:basil` | Piatto singolo, Cooking Pot | Implementato |
+| Polpette al sugo | `farmersdelight:minced_beef`, `#minecraft:eggs`, `italiansdelight:breadcrumbs`, `farmersdelight:tomato_sauce` | Senza recipiente, Cooking Pot | Implementato |
+| Involtini di carne | `#c:foods/raw_beef`, `italiansdelight:prosciutto_crudo_slice`, `italiansdelight:scamorza_slice` | Senza recipiente, Cooking Pot | Implementato |
+| Polpette di ricotta | `italiansdelight:ricotta`, `#minecraft:eggs`, `italiansdelight:breadcrumbs`, `italiansdelight:grated_parmigiano_reggiano` | Senza recipiente, Cooking Pot | Implementato |
+| Cotoletta alla milanese | `#c:foods/raw_beef`, `#minecraft:eggs`, `italiansdelight:breadcrumbs`, `italiansdelight:olive_oil_bottle` | Senza recipiente, Cooking Pot | Implementato |
+| Cotoletta di pollo | `#c:foods/raw_chicken`, `#minecraft:eggs`, `italiansdelight:breadcrumbs`, `italiansdelight:olive_oil_bottle` | Senza recipiente, Cooking Pot | Implementato |
+| Polpette fritte | `farmersdelight:minced_beef`, `#minecraft:eggs`, `italiansdelight:breadcrumbs`, `italiansdelight:olive_oil_bottle` | Senza recipiente, Cooking Pot | Implementato |
+| Mozzarella in carrozza | `italiansdelight:mozzarella_slice`, `minecraft:bread`, `#minecraft:eggs`, `italiansdelight:olive_oil_bottle` | Senza recipiente, Cooking Pot | Implementato |
+| Merluzzo alla livornese | — | — | Escluso |
+| Frittata di pasta | — | — | Escluso |
+| Scaloppine al vino bianco | — | — | Escluso |
+| Scaloppine ai funghi | — | — | Escluso |
+| Pollo alle mandorle | — | — | Escluso |
+| Pollo al vino bianco | — | — | Escluso |
+| Salmone in crosta di mandorle | — | — | Escluso |
+| Salsiccia al vino bianco | — | — | Escluso |
 
 ## 4. Insalate e antipasti
 
@@ -236,3 +244,7 @@ Valori nutritivi proposti in continuità con i risotti precedenti. Test in gioco
 ## Uniformazione recipienti
 
 Verificati tutti i 22 piatti di pasta e 14 risotti; aggiornati 21 piatti di pasta e 11 risotti. Carbonara, risotto al sugo, risotto ai funghi e risotto con scamorza e olive mantenuti invariati. Recipienti standard secondo `docs/PROMPTS.md`; sagome e condimenti distinti. Nessuna modifica alle ricette o al codice.
+
+## 2.0.0 – Secondi: implementazione
+
+Diciassette piatti approvati: 2 Feast di pollo, 3 frittate piazzabili, 5 piatti in ciotola e 7 alimenti senza recipiente. Il pollo usa 4 porzioni di pollo cotto (tag FDR, intero o tagliato) e condimenti in Crafting Table; le frittate e i secondi individuali usano esclusivamente Cooking Pot. Le polpette richiedono carne macinata, mentre gli altri piatti con carne/pesce vanilla usano i tag FDR specifici. Nessun ingrediente intermedio aggiunto. Le porzioni non hanno ricette alternative. Il vassoio pieno è recuperabile; se parzialmente consumato, restituisce solo una ciotola. Le frittate parziali restituiscono soltanto le fette rimaste. JEI mostra le ricette standard e pagine informative sulle porzioni. I valori nutrizionali sono proposti e da collaudare.

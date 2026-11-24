@@ -1,0 +1,16 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#minecraft:eggs",
+    "#minecraft:eggs",
+    "#minecraft:eggs",
+    "italiansdelight:pancetta_slice",
+    "italiansdelight:grated_parmigiano_reggiano",
+    "italiansdelight:olive_oil_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:frittata_con_pancetta",
+    "count": 1
+  }
+}

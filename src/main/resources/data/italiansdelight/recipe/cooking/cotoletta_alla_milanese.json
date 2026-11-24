@@ -1,0 +1,14 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#c:foods/raw_beef",
+    "#minecraft:eggs",
+    "italiansdelight:breadcrumbs",
+    "italiansdelight:olive_oil_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:cotoletta_alla_milanese",
+    "count": 1
+  }
+}

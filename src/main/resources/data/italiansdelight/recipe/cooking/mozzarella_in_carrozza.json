@@ -1,0 +1,14 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "italiansdelight:mozzarella_slice",
+    "minecraft:bread",
+    "#minecraft:eggs",
+    "italiansdelight:olive_oil_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:mozzarella_in_carrozza",
+    "count": 1
+  }
+}

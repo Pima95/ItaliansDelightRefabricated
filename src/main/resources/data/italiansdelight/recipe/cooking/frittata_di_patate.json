@@ -1,0 +1,16 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#minecraft:eggs",
+    "#minecraft:eggs",
+    "#minecraft:eggs",
+    "#minecraft:eggs",
+    "minecraft:potato",
+    "italiansdelight:olive_oil_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:frittata_di_patate",
+    "count": 1
+  }
+}

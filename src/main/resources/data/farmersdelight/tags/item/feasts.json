@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "italiansdelight:pollo_alla_cacciatora",
+    "italiansdelight:pollo_alla_diavola",
+    "italiansdelight:frittata_di_patate",
+    "italiansdelight:frittata_al_formaggio",
+    "italiansdelight:frittata_con_pancetta"
+  ]
+}

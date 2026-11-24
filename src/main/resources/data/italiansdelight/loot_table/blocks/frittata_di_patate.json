@@ -1,0 +1,81 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "italiansdelight:frittata_di_patate",
+        "state": {
+          "servings": "4"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:frittata_di_patate"
+        }
+      ],
+      "rolls": 1
+    },
+    {
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "italiansdelight:frittata_di_patate",
+        "state": {
+          "servings": "1"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:frittata_di_patate_slice"
+        }
+      ],
+      "rolls": 1
+    },
+    {
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "italiansdelight:frittata_di_patate",
+        "state": {
+          "servings": "2"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:frittata_di_patate_slice",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2
+            }
+          ]
+        }
+      ],
+      "rolls": 1
+    },
+    {
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "italiansdelight:frittata_di_patate",
+        "state": {
+          "servings": "3"
+        }
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "italiansdelight:frittata_di_patate_slice",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 3
+            }
+          ]
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

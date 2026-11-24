@@ -3,6 +3,11 @@
   "values": [
     "italiansdelight:almond_cake",
     "italiansdelight:cherry_tart",
-    "italiansdelight:cooked_pizza"
+    "italiansdelight:cooked_pizza",
+    "italiansdelight:pollo_alla_cacciatora",
+    "italiansdelight:pollo_alla_diavola",
+    "italiansdelight:frittata_di_patate",
+    "italiansdelight:frittata_al_formaggio",
+    "italiansdelight:frittata_con_pancetta"
   ]
 }

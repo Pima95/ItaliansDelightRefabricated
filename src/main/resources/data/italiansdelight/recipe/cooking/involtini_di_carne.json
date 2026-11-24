@@ -1,0 +1,13 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#c:foods/raw_beef",
+    "italiansdelight:prosciutto_crudo_slice",
+    "italiansdelight:scamorza_slice"
+  ],
+  "result": {
+    "id": "italiansdelight:involtini_di_carne",
+    "count": 1
+  }
+}

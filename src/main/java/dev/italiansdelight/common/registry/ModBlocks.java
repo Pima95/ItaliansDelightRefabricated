@@ -60,6 +60,7 @@ import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.WallHangingSignBlock;
 import vectorwing.farmersdelight.common.block.CabinetBlock;
+import vectorwing.farmersdelight.common.block.RotatedFeastBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.ShelfBlock;
@@ -743,6 +744,13 @@ public final class ModBlocks {
             .setId(CHERRY_TART_KEY).noOcclusion().strength(0.5F))
     );
 
+    // 2.0.0 shared dishes. ResourceKey-based serving lookup avoids early ModItems initialization.
+    public static final Block POLLO_ALLA_CACCIATORA = registerItalianFeast("pollo_alla_cacciatora", "pollo_alla_cacciatora_serving", true);
+    public static final Block POLLO_ALLA_DIAVOLA = registerItalianFeast("pollo_alla_diavola", "pollo_alla_diavola_serving", true);
+    public static final Block FRITTATA_DI_PATATE = registerItalianFeast("frittata_di_patate", "frittata_di_patate_slice", false);
+    public static final Block FRITTATA_AL_FORMAGGIO = registerItalianFeast("frittata_al_formaggio", "frittata_al_formaggio_slice", false);
+    public static final Block FRITTATA_CON_PANCETTA = registerItalianFeast("frittata_con_pancetta", "frittata_con_pancetta_slice", false);
+
     // Reversible nine-crop Farmer's Delight-style storage crates.
     public static final ResourceKey<Block> OLIVE_CRATE_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_crate"));
@@ -1342,6 +1350,43 @@ public final class ModBlocks {
             blockKey,
             block
         );
+    }
+
+    /** Register the native FDR feast with matching staged model and collision geometry. */
+    private static Block registerItalianFeast(String id, String servingId, boolean chicken) {
+        ResourceKey<Block> blockKey = ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id(id));
+        ResourceKey<Item> servingKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id(servingId));
+        return register(blockKey, new RotatedFeastBlock(
+            Block.Properties.ofFullCopy(Blocks.CAKE).setId(blockKey).noOcclusion().strength(0.5F),
+            servingKey, chicken, italianFeastShapes(chicken),
+            chicken ? Block.box(1, 0, 1, 15, 2, 15) : null));
+    }
+
+    private static net.minecraft.world.phys.shapes.VoxelShape[] italianFeastShapes(boolean chicken) {
+        // Each quarter's boxes are the exact bounds in the north-facing JSON models.
+        int[][][] quarters = chicken ? new int[][][] {{{4, 1, 4, 8, 6, 8}, {5, 6, 5, 8, 7, 8}, {2, 1, 4, 4, 4, 7}, {3, 1, 2, 6, 3, 4}},
+            {{8, 1, 4, 12, 6, 8}, {8, 6, 5, 11, 7, 8}, {12, 1, 4, 14, 4, 7}, {10, 1, 2, 13, 3, 4}},
+            {{8, 1, 8, 12, 6, 12}, {8, 6, 8, 11, 7, 11}, {12, 1, 9, 14, 5, 13}, {10, 1, 12, 13, 3, 14}},
+            {{4, 1, 8, 8, 6, 12}, {5, 6, 8, 8, 7, 11}, {2, 1, 9, 4, 5, 13}, {3, 1, 12, 6, 3, 14}}}
+            : new int[][][] {{{4, 0, 2, 8, 3, 4}, {2, 0, 4, 8, 3, 8}},
+            {{8, 0, 2, 12, 3, 4}, {8, 0, 4, 14, 3, 8}},
+            {{8, 0, 12, 12, 3, 14}, {8, 0, 8, 14, 3, 12}},
+            {{4, 0, 12, 8, 3, 14}, {2, 0, 8, 8, 3, 12}}};
+        // FDR adds the zero-serving plate slot itself for plated feasts.
+        var shapes = new net.minecraft.world.phys.shapes.VoxelShape[chicken ? 4 : 5];
+        var shape = net.minecraft.world.phys.shapes.Shapes.empty();
+        // No frittata remains at 0 servings. A small fallback bounds that
+        // unreachable state without FDR's empty-shape rotation full-block fallback.
+        if (!chicken) shapes[0] = Block.box(7, 0, 7, 9, 1, 9);
+        for (int q = 0; q < 4; q++) {
+            for (int[] b : quarters[q]) {
+                shape = net.minecraft.world.phys.shapes.Shapes.join(shape,
+                    Block.box(b[0], b[1], b[2], b[3], b[4], b[5]),
+                    net.minecraft.world.phys.shapes.BooleanOp.OR);
+            }
+            shapes[chicken ? q : q + 1] = shape;
+        }
+        return shapes;
     }
 
     private static Block registerCropStakeVariant(String wood) {

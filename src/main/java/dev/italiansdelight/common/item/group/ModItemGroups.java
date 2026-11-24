@@ -441,6 +441,30 @@ public final class ModItemGroups {
                 output.accept(ModItems.RISOTTO_WITH_SAUSAGE);
                 output.accept(ModItems.RISOTTO_WITH_MUSHROOMS_AND_SAUSAGE);
                 output.accept(ModItems.RISOTTO_WITH_CHILI_PEPPER);
+
+                // SECONDI — shared feasts, slices and individual meals.
+                output.accept(ModBlocks.POLLO_ALLA_CACCIATORA);
+                output.accept(ModItems.POLLO_ALLA_CACCIATORA_SERVING);
+                output.accept(ModBlocks.POLLO_ALLA_DIAVOLA);
+                output.accept(ModItems.POLLO_ALLA_DIAVOLA_SERVING);
+                output.accept(ModBlocks.FRITTATA_DI_PATATE);
+                output.accept(ModItems.FRITTATA_DI_PATATE_SLICE);
+                output.accept(ModBlocks.FRITTATA_AL_FORMAGGIO);
+                output.accept(ModItems.FRITTATA_AL_FORMAGGIO_SLICE);
+                output.accept(ModBlocks.FRITTATA_CON_PANCETTA);
+                output.accept(ModItems.FRITTATA_CON_PANCETTA_SLICE);
+                output.accept(ModItems.SPEZZATINO_CON_PATATE);
+                output.accept(ModItems.SALSICCIA_E_PATATE);
+                output.accept(ModItems.CARNE_ALLA_PIZZAIOLA);
+                output.accept(ModItems.MERLUZZO_GRATINATO);
+                output.accept(ModItems.SCAMORZA_ALLA_PIZZAIOLA);
+                output.accept(ModItems.POLPETTE_AL_SUGO);
+                output.accept(ModItems.INVOLTINI_DI_CARNE);
+                output.accept(ModItems.POLPETTE_DI_RICOTTA);
+                output.accept(ModItems.COTOLETTA_ALLA_MILANESE);
+                output.accept(ModItems.COTOLETTA_DI_POLLO);
+                output.accept(ModItems.POLPETTE_FRITTE);
+                output.accept(ModItems.MOZZARELLA_IN_CARROZZA);
                 output.accept(ModItems.MOZZARELLA_SALAD);
                 output.accept(ModItems.GRAPE_CHERRY_FRUIT_SALAD);
 

@@ -112,6 +112,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         OrchardPlantJeiInfo.register(registration);
         DecorativePoleJeiInfo.register(registration);
         ModFluidJeiInfo.register(registration);
+        SecondiJeiInfo.register(registration);
 
         // Explicit registered recipes only: wine, white/cherry wine, mead,
         // seeded cider, apple vinegar and red-wine vinegar.

@@ -1,0 +1,14 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "italiansdelight:ricotta",
+    "#minecraft:eggs",
+    "italiansdelight:breadcrumbs",
+    "italiansdelight:grated_parmigiano_reggiano"
+  ],
+  "result": {
+    "id": "italiansdelight:polpette_di_ricotta",
+    "count": 1
+  }
+}

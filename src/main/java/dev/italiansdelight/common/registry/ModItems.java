@@ -303,6 +303,16 @@ public final class ModItems {
                         .stacksTo(16);
         }
 
+        // Complete handheld foods: Nourishment, but no bowl remainder.
+        private static Item registerSecondoFoodItem(String id, int nutrition, float saturation, Consumable consumable) {
+                ResourceKey<Item> key = ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id(id));
+                return register(key, new Item.Properties()
+                        .food(new FoodProperties.Builder().nutrition(nutrition)
+                                .saturationModifier(saturation).build())
+                        .component(DataComponents.CONSUMABLE, consumable)
+                        .stacksTo(64));
+        }
+
         private static Item registerBowlFoodItem(
                 String id,
                 int nutrition,
@@ -1059,6 +1069,59 @@ public final class ModItems {
         public static final Item RISOTTO_WITH_CHILI_PEPPER =
                 registerBowlFoodItem("risotto_with_chili_pepper", 10, 0.7f,
                         FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+
+        // 2.0.0 second courses and feast servings.
+        public static final Item POLLO_ALLA_CACCIATORA_SERVING =
+                registerBowlFoodItem("pollo_alla_cacciatora_serving", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item POLLO_ALLA_DIAVOLA_SERVING =
+                registerBowlFoodItem("pollo_alla_diavola_serving", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item FRITTATA_DI_PATATE_SLICE =
+                registerSecondoFoodItem("frittata_di_patate_slice", 5, 0.6f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item FRITTATA_AL_FORMAGGIO_SLICE =
+                registerSecondoFoodItem("frittata_al_formaggio_slice", 5, 0.65f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item FRITTATA_CON_PANCETTA_SLICE =
+                registerSecondoFoodItem("frittata_con_pancetta_slice", 6, 0.65f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item SPEZZATINO_CON_PATATE =
+                registerBowlFoodItem("spezzatino_con_patate", 14, 0.8f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item SALSICCIA_E_PATATE =
+                registerBowlFoodItem("salsiccia_e_patate", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item CARNE_ALLA_PIZZAIOLA =
+                registerBowlFoodItem("carne_alla_pizzaiola", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item MERLUZZO_GRATINATO =
+                registerBowlFoodItem("merluzzo_gratinato", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item SCAMORZA_ALLA_PIZZAIOLA =
+                registerBowlFoodItem("scamorza_alla_pizzaiola", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item POLPETTE_AL_SUGO =
+                registerSecondoFoodItem("polpette_al_sugo", 8, 0.65f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item INVOLTINI_DI_CARNE =
+                registerSecondoFoodItem("involtini_di_carne", 8, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item POLPETTE_DI_RICOTTA =
+                registerSecondoFoodItem("polpette_di_ricotta", 6, 0.6f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item COTOLETTA_ALLA_MILANESE =
+                registerSecondoFoodItem("cotoletta_alla_milanese", 8, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item COTOLETTA_DI_POLLO =
+                registerSecondoFoodItem("cotoletta_di_pollo", 8, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item POLPETTE_FRITTE =
+                registerSecondoFoodItem("polpette_fritte", 8, 0.65f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item MOZZARELLA_IN_CARROZZA =
+                registerSecondoFoodItem("mozzarella_in_carrozza", 7, 0.65f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
         public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
 

@@ -1,0 +1,16 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#minecraft:eggs",
+    "#minecraft:eggs",
+    "#minecraft:eggs",
+    "italiansdelight:grated_parmigiano_reggiano",
+    "italiansdelight:scamorza_slice",
+    "italiansdelight:olive_oil_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:frittata_al_formaggio",
+    "count": 1
+  }
+}

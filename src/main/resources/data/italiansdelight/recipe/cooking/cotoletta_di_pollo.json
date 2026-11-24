@@ -1,0 +1,14 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#c:foods/raw_chicken",
+    "#minecraft:eggs",
+    "italiansdelight:breadcrumbs",
+    "italiansdelight:olive_oil_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:cotoletta_di_pollo",
+    "count": 1
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "top": "italiansdelight:block/frittata_di_patate_block_top",
+    "side": "italiansdelight:block/frittata_di_patate_block_side",
+    "particle": "italiansdelight:block/frittata_di_patate_block_side"
+  },
+  "elements": []
+}

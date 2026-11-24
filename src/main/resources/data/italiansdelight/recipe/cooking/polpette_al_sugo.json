@@ -1,0 +1,14 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "farmersdelight:minced_beef",
+    "#minecraft:eggs",
+    "italiansdelight:breadcrumbs",
+    "farmersdelight:tomato_sauce"
+  ],
+  "result": {
+    "id": "italiansdelight:polpette_al_sugo",
+    "count": 1
+  }
+}
