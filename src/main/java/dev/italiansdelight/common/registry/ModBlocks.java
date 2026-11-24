@@ -1358,33 +1358,23 @@ public final class ModBlocks {
         ResourceKey<Item> servingKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id(servingId));
         return register(blockKey, new RotatedFeastBlock(
             Block.Properties.ofFullCopy(Blocks.CAKE).setId(blockKey).noOcclusion().strength(0.5F),
-            servingKey, chicken, italianFeastShapes(chicken),
-            chicken ? Block.box(1, 0, 1, 15, 2, 15) : null));
+            servingKey, chicken,
+            chicken ? vectorwing.farmersdelight.common.BlockShapes.ROAST_CHICKEN_SHAPES : frittataShapes(),
+            chicken ? vectorwing.farmersdelight.common.BlockShapes.TRAY_SHAPE : null));
     }
 
-    private static net.minecraft.world.phys.shapes.VoxelShape[] italianFeastShapes(boolean chicken) {
-        // Each quarter's boxes are the exact bounds in the north-facing JSON models.
-        int[][][] quarters = chicken ? new int[][][] {{{4, 1, 4, 8, 6, 8}, {5, 6, 5, 8, 7, 8}, {2, 1, 4, 4, 4, 7}, {3, 1, 2, 6, 3, 4}},
-            {{8, 1, 4, 12, 6, 8}, {8, 6, 5, 11, 7, 8}, {12, 1, 4, 14, 4, 7}, {10, 1, 2, 13, 3, 4}},
-            {{8, 1, 8, 12, 6, 12}, {8, 6, 8, 11, 7, 11}, {12, 1, 9, 14, 5, 13}, {10, 1, 12, 13, 3, 14}},
-            {{4, 1, 8, 8, 6, 12}, {5, 6, 8, 8, 7, 11}, {2, 1, 9, 4, 5, 13}, {3, 1, 12, 6, 3, 14}}}
-            : new int[][][] {{{4, 0, 2, 8, 3, 4}, {2, 0, 4, 8, 3, 8}},
-            {{8, 0, 2, 12, 3, 4}, {8, 0, 4, 14, 3, 8}},
-            {{8, 0, 12, 12, 3, 14}, {8, 0, 8, 14, 3, 12}},
-            {{4, 0, 12, 8, 3, 14}, {2, 0, 8, 8, 3, 12}}};
-        // FDR adds the zero-serving plate slot itself for plated feasts.
-        var shapes = new net.minecraft.world.phys.shapes.VoxelShape[chicken ? 4 : 5];
+    private static net.minecraft.world.phys.shapes.VoxelShape[] frittataShapes() {
+        // Identical bounds and serving order to the square JSON models.
+        int[][] quarters = {{2, 2, 8, 8}, {8, 2, 14, 8}, {8, 8, 14, 14}, {2, 8, 8, 14}};
+        var shapes = new net.minecraft.world.phys.shapes.VoxelShape[5];
+        shapes[0] = Block.box(7, 0, 7, 9, 1, 9);
         var shape = net.minecraft.world.phys.shapes.Shapes.empty();
-        // No frittata remains at 0 servings. A small fallback bounds that
-        // unreachable state without FDR's empty-shape rotation full-block fallback.
-        if (!chicken) shapes[0] = Block.box(7, 0, 7, 9, 1, 9);
         for (int q = 0; q < 4; q++) {
-            for (int[] b : quarters[q]) {
-                shape = net.minecraft.world.phys.shapes.Shapes.join(shape,
-                    Block.box(b[0], b[1], b[2], b[3], b[4], b[5]),
-                    net.minecraft.world.phys.shapes.BooleanOp.OR);
-            }
-            shapes[chicken ? q : q + 1] = shape;
+            int[] b = quarters[q];
+            shape = net.minecraft.world.phys.shapes.Shapes.join(shape,
+                Block.box(b[0], 0, b[1], b[2], 3, b[3]),
+                net.minecraft.world.phys.shapes.BooleanOp.OR);
+            shapes[q + 1] = shape;
         }
         return shapes;
     }

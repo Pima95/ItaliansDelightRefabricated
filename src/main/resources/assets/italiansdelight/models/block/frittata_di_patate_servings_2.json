@@ -3,82 +3,15 @@
   "textures": {
     "top": "italiansdelight:block/frittata_di_patate_block_top",
     "side": "italiansdelight:block/frittata_di_patate_block_side",
+    "inner": "italiansdelight:block/frittata_di_patate_block_inner",
     "particle": "italiansdelight:block/frittata_di_patate_block_side"
   },
   "elements": [
     {
       "from": [
-        4,
-        0,
-        2
-      ],
-      "to": [
-        8,
-        3,
-        4
-      ],
-      "faces": {
-        "up": {
-          "uv": [
-            4,
-            2,
-            8,
-            4
-          ],
-          "texture": "#top"
-        },
-        "down": {
-          "uv": [
-            4,
-            2,
-            8,
-            4
-          ],
-          "texture": "#side"
-        },
-        "north": {
-          "uv": [
-            4,
-            13,
-            8,
-            16
-          ],
-          "texture": "#side"
-        },
-        "south": {
-          "uv": [
-            4,
-            13,
-            8,
-            16
-          ],
-          "texture": "#side"
-        },
-        "east": {
-          "uv": [
-            2,
-            13,
-            4,
-            16
-          ],
-          "texture": "#side"
-        },
-        "west": {
-          "uv": [
-            2,
-            13,
-            4,
-            16
-          ],
-          "texture": "#side"
-        }
-      }
-    },
-    {
-      "from": [
         2,
         0,
-        4
+        2
       ],
       "to": [
         8,
@@ -88,8 +21,8 @@
       "faces": {
         "up": {
           "uv": [
-            2,
-            4,
+            0,
+            0,
             8,
             8
           ],
@@ -97,8 +30,8 @@
         },
         "down": {
           "uv": [
-            2,
-            4,
+            0,
+            0,
             8,
             8
           ],
@@ -106,8 +39,8 @@
         },
         "north": {
           "uv": [
-            2,
-            13,
+            0,
+            12,
             8,
             16
           ],
@@ -115,26 +48,17 @@
         },
         "south": {
           "uv": [
-            2,
-            13,
+            0,
+            12,
             8,
             16
           ],
-          "texture": "#side"
-        },
-        "east": {
-          "uv": [
-            4,
-            13,
-            8,
-            16
-          ],
-          "texture": "#side"
+          "texture": "#inner"
         },
         "west": {
           "uv": [
-            4,
-            13,
+            0,
+            12,
             8,
             16
           ],
@@ -147,74 +71,6 @@
         8,
         0,
         2
-      ],
-      "to": [
-        12,
-        3,
-        4
-      ],
-      "faces": {
-        "up": {
-          "uv": [
-            8,
-            2,
-            12,
-            4
-          ],
-          "texture": "#top"
-        },
-        "down": {
-          "uv": [
-            8,
-            2,
-            12,
-            4
-          ],
-          "texture": "#side"
-        },
-        "north": {
-          "uv": [
-            8,
-            13,
-            12,
-            16
-          ],
-          "texture": "#side"
-        },
-        "south": {
-          "uv": [
-            8,
-            13,
-            12,
-            16
-          ],
-          "texture": "#side"
-        },
-        "east": {
-          "uv": [
-            2,
-            13,
-            4,
-            16
-          ],
-          "texture": "#side"
-        },
-        "west": {
-          "uv": [
-            2,
-            13,
-            4,
-            16
-          ],
-          "texture": "#side"
-        }
-      }
-    },
-    {
-      "from": [
-        8,
-        0,
-        4
       ],
       "to": [
         14,
@@ -225,8 +81,8 @@
         "up": {
           "uv": [
             8,
-            4,
-            14,
+            0,
+            16,
             8
           ],
           "texture": "#top"
@@ -234,8 +90,8 @@
         "down": {
           "uv": [
             8,
-            4,
-            14,
+            0,
+            16,
             8
           ],
           "texture": "#side"
@@ -243,8 +99,8 @@
         "north": {
           "uv": [
             8,
-            13,
-            14,
+            12,
+            16,
             16
           ],
           "texture": "#side"
@@ -252,25 +108,16 @@
         "south": {
           "uv": [
             8,
-            13,
-            14,
+            12,
+            16,
             16
           ],
-          "texture": "#side"
+          "texture": "#inner"
         },
         "east": {
           "uv": [
-            4,
-            13,
-            8,
-            16
-          ],
-          "texture": "#side"
-        },
-        "west": {
-          "uv": [
-            4,
-            13,
+            0,
+            12,
             8,
             16
           ],

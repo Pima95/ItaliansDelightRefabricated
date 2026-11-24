@@ -9,3 +9,10 @@
 - Verificare la restituzione delle ciotole quando si consumano porzioni di pollo e secondi in ciotola; nessun recipiente per gli alimenti singoli.
 - JEI: ricette Cooking Pot e Crafting Table e informazioni localizzate di ciascun blocco e della rispettiva porzione.
 - Test di compilazione e gameplay non ancora eseguiti.
+
+## Revisione grafica dei secondi
+
+- Piatti singoli e porzioni di pollo: recipiente canonico della carbonara; controllare i dettagli a risoluzione nativa.
+- Frittate: icona tonda, blocco quadrato 12×12×3; texture top, side e inner separate. Verificare che la sezione interna sia visibile solo sulle facce esposte e che le hitbox ruotino correttamente.
+- Feast di pollo: parent dei cinque modelli originali FDR, stessa geometria e BlockShapes.ROAST_CHICKEN_SHAPES/TRAY_SHAPE, texture ricolorate; licenza MIT e attribuzione incluse negli asset. Verificare tutti gli stadi in gioco.
+- Ricette, drop, porzioni e valori nutritivi invariati.

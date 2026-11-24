@@ -3,6 +3,7 @@
   "textures": {
     "top": "italiansdelight:block/frittata_con_pancetta_block_top",
     "side": "italiansdelight:block/frittata_con_pancetta_block_side",
+    "inner": "italiansdelight:block/frittata_con_pancetta_block_inner",
     "particle": "italiansdelight:block/frittata_con_pancetta_block_side"
   },
   "elements": []
