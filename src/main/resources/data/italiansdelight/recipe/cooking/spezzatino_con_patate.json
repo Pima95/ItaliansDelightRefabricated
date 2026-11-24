@@ -3,8 +3,8 @@
   "experience": 1,
   "ingredients": [
     "#c:foods/raw_beef",
-    "minecraft:potato",
-    "minecraft:carrot",
+    "#italiansdelight:raw_potato_ingredients",
+    "#italiansdelight:carrot_ingredients",
     "#c:crops/onion"
   ],
   "recipe_book_tab": "meals",

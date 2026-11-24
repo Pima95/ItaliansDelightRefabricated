@@ -394,6 +394,9 @@ public final class ModItems {
                                 .saturationModifier(0.2f)
                                 .build()));
 
+        // Cooked potato portions: cut baked potatoes or cook raw slices.
+        public static final Item COOKED_POTATO_SLICE = registerFoodItem("cooked_potato_slice", 1, 0.6f);
+
         // Rennet
         public static final ResourceKey<Item> RENNET_KEY = ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
@@ -1143,13 +1146,13 @@ public final class ModItems {
                 registerSecondoFoodItem("prosciutto_bruschetta", 7, 0.65f,
                         FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
         public static final Item COLD_CUTS_BOARD_SERVING =
-                registerBowlFoodItem("cold_cuts_board_serving", 8, 0.7f,
+                registerSecondoFoodItem("cold_cuts_board_serving", 8, 0.7f,
                         FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
         public static final Item CHEESE_BOARD_SERVING =
-                registerBowlFoodItem("cheese_board_serving", 8, 0.7f,
+                registerSecondoFoodItem("cheese_board_serving", 8, 0.7f,
                         FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
         public static final Item MIXED_BOARD_SERVING =
-                registerBowlFoodItem("mixed_board_serving", 8, 0.7f,
+                registerSecondoFoodItem("mixed_board_serving", 8, 0.7f,
                         FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
         public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);

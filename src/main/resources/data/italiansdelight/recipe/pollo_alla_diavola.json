@@ -6,9 +6,9 @@
     "italiansdelight:chili_pepper",
     "italiansdelight:chili_pepper",
     "italiansdelight:olive_oil_bottle",
-    "minecraft:baked_potato",
-    "minecraft:baked_potato",
-    "#c:crops/carrot",
+    "#italiansdelight:cooked_potato_ingredients",
+    "#italiansdelight:cooked_potato_ingredients",
+    "#italiansdelight:carrot_ingredients",
     "#c:foods/bread",
     "minecraft:bowl"
   ],

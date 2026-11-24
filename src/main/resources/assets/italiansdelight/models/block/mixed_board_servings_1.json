@@ -1,89 +1,216 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "wood": "italiansdelight:block/antipasti_board_wood",
+    "particle": "farmersdelight:block/platter",
+    "platter": "farmersdelight:block/platter",
     "top": "italiansdelight:block/mixed_board_block_top",
-    "side": "italiansdelight:block/mixed_board_block_side",
-    "particle": "italiansdelight:block/antipasti_board_wood"
+    "side": "italiansdelight:block/mixed_board_block_side"
   },
   "elements": [
     {
+      "name": "base",
       "from": [
         1,
-        0,
-        1
+        1,
+        2
       ],
       "to": [
         15,
-        2,
-        15
+        3,
+        14
       ],
       "faces": {
-        "up": {
-          "uv": [
-            1,
-            1,
-            15,
-            15
-          ],
-          "texture": "#wood"
-        },
-        "down": {
-          "uv": [
-            1,
-            1,
-            15,
-            15
-          ],
-          "texture": "#wood"
-        },
         "north": {
           "uv": [
-            1,
+            0,
+            12,
             14,
-            15,
-            16
+            14
           ],
-          "texture": "#wood"
-        },
-        "south": {
-          "uv": [
-            1,
-            14,
-            15,
-            16
-          ],
-          "texture": "#wood"
+          "texture": "#platter"
         },
         "east": {
           "uv": [
-            1,
             14,
-            15,
-            16
+            0,
+            16,
+            12
           ],
-          "texture": "#wood"
+          "rotation": 90,
+          "texture": "#platter"
+        },
+        "south": {
+          "uv": [
+            0,
+            12,
+            14,
+            14
+          ],
+          "texture": "#platter"
         },
         "west": {
           "uv": [
-            1,
+            14,
+            12,
+            16,
+            0
+          ],
+          "rotation": 90,
+          "texture": "#platter"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            14,
+            12
+          ],
+          "texture": "#platter"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            14,
+            12
+          ],
+          "texture": "#platter"
+        }
+      }
+    },
+    {
+      "name": "east_support",
+      "from": [
+        11,
+        0,
+        2
+      ],
+      "to": [
+        13,
+        1,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
             14,
             15,
+            16,
             16
           ],
-          "texture": "#wood"
+          "texture": "#platter"
+        },
+        "east": {
+          "uv": [
+            2,
+            15,
+            14,
+            16
+          ],
+          "texture": "#platter"
+        },
+        "south": {
+          "uv": [
+            0,
+            15,
+            2,
+            16
+          ],
+          "texture": "#platter"
+        },
+        "west": {
+          "uv": [
+            2,
+            15,
+            14,
+            16
+          ],
+          "texture": "#platter"
+        },
+        "down": {
+          "uv": [
+            2,
+            14,
+            14,
+            16
+          ],
+          "rotation": 90,
+          "texture": "#platter",
+          "cullface": "down"
+        }
+      }
+    },
+    {
+      "name": "west_support",
+      "from": [
+        3,
+        0,
+        2
+      ],
+      "to": [
+        5,
+        1,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            14,
+            15,
+            16,
+            16
+          ],
+          "texture": "#platter"
+        },
+        "east": {
+          "uv": [
+            2,
+            15,
+            14,
+            16
+          ],
+          "texture": "#platter"
+        },
+        "south": {
+          "uv": [
+            0,
+            15,
+            2,
+            16
+          ],
+          "texture": "#platter"
+        },
+        "west": {
+          "uv": [
+            2,
+            15,
+            14,
+            16
+          ],
+          "texture": "#platter"
+        },
+        "down": {
+          "uv": [
+            2,
+            14,
+            14,
+            16
+          ],
+          "rotation": 90,
+          "texture": "#platter",
+          "cullface": "down"
         }
       }
     },
     {
       "from": [
         3,
-        2,
+        3,
         2
       ],
       "to": [
         6,
-        3,
+        4,
         3
       ],
       "faces": {
@@ -146,12 +273,12 @@
     {
       "from": [
         2,
-        2,
+        3,
         3
       ],
       "to": [
         7,
-        3,
+        4,
         6
       ],
       "faces": {
@@ -214,12 +341,12 @@
     {
       "from": [
         3,
-        2,
+        3,
         6
       ],
       "to": [
         6,
-        3,
+        4,
         7
       ],
       "faces": {

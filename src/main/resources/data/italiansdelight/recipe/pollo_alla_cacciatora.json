@@ -7,9 +7,9 @@
     "italiansdelight:olive_pitted",
     "italiansdelight:wine_bottle",
     "#c:crops/onion",
-    "#c:crops/carrot",
-    "minecraft:baked_potato",
-    "minecraft:baked_potato",
+    "#italiansdelight:carrot_ingredients",
+    "#italiansdelight:cooked_potato_ingredients",
+    "#italiansdelight:cooked_potato_ingredients",
     "minecraft:bowl"
   ],
   "result": {

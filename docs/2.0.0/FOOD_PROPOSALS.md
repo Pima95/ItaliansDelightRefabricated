@@ -62,13 +62,13 @@ Il cavolo rosso non è standard in Farmer's Delight: il risotto al radicchio res
 
 | Piatto | Ingredienti effettivi | Formato e metodo | Decisione |
 | --- | --- | --- | --- |
-| Pollo alla cacciatora | `minecraft:cooked_chicken`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_pitted`, `italiansdelight:wine_bottle`, `#c:crops/onion`, `#c:crops/carrot`, `minecraft:baked_potato`, `minecraft:baked_potato`, `minecraft:bowl` | Feast (4 porzioni), Crafting Table | Implementato |
-| Pollo alla diavola | `minecraft:cooked_chicken`, `italiansdelight:chili_pepper`, `italiansdelight:chili_pepper`, `italiansdelight:olive_oil_bottle`, `minecraft:baked_potato`, `minecraft:baked_potato`, `#c:crops/carrot`, `#c:foods/bread`, `minecraft:bowl` | Feast (4 porzioni), Crafting Table | Implementato |
-| Frittata di patate | `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `minecraft:potato`, `italiansdelight:olive_oil_bottle` | Piazzabile (4 fette), Cooking Pot | Implementato |
+| Pollo alla cacciatora | `minecraft:cooked_chicken`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_pitted`, `italiansdelight:wine_bottle`, `#c:crops/onion`, `#italiansdelight:carrot_ingredients`, `#italiansdelight:cooked_potato_ingredients`, `#italiansdelight:cooked_potato_ingredients`, `minecraft:bowl` | Feast (4 porzioni), Crafting Table | Implementato |
+| Pollo alla diavola | `minecraft:cooked_chicken`, `italiansdelight:chili_pepper`, `italiansdelight:chili_pepper`, `italiansdelight:olive_oil_bottle`, `#italiansdelight:cooked_potato_ingredients`, `#italiansdelight:cooked_potato_ingredients`, `#italiansdelight:carrot_ingredients`, `#c:foods/bread`, `minecraft:bowl` | Feast (4 porzioni), Crafting Table | Implementato |
+| Frittata di patate | `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `#italiansdelight:raw_potato_ingredients`, `italiansdelight:olive_oil_bottle` | Piazzabile (4 fette), Cooking Pot | Implementato |
 | Frittata al formaggio | `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `italiansdelight:grated_parmigiano_reggiano`, `italiansdelight:scamorza_slice`, `italiansdelight:olive_oil_bottle` | Piazzabile (4 fette), Cooking Pot | Implementato |
 | Frittata con pancetta | `#minecraft:eggs`, `#minecraft:eggs`, `#minecraft:eggs`, `italiansdelight:pancetta_slice`, `italiansdelight:grated_parmigiano_reggiano`, `italiansdelight:olive_oil_bottle` | Piazzabile (4 fette), Cooking Pot | Implementato |
-| Spezzatino con patate | `#c:foods/raw_beef`, `minecraft:potato`, `minecraft:carrot`, `#c:crops/onion` | Piatto singolo, Cooking Pot | Implementato |
-| Salsiccia e patate | `italiansdelight:sausage`, `minecraft:potato`, `italiansdelight:olive_oil_bottle` | Piatto singolo, Cooking Pot | Implementato |
+| Spezzatino con patate | `#c:foods/raw_beef`, `#italiansdelight:raw_potato_ingredients`, `#italiansdelight:carrot_ingredients`, `#c:crops/onion` | Piatto singolo, Cooking Pot | Implementato |
+| Salsiccia e patate | `italiansdelight:sausage`, `#italiansdelight:raw_potato_ingredients`, `italiansdelight:olive_oil_bottle` | Piatto singolo, Cooking Pot | Implementato |
 | Carne alla pizzaiola | `#c:foods/raw_beef`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_oil_bottle`, `italiansdelight:basil` | Piatto singolo, Cooking Pot | Implementato |
 | Merluzzo gratinato | `#c:foods/raw_cod`, `italiansdelight:breadcrumbs`, `italiansdelight:olive_oil_bottle`, `italiansdelight:basil` | Piatto singolo, Cooking Pot | Implementato |
 | Scamorza alla pizzaiola | `italiansdelight:scamorza_slice`, `farmersdelight:tomato_sauce`, `italiansdelight:basil` | Piatto singolo, Cooking Pot | Implementato |
@@ -92,8 +92,8 @@ Il cavolo rosso non è standard in Farmer's Delight: il risotto al radicchio res
 
 | Piatto | Ingredienti | Formato | Decisione |
 | --- | --- | --- | --- |
-| Insalata di patate | Patata cotta, cipolla, olio, ciotola | Piatto singolo | Implementato |
-| Insalata di riso | Riso cotto FDR, olive denocciolate, carota, provolone, ciotola | Piatto singolo | Implementato |
+| Insalata di patate | Patata cotta o fetta cotta, cipolla, olio, ciotola | Piatto singolo | Implementato |
+| Insalata di riso | Riso cotto FDR, olive denocciolate, carota intera o fetta, provolone, ciotola | Piatto singolo | Implementato |
 | Insalata con burrata | Burrata, pomodoro, basilico, olio, ciotola | Piatto singolo | Implementato |
 | Bresaola e parmigiano | Bresaola affettata, parmigiano a spicchio, olio, ciotola | Piatto singolo | Implementato |
 | Bruschetta ai funghi | Pane, funghi, olio | Senza recipiente | Implementato |
@@ -110,7 +110,7 @@ Il cavolo rosso non è standard in Farmer's Delight: il risotto al radicchio res
 | Involtini di bresaola | — | — | Escluso |
 | Prosciutto e burrata | — | — | Escluso |
 
-Tutte le nove ricette sono shapeless nella Crafting Table, con ingredienti esistenti. Il riso dell'insalata è già cotto. I taglieri usano RotatedFeastBlock e PlaceableItem FDR, con quattro porzioni prelevabili in ciotola e cinque stadi. La rottura a 4 porzioni restituisce l'intero tagliere; da 3 a 0 restituisce solo la lastra di quercia (come il vassoio dei Feast FDR, senza duplicazione del cibo). Valori nutritivi proposti da collaudare. Texture originali di insalata e bruschetta preservate; nuove icone ispirate a mozzarella_salad e bruschetta. Nessuna nuova coltura o ingrediente intermedio.
+Tutte le nove ricette sono shapeless nella Crafting Table, con ingredienti esistenti. Il riso dell'insalata è già cotto. I taglieri usano RotatedFeastBlock e PlaceableItem FDR, con quattro porzioni prelevabili direttamente senza ciotola e cinque stadi sulla base del Rice Roll Medley FDR. La rottura a 4 porzioni restituisce l'intero tagliere; da 3 a 0 restituisce solo la lastra di quercia (come il vassoio dei Feast FDR, senza duplicazione del cibo). Valori nutritivi proposti da collaudare. Texture originali di insalata e bruschetta preservate; nuove icone ispirate a mozzarella_salad e bruschetta. Nessuna nuova coltura o ingrediente intermedio.
 
 ## 5. Street food
 
@@ -258,3 +258,7 @@ Diciassette piatti approvati: 2 Feast di pollo, 3 frittate piazzabili, 5 piatti 
 ### Revisione Feast e crostate
 
 I due Feast di pollo richiedono `minecraft:cooked_chicken` intero, non un singolo taglio, per mantenere il bilanciamento delle quattro porzioni come in FDR. Il nome inglese non contiene più Feast; il BlockItem usa `PlaceableItem` di FDR per il tooltip localizzato in corsivo. Rimossi esclusivamente `fermented/mead_almond_cake.json` e `fermented/mead_cherry_tart.json`; ricette base, ricomposizione, taglio e varianti con sidro invariate.
+
+### Compatibilità carote e patate (2.0.0)
+
+Audit di tutti i 57 file ricetta aggiunti/modificati dal commit iniziale delle proposte: sette ricette interessate. `#italiansdelight:carrot_ingredients` accetta carota o fetta; `#italiansdelight:raw_potato_ingredients` patata cruda o fetta cruda; `#italiansdelight:cooked_potato_ingredients` patata cotta o fetta cotta. Non alterare il requisito crudo/cotto delle ricette. Una patata cotta sul tagliere produce quattro fette cotte; le fette crude possono essere cotte singolarmente in forno, affumicatore o falò. La fetta cotta è un alias del topping canonico `italiansdelight:pizza_toppings/potato_slice`, con la medesima texture della pizza e senza duplicare la tipologia di ingrediente. I taglieri usano la geometria originale della base FDR; i modelli dei salumi e dei formaggi restano provvisori, spostati sopra il nuovo piano. Il giocatore ottiene una porzione commestibile senza recipiente; le quattro porzioni concordate e gli ID precedenti sono conservati.

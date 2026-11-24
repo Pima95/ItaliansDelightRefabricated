@@ -607,5 +607,6 @@
   "item.italiansdelight.cold_cuts_board_serving": "Porzione di salumi",
   "item.italiansdelight.cheese_board_serving": "Porzione di formaggi",
   "item.italiansdelight.mixed_board_serving": "Porzione di tagliere misto",
-  "jei.italiansdelight.antipasti.board": "Piazza %s su una superficie solida e usa una ciotola vuota per prelevare: %s. Quattro porzioni. Il tagliere vuoto è recuperabile; rompendo un tagliere già servito si ottiene solo la lastra di quercia."
+  "jei.italiansdelight.antipasti.board": "Piazza %s su una superficie solida e interagisci per prelevare direttamente: %s. Quattro porzioni, senza ciotola. Rompendo il tagliere vuoto o parzialmente consumato si recupera la lastra di quercia.",
+  "item.italiansdelight.cooked_potato_slice": "Fette di patate cotte"
 }

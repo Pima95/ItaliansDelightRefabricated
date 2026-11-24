@@ -267,6 +267,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.CARROT_SLICE);
                 output.accept(ModItems.POTATO_SLICE);
+                output.accept(ModItems.COOKED_POTATO_SLICE);
 
                 // LIQUIDS (Creative + JEI item order): buckets before bottles.
                 // 1. Animal-derived liquids, including whey and rennet.

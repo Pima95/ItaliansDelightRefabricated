@@ -16,7 +16,7 @@ import static dev.italiansdelight.common.pizza.PizzaToppingType.Role.*;
 /**
  * Authoritative, read-only 1.0.0 pizza topping catalogue.
  *
- * <p>34 canonical ingredient kinds, backed by 38 native registered item
+ * <p>34 canonical ingredient kinds, backed by 39 native registered item
  * IDs (including carrot, potato, pitted olive and chopped almond portions). Only items
  * listed here are native toppings. In particular, broad c: food tags NEVER
  * cause whole cheeses, whole meats or other unprepared items to be accepted.
@@ -112,7 +112,7 @@ public final class PizzaToppingCatalog {
         // Prepared vegetable slices are approved. Whole carrots/potatoes
         // remain in EXPLICIT_EXCLUSIONS and cannot be used as toppings.
         add(types, nativeItems, "carrot_slice", VEGETABLE, SOLID, "italiansdelight", "carrot_slice");
-        add(types, nativeItems, "potato_slice", VEGETABLE, SOLID, "italiansdelight", "potato_slice");
+        add(types, nativeItems, "potato_slice", VEGETABLE, SOLID, "italiansdelight", "potato_slice", "cooked_potato_slice");
         // Whole olives and olive pate are NOT valid topping portions.
         add(types, nativeItems, "olive_pitted", VEGETABLE, SOLID, "italiansdelight", "olive_pitted");
         // Chopped almonds are the only approved almond pizza topping.
@@ -122,7 +122,7 @@ public final class PizzaToppingCatalog {
 
         // Catch accidental omissions, aliases or newly added items before
         // anything relies on the canonical identity mapping.
-        if (types.size() != 34 || nativeItems.size() != 38
+        if (types.size() != 34 || nativeItems.size() != 39
                 || types.values().stream().filter(PizzaToppingType::planned).count() != 0) {
             throw new IllegalStateException("Unexpected pizza topping catalogue size: "
                     + types.size() + " types, " + nativeItems.size() + " native item IDs");
@@ -156,7 +156,7 @@ public final class PizzaToppingCatalog {
         return TYPES;
     }
 
-    /** Exactly the 37 approved native item IDs. Never mutable. */
+    /** Exactly the 39 approved native item IDs. Never mutable. */
     public static Map<Identifier, PizzaToppingType> nativeItems() {
         return NATIVE_ITEMS;
     }

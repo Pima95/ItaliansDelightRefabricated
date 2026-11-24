@@ -607,5 +607,6 @@
   "item.italiansdelight.cold_cuts_board_serving": "Cold Cuts Selection",
   "item.italiansdelight.cheese_board_serving": "Cheese Selection",
   "item.italiansdelight.mixed_board_serving": "Mixed Selection",
-  "jei.italiansdelight.antipasti.board": "Place %s on a solid surface and use an empty bowl to take one %s. Four servings. The empty oak board can be recovered; breaking a partly served board returns only the oak slab."
+  "jei.italiansdelight.antipasti.board": "Place %s on a solid surface and interact to take one %s directly. Four servings; no bowl is needed. Breaking an empty or partly served board returns the oak slab.",
+  "item.italiansdelight.cooked_potato_slice": "Cooked Potato Slices"
 }

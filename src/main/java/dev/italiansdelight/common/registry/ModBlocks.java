@@ -1407,20 +1407,27 @@ public final class ModBlocks {
     private static Block registerAntipastiBoard(String id, int[][][] groups) {
         ResourceKey<Block> blockKey = ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id(id));
         ResourceKey<Item> servingKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id(id + "_serving"));
-        var shapes = new net.minecraft.world.phys.shapes.VoxelShape[4];
-        var shape = net.minecraft.world.phys.shapes.Shapes.empty();
-        // The shape groups are the same boxes as the north-facing stage models.
+        // Same wooden base and feet as the FDR rice roll medley model.
+        // Include the board in all five shapes so even its asymmetric feet rotate.
+        var shapes = new net.minecraft.world.phys.shapes.VoxelShape[5];
+        var shape = net.minecraft.world.phys.shapes.Shapes.or(
+            Block.box(1, 1, 2, 15, 3, 14),
+            Block.box(11, 0, 2, 13, 1, 14),
+            Block.box(3, 0, 2, 5, 1, 14));
+        shapes[0] = shape;
         for (int q = 0; q < groups.length; q++) {
             for (int[] b : groups[q]) {
                 shape = net.minecraft.world.phys.shapes.Shapes.join(shape,
-                    Block.box(b[0], b[1], b[2], b[3], b[4], b[5]),
+                    Block.box(b[0], b[1] + 1, b[2], b[3], b[4] + 1, b[5]),
                     net.minecraft.world.phys.shapes.BooleanOp.OR);
             }
-            shapes[q] = shape;
+            shapes[q + 1] = shape;
         }
+        // Just like rice rolls, the serving item has no crafting remainder:
+        // FeastBlock hands it directly to the player without a bowl.
         Block board = registerBlockOnly(blockKey, new RotatedFeastBlock(
             Block.Properties.ofFullCopy(Blocks.CAKE).setId(blockKey).noOcclusion().strength(0.5F),
-            servingKey, true, shapes, Block.box(1, 0, 1, 15, 2, 15)));
+            servingKey, true, shapes, null));
         ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), blockKey.identifier());
         Registry.register(BuiltInRegistries.ITEM, itemKey,
             new PlaceableItem(board, new Item.Properties().useBlockDescriptionPrefix().setId(itemKey)));

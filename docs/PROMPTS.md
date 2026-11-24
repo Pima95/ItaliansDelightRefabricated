@@ -31,3 +31,7 @@ Fonte originale: [`docs/ASSET_GUIDELINES.md`](https://github.com/Pima95/Italians
 ## Recipienti canonici per pasta e risotti
 
 > Per tutti i piatti di pasta usare esclusivamente la forma del recipiente di `pasta_alla_carbonara.png`. Conservare i pixel del recipiente e variare la sagoma, le proporzioni e i condimenti della sola pasta, evitando sagome ripetute. Per tutti i risotti utilizzare il recipiente delle texture originali `risotto_with_tomato_sauce.png` e `risotto_with_mushroom.png`. Non copiare i chicchi fuori dal recipiente come se fossero parte del recipiente. Lasciare invariati gli asset già conformi.
+
+## Compatibilità ingredienti affettati
+
+> Nelle ricette che richiedono carote o patate intere prevedere anche le corrispondenti fette, usando tag dedicati e conservando la distinzione tra crudo e cotto. Non allargare la whitelist della pizza agli ortaggi interi; fette di patata crude e cotte condividono il topping canonico e la texture già approvata.

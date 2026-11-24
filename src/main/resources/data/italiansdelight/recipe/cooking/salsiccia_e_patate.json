@@ -3,7 +3,7 @@
   "experience": 1,
   "ingredients": [
     "italiansdelight:sausage",
-    "minecraft:potato",
+    "#italiansdelight:raw_potato_ingredients",
     "italiansdelight:olive_oil_bottle"
   ],
   "recipe_book_tab": "meals",

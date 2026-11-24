@@ -18,3 +18,5 @@
 - Ricette, drop, porzioni e valori nutritivi invariati.
 
 - Verificare i due nuovi crafting da nove ingredienti e il tooltip Placeable/Piazzabile in corsivo grigio scuro solo sui due polli interi. Verificare che le ricette delle due crostate con idromele siano assenti in JEI e che quelle base e con sidro rimangano disponibili.
+
+- Provare carote/fette in spezzatino e polli; patate/fette crude nei tre secondi Cooking Pot, cotte nei due polli. Verificare le due sequenze per ottenere quattro fette di patata cotta e il condimento pizza con entrambe le fette (un'unica identità canonica, nessuna doppia applicazione).

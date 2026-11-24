@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     "minecraft:bowl",
-    "minecraft:baked_potato",
+    "#italiansdelight:cooked_potato_ingredients",
     "#c:crops/onion",
     "italiansdelight:olive_oil_bottle"
   ],

@@ -5,7 +5,7 @@
     "minecraft:bowl",
     "farmersdelight:cooked_rice",
     "italiansdelight:olive_pitted",
-    "minecraft:carrot",
+    "#italiansdelight:carrot_ingredients",
     "italiansdelight:provolone_slice"
   ],
   "result": {
