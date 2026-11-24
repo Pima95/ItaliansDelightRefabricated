@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "italiansdelight:bresaola_slice",
+    "italiansdelight:parmigiano_reggiano_wedge",
+    "italiansdelight:olive_oil_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:bresaola_and_parmigiano",
+    "count": 1
+  }
+}

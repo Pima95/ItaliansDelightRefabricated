@@ -471,6 +471,20 @@ public final class ModItemGroups {
                 // READY-TO-EAT SNACKS AND DESSERTS.
                 output.accept(ModItems.BRUSCHETTA);
                 output.accept(ModItems.OLIVE_BRUSCHETTA);
+
+                // 2.0.0 salads and antipasti.
+                output.accept(ModItems.POTATO_SALAD);
+                output.accept(ModItems.RICE_SALAD);
+                output.accept(ModItems.BURRATA_SALAD);
+                output.accept(ModItems.BRESAOLA_AND_PARMIGIANO);
+                output.accept(ModItems.MUSHROOM_BRUSCHETTA);
+                output.accept(ModItems.PROSCIUTTO_BRUSCHETTA);
+                output.accept(ModBlocks.COLD_CUTS_BOARD);
+                output.accept(ModItems.COLD_CUTS_BOARD_SERVING);
+                output.accept(ModBlocks.CHEESE_BOARD);
+                output.accept(ModItems.CHEESE_BOARD_SERVING);
+                output.accept(ModBlocks.MIXED_BOARD);
+                output.accept(ModItems.MIXED_BOARD_SERVING);
                 output.accept(ModItems.CHERRY_JAM_TOAST);
                 output.accept(ModBlocks.ALMOND_CAKE);
                 output.accept(ModItems.ALMOND_CAKE_SLICE);

@@ -90,21 +90,27 @@ Il cavolo rosso non è standard in Farmer's Delight: il risotto al radicchio res
 
 ## 4. Insalate e antipasti
 
-| Piatto | Ingredienti principali | Difficoltà | Decisione |
+| Piatto | Ingredienti | Formato | Decisione |
 | --- | --- | --- | --- |
-| Insalata di patate | Patate, cipolla, olio | Facile | Da valutare |
-| Insalata di riso | Riso, olive, carote, formaggio | Facile | Da valutare |
-| Panzanella | Pane, pomodoro, cipolla, basilico, aceto | Facile | Da valutare |
-| Insalata con burrata | Burrata, pomodoro, basilico, olio | Facile | Da valutare |
-| Bresaola e parmigiano | Bresaola, parmigiano, olio | Facile | Da valutare |
-| Tagliere di salumi | Salame, prosciutto, mortadella, speck | Facile | Da valutare |
-| Tagliere di formaggi | Parmigiano, pecorino, gorgonzola, provolone | Facile | Da valutare |
-| Tagliere misto | Salumi, formaggi, olive | Facile | Da valutare |
-| Bruschetta alla burrata | Pane, burrata, pomodoro | Facile | Da valutare |
-| Bruschetta ai funghi | Pane, funghi, olio | Facile | Da valutare |
-| Bruschetta con prosciutto | Pane, prosciutto, mozzarella | Facile | Da valutare |
+| Insalata di patate | Patata cotta, cipolla, olio, ciotola | Piatto singolo | Implementato |
+| Insalata di riso | Riso cotto FDR, olive denocciolate, carota, provolone, ciotola | Piatto singolo | Implementato |
+| Insalata con burrata | Burrata, pomodoro, basilico, olio, ciotola | Piatto singolo | Implementato |
+| Bresaola e parmigiano | Bresaola affettata, parmigiano a spicchio, olio, ciotola | Piatto singolo | Implementato |
+| Bruschetta ai funghi | Pane, funghi, olio | Senza recipiente | Implementato |
+| Bruschetta con prosciutto | Pane, prosciutto crudo affettato, mozzarella affettata | Senza recipiente | Implementato |
+| Tagliere di salumi | 2 fette ciascuno di salame, prosciutto crudo, mortadella e speck, lastra di quercia | Piazzabile, 4 porzioni | Implementato |
+| Tagliere di formaggi | 2 pezzi ciascuno di parmigiano, pecorino, gorgonzola e provolone, lastra di quercia | Piazzabile, 4 porzioni | Implementato |
+| Tagliere misto | 2 fette di salame, 2 di prosciutto crudo, 2 spicchi di gorgonzola, 2 olive denocciolate, lastra di quercia | Piazzabile, 4 porzioni | Implementato |
+| Panzanella | — | — | Escluso |
+| Bruschetta alla burrata | — | — | Escluso |
+| Insalata di pomodori | — | — | Escluso |
+| Bruschetta al gorgonzola | — | — | Escluso |
+| Bruschetta piccante | — | — | Escluso |
+| Bruschetta con mortadella | — | — | Escluso |
+| Involtini di bresaola | — | — | Escluso |
+| Prosciutto e burrata | — | — | Escluso |
 
-I taglieri possono essere semplici alimenti serviti in un piatto, senza blocchi piazzabili.
+Tutte le nove ricette sono shapeless nella Crafting Table, con ingredienti esistenti. Il riso dell'insalata è già cotto. I taglieri usano RotatedFeastBlock e PlaceableItem FDR, con quattro porzioni prelevabili in ciotola e cinque stadi. La rottura a 4 porzioni restituisce l'intero tagliere; da 3 a 0 restituisce solo la lastra di quercia (come il vassoio dei Feast FDR, senza duplicazione del cibo). Valori nutritivi proposti da collaudare. Texture originali di insalata e bruschetta preservate; nuove icone ispirate a mozzarella_salad e bruschetta. Nessuna nuova coltura o ingrediente intermedio.
 
 ## 5. Street food
 

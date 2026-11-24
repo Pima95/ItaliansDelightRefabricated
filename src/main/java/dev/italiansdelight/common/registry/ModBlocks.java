@@ -752,6 +752,20 @@ public final class ModBlocks {
     public static final Block FRITTATA_AL_FORMAGGIO = registerItalianFeast("frittata_al_formaggio", "frittata_al_formaggio_slice", false);
     public static final Block FRITTATA_CON_PANCETTA = registerItalianFeast("frittata_con_pancetta", "frittata_con_pancetta_slice", false);
 
+    // 2.0.0 antipasti: reusable wooden boards with four FDR servings.
+    public static final Block COLD_CUTS_BOARD = registerAntipastiBoard("cold_cuts_board", new int[][][] {{{3, 2, 2, 6, 3, 3}, {2, 2, 3, 7, 3, 6}, {3, 2, 6, 6, 3, 7}},
+            {{10, 2, 2, 13, 3, 3}, {9, 2, 3, 14, 3, 6}, {10, 2, 6, 13, 3, 7}},
+            {{10, 2, 9, 13, 3, 10}, {9, 2, 10, 14, 3, 13}, {10, 2, 13, 13, 3, 14}},
+            {{3, 2, 9, 6, 3, 10}, {2, 2, 10, 7, 3, 13}, {3, 2, 13, 6, 3, 14}}});
+    public static final Block CHEESE_BOARD = registerAntipastiBoard("cheese_board", new int[][][] {{{4, 2, 2, 5, 5, 3}, {3, 2, 3, 6, 5, 4}, {3, 2, 4, 7, 5, 5}, {2, 2, 5, 7, 5, 7}},
+            {{10, 2, 2, 13, 4, 3}, {9, 2, 3, 14, 4, 6}, {10, 2, 6, 13, 4, 7}},
+            {{11, 2, 9, 12, 5, 10}, {10, 2, 10, 13, 5, 11}, {10, 2, 11, 14, 5, 12}, {9, 2, 12, 14, 5, 14}},
+            {{3, 2, 9, 6, 4, 10}, {2, 2, 10, 7, 4, 13}, {3, 2, 13, 6, 4, 14}}});
+    public static final Block MIXED_BOARD = registerAntipastiBoard("mixed_board", new int[][][] {{{3, 2, 2, 6, 3, 3}, {2, 2, 3, 7, 3, 6}, {3, 2, 6, 6, 3, 7}},
+            {{10, 2, 2, 13, 3, 3}, {9, 2, 3, 14, 3, 6}, {10, 2, 6, 13, 3, 7}},
+            {{11, 2, 9, 12, 5, 10}, {10, 2, 10, 13, 5, 11}, {10, 2, 11, 14, 5, 12}, {9, 2, 12, 14, 5, 14}},
+            {{3, 2, 9, 6, 4, 10}, {2, 2, 10, 7, 4, 13}, {3, 2, 13, 6, 4, 14}}});
+
     // Reversible nine-crop Farmer's Delight-style storage crates.
     public static final ResourceKey<Block> OLIVE_CRATE_KEY = ResourceKey.create(
         BuiltInRegistries.BLOCK.key(), ModRegistries.id("olive_crate"));
@@ -1388,6 +1402,29 @@ public final class ModBlocks {
             shapes[q + 1] = shape;
         }
         return shapes;
+    }
+
+    private static Block registerAntipastiBoard(String id, int[][][] groups) {
+        ResourceKey<Block> blockKey = ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id(id));
+        ResourceKey<Item> servingKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id(id + "_serving"));
+        var shapes = new net.minecraft.world.phys.shapes.VoxelShape[4];
+        var shape = net.minecraft.world.phys.shapes.Shapes.empty();
+        // The shape groups are the same boxes as the north-facing stage models.
+        for (int q = 0; q < groups.length; q++) {
+            for (int[] b : groups[q]) {
+                shape = net.minecraft.world.phys.shapes.Shapes.join(shape,
+                    Block.box(b[0], b[1], b[2], b[3], b[4], b[5]),
+                    net.minecraft.world.phys.shapes.BooleanOp.OR);
+            }
+            shapes[q] = shape;
+        }
+        Block board = registerBlockOnly(blockKey, new RotatedFeastBlock(
+            Block.Properties.ofFullCopy(Blocks.CAKE).setId(blockKey).noOcclusion().strength(0.5F),
+            servingKey, true, shapes, Block.box(1, 0, 1, 15, 2, 15)));
+        ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), blockKey.identifier());
+        Registry.register(BuiltInRegistries.ITEM, itemKey,
+            new PlaceableItem(board, new Item.Properties().useBlockDescriptionPrefix().setId(itemKey)));
+        return board;
     }
 
     private static Block registerCropStakeVariant(String wood) {

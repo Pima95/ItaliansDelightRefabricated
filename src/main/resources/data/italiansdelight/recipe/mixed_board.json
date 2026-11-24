@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:oak_slab",
+    "italiansdelight:salame_slice",
+    "italiansdelight:salame_slice",
+    "italiansdelight:prosciutto_crudo_slice",
+    "italiansdelight:prosciutto_crudo_slice",
+    "italiansdelight:gorgonzola_wedge",
+    "italiansdelight:gorgonzola_wedge",
+    "italiansdelight:olive_pitted",
+    "italiansdelight:olive_pitted"
+  ],
+  "result": {
+    "id": "italiansdelight:mixed_board",
+    "count": 1
+  }
+}

@@ -594,5 +594,18 @@
   "item.italiansdelight.polpette_fritte": "Polpette fritte",
   "item.italiansdelight.mozzarella_in_carrozza": "Mozzarella in carrozza",
   "jei.italiansdelight.secondi.feast": "Piazza %s su una superficie solida. Usa una ciotola vuota con clic destro per prendere una %s. Quattro porzioni; rimane il vassoio vuoto. Rompendo un vassoio già servito si ottiene solo una ciotola vuota.",
-  "jei.italiansdelight.secondi.frittata": "Piazza %s su una superficie solida. Con il clic destro ottieni una %s senza recipiente. Quattro fette. Rompendo una frittata già servita si ottengono soltanto le fette rimaste."
+  "jei.italiansdelight.secondi.frittata": "Piazza %s su una superficie solida. Con il clic destro ottieni una %s senza recipiente. Quattro fette. Rompendo una frittata già servita si ottengono soltanto le fette rimaste.",
+  "block.italiansdelight.cold_cuts_board": "Tagliere di salumi",
+  "block.italiansdelight.cheese_board": "Tagliere di formaggi",
+  "block.italiansdelight.mixed_board": "Tagliere misto",
+  "item.italiansdelight.potato_salad": "Insalata di patate",
+  "item.italiansdelight.rice_salad": "Insalata di riso",
+  "item.italiansdelight.burrata_salad": "Insalata con burrata",
+  "item.italiansdelight.bresaola_and_parmigiano": "Bresaola e parmigiano",
+  "item.italiansdelight.mushroom_bruschetta": "Bruschetta ai funghi",
+  "item.italiansdelight.prosciutto_bruschetta": "Bruschetta con prosciutto",
+  "item.italiansdelight.cold_cuts_board_serving": "Porzione di salumi",
+  "item.italiansdelight.cheese_board_serving": "Porzione di formaggi",
+  "item.italiansdelight.mixed_board_serving": "Porzione di tagliere misto",
+  "jei.italiansdelight.antipasti.board": "Piazza %s su una superficie solida e usa una ciotola vuota per prelevare: %s. Quattro porzioni. Il tagliere vuoto è recuperabile; rompendo un tagliere già servito si ottiene solo la lastra di quercia."
 }

@@ -1123,6 +1123,35 @@ public final class ModItems {
                 registerSecondoFoodItem("mozzarella_in_carrozza", 7, 0.65f,
                         FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
+        // 2.0.0 salads, bruschette and antipasti board servings.
+        public static final Item POTATO_SALAD =
+                registerBowlFoodItem("potato_salad", 8, 0.65f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item RICE_SALAD =
+                registerBowlFoodItem("rice_salad", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item BURRATA_SALAD =
+                registerBowlFoodItem("burrata_salad", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item BRESAOLA_AND_PARMIGIANO =
+                registerBowlFoodItem("bresaola_and_parmigiano", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item MUSHROOM_BRUSCHETTA =
+                registerSecondoFoodItem("mushroom_bruschetta", 6, 0.6f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item PROSCIUTTO_BRUSCHETTA =
+                registerSecondoFoodItem("prosciutto_bruschetta", 7, 0.65f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item COLD_CUTS_BOARD_SERVING =
+                registerBowlFoodItem("cold_cuts_board_serving", 8, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item CHEESE_BOARD_SERVING =
+                registerBowlFoodItem("cheese_board_serving", 8, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+        public static final Item MIXED_BOARD_SERVING =
+                registerBowlFoodItem("mixed_board_serving", 8, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
+
         public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
 
         public static final Item CHERRIES = registerFoodItem("cherries", 2, 0.2f);

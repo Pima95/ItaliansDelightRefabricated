@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "farmersdelight:cooked_rice",
+    "italiansdelight:olive_pitted",
+    "minecraft:carrot",
+    "italiansdelight:provolone_slice"
+  ],
+  "result": {
+    "id": "italiansdelight:rice_salad",
+    "count": 1
+  }
+}

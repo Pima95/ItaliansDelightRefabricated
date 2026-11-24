@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "italiansdelight:burrata",
+    "#c:crops/tomato",
+    "#c:crops/basil",
+    "italiansdelight:olive_oil_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:burrata_salad",
+    "count": 1
+  }
+}

@@ -594,5 +594,18 @@
   "item.italiansdelight.polpette_fritte": "Fried Meatballs",
   "item.italiansdelight.mozzarella_in_carrozza": "Fried Mozzarella Sandwich",
   "jei.italiansdelight.secondi.feast": "Place %s on a solid surface. Right-click with an empty bowl to take one serving of %s. Four servings; the empty tray remains. A partially served tray drops only an empty bowl if broken.",
-  "jei.italiansdelight.secondi.frittata": "Place %s on a solid surface. Right-click to take one %s without a container. Four slices. Breaking a partly served frittata drops only its remaining slices."
+  "jei.italiansdelight.secondi.frittata": "Place %s on a solid surface. Right-click to take one %s without a container. Four slices. Breaking a partly served frittata drops only its remaining slices.",
+  "block.italiansdelight.cold_cuts_board": "Cold Cuts Board",
+  "block.italiansdelight.cheese_board": "Cheese Board",
+  "block.italiansdelight.mixed_board": "Mixed Board",
+  "item.italiansdelight.potato_salad": "Potato Salad",
+  "item.italiansdelight.rice_salad": "Rice Salad",
+  "item.italiansdelight.burrata_salad": "Burrata Salad",
+  "item.italiansdelight.bresaola_and_parmigiano": "Bresaola and Parmigiano",
+  "item.italiansdelight.mushroom_bruschetta": "Mushroom Bruschetta",
+  "item.italiansdelight.prosciutto_bruschetta": "Prosciutto Bruschetta",
+  "item.italiansdelight.cold_cuts_board_serving": "Cold Cuts Selection",
+  "item.italiansdelight.cheese_board_serving": "Cheese Selection",
+  "item.italiansdelight.mixed_board_serving": "Mixed Selection",
+  "jei.italiansdelight.antipasti.board": "Place %s on a solid surface and use an empty bowl to take one %s. Four servings. The empty oak board can be recovered; breaking a partly served board returns only the oak slab."
 }
