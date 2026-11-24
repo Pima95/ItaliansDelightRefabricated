@@ -432,6 +432,15 @@ public final class ModItemGroups {
                 output.accept(ModItems.RISOTTO_WITH_SCAMORZA_AND_OLIVES);
                 output.accept(ModItems.RISOTTO_WITH_PARMIGIANO);
                 output.accept(ModItems.RISOTTO_WITH_SPECK_AND_GORGONZOLA);
+                output.accept(ModItems.RISOTTO_WITH_PUMPKIN);
+                output.accept(ModItems.RISOTTO_AI_QUATTRO_FORMAGGI);
+                output.accept(ModItems.RISOTTO_WITH_ALMONDS);
+                output.accept(ModItems.RISOTTO_WITH_PANCETTA);
+                output.accept(ModItems.RISOTTO_WITH_RAGU);
+                output.accept(ModItems.RISOTTO_WITH_SALMON);
+                output.accept(ModItems.RISOTTO_WITH_SAUSAGE);
+                output.accept(ModItems.RISOTTO_WITH_MUSHROOMS_AND_SAUSAGE);
+                output.accept(ModItems.RISOTTO_WITH_CHILI_PEPPER);
                 output.accept(ModItems.MOZZARELLA_SALAD);
                 output.accept(ModItems.GRAPE_CHERRY_FRUIT_SALAD);
 

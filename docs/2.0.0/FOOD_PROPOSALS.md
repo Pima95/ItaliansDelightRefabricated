@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated – 2.0.0: proposte alimentari
 
-**Stato:** progettazione, 24 novembre 2026. Cinque ingredienti e i dodici piatti di pasta approvati e implementati; le altre categorie restano da valutare.
+**Stato:** progettazione, 24 novembre 2026. Cinque ingredienti, dodici piatti di pasta e nove risotti approvati e implementati; le altre categorie restano da valutare.
 
 ## Obiettivo e vincoli
 
@@ -43,15 +43,18 @@ La puttanesca con merluzzo è un adattamento per Minecraft, non la ricetta tradi
 
 | Piatto | Ingredienti principali | Difficoltà | Decisione |
 | --- | --- | --- | --- |
-| Risotto al vino rosso | Riso, vino rosso, parmigiano | Facile | Da valutare |
-| Risotto alla zucca | Riso, zucca, parmigiano | Facile | Da valutare |
-| Risotto ai quattro formaggi | Riso, quattro formaggi | Facile | Da valutare |
-| Risotto alle mandorle | Riso, mandorle, panna | Facile | Da valutare |
-| Risotto alle ciliegie | Riso, ciliegie, parmigiano | Facile | Da valutare |
-| Risotto al radicchio | Riso, cavolo rosso come sostituto del radicchio, vino | Intermedio (da rinviare) | Da valutare |
-| Risotto alla pancetta | Riso, pancetta, parmigiano | Facile | Da valutare |
-| Risotto al ragù | Riso, ragù, parmigiano | Intermedio | Da valutare |
-| Risotto al salmone | Riso, salmone, panna | Facile | Da valutare |
+| Risotto al vino rosso | Riso, vino rosso, parmigiano | Facile | Rinviato |
+| Risotto alla zucca | Riso, zucca, parmigiano | Facile | Implementato |
+| Risotto ai quattro formaggi | Riso, quattro formaggi | Facile | Implementato |
+| Risotto alle mandorle | Riso, mandorle, panna | Facile | Implementato |
+| Risotto alle ciliegie | Riso, ciliegie, parmigiano | Facile | Rinviato |
+| Risotto al radicchio | Riso, cavolo rosso come sostituto del radicchio, vino | Intermedio (da rinviare) | Rinviato |
+| Risotto alla pancetta | Riso, pancetta, parmigiano | Facile | Implementato |
+| Risotto al ragù | Riso, ragù, parmigiano | Facile | Implementato |
+| Risotto al salmone | Riso, salmone, panna | Facile | Implementato |
+| Risotto alla salsiccia | Riso, salsiccia, parmigiano | Facile | Implementato |
+| Risotto ai funghi e salsiccia | Riso, funghi, salsiccia, parmigiano | Facile | Implementato |
+| Risotto al peperoncino | Riso, peperoncino, salsa di pomodoro, olio | Facile | Implementato |
 
 Il cavolo rosso non è standard in Farmer's Delight: il risotto al radicchio resta in elenco per valutazione, ma va rinviato se richiede una nuova coltivazione. Verificare anche la distinzione dalle varianti di risotto al vino già esistenti.
 
@@ -176,7 +179,7 @@ Le difficoltà sono stime riferite all'introduzione delle relative preparazioni 
 - Valorizzare maggiormente salumi e formaggi già implementati, soprattutto mortadella, bresaola, burrata e provolone.
 - Verificare le ricette già presenti per evitare duplicazioni; confermare gli ingredienti realmente disponibili e gli adattamenti prima di implementare.
 
-Per ora: nessuna focaccia, nessuna nuova coltivazione; solo la categoria pasta è stata approvata. Gli altri sette ingredienti non sono stati selezionati per questa fase.
+Per ora: nessuna focaccia, nessuna nuova coltivazione; le categorie pasta e risotti sono state valutate. Gli altri sette ingredienti non sono stati selezionati per questa fase.
 
 ## Riferimenti interni
 
@@ -211,3 +214,21 @@ Verificare in gioco tutte le ricette, i contenitori restituiti, JEI e le texture
 ## Compatibilità carne e pesce
 
 Per le ricette che utilizzano carne o pesce vanilla, preferire i tag specifici di Farmer's Delight Refabricated che comprendono l'item intero e il suo taglio equivalente, mantenendo separati crudo e cotto e senza duplicare le ricette. Verificati sul branch `fabric/latest/26.3` (revisione `1b85d66f5e2aba88592d7f4fb203d582f4d3cbe3`): `#c:foods/raw_cod` (cod/cod_slice), `#c:foods/raw_salmon` (salmon/salmon_slice), `#c:foods/raw_beef` (beef/minced_beef), `#c:foods/raw_pork` (porkchop/bacon tramite raw_bacon). Per i futuri piatti verificare analogamente i tag di pollo e montone. Il ragù conserva `farmersdelight:minced_beef` come richiesto esplicitamente; le ricette dei salumi che richiedono specificamente ham o bacon restano invariate. Quantità, metodi e risultati invariati.
+
+## 2.0.0 – Risotti: implementazione
+
+Approvati solo i nove risotti sotto. Gli altri risotti proposti non sono stati implementati. Tutti utilizzano Cooking Pot, una ciotola per il risultato e nessun crafting alternativo. Per il salmone si usa il tag FDR `#c:foods/raw_salmon`, valido per salmone intero o affettato. La zucca usa `farmersdelight:pumpkin_slice`. Le texture 16×16 RGBA mantengono i pixel del recipiente di `risotto_with_parmigiano.png`; il riso e i condimenti hanno profili e palette individuali.
+
+| Item | Ingredienti effettivi | Fame | Saturation modifier | Nourishment |
+| --- | --- | ---: | ---: | --- |
+| `risotto_with_pumpkin` | `#c:crops/rice`, `farmersdelight:pumpkin_slice`, `italiansdelight:grated_parmigiano_reggiano` | 12 | 0.75 | MEDIUM |
+| `risotto_ai_quattro_formaggi` | `#c:crops/rice`, `italiansdelight:gorgonzola_wedge`, `italiansdelight:grated_parmigiano_reggiano`, `italiansdelight:provolone_slice`, `italiansdelight:scamorza_slice` | 14 | 0.8 | LONG |
+| `risotto_with_almonds` | `#c:crops/rice`, `italiansdelight:chopped_almonds`, `italiansdelight:cream_bowl` | 12 | 0.75 | MEDIUM |
+| `risotto_with_pancetta` | `#c:crops/rice`, `italiansdelight:pancetta_slice`, `italiansdelight:grated_parmigiano_reggiano` | 12 | 0.8 | MEDIUM |
+| `risotto_with_ragu` | `#c:crops/rice`, `italiansdelight:ragu`, `italiansdelight:grated_parmigiano_reggiano` | 14 | 0.75 | LONG |
+| `risotto_with_salmon` | `#c:crops/rice`, `#c:foods/raw_salmon`, `italiansdelight:cream_bowl` | 12 | 0.75 | MEDIUM |
+| `risotto_with_sausage` | `#c:crops/rice`, `italiansdelight:sausage`, `italiansdelight:grated_parmigiano_reggiano` | 12 | 0.8 | MEDIUM |
+| `risotto_with_mushrooms_and_sausage` | `#c:crops/rice`, `#c:mushrooms`, `italiansdelight:sausage`, `italiansdelight:grated_parmigiano_reggiano` | 14 | 0.75 | LONG |
+| `risotto_with_chili_pepper` | `#c:crops/rice`, `italiansdelight:chili_pepper`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_oil_bottle` | 10 | 0.7 | MEDIUM |
+
+Valori nutritivi proposti in continuità con i risotti precedenti. Test in gioco, JEI e compilazione da verificare.

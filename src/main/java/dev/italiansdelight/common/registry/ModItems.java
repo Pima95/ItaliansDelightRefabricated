@@ -1031,6 +1031,35 @@ public final class ModItems {
                 registerBowlFoodItem("pasta_alla_zozzona", 16, 0.8f,
                         FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
 
+        // 2.0.0 risotto dishes (Cooking Pot only).
+        public static final Item RISOTTO_WITH_PUMPKIN =
+                registerBowlFoodItem("risotto_with_pumpkin", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item RISOTTO_AI_QUATTRO_FORMAGGI =
+                registerBowlFoodItem("risotto_ai_quattro_formaggi", 14, 0.8f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item RISOTTO_WITH_ALMONDS =
+                registerBowlFoodItem("risotto_with_almonds", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item RISOTTO_WITH_PANCETTA =
+                registerBowlFoodItem("risotto_with_pancetta", 12, 0.8f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item RISOTTO_WITH_RAGU =
+                registerBowlFoodItem("risotto_with_ragu", 14, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item RISOTTO_WITH_SALMON =
+                registerBowlFoodItem("risotto_with_salmon", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item RISOTTO_WITH_SAUSAGE =
+                registerBowlFoodItem("risotto_with_sausage", 12, 0.8f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item RISOTTO_WITH_MUSHROOMS_AND_SAUSAGE =
+                registerBowlFoodItem("risotto_with_mushrooms_and_sausage", 14, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item RISOTTO_WITH_CHILI_PEPPER =
+                registerBowlFoodItem("risotto_with_chili_pepper", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+
         public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
 
         public static final Item CHERRIES = registerFoodItem("cherries", 2, 0.2f);
