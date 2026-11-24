@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated – 2.0.0: proposte alimentari
 
-**Stato:** bozza di progettazione, 24 novembre 2026. Nessuna ricetta approvata o implementata con questo documento.
+**Stato:** progettazione, 24 novembre 2026. Cinque ingredienti approvati e implementati; tutti i piatti restano da valutare.
 
 ## Obiettivo e vincoli
 
@@ -142,14 +142,14 @@ Ricotta, mascarpone, panna, mandorle, ciliegie, uva e miele sono già disponibil
 
 | Ingrediente | Ingredienti principali | Metodo | Decisione |
 | --- | --- | --- | --- |
-| Ragù | Carne macinata, pomodoro, cipolla, olio | Cooking Pot | Da valutare |
+| Ragù | Carne macinata (FDR Minced Beef), pomodoro, olio d'oliva | Cooking Pot | Implementato |
 | Besciamella | Latte, farina, burro | Cooking Pot | Da valutare |
 | Burro | Panna | Crafting | Da valutare |
 | Farina | Grano | Crafting | Da valutare |
-| Crema pasticcera | Latte, uova, zucchero, farina | Cooking Pot | Da valutare |
-| Pangrattato | Pane | Cutting Board | Da valutare |
-| Salsiccia | Carne di maiale, sale, pepe facoltativo | Crafting | Da valutare |
-| Sfoglia di pasta | Impasto per pasta | Crafting con mattarello | Da valutare |
+| Crema pasticciera | Latte, uovo, zucchero, grano (in sostituzione della farina) | Cooking Pot | Implementato |
+| Pangrattato | Pane, coltello | Cutting Board | Implementato |
+| Salsiccia | Carne di maiale, sale | Crafting | Implementato |
+| Sfoglia di pasta | Wheat Dough (FDR), mattarello | Cutting Board | Implementato |
 | Gnocchi crudi | Patate, farina, uovo | Crafting | Da valutare |
 | Ravioli crudi | Sfoglia di pasta, ricotta | Crafting | Da valutare |
 | Uva passa | Uva | Essiccazione esistente o cottura | Da valutare |
@@ -176,9 +176,13 @@ Le difficoltà sono stime riferite all'introduzione delle relative preparazioni 
 - Valorizzare maggiormente salumi e formaggi già implementati, soprattutto mortadella, bresaola, burrata e provolone.
 - Verificare le ricette già presenti per evitare duplicazioni; confermare gli ingredienti realmente disponibili e gli adattamenti prima di implementare.
 
-Per ora: nessuna focaccia, nessuna nuova coltivazione e nessuna modifica al codice, agli asset o alle ricette.
+Per ora: nessuna focaccia, nessuna nuova coltivazione e nessun nuovo piatto. Gli altri sette ingredienti non sono stati selezionati per questa fase.
 
 ## Riferimenti interni
 
 - [Traduzioni degli item esistenti](../../src/main/resources/assets/italiansdelight/lang/en_us.json)
 - [Risorse della mod](../../src/main/resources/)
+
+## Aggiornamento implementazione – ingredienti
+
+Sono stati aggiunti esclusivamente ragù, crema pasticciera, pangrattato, salsiccia e sfoglia di pasta. Nessuna farina, burro o altro ingrediente aggiuntivo. Rimossi i tre crafting alternativi dei risotti con vino: ai funghi con vino rosso/bianco e al parmigiano con vino bianco. Le ricette Cooking Pot originali restano disponibili. La sfoglia riutilizza il mattarello come utensile sul Cutting Board, senza consumarlo.

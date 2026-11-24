@@ -258,6 +258,11 @@ public final class ModItemGroups {
                 output.accept(ModItems.BASIL_PESTO);
                 output.accept(ModItems.ALMOND_PESTO);
                 output.accept(ModItems.CHERRY_JAM_BOTTLE);
+                output.accept(ModItems.RAGU);
+                output.accept(ModItems.CUSTARD);
+                output.accept(ModItems.BREADCRUMBS);
+                output.accept(ModItems.SAUSAGE);
+                output.accept(ModItems.PASTA_SHEET);
                 output.accept(ModItems.SALT);
                 output.accept(ModItems.TOMATO_SLICE);
                 output.accept(ModItems.CARROT_SLICE);

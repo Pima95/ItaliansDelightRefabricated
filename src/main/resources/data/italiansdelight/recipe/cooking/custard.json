@@ -1,0 +1,18 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 0.5,
+  "ingredients": [
+    "#italiansdelight:cow_milk",
+    "minecraft:egg",
+    "minecraft:sugar",
+    "minecraft:wheat"
+  ],
+  "recipe_book_tab": "meals",
+  "container": {
+    "id": "minecraft:bowl",
+    "count": 1
+  },
+  "result": {
+    "id": "italiansdelight:custard"
+  }
+}

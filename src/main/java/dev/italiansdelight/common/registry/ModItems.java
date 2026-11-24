@@ -966,6 +966,17 @@ public final class ModItems {
         public static final Item PASTA_WITH_ALMOND_PESTO =
                 registerBowlFoodItem("pasta_with_almond_pesto", 10, 0.7f,
                         FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        // 2.0.0 cooking ingredients. Prepared sauces return their bowls.
+        public static final Item RAGU = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("ragu")),
+                new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16));
+        public static final Item CUSTARD = register(
+                ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("custard")),
+                new Item.Properties().craftRemainder(Items.BOWL).stacksTo(16));
+        public static final Item BREADCRUMBS = registerSimpleItem("breadcrumbs", 64);
+        public static final Item SAUSAGE = registerSimpleItem("sausage", 64);
+        public static final Item PASTA_SHEET = registerSimpleItem("pasta_sheet", 64);
+
         // 1.2.0 finished dishes. All required ingredients already exist.
         public static final Item SPICY_OLIVE_PASTA =
                 registerBowlFoodItem("spicy_olive_pasta", 12, 0.75f,

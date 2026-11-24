@@ -1,0 +1,15 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    "farmersdelight:wheat_dough"
+  ],
+  "tool": "italiansdelight:rolling_pin",
+  "result": [
+    {
+      "item": {
+        "id": "italiansdelight:pasta_sheet",
+        "count": 2
+      }
+    }
+  ]
+}
