@@ -43,6 +43,14 @@ public final class PizzaCraftingRecipeCategory
 
     @Override
     public Identifier getIdentifier(PizzaCraftingJeiRecipe recipe) {
+        if (recipe.result().is(dev.italiansdelight.common.registry.ModItems.COOKED_PIZZA)) {
+            // The current catalogue has one example per recognized flavor and
+            // one mixed example. Avoid collisions with raw pizza recipes.
+            var data = recipe.result().get(dev.italiansdelight.common.registry.ModDataComponents.PIZZA_CONTENTS);
+            String preset = dev.italiansdelight.common.pizza.PizzaDisplayNames.wholePresetId(data);
+            return Identifier.fromNamespaceAndPath("italiansdelight",
+                    "/pizza_reassembly/" + (preset == null ? "mixed" : preset));
+        }
         // Stable JEI-only identifier (no Minecraft crafting recipe is added).
         // The list is validated as one dough followed by distinct toppings.
         StringBuilder id = new StringBuilder("/pizza_crafting/");
@@ -84,6 +92,11 @@ public final class PizzaCraftingRecipeCategory
         // Only the blank area beside the vanilla arrow shows these freeform
         // constraints; the JEI shapeless indicator keeps its native tooltip.
         if (mouseX >= 84 && mouseX < 95 && mouseY >= 1 && mouseY < 17) {
+            if (recipe.result().is(dev.italiansdelight.common.registry.ModItems.COOKED_PIZZA)) {
+                tooltip.add(Component.translatable(
+                        "gui.italiansdelight.jei.pizza_reassembly.description"));
+                return;
+            }
             tooltip.add(Component.translatable(
                     "gui.italiansdelight.jei.pizza_crafting_examples.description"));
             tooltip.add(Component.translatable(

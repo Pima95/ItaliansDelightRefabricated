@@ -1,6 +1,7 @@
 package dev.italiansdelight.integration.jei;
 
 import dev.italiansdelight.ItaliansDelight;
+import dev.italiansdelight.common.crafting.PizzaReassemblyRecipe;
 import dev.italiansdelight.common.pizza.PizzaComposition;
 import dev.italiansdelight.common.pizza.PizzaCreativeSamples;
 import dev.italiansdelight.common.pizza.PizzaBaking;
@@ -87,7 +88,25 @@ public final class PizzaCraftingJeiRecipes {
             examples.add(new PizzaCraftingJeiRecipe(inputs, raw));
             shown.add(preset.getValue());
         }
+        // Reassembly demonstrations use the actual dynamic recipe, not fake
+        // fixed outputs. Every recognized flavor plus a mixed example.
+        for (var preset : PizzaDisplayNames.allPresets().keySet()) {
+            ItemStack slice = PizzaCreativeSamples.createSlice(preset);
+            addReassembly(examples, List.of(slice, slice, slice, slice));
+        }
+        PizzaItemData mixed = PizzaCreativeSamples.createMixed(true)
+                .get(ModDataComponents.PIZZA_CONTENTS);
+        List<ItemStack> mixedSlices = new ArrayList<>();
+        for (int quarter : new int[]{1, 3, 0, 2}) {
+            mixedSlices.add(dev.italiansdelight.common.pizza.PizzaSliceFactory.create(mixed, quarter));
+        }
+        addReassembly(examples, mixedSlices);
         return List.copyOf(examples);
+    }
+
+    private static void addReassembly(List<PizzaCraftingJeiRecipe> examples, List<ItemStack> slices) {
+        ItemStack result = PizzaReassemblyRecipe.reassemble(slices);
+        if (!result.isEmpty()) examples.add(new PizzaCraftingJeiRecipe(slices, result));
     }
 
     private static void addExample(List<PizzaCraftingJeiRecipe> examples,

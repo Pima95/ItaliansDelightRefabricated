@@ -99,7 +99,7 @@ public final class PizzaDisplayNames {
         Set<Identifier> ingredients = new HashSet<>(whole.composition().toppingsForQuarter(index));
         // Preserve the legacy proof-of-concept topping in the description.
         // Never mislabel an old whole-mozzarella pizza as Bianca or a preset.
-        if (whole.legacyMozzarella()) {
+        if (whole.legacyMozzarellaAt(index)) {
             ingredients.add(LEGACY_MOZZARELLA);
         }
         return Set.copyOf(ingredients);

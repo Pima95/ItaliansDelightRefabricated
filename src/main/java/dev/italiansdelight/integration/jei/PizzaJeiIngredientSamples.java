@@ -66,8 +66,8 @@ public final class PizzaJeiIngredientSamples {
         for (int quarter = 0; quarter < PizzaComposition.QUARTER_COUNT; quarter++) {
             if (quarter > 0) signature.append('|');
             signature.append(signature(data.composition().toppingsForQuarter(quarter)));
+            if (data.legacyMozzarellaAt(quarter)) signature.append("+legacy_mozzarella");
         }
-        if (data.legacyMozzarella()) signature.append("|legacy_mozzarella");
         return signature.toString();
     }
 

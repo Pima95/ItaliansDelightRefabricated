@@ -99,7 +99,7 @@ public record PizzaSliceData(int quarter, List<Topping> toppings, boolean legacy
                 selected.add(new Topping(application.canonicalId(), application.originalStack()));
             }
         }
-        return new PizzaSliceData(quarter, selected, whole.legacyMozzarella());
+        return new PizzaSliceData(quarter, selected, whole.legacyMozzarellaAt(quarter));
     }
 
     public static PizzaSliceData empty() {

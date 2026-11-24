@@ -6,6 +6,7 @@ import dev.italiansdelight.common.crafting.CheeseDryingRecipe;
 import dev.italiansdelight.common.crafting.PizzaSmeltingRecipe;
 import dev.italiansdelight.common.crafting.PizzaSmokingRecipe;
 import dev.italiansdelight.common.crafting.PizzaCraftingRecipe;
+import dev.italiansdelight.common.crafting.PizzaReassemblyRecipe;
 
 import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 import net.minecraft.core.Registry;
@@ -94,6 +95,13 @@ public final class ModRecipes {
             PizzaCraftingRecipe.SERIALIZER
         );
 
+    public static final RecipeSerializer<PizzaReassemblyRecipe> PIZZA_REASSEMBLY_SERIALIZER =
+        Registry.register(
+            BuiltInRegistries.RECIPE_SERIALIZER,
+            ModRegistries.id("pizza_reassembly"),
+            PizzaReassemblyRecipe.SERIALIZER
+        );
+
     public static void register() {
         RecipeSynchronization.synchronizeRecipeSerializer(CHEESE_VAT_SERIALIZER);
         RecipeSynchronization.synchronizeRecipeSerializer(CHEESE_AGING_SERIALIZER);
@@ -101,5 +109,6 @@ public final class ModRecipes {
         RecipeSynchronization.synchronizeRecipeSerializer(PIZZA_SMELTING_SERIALIZER);
         RecipeSynchronization.synchronizeRecipeSerializer(PIZZA_SMOKING_SERIALIZER);
         RecipeSynchronization.synchronizeRecipeSerializer(PIZZA_CRAFTING_SERIALIZER);
+        RecipeSynchronization.synchronizeRecipeSerializer(PIZZA_REASSEMBLY_SERIALIZER);
     }
 }

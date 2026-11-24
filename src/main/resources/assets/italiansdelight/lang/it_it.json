@@ -548,5 +548,6 @@
   "item.italiansdelight.custard": "Crema pasticciera",
   "item.italiansdelight.breadcrumbs": "Pangrattato",
   "item.italiansdelight.sausage": "Salsiccia",
-  "item.italiansdelight.pasta_sheet": "Sfoglia di pasta"
+  "item.italiansdelight.pasta_sheet": "Sfoglia di pasta",
+  "gui.italiansdelight.jei.pizza_reassembly.description": "Unisci quattro fette di pizza cotta, uguali o diverse, per ottenere una pizza cotta."
 }

@@ -548,5 +548,6 @@
   "item.italiansdelight.custard": "Custard",
   "item.italiansdelight.breadcrumbs": "Breadcrumbs",
   "item.italiansdelight.sausage": "Sausage",
-  "item.italiansdelight.pasta_sheet": "Pasta Sheet"
+  "item.italiansdelight.pasta_sheet": "Pasta Sheet",
+  "gui.italiansdelight.jei.pizza_reassembly.description": "Combine any four cooked pizza slices, identical or different, into one cooked pizza."
 }
