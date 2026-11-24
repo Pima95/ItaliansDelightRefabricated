@@ -1,0 +1,17 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#c:foods/pasta",
+    "italiansdelight:ragu",
+    "italiansdelight:grated_parmigiano_reggiano"
+  ],
+  "recipe_book_tab": "meals",
+  "container": {
+    "id": "minecraft:bowl",
+    "count": 1
+  },
+  "result": {
+    "id": "italiansdelight:pasta_with_ragu"
+  }
+}

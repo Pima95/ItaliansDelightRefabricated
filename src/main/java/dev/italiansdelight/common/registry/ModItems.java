@@ -993,6 +993,44 @@ public final class ModItems {
         public static final Item GRAPE_CHERRY_FRUIT_SALAD =
                 registerBowlFoodItem("grape_cherry_fruit_salad", 6, 0.35f,
                         Consumables.DEFAULT_FOOD);
+        // 2.0.0 pasta dishes (Cooking Pot only).
+        public static final Item PASTA_ALL_ARRABBIATA =
+                registerBowlFoodItem("pasta_all_arrabbiata", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_ALLA_SORRENTINA =
+                registerBowlFoodItem("pasta_alla_sorrentina", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_AI_QUATTRO_FORMAGGI =
+                registerBowlFoodItem("pasta_ai_quattro_formaggi", 14, 0.8f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item PASTA_ALLA_BOSCAIOLA =
+                registerBowlFoodItem("pasta_alla_boscaiola", 14, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item PASTA_ALLA_CRUDAIOLA =
+                registerBowlFoodItem("pasta_alla_crudaiola", 10, 0.7f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_ALLA_CENERE =
+                registerBowlFoodItem("pasta_alla_cenere", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_WITH_MORTADELLA_AND_RICOTTA =
+                registerBowlFoodItem("pasta_with_mortadella_and_ricotta", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_WITH_MUSHROOM_AND_SCAMORZA =
+                registerBowlFoodItem("pasta_with_mushroom_and_scamorza", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_WITH_RAGU =
+                registerBowlFoodItem("pasta_with_ragu", 14, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item PASTA_ALLA_PUTTANESCA =
+                registerBowlFoodItem("pasta_alla_puttanesca", 14, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+        public static final Item PASTA_WITH_SALMON =
+                registerBowlFoodItem("pasta_with_salmon", 12, 0.75f,
+                        FoodValues.ConsumableValues.NOURISHMENT_MEDIUM_DURATION);
+        public static final Item PASTA_ALLA_ZOZZONA =
+                registerBowlFoodItem("pasta_alla_zozzona", 16, 0.8f,
+                        FoodValues.ConsumableValues.NOURISHMENT_LONG_DURATION);
+
         public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
 
         public static final Item CHERRIES = registerFoodItem("cherries", 2, 0.2f);

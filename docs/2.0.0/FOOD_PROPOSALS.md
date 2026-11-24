@@ -1,6 +1,6 @@
 # Italian's Delight Refabricated – 2.0.0: proposte alimentari
 
-**Stato:** progettazione, 24 novembre 2026. Cinque ingredienti approvati e implementati; tutti i piatti restano da valutare.
+**Stato:** progettazione, 24 novembre 2026. Cinque ingredienti e i dodici piatti di pasta approvati e implementati; le altre categorie restano da valutare.
 
 ## Obiettivo e vincoli
 
@@ -24,18 +24,18 @@ Valutare una categoria alla volta. Tutte le proposte sono **da valutare**; segna
 
 | Piatto | Ingredienti principali | Difficoltà | Decisione |
 | --- | --- | --- | --- |
-| Pasta all'arrabbiata | Pasta, pomodoro, peperoncino, olio | Facile | Da valutare |
-| Pasta alla sorrentina | Pasta, pomodoro, mozzarella, basilico | Facile | Da valutare |
-| Pasta ai quattro formaggi | Pasta, gorgonzola, parmigiano, provolone, scamorza | Facile | Da valutare |
-| Pasta alla boscaiola | Pasta, funghi, pancetta, panna | Facile | Da valutare |
-| Pasta alla crudaiola | Pasta, pomodoro, basilico, ricotta | Facile | Da valutare |
-| Pasta alla cenere | Pasta, gorgonzola, olive | Facile | Da valutare |
-| Pasta con mortadella e ricotta | Pasta, mortadella, ricotta | Facile | Da valutare |
-| Pasta con funghi e scamorza | Pasta, funghi, scamorza | Facile | Da valutare |
-| Pasta al ragù | Pasta, ragù, parmigiano | Intermedio | Da valutare |
-| Pasta alla puttanesca | Pasta, pomodoro, olive, peperoncino, acciughe sostituibili con merluzzo | Facile (adattamento) | Da valutare |
-| Pasta al salmone | Pasta, salmone, panna | Facile | Da valutare |
-| Pasta alla zozzona | Pasta, salsiccia, guanciale, uovo, pomodoro, pecorino | Intermedio | Da valutare |
+| Pasta all'arrabbiata | Pasta, pomodoro, peperoncino, olio | Facile | Implementato |
+| Pasta alla sorrentina | Pasta, pomodoro, mozzarella, basilico | Facile | Implementato |
+| Pasta ai quattro formaggi | Pasta, gorgonzola, parmigiano, provolone, scamorza | Facile | Implementato |
+| Pasta alla boscaiola | Pasta, funghi, pancetta, panna | Facile | Implementato |
+| Pasta alla crudaiola | Pasta, pomodoro, basilico, ricotta | Facile | Implementato |
+| Pasta alla cenere | Pasta, gorgonzola, olive | Facile | Implementato |
+| Pasta con mortadella e ricotta | Pasta, mortadella, ricotta | Facile | Implementato |
+| Pasta con funghi e scamorza | Pasta, funghi, scamorza | Facile | Implementato |
+| Pasta al ragù | Pasta, ragù, parmigiano | Facile | Implementato |
+| Pasta alla puttanesca | Pasta, pomodoro, olive, peperoncino, acciughe sostituibili con merluzzo | Facile (adattamento) | Implementato |
+| Pasta al salmone | Pasta, salmone, panna | Facile | Implementato |
+| Pasta alla zozzona | Pasta, salsiccia, guanciale, uovo, pomodoro, pecorino | Facile | Implementato |
 
 La puttanesca con merluzzo è un adattamento per Minecraft, non la ricetta tradizionale.
 
@@ -176,7 +176,7 @@ Le difficoltà sono stime riferite all'introduzione delle relative preparazioni 
 - Valorizzare maggiormente salumi e formaggi già implementati, soprattutto mortadella, bresaola, burrata e provolone.
 - Verificare le ricette già presenti per evitare duplicazioni; confermare gli ingredienti realmente disponibili e gli adattamenti prima di implementare.
 
-Per ora: nessuna focaccia, nessuna nuova coltivazione e nessun nuovo piatto. Gli altri sette ingredienti non sono stati selezionati per questa fase.
+Per ora: nessuna focaccia, nessuna nuova coltivazione; solo la categoria pasta è stata approvata. Gli altri sette ingredienti non sono stati selezionati per questa fase.
 
 ## Riferimenti interni
 
@@ -186,3 +186,24 @@ Per ora: nessuna focaccia, nessuna nuova coltivazione e nessun nuovo piatto. Gli
 ## Aggiornamento implementazione – ingredienti
 
 Sono stati aggiunti esclusivamente ragù, crema pasticciera, pangrattato, salsiccia e sfoglia di pasta. Nessuna farina, burro o altro ingrediente aggiuntivo. Rimossi i tre crafting alternativi dei risotti con vino: ai funghi con vino rosso/bianco e al parmigiano con vino bianco. Le ricette Cooking Pot originali restano disponibili. La sfoglia riutilizza il mattarello come utensile sul Cutting Board, senza consumarlo.
+
+## 2.0.0 – Pasta: implementazione definitiva
+
+Tutte le 12 ricette usano Cooking Pot, 1 ciotola per il risultato, nessun crafting alternativo. Gli ingredienti sono item già esistenti; tag pasta e funghi come nelle ricette precedenti. Le texture mantengono i pixel del recipiente di `pasta_with_ricotta_and_pancetta.png`, con pasta e condimenti ridisegnati in gruppi distinti. Valori nutrizionali e Nourishment sono da bilanciare durante i test.
+
+| Item | Ingredienti effettivi | Fame | Saturation modifier | Nourishment |
+| --- | --- | ---: | ---: | --- |
+| `pasta_all_arrabbiata` | `#c:foods/pasta`, `farmersdelight:tomato_sauce`, `italiansdelight:chili_pepper`, `italiansdelight:olive_oil_bottle` | 10 | 0.7 | MEDIUM |
+| `pasta_alla_sorrentina` | `#c:foods/pasta`, `farmersdelight:tomato_sauce`, `italiansdelight:mozzarella_slice`, `italiansdelight:basil` | 12 | 0.75 | MEDIUM |
+| `pasta_ai_quattro_formaggi` | `#c:foods/pasta`, `italiansdelight:gorgonzola_wedge`, `italiansdelight:grated_parmigiano_reggiano`, `italiansdelight:provolone_slice`, `italiansdelight:scamorza_slice` | 14 | 0.8 | LONG |
+| `pasta_alla_boscaiola` | `#c:foods/pasta`, `#c:mushrooms`, `italiansdelight:pancetta_slice`, `italiansdelight:cream_bowl` | 14 | 0.75 | LONG |
+| `pasta_alla_crudaiola` | `#c:foods/pasta`, `italiansdelight:tomato_slice`, `italiansdelight:basil`, `italiansdelight:ricotta` | 10 | 0.7 | MEDIUM |
+| `pasta_alla_cenere` | `#c:foods/pasta`, `italiansdelight:gorgonzola_wedge`, `italiansdelight:olive_pitted` | 12 | 0.75 | MEDIUM |
+| `pasta_with_mortadella_and_ricotta` | `#c:foods/pasta`, `italiansdelight:mortadella_slice`, `italiansdelight:ricotta` | 12 | 0.75 | MEDIUM |
+| `pasta_with_mushroom_and_scamorza` | `#c:foods/pasta`, `#c:mushrooms`, `italiansdelight:scamorza_slice` | 12 | 0.75 | MEDIUM |
+| `pasta_with_ragu` | `#c:foods/pasta`, `italiansdelight:ragu`, `italiansdelight:grated_parmigiano_reggiano` | 14 | 0.75 | LONG |
+| `pasta_alla_puttanesca` | `#c:foods/pasta`, `farmersdelight:tomato_sauce`, `italiansdelight:olive_pitted`, `italiansdelight:chili_pepper`, `minecraft:cod` | 14 | 0.75 | LONG |
+| `pasta_with_salmon` | `#c:foods/pasta`, `minecraft:salmon`, `italiansdelight:cream_bowl` | 12 | 0.75 | MEDIUM |
+| `pasta_alla_zozzona` | `#c:foods/pasta`, `italiansdelight:sausage`, `italiansdelight:guanciale_slice`, `minecraft:egg`, `farmersdelight:tomato_sauce`, `italiansdelight:grated_pecorino_romano` | 16 | 0.8 | LONG |
+
+Verificare in gioco tutte le ricette, i contenitori restituiti, JEI e le texture.

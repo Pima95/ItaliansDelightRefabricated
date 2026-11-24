@@ -1,0 +1,17 @@
+{
+  "type": "farmersdelight:cooking",
+  "experience": 1,
+  "ingredients": [
+    "#c:foods/pasta",
+    "italiansdelight:mortadella_slice",
+    "italiansdelight:ricotta"
+  ],
+  "recipe_book_tab": "meals",
+  "container": {
+    "id": "minecraft:bowl",
+    "count": 1
+  },
+  "result": {
+    "id": "italiansdelight:pasta_with_mortadella_and_ricotta"
+  }
+}

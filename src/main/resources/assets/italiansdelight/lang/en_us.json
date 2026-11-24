@@ -549,5 +549,17 @@
   "item.italiansdelight.breadcrumbs": "Breadcrumbs",
   "item.italiansdelight.sausage": "Sausage",
   "item.italiansdelight.pasta_sheet": "Pasta Sheet",
-  "gui.italiansdelight.jei.pizza_reassembly.description": "Combine any four cooked pizza slices, identical or different, into one cooked pizza."
+  "gui.italiansdelight.jei.pizza_reassembly.description": "Combine any four cooked pizza slices, identical or different, into one cooked pizza.",
+  "item.italiansdelight.pasta_all_arrabbiata": "Pasta all'Arrabbiata",
+  "item.italiansdelight.pasta_alla_sorrentina": "Pasta alla Sorrentina",
+  "item.italiansdelight.pasta_ai_quattro_formaggi": "Four Cheese Pasta",
+  "item.italiansdelight.pasta_alla_boscaiola": "Pasta alla Boscaiola",
+  "item.italiansdelight.pasta_alla_crudaiola": "Pasta alla Crudaiola",
+  "item.italiansdelight.pasta_alla_cenere": "Pasta alla Cenere",
+  "item.italiansdelight.pasta_with_mortadella_and_ricotta": "Pasta with Mortadella and Ricotta",
+  "item.italiansdelight.pasta_with_mushroom_and_scamorza": "Pasta with Mushrooms and Scamorza",
+  "item.italiansdelight.pasta_with_ragu": "Pasta with Ragù",
+  "item.italiansdelight.pasta_alla_puttanesca": "Pasta alla Puttanesca",
+  "item.italiansdelight.pasta_with_salmon": "Pasta with Salmon",
+  "item.italiansdelight.pasta_alla_zozzona": "Pasta alla Zozzona"
 }

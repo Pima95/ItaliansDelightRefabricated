@@ -413,6 +413,19 @@ public final class ModItemGroups {
                 output.accept(ModItems.PASTA_ALL_AMATRICIANA);
                 output.accept(ModItems.PASTA_WITH_SPECK_AND_GORGONZOLA);
 
+                output.accept(ModItems.PASTA_ALL_ARRABBIATA);
+                output.accept(ModItems.PASTA_ALLA_SORRENTINA);
+                output.accept(ModItems.PASTA_AI_QUATTRO_FORMAGGI);
+                output.accept(ModItems.PASTA_ALLA_BOSCAIOLA);
+                output.accept(ModItems.PASTA_ALLA_CRUDAIOLA);
+                output.accept(ModItems.PASTA_ALLA_CENERE);
+                output.accept(ModItems.PASTA_WITH_MORTADELLA_AND_RICOTTA);
+                output.accept(ModItems.PASTA_WITH_MUSHROOM_AND_SCAMORZA);
+                output.accept(ModItems.PASTA_WITH_RAGU);
+                output.accept(ModItems.PASTA_ALLA_PUTTANESCA);
+                output.accept(ModItems.PASTA_WITH_SALMON);
+                output.accept(ModItems.PASTA_ALLA_ZOZZONA);
+
                 // PREPARED DISHES — risottos and cold dishes.
                 output.accept(ModItems.RISOTTO_WITH_TOMATO_SAUCE);
                 output.accept(ModItems.RISOTTO_WITH_MUSHROOM);
