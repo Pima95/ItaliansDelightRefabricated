@@ -1145,15 +1145,6 @@ public final class ModItems {
         public static final Item PROSCIUTTO_BRUSCHETTA =
                 registerSecondoFoodItem("prosciutto_bruschetta", 7, 0.65f,
                         FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
-        public static final Item COLD_CUTS_BOARD_SERVING =
-                registerSecondoFoodItem("cold_cuts_board_serving", 8, 0.7f,
-                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
-        public static final Item CHEESE_BOARD_SERVING =
-                registerSecondoFoodItem("cheese_board_serving", 8, 0.7f,
-                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
-        public static final Item MIXED_BOARD_SERVING =
-                registerSecondoFoodItem("mixed_board_serving", 8, 0.7f,
-                        FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
         public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
 

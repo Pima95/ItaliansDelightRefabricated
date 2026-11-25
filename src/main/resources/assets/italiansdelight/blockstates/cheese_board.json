@@ -74,6 +74,66 @@
     "facing=west,servings=4": {
       "model": "italiansdelight:block/cheese_board_servings_4",
       "y": 270
+    },
+    "facing=north,servings=5": {
+      "model": "italiansdelight:block/cheese_board_servings_5"
+    },
+    "facing=east,servings=5": {
+      "model": "italiansdelight:block/cheese_board_servings_5",
+      "y": 90
+    },
+    "facing=south,servings=5": {
+      "model": "italiansdelight:block/cheese_board_servings_5",
+      "y": 180
+    },
+    "facing=west,servings=5": {
+      "model": "italiansdelight:block/cheese_board_servings_5",
+      "y": 270
+    },
+    "facing=north,servings=6": {
+      "model": "italiansdelight:block/cheese_board_servings_6"
+    },
+    "facing=east,servings=6": {
+      "model": "italiansdelight:block/cheese_board_servings_6",
+      "y": 90
+    },
+    "facing=south,servings=6": {
+      "model": "italiansdelight:block/cheese_board_servings_6",
+      "y": 180
+    },
+    "facing=west,servings=6": {
+      "model": "italiansdelight:block/cheese_board_servings_6",
+      "y": 270
+    },
+    "facing=north,servings=7": {
+      "model": "italiansdelight:block/cheese_board_servings_7"
+    },
+    "facing=east,servings=7": {
+      "model": "italiansdelight:block/cheese_board_servings_7",
+      "y": 90
+    },
+    "facing=south,servings=7": {
+      "model": "italiansdelight:block/cheese_board_servings_7",
+      "y": 180
+    },
+    "facing=west,servings=7": {
+      "model": "italiansdelight:block/cheese_board_servings_7",
+      "y": 270
+    },
+    "facing=north,servings=8": {
+      "model": "italiansdelight:block/cheese_board_servings_8"
+    },
+    "facing=east,servings=8": {
+      "model": "italiansdelight:block/cheese_board_servings_8",
+      "y": 90
+    },
+    "facing=south,servings=8": {
+      "model": "italiansdelight:block/cheese_board_servings_8",
+      "y": 180
+    },
+    "facing=west,servings=8": {
+      "model": "italiansdelight:block/cheese_board_servings_8",
+      "y": 270
     }
   }
 }

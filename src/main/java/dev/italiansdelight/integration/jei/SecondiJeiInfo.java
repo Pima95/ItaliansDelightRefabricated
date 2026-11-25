@@ -16,14 +16,14 @@ public final class SecondiJeiInfo {
         add(registration, new ItemStack(ModBlocks.FRITTATA_DI_PATATE), new ItemStack(ModItems.FRITTATA_DI_PATATE_SLICE), false);
         add(registration, new ItemStack(ModBlocks.FRITTATA_AL_FORMAGGIO), new ItemStack(ModItems.FRITTATA_AL_FORMAGGIO_SLICE), false);
         add(registration, new ItemStack(ModBlocks.FRITTATA_CON_PANCETTA), new ItemStack(ModItems.FRITTATA_CON_PANCETTA_SLICE), false);
-        addBoard(registration, new ItemStack(ModBlocks.COLD_CUTS_BOARD), new ItemStack(ModItems.COLD_CUTS_BOARD_SERVING));
-        addBoard(registration, new ItemStack(ModBlocks.CHEESE_BOARD), new ItemStack(ModItems.CHEESE_BOARD_SERVING));
-        addBoard(registration, new ItemStack(ModBlocks.MIXED_BOARD), new ItemStack(ModItems.MIXED_BOARD_SERVING));
+        addBoard(registration, new ItemStack(ModBlocks.COLD_CUTS_BOARD));
+        addBoard(registration, new ItemStack(ModBlocks.CHEESE_BOARD));
+        addBoard(registration, new ItemStack(ModBlocks.MIXED_BOARD));
     }
 
-    private static void addBoard(IRecipeRegistration registration, ItemStack full, ItemStack portion) {
-        registration.addItemStackInfo(List.of(full, portion),
-            Component.translatable("jei.italiansdelight.antipasti.board", full.getHoverName(), portion.getHoverName()));
+    private static void addBoard(IRecipeRegistration registration, ItemStack full) {
+        registration.addItemStackInfo(List.of(full),
+            Component.translatable("jei.italiansdelight.antipasti.board", full.getHoverName()));
     }
 
     private static void add(IRecipeRegistration registration, ItemStack full, ItemStack portion, boolean bowl) {

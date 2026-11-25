@@ -481,11 +481,8 @@ public final class ModItemGroups {
                 output.accept(ModItems.MUSHROOM_BRUSCHETTA);
                 output.accept(ModItems.PROSCIUTTO_BRUSCHETTA);
                 output.accept(ModBlocks.COLD_CUTS_BOARD);
-                output.accept(ModItems.COLD_CUTS_BOARD_SERVING);
                 output.accept(ModBlocks.CHEESE_BOARD);
-                output.accept(ModItems.CHEESE_BOARD_SERVING);
                 output.accept(ModBlocks.MIXED_BOARD);
-                output.accept(ModItems.MIXED_BOARD_SERVING);
                 output.accept(ModItems.CHERRY_JAM_TOAST);
                 output.accept(ModBlocks.ALMOND_CAKE);
                 output.accept(ModItems.ALMOND_CAKE_SLICE);
