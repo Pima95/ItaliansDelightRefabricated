@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:cooked_chicken",
-    "italiansdelight:chili_pepper",
     "italiansdelight:chili_pepper",
     "italiansdelight:olive_oil_bottle",
-    "#italiansdelight:cooked_potato_ingredients",
+    "#c:foods/bread",
+    "italiansdelight:chili_pepper",
+    "minecraft:cooked_chicken",
     "#italiansdelight:cooked_potato_ingredients",
     "#italiansdelight:carrot_ingredients",
-    "#c:foods/bread",
-    "minecraft:bowl"
+    "minecraft:bowl",
+    "#italiansdelight:cooked_potato_ingredients"
   ],
   "result": {
     "id": "italiansdelight:pollo_alla_diavola",

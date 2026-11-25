@@ -604,6 +604,6 @@
   "item.italiansdelight.bresaola_and_parmigiano": "Bresaola e parmigiano",
   "item.italiansdelight.mushroom_bruschetta": "Bruschetta ai funghi",
   "item.italiansdelight.prosciutto_bruschetta": "Bruschetta con prosciutto",
-  "jei.italiansdelight.antipasti.board": "Piazza %s e interagisci per recuperare uno alla volta gli otto ingredienti originali, senza ciotola. Rompendo il tagliere parzialmente consumato o vuoto si recupera la lastra di quercia.",
+  "jei.italiansdelight.antipasti.board": "Piazza %s e interagisci per recuperare uno alla volta gli otto ingredienti originali, senza usare altre ciotole. Rompendo il tagliere parzialmente consumato o vuoto si recupera la ciotola.",
   "item.italiansdelight.cooked_potato_slice": "Fette di patate cotte"
 }

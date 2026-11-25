@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:cooked_chicken",
-    "farmersdelight:tomato_sauce",
-    "italiansdelight:olive_pitted",
-    "italiansdelight:wine_bottle",
     "#c:crops/onion",
+    "farmersdelight:tomato_sauce",
+    "italiansdelight:wine_bottle",
     "#italiansdelight:carrot_ingredients",
+    "minecraft:cooked_chicken",
     "#italiansdelight:cooked_potato_ingredients",
-    "#italiansdelight:cooked_potato_ingredients",
-    "minecraft:bowl"
+    "italiansdelight:olive_pitted",
+    "minecraft:bowl",
+    "#italiansdelight:cooked_potato_ingredients"
   ],
   "result": {
     "id": "italiansdelight:pollo_alla_cacciatora",

@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:oak_slab",
     "italiansdelight:parmigiano_reggiano_wedge",
     "italiansdelight:parmigiano_reggiano_wedge",
-    "italiansdelight:pecorino_romano_wedge",
     "italiansdelight:pecorino_romano_wedge",
     "italiansdelight:gorgonzola_wedge",
+    "italiansdelight:pecorino_romano_wedge",
     "italiansdelight:gorgonzola_wedge",
     "italiansdelight:provolone_slice",
+    "minecraft:bowl",
     "italiansdelight:provolone_slice"
   ],
   "result": {
