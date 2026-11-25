@@ -69,8 +69,8 @@ public final class AntipastiBoardBlock extends RiceRollMedleyBlock {
                 {{11, 4, 4, 15, 5, 7}, {12, 5, 4, 15, 6, 6}},
                 {{2, 3, 9, 5, 5, 13}, {2, 5, 9, 4, 6, 12}},
                 {{5, 3, 10, 8, 5, 14}, {6, 5, 11, 8, 6, 14}},
-                {{9, 3, 10, 11, 5, 12}},
-                {{12, 3, 11, 14, 5, 13}}
+                {{9, 3, 10, 10, 4, 11}, {11, 3, 12, 12, 4, 13}},
+                {{13, 3, 10, 14, 4, 11}, {14, 3, 12, 15, 4, 13}}
             };
             default -> throw new IllegalArgumentException("Unknown antipasti board: " + boardId);
         };

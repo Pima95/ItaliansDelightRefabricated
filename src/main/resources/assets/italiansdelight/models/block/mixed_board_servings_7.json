@@ -902,62 +902,131 @@
         10
       ],
       "to": [
-        11,
-        5,
-        12
+        10,
+        4,
+        11
       ],
       "faces": {
         "up": {
           "uv": [
             0,
             0,
-            2,
-            2
+            1,
+            1
           ],
           "texture": "#food3"
         },
         "north": {
           "uv": [
-            2,
             0,
-            4,
+            1,
+            1,
             2
           ],
           "texture": "#food3"
         },
         "south": {
           "uv": [
-            2,
             0,
-            4,
+            1,
+            1,
             2
           ],
           "texture": "#food3"
         },
         "east": {
           "uv": [
-            2,
             0,
-            4,
-            2
+            2,
+            1,
+            3
           ],
           "texture": "#food3"
         },
         "west": {
           "uv": [
-            2,
             0,
-            4,
-            2
+            2,
+            1,
+            3
           ],
           "texture": "#food3"
         },
         "down": {
           "uv": [
             0,
+            2,
+            1,
+            3
+          ],
+          "texture": "#food3"
+        }
+      }
+    },
+    {
+      "name": "olive_pitted_1_2",
+      "from": [
+        11,
+        3,
+        12
+      ],
+      "to": [
+        12,
+        4,
+        13
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            1,
             0,
             2,
+            1
+          ],
+          "texture": "#food3"
+        },
+        "north": {
+          "uv": [
+            1,
+            1,
+            2,
             2
+          ],
+          "texture": "#food3"
+        },
+        "south": {
+          "uv": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "texture": "#food3"
+        },
+        "east": {
+          "uv": [
+            1,
+            2,
+            2,
+            3
+          ],
+          "texture": "#food3"
+        },
+        "west": {
+          "uv": [
+            1,
+            2,
+            2,
+            3
+          ],
+          "texture": "#food3"
+        },
+        "down": {
+          "uv": [
+            1,
+            2,
+            2,
+            3
           ],
           "texture": "#food3"
         }
