@@ -1398,7 +1398,7 @@ public final class ModBlocks {
     private static Block registerAntipastiBoard(String id, String... ingredients) {
         ResourceKey<Block> blockKey = ResourceKey.create(BuiltInRegistries.BLOCK.key(), ModRegistries.id(id));
         Block board = registerBlockOnly(blockKey, new dev.italiansdelight.common.block.AntipastiBoardBlock(
-            Block.Properties.ofFullCopy(Blocks.CAKE).setId(blockKey).noOcclusion().strength(0.5F), ingredients));
+            Block.Properties.ofFullCopy(Blocks.CAKE).setId(blockKey).noOcclusion().strength(0.5F), id, ingredients));
         ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), blockKey.identifier());
         Registry.register(BuiltInRegistries.ITEM, itemKey,
             new PlaceableItem(board, new Item.Properties().useBlockDescriptionPrefix().setId(itemKey)));

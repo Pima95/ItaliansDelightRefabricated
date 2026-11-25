@@ -3,10 +3,10 @@
   "textures": {
     "particle": "farmersdelight:block/platter",
     "platter": "farmersdelight:block/platter",
-    "food0": "italiansdelight:item/salame_slice",
-    "food1": "italiansdelight:item/prosciutto_crudo_slice",
-    "food2": "italiansdelight:item/gorgonzola_wedge",
-    "food3": "italiansdelight:item/olive_pitted"
+    "food0": "italiansdelight:block/antipasti/salame_slice",
+    "food1": "italiansdelight:block/antipasti/prosciutto_crudo_slice",
+    "food2": "italiansdelight:block/antipasti/gorgonzola_wedge",
+    "food3": "italiansdelight:block/antipasti/olive_pitted"
   },
   "elements": [
     {
@@ -205,278 +205,421 @@
       }
     },
     {
+      "name": "salame_slice_1_1",
       "from": [
         2,
         3,
         3
       ],
       "to": [
-        5,
-        3.5,
+        6,
+        4,
         7
       ],
       "faces": {
         "up": {
           "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food0"
-        },
-        "down": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
+            0,
+            0,
+            4,
+            4
           ],
           "texture": "#food0"
         },
         "north": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            4,
+            0,
+            8,
+            1
           ],
           "texture": "#food0"
         },
         "south": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            4,
+            0,
+            8,
+            1
           ],
           "texture": "#food0"
         },
         "east": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            4,
+            0,
+            8,
+            1
           ],
           "texture": "#food0"
         },
         "west": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            4,
+            0,
+            8,
+            1
+          ],
+          "texture": "#food0"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            4,
+            4
           ],
           "texture": "#food0"
         }
       }
     },
     {
+      "name": "salame_slice_2_1",
       "from": [
-        5,
-        3,
-        3
+        4,
+        4,
+        4
       ],
       "to": [
         8,
-        3.5,
-        7
+        5,
+        8
       ],
       "faces": {
         "up": {
           "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food0"
-        },
-        "down": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
+            0,
+            0,
+            4,
+            4
           ],
           "texture": "#food0"
         },
         "north": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            4,
+            0,
+            8,
+            1
           ],
           "texture": "#food0"
         },
         "south": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            4,
+            0,
+            8,
+            1
           ],
           "texture": "#food0"
         },
         "east": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            4,
+            0,
+            8,
+            1
           ],
           "texture": "#food0"
         },
         "west": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            4,
+            0,
+            8,
+            1
+          ],
+          "texture": "#food0"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            4,
+            4
           ],
           "texture": "#food0"
         }
       }
     },
     {
+      "name": "prosciutto_crudo_slice_1_1",
       "from": [
-        8,
-        3,
-        3
-      ],
-      "to": [
-        11,
-        3.5,
-        7
-      ],
-      "faces": {
-        "up": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food1"
-        },
-        "down": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food1"
-        },
-        "north": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food1"
-        },
-        "south": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food1"
-        },
-        "east": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food1"
-        },
-        "west": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food1"
-        }
-      }
-    },
-    {
-      "from": [
-        11,
+        9,
         3,
         3
       ],
       "to": [
         14,
-        3.5,
-        7
+        4,
+        6
       ],
       "faces": {
         "up": {
           "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food1"
-        },
-        "down": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
+            0,
+            0,
+            5,
+            3
           ],
           "texture": "#food1"
         },
         "north": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            5,
+            0,
+            10,
+            1
           ],
           "texture": "#food1"
         },
         "south": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            5,
+            0,
+            10,
+            1
           ],
           "texture": "#food1"
         },
         "east": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            10,
+            0,
+            13,
+            1
           ],
           "texture": "#food1"
         },
         "west": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            10,
+            0,
+            13,
+            1
+          ],
+          "texture": "#food1"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            5,
+            3
           ],
           "texture": "#food1"
         }
       }
     },
     {
+      "name": "prosciutto_crudo_slice_1_2",
+      "from": [
+        9,
+        4,
+        3
+      ],
+      "to": [
+        11,
+        5,
+        6
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            13,
+            0,
+            15,
+            3
+          ],
+          "texture": "#food1"
+        },
+        "north": {
+          "uv": [
+            5,
+            1,
+            7,
+            2
+          ],
+          "texture": "#food1"
+        },
+        "south": {
+          "uv": [
+            5,
+            1,
+            7,
+            2
+          ],
+          "texture": "#food1"
+        },
+        "east": {
+          "uv": [
+            10,
+            0,
+            13,
+            1
+          ],
+          "texture": "#food1"
+        },
+        "west": {
+          "uv": [
+            10,
+            0,
+            13,
+            1
+          ],
+          "texture": "#food1"
+        },
+        "down": {
+          "uv": [
+            13,
+            0,
+            15,
+            3
+          ],
+          "texture": "#food1"
+        }
+      }
+    },
+    {
+      "name": "prosciutto_crudo_slice_2_1",
+      "from": [
+        11,
+        4,
+        4
+      ],
+      "to": [
+        15,
+        5,
+        7
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            7,
+            1,
+            11,
+            4
+          ],
+          "texture": "#food1"
+        },
+        "north": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#food1"
+        },
+        "south": {
+          "uv": [
+            0,
+            3,
+            4,
+            4
+          ],
+          "texture": "#food1"
+        },
+        "east": {
+          "uv": [
+            10,
+            0,
+            13,
+            1
+          ],
+          "texture": "#food1"
+        },
+        "west": {
+          "uv": [
+            10,
+            0,
+            13,
+            1
+          ],
+          "texture": "#food1"
+        },
+        "down": {
+          "uv": [
+            7,
+            1,
+            11,
+            4
+          ],
+          "texture": "#food1"
+        }
+      }
+    },
+    {
+      "name": "prosciutto_crudo_slice_2_2",
+      "from": [
+        12,
+        5,
+        4
+      ],
+      "to": [
+        15,
+        6,
+        6
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            4,
+            3,
+            7,
+            5
+          ],
+          "texture": "#food1"
+        },
+        "north": {
+          "uv": [
+            10,
+            0,
+            13,
+            1
+          ],
+          "texture": "#food1"
+        },
+        "south": {
+          "uv": [
+            10,
+            0,
+            13,
+            1
+          ],
+          "texture": "#food1"
+        },
+        "east": {
+          "uv": [
+            5,
+            1,
+            7,
+            2
+          ],
+          "texture": "#food1"
+        },
+        "west": {
+          "uv": [
+            5,
+            1,
+            7,
+            2
+          ],
+          "texture": "#food1"
+        },
+        "down": {
+          "uv": [
+            4,
+            3,
+            7,
+            5
+          ],
+          "texture": "#food1"
+        }
+      }
+    },
+    {
+      "name": "gorgonzola_wedge_1_1",
       "from": [
         2,
         3,
@@ -490,259 +633,400 @@
       "faces": {
         "up": {
           "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food2"
-        },
-        "down": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
+            0,
+            0,
+            3,
+            4
           ],
           "texture": "#food2"
         },
         "north": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            3,
+            0,
+            6,
+            2
           ],
           "texture": "#food2"
         },
         "south": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            3,
+            0,
+            6,
+            2
           ],
           "texture": "#food2"
         },
         "east": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            6,
+            0,
+            10,
+            2
           ],
           "texture": "#food2"
         },
         "west": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            6,
+            0,
+            10,
+            2
+          ],
+          "texture": "#food2"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            3,
+            4
           ],
           "texture": "#food2"
         }
       }
     },
     {
+      "name": "gorgonzola_wedge_1_2",
       "from": [
+        2,
         5,
-        3,
         9
       ],
       "to": [
-        8,
-        5,
-        13
+        4,
+        6,
+        12
       ],
       "faces": {
         "up": {
           "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food2"
-        },
-        "down": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
+            10,
+            0,
+            12,
+            3
           ],
           "texture": "#food2"
         },
         "north": {
           "uv": [
-            2,
-            2,
+            12,
+            0,
             14,
-            14
+            1
           ],
           "texture": "#food2"
         },
         "south": {
           "uv": [
-            2,
-            2,
+            12,
+            0,
             14,
-            14
+            1
           ],
           "texture": "#food2"
         },
         "east": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            12,
+            1,
+            15,
+            2
           ],
           "texture": "#food2"
         },
         "west": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            12,
+            1,
+            15,
+            2
+          ],
+          "texture": "#food2"
+        },
+        "down": {
+          "uv": [
+            10,
+            0,
+            12,
+            3
           ],
           "texture": "#food2"
         }
       }
     },
     {
+      "name": "gorgonzola_wedge_2_1",
       "from": [
-        8,
+        5,
         3,
-        9
+        10
       ],
       "to": [
-        11,
-        3.5,
-        13
+        8,
+        5,
+        14
       ],
       "faces": {
         "up": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            0,
+            0,
+            3,
+            4
           ],
-          "texture": "#food3"
+          "texture": "#food2"
+        },
+        "north": {
+          "uv": [
+            3,
+            0,
+            6,
+            2
+          ],
+          "texture": "#food2"
+        },
+        "south": {
+          "uv": [
+            3,
+            0,
+            6,
+            2
+          ],
+          "texture": "#food2"
+        },
+        "east": {
+          "uv": [
+            6,
+            0,
+            10,
+            2
+          ],
+          "texture": "#food2"
+        },
+        "west": {
+          "uv": [
+            6,
+            0,
+            10,
+            2
+          ],
+          "texture": "#food2"
         },
         "down": {
           "uv": [
-            2,
-            2,
+            0,
+            0,
+            3,
+            4
+          ],
+          "texture": "#food2"
+        }
+      }
+    },
+    {
+      "name": "gorgonzola_wedge_2_2",
+      "from": [
+        6,
+        5,
+        11
+      ],
+      "to": [
+        8,
+        6,
+        14
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            10,
+            0,
+            12,
+            3
+          ],
+          "texture": "#food2"
+        },
+        "north": {
+          "uv": [
+            12,
+            0,
             14,
-            14
+            1
+          ],
+          "texture": "#food2"
+        },
+        "south": {
+          "uv": [
+            12,
+            0,
+            14,
+            1
+          ],
+          "texture": "#food2"
+        },
+        "east": {
+          "uv": [
+            12,
+            1,
+            15,
+            2
+          ],
+          "texture": "#food2"
+        },
+        "west": {
+          "uv": [
+            12,
+            1,
+            15,
+            2
+          ],
+          "texture": "#food2"
+        },
+        "down": {
+          "uv": [
+            10,
+            0,
+            12,
+            3
+          ],
+          "texture": "#food2"
+        }
+      }
+    },
+    {
+      "name": "olive_pitted_1_1",
+      "from": [
+        9,
+        3,
+        10
+      ],
+      "to": [
+        11,
+        5,
+        12
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
           ],
           "texture": "#food3"
         },
         "north": {
           "uv": [
             2,
-            2,
-            14,
-            14
+            0,
+            4,
+            2
           ],
           "texture": "#food3"
         },
         "south": {
           "uv": [
             2,
-            2,
-            14,
-            14
+            0,
+            4,
+            2
           ],
           "texture": "#food3"
         },
         "east": {
           "uv": [
             2,
-            2,
-            14,
-            14
+            0,
+            4,
+            2
           ],
           "texture": "#food3"
         },
         "west": {
           "uv": [
             2,
+            0,
+            4,
+            2
+          ],
+          "texture": "#food3"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
             2,
-            14,
-            14
+            2
           ],
           "texture": "#food3"
         }
       }
     },
     {
+      "name": "olive_pitted_2_1",
       "from": [
-        11,
+        12,
         3,
-        9
+        11
       ],
       "to": [
         14,
-        3.5,
+        5,
         13
       ],
       "faces": {
         "up": {
           "uv": [
+            0,
+            0,
             2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food3"
-        },
-        "down": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
+            2
           ],
           "texture": "#food3"
         },
         "north": {
           "uv": [
             2,
-            2,
-            14,
-            14
+            0,
+            4,
+            2
           ],
           "texture": "#food3"
         },
         "south": {
           "uv": [
             2,
-            2,
-            14,
-            14
+            0,
+            4,
+            2
           ],
           "texture": "#food3"
         },
         "east": {
           "uv": [
             2,
-            2,
-            14,
-            14
+            0,
+            4,
+            2
           ],
           "texture": "#food3"
         },
         "west": {
           "uv": [
             2,
+            0,
+            4,
+            2
+          ],
+          "texture": "#food3"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
             2,
-            14,
-            14
+            2
           ],
           "texture": "#food3"
         }

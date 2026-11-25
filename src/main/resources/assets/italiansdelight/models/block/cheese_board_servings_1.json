@@ -3,10 +3,10 @@
   "textures": {
     "particle": "farmersdelight:block/platter",
     "platter": "farmersdelight:block/platter",
-    "food0": "italiansdelight:item/parmigiano_reggiano_wedge",
-    "food1": "italiansdelight:item/pecorino_romano_wedge",
-    "food2": "italiansdelight:item/gorgonzola_wedge",
-    "food3": "italiansdelight:item/provolone_slice"
+    "food0": "italiansdelight:block/antipasti/parmigiano_reggiano_wedge",
+    "food1": "italiansdelight:block/antipasti/pecorino_romano_wedge",
+    "food2": "italiansdelight:block/antipasti/gorgonzola_wedge",
+    "food3": "italiansdelight:block/antipasti/provolone_slice"
   },
   "elements": [
     {
@@ -205,6 +205,7 @@
       }
     },
     {
+      "name": "parmigiano_reggiano_wedge_1_1",
       "from": [
         2,
         3,
@@ -218,55 +219,124 @@
       "faces": {
         "up": {
           "uv": [
-            2,
-            2,
-            14,
-            14
-          ],
-          "texture": "#food0"
-        },
-        "down": {
-          "uv": [
-            2,
-            2,
-            14,
-            14
+            0,
+            0,
+            3,
+            4
           ],
           "texture": "#food0"
         },
         "north": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            3,
+            0,
+            6,
+            2
           ],
           "texture": "#food0"
         },
         "south": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            3,
+            0,
+            6,
+            2
           ],
           "texture": "#food0"
         },
         "east": {
           "uv": [
-            2,
-            2,
-            14,
-            14
+            6,
+            0,
+            10,
+            2
           ],
           "texture": "#food0"
         },
         "west": {
           "uv": [
-            2,
-            2,
+            6,
+            0,
+            10,
+            2
+          ],
+          "texture": "#food0"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            3,
+            4
+          ],
+          "texture": "#food0"
+        }
+      }
+    },
+    {
+      "name": "parmigiano_reggiano_wedge_1_2",
+      "from": [
+        2,
+        5,
+        3
+      ],
+      "to": [
+        4,
+        6,
+        7
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            10,
+            0,
+            12,
+            4
+          ],
+          "texture": "#food0"
+        },
+        "north": {
+          "uv": [
+            12,
+            0,
             14,
-            14
+            1
+          ],
+          "texture": "#food0"
+        },
+        "south": {
+          "uv": [
+            12,
+            0,
+            14,
+            1
+          ],
+          "texture": "#food0"
+        },
+        "east": {
+          "uv": [
+            12,
+            1,
+            16,
+            2
+          ],
+          "texture": "#food0"
+        },
+        "west": {
+          "uv": [
+            12,
+            1,
+            16,
+            2
+          ],
+          "texture": "#food0"
+        },
+        "down": {
+          "uv": [
+            10,
+            0,
+            12,
+            4
           ],
           "texture": "#food0"
         }

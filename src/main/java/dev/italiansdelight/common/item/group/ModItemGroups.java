@@ -253,13 +253,17 @@ public final class ModItemGroups {
 
 
 
-                // SAUCES, SEASONINGS AND PREPARED VEGETABLES.
+                // SAVOURY SAUCES AND SPREADS.
                 output.accept(ModItems.OLIVE_PATE);
                 output.accept(ModItems.BASIL_PESTO);
                 output.accept(ModItems.ALMOND_PESTO);
-                output.accept(ModItems.CHERRY_JAM_BOTTLE);
                 output.accept(ModItems.RAGU);
+
+                // SWEET SPREADS AND CREAMS.
+                output.accept(ModItems.CHERRY_JAM_BOTTLE);
                 output.accept(ModItems.CUSTARD);
+
+                // COOKING INGREDIENTS AND PREPARED VEGETABLES.
                 output.accept(ModItems.BREADCRUMBS);
                 output.accept(ModItems.SAUSAGE);
                 output.accept(ModItems.PASTA_SHEET);
@@ -466,23 +470,25 @@ public final class ModItemGroups {
                 output.accept(ModItems.COTOLETTA_DI_POLLO);
                 output.accept(ModItems.POLPETTE_FRITTE);
                 output.accept(ModItems.MOZZARELLA_IN_CARROZZA);
-                output.accept(ModItems.MOZZARELLA_SALAD);
-                output.accept(ModItems.GRAPE_CHERRY_FRUIT_SALAD);
 
-                // READY-TO-EAT SNACKS AND DESSERTS.
+                // ANTIPASTI — all bruschette and shared boards together.
                 output.accept(ModItems.BRUSCHETTA);
                 output.accept(ModItems.OLIVE_BRUSCHETTA);
-
-                // 2.0.0 salads and antipasti.
-                output.accept(ModItems.POTATO_SALAD);
-                output.accept(ModItems.RICE_SALAD);
-                output.accept(ModItems.BURRATA_SALAD);
-                output.accept(ModItems.BRESAOLA_AND_PARMIGIANO);
                 output.accept(ModItems.MUSHROOM_BRUSCHETTA);
                 output.accept(ModItems.PROSCIUTTO_BRUSCHETTA);
                 output.accept(ModBlocks.COLD_CUTS_BOARD);
                 output.accept(ModBlocks.CHEESE_BOARD);
                 output.accept(ModBlocks.MIXED_BOARD);
+                output.accept(ModItems.BRESAOLA_AND_PARMIGIANO);
+
+                // SAVOURY SALADS AND COLD DISHES.
+                output.accept(ModItems.MOZZARELLA_SALAD);
+                output.accept(ModItems.BURRATA_SALAD);
+                output.accept(ModItems.POTATO_SALAD);
+                output.accept(ModItems.RICE_SALAD);
+
+                // SWEET SNACKS, FRUIT SALAD AND DESSERTS.
+                output.accept(ModItems.GRAPE_CHERRY_FRUIT_SALAD);
                 output.accept(ModItems.CHERRY_JAM_TOAST);
                 output.accept(ModBlocks.ALMOND_CAKE);
                 output.accept(ModItems.ALMOND_CAKE_SLICE);
