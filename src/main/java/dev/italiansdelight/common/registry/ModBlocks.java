@@ -755,7 +755,7 @@ public final class ModBlocks {
     // Antipasti boards return the eight original crafting ingredients.
     public static final Block COLD_CUTS_BOARD = registerAntipastiBoard("cold_cuts_board", "salame_slice", "prosciutto_crudo_slice", "mortadella_slice", "speck_slice");
     public static final Block CHEESE_BOARD = registerAntipastiBoard("cheese_board", "parmigiano_reggiano_wedge", "pecorino_romano_wedge", "gorgonzola_wedge", "provolone_slice");
-    public static final Block MIXED_BOARD = registerAntipastiBoard("mixed_board", "salame_slice", "prosciutto_crudo_slice", "gorgonzola_wedge", "olive_pitted");
+    public static final Block MIXED_BOARD = registerAntipastiBoard("mixed_board", "salame_slice", "prosciutto_crudo_slice", "provolone_slice", "olive_pitted");
 
     // Reversible nine-crop Farmer's Delight-style storage crates.
     public static final ResourceKey<Block> OLIVE_CRATE_KEY = ResourceKey.create(

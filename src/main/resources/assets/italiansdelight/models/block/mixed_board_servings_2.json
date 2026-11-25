@@ -5,7 +5,7 @@
     "platter": "farmersdelight:block/platter",
     "food0": "italiansdelight:block/antipasti/salame_slice",
     "food1": "italiansdelight:block/antipasti/prosciutto_crudo_slice",
-    "food2": "italiansdelight:block/antipasti/gorgonzola_wedge",
+    "food2": "italiansdelight:block/antipasti/provolone_slice",
     "food3": "italiansdelight:block/antipasti/olive_pitted"
   },
   "elements": [

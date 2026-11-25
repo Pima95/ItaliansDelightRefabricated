@@ -5,7 +5,7 @@
     "platter": "farmersdelight:block/platter",
     "food0": "italiansdelight:block/antipasti/salame_slice",
     "food1": "italiansdelight:block/antipasti/prosciutto_crudo_slice",
-    "food2": "italiansdelight:block/antipasti/gorgonzola_wedge",
+    "food2": "italiansdelight:block/antipasti/provolone_slice",
     "food3": "italiansdelight:block/antipasti/olive_pitted"
   },
   "elements": [
@@ -619,137 +619,68 @@
       }
     },
     {
-      "name": "gorgonzola_wedge_1_1",
+      "name": "provolone_slice_1_1",
       "from": [
         2,
         3,
         9
       ],
       "to": [
-        5,
-        5,
-        13
-      ],
-      "faces": {
-        "up": {
-          "uv": [
-            0,
-            0,
-            3,
-            4
-          ],
-          "texture": "#food2"
-        },
-        "north": {
-          "uv": [
-            3,
-            0,
-            6,
-            2
-          ],
-          "texture": "#food2"
-        },
-        "south": {
-          "uv": [
-            3,
-            0,
-            6,
-            2
-          ],
-          "texture": "#food2"
-        },
-        "east": {
-          "uv": [
-            6,
-            0,
-            10,
-            2
-          ],
-          "texture": "#food2"
-        },
-        "west": {
-          "uv": [
-            6,
-            0,
-            10,
-            2
-          ],
-          "texture": "#food2"
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            3,
-            4
-          ],
-          "texture": "#food2"
-        }
-      }
-    },
-    {
-      "name": "gorgonzola_wedge_1_2",
-      "from": [
-        2,
-        5,
-        9
-      ],
-      "to": [
-        4,
         6,
+        4,
         12
       ],
       "faces": {
         "up": {
           "uv": [
-            10,
             0,
-            12,
+            0,
+            4,
             3
           ],
           "texture": "#food2"
         },
         "north": {
           "uv": [
-            12,
+            4,
             0,
-            14,
+            8,
             1
           ],
           "texture": "#food2"
         },
         "south": {
           "uv": [
-            12,
+            4,
             0,
-            14,
+            8,
             1
           ],
           "texture": "#food2"
         },
         "east": {
           "uv": [
-            12,
-            1,
-            15,
-            2
+            8,
+            0,
+            11,
+            1
           ],
           "texture": "#food2"
         },
         "west": {
           "uv": [
-            12,
-            1,
-            15,
-            2
+            8,
+            0,
+            11,
+            1
           ],
           "texture": "#food2"
         },
         "down": {
           "uv": [
-            10,
             0,
-            12,
+            0,
+            4,
             3
           ],
           "texture": "#food2"
