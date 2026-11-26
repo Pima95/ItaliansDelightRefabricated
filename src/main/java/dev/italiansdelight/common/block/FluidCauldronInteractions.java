@@ -3,11 +3,14 @@ package dev.italiansdelight.common.block;
 import dev.italiansdelight.common.block.entity.FluidCauldronBlockEntity;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.fluid.FluidTransferBridge;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -25,7 +28,18 @@ public final class FluidCauldronInteractions {
     private FluidCauldronInteractions() {}
 
     public static void register() {
-        UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
+        NeoForge.EVENT_BUS.addListener(FluidCauldronInteractions::onRightClick);
+    }
+
+    private static void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+        InteractionResult result = interact(event.getEntity(), event.getLevel(), event.getHand(), event.getHitVec());
+        if (result != InteractionResult.PASS) {
+            event.setCancellationResult(result);
+            event.setCanceled(true);
+        }
+    }
+
+    private static InteractionResult interact(Player player, Level level, InteractionHand hand, BlockHitResult hit) {
             if (player.isSpectator() ||
                 !level.getBlockState(hit.getBlockPos()).is(Blocks.CAULDRON))
                 return InteractionResult.PASS;
@@ -33,17 +47,14 @@ public final class FluidCauldronInteractions {
             // Registered fluids from other mods, regardless of bucket/item
             // implementation, arrive via ITEM storage. Vanilla water/lava
             // continue to use the original cauldron maps.
-            Storage<FluidVariant> external = FluidTransferBridge.itemStorage(player, hand);
+            IFluidHandlerItem external = FluidTransferBridge.itemStorage(player, hand);
             if (external != null) {
-                FluidVariant heldFluid = FluidTransferBridge.heldSource(player, hand);
-                if (!heldFluid.isBlank()
+                FluidStack heldFluid = FluidTransferBridge.heldSource(player, hand);
+                if (!heldFluid.isEmpty()
                     && heldFluid.getFluid() != net.minecraft.world.level.material.Fluids.WATER
                     && heldFluid.getFluid() != net.minecraft.world.level.material.Fluids.LAVA) {
                     if (level.isClientSide()) return InteractionResult.SUCCESS;
-                    long available = 0;
-                    for (StorageView<FluidVariant> view : external.nonEmptyViews())
-                        if (heldFluid.equals(view.getResource())) available += view.getAmount();
-                    int levelCount = available >= FluidConstants.BUCKET ? 4 : 1;
+                    int levelCount = heldFluid.getAmount() >= 1000 ? 4 : 1;
                     if (!level.setBlockAndUpdate(hit.getBlockPos(),
                             ModBlocks.FLUID_CAULDRON.defaultBlockState()
                                 .setValue(FluidCauldronBlock.LEVEL, levelCount)))
@@ -83,6 +94,5 @@ public final class FluidCauldronInteractions {
                 fluid.amount() == 1000 ? SoundEvents.BUCKET_EMPTY : SoundEvents.BOTTLE_EMPTY,
                 SoundSource.BLOCKS, 1F, 1F);
             return InteractionResult.SUCCESS;
-        });
     }
 }

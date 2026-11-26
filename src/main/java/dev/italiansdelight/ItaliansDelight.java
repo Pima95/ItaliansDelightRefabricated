@@ -1,6 +1,8 @@
 package dev.italiansdelight;
 
-import net.fabricmc.api.ModInitializer;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +10,7 @@ import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModFluids;
 import dev.italiansdelight.common.fluid.FluidTransferBridge;
-import dev.italiansdelight.common.fluid.FabricFluidItemContainers;
+import dev.italiansdelight.common.fluid.NeoForgeFluidItemContainers;
 import dev.italiansdelight.common.registry.ModCompostables;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.block.FluidCauldronInteractions;
@@ -33,17 +35,29 @@ import dev.italiansdelight.common.pizza.PizzaToppingMappings;
 /**
  * Common entrypoint (server + client) for Italian's Delight.
  * <p>
- * This mod is an add-on for Farmer's Delight Refabricated (mod id: "farmersdelight"):
+ * This mod is an add-on for Farmer's Delight (mod id: "farmersdelight"):
  * it reuses its systems (Cutting Board, Cooking Pot, Stove, food quality) instead of
  * reinventing them, and extends them with Italian ingredients and dishes.
  */
-public class ItaliansDelight implements ModInitializer {
+@Mod(ItaliansDelight.MOD_ID)
+public class ItaliansDelight {
 
     public static final String MOD_ID = "italiansdelight";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    @Override
-    public void onInitialize() {
+    public ItaliansDelight(IEventBus modBus) {
+        modBus.addListener(FluidTransferBridge::register);
+        modBus.addListener(NeoForgeFluidItemContainers::register);
+        // Registry lifecycle is being migrated in separate commits; do not
+        // treat this constructor as a runnable port until that is complete.
+        modBus.addListener(this::onCommonSetup);
+    }
+
+    private void onCommonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(this::initializeCommon);
+    }
+
+    private void initializeCommon() {
         LOGGER.info("[Italian's Delight] Inizializzazione in corso...");
 
         // Registries are initialized before the systems that depend on them.
@@ -62,8 +76,6 @@ public class ItaliansDelight implements ModInitializer {
         PizzaDoughPlacement.register();
         PizzaDivisionSync.register();
         ModBlockEntities.register();
-        FluidTransferBridge.register();
-        FabricFluidItemContainers.register();
         ModCompostables.register();
         ModMenuTypes.register();
         ModRecipes.register();
