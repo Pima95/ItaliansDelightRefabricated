@@ -1,7 +1,0 @@
-{
-  "parent": "italiansdelight:block/brewing_barrel",
-  "textures": {
-    "0": "italiansdelight:block/pale_oak_brewing_barrel",
-    "particle": "minecraft:block/pale_oak_planks"
-  }
-}

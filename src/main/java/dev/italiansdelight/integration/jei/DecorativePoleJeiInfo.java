@@ -25,8 +25,6 @@ public final class DecorativePoleJeiInfo {
                 new ItemStack(ModBlocks.DARK_OAK_CROP_STAKE),
                 new ItemStack(ModBlocks.MANGROVE_CROP_STAKE),
                 new ItemStack(ModBlocks.CHERRY_CROP_STAKE),
-                new ItemStack(ModBlocks.PALE_OAK_CROP_STAKE),
-                new ItemStack(ModBlocks.POPLAR_CROP_STAKE),
                 new ItemStack(ModBlocks.BAMBOO_CROP_STAKE),
                 new ItemStack(ModBlocks.CRIMSON_CROP_STAKE),
                 new ItemStack(ModBlocks.WARPED_CROP_STAKE),

@@ -2,7 +2,7 @@
 """Behavioral smoke check on a disposable Minecraft 26.3 test world.
 
 Connects only to the localhost RCON service exposed in the temporary Actions
-runner. Verifies 16 decorative wooden poles, original rope attachments, freestanding
+runner. Verifies 14 decorative wooden poles, original rope attachments, freestanding
 chili roots, optional vertical rope climbing and grapes.
 No player inventory, networking permissions, or persistent user worlds involved.
 """
@@ -107,7 +107,7 @@ def test():
     rcon = Rcon()
     woods = (
         "oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
-        "mangrove", "cherry", "pale_oak", "poplar", "bamboo", "crimson",
+        "mangrove", "cherry", "bamboo", "crimson",
         "warped", "olive", "almond", "fruit_cherry"
     )
     try:
@@ -122,12 +122,11 @@ def test():
             assert_block(rcon, x, 81, 3, f"italiansdelight:{ident}[axis={axis}]")
         print("PASSED: all 16 decorative wood types with x/y/z orientation", flush=True)
 
-        # Brewing barrels: legacy oak ID and 15 wood IDs all support
+        # Brewing barrels: legacy oak ID and 13 wood IDs all support
         # the same four horizontal facing properties on the dedicated server.
         # This does not require an online player or random crop ticks.
         woods = ("oak", "spruce", "birch", "jungle", "acacia",
-                 "dark_oak", "mangrove", "cherry", "pale_oak", "poplar",
-                 "bamboo", "crimson", "warped", "olive", "almond", "fruit_cherry")
+                 "dark_oak", "mangrove", "cherry", "bamboo", "crimson", "warped", "olive", "almond", "fruit_cherry")
         facings = ("north", "east", "south", "west")
         for x, wood in enumerate(woods):
             block_id = "brewing_barrel" if wood == "oak" else wood + "_brewing_barrel"
@@ -136,7 +135,7 @@ def test():
                 block = f"italiansdelight:{block_id}[facing={facing}]"
                 run(rcon, f"setblock {x} 81 {z} {block}")
                 assert_block(rcon, x, 81, z, block)
-        print("PASSED: all 16 fermentation barrel variants and their four orientations", flush=True)
+        print("PASSED: all 14 fermentation barrel variants and their four orientations", flush=True)
 
 
         # Original horizontal rope connection behavior, now including wood

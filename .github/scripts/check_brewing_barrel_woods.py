@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static reproducible checks: Alcocraft-derived geometry and 16 wood fermenters."""
+"""Static reproducible checks: Alcocraft-derived geometry and 14 wood fermenters."""
 from pathlib import Path
 import hashlib
 import json
@@ -11,7 +11,7 @@ data = root / "data/italiansdelight"
 java = Path("src/main/java/dev/italiansdelight")
 woods = (
     "oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
-    "mangrove", "cherry", "pale_oak", "poplar", "bamboo",
+    "mangrove", "cherry", "bamboo",
     "crimson", "warped", "olive", "almond", "fruit_cherry"
 )
 custom = {"olive", "almond", "fruit_cherry"}
@@ -342,7 +342,7 @@ assert "Alcocraft: Beer & Stuff" in third_party
 assert "MIT" in third_party
 assert 'from("CREDIT.md")' in Path("build.gradle").read_text(encoding="utf-8")
 print("PASSED: Alcocraft keg geometry and 64x64 wood palettes are packaged")
-print("PASSED: 16 brewer IDs, blockstates, inventory models, recipes, loot, languages and attributions")
+print("PASSED: 14 brewer IDs, blockstates, inventory models, recipes, loot, languages and attributions")
 
 assert "Morogorian" not in credits
 assert "Morogorian" not in third_party
@@ -409,8 +409,8 @@ def luminance(rgb):
     return rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722
 
 metadata = load(Path(".github/scripts/brewing_barrel_wood_palettes.json"))
-assert not metadata["unmodified"], "All 16 textures now use distinct grading"
-assert len(metadata["spriteGitBlobSHA"]) == 16
+assert not metadata["unmodified"], "All 14 textures now use distinct grading"
+assert len(metadata["spriteGitBlobSHA"]) == 14
 base_sprite = decode_rgba(Path(".github/scripts/fixtures/alcocraft_spruce_keg.png"))
 assert len(base_sprite) == 4096
 for wood in woods:
@@ -445,7 +445,7 @@ for wood in woods:
     if wood in metadata["moderatedContrastP05P95Upper"]:
         assert contrast <= metadata["moderatedContrastP05P95Upper"][wood], \
                f"{wood}: contrast too harsh ({contrast:.2f})"
-    if wood in ("mangrove", "pale_oak"):
+    if wood == "mangrove":
         woody = [px for src, px in zip(base_sprite, recolored)
                  if src[3] and src[0] > src[1] + 7 and src[1] > src[2] + 7]
         assert len(woody) == 2492
@@ -457,20 +457,6 @@ for wood in woods:
                    for px in woody), "Mangrove barrel brighter than actual vanilla planks"
         assert all(px[0] > px[1] and px[1] >= px[2] - 5
                    for px in woody), "Mangrove palette lost red-brown undertones"
-    if wood == "pale_oak":
-        # This is a NEW pale-oak sprite based on SPRUCE wood geometry, not
-        # an RGB warm-up of the incorrect beige image. The vanilla 26.3
-        # stripped_pale_oak_log actually contains white and very light pink.
-        # Reject the last attempt's beige (large R-G and G-B gaps).
-        vanilla = {(255, 251, 248), (248, 240, 240), (240, 231, 229),
-                   (235, 224, 224), (230, 219, 219)}
-        recesses = {(219, 209, 209), (207, 197, 197)}
-        shades = {tuple(px[:3]) for px in woody}
-        assert shades == vanilla | recesses, "Pale oak lost the vanilla color palette"
-        assert sum(tuple(px[:3]) in vanilla for px in woody) >= 2318, \
-               "Not enough original stripped-pale-oak colors used"
-        assert all(4 <= px[0] - px[1] <= 11 and 0 <= px[1] - px[2] <= 3
-                   for px in woody), "Pale oak became brown/beige again"
     if wood == "bamboo":
         # Bamboo preserves real vanilla stalk bands/joints, not only yellow RGB.
         assert len({tuple(px[:3]) for orig, px in zip(base_sprite, recolored)
@@ -496,7 +482,7 @@ def wood_surface_stats(pixels, bounds):
     }
 
 guards = metadata["regionShadeGuard"]
-for wood in ("mangrove", "pale_oak"):
+for wood in ("mangrove",):
     tex = decode_rgba(assets / "textures/block" / (wood + "_brewing_barrel.png"))
     top = wood_surface_stats(tex, metadata["surfaceDiagnosticRectangles"]["top"])
     bottom = wood_surface_stats(tex, metadata["surfaceDiagnosticRectangles"]["bottom"])
@@ -505,14 +491,10 @@ for wood in ("mangrove", "pale_oak"):
         assert bottom["unique"] >= guards[wood]["bottomUniqueMin"], "Mangrove lower panel is flat"
         assert top["p05_p95"] >= guards[wood]["topP05P95Min"], "Mangrove top lacks depth"
         assert bottom["p05_p95"] >= guards[wood]["bottomP05P95Min"], "Mangrove underside lacks depth"
-    else:
-        assert top["unique"] >= guards[wood]["topUniqueMin"], "Pale oak lid has a flat highlight"
-        assert top["p05_p95"] >= guards[wood]["topP05P95Min"], "Pale oak lid has no visible grey shades"
-        assert max(c[0] for c in tex) <= 255  # Metal is outside the wood mask
-print("PASSED: top and lower panels retain distinct spruce-like wood grain on mangrove and pale oak")
+print("PASSED: top and lower panels retain distinct spruce-like wood grain on mangrove")
 
 print("PASSED: depth, knots, RGBA, metal and distinct actual wood palettes")
-print("PASSED: all 16 image SHA references match the new reviewed sprites")
+print("PASSED: all 14 image SHA references match the new reviewed sprites")
 
 
 # Regression guard: all newly registered fermentation fluids MUST have a

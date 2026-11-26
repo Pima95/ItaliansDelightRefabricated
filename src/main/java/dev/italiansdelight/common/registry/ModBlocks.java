@@ -875,7 +875,7 @@ public final class ModBlocks {
             .setId(CROP_STAKE_KEY).noOcclusion()
             .forceSolidOff().strength(0.7F).sound(SoundType.WOOD)));
 
-    // All 15 other wood types (vanilla, 26.3 poplar, and custom orchard woods).
+    // All 13 other wood types (vanilla 1.21.1 and custom orchard woods).
     public static final Block SPRUCE_CROP_STAKE = registerCropStakeVariant("spruce");
     public static final Block BIRCH_CROP_STAKE = registerCropStakeVariant("birch");
     public static final Block JUNGLE_CROP_STAKE = registerCropStakeVariant("jungle");
@@ -883,8 +883,6 @@ public final class ModBlocks {
     public static final Block DARK_OAK_CROP_STAKE = registerCropStakeVariant("dark_oak");
     public static final Block MANGROVE_CROP_STAKE = registerCropStakeVariant("mangrove");
     public static final Block CHERRY_CROP_STAKE = registerCropStakeVariant("cherry");
-    public static final Block PALE_OAK_CROP_STAKE = registerCropStakeVariant("pale_oak");
-    public static final Block POPLAR_CROP_STAKE = registerCropStakeVariant("poplar");
     public static final Block BAMBOO_CROP_STAKE = registerCropStakeVariant("bamboo");
     public static final Block CRIMSON_CROP_STAKE = registerCropStakeVariant("crimson");
     public static final Block WARPED_CROP_STAKE = registerCropStakeVariant("warped");
@@ -1040,8 +1038,6 @@ public final class ModBlocks {
     public static final Block DARK_OAK_BREWING_BARREL = registerBrewingBarrelVariant("dark_oak");
     public static final Block MANGROVE_BREWING_BARREL = registerBrewingBarrelVariant("mangrove");
     public static final Block CHERRY_BREWING_BARREL = registerBrewingBarrelVariant("cherry");
-    public static final Block PALE_OAK_BREWING_BARREL = registerBrewingBarrelVariant("pale_oak");
-    public static final Block POPLAR_BREWING_BARREL = registerBrewingBarrelVariant("poplar");
     public static final Block BAMBOO_BREWING_BARREL = registerBrewingBarrelVariant("bamboo");
     public static final Block CRIMSON_BREWING_BARREL = registerBrewingBarrelVariant("crimson");
     public static final Block WARPED_BREWING_BARREL = registerBrewingBarrelVariant("warped");
@@ -1073,11 +1069,6 @@ public final class ModBlocks {
     public static final Block MANGROVE_BARREL = registerBarrelVariant("mangrove");
     public static final Block CHERRY_CRUSHING_TUB = registerCrushingTubVariant("cherry");
     public static final Block CHERRY_BARREL = registerBarrelVariant("cherry");
-    public static final Block PALE_OAK_CRUSHING_TUB = registerCrushingTubVariant("pale_oak");
-    public static final Block PALE_OAK_BARREL = registerBarrelVariant("pale_oak");
-    // Minecraft 26.3: Dappled Forest wood set.
-    public static final Block POPLAR_CRUSHING_TUB = registerCrushingTubVariant("poplar");
-    public static final Block POPLAR_BARREL = registerBarrelVariant("poplar");
     public static final Block BAMBOO_CRUSHING_TUB = registerCrushingTubVariant("bamboo");
     public static final Block BAMBOO_BARREL = registerBarrelVariant("bamboo");
     public static final Block CRIMSON_CRUSHING_TUB = registerCrushingTubVariant("crimson");
@@ -1213,11 +1204,7 @@ public final class ModBlocks {
     public static final Block CHERRY_CHEESE_AGING_RACK =
         registerRack("cherry", Blocks.CHERRY_PLANKS);
 
-    public static final Block PALE_OAK_CHEESE_AGING_RACK =
-        registerRack("pale_oak", Blocks.PALE_OAK_PLANKS);
 
-    public static final Block POPLAR_CHEESE_AGING_RACK =
-        registerRack("poplar", Blocks.POPLAR_PLANKS);
 
     public static final Block BAMBOO_CHEESE_AGING_RACK =
         registerRack("bamboo", Blocks.BAMBOO_PLANKS);
@@ -1448,8 +1435,6 @@ public final class ModBlocks {
         fire.add(DARK_OAK_CROP_STAKE, 5, 20);
         fire.add(MANGROVE_CROP_STAKE, 5, 20);
         fire.add(CHERRY_CROP_STAKE, 5, 20);
-        fire.add(PALE_OAK_CROP_STAKE, 5, 20);
-        fire.add(POPLAR_CROP_STAKE, 5, 20);
         fire.add(BAMBOO_CROP_STAKE, 5, 20);
         fire.add(CRIMSON_CROP_STAKE, 5, 20);
         fire.add(WARPED_CROP_STAKE, 5, 20);
@@ -1464,8 +1449,6 @@ public final class ModBlocks {
         fire.add(DARK_OAK_BREWING_BARREL, 5, 20);
         fire.add(MANGROVE_BREWING_BARREL, 5, 20);
         fire.add(CHERRY_BREWING_BARREL, 5, 20);
-        fire.add(PALE_OAK_BREWING_BARREL, 5, 20);
-        fire.add(POPLAR_BREWING_BARREL, 5, 20);
         fire.add(BAMBOO_BREWING_BARREL, 5, 20);
         fire.add(CRIMSON_BREWING_BARREL, 5, 20);
         fire.add(WARPED_BREWING_BARREL, 5, 20);
@@ -1486,8 +1469,6 @@ public final class ModBlocks {
         fire.add(MANGROVE_CRUSHING_TUB, 5, 20);
         fire.add(CHERRY_BARREL, 5, 20);
         fire.add(CHERRY_CRUSHING_TUB, 5, 20);
-        fire.add(PALE_OAK_BARREL, 5, 20);
-        fire.add(PALE_OAK_CRUSHING_TUB, 5, 20);
         fire.add(BAMBOO_BARREL, 5, 20);
         fire.add(BAMBOO_CRUSHING_TUB, 5, 20);
         fire.add(CRIMSON_BARREL, 5, 20);

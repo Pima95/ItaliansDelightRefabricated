@@ -8,7 +8,7 @@ resources = Path("src/main/resources")
 assets = resources / "assets/italiansdelight"
 data = resources / "data"
 woods = ("oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
-         "mangrove", "cherry", "pale_oak", "poplar", "bamboo", "crimson",
+         "mangrove", "cherry", "bamboo", "crimson",
          "warped", "olive", "almond", "fruit_cherry")
 
 def load(path):
@@ -640,7 +640,7 @@ print("PASSED: cherries edible, ground chili non-colliding, singular grapes text
 
 print("PASSED: white grapes have independent seeds/harvest, full age stages, tinted canopy, and valid 16x16 sprites")
 
-print("PASSED: 16 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")
+print("PASSED: 14 decorative wood stakes, 3 axes, rope integration unchanged, free chili + FDR climbing, grape and wine")
 
 
 # Farmer's Delight tomato crate reference: a packed, overlapping fruit surface,

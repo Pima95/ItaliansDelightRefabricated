@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 WOODS = ("oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
-         "mangrove", "cherry", "bamboo", "crimson", "warped", "pale_oak", "olive", "almond", "fruit_cherry")
+         "mangrove", "cherry", "bamboo", "crimson", "warped", "olive", "almond", "fruit_cherry")
 DIRECTORY = Path("src/main/resources/data/italiansdelight/recipe/crafting")
 
 def recipe(wood):
