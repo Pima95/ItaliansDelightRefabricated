@@ -12,12 +12,11 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -102,23 +101,23 @@ public final class LiquidSurfaceVisuals {
     public static void submit(
         String fluidId, int amount, int capacity, float x0, float x1,
         float z0, float z1, float minY, float maxY, int waterTint,
-        int packedLight, PoseStack stack, SubmitNodeCollector queue
+        int packedLight, PoseStack stack, MultiBufferSource buffers
     ) {
         submit(fluidId, FluidStack.EMPTY, amount, capacity, x0, x1,
-            z0, z1, minY, maxY, waterTint, packedLight, stack, queue);
+            z0, z1, minY, maxY, waterTint, packedLight, stack, buffers);
     }
 
     public static void submit(
         String fluidId, FluidStack variant, int amount, int capacity,
         float x0, float x1, float z0, float z1, float minY, float maxY,
-        int waterTint, int packedLight, PoseStack stack, SubmitNodeCollector queue
+        int waterTint, int packedLight, PoseStack stack, MultiBufferSource buffers
     ) {
         if (amount <= 0 || capacity <= 0) return;
-        var atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.BLOCKS);
+        var atlas = Minecraft.getInstance().getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS);
         Surface known = SURFACES.get(fluidId);
         boolean custom = known == null;
         TextureAtlasSprite sprite = custom
-            ? lookUpFluidSprite(fluidId, atlas)
+            ? lookUpFluidSprite(fluidId, variant, atlas)
             : atlas.getSprite(known.sprite());
         float y = minY + (maxY - minY) * Math.min(1F, (float) amount / capacity);
         boolean water = "minecraft:water".equals(fluidId);
@@ -137,16 +136,17 @@ public final class LiquidSurfaceVisuals {
             || "italiansdelight:grape_juice".equals(fluidId)
             || "italiansdelight:white_grape_juice".equals(fluidId);
         final int vertexColor = color;
-        queue.submitCustomGeometry(stack,
-            translucent ? RenderTypes.entityTranslucent(TextureAtlas.LOCATION_BLOCKS)
-                        : RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS),
-            (pose, out) -> {
+        PoseStack.Pose pose = stack.last();
+        VertexConsumer out = buffers.getBuffer(translucent
+            ? RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS)
+            : RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
+        {
                 // Counter-clockwise looking from above (upward winding).
                 vertex(pose, out, x0, y, z1, sprite.getU0(), sprite.getV1(), vertexColor, packedLight);
                 vertex(pose, out, x1, y, z1, sprite.getU1(), sprite.getV1(), vertexColor, packedLight);
                 vertex(pose, out, x1, y, z0, sprite.getU1(), sprite.getV0(), vertexColor, packedLight);
                 vertex(pose, out, x0, y, z0, sprite.getU0(), sprite.getV0(), vertexColor, packedLight);
-            });
+        }
     }
 
     /**
@@ -155,8 +155,12 @@ public final class LiquidSurfaceVisuals {
      * an unconventional sprite path falls back to vanilla water's surface,
      * colored using that fluid's own variant render handler.
      */
-    private static TextureAtlasSprite lookUpFluidSprite(String fluidId,
+    private static TextureAtlasSprite lookUpFluidSprite(String fluidId, FluidStack variant,
             TextureAtlas atlas) {
+        if (!variant.isEmpty()) {
+            ResourceLocation still = IClientFluidTypeExtensions.of(variant.getFluid()).getStillTexture(variant);
+            if (still != null) return atlas.getSprite(still);
+        }
         // A texture-pack reload can recreate sprites without changing fluid IDs.
         // Checking the water sprite identity also handles atlases reused in place.
         TextureAtlasSprite waterSprite = atlas.getSprite(WATER.sprite());

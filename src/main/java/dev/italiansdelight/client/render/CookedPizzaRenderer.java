@@ -1,64 +1,20 @@
 package dev.italiansdelight.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.italiansdelight.common.block.CookedPizzaBlock;
 import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
-import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
-import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.Nullable;
+import dev.italiansdelight.common.block.CookedPizzaBlock;
 
-/**
- * Baked pizza renderer. Shares its topping appearance and deterministic
- * placement algorithm with PizzaToppingRenderer. The existing REMAINING mask
- * hides ingredients on eaten/collected slices, without changing their data.
- */
-public final class CookedPizzaRenderer
-        implements BlockEntityRenderer<CookedPizzaBlockEntity, CookedPizzaRenderer.State> {
-    public CookedPizzaRenderer(BlockEntityRendererProvider.Context context) {
-    }
+/** Native immediate-buffer renderer for Minecraft 1.21.1. */
+public final class CookedPizzaRenderer implements BlockEntityRenderer<CookedPizzaBlockEntity> {
+    public CookedPizzaRenderer(BlockEntityRendererProvider.Context context) {}
 
-    @Override
-    public State createRenderState() {
-        return new State();
-    }
-
-    @Override
-    public void extractRenderState(
-            CookedPizzaBlockEntity entity, State state, float partialTicks,
-            Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress
-    ) {
-        BlockEntityRenderer.super.extractRenderState(
-                entity, state, partialTicks, cameraPosition, breakProgress);
-
+    @Override public void render(CookedPizzaBlockEntity entity, float partialTick, PoseStack stack,
+            MultiBufferSource buffers, int packedLight, int packedOverlay) {
         int remaining = entity.getBlockState().getValue(CookedPizzaBlock.REMAINING);
-        var composition = entity.renderComposition();
-        int legacyMask = entity.renderLegacyMask();
-        if (state.lastComposition != composition || state.lastMask != remaining
-                || state.lastLegacyMask != legacyMask) {
-            state.visuals = PizzaToppingVisuals.extract(composition, legacyMask, remaining);
-            state.lastComposition = composition;
-            state.lastMask = remaining;
-            state.lastLegacyMask = legacyMask;
-        }
-    }
-
-    @Override
-    public void submit(
-            State state, PoseStack poseStack,
-            SubmitNodeCollector queue, CameraRenderState camera
-    ) {
-        PizzaToppingVisuals.submit(state.visuals, state.lightCoords, poseStack, queue);
-    }
-
-    public static final class State extends BlockEntityRenderState {
-        private PizzaToppingVisuals.Visuals visuals = PizzaToppingVisuals.Visuals.EMPTY;
-        private dev.italiansdelight.common.pizza.PizzaComposition lastComposition;
-        private int lastMask = -1;
-        private int lastLegacyMask = -1;
+        PizzaToppingVisuals.submit(PizzaToppingVisuals.extract(entity.renderComposition(),
+            entity.renderLegacyMask(), remaining), packedLight, stack, buffers);
     }
 }

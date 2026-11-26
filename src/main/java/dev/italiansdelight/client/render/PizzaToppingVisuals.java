@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -222,26 +222,19 @@ public final class PizzaToppingVisuals {
 
     public static void submit(
             Visuals visuals, int packedLight,
-            PoseStack poseStack, SubmitNodeCollector queue
+            PoseStack poseStack, MultiBufferSource buffers
     ) {
+        PoseStack.Pose pose = poseStack.last();
         for (Layer sauce : visuals.layers()) {
-            queue.submitCustomGeometry(
-                    poseStack, RenderTypes.entityCutout(sauce.texture()),
-                    (pose, out) -> {
-                        for (int q = 0; q < PizzaComposition.QUARTER_COUNT; q++) {
-                            if ((sauce.mask() & (1 << q)) != 0) {
-                                drawSauce(pose, out, visuals, q,
-                                        sauce.depth(), packedLight);
-                            }
-                        }
-                    });
+            VertexConsumer out = buffers.getBuffer(RenderType.entityCutout(sauce.texture()));
+            for (int q = 0; q < PizzaComposition.QUARTER_COUNT; q++) {
+                if ((sauce.mask() & (1 << q)) != 0)
+                    drawSauce(pose, out, visuals, q, sauce.depth(), packedLight);
+            }
         }
-
         for (Fragment fragment : visuals.fragments()) {
-            queue.submitCustomGeometry(
-                    poseStack, RenderTypes.entityCutout(fragment.texture()),
-                    (pose, out) -> drawSprite(
-                            pose, out, visuals, fragment, packedLight));
+            VertexConsumer out = buffers.getBuffer(RenderType.entityCutout(fragment.texture()));
+            drawSprite(pose, out, visuals, fragment, packedLight);
         }
     }
 
