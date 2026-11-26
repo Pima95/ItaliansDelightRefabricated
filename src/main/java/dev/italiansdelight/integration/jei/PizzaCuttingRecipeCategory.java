@@ -13,7 +13,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.utility.TextUtils;
@@ -29,7 +29,7 @@ import vectorwing.farmersdelight.common.utility.TextUtils;
  * category, using its existing assets without copying sprites.
  */
 public final class PizzaCuttingRecipeCategory implements IRecipeCategory<PizzaCuttingJeiRecipe> {
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
             "farmersdelight", "textures/gui/jei/cutting_board.png");
     private static final int WIDTH = 117;
     private static final int HEIGHT = 57;
@@ -58,10 +58,10 @@ public final class PizzaCuttingRecipeCategory implements IRecipeCategory<PizzaCu
     @Override public IDrawable getIcon() { return icon; }
 
     @Override
-    public Identifier getIdentifier(PizzaCuttingJeiRecipe recipe) {
+    public ResourceLocation getIdentifier(PizzaCuttingJeiRecipe recipe) {
         PizzaItemData pizza = recipe.whole().get(ModDataComponents.PIZZA_CONTENTS);
         String flavor = pizza == null ? null : PizzaDisplayNames.wholePresetId(pizza);
-        return Identifier.fromNamespaceAndPath("italiansdelight",
+        return ResourceLocation.fromNamespaceAndPath("italiansdelight",
                 "/pizza_cutting/" + (flavor == null ? "mixed" : flavor));
     }
 

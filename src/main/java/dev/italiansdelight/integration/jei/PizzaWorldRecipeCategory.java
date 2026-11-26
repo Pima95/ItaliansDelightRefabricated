@@ -11,7 +11,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /** Seven in-world instructions for each of the eighteen recognized tastes. */
@@ -27,8 +27,8 @@ public final class PizzaWorldRecipeCategory
     }
 
     @Override
-    public Identifier getIdentifier(PizzaWorldJeiRecipe recipe) {
-        return Identifier.fromNamespaceAndPath("italiansdelight",
+    public ResourceLocation getIdentifier(PizzaWorldJeiRecipe recipe) {
+        return ResourceLocation.fromNamespaceAndPath("italiansdelight",
                 "/pizza_world/" + recipe.flavorId() + "/" + recipe.step().id());
     }
 

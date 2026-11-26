@@ -11,7 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -35,15 +35,15 @@ public final class PizzaJeiIngredientSamples {
         // Keep insertion order aligned with the Creative tab: all raw pizzas,
         // then cooked pizzas, then edible slices. JEI may apply its own user
         // sorting settings to the final sidebar presentation.
-        for (Set<Identifier> recipe : PizzaDisplayNames.allPresets().keySet()) {
+        for (Set<ResourceLocation> recipe : PizzaDisplayNames.allPresets().keySet()) {
             stacks.add(PizzaCreativeSamples.create(recipe, false));
         }
         stacks.add(PizzaCreativeSamples.createMixed(false));
-        for (Set<Identifier> recipe : PizzaDisplayNames.allPresets().keySet()) {
+        for (Set<ResourceLocation> recipe : PizzaDisplayNames.allPresets().keySet()) {
             stacks.add(PizzaCreativeSamples.create(recipe, true));
         }
         stacks.add(PizzaCreativeSamples.createMixed(true));
-        for (Set<Identifier> recipe : PizzaDisplayNames.allPresets().keySet()) {
+        for (Set<ResourceLocation> recipe : PizzaDisplayNames.allPresets().keySet()) {
             stacks.add(PizzaCreativeSamples.createSlice(recipe));
         }
         return List.copyOf(stacks);
@@ -87,9 +87,9 @@ public final class PizzaJeiIngredientSamples {
         return "custom/" + signature + (data.legacyMozzarella() ? "|legacy_mozzarella" : "");
     }
 
-    private static String signature(Set<Identifier> canonicalToppings) {
+    private static String signature(Set<ResourceLocation> canonicalToppings) {
         return canonicalToppings.stream()
-                .map(Identifier::toString)
+                .map(ResourceLocation::toString)
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.joining(","));
     }

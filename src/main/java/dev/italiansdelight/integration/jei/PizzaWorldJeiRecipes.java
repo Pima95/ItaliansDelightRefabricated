@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -19,14 +19,14 @@ import net.minecraft.world.item.ItemStack;
  * fake recipes or a second hard-coded Margherita-only example.
  */
 public final class PizzaWorldJeiRecipes {
-    private static final Identifier DOUGH = Identifier.parse("farmersdelight:wheat_dough");
+    private static final ResourceLocation DOUGH = ResourceLocation.parse("farmersdelight:wheat_dough");
     private PizzaWorldJeiRecipes() {}
 
     public static List<PizzaWorldJeiRecipe> createExamples() {
         ItemStack dough = new ItemStack(BuiltInRegistries.ITEM.getValue(DOUGH));
         List<PizzaWorldJeiRecipe> all = new ArrayList<>(
                 PizzaDisplayNames.allPresets().size() * PizzaWorldJeiRecipe.Step.values().length);
-        for (Map.Entry<java.util.Set<Identifier>, String> preset
+        for (Map.Entry<java.util.Set<ResourceLocation>, String> preset
                 : PizzaDisplayNames.allPresets().entrySet()) {
             ItemStack raw = PizzaCreativeSamples.create(preset.getKey(), false);
             PizzaItemData data = raw.get(ModDataComponents.PIZZA_CONTENTS);

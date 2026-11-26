@@ -13,7 +13,7 @@ import mezz.jei.api.recipe.types.IRecipeType;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 
@@ -51,7 +51,7 @@ public final class SaltEvaporationRecipeCategory
     ) {
         this.background =
             guiHelper.createDrawable(
-                Identifier.fromNamespaceAndPath(
+                ResourceLocation.fromNamespaceAndPath(
                     "italiansdelight",
                     "textures/gui/jei/aging.png"
                 ),

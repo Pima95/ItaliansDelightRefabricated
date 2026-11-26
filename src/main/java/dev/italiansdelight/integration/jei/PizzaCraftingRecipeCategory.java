@@ -12,7 +12,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
@@ -42,7 +42,7 @@ public final class PizzaCraftingRecipeCategory
     }
 
     @Override
-    public Identifier getIdentifier(PizzaCraftingJeiRecipe recipe) {
+    public ResourceLocation getIdentifier(PizzaCraftingJeiRecipe recipe) {
         // Stable JEI-only identifier (no Minecraft crafting recipe is added).
         // The list is validated as one dough followed by distinct toppings.
         StringBuilder id = new StringBuilder("/pizza_crafting/");
@@ -54,7 +54,7 @@ public final class PizzaCraftingRecipeCategory
             id.append(net.minecraft.core.registries.BuiltInRegistries.ITEM
                     .getKey(ingredients.get(i).getItem()).getPath());
         }
-        return Identifier.fromNamespaceAndPath("italiansdelight", id.toString());
+        return ResourceLocation.fromNamespaceAndPath("italiansdelight", id.toString());
     }
 
     @Override
