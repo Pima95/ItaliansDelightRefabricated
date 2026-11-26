@@ -17,9 +17,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.CrossCollisionBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,7 +26,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
 
 /**
  * Rustic vine canopy: center replaces a rope above a mature grape stem;
@@ -36,7 +33,7 @@ import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
  * Fruit develops only on outer segments with air underneath. Breaking a
  * canopy segment restores the existing FDR rope, never duplicates a rope item.
  */
-public final class GrapeLeavesBlock extends Block implements BonemealableBlock, ReplaceOnRemoval {
+public final class GrapeLeavesBlock extends Block implements BonemealableBlock {
     private final boolean whiteGrapes;
 
     public static final IntegerProperty DISTANCE = IntegerProperty.create("distance", 0, 1);
@@ -155,10 +152,8 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
             : state.setValue(GRAPES, true);
     }
 
-    @Override protected BlockState updateShape(BlockState state, LevelReader level,
-            ScheduledTickAccess ticks, BlockPos pos, Direction side, BlockPos neighborPos,
-            BlockState neighbor, RandomSource random) {
-        if (!state.canSurvive(level, pos)) ticks.scheduleTick(pos, this, 1);
+    @Override protected BlockState updateShape(BlockState state, Direction side, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (!state.canSurvive(level, pos)) level.scheduleTick(pos, this, 1);
         if (state.getValue(DISTANCE) == 1 && side == Direction.DOWN
                 && !neighbor.isAir()
                 && (state.getValue(GRAPES) || state.getValue(FRUIT_STAGE) > 0))
@@ -216,29 +211,28 @@ public final class GrapeLeavesBlock extends Block implements BonemealableBlock, 
     }
 
     @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos,
-            BlockState state, BonemealSource source) {
+            BlockState state) {
         return state.getValue(DISTANCE) == 0
             || (!state.getValue(GRAPES) && level.getBlockState(pos.below()).isAir());
     }
     @Override public boolean isBonemealSuccess(Level level, RandomSource random,
-            BlockPos pos, BlockState state, BonemealSource source) { return true; }
+            BlockPos pos, BlockState state) { return true; }
     @Override public void performBonemeal(ServerLevel level, RandomSource random,
-            BlockPos pos, BlockState state, BonemealSource source) {
+            BlockPos pos, BlockState state) {
         if (!state.canSurvive(level, pos)) return;
         if (state.getValue(DISTANCE) == 0) spread(level, pos, state);
         else if (level.getBlockState(pos.below()).isAir())
             level.setBlock(pos, advanceFruit(state), Block.UPDATE_CLIENTS);
     }
 
-    @Override public boolean onRemove(BlockState state, BlockState newState,
-            LevelAccessor level, BlockPos pos, int flags) {
-        if (newState.isAir() && !state.is(newState.getBlock())) {
-            BlockState rope = HorizontalRopeBlock.withConnections(
-                ModBlocks.HORIZONTAL_ROPE.defaultBlockState()
-                    .setValue(HorizontalRopeBlock.AXIS, state.getValue(AXIS)),
-                level, pos);
-            return level.setBlock(pos, rope, 3);
-        }
-        return false;
+    @Override public void onRemove(BlockState state, Level level, BlockPos pos, BlockState next, boolean movedByPiston) {
+        super.onRemove(state, level, pos, next, movedByPiston);
+        if (!movedByPiston && next.isAir() && !state.is(next.getBlock())) restoreRope(state, level, pos);
+    }
+
+    private boolean restoreRope(BlockState state, Level level, BlockPos pos) {
+        return level.setBlock(pos, HorizontalRopeBlock.withConnections(
+            ModBlocks.HORIZONTAL_ROPE.defaultBlockState().setValue(HorizontalRopeBlock.AXIS, state.getValue(AXIS)),
+            level, pos), 3);
     }
 }

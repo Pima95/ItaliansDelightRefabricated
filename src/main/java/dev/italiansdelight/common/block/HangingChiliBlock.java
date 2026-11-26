@@ -11,14 +11,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import vectorwing.farmersdelight.common.Configuration;
 import vectorwing.farmersdelight.common.block.HangingTomatoBlock;
-import vectorwing.farmersdelight.refabricated.block.ReplaceOnRemoval;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import vectorwing.farmersdelight.common.block.RopeBlock;
 
 /**
  * FDR HangingTomatoBlock equivalent. No duplicate rope: a chili replaces
  * one real FDR rope while growing, then optionally restores the same rope
  * when broken, following FDR's own permanence setting.
  */
-public final class HangingChiliBlock extends ChiliCropBlock implements ReplaceOnRemoval {
+public final class HangingChiliBlock extends ChiliCropBlock {
     public HangingChiliBlock(Properties properties) {
         super(properties, true);
         registerDefaultState(stateDefinition.any().setValue(CHILI_AGE, 0));
@@ -48,13 +54,23 @@ public final class HangingChiliBlock extends ChiliCropBlock implements ReplaceOn
     }
 
     @Override
-    public boolean onRemove(BlockState state, BlockState next,
-            LevelAccessor level, BlockPos pos, int flags) {
-        if (Configuration.ENABLE_TOMATO_ROPE_PERMANENCE.get()
-                && (flags ^ Block.UPDATE_MOVE_BY_PISTON) != 0
-                && !state.is(next.getBlock()) && next.isAir()) {
-            return HangingTomatoBlock.placeRope(level, pos);
-        }
-        return true;
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        playerWillDestroy(level, pos, state, player);
+        return restoreRope(level, pos);
+    }
+
+    @Override public void onRemove(BlockState state, Level level, BlockPos pos, BlockState next, boolean movedByPiston) {
+        super.onRemove(state, level, pos, next, movedByPiston);
+        if (Configuration.ENABLE_TOMATO_ROPE_PERMANENCE.get() && !movedByPiston
+                && !state.is(next.getBlock()) && next.isAir()) restoreRope(level, pos);
+    }
+
+    private boolean restoreRope(Level level, BlockPos pos) {
+        Block rope = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.parse(Configuration.DEFAULT_TOMATO_VINE_ROPE.get()))
+            .orElse(vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get());
+        BlockState state = rope == vectorwing.farmersdelight.common.registry.ModBlocks.ROPE.get()
+            ? RopeBlock.getStateWithConnections(rope.defaultBlockState(), level, pos, Direction.UP)
+            : rope.defaultBlockState();
+        return level.setBlock(pos, state, level.isClientSide ? 11 : 3);
     }
 }
