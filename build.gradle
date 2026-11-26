@@ -82,6 +82,48 @@ processResources {
                  loader_version_range: project.loader_version_range]
     inputs.properties props
     filesMatching('META-INF/neoforge.mods.toml') { expand props }
+
+    // The branch shares the recipe vocabulary of the newer Fabric source.
+    // Normalize only ingredient positions; do not rewrite result stacks,
+    // component data, counts, recipe IDs or recipe-specific numeric values.
+    inputs.property('legacyIngredientSchema', 1)
+    doLast {
+        def slurper = new groovy.json.JsonSlurper()
+        def convertIngredient
+        convertIngredient = { value ->
+            if (value instanceof String) {
+                if (value.startsWith('#')) return [tag: value.substring(1)]
+                return [item: value]
+            }
+            if (value instanceof List) {
+                def children = value.collect { convertIngredient(it) }
+                if (children.isEmpty()) throw new GradleException('Empty recipe ingredient alternatives')
+                return children.size() == 1 ? children[0] : [type: 'neoforge:compound', children: children]
+            }
+            if (value instanceof Map) {
+                def copy = new LinkedHashMap(value)
+                if (copy.children instanceof List) copy.children = copy.children.collect { convertIngredient(it) }
+                return copy
+            }
+            throw new GradleException("Unsupported ingredient: " + value)
+        }
+        def recipes = fileTree(destinationDir) {
+            include 'data/**/recipe/**/*.json'
+        }
+        recipes.each { recipeFile ->
+            def data = slurper.parse(recipeFile)
+            if (data.key instanceof Map) data.key = data.key.collectEntries { k, v -> [(k): convertIngredient(v)] }
+            if (data.containsKey('ingredient')) data.ingredient = convertIngredient(data.ingredient)
+            if (data.ingredients instanceof List) data.ingredients = data.ingredients.collect { convertIngredient(it) }
+            if (data.containsKey('tool')) data.tool = convertIngredient(data.tool)
+            if (data.containsKey('base')) data.base = convertIngredient(data.base)
+            if (data.containsKey('addition')) data.addition = convertIngredient(data.addition)
+            if (data.containsKey('template')) data.template = convertIngredient(data.template)
+            recipeFile.setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(data)) + '\n', 'UTF-8')
+        }
+        logger.lifecycle("Normalized " + recipes.files.size() + " recipe resources for NeoForge 1.21.1")
+    }
+
 }
 
 jar {
