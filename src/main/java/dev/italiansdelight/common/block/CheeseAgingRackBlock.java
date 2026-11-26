@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -48,6 +49,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public final class CheeseAgingRackBlock extends BaseEntityBlock {
     public static final com.mojang.serialization.MapCodec<CheeseAgingRackBlock> CODEC = simpleCodec(CheeseAgingRackBlock::new);
     @Override protected com.mojang.serialization.MapCodec<CheeseAgingRackBlock> codec() { return CODEC; }
+
+    // In 1.21.1 BaseEntityBlock defaults to INVISIBLE. Keep the JSON model
+    // visible alongside any dynamic block-entity renderer.
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
 
 
     public static final BooleanProperty LOWER_OCCUPIED =

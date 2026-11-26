@@ -59,6 +59,33 @@ public final class PortGameTests {
     }
 
     @GameTest(template = "port_empty")
+    public static void customBlockModels(GameTestHelper helper) {
+        int checked = 0;
+        for (var block : net.minecraft.core.registries.BuiltInRegistries.BLOCK) {
+            var id = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block);
+            if (!id.getNamespace().equals("italiansdelight")) continue;
+            if (!(block instanceof dev.italiansdelight.common.block.AgingCheeseBlock
+                    || block instanceof dev.italiansdelight.common.block.BarrelBlock
+                    || block instanceof dev.italiansdelight.common.block.BrewingBarrelBlock
+                    || block instanceof dev.italiansdelight.common.block.CheeseAgingRackBlock
+                    || block instanceof dev.italiansdelight.common.block.CheeseHookBlock
+                    || block instanceof dev.italiansdelight.common.block.CheeseVatBlock
+                    || block instanceof dev.italiansdelight.common.block.CrushingTubBlock
+                    || block instanceof dev.italiansdelight.common.block.PizzaOvenBlock)) continue;
+            for (var state : block.getStateDefinition().getPossibleStates()) {
+                helper.assertTrue(state.getRenderShape() == net.minecraft.world.level.block.RenderShape.MODEL,
+                    "Missing world model render shape: " + id + " " + state);
+            }
+            checked++;
+        }
+        helper.assertTrue(checked >= 59, "Expected all custom block families and their wood variants");
+        helper.assertTrue(ModBlocks.CHEESE_HOOK_OCCUPIED_SPACE.defaultBlockState().getRenderShape()
+            == net.minecraft.world.level.block.RenderShape.INVISIBLE,
+            "Reserved hanging cheese space must remain invisible");
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
     public static void barrelRegistration(GameTestHelper helper) {
         BlockPos pos = new BlockPos(1, 1, 1);
         helper.setBlock(pos, ModBlocks.BARREL);

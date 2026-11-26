@@ -30,6 +30,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,6 +46,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final com.mojang.serialization.MapCodec<BarrelBlock> CODEC = simpleCodec(BarrelBlock::new);
     @Override protected com.mojang.serialization.MapCodec<BarrelBlock> codec() { return CODEC; }
+
+    // In 1.21.1 BaseEntityBlock defaults to INVISIBLE. Keep the JSON model
+    // visible alongside any dynamic block-entity renderer.
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
 
     private static final VoxelShape SHAPE = Shapes.or(
         Block.box(3, 1, 3, 13, 2, 13),

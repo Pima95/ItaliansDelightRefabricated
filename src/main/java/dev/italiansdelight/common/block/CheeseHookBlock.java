@@ -28,6 +28,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -54,6 +55,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public final class CheeseHookBlock extends BaseEntityBlock {
     public static final com.mojang.serialization.MapCodec<CheeseHookBlock> CODEC = simpleCodec(CheeseHookBlock::new);
     @Override protected com.mojang.serialization.MapCodec<CheeseHookBlock> codec() { return CODEC; }
+
+    // In 1.21.1 BaseEntityBlock defaults to INVISIBLE. Keep the JSON model
+    // visible alongside any dynamic block-entity renderer.
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
 
 
     public static final EnumProperty<Direction> FACING =

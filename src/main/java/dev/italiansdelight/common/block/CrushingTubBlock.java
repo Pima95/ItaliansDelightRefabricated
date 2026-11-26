@@ -30,6 +30,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -52,6 +53,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final com.mojang.serialization.MapCodec<CrushingTubBlock> CODEC = simpleCodec(CrushingTubBlock::new);
     @Override protected com.mojang.serialization.MapCodec<CrushingTubBlock> codec() { return CODEC; }
+
+    // In 1.21.1 BaseEntityBlock defaults to INVISIBLE. Keep the JSON model
+    // visible alongside any dynamic block-entity renderer.
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
 
     private static final VoxelShape SHAPE = Shapes.or(
         Block.box(1, 0, 1, 15, 1, 15),
