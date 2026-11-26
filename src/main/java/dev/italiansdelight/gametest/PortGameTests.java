@@ -33,6 +33,42 @@ public final class PortGameTests {
     }
 
     @GameTest(template = "port_empty")
+    public static void allPackagedRecipes(GameTestHelper helper) {
+        var recipes = helper.getLevel().getRecipeManager();
+        var resources = helper.getLevel().getServer().getResourceManager()
+            .listResources("recipe", id -> id.getNamespace().equals("italiansdelight")
+                && id.getPath().endsWith(".json"));
+        helper.assertTrue(resources.size() >= 270, "Missing packaged recipe resources");
+        for (var file : resources.keySet()) {
+            String path = file.getPath();
+            var id = ModRegistries.id(path.substring("recipe/".length(), path.length() - ".json".length()));
+            helper.assertTrue(recipes.byKey(id).isPresent(), "Recipe skipped by reload: " + id);
+        }
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
+    public static void cheeseVatWaterIngredient(GameTestHelper helper) {
+        var recipes = helper.getLevel().getRecipeManager();
+        var water = net.minecraft.world.item.alchemy.PotionContents.createItemStack(
+            net.minecraft.world.item.Items.POTION, net.minecraft.world.item.alchemy.Potions.WATER);
+        var healing = net.minecraft.world.item.alchemy.PotionContents.createItemStack(
+            net.minecraft.world.item.Items.POTION, net.minecraft.world.item.alchemy.Potions.HEALING);
+        for (String id : new String[]{"cheese_vat/bocconcino", "cheese_vat/fresh_provolone", "cheese_vat/rennet"}) {
+            var recipe = (dev.italiansdelight.common.crafting.CheeseVatRecipe)
+                recipes.byKey(ModRegistries.id(id)).orElseThrow().value();
+            var ingredient = recipe.getIngredientsList().getLast();
+            helper.assertTrue(ingredient.test(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.WATER_BUCKET)),
+                id + " must accept water bucket");
+            helper.assertTrue(ingredient.test(water), id + " must accept water bottle");
+            helper.assertTrue(!ingredient.test(healing), id + " must reject healing potion");
+            helper.assertTrue(!ingredient.test(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.GLASS_BOTTLE)),
+                id + " must reject empty bottle");
+        }
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
     public static void quarterTank(GameTestHelper helper) {
         var tank = new CompatibleFluidTank(1000, true, () -> true, () -> {});
         var water = new FluidStack(Fluids.WATER, 300);

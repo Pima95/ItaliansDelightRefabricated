@@ -75,6 +75,17 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Boot NeoForge GameTest server and verify port
         run: bash ./gradlew runGameTestServer --no-daemon --max-workers=2 --console=plain
+      - name: Reject silently skipped datapack resources
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          log = Path("run-neoforge/gametest/logs/latest.log")
+          assert log.is_file(), "Missing runtime log"
+          errors = [line for line in log.read_text(encoding="utf-8", errors="replace").splitlines()
+                    if re.search(r"Parsing error loading (?:custom advancement|recipe) italiansdelight:|Couldn't (?:read|load) tag.*mod/italiansdelight|Couldn't (?:parse|load) loot table italiansdelight:", line)]
+          assert not errors, "\n".join(errors)
+          PY
       - name: Upload GameTest diagnostics
         if: always()
         uses: actions/upload-artifact@v4

@@ -104,13 +104,15 @@ processResources {
     // The branch shares the recipe vocabulary of the newer Fabric source.
     // Normalize only ingredient positions; do not rewrite result stacks,
     // component data, counts, recipe IDs or recipe-specific numeric values.
-    inputs.property('legacyIngredientSchema', 1)
+    inputs.property('legacyIngredientSchema', 2)
+    inputs.property('legacyAdvancementSchema', 1)
     inputs.property('legacyLootSchema', 1)
     doLast {
         def slurper = new groovy.json.JsonSlurper()
         def convertIngredient
         convertIngredient = { value ->
             if (value instanceof String) {
+                if (value == 'minecraft:iron_chain') value = 'minecraft:chain'
                 if (value.startsWith('#')) return [tag: value.substring(1)]
                 return [item: value]
             }
@@ -121,6 +123,18 @@ processResources {
             }
             if (value instanceof Map) {
                 def copy = new LinkedHashMap(value)
+                if (copy['fabric:type'] == 'fabric:any') return convertIngredient(copy.ingredients)
+                if (copy['fabric:type'] == 'fabric:components') {
+                    if (!(copy.base instanceof String) || copy.base.startsWith('#') || !(copy.components instanceof Map))
+                        throw new GradleException("Unsupported component ingredient: " + copy)
+                    return [type: 'neoforge:components', items: copy.base,
+                            components: copy.components, strict: false]
+                }
+                if (copy['fabric:type'] == 'farmersdelight:item_ability') {
+                    copy.type = copy.remove('fabric:type')
+                }
+                if (copy.containsKey('fabric:type')) throw new GradleException("Unported ingredient: " + copy)
+                if (copy.item == 'minecraft:iron_chain') copy.item = 'minecraft:chain'
                 if (copy.children instanceof List) copy.children = copy.children.collect { convertIngredient(it) }
                 return copy
             }
@@ -138,9 +152,32 @@ processResources {
             if (data.containsKey('base')) data.base = convertIngredient(data.base)
             if (data.containsKey('addition')) data.addition = convertIngredient(data.addition)
             if (data.containsKey('template')) data.template = convertIngredient(data.template)
+            if (data.type == 'farmersdelight:cutting' && data.sound instanceof String)
+                data.sound = [sound_id: data.sound]
             recipeFile.setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(data)) + '\n', 'UTF-8')
         }
         logger.lifecycle("Normalized " + recipes.files.size() + " recipe resources for NeoForge 1.21.1")
+
+        // 1.21.1 recipe-unlock criteria use singular "recipe".
+        // Inventory predicates reference the old vanilla chain item ID.
+        def advancements = fileTree(destinationDir) {
+            include 'data/italiansdelight/advancement/**/*.json'
+        }
+        advancements.each { advancementFile ->
+            def data = slurper.parse(advancementFile)
+            data.criteria?.values()?.each { criterion ->
+                if (criterion.trigger == 'minecraft:recipe_unlocked' && criterion.conditions?.recipes instanceof String) {
+                    criterion.conditions.recipe = criterion.conditions.remove('recipes')
+                }
+                if (criterion.trigger == 'minecraft:inventory_changed') {
+                    criterion.conditions?.items?.each { predicate ->
+                        if (predicate.items == 'minecraft:iron_chain') predicate.items = 'minecraft:chain'
+                    }
+                }
+            }
+            advancementFile.setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(data)) + '\n', 'UTF-8')
+        }
+        logger.lifecycle("Normalized " + advancements.files.size() + " advancements for NeoForge 1.21.1")
 
         // 1.21.1 loot pools use conditions[] and functions[].
         // Convert only loot nodes; never touch number providers, item
