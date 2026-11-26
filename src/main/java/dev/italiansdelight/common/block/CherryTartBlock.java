@@ -6,7 +6,7 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -50,7 +50,7 @@ public final class CherryTartBlock extends Block {
 public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final IntegerProperty BITES = IntegerProperty.create("bites", 0, 3);
     private static final TagKey<Item> KNIVES =
-            TagKey.create(Registries.ITEM, Identifier.parse("c:tools/knife"));
+            TagKey.create(Registries.ITEM, ResourceLocation.parse("c:tools/knife"));
     private static final VoxelShape[][] SHAPES = buildShapes();
 
     public CherryTartBlock(Properties properties) {

@@ -126,7 +126,7 @@ public class ItaliansDelightClient implements ClientModInitializer {
      */
     private static void registerContainedFluid(
             net.minecraft.world.level.material.Fluid fluid,
-            net.minecraft.resources.Identifier stillSprite) {
+            net.minecraft.resources.ResourceLocation stillSprite) {
         Material material = new Material(stillSprite);
         FluidRenderingRegistry.register(fluid, new FluidModel.Unbaked(
             material, material, material,

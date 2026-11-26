@@ -10,7 +10,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 /**
@@ -20,8 +20,8 @@ import net.minecraft.world.entity.player.Inventory;
 public class CheeseVatScreen
     extends AbstractContainerScreen<CheeseVatMenu> {
 
-    private static final Identifier TEXTURE =
-        Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation TEXTURE =
+        ResourceLocation.fromNamespaceAndPath(
             "italiansdelight",
             "textures/gui/cheese_vat.png"
         );

@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 /**
@@ -20,14 +20,14 @@ import net.minecraft.world.entity.player.Inventory;
  * and the furnace's original GUI atlas sprites are drawn as-is.
  */
 public final class PizzaOvenScreen extends AbstractContainerScreen<PizzaOvenMenu> {
-    private static final Identifier BACKGROUND =
-            Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation BACKGROUND =
+            ResourceLocation.fromNamespaceAndPath(
                     "minecraft", "textures/gui/container/furnace.png");
-    private static final Identifier FLAME =
-            Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation FLAME =
+            ResourceLocation.fromNamespaceAndPath(
                     "minecraft", "container/furnace/lit_progress");
-    private static final Identifier ARROW =
-            Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation ARROW =
+            ResourceLocation.fromNamespaceAndPath(
                     "minecraft", "container/furnace/burn_progress");
 
     public PizzaOvenScreen(PizzaOvenMenu menu, Inventory inventory, Component title) {

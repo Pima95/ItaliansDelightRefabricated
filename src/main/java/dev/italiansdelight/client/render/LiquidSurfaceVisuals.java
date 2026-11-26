@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.data.AtlasIds;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * One animated fluid-surface path shared by barrels and custom cauldrons.
@@ -31,16 +31,16 @@ import net.minecraft.resources.Identifier;
 public final class LiquidSurfaceVisuals {
     private LiquidSurfaceVisuals() {}
 
-    private record Surface(Identifier sprite, int tint) {}
+    private record Surface(ResourceLocation sprite, int tint) {}
 
     private static final Surface WATER = new Surface(
-        Identifier.withDefaultNamespace("block/water_still"), 0xFFFFFFFF);
+        ResourceLocation.withDefaultNamespace("block/water_still"), 0xFFFFFFFF);
     private static final Map<String, Surface> SURFACES = new ConcurrentHashMap<>(Map.of(
         "minecraft:water", WATER,
         // Honey is a virtual liquid in this port (bottle-only, not a world fluid).
         // Render its tank surface from vanilla honey art, never blue water.
         "minecraft:honey", new Surface(
-            Identifier.withDefaultNamespace("block/honey_block_top"), 0xFFFFFFFF),
+            ResourceLocation.withDefaultNamespace("block/honey_block_top"), 0xFFFFFFFF),
         "italiansdelight:golden_apple_juice", new Surface(
             ModRegistries.id("block/fluids/golden_apple_juice_still"), 0xFFFFFFFF),
         "italiansdelight:apple_juice",
@@ -81,12 +81,12 @@ public final class LiquidSurfaceVisuals {
     // Only external/unregistered fluids need the conventional five-path atlas
     // search. Remember resolved IDs for the active atlas, never the sprite
     // object itself; rendering still samples current animated atlas frames.
-    private static final Map<String, Identifier> EXTERNAL_STILL_IDS = new HashMap<>();
+    private static final Map<String, ResourceLocation> EXTERNAL_STILL_IDS = new HashMap<>();
     private static TextureAtlas externalAtlas;
     private static TextureAtlasSprite externalWaterMarker;
 
     /** Other modded liquids only need a registered block-atlas still sprite. */
-    public static void registerSurface(String fluidId, Identifier stillSprite, int tint) {
+    public static void registerSurface(String fluidId, ResourceLocation stillSprite, int tint) {
         if (fluidId == null || fluidId.isBlank() || stillSprite == null)
             throw new IllegalArgumentException("Invalid liquid surface");
         SURFACES.put(fluidId, new Surface(stillSprite, tint));
@@ -165,20 +165,20 @@ public final class LiquidSurfaceVisuals {
             externalAtlas = atlas;
             externalWaterMarker = waterSprite;
         }
-        Identifier still = EXTERNAL_STILL_IDS.computeIfAbsent(fluidId,
+        ResourceLocation still = EXTERNAL_STILL_IDS.computeIfAbsent(fluidId,
                 id -> resolveExternalStillId(id, atlas));
         return atlas.getSprite(still);
     }
 
-    private static Identifier resolveExternalStillId(String fluidId, TextureAtlas atlas) {
-        Identifier key = Identifier.tryParse(fluidId);
+    private static ResourceLocation resolveExternalStillId(String fluidId, TextureAtlas atlas) {
+        ResourceLocation key = ResourceLocation.tryParse(fluidId);
         if (key != null) {
             String name = key.getPath();
             for (String path : List.of(
                     "block/" + name + "_still", "block/fluids/" + name + "_still",
                     "block/fluid/" + name + "_still", "block/" + name,
                     "block/" + name + "/still")) {
-                Identifier candidate = Identifier.fromNamespaceAndPath(key.getNamespace(), path);
+                ResourceLocation candidate = ResourceLocation.fromNamespaceAndPath(key.getNamespace(), path);
                 TextureAtlasSprite sprite = atlas.getSprite(candidate);
                 if (sprite.contents().name().equals(candidate)) return candidate;
             }

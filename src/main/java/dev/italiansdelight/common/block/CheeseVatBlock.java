@@ -12,7 +12,7 @@ import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -75,7 +75,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
     private static final TagKey<Block> TRAY_HEAT_SOURCES =
         TagKey.create(
             Registries.BLOCK,
-            Identifier.fromNamespaceAndPath(
+            ResourceLocation.fromNamespaceAndPath(
                 "farmersdelight",
                 "tray_heat_sources"
             )

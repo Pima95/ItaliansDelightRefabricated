@@ -2,12 +2,12 @@ package dev.italiansdelight.client.gui;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /** Draws the same atlas-animated whey in the vat screen and JEI. */
 public final class WheyTankRenderer {
 
-    private static final Identifier SPRITE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight",
         "fluids/whey_still"
     );

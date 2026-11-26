@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.util.FormattedCharSequence;
 import java.util.List;
@@ -18,29 +18,29 @@ import java.util.List;
  * approved texture, while all 16 wood-title variants share the same screen.
  */
 public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBarrelMenu> {
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "textures/gui/brewing_barrel.png");
-    private static final Identifier PURPLE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation PURPLE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/grape_juice_still");
-    private static final Identifier WHITE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation WHITE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/white_grape_juice_still");
-    private static final Identifier APPLE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation APPLE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/apple_juice_still");
-    private static final Identifier VINEGAR = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation VINEGAR = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/apple_cider_vinegar_still");
-    private static final Identifier WINE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation WINE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/wine_still");
-    private static final Identifier CHERRY_JUICE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation CHERRY_JUICE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/cherry_juice_still");
-    private static final Identifier WHITE_WINE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation WHITE_WINE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/white_wine_still");
-    private static final Identifier CHERRY_WINE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation CHERRY_WINE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/cherry_wine_still");
-    private static final Identifier MEAD = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation MEAD = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/mead_still");
-    private static final Identifier CIDER = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation CIDER = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/cider_still");
-    private static final Identifier WINE_VINEGAR = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation WINE_VINEGAR = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "fluids/red_wine_vinegar_still");
 
     // Both modern 16x16 silhouettes are drawn from the spare sprite cells in
@@ -117,7 +117,7 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
      * repeat native 16x16 tiles instead, then scissor to the liquid level.
      * This keeps the artwork crisp and synchronized in both tank heights.
      */
-    private void tank(GuiGraphicsExtractor graphics, Identifier sprite,
+    private void tank(GuiGraphicsExtractor graphics, ResourceLocation sprite,
                       int x, int y, int height, int amount, int capacity,
                       int surfaceColor, int backingColor) {
         if (amount <= 0) return;
@@ -171,7 +171,7 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
         super.extractBackground(graphics, mouseX, mouseY, delta);
         drawExtendedBackground(graphics);
 
-        Identifier inputSprite = switch (menu.getInputKind()) {
+        ResourceLocation inputSprite = switch (menu.getInputKind()) {
             case BrewingBarrelBlockEntity.JUICE_WHITE -> WHITE;
             case BrewingBarrelBlockEntity.JUICE_APPLE -> APPLE;
             case BrewingBarrelBlockEntity.JUICE_CHERRY -> CHERRY_JUICE;
@@ -180,7 +180,7 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
             case BrewingBarrelBlockEntity.JUICE_CIDER -> CIDER;
             default -> PURPLE;
         };
-        Identifier outputSprite = switch (menu.getOutputKind()) {
+        ResourceLocation outputSprite = switch (menu.getOutputKind()) {
             case BrewingBarrelBlockEntity.OUTPUT_VINEGAR -> VINEGAR;
             case BrewingBarrelBlockEntity.OUTPUT_WHITE_WINE -> WHITE_WINE;
             case BrewingBarrelBlockEntity.OUTPUT_CHERRY_WINE -> CHERRY_WINE;
@@ -209,7 +209,7 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
             paleOutput ? 0 : 0xFF7B304D);
         // The culture is not always red: synchronize and render the actual
         // red/white/cherry type stored in the barrel, including after reload.
-        Identifier cultureSprite = switch (menu.getCultureWineKind()) {
+        ResourceLocation cultureSprite = switch (menu.getCultureWineKind()) {
             case 1 -> WHITE_WINE;
             case 2 -> CHERRY_WINE;
             default -> WINE;

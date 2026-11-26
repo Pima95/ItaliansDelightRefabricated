@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Renders sauces as seamless 12x12 surfaces, and solid toppings as scattered
@@ -39,8 +39,8 @@ public final class PizzaToppingVisuals {
     private static final String SAUCE_PREFIX = "textures/block/pizza_toppings/";
     private static final String SPRITE_PREFIX = "textures/block/pizza_topping_sprites/";
     // A small finite set of textures is referenced by every pizza; cache the
-    // immutable Identifier objects rather than recreate them each frame.
-    private static final Map<String, Identifier> TEXTURE_IDS = new ConcurrentHashMap<>();
+    // immutable ResourceLocation objects rather than recreate them each frame.
+    private static final Map<String, ResourceLocation> TEXTURE_IDS = new ConcurrentHashMap<>();
 
     private PizzaToppingVisuals() {
     }
@@ -51,15 +51,15 @@ public final class PizzaToppingVisuals {
                 List.of(), List.of(), 1, 0, 0, -1);
     }
 
-    private record Layer(Identifier texture, int mask, int depth) {
+    private record Layer(ResourceLocation texture, int mask, int depth) {
     }
 
     /** UV coordinates locate a fragment inside one 6x6 atlas cell. */
-    private record Fragment(Identifier texture, int quarter, int x, int z,
+    private record Fragment(ResourceLocation texture, int quarter, int x, int z,
                             int size, int variant, int depth) {
     }
 
-    private record Solid(Identifier texture, int mask, long sequence) {
+    private record Solid(ResourceLocation texture, int mask, long sequence) {
     }
 
     public static Visuals extract(
@@ -214,10 +214,10 @@ public final class PizzaToppingVisuals {
         return value ^ (value >>> 31);
     }
 
-    private static Identifier texture(String prefix, String name) {
+    private static ResourceLocation texture(String prefix, String name) {
         String path = prefix + name + ".png";
         return TEXTURE_IDS.computeIfAbsent(path,
-                key -> Identifier.fromNamespaceAndPath("italiansdelight", key));
+                key -> ResourceLocation.fromNamespaceAndPath("italiansdelight", key));
     }
 
     public static void submit(

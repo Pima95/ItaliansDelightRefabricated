@@ -3,7 +3,7 @@ package dev.italiansdelight.common.block;
 import dev.italiansdelight.common.registry.ModItems;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -78,7 +78,7 @@ public final class BarrelFluidContainers {
             for (Fluid fluid : BuiltInRegistries.FLUID) {
                 if (fluid != Fluids.LAVA && fluid.isSource(fluid.defaultFluidState()) &&
                     fluid.getBucket() == stack.getItem()) {
-                    Identifier id = BuiltInRegistries.FLUID.getKey(fluid);
+                    ResourceLocation id = BuiltInRegistries.FLUID.getKey(fluid);
                     if (id != null) return new Portion(id.toString(), 1000, Items.BUCKET);
                 }
             }
@@ -124,7 +124,7 @@ public final class BarrelFluidContainers {
             return new ItemStack(ModItems.GRAPE_JUICE_BUCKET);
         if ("italiansdelight:white_grape_juice".equals(id))
             return new ItemStack(ModItems.WHITE_GRAPE_JUICE_BUCKET);
-        Identifier key = Identifier.tryParse(id);
+        ResourceLocation key = ResourceLocation.tryParse(id);
         if (key == null) return ItemStack.EMPTY;
         Fluid fluid = BuiltInRegistries.FLUID.getValue(key);
         if (fluid == null || fluid == Fluids.EMPTY || fluid.getBucket() == Items.AIR)
