@@ -5,10 +5,8 @@ import java.util.List;
 import dev.italiansdelight.common.block.entity.container.CheeseVatMenu;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -70,32 +68,22 @@ public class CheeseVatScreen
         Inventory inventory,
         Component title
     ) {
-        super(
-            menu,
-            inventory,
-            title,
-            GUI_WIDTH,
-            GUI_HEIGHT
-        );
+        super(menu, inventory, title);
+        this.imageWidth = GUI_WIDTH;
+        this.imageHeight = GUI_HEIGHT;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
-    public void extractBackground(
-        GuiGraphicsExtractor graphics,
-        int mouseX,
-        int mouseY,
-        float delta
-    ) {
-        super.extractBackground(
-            graphics,
-            mouseX,
-            mouseY,
-            delta
-        );
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        super.render(graphics, mouseX, mouseY, delta);
+        renderTooltip(graphics, mouseX, mouseY);
+    }
 
+    @Override
+    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
         // Main GUI
         graphics.blit(
-            RenderPipelines.GUI_TEXTURED,
             TEXTURE,
             leftPos,
             topPos,
@@ -127,7 +115,6 @@ public class CheeseVatScreen
         if (menu.isHeated()) {
 
             graphics.blit(
-                RenderPipelines.GUI_TEXTURED,
                 TEXTURE,
                 leftPos + HEAT_X,
                 topPos + HEAT_Y,
@@ -147,7 +134,6 @@ public class CheeseVatScreen
         if (progress > 0) {
 
             graphics.blit(
-                RenderPipelines.GUI_TEXTURED,
                 TEXTURE,
                 leftPos + PROGRESS_X,
                 topPos + PROGRESS_Y,
@@ -163,7 +149,6 @@ public class CheeseVatScreen
         // the red X only while automatic whey flow from the tank is disabled.
         if (!menu.isWheyFlowEnabled()) {
             graphics.blit(
-                RenderPipelines.GUI_TEXTURED,
                 TEXTURE,
                 leftPos + WHEY_FLOW_X,
                 topPos + WHEY_FLOW_Y,
@@ -178,12 +163,12 @@ public class CheeseVatScreen
     }
 
     @Override
-    protected void extractTooltip(
-        GuiGraphicsExtractor graphics,
+    protected void renderTooltip(
+        GuiGraphics graphics,
         int mouseX,
         int mouseY
     ) {
-        super.extractTooltip(
+        super.renderTooltip(
             graphics,
             mouseX,
             mouseY
@@ -195,7 +180,7 @@ public class CheeseVatScreen
             && mouseY >= topPos + WHEY_TANK_HOVER_Y
             && mouseY < topPos + WHEY_TANK_HOVER_Y + WHEY_TANK_HOVER_HEIGHT
         ) {
-            graphics.setComponentTooltipForNextFrame(
+            graphics.renderComponentTooltip(
                 font,
                 List.of(
                     Component.translatable(
@@ -214,15 +199,10 @@ public class CheeseVatScreen
     }
 
     @Override
-    public boolean mouseClicked(
-        MouseButtonEvent event,
-        boolean doubleClick
-    ) {
-        double mouseX = event.x();
-        double mouseY = event.y();
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
         if (
-            event.button() == 0
+            button == 0
             && mouseX >= leftPos + WHEY_FLOW_X
             && mouseX < leftPos + WHEY_FLOW_X + WHEY_FLOW_WIDTH
             && mouseY >= topPos + WHEY_FLOW_Y
@@ -238,9 +218,6 @@ public class CheeseVatScreen
             return true;
         }
 
-        return super.mouseClicked(
-            event,
-            doubleClick
-        );
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 }

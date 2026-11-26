@@ -1,9 +1,8 @@
 package dev.italiansdelight.client.gui;
 
 import dev.italiansdelight.common.block.entity.container.PizzaOvenMenu;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -31,19 +30,23 @@ public final class PizzaOvenScreen extends AbstractContainerScreen<PizzaOvenMenu
                     "minecraft", "container/furnace/burn_progress");
 
     public PizzaOvenScreen(PizzaOvenMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title, 176, 166);
+        super(menu, inventory, title);
+        this.imageWidth = 176;
+        this.imageHeight = 166;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
-    public void extractBackground(
-            GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta
-    ) {
-        super.extractBackground(graphics, mouseX, mouseY, delta);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        super.render(graphics, mouseX, mouseY, delta);
+        renderTooltip(graphics, mouseX, mouseY);
+    }
 
+    @Override
+    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
         // Exact 176x166 vanilla furnace background; inventory and slots
         // are provided by the common container superclass.
         graphics.blit(
-                RenderPipelines.GUI_TEXTURED,
                 BACKGROUND,
                 leftPos, topPos, 0, 0,
                 176, 166, 256, 256);
@@ -52,7 +55,7 @@ public final class PizzaOvenScreen extends AbstractContainerScreen<PizzaOvenMenu
         int flameHeight = menu.getBurnProgressionScaled();
         if (flameHeight > 0) {
             graphics.blitSprite(
-                    RenderPipelines.GUI_TEXTURED, FLAME,
+                    FLAME,
                     14, 14, 0, 14 - flameHeight,
                     leftPos + 56, topPos + 36 + 14 - flameHeight,
                     14, flameHeight);
@@ -62,7 +65,7 @@ public final class PizzaOvenScreen extends AbstractContainerScreen<PizzaOvenMenu
         int progress = menu.getCookProgressionScaled();
         if (progress > 0) {
             graphics.blitSprite(
-                    RenderPipelines.GUI_TEXTURED, ARROW,
+                    ARROW,
                     24, 16, 0, 0,
                     leftPos + 79, topPos + 34,
                     progress, 16);

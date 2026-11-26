@@ -1,7 +1,6 @@
 package dev.italiansdelight.client.gui;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 /** Draws the same atlas-animated whey in the vat screen and JEI. */
@@ -17,7 +16,7 @@ public final class WheyTankRenderer {
     private WheyTankRenderer() {}
 
     public static void draw(
-        GuiGraphicsExtractor graphics,
+        GuiGraphics graphics,
         int x,
         int y,
         int width,
@@ -36,7 +35,6 @@ public final class WheyTankRenderer {
             // 16x16 scale and clip the full tank so changing the amount never
             // stretches the texture or shifts the pattern at the bottom.
             graphics.blitSprite(
-                RenderPipelines.GUI_TEXTURED,
                 SPRITE,
                 x,
                 y,

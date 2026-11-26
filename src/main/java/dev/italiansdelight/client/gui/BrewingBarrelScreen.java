@@ -3,9 +3,8 @@ package dev.italiansdelight.client.gui;
 import dev.italiansdelight.common.block.entity.BrewingBarrelBlockEntity;
 import dev.italiansdelight.common.block.entity.container.BrewingBarrelMenu;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -62,7 +61,10 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
     private static final int ORIGINAL_INVENTORY_START = 81;
 
     public BrewingBarrelScreen(BrewingBarrelMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title, GUI_WIDTH, GUI_HEIGHT);
+        super(menu, inventory, title);
+        this.imageWidth = GUI_WIDTH;
+        this.imageHeight = GUI_HEIGHT;
+        this.inventoryLabelY = this.imageHeight - 94;
         this.titleLabelX = 8;
         this.titleLabelY = 6;
         this.inventoryLabelY = 104;
@@ -73,13 +75,13 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
      * if needed, while keeping the full translated title visible.
      */
     @Override
-    protected void extractLabels(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
         List<FormattedCharSequence> lines = font.split(title, GUI_WIDTH - 16);
         for (int line = 0; line < Math.min(lines.size(), 2); line++) {
-            graphics.text(font, lines.get(line), titleLabelX, titleLabelY + line * 9,
+            graphics.drawString(font, lines.get(line), titleLabelX, titleLabelY + line * 9,
                 0xFF404040, false);
         }
-        graphics.text(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY,
+        graphics.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY,
             0xFF404040, false);
     }
 
@@ -89,23 +91,23 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
      * Source 0..4: original upper bevel. Source 4..81: machine artwork.
      * Source 81..166: inventory and lower bevel.
      */
-    private void drawExtendedBackground(GuiGraphicsExtractor graphics) {
-        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+    private void drawExtendedBackground(GuiGraphics graphics) {
+        graphics.blit(TEXTURE,
             leftPos, topPos, 0, 0, GUI_WIDTH, ORIGINAL_MACHINE_START, 256, 256);
         for (int y = ORIGINAL_MACHINE_START; y < MACHINE_SHIFT + ORIGINAL_MACHINE_START; y++) {
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+            graphics.blit(TEXTURE,
                 leftPos, topPos + y, 0, ORIGINAL_MACHINE_START, GUI_WIDTH, 1, 256, 256);
         }
-        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+        graphics.blit(TEXTURE,
             leftPos, topPos + MACHINE_SHIFT + ORIGINAL_MACHINE_START,
             0, ORIGINAL_MACHINE_START,
             GUI_WIDTH, ORIGINAL_INVENTORY_START - ORIGINAL_MACHINE_START, 256, 256);
         for (int y = MACHINE_SHIFT + ORIGINAL_INVENTORY_START;
                 y < INVENTORY_SHIFT + ORIGINAL_INVENTORY_START; y++) {
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+            graphics.blit(TEXTURE,
                 leftPos, topPos + y, 0, ORIGINAL_INVENTORY_START, GUI_WIDTH, 1, 256, 256);
         }
-        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+        graphics.blit(TEXTURE,
             leftPos, topPos + INVENTORY_SHIFT + ORIGINAL_INVENTORY_START,
             0, ORIGINAL_INVENTORY_START, GUI_WIDTH,
             166 - ORIGINAL_INVENTORY_START, 256, 256);
@@ -117,7 +119,7 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
      * repeat native 16x16 tiles instead, then scissor to the liquid level.
      * This keeps the artwork crisp and synchronized in both tank heights.
      */
-    private void tank(GuiGraphicsExtractor graphics, ResourceLocation sprite,
+    private void tank(GuiGraphics graphics, ResourceLocation sprite,
                       int x, int y, int height, int amount, int capacity,
                       int surfaceColor, int backingColor) {
         if (amount <= 0) return;
@@ -136,7 +138,7 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
                     absoluteX + TANK_WIDTH, absoluteY + height, backingColor);
             }
             for (int row = 0; row < height; row += FLUID_FRAME_SIZE) {
-                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite,
+                graphics.blitSprite(sprite,
                     absoluteX, absoluteY + row, FLUID_FRAME_SIZE, FLUID_FRAME_SIZE);
             }
         } finally {
@@ -156,19 +158,24 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
      *
      * No separate sprite file, resizing or dark wash over the bucket.
      */
-    private void emptyVesselIcon(GuiGraphicsExtractor graphics, int slotIndex, boolean bucket) {
+    private void emptyVesselIcon(GuiGraphics graphics, int slotIndex, boolean bucket) {
         var slot = menu.getSlot(slotIndex);
         if (slot.hasItem()) return;
         int iconX = leftPos + slot.x;
         int iconY = topPos + slot.y;
-        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+        graphics.blit(TEXTURE,
             iconX, iconY, VESSEL_U, bucket ? BUCKET_V : BOTTLE_V,
             16, 16, 256, 256);
     }
 
-    @Override public void extractBackground(
-            GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-        super.extractBackground(graphics, mouseX, mouseY, delta);
+    @Override
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        super.render(graphics, mouseX, mouseY, delta);
+        renderTooltip(graphics, mouseX, mouseY);
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
         drawExtendedBackground(graphics);
 
         ResourceLocation inputSprite = switch (menu.getInputKind()) {
@@ -233,21 +240,21 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
             int arrow = Math.min(24, progress * 24 / duration + 1);
             int smallArrow = Math.min(10, progress * 10 / duration + 1);
             int bubbles = (int) ((progress / (float) duration) * 5600) % 28;
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+            graphics.blit(TEXTURE,
                 leftPos + 85, topPos + 35 + MACHINE_SHIFT,
                 176, 28, arrow, 16, 256, 256);
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+            graphics.blit(TEXTURE,
                 leftPos + 45, topPos + 38 + MACHINE_SHIFT,
                 176, 44, smallArrow, 10, 256, 256);
             if (bubbles > 0) {
-                graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
+                graphics.blit(TEXTURE,
                     leftPos + 139, topPos + 29 + MACHINE_SHIFT + 28 - bubbles,
                     176, 28 - bubbles, 11, bubbles, 256, 256);
             }
         }
     }
 
-    private void tankTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY,
+    private void tankTooltip(GuiGraphics graphics, int mouseX, int mouseY,
                              int x, int y, int w, int h, String key,
                              int amount, int capacity, int quality) {
         if (mouseX < leftPos+x || mouseX >= leftPos+x+w
@@ -260,11 +267,11 @@ public final class BrewingBarrelScreen extends AbstractContainerScreen<BrewingBa
             lines.add(Component.translatable("tooltip.italiansdelight.wine_quality",
                 quality).withStyle(ChatFormatting.GOLD));
         }
-        graphics.setComponentTooltipForNextFrame(font, lines, mouseX, mouseY);
+        graphics.renderComponentTooltip(font, lines, mouseX, mouseY);
     }
 
-    @Override protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
-        super.extractTooltip(graphics, mouseX, mouseY);
+    @Override protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        super.renderTooltip(graphics, mouseX, mouseY);
         tankTooltip(graphics, mouseX, mouseY, 62, 27 + MACHINE_SHIFT, 16, 32,
             "gui.italiansdelight.brewing_barrel.input", menu.getInputAmount(),
             BrewingBarrelBlockEntity.CAPACITY, -1);
