@@ -13,7 +13,7 @@ import mezz.jei.api.recipe.types.IRecipeType;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * JEI category for products that process while hanging from the Hanging Hook:
@@ -44,7 +44,7 @@ public final class HangingAgingDryingRecipeCategory
     ) {
         this.background =
             guiHelper.createDrawable(
-                Identifier.fromNamespaceAndPath(
+                ResourceLocation.fromNamespaceAndPath(
                     "italiansdelight",
                     "textures/gui/jei/aging.png"
                 ),

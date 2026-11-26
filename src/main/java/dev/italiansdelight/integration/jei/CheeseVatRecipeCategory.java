@@ -20,7 +20,7 @@ import mezz.jei.api.recipe.types.IRecipeType;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
 /**
@@ -30,8 +30,8 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 public class CheeseVatRecipeCategory
     implements IRecipeCategory<RecipeHolder<CheeseVatRecipe>> {
 
-    public static final Identifier UID =
-        Identifier.fromNamespaceAndPath(
+    public static final ResourceLocation UID =
+        ResourceLocation.fromNamespaceAndPath(
             "italiansdelight",
             "cheese_vat"
         );
@@ -70,7 +70,7 @@ public class CheeseVatRecipeCategory
     private static final int WHEY_TANK_HOVER_HEIGHT = 34;
 
     private final IGuiHelper guiHelper;
-    private final Identifier interfaceImage;
+    private final ResourceLocation interfaceImage;
 
     private final IDrawable icon;
     private final IDrawable background;
@@ -88,7 +88,7 @@ public class CheeseVatRecipeCategory
         this.guiHelper = guiHelper;
 
         this.interfaceImage =
-            Identifier.fromNamespaceAndPath(
+            ResourceLocation.fromNamespaceAndPath(
                 "italiansdelight",
                 "textures/gui/cheese_vat.png"
             );
@@ -98,7 +98,7 @@ public class CheeseVatRecipeCategory
         );
 
         this.background = guiHelper.createDrawable(
-            Identifier.fromNamespaceAndPath(
+            ResourceLocation.fromNamespaceAndPath(
                 "italiansdelight",
                 "textures/gui/jei/cheese_vat.png"
             ),
@@ -109,7 +109,7 @@ public class CheeseVatRecipeCategory
         );
 
         this.wheyBackground = guiHelper.createDrawable(
-            Identifier.fromNamespaceAndPath(
+            ResourceLocation.fromNamespaceAndPath(
                 "italiansdelight",
                 "textures/gui/jei/cheese_vat_whey.png"
             ),

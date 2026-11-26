@@ -13,7 +13,7 @@ import mezz.jei.api.recipe.types.IRecipeType;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * JEI presentation for cheese aging on racks / flat surfaces.
@@ -46,7 +46,7 @@ public final class CheeseAgingRecipeCategory
     ) {
         this.background =
             guiHelper.createDrawable(
-                Identifier.fromNamespaceAndPath(
+                ResourceLocation.fromNamespaceAndPath(
                     "italiansdelight",
                     "textures/gui/jei/aging.png"
                 ),

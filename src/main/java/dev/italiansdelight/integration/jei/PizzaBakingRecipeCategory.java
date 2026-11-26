@@ -15,7 +15,7 @@ import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import mezz.jei.common.gui.JeiGuiColors;
 import mezz.jei.common.gui.JeiGuiColors.GuiColor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 /**
@@ -49,13 +49,13 @@ public final class PizzaBakingRecipeCategory
      * This is a synthetic display, not a new Minecraft cooking recipe.
      */
     @Override
-    public Identifier getIdentifier(PizzaBakingJeiRecipe recipe) {
+    public ResourceLocation getIdentifier(PizzaBakingJeiRecipe recipe) {
         PizzaItemData data = recipe.rawPizza().get(ModDataComponents.PIZZA_CONTENTS);
         String flavor = data == null ? null : PizzaDisplayNames.wholePresetId(data);
         if (flavor == null) {
             throw new IllegalStateException("Expected a recognized pizza flavor in JEI oven");
         }
-        return Identifier.fromNamespaceAndPath("italiansdelight", "/pizza_oven/" + flavor);
+        return ResourceLocation.fromNamespaceAndPath("italiansdelight", "/pizza_oven/" + flavor);
     }
 
     @Override

@@ -12,7 +12,7 @@ import mezz.jei.api.recipe.types.IRecipeType;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Crushing Tub layout derived from the original aging.png JEI texture.
@@ -25,7 +25,7 @@ public final class CrushingTubRecipeCategory implements IRecipeCategory<Crushing
     private static final int WIDTH = 151;
     private static final int HEIGHT = 45;
     private static final long DROPLETS_PER_MB = FluidConstants.BUCKET / 1000L;
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "textures/gui/jei/crushing_tub.png");
 
     private final IDrawable background;

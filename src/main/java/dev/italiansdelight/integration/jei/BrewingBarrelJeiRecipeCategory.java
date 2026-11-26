@@ -14,7 +14,7 @@ import mezz.jei.api.recipe.types.IRecipeType;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -28,7 +28,7 @@ public final class BrewingBarrelJeiRecipeCategory
     private static final int WIDTH = 130;
     private static final int HEIGHT = 80;
     private static final long MAX_BATCH = FluidConstants.BUCKET * 8;
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "textures/gui/jei/brewing_barrel.png");
 
     private final IDrawable background;

@@ -1,6 +1,6 @@
 package dev.italiansdelight.common.registry;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import dev.italiansdelight.ItaliansDelight;
 
@@ -14,7 +14,7 @@ public final class ModRegistries {
     private ModRegistries() {
     }
 
-    public static Identifier id(String path) {
-        return Identifier.fromNamespaceAndPath(ItaliansDelight.MOD_ID, path);
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(ItaliansDelight.MOD_ID, path);
     }
 }

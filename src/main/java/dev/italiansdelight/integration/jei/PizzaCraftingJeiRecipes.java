@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -105,7 +105,7 @@ public final class PizzaCraftingJeiRecipes {
         List<ItemStack> ingredients = new ArrayList<>();
         ingredients.add(dough.get());
         List<PizzaToppingApplication> applications = new ArrayList<>();
-        Set<Identifier> seen = new HashSet<>();
+        Set<ResourceLocation> seen = new HashSet<>();
         boolean hasSauce = false;
         long sequence = 1L;
 
@@ -116,7 +116,7 @@ public final class PizzaCraftingJeiRecipes {
                 return;
             }
             ItemStack topping = candidate.get();
-            Identifier itemId = BuiltInRegistries.ITEM.getKey(topping.getItem());
+            ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(topping.getItem());
             PizzaToppingType type = PizzaToppingCatalog.findNativeItem(itemId).orElse(null);
             if (type == null || type.planned() || !seen.add(type.id())) {
                 ItaliansDelight.LOGGER.warn("[Pizza / JEI] Invalid or duplicate sample ingredient {}; skipping preview", id);
@@ -152,7 +152,7 @@ public final class PizzaCraftingJeiRecipes {
     }
 
     private static Optional<ItemStack> stack(String id) {
-        return BuiltInRegistries.ITEM.getOptional(Identifier.parse(id))
+        return BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(id))
                 .map(ItemStack::new);
     }
 }

@@ -17,7 +17,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -27,14 +27,14 @@ import net.minecraft.world.item.ItemStack;
 @JeiPlugin
 public class ItaliansDelightJeiPlugin implements IModPlugin {
 
-    private static final Identifier UID =
-        Identifier.fromNamespaceAndPath(
+    private static final ResourceLocation UID =
+        ResourceLocation.fromNamespaceAndPath(
             "italiansdelight",
             "jei_plugin"
         );
 
     @Override
-    public Identifier getPluginUid() {
+    public ResourceLocation getPluginUid() {
         return UID;
     }
 
