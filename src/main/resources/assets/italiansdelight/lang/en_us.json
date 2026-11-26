@@ -612,5 +612,18 @@
   "item.italiansdelight.mortadella_sandwich": "Mortadella Sandwich",
   "item.italiansdelight.prosciutto_sandwich": "Prosciutto Sandwich",
   "item.italiansdelight.speck_sandwich": "Speck Sandwich",
-  "item.italiansdelight.salame_sandwich": "Salami Sandwich"
+  "item.italiansdelight.salame_sandwich": "Salami Sandwich",
+  "item.italiansdelight.raw_panzerotto": "Raw Panzerotto",
+  "item.italiansdelight.fried_panzerotto": "Fried Panzerotto",
+  "item.italiansdelight.baked_panzerotto": "Baked Panzerotto",
+  "item.italiansdelight.raw_calzone": "Raw Calzone",
+  "item.italiansdelight.calzone": "Calzone",
+  "item.italiansdelight.raw_arancino_with_ragu": "Raw Ragù Arancino",
+  "item.italiansdelight.arancino_with_ragu": "Ragù Arancino",
+  "item.italiansdelight.raw_arancino_with_prosciutto": "Raw Prosciutto Arancino",
+  "item.italiansdelight.arancino_with_prosciutto": "Prosciutto Arancino",
+  "item.italiansdelight.raw_taralli": "Raw Taralli",
+  "item.italiansdelight.taralli": "Taralli",
+  "item.italiansdelight.raw_grissini": "Raw Breadsticks",
+  "item.italiansdelight.grissini": "Breadsticks"
 }

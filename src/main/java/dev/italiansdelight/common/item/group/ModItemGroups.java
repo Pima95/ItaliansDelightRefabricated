@@ -487,6 +487,21 @@ public final class ModItemGroups {
                 output.accept(ModItems.SPECK_SANDWICH);
                 output.accept(ModItems.SALAME_SANDWICH);
 
+                // STREET FOOD — raw preparations followed by their cooked forms.
+                output.accept(ModItems.RAW_PANZEROTTO);
+                output.accept(ModItems.FRIED_PANZEROTTO);
+                output.accept(ModItems.BAKED_PANZEROTTO);
+                output.accept(ModItems.RAW_CALZONE);
+                output.accept(ModItems.CALZONE);
+                output.accept(ModItems.RAW_ARANCINO_WITH_RAGU);
+                output.accept(ModItems.ARANCINO_WITH_RAGU);
+                output.accept(ModItems.RAW_ARANCINO_WITH_PROSCIUTTO);
+                output.accept(ModItems.ARANCINO_WITH_PROSCIUTTO);
+                output.accept(ModItems.RAW_TARALLI);
+                output.accept(ModItems.TARALLI);
+                output.accept(ModItems.RAW_GRISSINI);
+                output.accept(ModItems.GRISSINI);
+
                 // SAVOURY SALADS AND COLD DISHES.
                 output.accept(ModItems.MOZZARELLA_SALAD);
                 output.accept(ModItems.BURRATA_SALAD);

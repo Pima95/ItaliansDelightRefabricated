@@ -612,5 +612,18 @@
   "item.italiansdelight.mortadella_sandwich": "Panino alla mortadella",
   "item.italiansdelight.prosciutto_sandwich": "Panino al prosciutto",
   "item.italiansdelight.speck_sandwich": "Panino allo speck",
-  "item.italiansdelight.salame_sandwich": "Panino al salame"
+  "item.italiansdelight.salame_sandwich": "Panino al salame",
+  "item.italiansdelight.raw_panzerotto": "Panzerotto crudo",
+  "item.italiansdelight.fried_panzerotto": "Panzerotto fritto",
+  "item.italiansdelight.baked_panzerotto": "Panzerotto al forno",
+  "item.italiansdelight.raw_calzone": "Calzone crudo",
+  "item.italiansdelight.calzone": "Calzone",
+  "item.italiansdelight.raw_arancino_with_ragu": "Arancino al ragù crudo",
+  "item.italiansdelight.arancino_with_ragu": "Arancino al ragù",
+  "item.italiansdelight.raw_arancino_with_prosciutto": "Arancino al prosciutto crudo",
+  "item.italiansdelight.arancino_with_prosciutto": "Arancino al prosciutto",
+  "item.italiansdelight.raw_taralli": "Taralli crudi",
+  "item.italiansdelight.taralli": "Taralli",
+  "item.italiansdelight.raw_grissini": "Grissini crudi",
+  "item.italiansdelight.grissini": "Grissini"
 }

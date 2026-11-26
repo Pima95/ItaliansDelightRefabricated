@@ -1152,6 +1152,21 @@ public final class ModItems {
         public static final Item SPECK_SANDWICH = registerFoodItem("speck_sandwich", 9, 0.8f);
         public static final Item SALAME_SANDWICH = registerFoodItem("salame_sandwich", 9, 0.8f);
 
+        // 2.0.0 street food: raw preparations and finished fried or baked foods.
+        public static final Item RAW_PANZEROTTO = registerSimpleItem("raw_panzerotto", 64);
+        public static final Item FRIED_PANZEROTTO = registerFoodItem("fried_panzerotto", 10, 0.8f);
+        public static final Item BAKED_PANZEROTTO = registerFoodItem("baked_panzerotto", 9, 0.75f);
+        public static final Item RAW_CALZONE = registerSimpleItem("raw_calzone", 64);
+        public static final Item CALZONE = registerFoodItem("calzone", 11, 0.8f);
+        public static final Item RAW_ARANCINO_WITH_RAGU = registerSimpleItem("raw_arancino_with_ragu", 64);
+        public static final Item ARANCINO_WITH_RAGU = registerFoodItem("arancino_with_ragu", 10, 0.8f);
+        public static final Item RAW_ARANCINO_WITH_PROSCIUTTO = registerSimpleItem("raw_arancino_with_prosciutto", 64);
+        public static final Item ARANCINO_WITH_PROSCIUTTO = registerFoodItem("arancino_with_prosciutto", 9, 0.8f);
+        public static final Item RAW_TARALLI = registerSimpleItem("raw_taralli", 64);
+        public static final Item TARALLI = registerFoodItem("taralli", 3, 0.45f);
+        public static final Item RAW_GRISSINI = registerSimpleItem("raw_grissini", 64);
+        public static final Item GRISSINI = registerFoodItem("grissini", 3, 0.4f);
+
         public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
 
         public static final Item CHERRIES = registerFoodItem("cherries", 2, 0.2f);

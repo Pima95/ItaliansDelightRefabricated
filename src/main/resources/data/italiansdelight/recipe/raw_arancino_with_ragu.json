@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "farmersdelight:cooked_rice",
+    "italiansdelight:ragu",
+    "italiansdelight:mozzarella_slice",
+    "italiansdelight:breadcrumbs"
+  ],
+  "result": {
+    "id": "italiansdelight:raw_arancino_with_ragu",
+    "count": 1
+  }
+}

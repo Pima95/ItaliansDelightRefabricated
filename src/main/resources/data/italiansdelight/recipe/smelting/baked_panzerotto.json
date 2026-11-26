@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": "italiansdelight:raw_panzerotto",
+  "result": {
+    "id": "italiansdelight:baked_panzerotto"
+  }
+}

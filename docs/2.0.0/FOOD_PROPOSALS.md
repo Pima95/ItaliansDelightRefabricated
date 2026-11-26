@@ -116,16 +116,16 @@ Tutte le nove ricette sono shapeless nella Crafting Table, con ingredienti esist
 
 | Piatto | Ingredienti principali | Difficoltà | Decisione |
 | --- | --- | --- | --- |
-| Panzerotto | Impasto, mozzarella, pomodoro, olio | Facile | Da valutare |
-| Calzone | Impasto, mozzarella, pomodoro, prosciutto | Facile | Da valutare |
-| Arancino al ragù | Riso, ragù, mozzarella, pane | Intermedio | Da valutare |
-| Arancino al prosciutto | Riso, prosciutto, mozzarella | Facile | Da valutare |
-| Supplì | Riso, pomodoro, mozzarella, pane | Facile | Da valutare |
-| Crocchette di patate | Patate, uovo, pane, olio | Facile | Da valutare |
-| Olive all'ascolana | Olive denocciolate, carne macinata, pane, uovo | Facile | Da valutare |
-| Taralli | Impasto, olio, vino bianco | Facile | Da valutare |
-| Taralli piccanti | Impasto, olio, vino bianco, peperoncino | Facile | Da valutare |
-| Grissini | Impasto, olio, sale | Facile | Da valutare |
+| Panzerotto | Impasto, mozzarella, pomodoro, olio | Facile | Implementato |
+| Calzone | Impasto, mozzarella, pomodoro, prosciutto | Facile | Implementato |
+| Arancino al ragù | Riso, ragù, mozzarella, pane | Intermedio | Implementato |
+| Arancino al prosciutto | Riso, prosciutto, mozzarella | Facile | Implementato |
+| Supplì | Riso, pomodoro, mozzarella, pane | Facile | Escluso da questa fase |
+| Crocchette di patate | Patate, uovo, pane, olio | Facile | Escluso da questa fase |
+| Olive all'ascolana | Olive denocciolate, carne macinata, pane, uovo | Facile | Escluso da questa fase |
+| Taralli | Impasto, olio, vino bianco | Facile | Implementato |
+| Taralli piccanti | Impasto, olio, vino bianco, peperoncino | Facile | Escluso da questa fase |
+| Grissini | Impasto, olio, sale | Facile | Implementato |
 | Panino alla mortadella | Pane, mortadella | Facile | Implementato |
 | Panino al prosciutto | Pane, prosciutto, mozzarella | Facile | Implementato |
 | Panino allo speck | Pane, speck, scamorza | Facile | Implementato |
@@ -266,3 +266,7 @@ Audit di tutti i 57 file ricetta aggiunti/modificati dal commit iniziale delle p
 ## 2.0.0 – Street food: panini approvati
 
 Quattro panini implementati con ricette shapeless, tag `#c:foods/bread`, salumi affettati e formaggi esistenti, senza recipiente. Texture originali 16×16 RGBA ispirate alla prospettiva dei panini FDR, senza copiare i pixel. Valori nutrizionali iniziali: mortadella 7/0.7, prosciutto, speck e salame 9/0.8. Verificare in gioco. Gli altri street food restano da valutare; per i prodotti da forno (calzone, grissini, taralli) preferire preparazione cruda e cottura in forno, non Cooking Pot. Per i fritti valutare separatamente il metodo compatibile con FDR (Cooking Pot solo se appropriato, oppure preparazione cruda e cottura). Nessun altro alimento approvato in questa fase.
+
+## 2.0.0 – Street food: frittura e forno
+
+Approvati panzerotto (fritto e al forno), calzone, arancini al ragù e prosciutto, taralli e grissini. Sei preparazioni crude non commestibili, sette risultati commestibili. Frittura esclusivamente nel Cooking Pot FDR: preparazione cruda + una bottiglia di olio d'oliva; nessuna ciotola richiesta. Il Cooking Pot FDR gestisce i contenitori degli ingredienti. Cottura al forno esclusivamente tramite ricette smelting. Panzerotto e calzone usano impasto di grano FDR, mozzarella e salsa di pomodoro; il calzone aggiunge prosciutto crudo. Gli arancini usano riso cotto, mozzarella, pangrattato e il ripieno corrispondente. I taralli usano impasto, olio e vino bianco; i grissini impasto, olio e sale. Le ultime due ricette producono tre preparazioni crude, ciascuna da cuocere singolarmente. Valori nutrizionali iniziali e texture da verificare in gioco. Nessuna nuova macchina. Corrette le sagome del pane dei quattro panini senza alterare i pixel dei ripieni.

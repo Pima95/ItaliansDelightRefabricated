@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "farmersdelight:wheat_dough",
+    "italiansdelight:mozzarella_slice",
+    "farmersdelight:tomato_sauce"
+  ],
+  "result": {
+    "id": "italiansdelight:raw_panzerotto",
+    "count": 1
+  }
+}

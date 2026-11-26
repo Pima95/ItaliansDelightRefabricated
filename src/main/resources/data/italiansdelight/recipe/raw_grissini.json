@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "farmersdelight:wheat_dough",
+    "italiansdelight:olive_oil_bottle",
+    "italiansdelight:salt"
+  ],
+  "result": {
+    "id": "italiansdelight:raw_grissini",
+    "count": 3
+  }
+}
