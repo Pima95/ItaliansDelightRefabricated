@@ -8,9 +8,8 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeType;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -24,7 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 public final class CrushingTubRecipeCategory implements IRecipeCategory<CrushingTubJeiRecipe> {
     private static final int WIDTH = 151;
     private static final int HEIGHT = 45;
-    private static final long DROPLETS_PER_MB = FluidConstants.BUCKET / 1000L;
+    private static final long DROPLETS_PER_MB = 1000L / 1000L;
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "textures/gui/jei/crushing_tub.png");
 
@@ -39,7 +38,7 @@ public final class CrushingTubRecipeCategory implements IRecipeCategory<Crushing
     }
 
     @Override
-    public IRecipeType<CrushingTubJeiRecipe> getRecipeType() {
+    public RecipeType<CrushingTubJeiRecipe> getRecipeType() {
         return CrushingTubJeiRecipeTypes.CRUSHING_TUB;
     }
 
@@ -55,27 +54,27 @@ public final class CrushingTubRecipeCategory implements IRecipeCategory<Crushing
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, CrushingTubJeiRecipe recipe, IFocusGroup focuses) {
         // The unscaled aging.png has 18x18 frames at (8,25) and (92,25).
-        builder.addInputSlot(9, 26).add(recipe.ingredient());
+        builder.addInputSlot(9, 26).addItemStack(recipe.ingredient());
 
         long fluidAmount = recipe.amount() * DROPLETS_PER_MB;
         if (!recipe.bottlePreview().isEmpty()) {
             // Virtual honey has no registry Fluid: preview the bottle obtainable
             // AFTER transferring 250 mB from the tub into an empty glass bottle.
-            builder.addOutputSlot(93, 26).add(recipe.bottlePreview());
+            builder.addOutputSlot(93, 26).addItemStack(recipe.bottlePreview());
         } else {
             builder.addOutputSlot(93, 26)
                 .setFluidRenderer(fluidAmount, false, 16, 16)
-                .add(recipe.fluid(), fluidAmount);
+                .addFluidStack(recipe.fluid(), fluidAmount);
         }
 
         if (!recipe.byproduct().isEmpty()) {
-            builder.addOutputSlot(126, 26).add(recipe.byproduct());
+            builder.addOutputSlot(126, 26).addItemStack(recipe.byproduct());
         }
     }
 
     @Override
     public void draw(CrushingTubJeiRecipe recipe, IRecipeSlotsView slots,
-                     GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+                     GuiGraphics graphics, double mouseX, double mouseY) {
         background.draw(graphics);
         if (!recipe.byproduct().isEmpty()) {
             byproductFrame.draw(graphics, 125, 25);

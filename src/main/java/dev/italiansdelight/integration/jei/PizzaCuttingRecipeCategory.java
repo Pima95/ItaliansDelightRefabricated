@@ -10,8 +10,8 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeType;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -48,7 +48,7 @@ public final class PizzaCuttingRecipeCategory implements IRecipeCategory<PizzaCu
         this.icon = helper.createDrawableItemLike(ModItems.CUTTING_BOARD.get());
     }
 
-    @Override public IRecipeType<PizzaCuttingJeiRecipe> getRecipeType() {
+    @Override public RecipeType<PizzaCuttingJeiRecipe> getRecipeType() {
         return PizzaCuttingJeiRecipeTypes.PIZZA_CUTTING;
     }
 
@@ -58,7 +58,7 @@ public final class PizzaCuttingRecipeCategory implements IRecipeCategory<PizzaCu
     @Override public IDrawable getIcon() { return icon; }
 
     @Override
-    public ResourceLocation getIdentifier(PizzaCuttingJeiRecipe recipe) {
+    public ResourceLocation getRegistryName(PizzaCuttingJeiRecipe recipe) {
         PizzaItemData pizza = recipe.whole().get(ModDataComponents.PIZZA_CONTENTS);
         String flavor = pizza == null ? null : PizzaDisplayNames.wholePresetId(pizza);
         return ResourceLocation.fromNamespaceAndPath("italiansdelight",
@@ -70,21 +70,21 @@ public final class PizzaCuttingRecipeCategory implements IRecipeCategory<PizzaCu
                           IFocusGroup focuses) {
         // Native Farmer's Delight coordinates/ingredient roles.
         builder.addSlot(RecipeIngredientRole.INPUT, 16, 8)
-                .add(new ItemStack(ModItems.IRON_KNIFE.get()));
+                .addItemStack(new ItemStack(ModItems.IRON_KNIFE.get()));
         builder.addSlot(RecipeIngredientRole.INPUT, 16, 27)
-                .add(recipe.whole());
+                .addItemStack(recipe.whole());
 
         var results = recipe.slices();
         for (int i = 0; i < results.size(); i++) {
             int x = OUTPUT_GRID_X + 1 + (i % 2) * 19;
             int y = OUTPUT_GRID_Y + 1 + (i / 2) * 19;
-            builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).add(results.get(i));
+            builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addItemStack(results.get(i));
         }
     }
 
     @Override
     public void draw(PizzaCuttingJeiRecipe recipe, IRecipeSlotsView slots,
-                     GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+                     GuiGraphics graphics, double mouseX, double mouseY) {
         background.draw(graphics);
         for (int i = 0; i < recipe.slices().size(); i++) {
             int x = OUTPUT_GRID_X + (i % 2) * 19;

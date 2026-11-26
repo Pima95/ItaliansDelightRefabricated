@@ -27,7 +27,7 @@ public final class PizzaWorldRecipeCategory
     }
 
     @Override
-    public ResourceLocation getIdentifier(PizzaWorldJeiRecipe recipe) {
+    public ResourceLocation getRegistryName(PizzaWorldJeiRecipe recipe) {
         return ResourceLocation.fromNamespaceAndPath("italiansdelight",
                 "/pizza_world/" + recipe.flavorId() + "/" + recipe.step().id());
     }
@@ -43,27 +43,27 @@ public final class PizzaWorldRecipeCategory
         // Lookups R/U therefore find the corresponding flavor-specific guide
         // rather than the former seven Margherita-only illustrations.
         builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT)
-                .add(recipe.examplePizza());
+                .addItemStack(recipe.examplePizza());
         builder.addInvisibleIngredients(RecipeIngredientRole.INPUT)
-                .add(dough)
-                .add(new ItemStack(ModItems.ROLLING_PIN));
+                .addItemStack(dough)
+                .addItemStack(new ItemStack(ModItems.ROLLING_PIN));
 
         switch (recipe.step()) {
             case PLACE, STRETCH_HAND ->
                 builder.addInputSlot(76, 7)
-                        .setStandardSlotBackground().add(dough);
+                        .setStandardSlotBackground().addItemStack(dough);
             case STRETCH_PIN, DIVIDE -> {
                 builder.addInputSlot(46, 7)
-                        .setStandardSlotBackground().add(dough);
-                builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 106, 7)
-                        .setStandardSlotBackground().add(new ItemStack(ModItems.ROLLING_PIN));
+                        .setStandardSlotBackground().addItemStack(dough);
+                builder.addSlot(RecipeIngredientRole.CATALYST, 106, 7)
+                        .setStandardSlotBackground().addItemStack(new ItemStack(ModItems.ROLLING_PIN));
             }
             case TOPPINGS -> {
                 if (toppings.isEmpty()) {
                     // Bianca: no toppings are needed! This illustrates the
                     // correctly stretched, undecorated finished base.
                     builder.addOutputSlot(76, 7)
-                            .setOutputSlotBackground().add(recipe.examplePizza());
+                            .setOutputSlotBackground().addItemStack(recipe.examplePizza());
                 } else {
                     // Max six, one physical application per item on an
                     // undivided pizza. Unlike the old Margherita-only page,
@@ -71,22 +71,22 @@ public final class PizzaWorldRecipeCategory
                     int left = (WIDTH - (toppings.size() * 22 - 4)) / 2;
                     for (int i = 0; i < toppings.size(); i++) {
                         builder.addInputSlot(left + i * 22, 7)
-                                .setStandardSlotBackground().add(toppings.get(i));
+                                .setStandardSlotBackground().addItemStack(toppings.get(i));
                     }
                 }
             }
             case REMOVE -> {
                 if (!toppings.isEmpty()) {
                     builder.addOutputSlot(76, 7)
-                            .setOutputSlotBackground().add(toppings.getLast());
+                            .setOutputSlotBackground().addItemStack(toppings.getLast());
                 } else {
                     builder.addOutputSlot(76, 7)
-                            .setOutputSlotBackground().add(recipe.examplePizza());
+                            .setOutputSlotBackground().addItemStack(recipe.examplePizza());
                 }
             }
             case COLLECT ->
                 builder.addOutputSlot(76, 7)
-                        .setOutputSlotBackground().add(recipe.examplePizza());
+                        .setOutputSlotBackground().addItemStack(recipe.examplePizza());
         }
     }
 

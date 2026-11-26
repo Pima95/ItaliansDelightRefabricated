@@ -9,9 +9,9 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeType;
+import mezz.jei.api.recipe.RecipeType;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
@@ -68,7 +68,7 @@ public final class SaltEvaporationRecipeCategory
     }
 
     @Override
-    public IRecipeType<SaltEvaporationJeiRecipe>
+    public RecipeType<SaltEvaporationJeiRecipe>
     getRecipeType() {
         return SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION;
     }
@@ -112,26 +112,21 @@ public final class SaltEvaporationRecipeCategory
                 FLUID_SLOT_SIZE,
                 FLUID_SLOT_SIZE
             )
-            .add(
-                Fluids.WATER,
-                recipe.waterAmount()
-            );
+            .addFluidStack(Fluids.WATER, recipe.waterAmount());
 
         // The real process yields a random 3-7 items, so the slot stays at one
         // representative Salt item and the exact range is explained on hover.
         builder.addOutputSlot(
             OUTPUT_X,
             OUTPUT_Y
-        ).add(
-            ModItems.SALT
-        );
+        ).addItemStack(new net.minecraft.world.item.ItemStack(ModItems.SALT));
     }
 
     @Override
     public void draw(
         SaltEvaporationJeiRecipe recipe,
         IRecipeSlotsView recipeSlotsView,
-        GuiGraphicsExtractor guiGraphics,
+        GuiGraphics guiGraphics,
         double mouseX,
         double mouseY
     ) {

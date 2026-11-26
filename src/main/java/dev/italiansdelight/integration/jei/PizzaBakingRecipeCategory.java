@@ -12,11 +12,8 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
-import mezz.jei.common.gui.JeiGuiColors;
-import mezz.jei.common.gui.JeiGuiColors.GuiColor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 /**
  * Pizza Oven JEI display using the same public slot positions and animated
@@ -49,7 +46,7 @@ public final class PizzaBakingRecipeCategory
      * This is a synthetic display, not a new Minecraft cooking recipe.
      */
     @Override
-    public ResourceLocation getIdentifier(PizzaBakingJeiRecipe recipe) {
+    public ResourceLocation getRegistryName(PizzaBakingJeiRecipe recipe) {
         PizzaItemData data = recipe.rawPizza().get(ModDataComponents.PIZZA_CONTENTS);
         String flavor = data == null ? null : PizzaDisplayNames.wholePresetId(data);
         if (flavor == null) {
@@ -65,17 +62,18 @@ public final class PizzaBakingRecipeCategory
         // ingredient above, rotating vanilla fuels below, output on the right.
         builder.addInputSlot(1, 1)
                 .setStandardSlotBackground()
-                .add(recipe.rawPizza());
+                .addItemStack(recipe.rawPizza());
 
         // AnyFuel is JEI's native, automatically cycling list of usable
         // furnace fuels, NOT one mandatory coal stack or consumed material.
         builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 1, 37)
                 .setStandardSlotBackground()
-                .add(SlotDisplay.AnyFuel.INSTANCE);
+                .addItemStacks(net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity.getFuel().keySet()
+                    .stream().map(net.minecraft.world.item.ItemStack::new).toList());
 
         builder.addOutputSlot(WIDTH - 21, 19)
                 .setOutputSlotBackground()
-                .add(recipe.cookedPizza());
+                .addItemStack(recipe.cookedPizza());
     }
 
     @Override
@@ -97,6 +95,6 @@ public final class PizzaBakingRecipeCategory
                         HorizontalAlignment.CENTER, VerticalAlignment.BOTTOM)
                 .setTextAlignment(HorizontalAlignment.CENTER)
                 .setTextAlignment(VerticalAlignment.BOTTOM)
-                .setColor(JeiGuiColors.getColor(GuiColor.RECIPE_COOKING_TIME_TEXT));
+                .setColor(0x808080);
     }
 }

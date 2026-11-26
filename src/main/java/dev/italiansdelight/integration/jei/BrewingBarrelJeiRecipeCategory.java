@@ -10,9 +10,8 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeType;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +26,7 @@ public final class BrewingBarrelJeiRecipeCategory
         implements IRecipeCategory<BrewingBarrelJeiGuide> {
     private static final int WIDTH = 130;
     private static final int HEIGHT = 80;
-    private static final long MAX_BATCH = FluidConstants.BUCKET * 8;
+    private static final long MAX_BATCH = 1000L * 8;
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
         "italiansdelight", "textures/gui/jei/brewing_barrel.png");
 
@@ -50,7 +49,7 @@ public final class BrewingBarrelJeiRecipeCategory
             .buildAnimated(1200, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
-    @Override public IRecipeType<BrewingBarrelJeiGuide> getRecipeType() {
+    @Override public RecipeType<BrewingBarrelJeiGuide> getRecipeType() {
         return BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE;
     }
 
@@ -66,23 +65,23 @@ public final class BrewingBarrelJeiRecipeCategory
                                    BrewingBarrelJeiGuide recipe, IFocusGroup focuses) {
         builder.addInputSlot(40, 24)
             .setFluidRenderer(MAX_BATCH, false, 16, 32)
-            .add(recipe.input(), MAX_BATCH);
+            .addFluidStack(recipe.input(), MAX_BATCH);
         builder.addOutputSlot(94, 24)
             .setFluidRenderer(MAX_BATCH, false, 16, 32)
-            .add(recipe.output(), MAX_BATCH);
+            .addFluidStack(recipe.output(), MAX_BATCH);
         if (recipe.requiresCulture()) {
             // Cider is selected by inoculating apple juice with wine culture;
             // otherwise the old unseeded apple-vinegar recipe remains active.
             builder.addInputSlot(4, 32)
-                .setFluidRenderer(FluidConstants.BOTTLE, false, 16, 16)
-                .add(ModFluids.WINE, FluidConstants.BOTTLE)
-                .add(ModFluids.WHITE_WINE, FluidConstants.BOTTLE)
-                .add(ModFluids.CHERRY_WINE, FluidConstants.BOTTLE);
+                .setFluidRenderer(250L, false, 16, 16)
+                .addFluidStack(ModFluids.WINE, 250L)
+                .addFluidStack(ModFluids.WHITE_WINE, 250L)
+                .addFluidStack(ModFluids.CHERRY_WINE, 250L);
         }
     }
 
     @Override public void draw(BrewingBarrelJeiGuide recipe, IRecipeSlotsView slots,
-                               GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+                               GuiGraphics graphics, double mouseX, double mouseY) {
         background.draw(graphics);
         bubbles.draw(graphics, 117, 26);
         arrow.draw(graphics, 63, 32);

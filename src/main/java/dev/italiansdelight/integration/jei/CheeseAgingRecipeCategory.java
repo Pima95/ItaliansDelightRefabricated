@@ -9,9 +9,9 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeType;
+import mezz.jei.api.recipe.RecipeType;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -63,7 +63,7 @@ public final class CheeseAgingRecipeCategory
     }
 
     @Override
-    public IRecipeType<CheeseAgingJeiRecipe>
+    public RecipeType<CheeseAgingJeiRecipe>
     getRecipeType() {
         return CheeseAgingJeiRecipeTypes.CHEESE_AGING;
     }
@@ -111,7 +111,7 @@ public final class CheeseAgingRecipeCategory
     public void draw(
         CheeseAgingJeiRecipe recipe,
         IRecipeSlotsView recipeSlotsView,
-        GuiGraphicsExtractor guiGraphics,
+        GuiGraphics guiGraphics,
         double mouseX,
         double mouseY
     ) {

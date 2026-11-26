@@ -16,9 +16,9 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeType;
+import mezz.jei.api.recipe.RecipeType;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -36,7 +36,7 @@ public class CheeseVatRecipeCategory
             "cheese_vat"
         );
 
-    public static final IRecipeType<RecipeHolder<CheeseVatRecipe>> RECIPE_TYPE =
+    public static final RecipeType<RecipeHolder<CheeseVatRecipe>> RECIPE_TYPE =
         CheeseVatJeiRecipeTypes.CHEESE_VAT;
 
     private static final int WIDTH = 145;
@@ -147,7 +147,7 @@ public class CheeseVatRecipeCategory
     }
 
     @Override
-    public IRecipeType<RecipeHolder<CheeseVatRecipe>> getRecipeType() {
+    public RecipeType<RecipeHolder<CheeseVatRecipe>> getRecipeType() {
         return RECIPE_TYPE;
     }
 
@@ -213,7 +213,7 @@ public class CheeseVatRecipeCategory
     public void draw(
         RecipeHolder<CheeseVatRecipe> holder,
         IRecipeSlotsView recipeSlotsView,
-        GuiGraphicsExtractor guiGraphics,
+        GuiGraphics guiGraphics,
         double mouseX,
         double mouseY
     ) {
@@ -256,7 +256,7 @@ public class CheeseVatRecipeCategory
     }
 
     private void drawRequiredWhey(
-        GuiGraphicsExtractor guiGraphics,
+        GuiGraphics guiGraphics,
         int wheyAmount
     ) {
         if (wheyAmount <= 0) {

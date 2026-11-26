@@ -42,7 +42,7 @@ public final class PizzaCraftingRecipeCategory
     }
 
     @Override
-    public ResourceLocation getIdentifier(PizzaCraftingJeiRecipe recipe) {
+    public ResourceLocation getRegistryName(PizzaCraftingJeiRecipe recipe) {
         // Stable JEI-only identifier (no Minecraft crafting recipe is added).
         // The list is validated as one dough followed by distinct toppings.
         StringBuilder id = new StringBuilder("/pizza_crafting/");
