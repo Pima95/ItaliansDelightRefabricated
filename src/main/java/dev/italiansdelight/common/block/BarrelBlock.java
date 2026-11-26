@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import java.util.List;
 import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
 import dev.italiansdelight.common.fluid.FluidTransferBridge;
@@ -8,7 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -70,13 +71,10 @@ public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterlog
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    @Override protected BlockState updateShape(BlockState state, LevelReader level,
-            ScheduledTickAccess ticks, BlockPos pos, Direction direction,
-            BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+    @Override protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED))
-            ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        return super.updateShape(state, level, ticks, pos, direction,
-            neighborPos, neighborState, random);
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new BarrelBlockEntity(pos, state);
@@ -91,14 +89,22 @@ public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterlog
         return InteractionResult.SUCCESS;
     }
 
-    @Override protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level,
+    @Override protected net.minecraft.world.ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level,
+            BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        InteractionResult result = interactWithItem(held, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(ItemStack held, BlockState state, Level level,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (state.getValue(WATERLOGGED)) return InteractionResult.SUCCESS;
         // Prefer Fabric transactions for registered fluids and component-aware
         // containers, but DO NOT shadow old virtual milk/whey/rennet liquids
         // when the player uses an empty bucket or bottle.
         if (FluidTransferBridge.itemStorage(player, hand) != null) {
-            if (level.isClientSide()) return InteractionResult.SUCCESS;
+            if (level.isClientSide) return InteractionResult.SUCCESS;
             if (!(level.getBlockEntity(pos) instanceof BarrelBlockEntity storage))
                 return InteractionResult.FAIL;
             if (FluidTransferBridge.transfer(player, hand, storage.getFluidStorage()))
@@ -118,7 +124,7 @@ public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterlog
         if (held.is(Items.LAVA_BUCKET)) return InteractionResult.SUCCESS;
         if (fluid == null && !emptyBucket && !emptyBottle) return InteractionResult.PASS;
         if (player.isSpectator()) return InteractionResult.PASS;
-        if (level.isClientSide()) return InteractionResult.SUCCESS;
+        if (level.isClientSide) return InteractionResult.SUCCESS;
         if (!(level.getBlockEntity(pos) instanceof BarrelBlockEntity tank)) return InteractionResult.PASS;
         boolean deposit = fluid != null;
         int volume = deposit ? fluid.amount() :

@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import dev.italiansdelight.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,7 +10,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.state.BlockState;
 import vectorwing.farmersdelight.common.block.BuddingBushBlock;
 import vectorwing.farmersdelight.common.block.BuddingTomatoBlock;
@@ -40,19 +41,16 @@ public final class BuddingChiliBlock extends BuddingTomatoBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, LevelReader level,
-            ScheduledTickAccess ticks, BlockPos pos, Direction direction,
-            BlockPos neighbourPos, BlockState neighbour, RandomSource random) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighbour, LevelAccessor level, BlockPos pos, BlockPos neighbourPos) {
         if (state.getValue(BuddingBushBlock.AGE) == 4) {
             return ModBlocks.CHILI_CROP.defaultBlockState();
         }
-        return super.updateShape(state, level, ticks, pos, direction,
-            neighbourPos, neighbour, random);
+        return super.updateShape(state, direction, neighbour, level, pos, neighbourPos);
     }
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random,
-            BlockPos pos, BlockState state, net.minecraft.world.level.block.BonemealSource source) {
+            BlockPos pos, BlockState state) {
         // Same BuddingTomatoBlock growth calculation, but conversion targets chili.
         int grownAge = Math.min(getAge(state) + getBonemealAgeIncrease(level), 7);
         if (grownAge <= getMaxAge()) {

@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModItems;
 import java.util.List;
@@ -21,7 +23,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -106,11 +107,20 @@ public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZO
         return shapes;
     }
 
-    @Override protected InteractionResult useItemOn(
+    @Override protected net.minecraft.world.ItemInteractionResult useItemOn(
+            ItemStack held, BlockState state, Level level, BlockPos pos, Player player,
+            InteractionHand hand, BlockHitResult hit) {
+        InteractionResult result = interactWithItem(held, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(
             ItemStack held, BlockState state, Level level, BlockPos pos, Player player,
             InteractionHand hand, BlockHitResult hit) {
         if (!held.is(KNIVES)) return InteractionResult.PASS;
-        if (level.isClientSide()) return InteractionResult.SUCCESS;
+        if (level.isClientSide) return InteractionResult.SUCCESS;
 
         // Remove before spawning the item: one quarter is consumed atomically.
         int bites = state.getValue(BITES);
@@ -127,7 +137,7 @@ public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZO
             BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (!player.getMainHandItem().isEmpty() || !player.getFoodData().needsFood())
             return InteractionResult.PASS;
-        if (level.isClientSide()) return InteractionResult.SUCCESS;
+        if (level.isClientSide) return InteractionResult.SUCCESS;
 
         int bites = state.getValue(BITES);
         boolean success = bites == 3
@@ -144,14 +154,12 @@ public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZO
         return level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP);
     }
 
-    @Override protected BlockState updateShape(
-            BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos,
-            Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+    @Override protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (direction == Direction.DOWN && !canSurvive(state, level, pos)) {
             // Scheduled breaking invokes getDrops: no lost or doubled servings.
-            ticks.scheduleTick(pos, this, 1);
+            level.scheduleTick(pos, this, 1);
         }
-        return super.updateShape(state, level, ticks, pos, direction, neighborPos, neighborState, random);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {

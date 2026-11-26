@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
 import dev.italiansdelight.common.pizza.PizzaDoughSupport;
 import dev.italiansdelight.common.pizza.PizzaItemData;
@@ -10,7 +12,6 @@ import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -127,18 +127,13 @@ public static final IntegerProperty REMAINING = IntegerProperty.create("remainin
     }
 
     @Override
-    protected BlockState updateShape(
-            BlockState state, LevelReader level, ScheduledTickAccess ticks,
-            BlockPos pos, Direction direction, BlockPos neighborPos,
-            BlockState neighborState, RandomSource random
-    ) {
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (direction == Direction.DOWN && !canSurvive(state, level, pos)) {
             // Avoid immediate AIR replacement, which loses saved quarters
             // without going through this block's composition-aware getDrops.
-            ticks.scheduleTick(pos, this, 1);
+            level.scheduleTick(pos, this, 1);
         }
-        return super.updateShape(
-                state, level, ticks, pos, direction, neighborPos, neighborState, random);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override
@@ -159,7 +154,7 @@ public static final IntegerProperty REMAINING = IntegerProperty.create("remainin
                 || !player.mayUseItemAt(pos, hit.getDirection(), ItemStack.EMPTY)) {
             return InteractionResult.PASS;
         }
-        if (level.isClientSide()) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
         if (!(level instanceof ServerLevel server)
@@ -206,7 +201,7 @@ public static final IntegerProperty REMAINING = IntegerProperty.create("remainin
         // external inventory handler unexpectedly refuses, preserve the
         // committed item as a final failsafe instead of silently losing it.
         if (!player.addItem(slice) && !slice.isEmpty()) {
-            player.drop(slice, false, Prediction.SERVER_ONLY);
+            player.drop(slice, false);
         }
         server.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.6F, 1.0F);
         return InteractionResult.SUCCESS;

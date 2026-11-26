@@ -10,7 +10,6 @@ import dev.italiansdelight.common.block.entity.CheeseAgingRackBlockEntity;
 import dev.italiansdelight.common.item.AgingCheeseItem;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -140,7 +139,22 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected InteractionResult useItemOn(
+    protected net.minecraft.world.ItemInteractionResult useItemOn(
+        ItemStack stack,
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        BlockHitResult hit
+    ) {
+        InteractionResult result = interactWithItem(stack, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(
         ItemStack stack,
         BlockState state,
         Level level,
@@ -160,7 +174,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         // An occupied shelf always has interaction priority. Any held item can
         // be used to take the cheese out without consuming or replacing it.
         if (occupied) {
-            if (level.isClientSide()) {
+            if (level.isClientSide) {
                 return InteractionResult.SUCCESS;
             }
 
@@ -190,7 +204,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             return InteractionResult.FAIL;
         }
 
-        if (level.isClientSide()) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
 
@@ -232,7 +246,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         }
 
-        if (level.isClientSide()) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
 
@@ -262,7 +276,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
             && !player.addItem(stack)
         ) {
             player.drop(
-                stack, false, Prediction.SERVER_ONLY
+                stack, false
             );
         }
     }
@@ -280,7 +294,7 @@ public final class CheeseAgingRackBlock extends BaseEntityBlock {
         player.getInventory()
             .placeItemBackInInventory(
                 stack
-            , Prediction.SERVER_ONLY);
+            );
     }
 
     private static int shelfFromHit(

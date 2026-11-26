@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import java.util.List;
 
 
@@ -8,7 +10,6 @@ import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModParticles;
 import dev.italiansdelight.common.registry.ModItems;
 
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -30,7 +31,6 @@ import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -152,16 +152,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
     }
 
     @Override
-    public BlockState updateShape(
-        BlockState state,
-        LevelReader level,
-        ScheduledTickAccess scheduledTickAccess,
-        BlockPos currentPos,
-        Direction direction,
-        BlockPos neighborPos,
-        BlockState neighborState,
-        RandomSource random
-    ) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
         if (direction.getAxis() == Direction.Axis.Y) {
             return state.setValue(
                 SUPPORT,
@@ -207,7 +198,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
         BlockHitResult hit
     ) {
         if (
-            !level.isClientSide()
+            !level.isClientSide
             && level.getBlockEntity(pos)
                 instanceof CheeseVatBlockEntity cheeseVat
         ) {
@@ -220,7 +211,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected InteractionResult useItemOn(
+    protected net.minecraft.world.ItemInteractionResult useItemOn(
         ItemStack itemStack,
         BlockState state,
         Level level,
@@ -229,7 +220,22 @@ public class CheeseVatBlock extends BaseEntityBlock {
         InteractionHand hand,
         BlockHitResult hit
     ) {
-        if (level.isClientSide()) {
+        InteractionResult result = interactWithItem(itemStack, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(
+        ItemStack itemStack,
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        BlockHitResult hit
+    ) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
 
@@ -246,7 +252,7 @@ public class CheeseVatBlock extends BaseEntityBlock {
             if (!serving.isEmpty()) {
                 if (!player.addItem(serving)) {
                     player.drop(
-                        serving, false, Prediction.SERVER_ONLY
+                        serving, false
                     );
                 }
 
