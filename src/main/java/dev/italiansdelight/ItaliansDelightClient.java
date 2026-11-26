@@ -118,6 +118,24 @@ public final class ItaliansDelightClient {
         fluid(event, ModFluids.RED_WINE_VINEGAR, "block/fluids/booze/red_wine_vinegar_still", "block/fluids/booze/red_wine_vinegar_still", null);
     }
 
+    @SubscribeEvent public static void additionalModels(ModelEvent.RegisterAdditional event) {
+        event.register(PizzaPeelItemModel.LOADED);
+    }
+
+    @SubscribeEvent public static void bakedModels(ModelEvent.ModifyBakingResult event) {
+        event.getModels().computeIfPresent(PizzaPeelItemModel.BASE, (id, model) -> new PizzaPeelItemModel(model));
+    }
+
+    @SubscribeEvent public static void itemExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new IClientItemExtensions() {
+            private PizzaPeelItemModel.Renderer renderer;
+            @Override public net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) renderer = new PizzaPeelItemModel.Renderer();
+                return renderer;
+            }
+        }, ModItems.PIZZA_PEEL);
+    }
+
     @SubscribeEvent public static void setup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ItemBlockRenderTypes.setRenderLayer(ModFluids.OLIVE_OIL_STILL, RenderType.translucent());

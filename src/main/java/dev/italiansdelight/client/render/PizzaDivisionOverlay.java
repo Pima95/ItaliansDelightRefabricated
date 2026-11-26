@@ -9,14 +9,11 @@ import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModItems;
 import java.util.ArrayList;
 import java.util.List;
-import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
-import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionContext;
-import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext;
-import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -34,8 +31,6 @@ import net.minecraft.world.phys.Vec3;
  * retaining references to any mutable ClientLevel / BlockEntity / Player.
  */
 public final class PizzaDivisionOverlay {
-    private static final RenderStateDataKey<List<Guide>> GUIDES =
-            RenderStateDataKey.create(() -> "italiansdelight pizza division guides");
 
     // Interior of stage-4 pizza: raised crust occupies the outer 1px rim.
     private static final double MIN = 2.25 / 16.0;
@@ -55,8 +50,7 @@ public final class PizzaDivisionOverlay {
     }
 
     public static void register() {
-        LevelExtractionEvents.END_EXTRACTION.register(PizzaDivisionOverlay::extract);
-        LevelRenderEvents.COLLECT_SUBMITS.register(PizzaDivisionOverlay::submit);
+        NeoForge.EVENT_BUS.addListener(PizzaDivisionOverlay::render);
     }
 
     private static boolean isRelevantHeldItem(ItemStack stack) {
@@ -76,14 +70,12 @@ public final class PizzaDivisionOverlay {
                 .isPresent();
     }
 
-    private static void extract(LevelExtractionContext context) {
+    private static List<Guide> extract(Vec3 camera) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null || !isRelevantHeldItem(player.getMainHandItem())) {
-            context.levelState().setData(GUIDES, List.of());
-            return;
+            return List.of();
         }
 
-        Vec3 camera = context.levelState().cameraRenderState.pos;
         int centerX = (int) Math.floor(camera.x);
         int centerY = (int) Math.floor(camera.y);
         int centerZ = (int) Math.floor(camera.z);
@@ -95,7 +87,8 @@ public final class PizzaDivisionOverlay {
             for (int x = centerX - HORIZONTAL_RADIUS; x <= centerX + HORIZONTAL_RADIUS; x++) {
                 for (int z = centerZ - HORIZONTAL_RADIUS; z <= centerZ + HORIZONTAL_RADIUS; z++) {
                     cursor.set(x, y, z);
-                    BlockState state = context.level().getBlockState(cursor);
+                    if (!player.level().hasChunkAt(cursor)) continue;
+                    BlockState state = player.level().getBlockState(cursor);
                     if (!state.is(ModBlocks.PIZZA_DOUGH)
                             || state.getValue(PizzaDoughBlock.STAGE) != PizzaDoughBlock.MAX_STAGE) {
                         continue;
@@ -111,29 +104,26 @@ public final class PizzaDivisionOverlay {
                 }
             }
         }
-        context.levelState().setData(GUIDES, List.copyOf(result));
+        return result;
     }
 
-    private static void submit(LevelRenderContext context) {
-        List<Guide> guides = context.levelState().getData(GUIDES);
-        if (guides == null || guides.isEmpty()) {
-            return;
-        }
-        Vec3 camera = context.levelState().cameraRenderState.pos;
-        PoseStack poseStack = context.poseStack();
-
+    private static void render(RenderLevelStageEvent event) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) return;
+        Vec3 camera = event.getCamera().getPosition();
+        List<Guide> guides = extract(camera);
+        if (guides.isEmpty()) return;
+        PoseStack poseStack = event.getPoseStack();
+        var buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+        var type = RenderType.debugFilledBox();
+        VertexConsumer consumer = buffers.getBuffer(type);
         for (Guide guide : guides) {
             poseStack.pushPose();
-            poseStack.translate(
-                    guide.pos().getX() - camera.x,
-                    guide.pos().getY() - camera.y,
+            poseStack.translate(guide.pos().getX() - camera.x, guide.pos().getY() - camera.y,
                     guide.pos().getZ() - camera.z);
-
-            context.submitNodeCollector().submitCustomGeometry(
-                    poseStack, RenderTypes.debugFilledBox(),
-                    (pose, consumer) -> submitGuide(pose, consumer, guide));
+            submitGuide(poseStack.last(), consumer, guide);
             poseStack.popPose();
         }
+        buffers.endBatch(type);
     }
 
     private static void submitGuide(
