@@ -87,6 +87,7 @@ processResources {
     // Normalize only ingredient positions; do not rewrite result stacks,
     // component data, counts, recipe IDs or recipe-specific numeric values.
     inputs.property('legacyIngredientSchema', 1)
+    inputs.property('legacyLootSchema', 1)
     doLast {
         def slurper = new groovy.json.JsonSlurper()
         def convertIngredient
@@ -122,6 +123,62 @@ processResources {
             recipeFile.setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(data)) + '\n', 'UTF-8')
         }
         logger.lifecycle("Normalized " + recipes.files.size() + " recipe resources for NeoForge 1.21.1")
+
+        // 1.21.1 loot pools use conditions[] and functions[].
+        // Convert only loot nodes; never touch number providers, item
+        // predicates, counts or probabilities.
+        def condition
+        def lootFunction
+        def node
+        condition = { value ->
+            if (!(value instanceof Map)) throw new GradleException("Invalid loot condition: " + value)
+            def out = new LinkedHashMap(value)
+            if (out.type instanceof String) {
+                out.condition = out.remove('type')
+            }
+            if (out.condition == 'farmersdelight:can_item_perform_ability')
+                out.condition = 'neoforge:can_item_perform_ability'
+            if (out.condition == 'minecraft:match_block') {
+                if (!(out.blocks instanceof String) || out.blocks.startsWith('#'))
+                    throw new GradleException("Unsupported match_block form: " + out)
+                out.condition = 'minecraft:block_state_property'
+                out.block = out.remove('blocks')
+                out.properties = out.remove('state') ?: [:]
+            }
+            if (out.term instanceof Map) out.term = condition(out.term)
+            if (out.terms instanceof List) out.terms = out.terms.collect { condition(it) }
+            return out
+        }
+        lootFunction = { value ->
+            def out = new LinkedHashMap(value)
+            if (out.type instanceof String) out.function = out.remove('type')
+            return node(out)
+        }
+        node = { value ->
+            def out = new LinkedHashMap(value)
+            def conditions = []
+            if (out.conditions instanceof List) conditions.addAll(out.remove('conditions'))
+            if (out.condition instanceof Map) conditions.add(out.remove('condition'))
+            if (!conditions.isEmpty()) out.conditions = conditions.collect { condition(it) }
+            def functions = []
+            if (out.functions instanceof List) functions.addAll(out.remove('functions'))
+            if (out.modifier instanceof List) functions.addAll(out.remove('modifier'))
+            if (out.modifier instanceof Map) functions.add(out.remove('modifier'))
+            if (!functions.isEmpty()) out.functions = functions.collect { lootFunction(it) }
+            ['pools', 'entries', 'children'].each { key ->
+                if (out[key] instanceof List) out[key] = out[key].collect { node(it) }
+            }
+            return out
+        }
+        def lootTables = fileTree(destinationDir) {
+            include 'data/**/loot_table/**/*.json'
+        }
+        lootTables.each { lootFile ->
+            def data = node(slurper.parse(lootFile))
+            lootFile.setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(data)) + '\n', 'UTF-8')
+        }
+        logger.lifecycle("Normalized " + lootTables.files.size() + " loot table resources for NeoForge 1.21.1")
+
     }
 
 }
