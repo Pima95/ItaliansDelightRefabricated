@@ -255,9 +255,7 @@ public static final IntegerProperty REMAINING = IntegerProperty.create("remainin
     }
 
     @Override
-    protected ItemStack getCloneItemStack(
-            LevelReader level, BlockPos pos, BlockState state, boolean includeData
-    ) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
         CookedPizzaBlockEntity entity =
                 level.getBlockEntity(pos) instanceof CookedPizzaBlockEntity cooked ? cooked : null;
         List<ItemStack> remaining = remainingDrops(state, entity);

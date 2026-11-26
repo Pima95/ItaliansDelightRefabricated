@@ -46,6 +46,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * for saved-world compatibility and synchronized alongside the appearance.
  */
 public final class CheeseAgingRackBlock extends BaseEntityBlock {
+    public static final com.mojang.serialization.MapCodec<CheeseAgingRackBlock> CODEC = simpleCodec(CheeseAgingRackBlock::new);
+    @Override protected com.mojang.serialization.MapCodec<CheeseAgingRackBlock> codec() { return CODEC; }
+
 
     public static final BooleanProperty LOWER_OCCUPIED =
         BooleanProperty.create("lower_occupied");

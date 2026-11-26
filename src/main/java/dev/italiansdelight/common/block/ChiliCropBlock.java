@@ -139,7 +139,7 @@ public class ChiliCropBlock extends TomatoBlock {
             climbRopeAbove(level, pos);
         } else if (above.is(ModBlocks.CHILI_ON_ROPE)) {
             ((ChiliCropBlock) above.getBlock()).performBonemeal(
-                level, random, pos.above(), above, source);
+                level, random, pos.above(), above);
         }
     }
 

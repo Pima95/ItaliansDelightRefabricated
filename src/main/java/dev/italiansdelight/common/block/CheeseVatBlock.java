@@ -54,6 +54,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * heat visuals, Farmer's Delight tray support, and the linked BlockEntity.
  */
 public class CheeseVatBlock extends BaseEntityBlock {
+    public static final com.mojang.serialization.MapCodec<CheeseVatBlock> CODEC = simpleCodec(CheeseVatBlock::new);
+    @Override protected com.mojang.serialization.MapCodec<CheeseVatBlock> codec() { return CODEC; }
+
 
     public static final EnumProperty<Direction> FACING =
         BlockStateProperties.HORIZONTAL_FACING;

@@ -43,6 +43,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** Real open Rustic liquid barrel: no lid, one fluid at a time. */
 public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
+    public static final com.mojang.serialization.MapCodec<BarrelBlock> CODEC = simpleCodec(BarrelBlock::new);
+    @Override protected com.mojang.serialization.MapCodec<BarrelBlock> codec() { return CODEC; }
+
     private static final VoxelShape SHAPE = Shapes.or(
         Block.box(3, 1, 3, 13, 2, 13),
         Block.box(3, 0, 2, 13, 16, 3),

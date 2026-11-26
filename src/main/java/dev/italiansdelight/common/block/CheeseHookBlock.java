@@ -52,6 +52,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * advance while attached; finished products can be re-attached for decoration.
  */
 public final class CheeseHookBlock extends BaseEntityBlock {
+    public static final com.mojang.serialization.MapCodec<CheeseHookBlock> CODEC = simpleCodec(CheeseHookBlock::new);
+    @Override protected com.mojang.serialization.MapCodec<CheeseHookBlock> codec() { return CODEC; }
+
 
     public static final EnumProperty<Direction> FACING =
         BlockStateProperties.HORIZONTAL_FACING;
@@ -377,18 +380,9 @@ private static final VoxelShape HOOK_SHAPE =
     }
 
     @Override
-    protected void affectNeighborsAfterRemoval(
-        BlockState state,
-        ServerLevel level,
-        BlockPos pos,
-        boolean movedByPiston
-    ) {
-        super.affectNeighborsAfterRemoval(
-            state,
-            level,
-            pos,
-            movedByPiston
-        );
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState next, boolean movedByPiston) {
+        super.onRemove(state, level, pos, next, movedByPiston);
+        if (state.is(next.getBlock()) || level.isClientSide) return;
 
         BlockPos reservedPos =
             pos.below();

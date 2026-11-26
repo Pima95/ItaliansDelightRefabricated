@@ -193,7 +193,7 @@ public final class PizzaDoughBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
         PizzaDoughBlockEntity entity = level.getBlockEntity(pos)
                 instanceof PizzaDoughBlockEntity pizza ? pizza : null;
         if (hasPersistentPizzaContents(state, entity)) {

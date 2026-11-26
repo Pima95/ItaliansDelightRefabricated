@@ -146,7 +146,7 @@ public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZO
         if (!success) return InteractionResult.FAIL;
         // Same nutrition/saturation as the portable Almond Cake Slice item.
         player.getFoodData().eat(4, 0.5f);
-        level.playSound(null, pos, SoundEvents.GENERIC_EAT.value(), SoundSource.PLAYERS, 0.8f, 1f);
+        level.playSound(null, pos, SoundEvents.GENERIC_EAT, SoundSource.PLAYERS, 0.8f, 1f);
         return InteractionResult.SUCCESS;
     }
 

@@ -29,7 +29,7 @@ public final class ModBoats {
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, ModRegistries.id(id),
             EntityType.Builder.<Boat>of((type, level) -> new Boat(type, level) {
                 @Override public Item getDropItem() { return item.get(); }
-            }, MobCategory.MISC).noLootTable().sized(1.375F, 0.5625F)
+            }, MobCategory.MISC).sized(1.375F, 0.5625F)
                 .clientTrackingRange(10).build(id));
     }
 
@@ -37,7 +37,7 @@ public final class ModBoats {
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, ModRegistries.id(id),
             EntityType.Builder.<ChestBoat>of((type, level) -> new ChestBoat(type, level) {
                 @Override public Item getDropItem() { return item.get(); }
-            }, MobCategory.MISC).noLootTable().sized(1.375F, 0.5625F)
+            }, MobCategory.MISC).sized(1.375F, 0.5625F)
                 .clientTrackingRange(10).build(id));
     }
 

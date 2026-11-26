@@ -50,6 +50,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * vanilla's ~0.2-block foot sampling can miss fallOn for such shallow surfaces.
  */
 public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
+    public static final com.mojang.serialization.MapCodec<CrushingTubBlock> CODEC = simpleCodec(CrushingTubBlock::new);
+    @Override protected com.mojang.serialization.MapCodec<CrushingTubBlock> codec() { return CODEC; }
+
     private static final VoxelShape SHAPE = Shapes.or(
         Block.box(1, 0, 1, 15, 1, 15),
         Block.box(1, 0, 0, 15, 9, 1),

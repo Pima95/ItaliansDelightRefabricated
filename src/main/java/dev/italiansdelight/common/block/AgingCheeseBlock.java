@@ -43,6 +43,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public final class AgingCheeseBlock
     extends BaseEntityBlock {
+    public static final com.mojang.serialization.MapCodec<AgingCheeseBlock> CODEC = simpleCodec(AgingCheeseBlock::new);
+    @Override protected com.mojang.serialization.MapCodec<AgingCheeseBlock> codec() { return CODEC; }
+
 
     public static final EnumProperty<AgingCheeseType>
         CHEESE =
@@ -238,12 +241,7 @@ public final class AgingCheeseBlock
     }
 
     @Override
-    protected ItemStack getCloneItemStack(
-        LevelReader level,
-        BlockPos pos,
-        BlockState state,
-        boolean includeData
-    ) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
         AgingCheeseType type =
             state.getValue(
                 CHEESE
