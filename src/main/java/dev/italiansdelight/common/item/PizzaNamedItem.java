@@ -1,20 +1,20 @@
 package dev.italiansdelight.common.item;
 
+import java.util.List;
+
 import dev.italiansdelight.common.pizza.PizzaDisplayNames;
 import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.pizza.PizzaSliceFactory;
 import dev.italiansdelight.common.registry.ModDataComponents;
-import java.util.function.Consumer;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.TooltipDisplay;
 import vectorwing.farmersdelight.common.Configuration;
 import vectorwing.farmersdelight.common.utility.TextUtils;
 
@@ -34,7 +34,7 @@ public final class PizzaNamedItem extends Item {
 
     @Override
     public void inventoryTick(
-            ItemStack stack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot
+            ItemStack stack, Level level, Entity owner, int slot, boolean selected
     ) {
         if (slice) {
             // Saved pre-rebalance slices must use the SAME food stats and
@@ -44,7 +44,7 @@ public final class PizzaNamedItem extends Item {
             // Upgrade old mixed pizzas with a saved "*_custom" ITEM_MODEL.
             PizzaDisplayNames.refreshMixedItemModel(stack);
         }
-        super.inventoryTick(stack, level, owner, slot);
+        super.inventoryTick(stack, level, owner, slot, selected);
     }
 
     @Override
@@ -59,25 +59,24 @@ public final class PizzaNamedItem extends Item {
 
     @Override
     public void appendHoverText(
-            ItemStack stack, TooltipContext context, TooltipDisplay display,
-            Consumer<Component> consumer, TooltipFlag type
+            ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type
     ) {
-        super.appendHoverText(stack, context, display, consumer, type);
+        super.appendHoverText(stack, context, tooltip, type);
         if (slice) {
             PizzaSliceData data = stack.get(ModDataComponents.PIZZA_SLICE_CONTENTS);
             if (data != null) {
-                PizzaDisplayNames.appendSliceTooltip(data, consumer);
+                PizzaDisplayNames.appendSliceTooltip(data, tooltip::add);
             }
             // Match Farmer's Delight ConsumableItem: use the actual saved
             // Consumable for localized effect name, color and duration.
             // In particular, no tooltip is added for Bianca/Rossa (no effect).
             if (Configuration.ENABLE_FOOD_EFFECT_TOOLTIP.get()) {
-                TextUtils.addFoodEffectTooltip(stack, consumer, 1.0F, context.tickRate());
+                TextUtils.addFoodEffectTooltip(stack, tooltip::add, 1.0F, context.tickRate());
             }
         } else {
             PizzaItemData data = stack.get(ModDataComponents.PIZZA_CONTENTS);
             if (data != null) {
-                PizzaDisplayNames.appendWholeTooltip(data, consumer);
+                PizzaDisplayNames.appendWholeTooltip(data, tooltip::add);
             }
         }
     }

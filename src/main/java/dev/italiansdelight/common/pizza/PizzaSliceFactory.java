@@ -41,12 +41,6 @@ public final class PizzaSliceFactory {
         PizzaDisplayNames.nameSliceStack(stack, slice);
         FoodProperties food = foodFor(slice);
         stack.set(DataComponents.FOOD, food);
-        // Same official Farmer's Delight consumable as our prepared pasta dishes.
-        // A separate effect is added only to substantial, freshly created slices.
-        if (food.nutrition() >= NOURISHMENT_MIN_HUNGER) {
-            stack.set(DataComponents.CONSUMABLE,
-                    FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
-        }
         return stack;
     }
 
@@ -76,20 +70,6 @@ public final class PizzaSliceFactory {
             changed = true;
         }
 
-        var nourishment = FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION;
-        var currentConsumable = stack.get(DataComponents.CONSUMABLE);
-        if (expectedFood.nutrition() >= NOURISHMENT_MIN_HUNGER) {
-            if (!nourishment.equals(currentConsumable)) {
-                stack.set(DataComponents.CONSUMABLE, nourishment);
-                changed = true;
-            }
-        } else if (nourishment.equals(currentConsumable)) {
-            // An old slice may still carry Nourishment despite no longer
-            // reaching the hunger threshold. Restore the default vanilla
-            // edible-item consumable, rather than deleting eating behavior.
-            stack.remove(DataComponents.CONSUMABLE);
-            changed = true;
-        }
         return changed;
     }
 
@@ -137,9 +117,10 @@ public final class PizzaSliceFactory {
 
         // In vanilla Minecraft, FoodProperties uses a saturation MODIFIER,
         // not saturation points: saturationAdded = nutrition * modifier * 2.
-        return new FoodProperties.Builder()
-                .nutrition(hunger)
-                .saturationModifier(saturation / (2.0f * hunger))
-                .build();
+        FoodProperties.Builder builder = new FoodProperties.Builder()
+                .nutrition(hunger).saturationModifier(saturation / (2.0f * hunger));
+        if (hunger >= NOURISHMENT_MIN_HUNGER)
+            builder.effect(() -> FoodValues.nourishment(FoodValues.SHORT_DURATION), 1.0F);
+        return builder.build();
     }
 }

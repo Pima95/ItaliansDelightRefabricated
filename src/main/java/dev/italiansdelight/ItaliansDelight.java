@@ -55,6 +55,7 @@ public class ItaliansDelight {
         modBus.addListener(ModFluids::onRegister);
         modBus.addListener(ModItemGroups::onRegister);
         modBus.addListener(ModWorldGeneration::onRegister);
+        modBus.addListener(ModItems::onRegister);
         modBus.addListener(ModBlocks::onRegister);
         modBus.addListener(ModBlockEntities::onRegister);
         modBus.addListener(ModBlockEntities::addValidBlocks);
@@ -75,7 +76,6 @@ public class ItaliansDelight {
         // Registries are initialized before the systems that depend on them.
         // This ensures BlockEntities, menus, recipes, and events can already find
         // all registered items and blocks when they are configured.
-        ModItems.register();
         ModBlocks.register();
         ModBoats.register();
         // Pure, read-only registry. The toppings will be wired to pizza interactions later.

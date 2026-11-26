@@ -1,22 +1,22 @@
 package dev.italiansdelight.common.item;
 
+import java.util.List;
+
 import dev.italiansdelight.common.pizza.PizzaPeelCargo;
 import dev.italiansdelight.common.pizza.PizzaDisplayNames;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 import vectorwing.farmersdelight.common.item.SkilletItem;
-import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.TooltipDisplay;
 
 /**
  * Reusable, nonstackable pizza transport tool.
@@ -29,7 +29,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
  */
 public final class PizzaPeelItem extends Item {
     public static final ItemAttributeModifiers EMPTY_PEEL_WEAPON_ATTRIBUTES =
-            SkilletItem.createAttributes(SkilletItem.SKILLET_MATERIAL, 5.0F, -3.1F);
+            SkilletItem.createAttributes(SkilletItem.SKILLET_TIER, 5.0F, -3.1F);
 
     public PizzaPeelItem(Properties properties) {
         super(properties);
@@ -63,8 +63,7 @@ public final class PizzaPeelItem extends Item {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, ServerLevel level, Entity owner,
-                              @Nullable EquipmentSlot slot) {
+    public void inventoryTick(ItemStack stack, Level level, Entity owner, int slot, boolean selected) {
         // Handles legacy saves and stacks moved from chests, without changing
         // components every tick when the state is already correct.
         syncCombatAttributes(stack);
@@ -77,21 +76,21 @@ public final class PizzaPeelItem extends Item {
                 setCargo(stack, new PizzaPeelCargo(pizza));
             }
         }
-        super.inventoryTick(stack, level, owner, slot);
+        super.inventoryTick(stack, level, owner, slot, selected);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context,
-                                TooltipDisplay display, Consumer<Component> consumer,
+                                List<Component> tooltip,
                                 TooltipFlag type) {
-        super.appendHoverText(stack, context, display, consumer, type);
+        super.appendHoverText(stack, context, tooltip, type);
         PizzaPeelCargo cargo = stack.get(ModDataComponents.PEEL_CARGO);
         if (cargo == null) {
-            consumer.accept(Component.translatable("item.italiansdelight.pizza_peel.empty")
+            tooltip.add(Component.translatable("item.italiansdelight.pizza_peel.empty")
                     .withStyle(ChatFormatting.GRAY));
             return;
         }
-        consumer.accept(Component.translatable("item.italiansdelight.pizza_peel.loaded",
+        tooltip.add(Component.translatable("item.italiansdelight.pizza_peel.loaded",
                 cargo.pizza().getHoverName()).withStyle(ChatFormatting.GRAY));
     }
 }
