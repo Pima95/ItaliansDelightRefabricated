@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/template_shelf_right",
-  "textures": {
-    "all": "italiansdelight:block/olive_shelf",
-    "particle": "italiansdelight:block/stripped_olive_log"
-  }
-}

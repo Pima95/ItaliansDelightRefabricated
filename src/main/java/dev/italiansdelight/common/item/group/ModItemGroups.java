@@ -154,7 +154,6 @@ public final class ModItemGroups {
                 output.accept(ModSigns.OLIVE_SIGN);
                 output.accept(ModSigns.OLIVE_HANGING_SIGN);
                 output.accept(ModBlocks.OLIVE_CABINET);
-                output.accept(ModBlocks.OLIVE_SHELF);
                 output.accept(ModBoats.OLIVE_BOAT_ITEM);
                 output.accept(ModBoats.OLIVE_CHEST_BOAT_ITEM);
                 output.accept(ModBlocks.OLIVE_LEAVES);
@@ -177,7 +176,6 @@ public final class ModItemGroups {
                 output.accept(ModSigns.ALMOND_SIGN);
                 output.accept(ModSigns.ALMOND_HANGING_SIGN);
                 output.accept(ModBlocks.ALMOND_CABINET);
-                output.accept(ModBlocks.ALMOND_SHELF);
                 output.accept(ModBoats.ALMOND_BOAT_ITEM);
                 output.accept(ModBoats.ALMOND_CHEST_BOAT_ITEM);
                 output.accept(ModBlocks.ALMOND_LEAVES);
@@ -200,7 +198,6 @@ public final class ModItemGroups {
                 output.accept(ModSigns.FRUIT_CHERRY_SIGN);
                 output.accept(ModSigns.FRUIT_CHERRY_HANGING_SIGN);
                 output.accept(ModBlocks.FRUIT_CHERRY_CABINET);
-                output.accept(ModBlocks.FRUIT_CHERRY_SHELF);
                 output.accept(ModBoats.FRUIT_CHERRY_BOAT_ITEM);
                 output.accept(ModBoats.FRUIT_CHERRY_CHEST_BOAT_ITEM);
                 output.accept(ModBlocks.FRUIT_CHERRY_LEAVES);
