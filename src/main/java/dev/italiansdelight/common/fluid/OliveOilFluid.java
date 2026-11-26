@@ -6,7 +6,8 @@ import dev.italiansdelight.common.registry.ModFluids;
 import dev.italiansdelight.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.material.FlowingFluid;
 
 /** Water-like in-world movement (via minecraft:water fluid tag), but NEVER creates new sources. */
 public abstract class OliveOilFluid extends FlowingFluid {
+    @Override public FluidType getFluidType() { return ModFluids.type("olive_oil"); }
     @Override public Fluid getFlowing() { return ModFluids.OLIVE_OIL_FLOWING; }
     @Override public Fluid getSource() { return ModFluids.OLIVE_OIL_STILL; }
     @Override public boolean isSame(Fluid fluid) {
@@ -34,7 +36,7 @@ public abstract class OliveOilFluid extends FlowingFluid {
             .setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
     }
     // Do not consult waterSourceConversion: unlike vanilla water, two sources never generate a third.
-    @Override protected boolean canConvertToSource(ServerLevel world) { return false; }
+    @Override protected boolean canConvertToSource(Level world) { return false; }
     @Override protected void beforeDestroyingBlock(LevelAccessor world, BlockPos pos, BlockState state) {
         Block.dropResources(state, world, pos, world.getBlockEntity(pos));
     }

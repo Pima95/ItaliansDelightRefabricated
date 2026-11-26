@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.fluid;
 
 import java.util.function.Supplier;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
@@ -23,11 +24,14 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public final class ContainedFluid extends Fluid {
     private final Supplier<Item> container;
+    private final Supplier<FluidType> type;
 
-    public ContainedFluid(Supplier<Item> container) {
+    public ContainedFluid(Supplier<FluidType> type, Supplier<Item> container) {
+        this.type = type;
         this.container = container;
     }
 
+    @Override public FluidType getFluidType() { return type.get(); }
     @Override public Item getBucket() { return container.get(); }
     @Override protected boolean canBeReplacedWith(FluidState state, BlockGetter level,
             BlockPos pos, Fluid other, Direction direction) { return false; }
