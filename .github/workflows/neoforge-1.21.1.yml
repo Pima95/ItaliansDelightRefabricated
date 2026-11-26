@@ -24,7 +24,7 @@ jobs:
           distribution: temurin
           java-version: '21'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Compile full source tree (expected failures until Java port is completed)
+      - name: Compile full source tree and package native JAR
         run: bash ./gradlew clean build --no-daemon --max-workers=2 --console=plain
       - name: Verify native JAR metadata and notices
         run: |
@@ -38,5 +38,6 @@ jobs:
                         "META-INF/THIRD_PARTY_NOTICES.md", "META-INF/CREDIT.md", "META-INF/FDR_CRATES_LICENSE.md"):
                   assert p in z.namelist(), p
               assert "fabric.mod.json" not in z.namelist()
-              assert z.read("dev/italiansdelight/ItaliansDelight.class")[6:8] == bytes([0,61])
+              major = int.from_bytes(z.read("dev/italiansdelight/ItaliansDelight.class")[6:8], "big")
+              assert major == 65, f"Expected Java 21 classfile major 65, got {major}"
           PY
