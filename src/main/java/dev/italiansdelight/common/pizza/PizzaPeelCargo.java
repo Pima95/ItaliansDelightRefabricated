@@ -27,6 +27,17 @@ public record PizzaPeelCargo(ItemStack pizza) {
     }
 
     @Override
+    public boolean equals(Object object) {
+        return this == object || (object instanceof PizzaPeelCargo other
+            && ItemStack.matches(pizza, other.pizza));
+    }
+
+    @Override
+    public int hashCode() {
+        return ItemStack.hashItemAndComponents(pizza);
+    }
+
+    @Override
     public ItemStack pizza() {
         return pizza.copy();
     }

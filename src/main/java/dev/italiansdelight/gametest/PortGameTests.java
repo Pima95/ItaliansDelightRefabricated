@@ -1,6 +1,18 @@
 package dev.italiansdelight.gametest;
 
 import dev.italiansdelight.common.block.entity.BarrelBlockEntity;
+import dev.italiansdelight.common.block.entity.BrewingBarrelBlockEntity;
+import dev.italiansdelight.common.pizza.*;
+import dev.italiansdelight.common.registry.ModDataComponents;
+import dev.italiansdelight.common.registry.ModFluids;
+import dev.italiansdelight.common.registry.ModItems;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import java.util.List;
 import dev.italiansdelight.common.fluid.CompatibleFluidTank;
 import dev.italiansdelight.common.registry.ModBlocks;
 import dev.italiansdelight.common.registry.ModRegistries;
@@ -80,6 +92,106 @@ public final class PortGameTests {
         helper.assertTrue(tank.drain(249, FluidAction.EXECUTE).isEmpty(), "Sub-quarter drain");
         helper.assertTrue(tank.drain(250, FluidAction.EXECUTE).getAmount() == 250, "Quarter drain");
         helper.assertTrue(tank.isEmptyTank(), "Tank should be empty");
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
+    public static void pizzaComponentsAndBaking(GameTestHelper helper) {
+        var regs = helper.getLevel().registryAccess();
+        var sauce = new ItemStack(Items.BEETROOT_SOUP);
+        sauce.set(DataComponents.CUSTOM_NAME, Component.literal("Test topping"));
+        var application = new PizzaToppingApplication(1L,
+            ModRegistries.id("pizza_toppings/tomato_sauce"), sauce, 15, 15);
+        var independent = new PizzaToppingApplication(1L,
+            application.canonicalId(), sauce.copy(), 15, 15);
+        helper.assertTrue(application.equals(independent)
+            && application.hashCode() == independent.hashCode(), "Topping value equality");
+        sauce.setCount(2);
+        helper.assertTrue(application.originalStack().getCount() == 1, "Topping must be defensive");
+        var composition = new PizzaComposition(1, 0, "north", 2L, 42L, List.of(application));
+        var payload = new PizzaItemData(composition, false);
+        var raw = new ItemStack(ModItems.RAW_PIZZA);
+        raw.set(ModDataComponents.PIZZA_CONTENTS, payload);
+        raw.set(DataComponents.CUSTOM_NAME, Component.literal("Test pizza"));
+        var restored = ItemStack.parse(regs, raw.save(regs)).orElseThrow();
+        helper.assertTrue(ItemStack.matches(raw, restored), "Pizza save/reload must retain identical components");
+        helper.assertTrue(PizzaBaking.finish(restored, 1199).isEmpty(), "No premature baking");
+        var result = PizzaBaking.finish(restored, 1200).orElseThrow();
+        helper.assertTrue(result.cookedPizza().is(ModItems.COOKED_PIZZA), "Cooked output");
+        helper.assertTrue(payload.equals(result.cookedPizza().get(ModDataComponents.PIZZA_CONTENTS)), "Toppings survive baking");
+        helper.assertTrue(Component.literal("Test pizza").equals(result.cookedPizza().get(DataComponents.CUSTOM_NAME)), "Custom name survives baking");
+        helper.assertTrue(result.containers().size() == 1 && result.containers().getFirst().is(Items.BOWL)
+            && result.containers().getFirst().getCount() == 1, "One deposited sauce returns one bowl");
+        helper.assertTrue(restored.getCount() == 1 && restored.is(ModItems.RAW_PIZZA), "Preview does not consume input");
+        var peel = new ItemStack(ModItems.PIZZA_PEEL);
+        peel.set(ModDataComponents.PEEL_CARGO, new PizzaPeelCargo(result.cookedPizza()));
+        var reloadedPeel = ItemStack.parse(regs, peel.save(regs)).orElseThrow();
+        helper.assertTrue(ItemStack.matches(peel, reloadedPeel), "Peel cargo equality after save/reload");
+        helper.assertTrue(peel.get(ModDataComponents.PEEL_CARGO).hashCode()
+            == reloadedPeel.get(ModDataComponents.PEEL_CARGO).hashCode(), "Peel cargo hash");
+        var first = PizzaSliceFactory.create(payload, 0);
+        var second = PizzaSliceFactory.create(payload, 3);
+        helper.assertTrue(first.get(ModDataComponents.PIZZA_SLICE_CONTENTS).equals(
+            second.get(ModDataComponents.PIZZA_SLICE_CONTENTS)), "Same flavor across different quarters");
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
+    public static void nativeFluidContainersAndPersistence(GameTestHelper helper) {
+        var fluid = new FluidStack(ModFluids.GRAPE_JUICE, 1000);
+        var bottle = FluidUtil.getFluidHandler(new ItemStack(Items.GLASS_BOTTLE)).orElseThrow();
+        helper.assertTrue(bottle.fill(fluid, FluidAction.SIMULATE) == 250
+            && bottle.getContainer().is(Items.GLASS_BOTTLE), "Simulated bottle fill does not mutate");
+        helper.assertTrue(bottle.fill(fluid.copyWithAmount(249), FluidAction.EXECUTE) == 0, "Reject underfill");
+        helper.assertTrue(bottle.fill(fluid, FluidAction.EXECUTE) == 250
+            && bottle.getContainer().is(ModItems.GRAPE_JUICE_BOTTLE), "Bottle fill");
+        helper.assertTrue(bottle.drain(249, FluidAction.EXECUTE).isEmpty(), "Reject partial bottle drain");
+        helper.assertTrue(bottle.drain(250, FluidAction.EXECUTE).getAmount() == 250
+            && bottle.getContainer().is(Items.GLASS_BOTTLE), "Bottle drain returns container");
+        var bucket = FluidUtil.getFluidHandler(new ItemStack(ModItems.GRAPE_JUICE_BUCKET)).orElseThrow();
+        helper.assertTrue(bucket.drain(999, FluidAction.SIMULATE).isEmpty(), "Reject partial bucket drain");
+        helper.assertTrue(bucket.drain(1000, FluidAction.EXECUTE).getAmount() == 1000
+            && bucket.getContainer().is(Items.BUCKET), "Storage bucket drain returns container");
+        var tank = new CompatibleFluidTank(1000, true, () -> true, () -> {});
+        helper.assertTrue(tank.fill(fluid.copyWithAmount(750), FluidAction.EXECUTE) == 750, "Grape juice tank");
+        helper.assertTrue(tank.fill(new FluidStack(Fluids.WATER, 250), FluidAction.EXECUTE) == 0, "Do not mix fluids");
+        var data = new CompoundTag();
+        tank.save(data, helper.getLevel().registryAccess());
+        var restored = new CompatibleFluidTank(1000, true, () -> true, () -> {});
+        restored.load(data, helper.getLevel().registryAccess(), false);
+        helper.assertTrue(restored.amountMb() == 750
+            && restored.currentVariant().is(ModFluids.GRAPE_JUICE), "Fluid ID and quantity survive reload");
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
+    public static void brewingBarrelTransaction(GameTestHelper helper) {
+        var level = helper.getLevel();
+        var pos = helper.absolutePos(new BlockPos(1, 1, 1));
+        var state = ModBlocks.BREWING_BARREL.defaultBlockState();
+        // Detached instance: exercise the exact tick handler without depending on world timing.
+        var barrel = new BrewingBarrelBlockEntity(pos, state);
+        barrel.setItem(BrewingBarrelBlockEntity.INPUT_IN, new ItemStack(ModItems.GRAPE_JUICE_BOTTLE));
+        BrewingBarrelBlockEntity.serverTick(level, pos, state, barrel);
+        helper.assertTrue(barrel.getJuiceAmount() == 250 && barrel.getItem(BrewingBarrelBlockEntity.INPUT_IN).isEmpty()
+            && barrel.getItem(BrewingBarrelBlockEntity.INPUT_OUT).is(Items.GLASS_BOTTLE), "Juice vessel transaction");
+        helper.assertTrue(barrel.insertCulture(60), "Insert culture");
+        var data = barrel.saveWithoutMetadata(level.registryAccess());
+        data.putInt("BrewTime", BrewingBarrelBlockEntity.BREW_TIME - 1);
+        var restored = new BrewingBarrelBlockEntity(pos, state);
+        restored.loadWithComponents(data, level.registryAccess());
+        helper.assertTrue(restored.getJuiceAmount() == 250 && restored.getCultureAmount() == 250
+            && restored.getCultureQuality() == 60, "Brewer NBT roundtrip");
+        BrewingBarrelBlockEntity.serverTick(level, pos, state, restored);
+        helper.assertTrue(restored.getJuiceAmount() == 0 && restored.getWineAmount() == 250
+            && restored.getOutputKind() == BrewingBarrelBlockEntity.OUTPUT_WINE, "Fermentation conserves amount");
+        int quality = restored.getWineQuality();
+        helper.assertTrue(quality >= 59 && quality <= 64 && restored.getCultureAmount() == 250, "Culture quality and reuse");
+        restored.setItem(BrewingBarrelBlockEntity.OUTPUT_IN, new ItemStack(Items.GLASS_BOTTLE));
+        BrewingBarrelBlockEntity.serverTick(level, pos, state, restored);
+        var wine = restored.getItem(BrewingBarrelBlockEntity.OUTPUT_OUT);
+        helper.assertTrue(restored.getWineAmount() == 0 && wine.is(ModItems.WINE_BOTTLE)
+            && wine.getOrDefault(ModDataComponents.WINE_QUALITY, -1) == quality, "Bottled wine retains quality");
         helper.succeed();
     }
 

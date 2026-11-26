@@ -65,6 +65,25 @@ public record PizzaToppingApplication(
         return originalStack.copy();
     }
 
+    // ItemStack does not implement value equality in Minecraft 1.21.1.
+    // Components must compare identically after decoding or defensive copies.
+    @Override
+    public boolean equals(Object object) {
+        return this == object || (object instanceof PizzaToppingApplication other
+            && sequence == other.sequence
+            && canonicalId.equals(other.canonicalId)
+            && originalMask == other.originalMask
+            && remainingMask == other.remainingMask
+            && bowlReturnedOnCrafting == other.bowlReturnedOnCrafting
+            && ItemStack.matches(originalStack, other.originalStack));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sequence, canonicalId, originalMask, remainingMask,
+            bowlReturnedOnCrafting, ItemStack.hashItemAndComponents(originalStack));
+    }
+
     public boolean covers(int quarterIndex) {
         if (quarterIndex < 0 || quarterIndex >= 4) {
             throw new IndexOutOfBoundsException("Pizza quarter must be 0..3");
