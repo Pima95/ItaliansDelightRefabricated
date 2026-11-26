@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
@@ -64,13 +64,13 @@ public final class CompatibleFluidTank extends SingleFluidStorage {
     public String id() {
         if (hasVirtualFluid()) return virtualId;
         if (variant.isBlank()) return "";
-        Identifier key = BuiltInRegistries.FLUID.getKey(variant.getFluid());
+        ResourceLocation key = BuiltInRegistries.FLUID.getKey(variant.getFluid());
         return key == null ? "" : key.toString();
     }
 
     private static FluidVariant known(String fluidId) {
         if (fluidId == null || fluidId.isBlank()) return FluidVariant.blank();
-        Identifier id = Identifier.tryParse(fluidId);
+        ResourceLocation id = ResourceLocation.tryParse(fluidId);
         if (id == null || !BuiltInRegistries.FLUID.containsKey(id))
             return FluidVariant.blank();
         Fluid value = BuiltInRegistries.FLUID.getValue(id);

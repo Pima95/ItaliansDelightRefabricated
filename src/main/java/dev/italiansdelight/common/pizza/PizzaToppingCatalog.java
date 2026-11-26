@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import static dev.italiansdelight.common.pizza.PizzaToppingType.NutritionCategory.*;
 import static dev.italiansdelight.common.pizza.PizzaToppingType.Role.*;
@@ -25,8 +25,8 @@ import static dev.italiansdelight.common.pizza.PizzaToppingType.Role.*;
  * separate lookup cache; those extensions must never overwrite native items.
  */
 public final class PizzaToppingCatalog {
-    private static final Map<Identifier, PizzaToppingType> TYPES;
-    private static final Map<Identifier, PizzaToppingType> NATIVE_ITEMS;
+    private static final Map<ResourceLocation, PizzaToppingType> TYPES;
+    private static final Map<ResourceLocation, PizzaToppingType> NATIVE_ITEMS;
 
     /**
      * Known whole/unprepared or explicitly forbidden items.
@@ -36,45 +36,45 @@ public final class PizzaToppingCatalog {
      * <p>Unknown third-party items still require deliberate verification of
      * their real form before a mapping may be shipped in a datapack.
      */
-    private static final Set<Identifier> EXPLICIT_EXCLUSIONS = Set.of(
-            Identifier.parse("italiansdelight:parmigiano_reggiano_wedge"),
-            Identifier.parse("italiansdelight:pecorino_romano_wedge"),
-            Identifier.parse("italiansdelight:mascarpone"),
-            Identifier.parse("italiansdelight:salt"),
-            Identifier.parse("italiansdelight:mozzarella"),
-            Identifier.parse("italiansdelight:burrata"),
-            Identifier.parse("italiansdelight:scamorza"),
-            Identifier.parse("italiansdelight:smoked_scamorza"),
-            Identifier.parse("italiansdelight:olives"),
-            Identifier.parse("italiansdelight:olive_seed"),
-            Identifier.parse("italiansdelight:olive_pate"),
-            Identifier.parse("italiansdelight:almonds"),
-            Identifier.parse("italiansdelight:almond_pesto"),
-            Identifier.parse("italiansdelight:almond_cake"),
-            Identifier.parse("italiansdelight:almond_cake_slice"),
-            Identifier.parse("minecraft:air"),
-            Identifier.parse("minecraft:egg"),
-            Identifier.parse("minecraft:beef"),
-            Identifier.parse("minecraft:cooked_beef"),
-            Identifier.parse("minecraft:chicken"),
-            Identifier.parse("minecraft:cooked_chicken"),
-            Identifier.parse("minecraft:cod"),
-            Identifier.parse("minecraft:cooked_cod"),
-            Identifier.parse("minecraft:salmon"),
-            Identifier.parse("minecraft:cooked_salmon"),
-            Identifier.parse("minecraft:carrot"),
-            Identifier.parse("minecraft:potato"),
-            Identifier.parse("farmersdelight:cabbage"),
-            Identifier.parse("farmersdelight:tomato"),
-            Identifier.parse("farmersdelight:onion"),
-            Identifier.parse("farmersdelight:beef_patty"),
-            Identifier.parse("farmersdelight:ham"),
-            Identifier.parse("farmersdelight:smoked_ham")
+    private static final Set<ResourceLocation> EXPLICIT_EXCLUSIONS = Set.of(
+            ResourceLocation.parse("italiansdelight:parmigiano_reggiano_wedge"),
+            ResourceLocation.parse("italiansdelight:pecorino_romano_wedge"),
+            ResourceLocation.parse("italiansdelight:mascarpone"),
+            ResourceLocation.parse("italiansdelight:salt"),
+            ResourceLocation.parse("italiansdelight:mozzarella"),
+            ResourceLocation.parse("italiansdelight:burrata"),
+            ResourceLocation.parse("italiansdelight:scamorza"),
+            ResourceLocation.parse("italiansdelight:smoked_scamorza"),
+            ResourceLocation.parse("italiansdelight:olives"),
+            ResourceLocation.parse("italiansdelight:olive_seed"),
+            ResourceLocation.parse("italiansdelight:olive_pate"),
+            ResourceLocation.parse("italiansdelight:almonds"),
+            ResourceLocation.parse("italiansdelight:almond_pesto"),
+            ResourceLocation.parse("italiansdelight:almond_cake"),
+            ResourceLocation.parse("italiansdelight:almond_cake_slice"),
+            ResourceLocation.parse("minecraft:air"),
+            ResourceLocation.parse("minecraft:egg"),
+            ResourceLocation.parse("minecraft:beef"),
+            ResourceLocation.parse("minecraft:cooked_beef"),
+            ResourceLocation.parse("minecraft:chicken"),
+            ResourceLocation.parse("minecraft:cooked_chicken"),
+            ResourceLocation.parse("minecraft:cod"),
+            ResourceLocation.parse("minecraft:cooked_cod"),
+            ResourceLocation.parse("minecraft:salmon"),
+            ResourceLocation.parse("minecraft:cooked_salmon"),
+            ResourceLocation.parse("minecraft:carrot"),
+            ResourceLocation.parse("minecraft:potato"),
+            ResourceLocation.parse("farmersdelight:cabbage"),
+            ResourceLocation.parse("farmersdelight:tomato"),
+            ResourceLocation.parse("farmersdelight:onion"),
+            ResourceLocation.parse("farmersdelight:beef_patty"),
+            ResourceLocation.parse("farmersdelight:ham"),
+            ResourceLocation.parse("farmersdelight:smoked_ham")
     );
 
     static {
-        Map<Identifier, PizzaToppingType> types = new LinkedHashMap<>();
-        Map<Identifier, PizzaToppingType> nativeItems = new LinkedHashMap<>();
+        Map<ResourceLocation, PizzaToppingType> types = new LinkedHashMap<>();
+        Map<ResourceLocation, PizzaToppingType> nativeItems = new LinkedHashMap<>();
 
         // Italian's Delight: 20 distinct topping types and 20 item IDs.
         add(types, nativeItems, "mozzarella_slice", DAIRY, SOLID, "italiansdelight", "mozzarella_slice");
@@ -128,7 +128,7 @@ public final class PizzaToppingCatalog {
                     + types.size() + " types, " + nativeItems.size() + " native item IDs");
         }
 
-        for (Identifier id : EXPLICIT_EXCLUSIONS) {
+        for (ResourceLocation id : EXPLICIT_EXCLUSIONS) {
             if (nativeItems.containsKey(id)) {
                 throw new IllegalStateException("Forbidden pizza topping registered: " + id);
             }
@@ -152,37 +152,37 @@ public final class PizzaToppingCatalog {
     }
 
     /** Includes both active and planned types. Never mutable. */
-    public static Map<Identifier, PizzaToppingType> types() {
+    public static Map<ResourceLocation, PizzaToppingType> types() {
         return TYPES;
     }
 
     /** Exactly the 37 approved native item IDs. Never mutable. */
-    public static Map<Identifier, PizzaToppingType> nativeItems() {
+    public static Map<ResourceLocation, PizzaToppingType> nativeItems() {
         return NATIVE_ITEMS;
     }
 
-    public static Optional<PizzaToppingType> findType(Identifier canonicalId) {
+    public static Optional<PizzaToppingType> findType(ResourceLocation canonicalId) {
         return Optional.ofNullable(TYPES.get(Objects.requireNonNull(canonicalId, "canonicalId")));
     }
 
-    public static Optional<PizzaToppingType> findNativeItem(Identifier itemId) {
+    public static Optional<PizzaToppingType> findNativeItem(ResourceLocation itemId) {
         return Optional.ofNullable(NATIVE_ITEMS.get(Objects.requireNonNull(itemId, "itemId")));
     }
 
     /** Only live canonical topping types may be applied to a pizza. */
-    public static boolean isActiveType(Identifier canonicalId) {
+    public static boolean isActiveType(ResourceLocation canonicalId) {
         PizzaToppingType topping = TYPES.get(Objects.requireNonNull(canonicalId, "canonicalId"));
         return topping != null && !topping.planned();
     }
 
     /** Known forbidden items remain blocked even in optional datapack mappings. */
-    public static boolean isExplicitlyExcluded(Identifier itemId) {
+    public static boolean isExplicitlyExcluded(ResourceLocation itemId) {
         return EXPLICIT_EXCLUSIONS.contains(Objects.requireNonNull(itemId, "itemId"));
     }
 
     private static void add(
-            Map<Identifier, PizzaToppingType> types,
-            Map<Identifier, PizzaToppingType> nativeItems,
+            Map<ResourceLocation, PizzaToppingType> types,
+            Map<ResourceLocation, PizzaToppingType> nativeItems,
             String name,
             PizzaToppingType.NutritionCategory category,
             PizzaToppingType.Role role,
@@ -194,7 +194,7 @@ public final class PizzaToppingCatalog {
         }
         PizzaToppingType type = createType(types, name, category, role, false);
         for (String itemPath : itemPaths) {
-            Identifier id = Identifier.fromNamespaceAndPath(namespace, itemPath);
+            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(namespace, itemPath);
             if (nativeItems.putIfAbsent(id, type) != null) {
                 throw new IllegalStateException("Duplicate native pizza topping item: " + id);
             }
@@ -202,7 +202,7 @@ public final class PizzaToppingCatalog {
     }
 
     private static void addPlanned(
-            Map<Identifier, PizzaToppingType> types,
+            Map<ResourceLocation, PizzaToppingType> types,
             String name,
             PizzaToppingType.NutritionCategory category,
             PizzaToppingType.Role role
@@ -211,13 +211,13 @@ public final class PizzaToppingCatalog {
     }
 
     private static PizzaToppingType createType(
-            Map<Identifier, PizzaToppingType> types,
+            Map<ResourceLocation, PizzaToppingType> types,
             String name,
             PizzaToppingType.NutritionCategory category,
             PizzaToppingType.Role role,
             boolean planned
     ) {
-        Identifier id = ModRegistries.id("pizza_toppings/" + name);
+        ResourceLocation id = ModRegistries.id("pizza_toppings/" + name);
         PizzaToppingType type = new PizzaToppingType(id, category, role, planned);
         if (types.putIfAbsent(id, type) != null) {
             throw new IllegalStateException("Duplicate canonical pizza topping identity: " + id);

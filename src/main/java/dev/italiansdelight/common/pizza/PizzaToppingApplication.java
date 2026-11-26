@@ -3,7 +3,7 @@ package dev.italiansdelight.common.pizza;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Objects;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
  */
 public record PizzaToppingApplication(
         long sequence,
-        Identifier canonicalId,
+        ResourceLocation canonicalId,
         ItemStack originalStack,
         int originalMask,
         int remainingMask,
@@ -25,7 +25,7 @@ public record PizzaToppingApplication(
     public static final Codec<PizzaToppingApplication> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.LONG.fieldOf("sequence").forGetter(PizzaToppingApplication::sequence),
-                    Identifier.CODEC.fieldOf("canonical").forGetter(PizzaToppingApplication::canonicalId),
+                    ResourceLocation.CODEC.fieldOf("canonical").forGetter(PizzaToppingApplication::canonicalId),
                     ItemStack.CODEC.fieldOf("original_stack").forGetter(PizzaToppingApplication::originalStack),
                     Codec.INT.fieldOf("original_mask").forGetter(PizzaToppingApplication::originalMask),
                     Codec.INT.fieldOf("remaining_mask").forGetter(PizzaToppingApplication::remainingMask),
@@ -36,7 +36,7 @@ public record PizzaToppingApplication(
 
     /** Source-compatible constructor for all pre-existing saved/placed toppings. */
     public PizzaToppingApplication(
-            long sequence, Identifier canonicalId, ItemStack originalStack,
+            long sequence, ResourceLocation canonicalId, ItemStack originalStack,
             int originalMask, int remainingMask
     ) {
         this(sequence, canonicalId, originalStack, originalMask, remainingMask, false);

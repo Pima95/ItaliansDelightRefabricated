@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 import net.fabricmc.fabric.api.resource.v1.DataResourceLoader;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -70,7 +70,7 @@ public final class PizzaToppingMappings {
 
         // Protected built-in mappings always take precedence, even if an
         // optional pack explicitly attempts to replace one.
-        for (Map.Entry<Identifier, PizzaToppingType> nativeEntry
+        for (Map.Entry<ResourceLocation, PizzaToppingType> nativeEntry
                 : PizzaToppingCatalog.nativeItems().entrySet()) {
             Item nativeItem = BuiltInRegistries.ITEM.getOptional(nativeEntry.getKey()).orElse(null);
             if (nativeItem == null) {
@@ -88,16 +88,16 @@ public final class PizzaToppingMappings {
         var stacks = resources.listResourceStacks(
                 DIRECTORY, id -> id.getPath().endsWith(".json")
         );
-        List<Identifier> resourceIds = new ArrayList<>(stacks.keySet());
-        resourceIds.sort(Comparator.comparing(Identifier::toString));
+        List<ResourceLocation> resourceIds = new ArrayList<>(stacks.keySet());
+        resourceIds.sort(Comparator.comparing(ResourceLocation::toString));
 
-        Map<Identifier, PizzaToppingType> proposed = new HashMap<>();
-        Set<Identifier> conflicted = new HashSet<>();
+        Map<ResourceLocation, PizzaToppingType> proposed = new HashMap<>();
+        Set<ResourceLocation> conflicted = new HashSet<>();
         int acceptedFiles = 0;
         int rejectedFiles = 0;
         int absentItems = 0;
 
-        for (Identifier resourceId : resourceIds) {
+        for (ResourceLocation resourceId : resourceIds) {
             List<Resource> stack = stacks.get(resourceId);
             for (int index = 0; index < stack.size(); index++) {
                 Resource file = stack.get(index);
@@ -161,7 +161,7 @@ public final class PizzaToppingMappings {
 
         // Reject only the conflicting optional item IDs. All native mappings
         // and unrelated external equivalents remain usable.
-        for (Map.Entry<Identifier, PizzaToppingType> entry : proposed.entrySet()) {
+        for (Map.Entry<ResourceLocation, PizzaToppingType> entry : proposed.entrySet()) {
             if (conflicted.contains(entry.getKey())) {
                 continue;
             }
@@ -194,8 +194,8 @@ public final class PizzaToppingMappings {
                 || !isString(obj.get("canonical"))) {
             throw new IllegalArgumentException("expected exactly two string fields: item, canonical");
         }
-        Identifier itemId = readId(obj.get("item").getAsString(), "item");
-        Identifier canonicalId = readId(obj.get("canonical").getAsString(), "canonical");
+        ResourceLocation itemId = readId(obj.get("item").getAsString(), "item");
+        ResourceLocation canonicalId = readId(obj.get("canonical").getAsString(), "canonical");
         return new Mapping(itemId, canonicalId);
     }
 
@@ -204,16 +204,16 @@ public final class PizzaToppingMappings {
                 && value.getAsJsonPrimitive().isString();
     }
 
-    private static Identifier readId(String text, String field) {
+    private static ResourceLocation readId(String text, String field) {
         // Require fully qualified IDs: e.g. 'othermod:mozzarella_slice',
         // not 'mozzarella_slice' which would silently become minecraft:...
-        Identifier id = text.contains(":") ? Identifier.tryParse(text) : null;
+        ResourceLocation id = text.contains(":") ? ResourceLocation.tryParse(text) : null;
         if (id == null || !id.toString().equals(text)) {
             throw new IllegalArgumentException("invalid fully qualified " + field + " ID: " + text);
         }
         return id;
     }
 
-    private record Mapping(Identifier itemId, Identifier canonicalId) {
+    private record Mapping(ResourceLocation itemId, ResourceLocation canonicalId) {
     }
 }

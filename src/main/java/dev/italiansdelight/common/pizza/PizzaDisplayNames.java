@@ -17,7 +17,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -31,20 +31,20 @@ import net.minecraft.world.item.ItemStack;
 public final class PizzaDisplayNames {
     private static final String PREFIX = "pizza.italiansdelight.";
     private static final String CANONICAL_PREFIX = "pizza_toppings/";
-    private static final Identifier LEGACY_MOZZARELLA =
-            Identifier.parse("italiansdelight:pizza_toppings/legacy_mozzarella");
+    private static final ResourceLocation LEGACY_MOZZARELLA =
+            ResourceLocation.parse("italiansdelight:pizza_toppings/legacy_mozzarella");
     // 23 named pizzas, including Principessa with two distinct spreads.
-    private static final Map<Set<Identifier>, String> PRESETS = buildPresets();
+    private static final Map<Set<ResourceLocation>, String> PRESETS = buildPresets();
 
     private PizzaDisplayNames() {
     }
 
-    private static Identifier topping(String path) {
-        return Identifier.parse("italiansdelight:" + CANONICAL_PREFIX + path);
+    private static ResourceLocation topping(String path) {
+        return ResourceLocation.parse("italiansdelight:" + CANONICAL_PREFIX + path);
     }
 
-    private static void add(Map<Set<Identifier>, String> out, String name, String... paths) {
-        Set<Identifier> ingredients = Arrays.stream(paths)
+    private static void add(Map<Set<ResourceLocation>, String> out, String name, String... paths) {
+        Set<ResourceLocation> ingredients = Arrays.stream(paths)
                 .map(PizzaDisplayNames::topping)
                 .collect(Collectors.toUnmodifiableSet());
         if (out.putIfAbsent(ingredients, name) != null) {
@@ -52,8 +52,8 @@ public final class PizzaDisplayNames {
         }
     }
 
-    private static Map<Set<Identifier>, String> buildPresets() {
-        Map<Set<Identifier>, String> presets = new LinkedHashMap<>();
+    private static Map<Set<ResourceLocation>, String> buildPresets() {
+        Map<Set<ResourceLocation>, String> presets = new LinkedHashMap<>();
         add(presets, "bianca");
         add(presets, "rossa", "tomato_sauce");
         add(presets, "margherita", "tomato_sauce", "mozzarella_slice", "basil");
@@ -95,8 +95,8 @@ public final class PizzaDisplayNames {
         return Collections.unmodifiableMap(presets);
     }
 
-    private static Set<Identifier> quarter(PizzaItemData whole, int index) {
-        Set<Identifier> ingredients = new HashSet<>(whole.composition().toppingsForQuarter(index));
+    private static Set<ResourceLocation> quarter(PizzaItemData whole, int index) {
+        Set<ResourceLocation> ingredients = new HashSet<>(whole.composition().toppingsForQuarter(index));
         // Preserve the legacy proof-of-concept topping in the description.
         // Never mislabel an old whole-mozzarella pizza as Bianca or a preset.
         if (whole.legacyMozzarella()) {
@@ -105,8 +105,8 @@ public final class PizzaDisplayNames {
         return Set.copyOf(ingredients);
     }
 
-    private static Set<Identifier> quarter(PizzaSliceData slice) {
-        Set<Identifier> ingredients = new HashSet<>();
+    private static Set<ResourceLocation> quarter(PizzaSliceData slice) {
+        Set<ResourceLocation> ingredients = new HashSet<>();
         for (PizzaSliceData.Topping topping : slice.toppings()) {
             ingredients.add(topping.canonicalId());
         }
@@ -120,7 +120,7 @@ public final class PizzaDisplayNames {
         return Component.translatable(PREFIX + "taste." + id);
     }
 
-    private static Component ingredient(Identifier id) {
+    private static Component ingredient(ResourceLocation id) {
         if (id.getNamespace().equals("italiansdelight")
                 && id.getPath().startsWith(CANONICAL_PREFIX)) {
             String key = id.getPath().substring(CANONICAL_PREFIX.length());
@@ -132,22 +132,22 @@ public final class PizzaDisplayNames {
         return Component.literal(id.toString());
     }
 
-    private static List<Identifier> sorted(Set<Identifier> types) {
-        List<Identifier> ids = new ArrayList<>(types);
-        ids.sort(Comparator.comparing(Identifier::toString));
+    private static List<ResourceLocation> sorted(Set<ResourceLocation> types) {
+        List<ResourceLocation> ids = new ArrayList<>(types);
+        ids.sort(Comparator.comparing(ResourceLocation::toString));
         return ids;
     }
 
     /** Complete, stable list, independent of placement order and locale. */
-    private static Component ingredients(Set<Identifier> types) {
+    private static Component ingredients(Set<ResourceLocation> types) {
         if (types.isEmpty()) {
             return Component.translatable(PREFIX + "none");
         }
-        List<Identifier> ids = sorted(types);
+        List<ResourceLocation> ids = sorted(types);
         return join(ids, ids.size());
     }
 
-    private static Component join(List<Identifier> ids, int count) {
+    private static Component join(List<ResourceLocation> ids, int count) {
         MutableComponent text = Component.empty();
         for (int i = 0; i < count; i++) {
             if (i > 0) {
@@ -161,8 +161,8 @@ public final class PizzaDisplayNames {
     }
 
     /** Abbreviate only the inventory name; the tooltip always remains complete. */
-    private static Component shortIngredients(Set<Identifier> types) {
-        List<Identifier> ids = sorted(types);
+    private static Component shortIngredients(Set<ResourceLocation> types) {
+        List<ResourceLocation> ids = sorted(types);
         if (ids.size() <= 3) {
             // Reuse the already sorted list rather than sorting it again in
             // ingredients(types). Keep the same text for an empty quarter.
@@ -174,7 +174,7 @@ public final class PizzaDisplayNames {
                 join(ids, 2), ids.size() - 2);
     }
 
-    private static Component quarterDescription(Set<Identifier> types) {
+    private static Component quarterDescription(Set<ResourceLocation> types) {
         String id = PRESETS.get(types);
         return id == null ? ingredients(types) : preset(id);
     }
@@ -189,7 +189,7 @@ public final class PizzaDisplayNames {
     public static String wholePresetId(PizzaItemData whole) {
         // The first quarter was previously rebuilt after isMixed had
         // already inspected it. Reuse this local immutable snapshot.
-        Set<Identifier> first = quarter(whole, 0);
+        Set<ResourceLocation> first = quarter(whole, 0);
         for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
             if (!first.equals(quarter(whole, q))) {
                 return null;
@@ -200,7 +200,7 @@ public final class PizzaDisplayNames {
 
     /** Different physical quarters, independent of division lines and toppings order. */
     private static boolean isMixed(PizzaItemData whole) {
-        Set<Identifier> first = quarter(whole, 0);
+        Set<ResourceLocation> first = quarter(whole, 0);
         for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
             if (!first.equals(quarter(whole, q))) {
                 return true;
@@ -213,7 +213,7 @@ public final class PizzaDisplayNames {
      * The only ordered, immutable canonical preset catalogue. Used for both
      * naming and genuine Creative samples; never duplicate topping recipes.
      */
-    public static Map<Set<Identifier>, String> allPresets() {
+    public static Map<Set<ResourceLocation>, String> allPresets() {
         return PRESETS;
     }
 
@@ -225,7 +225,7 @@ public final class PizzaDisplayNames {
      * Uniform recipes without a preset retain the custom/fallback icon.
      * No new Item registry entries or image edits are necessary.
      */
-    private static Identifier wholeItemModel(PizzaItemData whole, boolean cooked) {
+    private static ResourceLocation wholeItemModel(PizzaItemData whole, boolean cooked) {
         String base = cooked ? "cooked_pizza" : "raw_pizza";
         String id = wholePresetId(whole);
         if ("margherita".equals(id) || (id == null && isMixed(whole))) {
@@ -241,7 +241,7 @@ public final class PizzaDisplayNames {
             // Historical translation key intentionally preserved; IT=Pizza mista.
             return Component.translatable(PREFIX + "assorted");
         }
-        Set<Identifier> first = quarter(whole, 0);
+        Set<ResourceLocation> first = quarter(whole, 0);
         String id = PRESETS.get(first);
         if (id != null) {
             return Component.translatable(PREFIX + "named_whole", preset(id));
@@ -258,7 +258,7 @@ public final class PizzaDisplayNames {
         return PRESETS.get(quarter(slice));
     }
 
-    private static Identifier sliceItemModel(PizzaSliceData slice) {
+    private static ResourceLocation sliceItemModel(PizzaSliceData slice) {
         String id = slicePresetId(slice);
         // Preserve the original approved 16x16 Margherita slice unchanged.
         return ModRegistries.id("margherita".equals(id)
@@ -266,7 +266,7 @@ public final class PizzaDisplayNames {
     }
 
     public static Component sliceName(PizzaSliceData slice) {
-        Set<Identifier> types = quarter(slice);
+        Set<ResourceLocation> types = quarter(slice);
         String id = slicePresetId(slice);
         if ("bianca".equals(id)) {
             return Component.translatable(PREFIX + "slice_bianca");
@@ -301,7 +301,7 @@ public final class PizzaDisplayNames {
         if (data == null || !isMixed(data)) {
             return false;
         }
-        Identifier expected = ModRegistries.id(
+        ResourceLocation expected = ModRegistries.id(
                 stack.is(ModItems.COOKED_PIZZA) ? "cooked_pizza" : "raw_pizza");
         if (expected.equals(stack.get(DataComponents.ITEM_MODEL))) {
             return false;
@@ -331,7 +331,7 @@ public final class PizzaDisplayNames {
     }
 
     public static void appendWholeTooltip(PizzaItemData whole, Consumer<Component> lines) {
-        Set<Identifier> first = quarter(whole, 0);
+        Set<ResourceLocation> first = quarter(whole, 0);
         boolean uniform = true;
         for (int q = 1; q < PizzaComposition.QUARTER_COUNT; q++) {
             if (!first.equals(quarter(whole, q))) {

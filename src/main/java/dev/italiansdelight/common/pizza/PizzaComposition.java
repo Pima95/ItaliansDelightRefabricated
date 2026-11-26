@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Immutable, versioned model for one pizza, independent of world/item/oven/peel.
@@ -74,7 +74,7 @@ public record PizzaComposition(
         // applications. The renderer derives each quarter's base from their
         // original order, with no schema migration or data loss.
         for (int quarter = 0; quarter < QUARTER_COUNT; quarter++) {
-            Set<Identifier> distinctTypes = new LinkedHashSet<>();
+            Set<ResourceLocation> distinctTypes = new LinkedHashSet<>();
             for (PizzaToppingApplication application : applications) {
                 if (!application.covers(quarter)) {
                     continue;
@@ -108,11 +108,11 @@ public record PizzaComposition(
     }
 
     /** Exact canonical toppings of one quarter, independent of cut state. */
-    public Set<Identifier> toppingsForQuarter(int index) {
+    public Set<ResourceLocation> toppingsForQuarter(int index) {
         if (index < 0 || index >= QUARTER_COUNT) {
             throw new IndexOutOfBoundsException("Pizza quarter must be 0..3");
         }
-        Set<Identifier> types = new LinkedHashSet<>();
+        Set<ResourceLocation> types = new LinkedHashSet<>();
         for (PizzaToppingApplication application : applications) {
             if (application.covers(index)) {
                 types.add(application.canonicalId());

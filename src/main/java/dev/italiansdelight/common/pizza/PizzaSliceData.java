@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -47,8 +47,8 @@ public record PizzaSliceData(int quarter, List<Topping> toppings, boolean legacy
      * when the quarter, application order or raw/cooked/cross-mod origin differs.
      * Different flavors and the old whole-mozzarella flag stay distinct.
      */
-    private Set<Identifier> stackingIngredients() {
-        Set<Identifier> ids = new HashSet<>();
+    private Set<ResourceLocation> stackingIngredients() {
+        Set<ResourceLocation> ids = new HashSet<>();
         for (Topping topping : toppings) {
             ids.add(topping.canonicalId());
         }
@@ -70,10 +70,10 @@ public record PizzaSliceData(int quarter, List<Topping> toppings, boolean legacy
         return Objects.hash(stackingIngredients(), legacyMozzarella);
     }
 
-    public record Topping(Identifier canonicalId, ItemStack originalStack) {
+    public record Topping(ResourceLocation canonicalId, ItemStack originalStack) {
         public static final Codec<Topping> CODEC = RecordCodecBuilder.create(instance ->
                 instance.group(
-                        Identifier.CODEC.fieldOf("canonical").forGetter(Topping::canonicalId),
+                        ResourceLocation.CODEC.fieldOf("canonical").forGetter(Topping::canonicalId),
                         ItemStack.CODEC.fieldOf("original_stack").forGetter(Topping::originalStack)
                 ).apply(instance, Topping::new)
         );

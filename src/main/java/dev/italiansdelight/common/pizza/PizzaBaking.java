@@ -5,7 +5,7 @@ import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModRegistries;
 import java.util.List;
 import java.util.Optional;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -26,11 +26,11 @@ import net.minecraft.world.item.Items;
 public final class PizzaBaking {
     public static final int MAX_PROGRESS = 1_200;
 
-    private static final Identifier TOMATO_SAUCE =
+    private static final ResourceLocation TOMATO_SAUCE =
             ModRegistries.id("pizza_toppings/tomato_sauce");
-    private static final Identifier CREAM_BOWL =
+    private static final ResourceLocation CREAM_BOWL =
             ModRegistries.id("pizza_toppings/cream_bowl");
-    private static final Identifier RICOTTA =
+    private static final ResourceLocation RICOTTA =
             ModRegistries.id("pizza_toppings/ricotta");
 
     public enum Oven {
@@ -132,7 +132,7 @@ public final class PizzaBaking {
     }
 
     /** Same container classification for baking and shapeless crafting. */
-    public static boolean isBowlBearing(Identifier canonical) {
+    public static boolean isBowlBearing(ResourceLocation canonical) {
         return TOMATO_SAUCE.equals(canonical)
                 || CREAM_BOWL.equals(canonical)
                 || RICOTTA.equals(canonical);

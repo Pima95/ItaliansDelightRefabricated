@@ -1,7 +1,7 @@
 package dev.italiansdelight.common.pizza;
 
 import java.util.Objects;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Immutable logical pizza ingredient. An ingredient may have multiple item IDs
@@ -11,7 +11,7 @@ import net.minecraft.resources.Identifier;
  * ingredient kinds for quarter composition, matching and anti-duplication.
  */
 public record PizzaToppingType(
-        Identifier id,
+        ResourceLocation id,
         NutritionCategory nutritionCategory,
         Role role,
         boolean planned

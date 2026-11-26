@@ -6,7 +6,7 @@ import dev.italiansdelight.common.registry.ModItems;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
@@ -100,7 +100,7 @@ public final class PizzaSliceFactory {
         // Raw/cooked equivalents share an ID, and repeated applications
         // must never create a second food bonus for one ingredient.
         EnumMap<NutritionCategory, Integer> counts = new EnumMap<>(NutritionCategory.class);
-        Set<Identifier> seenTypes = new HashSet<>();
+        Set<ResourceLocation> seenTypes = new HashSet<>();
         for (PizzaSliceData.Topping topping : slice.toppings()) {
             if (!seenTypes.add(topping.canonicalId())) {
                 continue;
@@ -112,7 +112,7 @@ public final class PizzaSliceFactory {
         // Count it as dairy once, unless a modern mozzarella slice already
         // represents that same cheese. The category cap still applies.
         if (slice.legacyMozzarella()
-                && !seenTypes.contains(Identifier.parse(
+                && !seenTypes.contains(ResourceLocation.parse(
                         "italiansdelight:pizza_toppings/mozzarella_slice"))) {
             counts.merge(NutritionCategory.DAIRY, 1, Integer::sum);
         }

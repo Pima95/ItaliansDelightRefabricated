@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -25,7 +25,7 @@ public final class PizzaCreativeSamples {
      * One edible, fully data-bearing slice from an actual uniform pizza.
      * The same recipe source is used for Creative whole and slice variants.
      */
-    public static ItemStack createSlice(Set<Identifier> types) {
+    public static ItemStack createSlice(Set<ResourceLocation> types) {
         ItemStack whole = create(types, true);
         PizzaItemData pizza = whole.get(ModDataComponents.PIZZA_CONTENTS);
         if (pizza == null) {
@@ -46,14 +46,14 @@ public final class PizzaCreativeSamples {
         long nextId = 1;
         for (int quarter = 0; quarter < flavors.length; quarter++) {
             final String flavor = flavors[quarter];
-            Set<Identifier> types = PizzaDisplayNames.allPresets().entrySet().stream()
+            Set<ResourceLocation> types = PizzaDisplayNames.allPresets().entrySet().stream()
                     .filter(entry -> entry.getValue().equals(flavor))
                     .map(java.util.Map.Entry::getKey)
                     .findFirst()
                     .orElseThrow(() -> new IllegalStateException(
                             "Missing mixed pizza Creative preset: " + flavor));
-            for (Identifier canonicalId : types.stream()
-                    .sorted(Comparator.comparing(Identifier::toString)).toList()) {
+            for (ResourceLocation canonicalId : types.stream()
+                    .sorted(Comparator.comparing(ResourceLocation::toString)).toList()) {
                 int mask = 1 << quarter;
                 applications.add(new PizzaToppingApplication(
                         nextId++, canonicalId, nativeSource(canonicalId), mask, mask));
@@ -62,24 +62,24 @@ public final class PizzaCreativeSamples {
         return createStack(applications, nextId, cooked);
     }
 
-    public static ItemStack create(Set<Identifier> types, boolean cooked) {
-        List<Identifier> sorted = types.stream()
-                .sorted(Comparator.comparing(Identifier::toString)).toList();
+    public static ItemStack create(Set<ResourceLocation> types, boolean cooked) {
+        List<ResourceLocation> sorted = types.stream()
+                .sorted(Comparator.comparing(ResourceLocation::toString)).toList();
         List<PizzaToppingApplication> applications = new ArrayList<>();
         long nextId = 1;
 
-        for (Identifier canonicalId : sorted) {
+        for (ResourceLocation canonicalId : sorted) {
             applications.add(new PizzaToppingApplication(
                     nextId++, canonicalId, nativeSource(canonicalId), 0b1111, 0b1111));
         }
         return createStack(applications, nextId, cooked);
     }
 
-    private static ItemStack nativeSource(Identifier canonicalId) {
-        Identifier nativeId = PizzaToppingCatalog.nativeItems().entrySet().stream()
+    private static ItemStack nativeSource(ResourceLocation canonicalId) {
+        ResourceLocation nativeId = PizzaToppingCatalog.nativeItems().entrySet().stream()
                 .filter(entry -> entry.getValue().id().equals(canonicalId))
                 .map(java.util.Map.Entry::getKey)
-                .sorted(Comparator.comparing(Identifier::toString))
+                .sorted(Comparator.comparing(ResourceLocation::toString))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException(
                         "No native pizza item for Creative sample: " + canonicalId));
