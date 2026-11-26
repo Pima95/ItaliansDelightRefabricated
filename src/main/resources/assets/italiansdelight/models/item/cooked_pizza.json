@@ -2,5 +2,145 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "italiansdelight:item/pizza_margherita"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.01
+      },
+      "model": "italiansdelight:item/cooked_pizza_bianca"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.02
+      },
+      "model": "italiansdelight:item/cooked_pizza_caprese_bianca"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.03
+      },
+      "model": "italiansdelight:item/cooked_pizza_caprese_rossa"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.04
+      },
+      "model": "italiansdelight:item/cooked_pizza_carne_mozzarella"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.05
+      },
+      "model": "italiansdelight:item/cooked_pizza_custom"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.06
+      },
+      "model": "italiansdelight:item/cooked_pizza_guanciale_pecorino_rossa"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.07
+      },
+      "model": "italiansdelight:item/cooked_pizza_mediterranea"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.08
+      },
+      "model": "italiansdelight:item/cooked_pizza_mortadella_ricotta"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.09
+      },
+      "model": "italiansdelight:item/cooked_pizza_mortadella_ricotta_mandorle"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.1
+      },
+      "model": "italiansdelight:item/cooked_pizza_olive_scamorza_bianca"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.11
+      },
+      "model": "italiansdelight:item/cooked_pizza_orto_disponibile"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.12
+      },
+      "model": "italiansdelight:item/cooked_pizza_patate_speck"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.13
+      },
+      "model": "italiansdelight:item/cooked_pizza_piccante_olive"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.14
+      },
+      "model": "italiansdelight:item/cooked_pizza_principessa"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.15
+      },
+      "model": "italiansdelight:item/cooked_pizza_prosciutto_crudo"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.16
+      },
+      "model": "italiansdelight:item/cooked_pizza_quattro_formaggi_bianca"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.17
+      },
+      "model": "italiansdelight:item/cooked_pizza_quattro_formaggi_rossa"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.18
+      },
+      "model": "italiansdelight:item/cooked_pizza_rossa"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.19
+      },
+      "model": "italiansdelight:item/cooked_pizza_salame"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.2
+      },
+      "model": "italiansdelight:item/cooked_pizza_salmone_ricotta"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.21
+      },
+      "model": "italiansdelight:item/cooked_pizza_salmone_scamorza"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.22
+      },
+      "model": "italiansdelight:item/cooked_pizza_speck_gorgonzola"
+    },
+    {
+      "predicate": {
+        "italiansdelight:pizza_preset": 0.23
+      },
+      "model": "italiansdelight:item/cooked_pizza_zucca_speck"
+    }
+  ]
 }

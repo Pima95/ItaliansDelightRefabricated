@@ -64,18 +64,7 @@ public final class PizzaPeelItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity owner, int slot, boolean selected) {
-        // Handles legacy saves and stacks moved from chests, without changing
-        // components every tick when the state is already correct.
-        syncCombatAttributes(stack);
-        // Peels can carry a pre-update mixed pizza whose ITEM_MODEL is stored
-        // inside PEEL_CARGO. Re-save that one nested stack at most once.
-        PizzaPeelCargo oldCargo = stack.get(ModDataComponents.PEEL_CARGO);
-        if (oldCargo != null) {
-            ItemStack pizza = oldCargo.pizza();
-            if (PizzaDisplayNames.refreshMixedItemModel(pizza)) {
-                setCargo(stack, new PizzaPeelCargo(pizza));
-            }
-        }
+        if (!level.isClientSide) syncCombatAttributes(stack);
         super.inventoryTick(stack, level, owner, slot, selected);
     }
 

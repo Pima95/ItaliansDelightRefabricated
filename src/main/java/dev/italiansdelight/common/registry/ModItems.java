@@ -713,6 +713,12 @@ public final class ModItems {
                 if (!event.getRegistryKey().equals(Registries.ITEM)) return;
                 CHEESE_GRATER = register(
                 CHEESE_GRATER_KEY,
+                properties -> new Item(properties) {
+                    @Override public boolean isValidRepairItem(net.minecraft.world.item.ItemStack stack,
+                            net.minecraft.world.item.ItemStack repair) {
+                        return Tiers.IRON.getRepairIngredient().test(repair);
+                    }
+                },
                 new Item.Properties()
                         // Farmer's Delight's iron knife uses this same material durability.
                         .durability(Tiers.IRON.getUses())

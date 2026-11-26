@@ -225,7 +225,7 @@ public final class PizzaDisplayNames {
      * Uniform recipes without a preset retain the custom/fallback icon.
      * No new Item registry entries or image edits are necessary.
      */
-    private static ResourceLocation wholeItemModel(PizzaItemData whole, boolean cooked) {
+    public static ResourceLocation wholeItemModel(PizzaItemData whole, boolean cooked) {
         String base = cooked ? "cooked_pizza" : "raw_pizza";
         String id = wholePresetId(whole);
         if ("margherita".equals(id) || (id == null && isMixed(whole))) {
@@ -258,7 +258,7 @@ public final class PizzaDisplayNames {
         return PRESETS.get(quarter(slice));
     }
 
-    private static ResourceLocation sliceItemModel(PizzaSliceData slice) {
+    public static ResourceLocation sliceItemModel(PizzaSliceData slice) {
         String id = slicePresetId(slice);
         // Preserve the original approved 16x16 Margherita slice unchanged.
         return ModRegistries.id("margherita".equals(id)
@@ -293,41 +293,14 @@ public final class PizzaDisplayNames {
      *
      * @return whether an outdated mixed icon was actually changed.
      */
-    public static boolean refreshMixedItemModel(ItemStack stack) {
-        if (!stack.is(ModItems.RAW_PIZZA) && !stack.is(ModItems.COOKED_PIZZA)) {
-            return false;
-        }
-        PizzaItemData data = stack.get(dev.italiansdelight.common.registry.ModDataComponents.PIZZA_CONTENTS);
-        if (data == null || !isMixed(data)) {
-            return false;
-        }
-        ResourceLocation expected = ModRegistries.id(
-                stack.is(ModItems.COOKED_PIZZA) ? "cooked_pizza" : "raw_pizza");
-        if (expected.equals(stack.get(DataComponents.ITEM_MODEL))) {
-            return false;
-        }
-        stack.set(DataComponents.ITEM_MODEL, expected);
-        return true;
-    }
-
+    // In 1.21.1 the client model predicate derives directly from the
+    // synchronized pizza payload; no ITEM_MODEL component is available.
     public static void nameWholeStack(ItemStack stack, PizzaItemData data) {
         stack.set(DataComponents.ITEM_NAME, wholeName(data));
-        // Assign a synchronized model for BOTH raw and cooked variants;
-        // using the exact same 4-quarter canonical match as wholeName.
-        // Margherita keeps the original approved base models unchanged.
-        if (stack.is(ModItems.COOKED_PIZZA) || stack.is(ModItems.RAW_PIZZA)) {
-            stack.set(DataComponents.ITEM_MODEL,
-                    wholeItemModel(data, stack.is(ModItems.COOKED_PIZZA)));
-        }
     }
 
     public static void nameSliceStack(ItemStack stack, PizzaSliceData data) {
         stack.set(DataComponents.ITEM_NAME, sliceName(data));
-        if (stack.is(ModItems.PIZZA_SLICE)) {
-            // ITEM_MODEL is saved and synchronized on the real ItemStack.
-            // Never derive it from localized names or from the whole pizza.
-            stack.set(DataComponents.ITEM_MODEL, sliceItemModel(data));
-        }
     }
 
     public static void appendWholeTooltip(PizzaItemData whole, Consumer<Component> lines) {

@@ -36,13 +36,8 @@ public final class PizzaNamedItem extends Item {
     public void inventoryTick(
             ItemStack stack, Level level, Entity owner, int slot, boolean selected
     ) {
-        if (slice) {
-            // Saved pre-rebalance slices must use the SAME food stats and
-            // short Nourishment threshold as freshly served slices.
+        if (slice && !level.isClientSide) {
             PizzaSliceFactory.refreshSavedSlice(stack);
-        } else {
-            // Upgrade old mixed pizzas with a saved "*_custom" ITEM_MODEL.
-            PizzaDisplayNames.refreshMixedItemModel(stack);
         }
         super.inventoryTick(stack, level, owner, slot, selected);
     }
