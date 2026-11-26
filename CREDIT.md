@@ -21,7 +21,6 @@ Aggiornato il 15 novembre 2026. Crediti, provenienza delle risorse e attribuzion
 - **vectorwing**: Farmer's Delight originale, copyright esplicito `Copyright (c) 2020 vectorwing` e licenza MIT.
 - Port e contributi Refabricated: https://github.com/MehVahdJukaar/FarmersDelightRefabricated.
 - Italian's Delight Refabricated utilizza API e meccaniche di Farmer's Delight, oltre a elementi grafici di alcune cassette adattate. Per i file e la licenza MIT applicabile alle cassette: `docs/FDR_CRATES_LICENSE.md`.
-- Versione 2.0.0: i quattro panini mantengono i pixel del pane del [Bacon Sandwich originale](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/699c451161249b1bb2d4244b7de6bb10890a44a8/src/main/resources/assets/farmersdelight/textures/item/bacon_sandwich.png); farciture modificate secondo le ricette. Attribuzione e provenienza in `THIRD_PARTY_NOTICES.md`.
 
 ## Rustic e Rustic Delight
 
