@@ -9,7 +9,7 @@ import dev.italiansdelight.common.crafting.CheeseDryingRecipe;
 import dev.italiansdelight.common.registry.ModItems;
 import dev.italiansdelight.common.registry.ModRecipes;
 
-import net.fabricmc.fabric.api.recipe.v1.sync.SynchronizedRecipes;
+import net.minecraft.world.item.crafting.RecipeManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -31,13 +31,13 @@ public final class CheeseAgingJeiRecipes {
      * recipes for each registration pass rather than retaining an outdated
      * synchronized-recipe holder across world transitions.
      */
-    private static SynchronizedRecipes currentRecipes() {
+    private static RecipeManager currentRecipes() {
         ClientLevel level = Minecraft.getInstance().level;
-        return level == null ? null : level.recipeAccess().getSynchronizedRecipes();
+        return level == null ? null : level.getRecipeManager();
     }
 
     public List<CheeseAgingJeiRecipe> getRackAgingRecipes() {
-        SynchronizedRecipes synchronizedRecipes = currentRecipes();
+        RecipeManager synchronizedRecipes = currentRecipes();
         if (synchronizedRecipes == null) {
             return List.of();
         }
@@ -46,7 +46,7 @@ public final class CheeseAgingJeiRecipes {
 
         for (
             RecipeHolder<CheeseAgingRecipe> holder :
-            synchronizedRecipes.getAllOfType(
+            synchronizedRecipes.getAllRecipesFor(
                 ModRecipes.CHEESE_AGING_TYPE
             )
         ) {
@@ -77,7 +77,7 @@ public final class CheeseAgingJeiRecipes {
     }
 
     public List<CheeseAgingJeiRecipe> getHangingRecipes() {
-        SynchronizedRecipes synchronizedRecipes = currentRecipes();
+        RecipeManager synchronizedRecipes = currentRecipes();
         if (synchronizedRecipes == null) {
             return List.of();
         }
@@ -86,7 +86,7 @@ public final class CheeseAgingJeiRecipes {
 
         for (
             RecipeHolder<CheeseAgingRecipe> holder :
-            synchronizedRecipes.getAllOfType(
+            synchronizedRecipes.getAllRecipesFor(
                 ModRecipes.CHEESE_AGING_TYPE
             )
         ) {
@@ -110,7 +110,7 @@ public final class CheeseAgingJeiRecipes {
 
         for (
             RecipeHolder<CheeseDryingRecipe> holder :
-            synchronizedRecipes.getAllOfType(
+            synchronizedRecipes.getAllRecipesFor(
                 ModRecipes.CHEESE_DRYING_TYPE
             )
         ) {

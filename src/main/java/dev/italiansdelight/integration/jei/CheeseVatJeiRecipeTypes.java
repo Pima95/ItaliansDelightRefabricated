@@ -1,6 +1,6 @@
 package dev.italiansdelight.integration.jei;
 
-import mezz.jei.api.recipe.types.IRecipeType;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
 import dev.italiansdelight.common.crafting.CheeseVatRecipe;
@@ -15,6 +15,6 @@ public final class CheeseVatJeiRecipeTypes {
     private CheeseVatJeiRecipeTypes() {
     }
 
-    public static final IRecipeType<RecipeHolder<CheeseVatRecipe>> CHEESE_VAT =
-        IRecipeType.create(ModRecipes.CHEESE_VAT_TYPE);
+    public static final RecipeType<RecipeHolder<CheeseVatRecipe>> CHEESE_VAT =
+        RecipeType.createRecipeHolderType(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("italiansdelight", "cheese_vat"));
 }
