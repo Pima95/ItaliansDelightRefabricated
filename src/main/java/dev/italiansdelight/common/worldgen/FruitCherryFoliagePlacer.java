@@ -15,7 +15,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
@@ -41,7 +42,7 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public int foliageHeight(RandomSource random, int treeHeight, TreeFeature config) {
+    public int foliageHeight(RandomSource random, int treeHeight, TreeConfiguration config) {
         return 6;
     }
 
@@ -53,17 +54,17 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    protected void createFoliage(
-        WorldGenLevel level,
+    protected void createFoliage(LevelSimulatedReader reader,
         FoliageSetter setter,
         RandomSource random,
-        TreeFeature config,
+        TreeConfiguration config,
         int treeHeight,
         FoliageAttachment attachment,
         int foliageHeight,
         int leafRadius,
         int offset
     ) {
+        if (!(reader instanceof WorldGenLevel level)) return;
         // Attachment is one block above the trunk tip (as on olive trees).
         BlockPos anchor = attachment.pos().above(offset).below();
         double scale = Math.max(0.85D, leafRadius / 2.0D);
@@ -73,7 +74,7 @@ public final class FruitCherryFoliagePlacer extends FoliagePlacer {
         // OliveFoliagePlacer: -2 on tall trunks, -1 on shorter trunks.
         // Ignore existing FruitCherry wood and foliage while finding terrain.
         int groundY = anchor.getY() - 1;
-        while (groundY > level.getMinY()) {
+        while (groundY > level.getMinBuildHeight()) {
             BlockPos check = new BlockPos(anchor.getX(), groundY, anchor.getZ());
             BlockState state = level.getBlockState(check);
             if (!state.isAir() && !state.canBeReplaced()

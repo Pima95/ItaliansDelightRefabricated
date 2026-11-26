@@ -14,7 +14,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
@@ -41,7 +42,7 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public int foliageHeight(RandomSource random, int treeHeight, TreeFeature config) {
+    public int foliageHeight(RandomSource random, int treeHeight, TreeConfiguration config) {
         return 4;
     }
 
@@ -57,17 +58,17 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    protected void createFoliage(
-        WorldGenLevel level,
+    protected void createFoliage(LevelSimulatedReader reader,
         FoliageSetter foliageSetter,
         RandomSource random,
-        TreeFeature config,
+        TreeConfiguration config,
         int treeHeight,
         FoliageAttachment attachment,
         int foliageHeight,
         int leafRadius,
         int offset
     ) {
+        if (!(reader instanceof WorldGenLevel level)) return;
         // Trunk placer attaches above its tip; the crown is centered on that
         // tip. The second fork, when present, gets its own overlapping crown.
         BlockPos anchor = attachment.pos().above(offset).below();
@@ -76,7 +77,7 @@ public final class OliveFoliagePlacer extends FoliagePlacer {
         // Find the actual terrain under this crown, ignoring existing olive
         // wood/leaves so that the clearance does not count a branch as ground.
         int groundY = anchor.getY() - 1;
-        while (groundY > level.getMinY()) {
+        while (groundY > level.getMinBuildHeight()) {
             BlockPos checkPos = new BlockPos(anchor.getX(), groundY, anchor.getZ());
             BlockState state = level.getBlockState(checkPos);
             if (!state.isAir() && !state.canBeReplaced()

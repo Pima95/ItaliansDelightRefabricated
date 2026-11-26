@@ -12,7 +12,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
@@ -45,14 +46,14 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
     }
 
     @Override
-    public List<FoliagePlacer.FoliageAttachment> placeTrunk(
-        WorldGenLevel level,
+    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader reader,
         BiConsumer<BlockPos, BlockState> trunkSetter,
         RandomSource random,
         int treeHeight,
         BlockPos origin,
-        TreeFeature config
+        TreeConfiguration config
     ) {
+        if (!(reader instanceof WorldGenLevel level)) return List.of();
         List<FoliagePlacer.FoliageAttachment> crowns = new ArrayList<>(2);
         // Select the shape BEFORE checking placement, rather than silently
         // changing an obstructed bifurcated tree into a single tree.
@@ -77,7 +78,7 @@ public final class OliveTrunkPlacer extends TrunkPlacer {
                 continue;
             }
 
-            placeBelowTrunkBlock(level, trunkSetter, random, origin.below(), config);
+            setDirtAt(level, trunkSetter, random, origin.below(), config);
             if (!placeLog(level, trunkSetter, random, origin, config)) {
                 return crowns;
             }

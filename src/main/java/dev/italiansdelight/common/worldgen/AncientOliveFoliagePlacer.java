@@ -14,7 +14,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
@@ -44,7 +45,7 @@ public final class AncientOliveFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    public int foliageHeight(RandomSource random, int treeHeight, TreeFeature config) {
+    public int foliageHeight(RandomSource random, int treeHeight, TreeConfiguration config) {
         return 5;
     }
 
@@ -56,11 +57,11 @@ public final class AncientOliveFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    protected void createFoliage(
-        WorldGenLevel level, FoliageSetter foliageSetter, RandomSource random,
-        TreeFeature config, int treeHeight, FoliageAttachment attachment,
+    protected void createFoliage(LevelSimulatedReader reader, FoliageSetter foliageSetter, RandomSource random,
+        TreeConfiguration config, int treeHeight, FoliageAttachment attachment,
         int foliageHeight, int leafRadius, int offset
     ) {
+        if (!(reader instanceof WorldGenLevel level)) return;
         BlockPos anchor = attachment.pos().above(offset).below();
         double scale = Math.max(1.0D, leafRadius / 2.0D);
         double phase = random.nextDouble() * Math.PI * 2.0D;

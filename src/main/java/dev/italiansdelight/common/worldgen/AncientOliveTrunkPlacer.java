@@ -15,7 +15,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
@@ -51,14 +52,14 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
     }
 
     @Override
-    public List<FoliagePlacer.FoliageAttachment> placeTrunk(
-        WorldGenLevel level,
+    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader reader,
         BiConsumer<BlockPos, BlockState> trunkSetter,
         RandomSource random,
         int treeHeight,
         BlockPos origin,
-        TreeFeature config
+        TreeConfiguration config
     ) {
+        if (!(reader instanceof WorldGenLevel level)) return List.of();
         Direction initialLean = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         boolean clockwise = random.nextBoolean();
         boolean[] sidewaysKink = new boolean[MAIN_LIMBS];
@@ -86,7 +87,7 @@ public final class AncientOliveTrunkPlacer extends TrunkPlacer {
 
             for (int dx = 0; dx < 2; dx++) {
                 for (int dz = 0; dz < 2; dz++) {
-                    placeBelowTrunkBlock(level, trunkSetter, random,
+                    setDirtAt(level, trunkSetter, random,
                         origin.offset(dx, -1, dz), config);
                 }
             }
