@@ -150,3 +150,11 @@ Usare commit piccoli e coerenti. CI e test automatici quando possibile, test man
 - Non considerare una compilazione verde equivalente a un port collaudato. Necessari test di avvio, registri, ricette, modelli, loot e mod opzionali; nessun merge/release.
 
 - CI f15f376, run 45899131278: **clean build SUCCESS**, Java compile/processResources (270 recipes)/jar/sourcesJar all completed in 1m 2s. The separate metadata verification failed because it incorrectly asserted classfile major 61 (Java 17) instead of 65 (Java 21). Corrected the verification to require major 65, not to bypass it. The additional loot table normalization is newer than the successful build and must be validated on the latest head. First local compile test is now appropriate using the known successful f15f376 commit or the branch once the corrected CI is green; runtime gameplay remains unverified.
+
+
+### Sesto lotto — Windows e test di avvio
+- CI 958bb6e, run 45899391562, audit + clean build + verifica JAR Java 21: SUCCESS.
+- Log locale Windows: `Unable to delete directory build/generated/sources/annotationProcessor/java/main`, dopo completamento createMinecraftArtifacts. Non è un errore javac; probabile handle aperto da IDE/daemon/scanner o permesso. Non è possibile identificare il processo dal solo log.
+- Su Windows Gradle usa ora `build-neoforge/` per separare i prodotti del porting dai residui Fabric. Opzione `-PportBuildDir=...` per percorso alternativo; non scegliere directory che contengono file personali perché Gradle clean la elimina. Il vecchio build/ non viene rimosso automaticamente. Client, server e gametest usano cartelle separate in run-neoforge/, per non aprire mondi Fabric.
+- Procedura PowerShell: chiudere client e sincronizzazione IDE, git pull --ff-only, .\gradlew.bat --stop, .\gradlew.bat clean build --no-daemon --no-parallel --max-workers=2. Se il lock persiste, chiudere IntelliJ e usare PowerShell esterno o un percorso di build nuovo; non disabilitare protezioni. Non cancellare run/.
+- CI aggiunge Windows clean build e ricompilazione, e avvio GameTestServer con tre prove: recipe manager (otto ID rappresentativi), tank (simulazione, passi 250 mB, esclusione lava), creazione block entity del barile. Sono verifiche nuove, non ancora risultati di test. Non sostituiscono il collaudo grafico e delle altre meccaniche.

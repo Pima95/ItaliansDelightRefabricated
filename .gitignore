@@ -1,6 +1,7 @@
 # Gradle and build output
 .gradle/
 build/
+build-neoforge/
 out/
 bin/
 classes/
@@ -12,6 +13,7 @@ __pycache__/
 
 # Fabric development environment
 run/
+run-neoforge/
 
 # Eclipse
 .classpath

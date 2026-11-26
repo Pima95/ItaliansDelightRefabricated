@@ -41,3 +41,46 @@ jobs:
               major = int.from_bytes(z.read("dev/italiansdelight/ItaliansDelight.class")[6:8], "big")
               assert major == 65, f"Expected Java 21 classfile major 65, got {major}"
           PY
+
+  compile-windows:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Windows clean build in isolated NeoForge directory
+        shell: pwsh
+        run: .\gradlew.bat clean build --no-daemon --no-parallel --max-workers=2 --console=plain
+      - name: Verify isolated Windows output
+        shell: pwsh
+        run: |
+          if (!(Test-Path 'build-neoforge/libs')) { throw 'NeoForge output directory missing' }
+          if (!(Get-ChildItem 'build-neoforge/libs/*.jar' | Where-Object { $_.Name -notlike '*-sources.jar' })) { throw 'Native JAR missing' }
+      - name: Repeat Java compilation to exercise generated output cleanup
+        shell: pwsh
+        run: .\gradlew.bat compileJava --rerun-tasks --no-daemon --no-parallel --max-workers=2 --console=plain
+  gametest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Boot NeoForge GameTest server and verify port
+        run: bash ./gradlew runGameTestServer --no-daemon --max-workers=2 --console=plain
+      - name: Upload GameTest diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: neoforge-gametest-logs
+          path: |
+            run-neoforge/gametest/logs/
+            run-neoforge/gametest/crash-reports/
+          if-no-files-found: ignore

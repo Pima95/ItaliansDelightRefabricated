@@ -3,6 +3,16 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.148'
 }
 
+// Windows IDEs and antivirus scanners can retain handles in the build
+// directory used by the Fabric branches. Keep NeoForge outputs separate.
+// A custom absolute path can be supplied for a locked/synchronized checkout.
+def portBuildDir = providers.gradleProperty('portBuildDir')
+if (portBuildDir.isPresent()) {
+    layout.buildDirectory.set(project.file(portBuildDir.get()))
+} else if (System.getProperty('os.name').toLowerCase(java.util.Locale.ROOT).contains('windows')) {
+    layout.buildDirectory.set(layout.projectDirectory.dir('build-neoforge'))
+}
+
 version = project.mod_version
 group = project.maven_group
 base { archivesName = project.archives_base_name }
@@ -38,10 +48,18 @@ repositories {
 neoForge {
     version = project.neo_version
     runs {
-        client { client() }
+        client {
+            client()
+            gameDirectory = project.file('run-neoforge/client')
+        }
         server {
             server()
+            gameDirectory = project.file('run-neoforge/server')
             programArgument '--nogui'
+        }
+        gameTestServer {
+            type = 'gameTestServer'
+            gameDirectory = project.file('run-neoforge/gametest')
         }
         configureEach {
             systemProperty 'neoforge.enabledGameTestNamespaces', 'italiansdelight'
