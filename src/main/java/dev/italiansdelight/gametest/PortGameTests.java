@@ -48,6 +48,17 @@ public final class PortGameTests {
     }
 
     @GameTest(template = "port_empty")
+    public static void orchardBoatWood(GameTestHelper helper) {
+        helper.assertTrue(net.minecraft.world.entity.vehicle.Boat.Type.byName("italiansdelight:olive")
+                .getPlanks() == ModBlocks.OLIVE_PLANKS, "Olive boats must drop olive planks");
+        helper.assertTrue(net.minecraft.world.entity.vehicle.Boat.Type.byName("italiansdelight:almond")
+                .getPlanks() == ModBlocks.ALMOND_PLANKS, "Almond boats must drop almond planks");
+        helper.assertTrue(net.minecraft.world.entity.vehicle.Boat.Type.byName("italiansdelight:fruit_cherry")
+                .getPlanks() == ModBlocks.FRUIT_CHERRY_PLANKS, "Fruit cherry boats must drop fruit cherry planks");
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
     public static void barrelRegistration(GameTestHelper helper) {
         BlockPos pos = new BlockPos(1, 1, 1);
         helper.setBlock(pos, ModBlocks.BARREL);

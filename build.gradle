@@ -9,7 +9,7 @@ plugins {
 def portBuildDir = providers.gradleProperty('portBuildDir')
 if (portBuildDir.isPresent()) {
     layout.buildDirectory.set(project.file(portBuildDir.get()))
-} else if (System.getProperty('os.name').toLowerCase(java.util.Locale.ROOT).contains('windows')) {
+} else if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
     layout.buildDirectory.set(layout.projectDirectory.dir('build-neoforge'))
 }
 

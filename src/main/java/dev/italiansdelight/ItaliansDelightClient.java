@@ -7,16 +7,9 @@ import dev.italiansdelight.common.registry.*;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.model.BoatModel;
-import net.minecraft.client.model.ChestBoatModel;
-import net.minecraft.client.model.ListModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.BoatRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.datafixers.util.Pair;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -26,37 +19,13 @@ import net.neoforged.neoforge.client.extensions.common.*;
 
 @EventBusSubscriber(modid = ItaliansDelight.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ItaliansDelightClient {
-    private static ModelLayerLocation layer(String wood, boolean chest) {
-        return new ModelLayerLocation(ModRegistries.id((chest ? "chest_boat/" : "boat/") + wood), "main");
-    }
-
-    @SubscribeEvent public static void layers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(layer("olive", false), BoatModel::createBodyModel);
-        event.registerLayerDefinition(layer("olive", true), ChestBoatModel::createBodyModel);
-        event.registerLayerDefinition(layer("almond", false), BoatModel::createBodyModel);
-        event.registerLayerDefinition(layer("almond", true), ChestBoatModel::createBodyModel);
-        event.registerLayerDefinition(layer("fruit_cherry", false), BoatModel::createBodyModel);
-        event.registerLayerDefinition(layer("fruit_cherry", true), ChestBoatModel::createBodyModel);
-    }
-
-    private static BoatRenderer boatRenderer(EntityRendererProvider.Context context, String wood, boolean chest) {
-        ListModel<Boat> model = chest ? new ChestBoatModel(context.bakeLayer(layer(wood, true))) :
-                new BoatModel(context.bakeLayer(layer(wood, false)));
-        ResourceLocation texture = ModRegistries.id("textures/entity/" + (chest ? "chest_boat/" : "boat/") + wood + ".png");
-        return new BoatRenderer(context, chest) {
-            @Override public Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(Boat boat) {
-                return Pair.of(texture, model);
-            }
-        };
-    }
-
     @SubscribeEvent public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModBoats.OLIVE_BOAT_ENTITY, ctx -> boatRenderer(ctx, "olive", false));
-        event.registerEntityRenderer(ModBoats.OLIVE_CHEST_BOAT_ENTITY, ctx -> boatRenderer(ctx, "olive", true));
-        event.registerEntityRenderer(ModBoats.ALMOND_BOAT_ENTITY, ctx -> boatRenderer(ctx, "almond", false));
-        event.registerEntityRenderer(ModBoats.ALMOND_CHEST_BOAT_ENTITY, ctx -> boatRenderer(ctx, "almond", true));
-        event.registerEntityRenderer(ModBoats.FRUIT_CHERRY_BOAT_ENTITY, ctx -> boatRenderer(ctx, "fruit_cherry", false));
-        event.registerEntityRenderer(ModBoats.FRUIT_CHERRY_CHEST_BOAT_ENTITY, ctx -> boatRenderer(ctx, "fruit_cherry", true));
+        event.registerEntityRenderer(ModBoats.OLIVE_BOAT_ENTITY, ctx -> new BoatRenderer(ctx, false));
+        event.registerEntityRenderer(ModBoats.OLIVE_CHEST_BOAT_ENTITY, ctx -> new BoatRenderer(ctx, true));
+        event.registerEntityRenderer(ModBoats.ALMOND_BOAT_ENTITY, ctx -> new BoatRenderer(ctx, false));
+        event.registerEntityRenderer(ModBoats.ALMOND_CHEST_BOAT_ENTITY, ctx -> new BoatRenderer(ctx, true));
+        event.registerEntityRenderer(ModBoats.FRUIT_CHERRY_BOAT_ENTITY, ctx -> new BoatRenderer(ctx, false));
+        event.registerEntityRenderer(ModBoats.FRUIT_CHERRY_CHEST_BOAT_ENTITY, ctx -> new BoatRenderer(ctx, true));
         event.registerBlockEntityRenderer(ModBlockEntities.PIZZA_DOUGH, PizzaToppingRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.COOKED_PIZZA, CookedPizzaRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.BARREL, BarrelFluidRenderer::new);

@@ -1,0 +1,31 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/entity/vehicle/Boat$Type",
+      "name": "ITALIANSDELIGHT_OLIVE",
+      "constructor": "(Ljava/util/function/Supplier;Ljava/lang/String;Ljava/util/function/Supplier;Ljava/util/function/Supplier;Ljava/util/function/Supplier;Z)V",
+      "parameters": {
+        "class": "dev/italiansdelight/common/registry/OrchardBoatTypes",
+        "method": "olive"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/entity/vehicle/Boat$Type",
+      "name": "ITALIANSDELIGHT_ALMOND",
+      "constructor": "(Ljava/util/function/Supplier;Ljava/lang/String;Ljava/util/function/Supplier;Ljava/util/function/Supplier;Ljava/util/function/Supplier;Z)V",
+      "parameters": {
+        "class": "dev/italiansdelight/common/registry/OrchardBoatTypes",
+        "method": "almond"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/entity/vehicle/Boat$Type",
+      "name": "ITALIANSDELIGHT_FRUIT_CHERRY",
+      "constructor": "(Ljava/util/function/Supplier;Ljava/lang/String;Ljava/util/function/Supplier;Ljava/util/function/Supplier;Ljava/util/function/Supplier;Z)V",
+      "parameters": {
+        "class": "dev/italiansdelight/common/registry/OrchardBoatTypes",
+        "method": "fruitcherry"
+      }
+    }
+  ]
+}

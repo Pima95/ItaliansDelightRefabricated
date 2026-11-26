@@ -5,6 +5,7 @@ issueTrackerURL="https://github.com/Pima95/ItaliansDelightRefabricated/issues"
 
 [[mods]]
 modId="italiansdelight"
+enumExtensions="META-INF/enumextensions.json"
 version="${version}"
 displayName="Italian's Delight"
 displayURL="https://github.com/Pima95/ItaliansDelightRefabricated"
