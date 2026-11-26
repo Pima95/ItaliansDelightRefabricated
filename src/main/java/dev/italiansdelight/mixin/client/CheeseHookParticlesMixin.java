@@ -4,7 +4,7 @@ import dev.italiansdelight.common.aging.HangingCheeseType;
 import dev.italiansdelight.common.block.CheeseHookBlock;
 import dev.italiansdelight.common.registry.ModBlocks;
 
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,20 +15,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 /** Keeps vanilla lantern-like debris limited to the hook, even with cheese attached. */
-@Mixin(ClientLevel.class)
+@Mixin(ParticleEngine.class)
 public abstract class CheeseHookParticlesMixin {
 
     @Redirect(
-        method = {"addDestroyBlockEffect", "addBreakingBlockEffect"},
+        method = {"destroy", "crack"},
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/state/BlockState;"
                 + "getShape(Lnet/minecraft/world/level/BlockGetter;"
                 + "Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"
         ),
-        // Minecraft 26.3 invokes this shape lookup in only one of the two
-        // particle paths. Require the surviving hook, not both former calls;
-        // this keeps the hook-only debris shape without crashing bootstrap.
         require = 1
     )
     private VoxelShape italiansDelight$hookParticleShape(
