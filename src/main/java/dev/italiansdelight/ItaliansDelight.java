@@ -46,6 +46,9 @@ public class ItaliansDelight {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public ItaliansDelight(IEventBus modBus) {
+        modBus.addListener(ModBlocks::onRegister);
+        modBus.addListener(ModBlockEntities::onRegister);
+        modBus.addListener(ModBlockEntities::addValidBlocks);
         modBus.addListener(FluidTransferBridge::register);
         modBus.addListener(NeoForgeFluidItemContainers::register);
         // Registry lifecycle is being migrated in separate commits; do not
@@ -75,7 +78,6 @@ public class ItaliansDelight {
         PizzaToppingMappings.register();
         PizzaDoughPlacement.register();
         PizzaDivisionSync.register();
-        ModBlockEntities.register();
         ModCompostables.register();
         ModMenuTypes.register();
         ModRecipes.register();

@@ -12,11 +12,12 @@ import dev.italiansdelight.common.block.entity.CheeseAgingRackBlockEntity;
 import dev.italiansdelight.common.block.entity.CheeseHookBlockEntity;
 import dev.italiansdelight.common.block.entity.AgingCheeseBlockEntity;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.BlockEntityTypes;
 
 /**
  * Central registry for Italian's Delight BlockEntities.
@@ -28,20 +29,46 @@ public final class ModBlockEntities {
     }
 
     // Separate persistent data for the four physical quarters of a dough pizza.
-    public static final BlockEntityType<PizzaDoughBlockEntity> PIZZA_DOUGH =
-        register("pizza_dough", PizzaDoughBlockEntity::new, ModBlocks.PIZZA_DOUGH);
+    public static BlockEntityType<PizzaDoughBlockEntity> PIZZA_DOUGH;
 
-    public static final BlockEntityType<CookedPizzaBlockEntity> COOKED_PIZZA =
-        register("cooked_pizza", CookedPizzaBlockEntity::new, ModBlocks.COOKED_PIZZA);
+    public static BlockEntityType<CookedPizzaBlockEntity> COOKED_PIZZA;
 
-    public static final BlockEntityType<PizzaOvenBlockEntity> PIZZA_OVEN =
-        register("pizza_oven", PizzaOvenBlockEntity::new, ModBlocks.PIZZA_OVEN);
+    public static BlockEntityType<PizzaOvenBlockEntity> PIZZA_OVEN;
 
-    public static final BlockEntityType<CrushingTubBlockEntity> CRUSHING_TUB =
-        register("crushing_tub", CrushingTubBlockEntity::new, ModBlocks.CRUSHING_TUB);
+    public static BlockEntityType<CrushingTubBlockEntity> CRUSHING_TUB;
 
-    public static final BlockEntityType<BrewingBarrelBlockEntity> BREWING_BARREL =
-        register("brewing_barrel", BrewingBarrelBlockEntity::new, ModBlocks.BREWING_BARREL,
+    public static BlockEntityType<BrewingBarrelBlockEntity> BREWING_BARREL;
+
+    public static BlockEntityType<BarrelBlockEntity> BARREL;
+    public static BlockEntityType<FluidCauldronBlockEntity> FLUID_CAULDRON;
+
+    public static BlockEntityType<CheeseVatBlockEntity> CHEESE_VAT;
+
+    public static BlockEntityType<AgingCheeseBlockEntity> AGING_CHEESE;
+
+    public static BlockEntityType<CheeseHookBlockEntity> CHEESE_HOOK;
+
+    public static BlockEntityType<CheeseAgingRackBlockEntity> CHEESE_AGING_RACK;
+
+    private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
+        String name,
+        BlockEntityType.BlockEntitySupplier<? extends T> entityFactory,
+        net.minecraft.world.level.block.Block... blocks
+    ) {
+        return Registry.register(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE,
+            ModRegistries.id(name),
+            BlockEntityType.Builder.<T>of(entityFactory, blocks).build(null)
+        );
+    }
+
+    public static void onRegister(RegisterEvent event) {
+        if (!event.getRegistryKey().equals(Registries.BLOCK_ENTITY_TYPE)) return;
+        PIZZA_DOUGH = register("pizza_dough", PizzaDoughBlockEntity::new, ModBlocks.PIZZA_DOUGH);
+        COOKED_PIZZA = register("cooked_pizza", CookedPizzaBlockEntity::new, ModBlocks.COOKED_PIZZA);
+        PIZZA_OVEN = register("pizza_oven", PizzaOvenBlockEntity::new, ModBlocks.PIZZA_OVEN);
+        CRUSHING_TUB = register("crushing_tub", CrushingTubBlockEntity::new, ModBlocks.CRUSHING_TUB, ModBlocks.SPRUCE_CRUSHING_TUB, ModBlocks.BIRCH_CRUSHING_TUB, ModBlocks.JUNGLE_CRUSHING_TUB, ModBlocks.ACACIA_CRUSHING_TUB, ModBlocks.DARK_OAK_CRUSHING_TUB, ModBlocks.MANGROVE_CRUSHING_TUB, ModBlocks.CHERRY_CRUSHING_TUB, ModBlocks.BAMBOO_CRUSHING_TUB, ModBlocks.CRIMSON_CRUSHING_TUB, ModBlocks.WARPED_CRUSHING_TUB, ModBlocks.OLIVE_CRUSHING_TUB, ModBlocks.ALMOND_CRUSHING_TUB, ModBlocks.FRUIT_CHERRY_CRUSHING_TUB);
+        BREWING_BARREL = register("brewing_barrel", BrewingBarrelBlockEntity::new, ModBlocks.BREWING_BARREL,
             ModBlocks.SPRUCE_BREWING_BARREL,
             ModBlocks.BIRCH_BREWING_BARREL,
             ModBlocks.JUNGLE_BREWING_BARREL,
@@ -55,35 +82,24 @@ public final class ModBlockEntities {
             ModBlocks.OLIVE_BREWING_BARREL,
             ModBlocks.ALMOND_BREWING_BARREL,
             ModBlocks.FRUIT_CHERRY_BREWING_BARREL);
-
-    public static final BlockEntityType<BarrelBlockEntity> BARREL =
-        register("barrel", BarrelBlockEntity::new, ModBlocks.BARREL);
-    public static final BlockEntityType<FluidCauldronBlockEntity> FLUID_CAULDRON =
-        register("fluid_cauldron", FluidCauldronBlockEntity::new, ModBlocks.FLUID_CAULDRON);
-
-    public static final BlockEntityType<CheeseVatBlockEntity> CHEESE_VAT =
-        register(
+        BARREL = register("barrel", BarrelBlockEntity::new, ModBlocks.BARREL, ModBlocks.SPRUCE_BARREL, ModBlocks.BIRCH_BARREL, ModBlocks.JUNGLE_BARREL, ModBlocks.ACACIA_BARREL, ModBlocks.DARK_OAK_BARREL, ModBlocks.MANGROVE_BARREL, ModBlocks.CHERRY_BARREL, ModBlocks.BAMBOO_BARREL, ModBlocks.CRIMSON_BARREL, ModBlocks.WARPED_BARREL, ModBlocks.OLIVE_BARREL, ModBlocks.ALMOND_BARREL, ModBlocks.FRUIT_CHERRY_BARREL);
+        FLUID_CAULDRON = register("fluid_cauldron", FluidCauldronBlockEntity::new, ModBlocks.FLUID_CAULDRON);
+        CHEESE_VAT = register(
             "cheese_vat",
             CheeseVatBlockEntity::new,
             ModBlocks.CHEESE_VAT
         );
-
-    public static final BlockEntityType<AgingCheeseBlockEntity> AGING_CHEESE =
-        register(
+        AGING_CHEESE = register(
             "aging_cheese",
             AgingCheeseBlockEntity::new,
             ModBlocks.AGING_CHEESE
         );
-
-    public static final BlockEntityType<CheeseHookBlockEntity> CHEESE_HOOK =
-        register(
+        CHEESE_HOOK = register(
             "cheese_hook",
             CheeseHookBlockEntity::new,
             ModBlocks.CHEESE_HOOK
         );
-
-    public static final BlockEntityType<CheeseAgingRackBlockEntity> CHEESE_AGING_RACK =
-        register(
+        CHEESE_AGING_RACK = register(
             "cheese_aging_rack",
             CheeseAgingRackBlockEntity::new,
             ModBlocks.OAK_CHEESE_AGING_RACK,
@@ -101,71 +117,16 @@ public final class ModBlockEntities {
             ModBlocks.ALMOND_CHEESE_AGING_RACK,
             ModBlocks.FRUIT_CHERRY_CHEESE_AGING_RACK
         );
-
-    private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
-        String name,
-        FabricBlockEntityTypeBuilder.Factory<? extends T> entityFactory,
-        net.minecraft.world.level.block.Block... blocks
-    ) {
-        return Registry.register(
-            BuiltInRegistries.BLOCK_ENTITY_TYPE,
-            ModRegistries.id(name),
-            FabricBlockEntityTypeBuilder.<T>create(entityFactory, blocks).build()
-        );
     }
 
-    public static void register() {
-            CRUSHING_TUB.addValidBlock(ModBlocks.SPRUCE_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.BIRCH_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.JUNGLE_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.ACACIA_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.DARK_OAK_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.MANGROVE_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.CHERRY_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.BAMBOO_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.CRIMSON_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.WARPED_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.OLIVE_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.ALMOND_CRUSHING_TUB);
-        CRUSHING_TUB.addValidBlock(ModBlocks.FRUIT_CHERRY_CRUSHING_TUB);
-
-        BARREL.addValidBlock(ModBlocks.SPRUCE_BARREL);
-        BARREL.addValidBlock(ModBlocks.BIRCH_BARREL);
-        BARREL.addValidBlock(ModBlocks.JUNGLE_BARREL);
-        BARREL.addValidBlock(ModBlocks.ACACIA_BARREL);
-        BARREL.addValidBlock(ModBlocks.DARK_OAK_BARREL);
-        BARREL.addValidBlock(ModBlocks.MANGROVE_BARREL);
-        BARREL.addValidBlock(ModBlocks.CHERRY_BARREL);
-        BARREL.addValidBlock(ModBlocks.BAMBOO_BARREL);
-        BARREL.addValidBlock(ModBlocks.CRIMSON_BARREL);
-        BARREL.addValidBlock(ModBlocks.WARPED_BARREL);
-        BARREL.addValidBlock(ModBlocks.OLIVE_BARREL);
-        BARREL.addValidBlock(ModBlocks.ALMOND_BARREL);
-        BARREL.addValidBlock(ModBlocks.FRUIT_CHERRY_BARREL);
-
-
-        // Vanilla sign block entities keep writable text, both sides and dye.
-        // Keep their four modded block variants in the vanilla BE type.
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.OLIVE_WALL_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.ALMOND_WALL_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_SIGN);
-        BlockEntityTypes.SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.OLIVE_WALL_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.ALMOND_WALL_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_HANGING_SIGN);
-        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN);
-
-        // Reuse Farmer's Delight 27-slot cabinet BE: it already implements
-        // screen, automation, sounds, comparator, save and open/close state.
-        vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
-            .addValidBlock(ModBlocks.OLIVE_CABINET);
-        vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
-            .addValidBlock(ModBlocks.ALMOND_CABINET);
-        vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get()
-            .addValidBlock(ModBlocks.FRUIT_CHERRY_CABINET);
+    public static void addValidBlocks(BlockEntityTypeAddBlocksEvent event) {
+        event.modify(BlockEntityType.SIGN, ModBlocks.OLIVE_SIGN, ModBlocks.OLIVE_WALL_SIGN,
+            ModBlocks.ALMOND_SIGN, ModBlocks.ALMOND_WALL_SIGN,
+            ModBlocks.FRUIT_CHERRY_SIGN, ModBlocks.FRUIT_CHERRY_WALL_SIGN);
+        event.modify(BlockEntityType.HANGING_SIGN, ModBlocks.OLIVE_HANGING_SIGN, ModBlocks.OLIVE_WALL_HANGING_SIGN,
+            ModBlocks.ALMOND_HANGING_SIGN, ModBlocks.ALMOND_WALL_HANGING_SIGN,
+            ModBlocks.FRUIT_CHERRY_HANGING_SIGN, ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN);
+        event.modify(vectorwing.farmersdelight.common.registry.ModBlockEntityTypes.CABINET.get(),
+            ModBlocks.OLIVE_CABINET, ModBlocks.ALMOND_CABINET, ModBlocks.FRUIT_CHERRY_CABINET);
     }
 }
