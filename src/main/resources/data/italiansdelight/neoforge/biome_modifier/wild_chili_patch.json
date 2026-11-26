@@ -1,0 +1,14 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "minecraft:plains",
+    "minecraft:sunflower_plains",
+    "minecraft:savanna",
+    "minecraft:savanna_plateau",
+    "minecraft:windswept_savanna",
+    "minecraft:sparse_jungle",
+    "minecraft:jungle"
+  ],
+  "features": "italiansdelight:wild_chili_patch",
+  "step": "vegetal_decoration"
+}

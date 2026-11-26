@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "minecraft:forest",
+    "minecraft:flower_forest",
+    "minecraft:cherry_grove"
+  ],
+  "features": "italiansdelight:fruit_cherry_tree_wild",
+  "step": "vegetal_decoration"
+}

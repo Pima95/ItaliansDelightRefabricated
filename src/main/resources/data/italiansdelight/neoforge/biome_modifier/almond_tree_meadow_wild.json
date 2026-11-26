@@ -1,0 +1,8 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "minecraft:meadow"
+  ],
+  "features": "italiansdelight:almond_tree_meadow_wild",
+  "step": "vegetal_decoration"
+}
