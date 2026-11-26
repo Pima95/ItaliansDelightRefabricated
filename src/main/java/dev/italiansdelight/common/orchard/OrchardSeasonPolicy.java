@@ -1,6 +1,6 @@
 package dev.italiansdelight.common.orchard;
 
-import net.fabricmc.loader.api.FabricLoader;
+import net.neoforged.fml.ModList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
@@ -19,7 +19,7 @@ public final class OrchardSeasonPolicy {
 
     // The installed mod set cannot change while a game process is running.
     private static final boolean SERENE_SEASONS_LOADED =
-            FabricLoader.getInstance().isModLoaded("sereneseasons");
+            ModList.get().isModLoaded("sereneseasons");
 
     private OrchardSeasonPolicy() {}
 

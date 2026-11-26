@@ -9,7 +9,7 @@ import sereneseasons.init.ModTags;
 /**
  * This is the ONLY class that imports Serene Seasons APIs.
  *
- * <p>Never access it unless FabricLoader reports sereneseasons installed.
+ * <p>Never access it unless NeoForge ModList reports sereneseasons installed.
  * Serene Seasons is a compile-only / optional runtime dependency.
  */
 final class SereneSeasonsOrchardBridge {
