@@ -1146,6 +1146,12 @@ public final class ModItems {
                 registerSecondoFoodItem("prosciutto_bruschetta", 7, 0.65f,
                         FoodValues.ConsumableValues.NOURISHMENT_SHORT_DURATION);
 
+        // 2.0.0 street food: ready-to-eat sandwiches without containers.
+        public static final Item MORTADELLA_SANDWICH = registerFoodItem("mortadella_sandwich", 7, 0.7f);
+        public static final Item PROSCIUTTO_SANDWICH = registerFoodItem("prosciutto_sandwich", 9, 0.8f);
+        public static final Item SPECK_SANDWICH = registerFoodItem("speck_sandwich", 9, 0.8f);
+        public static final Item SALAME_SANDWICH = registerFoodItem("salame_sandwich", 9, 0.8f);
+
         public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
 
         public static final Item CHERRIES = registerFoodItem("cherries", 2, 0.2f);

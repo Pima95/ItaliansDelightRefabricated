@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "#c:foods/bread",
+    "italiansdelight:prosciutto_crudo_slice",
+    "italiansdelight:mozzarella_slice"
+  ],
+  "result": {
+    "id": "italiansdelight:prosciutto_sandwich",
+    "count": 1
+  }
+}

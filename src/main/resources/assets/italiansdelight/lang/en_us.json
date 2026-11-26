@@ -608,5 +608,9 @@
   "item.italiansdelight.cooked_potato_slice": "Cooked Potato Slices",
   "painting.italiansdelight.italianflag.title": "Italian Flag",
   "painting.italiansdelight.italianflag.author": "Italian's Delight Refabricated",
-  "painting.italiansdelight.italianflag_small.title": "Italian Flag (Small)"
+  "painting.italiansdelight.italianflag_small.title": "Italian Flag (Small)",
+  "item.italiansdelight.mortadella_sandwich": "Mortadella Sandwich",
+  "item.italiansdelight.prosciutto_sandwich": "Prosciutto Sandwich",
+  "item.italiansdelight.speck_sandwich": "Speck Sandwich",
+  "item.italiansdelight.salame_sandwich": "Salami Sandwich"
 }

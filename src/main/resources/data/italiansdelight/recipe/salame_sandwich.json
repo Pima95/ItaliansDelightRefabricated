@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "#c:foods/bread",
+    "italiansdelight:salame_slice",
+    "italiansdelight:provolone_slice"
+  ],
+  "result": {
+    "id": "italiansdelight:salame_sandwich",
+    "count": 1
+  }
+}

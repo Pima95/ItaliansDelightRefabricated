@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "#c:foods/bread",
+    "italiansdelight:mortadella_slice"
+  ],
+  "result": {
+    "id": "italiansdelight:mortadella_sandwich",
+    "count": 1
+  }
+}

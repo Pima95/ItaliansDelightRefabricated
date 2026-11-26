@@ -481,6 +481,12 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.MIXED_BOARD);
                 output.accept(ModItems.BRESAOLA_AND_PARMIGIANO);
 
+                // STREET FOOD — sandwiches together.
+                output.accept(ModItems.MORTADELLA_SANDWICH);
+                output.accept(ModItems.PROSCIUTTO_SANDWICH);
+                output.accept(ModItems.SPECK_SANDWICH);
+                output.accept(ModItems.SALAME_SANDWICH);
+
                 // SAVOURY SALADS AND COLD DISHES.
                 output.accept(ModItems.MOZZARELLA_SALAD);
                 output.accept(ModItems.BURRATA_SALAD);

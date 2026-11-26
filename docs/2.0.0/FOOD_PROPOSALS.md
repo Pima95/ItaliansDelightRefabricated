@@ -126,10 +126,10 @@ Tutte le nove ricette sono shapeless nella Crafting Table, con ingredienti esist
 | Taralli | Impasto, olio, vino bianco | Facile | Da valutare |
 | Taralli piccanti | Impasto, olio, vino bianco, peperoncino | Facile | Da valutare |
 | Grissini | Impasto, olio, sale | Facile | Da valutare |
-| Panino alla mortadella | Pane, mortadella | Facile | Da valutare |
-| Panino al prosciutto | Pane, prosciutto, mozzarella | Facile | Da valutare |
-| Panino allo speck | Pane, speck, scamorza | Facile | Da valutare |
-| Panino al salame | Pane, salame, provolone | Facile | Da valutare |
+| Panino alla mortadella | Pane, mortadella | Facile | Implementato |
+| Panino al prosciutto | Pane, prosciutto, mozzarella | Facile | Implementato |
+| Panino allo speck | Pane, speck, scamorza | Facile | Implementato |
+| Panino al salame | Pane, salame, provolone | Facile | Implementato |
 
 ## 6. Dolci
 
@@ -262,3 +262,7 @@ I due Feast di pollo richiedono `minecraft:cooked_chicken` intero, non un singol
 ### Compatibilità carote e patate (2.0.0)
 
 Audit di tutti i 57 file ricetta aggiunti/modificati dal commit iniziale delle proposte: sette ricette interessate. `#italiansdelight:carrot_ingredients` accetta carota o fetta; `#italiansdelight:raw_potato_ingredients` patata cruda o fetta cruda; `#italiansdelight:cooked_potato_ingredients` patata cotta o fetta cotta. Non alterare il requisito crudo/cotto delle ricette. Una patata cotta sul tagliere produce quattro fette cotte; le fette crude possono essere cotte singolarmente in forno, affumicatore o falò. La fetta cotta è un alias del topping canonico `italiansdelight:pizza_toppings/potato_slice`, con la medesima texture della pizza e senza duplicare la tipologia di ingrediente. I taglieri usano la geometria originale della base FDR; i modelli dei salumi e dei formaggi restano provvisori, spostati sopra il nuovo piano. Il giocatore ottiene una porzione commestibile senza recipiente; le quattro porzioni concordate e gli ID precedenti sono conservati.
+
+## 2.0.0 – Street food: panini approvati
+
+Quattro panini implementati con ricette shapeless, tag `#c:foods/bread`, salumi affettati e formaggi esistenti, senza recipiente. Texture originali 16×16 RGBA ispirate alla prospettiva dei panini FDR, senza copiare i pixel. Valori nutrizionali iniziali: mortadella 7/0.7, prosciutto, speck e salame 9/0.8. Verificare in gioco. Gli altri street food restano da valutare; per i prodotti da forno (calzone, grissini, taralli) preferire preparazione cruda e cottura in forno, non Cooking Pot. Per i fritti valutare separatamente il metodo compatibile con FDR (Cooking Pot solo se appropriato, oppure preparazione cruda e cottura). Nessun altro alimento approvato in questa fase.

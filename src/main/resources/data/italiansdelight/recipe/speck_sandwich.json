@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "#c:foods/bread",
+    "italiansdelight:speck_slice",
+    "italiansdelight:scamorza_slice"
+  ],
+  "result": {
+    "id": "italiansdelight:speck_sandwich",
+    "count": 1
+  }
+}
