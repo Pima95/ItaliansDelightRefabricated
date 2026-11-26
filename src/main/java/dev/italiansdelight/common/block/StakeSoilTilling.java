@@ -1,13 +1,18 @@
 package dev.italiansdelight.common.block;
 
 import dev.italiansdelight.common.registry.ModBlocks;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -26,7 +31,18 @@ public final class StakeSoilTilling {
     }
 
     public static void register() {
-        UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
+        NeoForge.EVENT_BUS.addListener(StakeSoilTilling::onRightClick);
+    }
+
+    private static void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+        InteractionResult result = interact(event.getEntity(), event.getLevel(), event.getHand(), event.getHitVec());
+        if (result != InteractionResult.PASS) {
+            event.setCancellationResult(result);
+            event.setCanceled(true);
+        }
+    }
+
+    private static InteractionResult interact(Player player, Level level, InteractionHand hand, BlockHitResult hit) {
             if (player.isSpectator() || !player.getAbilities().mayBuild)
                 return InteractionResult.PASS;
             ItemStack tool = player.getItemInHand(hand);
@@ -54,12 +70,11 @@ public final class StakeSoilTilling {
             if (level instanceof ServerLevel server) {
                 if (!server.mayInteract(player, soil) || !server.setBlock(soil, tilled, Block.UPDATE_ALL))
                     return InteractionResult.FAIL;
-                server.playSound(null, soil, SoundEvents.HOE_TILL.value(),
+                server.playSound(null, soil, SoundEvents.HOE_TILL,
                     SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (!player.getAbilities().instabuild)
-                    tool.hurtAndBreak(1, player, hand);
+                    tool.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
             }
             return InteractionResult.SUCCESS;
-        });
     }
 }

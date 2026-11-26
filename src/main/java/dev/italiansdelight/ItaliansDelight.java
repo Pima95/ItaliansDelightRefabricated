@@ -53,6 +53,7 @@ public class ItaliansDelight {
         modBus.addListener(ModTreePlacers::onRegister);
         modBus.addListener(ModSigns::onRegister);
         modBus.addListener(ModFluids::onRegister);
+        modBus.addListener(ModItemGroups::onRegister);
         modBus.addListener(ModBlocks::onRegister);
         modBus.addListener(ModBlockEntities::onRegister);
         modBus.addListener(ModBlockEntities::addValidBlocks);
@@ -83,7 +84,6 @@ public class ItaliansDelight {
         PizzaDoughPlacement.register();
         PizzaDivisionSync.register();
         ModCompostables.register();
-        ModItemGroups.register();
         ModWorldGeneration.register();
 
         SaltCauldronManager.register();

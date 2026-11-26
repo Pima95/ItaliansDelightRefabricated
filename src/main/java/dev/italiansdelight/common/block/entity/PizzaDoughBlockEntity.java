@@ -32,6 +32,13 @@ public final class PizzaDoughBlockEntity extends BlockEntity {
         super(ModBlockEntities.PIZZA_DOUGH, pos, state);
     }
 
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (level instanceof net.minecraft.server.level.ServerLevel server)
+            dev.italiansdelight.common.pizza.PizzaDivisionSync.queue(server, worldPosition);
+    }
+
     /** Immutable snapshot. Individual original ItemStacks are defensive copies. */
     public PizzaComposition composition() {
         return composition;

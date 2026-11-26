@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import net.fabricmc.fabric.api.resource.v1.DataResourceLoader;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -46,10 +47,11 @@ public final class PizzaToppingMappings {
     }
 
     public static void register() {
-        DataResourceLoader.get().registerReloadListener(
-                ModRegistries.id("pizza_topping_equivalences"),
-                (ResourceManagerReloadListener) PizzaToppingMappings::reload
-        );
+        NeoForge.EVENT_BUS.addListener(PizzaToppingMappings::addReloadListener);
+    }
+
+    private static void addReloadListener(AddReloadListenerEvent event) {
+        event.addListener((ResourceManagerReloadListener) PizzaToppingMappings::reload);
     }
 
     /** Direct server lookup for the later ingredient-interaction implementation. */

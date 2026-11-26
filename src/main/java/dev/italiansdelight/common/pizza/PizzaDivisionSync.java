@@ -5,43 +5,31 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
-/**
- * One-shot migration/synchronization for pizza worlds saved before the
- * division/facing BlockState shadow existed.
- *
- * <p>Fabric warns that BE data may not yet be loaded during BLOCK_ENTITY_LOAD:
- * queue only the position and read the BE on the next end-of-level tick.
- * No per-pizza ticker and no ongoing work after the queue has drained.
- */
+/** Reconcile the division shadow once after a pizza block entity is loaded. */
 public final class PizzaDivisionSync {
     private static final Map<ServerLevel, Set<BlockPos>> PENDING = new WeakHashMap<>();
-
-    private PizzaDivisionSync() {
-    }
+    private PizzaDivisionSync() {}
 
     public static void register() {
-        ServerBlockEntityEvents.BLOCK_ENTITY_LOAD.register((entity, level) -> {
-            if (entity instanceof PizzaDoughBlockEntity) {
-                PENDING.computeIfAbsent(level, unused -> new HashSet<>())
-                        .add(entity.getBlockPos().immutable());
-            }
-        });
+        NeoForge.EVENT_BUS.addListener(PizzaDivisionSync::afterTick);
+    }
 
-        ServerTickEvents.END_LEVEL_TICK.register(level -> {
-            Set<BlockPos> pending = PENDING.remove(level);
-            if (pending == null) {
-                return;
-            }
-            for (BlockPos pos : pending) {
-                if (level.getBlockEntity(pos) instanceof PizzaDoughBlockEntity pizza) {
-                    pizza.syncDivisionBlockState();
-                }
-            }
-        });
+    public static void queue(ServerLevel level, BlockPos pos) {
+        PENDING.computeIfAbsent(level, unused -> new HashSet<>()).add(pos.immutable());
+    }
+
+    private static void afterTick(LevelTickEvent.Post event) {
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        Set<BlockPos> pending = PENDING.remove(level);
+        if (pending == null) return;
+        for (BlockPos pos : pending) {
+            if (level.hasChunkAt(pos) && level.getBlockEntity(pos) instanceof PizzaDoughBlockEntity pizza)
+                pizza.syncDivisionBlockState();
+        }
     }
 }

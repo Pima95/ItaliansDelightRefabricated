@@ -1,6 +1,7 @@
 package dev.italiansdelight.common.item.group;
 
-import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -34,7 +35,10 @@ public final class ModItemGroups {
                     ModRegistries.id("italiansdelight_group")
             );
 
-    public static final CreativeModeTab ITALIANS_DELIGHT_GROUP = FabricCreativeModeTab.builder()
+    public static CreativeModeTab ITALIANS_DELIGHT_GROUP;
+
+    private static CreativeModeTab createTab() {
+        return CreativeModeTab.builder()
             // The existing cooked_pizza model already uses the approved
             // italiansdelight:item/pizza_margherita 16x16 sprite.
             .icon(() -> new ItemStack(ModItems.COOKED_PIZZA))
@@ -416,10 +420,14 @@ public final class ModItemGroups {
             })
             .build();
 
-    public static void register() {
+    }
+
+    public static void onRegister(RegisterEvent event) {
+        if (!event.getRegistryKey().equals(Registries.CREATIVE_MODE_TAB)) return;
+        ITALIANS_DELIGHT_GROUP = createTab();
         Registry.register(
                 BuiltInRegistries.CREATIVE_MODE_TAB,
-                ITALIANS_DELIGHT_GROUP_KEY,
+                ITALIANS_DELIGHT_GROUP_KEY.location(),
                 ITALIANS_DELIGHT_GROUP
         );
     }

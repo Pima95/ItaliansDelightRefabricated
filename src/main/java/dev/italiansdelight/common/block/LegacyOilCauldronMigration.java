@@ -5,8 +5,10 @@ import dev.italiansdelight.common.registry.ModBlocks;
 import java.util.ArrayDeque;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.level.ChunkEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
@@ -33,11 +35,25 @@ public final class LegacyOilCauldronMigration {
     private LegacyOilCauldronMigration() {}
 
     public static void register() {
-        ServerChunkEvents.CHUNK_LOAD.register(LegacyOilCauldronMigration::onChunkLoad);
-        ServerTickEvents.END_LEVEL_TICK.register(LegacyOilCauldronMigration::onLevelTick);
+        NeoForge.EVENT_BUS.addListener(LegacyOilCauldronMigration::chunkLoaded);
+        NeoForge.EVENT_BUS.addListener(LegacyOilCauldronMigration::afterLevelTick);
+        NeoForge.EVENT_BUS.addListener(LegacyOilCauldronMigration::levelUnloaded);
     }
 
-    private static void onChunkLoad(ServerLevel level, LevelChunk chunk, boolean generated) {
+    private static void chunkLoaded(ChunkEvent.Load event) {
+        if (event.getLevel() instanceof ServerLevel level && event.getChunk() instanceof LevelChunk chunk)
+            onChunkLoad(level, chunk);
+    }
+
+    private static void afterLevelTick(LevelTickEvent.Post event) {
+        if (event.getLevel() instanceof ServerLevel level) onLevelTick(level);
+    }
+
+    private static void levelUnloaded(LevelEvent.Unload event) {
+        if (event.getLevel() instanceof ServerLevel level) PENDING.remove(level);
+    }
+
+    private static void onChunkLoad(ServerLevel level, LevelChunk chunk) {
         LevelChunkSection[] sections = chunk.getSections();
         ChunkPos chunkPos = chunk.getPos();
         for (int i = 0; i < sections.length; i++) {

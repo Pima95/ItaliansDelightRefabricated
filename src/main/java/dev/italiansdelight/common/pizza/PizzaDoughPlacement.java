@@ -7,7 +7,11 @@ import dev.italiansdelight.common.block.entity.PizzaDoughBlockEntity;
 import dev.italiansdelight.common.block.entity.CookedPizzaBlockEntity;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import net.minecraft.world.level.block.Blocks;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -28,7 +32,18 @@ public final class PizzaDoughPlacement {
     }
 
     public static void register() {
-        UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
+        NeoForge.EVENT_BUS.addListener(PizzaDoughPlacement::onRightClick);
+    }
+
+    private static void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+        InteractionResult result = interact(event.getEntity(), event.getLevel(), event.getHand(), event.getHitVec());
+        if (result != InteractionResult.PASS) {
+            event.setCancellationResult(result);
+            event.setCanceled(true);
+        }
+    }
+
+    private static InteractionResult interact(Player player, Level level, InteractionHand hand, BlockHitResult hit) {
             if (player.isSpectator()) {
                 return InteractionResult.PASS;
             }
@@ -182,7 +197,7 @@ public final class PizzaDoughPlacement {
                 // One durability per pizza, not one per hand-stretching step.
                 // This is invoked only after the state has actually changed.
                 if (rollingPin && !player.getAbilities().instabuild) {
-                    held.hurtAndBreak(1, player, hand);
+                    held.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
                 }
 
                 server.playSound(null, clickedPos, SoundEvents.WOOL_PLACE,
@@ -314,6 +329,5 @@ public final class PizzaDoughPlacement {
             server.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.7F, 1.0F);
             server.gameEvent(player, GameEvent.BLOCK_PLACE, pos);
             return InteractionResult.SUCCESS;
-        });
     }
 }
