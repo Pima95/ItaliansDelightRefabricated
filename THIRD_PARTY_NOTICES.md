@@ -86,3 +86,7 @@ The `ragu.png` and `custard.png` item textures retain the original bowl pixels f
 - Upstream revision: [1b85d66f5e2aba88592d7f4fb203d582f4d3cbe3](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/tree/1b85d66f5e2aba88592d7f4fb203d582f4d3cbe3/src/main/resources/assets/farmersdelight/textures/item), branch `fabric/latest/26.3`.
 - Source tomato sauce blob: `0d5c9334ebdf5b28b78df3a467a4d0f337d29268`.
 - MIT License, Copyright (c) 2020 vectorwing. The full verbatim copyright, permission and disclaimer are preserved in `docs/FDR_CRATES_LICENSE.md`, also included in the distributed JAR under `META-INF/`.
+
+## Farmer's Delight Refabricated — sandwich bread pixels
+
+Four sandwich textures reuse the original chicken sandwich bread pixels with replacement fillings. Source revision and MIT license: [docs/FDR_SANDWICH_TEXTURE_LICENSE.md](docs/FDR_SANDWICH_TEXTURE_LICENSE.md).
