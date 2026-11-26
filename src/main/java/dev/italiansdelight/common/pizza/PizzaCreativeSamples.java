@@ -83,7 +83,7 @@ public final class PizzaCreativeSamples {
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException(
                         "No native pizza item for Creative sample: " + canonicalId));
-        return new ItemStack(BuiltInRegistries.ITEM.getValue(nativeId));
+        return new ItemStack(BuiltInRegistries.ITEM.get(nativeId));
     }
 
     private static ItemStack createStack(

@@ -126,7 +126,7 @@ public final class BarrelFluidContainers {
             return new ItemStack(ModItems.WHITE_GRAPE_JUICE_BUCKET);
         ResourceLocation key = ResourceLocation.tryParse(id);
         if (key == null) return ItemStack.EMPTY;
-        Fluid fluid = BuiltInRegistries.FLUID.getValue(key);
+        Fluid fluid = BuiltInRegistries.FLUID.get(key);
         if (fluid == null || fluid == Fluids.EMPTY || fluid.getBucket() == Items.AIR)
             return ItemStack.EMPTY;
         return new ItemStack(fluid.getBucket());

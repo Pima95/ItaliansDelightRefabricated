@@ -9,6 +9,6 @@ import vectorwing.farmersdelight.common.block.WildCropBlock;
  */
 public final class CardoonBlock extends WildCropBlock {
     public CardoonBlock(Properties properties) {
-        super(MobEffects.STRENGTH, 6, properties);
+        super(MobEffects.DAMAGE_BOOST, 6, properties);
     }
 }

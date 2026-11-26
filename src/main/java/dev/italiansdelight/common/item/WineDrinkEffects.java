@@ -68,7 +68,7 @@ public final class WineDrinkEffects {
                     Math.min(MAX_ABSORPTION, user.getAbsorptionAmount() + bonus)));
         } else {
             float damage = 10.0F * Math.max(Math.abs(q - 0.5F) + 0.1F, 0.25F);
-            user.hurtServer(server, user.damageSources().magic(), damage);
+            user.hurt(user.damageSources().magic(), damage);
             nausea(user, (int) (6000 * Math.max(1.0F - q, 0.25F)));
         }
     }
@@ -82,6 +82,6 @@ public final class WineDrinkEffects {
     }
 
     private static void nausea(LivingEntity user, int duration) {
-        user.addEffect(new MobEffectInstance(MobEffects.NAUSEA, duration, 0, false, false));
+        user.addEffect(new MobEffectInstance(MobEffects.CONFUSION, duration, 0, false, false));
     }
 }

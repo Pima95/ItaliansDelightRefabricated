@@ -48,8 +48,7 @@ public final class ModSigns {
         if (event.getRegistryKey().equals(Registries.ITEM)) {
             OLIVE_SIGN = Registry.register(
                     BuiltInRegistries.ITEM, OLIVE_SIGN_KEY.location(),
-                    new StandingAndWallBlockItem(ModBlocks.OLIVE_SIGN, ModBlocks.OLIVE_WALL_SIGN, Direction.DOWN,
-                        new Item.Properties().stacksTo(16))
+                    new StandingAndWallBlockItem(ModBlocks.OLIVE_SIGN, ModBlocks.OLIVE_WALL_SIGN, new Item.Properties().stacksTo(16), Direction.DOWN)
                 );
             OLIVE_HANGING_SIGN = Registry.register(
                     BuiltInRegistries.ITEM, OLIVE_HANGING_SIGN_KEY.location(),
@@ -59,8 +58,7 @@ public final class ModSigns {
                 );
             ALMOND_SIGN = Registry.register(
                     BuiltInRegistries.ITEM, ALMOND_SIGN_KEY.location(),
-                    new StandingAndWallBlockItem(ModBlocks.ALMOND_SIGN, ModBlocks.ALMOND_WALL_SIGN, Direction.DOWN,
-                        new Item.Properties().stacksTo(16))
+                    new StandingAndWallBlockItem(ModBlocks.ALMOND_SIGN, ModBlocks.ALMOND_WALL_SIGN, new Item.Properties().stacksTo(16), Direction.DOWN)
                 );
             ALMOND_HANGING_SIGN = Registry.register(
                     BuiltInRegistries.ITEM, ALMOND_HANGING_SIGN_KEY.location(),
@@ -70,8 +68,7 @@ public final class ModSigns {
                 );
             FRUIT_CHERRY_SIGN = Registry.register(
                     BuiltInRegistries.ITEM, FRUIT_CHERRY_SIGN_KEY.location(),
-                    new StandingAndWallBlockItem(ModBlocks.FRUIT_CHERRY_SIGN, ModBlocks.FRUIT_CHERRY_WALL_SIGN, Direction.DOWN,
-                        new Item.Properties().stacksTo(16))
+                    new StandingAndWallBlockItem(ModBlocks.FRUIT_CHERRY_SIGN, ModBlocks.FRUIT_CHERRY_WALL_SIGN, new Item.Properties().stacksTo(16), Direction.DOWN)
                 );
             FRUIT_CHERRY_HANGING_SIGN = Registry.register(
                     BuiltInRegistries.ITEM, FRUIT_CHERRY_HANGING_SIGN_KEY.location(),

@@ -19,7 +19,7 @@ public final class OrchardSeasonPolicy {
 
     // The installed mod set cannot change while a game process is running.
     private static final boolean SERENE_SEASONS_LOADED =
-            ModList.get().isModLoaded("sereneseasons");
+            ModList.get().isLoaded("sereneseasons");
 
     private OrchardSeasonPolicy() {}
 
