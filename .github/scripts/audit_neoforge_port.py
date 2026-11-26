@@ -17,7 +17,21 @@ for p in sorted(root.rglob("*")):
             errors.append(str(p) + ": obsolete wood reference")
         if p.suffix == ".json":
             try:
-                json.loads(content)
+                data = json.loads(content)
+                if "/worldgen/" in p.as_posix():
+                    def check_offsets(node):
+                        if isinstance(node, dict):
+                            if node.get("type") == "minecraft:random_offset":
+                                for axis in ("xz_spread", "y_spread"):
+                                    provider = node.get(axis)
+                                    if isinstance(provider, dict) and provider.get("type") == "minecraft:trapezoid":
+                                        errors.append(f"{p}: {axis} uses a float/newer int provider unsupported in 1.21.1")
+                            for value in node.values():
+                                check_offsets(value)
+                        elif isinstance(node, list):
+                            for value in node:
+                                check_offsets(value)
+                    check_offsets(data)
             except ValueError as exc:
                 errors.append(f"{p}: {exc}")
         if p.suffix == ".java" and "net.fabricmc." in content:

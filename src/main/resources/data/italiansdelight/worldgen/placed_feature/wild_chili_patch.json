@@ -22,16 +22,86 @@
     {
       "type": "minecraft:random_offset",
       "xz_spread": {
-        "type": "minecraft:trapezoid",
-        "min": -5,
-        "max": 5,
-        "plateau": 0
+        "type": "minecraft:weighted_list",
+        "distribution": [
+          {
+            "data": -5,
+            "weight": 1
+          },
+          {
+            "data": -4,
+            "weight": 2
+          },
+          {
+            "data": -3,
+            "weight": 3
+          },
+          {
+            "data": -2,
+            "weight": 4
+          },
+          {
+            "data": -1,
+            "weight": 5
+          },
+          {
+            "data": 0,
+            "weight": 6
+          },
+          {
+            "data": 1,
+            "weight": 5
+          },
+          {
+            "data": 2,
+            "weight": 4
+          },
+          {
+            "data": 3,
+            "weight": 3
+          },
+          {
+            "data": 4,
+            "weight": 2
+          },
+          {
+            "data": 5,
+            "weight": 1
+          }
+        ]
       },
       "y_spread": {
-        "type": "minecraft:trapezoid",
-        "min": -3,
-        "max": 3,
-        "plateau": 0
+        "type": "minecraft:weighted_list",
+        "distribution": [
+          {
+            "data": -3,
+            "weight": 1
+          },
+          {
+            "data": -2,
+            "weight": 2
+          },
+          {
+            "data": -1,
+            "weight": 3
+          },
+          {
+            "data": 0,
+            "weight": 4
+          },
+          {
+            "data": 1,
+            "weight": 3
+          },
+          {
+            "data": 2,
+            "weight": 2
+          },
+          {
+            "data": 3,
+            "weight": 1
+          }
+        ]
       }
     },
     {
