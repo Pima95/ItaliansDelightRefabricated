@@ -1,96 +1,86 @@
-// Main build script for the mod.
-// Loom prepares the Fabric/Minecraft development environment; maven-publish
-// is available for possible future artifact publishing.
 plugins {
-    id 'net.fabricmc.fabric-loom' version '1.18.3'
-    id 'maven-publish'
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
 }
 
 version = project.mod_version
 group = project.maven_group
-
-base {
-    archivesName = project.archives_base_name
-}
-
-// Additional repositories required for dependencies not available on Maven Central.
-repositories {
-    // Farmer's Delight Refabricated
-    maven {
-        name = "Cassian's Maven"
-        url = 'https://maven.cassian.cc'
-    }
-
-    // JEI - CurseForge Maven
-    maven {
-        name = "CurseForge"
-        url = "https://www.cursemaven.com"
-    }
-}
-
-// Mod runtime and compile-time dependencies.
-dependencies {
-    // Minecraft
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-
-    // Fabric Loader
-    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    // Fabric API
-    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    // Farmer's Delight Refabricated
-    implementation("vectorwing:FarmersDelight:${project.fdrf_version}") {
-        exclude(group: "net.fabricmc")
-    }
-
-    // JEI
-    implementation "curse.maven:jei-238222:9453340"
-
-    // OPTIONAL: Serene Seasons Fabric 26.3, version 26.1.2.0.7.
-    // Compile API calls without shipping the mod, and never require it at runtime.
-    // Users must install Serene Seasons + GlitchCore separately if desired.
-    compileOnly "curse.maven:serene-seasons-291874:8938724"
-}
-
-// Replaces the version placeholder inside fabric.mod.json during the build.
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
-
-// Minecraft 26.3 requires Java 25: the release target prevents accidental use
-// of bytecode or APIs from a different Java version.
-tasks.withType(JavaCompile).configureEach {
-    it.options.release = 25
-}
-
-// Source/target toolchain configuration and sources JAR generation.
+base { archivesName = project.archives_base_name }
 java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
     withSourcesJar()
 }
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+    options.encoding = 'UTF-8'
+}
 
-// Includes the license in the final JAR with an artifact-specific name.
+repositories {
+    maven {
+        name = 'CurseForge'
+        url = 'https://www.cursemaven.com'
+        content { includeGroup 'curse.maven' }
+    }
+    maven {
+        name = 'JEI'
+        url = 'https://maven.blamejared.com'
+        content { includeGroup 'mezz.jei' }
+    }
+    maven {
+        name = 'JEI upstream'
+        url = 'https://dvs1.progwml6.com/files/maven/'
+        content { includeGroup 'mezz.jei' }
+    }
+}
+
+neoForge {
+    version = project.neo_version
+    runs {
+        client { client() }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+        configureEach {
+            systemProperty 'neoforge.enabledGameTestNamespaces', 'italiansdelight'
+        }
+    }
+    mods {
+        italiansdelight { sourceSet(sourceSets.main) }
+    }
+}
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+dependencies {
+    // Native NeoForge Farmer's Delight 1.3.4; required.
+    implementation "curse.maven:farmers-delight-398521:${project.fd_file_id}"
+    // Match the upstream approach: compile against APIs, optional runtime.
+    compileOnly "mezz.jei:jei-1.21.1-common-api:${project.jei_version}"
+    compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${project.jei_version}"
+    if (providers.gradleProperty('with_jei').orElse('false').get().toBoolean()) {
+        localRuntime "mezz.jei:jei-1.21.1-neoforge:${project.jei_version}"
+    }
+    // Optional Serene Seasons API; runtime testing will require compatible GlitchCore.
+    compileOnly "curse.maven:serene-seasons-291874:${project.serene_seasons_file_id}"
+    // Thirst/automation integrations are data-driven unless the port audit proves otherwise.
+    // Do not install Fabric artifacts or make optional integrations mandatory.
+}
+
+processResources {
+    def props = [version: project.version, neo_version_range: project.neo_version_range,
+                 minecraft_version_range: project.minecraft_version_range,
+                 loader_version_range: project.loader_version_range]
+    inputs.properties props
+    filesMatching('META-INF/neoforge.mods.toml') { expand props }
+}
+
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archives_base_name}" }
-    }
-    // Include upstream notices in the distributed JAR, not just in the Git repo.
-    from("NOTICE") {
-        into("META-INF")
-    }
-    from("THIRD_PARTY_NOTICES.md") {
-        into("META-INF")
-    }
-    from("CREDIT.md") {
-        into("META-INF")
-    }
-    from("docs/FDR_CRATES_LICENSE.md") {
-        into("META-INF")
-    }
+    from('LICENSE') { rename { "${it}_${project.archives_base_name}" } }
+    from('NOTICE') { into('META-INF') }
+    from('THIRD_PARTY_NOTICES.md') { into('META-INF') }
+    from('CREDIT.md') { into('META-INF') }
+    from('docs/FDR_CRATES_LICENSE.md') { into('META-INF') }
 }

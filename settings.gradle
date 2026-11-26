@@ -1,14 +1,7 @@
-// Repositories used by Gradle to resolve project plugins, including Fabric Loom.
 pluginManagement {
     repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        mavenCentral()
         gradlePluginPortal()
+        maven { url = 'https://maven.neoforged.net/releases' }
     }
 }
-
-// Logical Gradle project name; it should not be confused with the mod id.
 rootProject.name = 'italiansdelight'
