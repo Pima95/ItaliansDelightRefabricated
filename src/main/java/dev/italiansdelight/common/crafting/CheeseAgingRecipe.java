@@ -6,14 +6,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import dev.italiansdelight.common.registry.ModRecipes;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
@@ -32,7 +30,7 @@ public final class CheeseAgingRecipe
                     .fieldOf("ingredient")
                     .forGetter(CheeseAgingRecipe::getIngredient),
 
-                ItemStackTemplate.CODEC
+                ItemStack.STRICT_CODEC
                     .fieldOf("result")
                     .forGetter(CheeseAgingRecipe::getResultTemplate),
 
@@ -56,22 +54,22 @@ public final class CheeseAgingRecipe
 
     public static final RecipeSerializer<CheeseAgingRecipe>
         SERIALIZER =
-            new RecipeSerializer<>(
-                CODEC,
-                STREAM_CODEC
-            );
+            new RecipeSerializer<CheeseAgingRecipe>() {
+                @Override public MapCodec<CheeseAgingRecipe> codec() { return CODEC; }
+                @Override public StreamCodec<RegistryFriendlyByteBuf, CheeseAgingRecipe> streamCodec() { return STREAM_CODEC; }
+            };
 
     private final Ingredient ingredient;
-    private final ItemStackTemplate result;
+    private final ItemStack result;
     private final int agingTime;
 
     public CheeseAgingRecipe(
         Ingredient ingredient,
-        ItemStackTemplate result,
+        ItemStack result,
         int agingTime
     ) {
         this.ingredient = ingredient;
-        this.result = result;
+        this.result = result.copy();
         this.agingTime =
             Math.max(
                 1,
@@ -83,8 +81,8 @@ public final class CheeseAgingRecipe
         return ingredient;
     }
 
-    public ItemStackTemplate getResultTemplate() {
-        return result;
+    public ItemStack getResultTemplate() {
+        return result.copy();
     }
 
     public int getAgingTime() {
@@ -101,11 +99,10 @@ public final class CheeseAgingRecipe
         );
     }
 
-    @Override
     public ItemStack assemble(
         SingleRecipeInput input
     ) {
-        return result.create();
+        return result.copy();
     }
 
     @Override
@@ -121,14 +118,20 @@ public final class CheeseAgingRecipe
     }
 
     @Override
-    public RecipeBookCategory recipeBookCategory() {
-        return null;
+    public boolean canCraftInDimensions(int width, int height) {
+        return width * height >= 1;
     }
 
     @Override
-    public PlacementInfo placementInfo() {
-        return PlacementInfo.NOT_PLACEABLE;
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
+        return result.copy();
     }
+
+    @Override
+    public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider registries) {
+        return assemble(input);
+    }
+
 
     @Override
     public boolean isSpecial() {
@@ -141,7 +144,7 @@ public final class CheeseAgingRecipe
     }
 
     @Override
-    public String group() {
+    public String getGroup() {
         return "cheese_aging";
     }
 
@@ -152,8 +155,8 @@ public final class CheeseAgingRecipe
             Ingredient.CONTENTS_STREAM_CODEC
                 .decode(buffer);
 
-        ItemStackTemplate result =
-            ItemStackTemplate.STREAM_CODEC
+        ItemStack result =
+            ItemStack.STREAM_CODEC
                 .decode(buffer);
 
         int agingTime =
@@ -176,7 +179,7 @@ public final class CheeseAgingRecipe
                 recipe.ingredient
             );
 
-        ItemStackTemplate.STREAM_CODEC
+        ItemStack.STREAM_CODEC
             .encode(
                 buffer,
                 recipe.result

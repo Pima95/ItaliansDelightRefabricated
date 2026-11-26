@@ -3,7 +3,7 @@ package dev.italiansdelight.integration.jei;
 import dev.italiansdelight.common.crafting.CheeseAgingRecipe;
 import dev.italiansdelight.common.crafting.CheeseDryingRecipe;
 
-import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 /**
@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.Ingredient;
  */
 public record CheeseAgingJeiRecipe(
     Ingredient ingredient,
-    ItemStackTemplate result,
+    ItemStack result,
     int processingTime,
     Process process
 ) {

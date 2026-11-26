@@ -9,13 +9,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import dev.italiansdelight.common.registry.ModRecipes;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -36,11 +35,11 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
                     .fieldOf("ingredients")
                     .forGetter(recipe -> recipe.ingredients),
 
-                ItemStackTemplate.CODEC
+                ItemStack.STRICT_CODEC
                     .fieldOf("result")
                     .forGetter(recipe -> recipe.result),
 
-                ItemStackTemplate.CODEC
+                ItemStack.STRICT_CODEC
                     .optionalFieldOf("container")
                     .forGetter(CheeseVatRecipe::getContainerTemplate),
 
@@ -73,12 +72,15 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         );
 
     public static final RecipeSerializer<CheeseVatRecipe> SERIALIZER =
-        new RecipeSerializer<>(CODEC, STREAM_CODEC);
+        new RecipeSerializer<CheeseVatRecipe>() {
+                @Override public MapCodec<CheeseVatRecipe> codec() { return CODEC; }
+                @Override public StreamCodec<RegistryFriendlyByteBuf, CheeseVatRecipe> streamCodec() { return STREAM_CODEC; }
+            };
 
     // -------------------- Immutable recipe data --------------------
     private final List<Ingredient> ingredients;
-    private final ItemStackTemplate result;
-    private final Optional<ItemStackTemplate> container;
+    private final ItemStack result;
+    private final Optional<ItemStack> container;
     private final int cookingTime;
     private final float experience;
     private final int wheyAmount;
@@ -86,16 +88,16 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
 
     public CheeseVatRecipe(
         List<Ingredient> ingredients,
-        ItemStackTemplate result,
-        Optional<ItemStackTemplate> container,
+        ItemStack result,
+        Optional<ItemStack> container,
         int cookingTime,
         float experience,
         int wheyAmount,
         int wheyOutput
     ) {
         this.ingredients = List.copyOf(ingredients);
-        this.result = result;
-        this.container = container;
+        this.result = result.copy();
+        this.container = container.map(ItemStack::copy);
         this.cookingTime = Math.max(1, cookingTime);
         this.experience = experience;
         this.wheyAmount = Math.max(0, wheyAmount);
@@ -106,12 +108,12 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
         return ingredients;
     }
 
-    public ItemStackTemplate getResultTemplate() {
-        return result;
+    public ItemStack getResultTemplate() {
+        return result.copy();
     }
 
-    public Optional<ItemStackTemplate> getContainerTemplate() {
-        return container;
+    public Optional<ItemStack> getContainerTemplate() {
+        return container.map(ItemStack::copy);
     }
 
     public int getCookingTime() {
@@ -267,11 +269,10 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
             && findMatchingIngredientSlots(input) != null;
     }
 
-    @Override
     public ItemStack assemble(
         CheeseVatRecipeInput input
     ) {
-        return result.create();
+        return result.copy();
     }
 
     @Override
@@ -287,16 +288,20 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     }
 
     @Override
-    public @org.jetbrains.annotations.Nullable
-    net.minecraft.world.item.crafting.RecipeBookCategory
-    recipeBookCategory() {
-        return null;
+    public boolean canCraftInDimensions(int width, int height) {
+        return width * height >= ingredients.size();
     }
 
     @Override
-    public PlacementInfo placementInfo() {
-        return PlacementInfo.NOT_PLACEABLE;
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
+        return result.copy();
     }
+
+    @Override
+    public ItemStack assemble(CheeseVatRecipeInput input, HolderLookup.Provider registries) {
+        return assemble(input);
+    }
+
 
     @Override
     public boolean isSpecial() {
@@ -309,7 +314,7 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
     }
 
     @Override
-    public String group() {
+    public String getGroup() {
         return "cheese_vat";
     }
 
@@ -322,12 +327,12 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
                 .apply(ByteBufCodecs.list())
                 .decode(buffer);
 
-        ItemStackTemplate result =
-            ItemStackTemplate.STREAM_CODEC.decode(buffer);
+        ItemStack result =
+            ItemStack.STREAM_CODEC.decode(buffer);
 
-        Optional<ItemStackTemplate> container =
+        Optional<ItemStack> container =
             ByteBufCodecs
-                .optional(ItemStackTemplate.STREAM_CODEC)
+                .optional(ItemStack.STREAM_CODEC)
                 .decode(buffer);
 
         int cookingTime = buffer.readVarInt();
@@ -354,13 +359,13 @@ public class CheeseVatRecipe implements Recipe<CheeseVatRecipeInput> {
             .apply(ByteBufCodecs.list())
             .encode(buffer, recipe.ingredients);
 
-        ItemStackTemplate.STREAM_CODEC.encode(
+        ItemStack.STREAM_CODEC.encode(
             buffer,
             recipe.result
         );
 
         ByteBufCodecs
-            .optional(ItemStackTemplate.STREAM_CODEC)
+            .optional(ItemStack.STREAM_CODEC)
             .encode(buffer, recipe.container);
 
         buffer.writeVarInt(recipe.cookingTime);

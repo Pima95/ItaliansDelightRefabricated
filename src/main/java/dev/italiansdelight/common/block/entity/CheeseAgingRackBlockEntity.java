@@ -257,7 +257,7 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
         ).map(holder ->
             holder.value()
                 .getResultTemplate()
-                .create()
+                .copy()
         ).orElseGet(
             cheeseType::matureStack
         );

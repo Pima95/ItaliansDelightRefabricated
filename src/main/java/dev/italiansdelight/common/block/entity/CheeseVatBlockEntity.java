@@ -32,7 +32,6 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
@@ -352,7 +351,7 @@ public class CheeseVatBlockEntity
             ItemStack required =
                 recipe.getContainerTemplate()
                     .orElseThrow()
-                    .create();
+                    .copy();
 
             if (
                 !provided.isEmpty()
@@ -444,7 +443,7 @@ public class CheeseVatBlockEntity
         ItemStack required =
             recipe.getContainerTemplate()
                 .orElseThrow()
-                .create();
+                .copy();
 
         if (
             ItemStack.isSameItemSameComponents(
@@ -635,7 +634,7 @@ public class CheeseVatBlockEntity
         }
 
         ItemStack required = recipe.getContainerTemplate()
-            .map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
+            .map(ItemStack::copy).orElse(ItemStack.EMPTY);
         if (required.isEmpty()) {
             return !hasPendingResult() && canOutput(result);
         }
@@ -754,7 +753,7 @@ public class CheeseVatBlockEntity
         }
 
         ItemStack required = recipe.getContainerTemplate()
-            .map(ItemStackTemplate::create)
+            .map(ItemStack::copy)
             .orElse(ItemStack.EMPTY);
 
         for (int slot : matchingSlots) {
@@ -912,15 +911,15 @@ public class CheeseVatBlockEntity
             return;
         }
 
-        ItemStackTemplate remainder =
-            stack.getCraftingRemainder();
+        ItemStack remainder =
+            stack.getCraftingRemainingItem();
 
         // Farmer's Delight behavior:
         // the remainder is ejected from the machine instead of
         // replacing the ingredient stack in the input slot.
-        if (remainder != null) {
+        if (!remainder.isEmpty()) {
             ItemStack remainderStack =
-                remainder.create();
+                remainder.copy();
 
             if (!remainderStack.isEmpty()) {
                 ejectIngredientRemainder(

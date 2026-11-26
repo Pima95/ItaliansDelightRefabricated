@@ -165,7 +165,7 @@ public final class AgingCheeseBlockEntity
             .map(holder ->
                 holder.value()
                     .getResultTemplate()
-                    .create()
+                    .copy()
             )
             .orElseGet(
                 cheeseType::matureStack

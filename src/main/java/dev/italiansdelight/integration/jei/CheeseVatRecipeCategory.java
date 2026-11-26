@@ -190,11 +190,7 @@ public class CheeseVatRecipeCategory
             builder.addInputSlot(
                 1 + i * 18,
                 12
-            ).add(
-                recipe
-                    .getIngredientsList()
-                    .get(i)
-            );
+            ).addIngredients(recipe.getIngredientsList().get(i));
         }
 
         // Optional container
@@ -203,16 +199,14 @@ public class CheeseVatRecipeCategory
                 builder.addInputSlot(
                     63,
                     41
-                ).add(container)
+                ).addItemStack(container)
         );
 
         // Result
         builder.addOutputSlot(
             95,
             41
-        ).add(
-            recipe.getResultTemplate()
-        );
+        ).addItemStack(recipe.getResultTemplate());
     }
 
     @Override

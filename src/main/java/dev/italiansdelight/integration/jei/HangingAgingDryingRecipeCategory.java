@@ -97,16 +97,12 @@ public final class HangingAgingDryingRecipeCategory
         builder.addInputSlot(
             INPUT_X,
             INPUT_Y
-        ).add(
-            recipe.ingredient()
-        );
+        ).addIngredients(recipe.ingredient());
 
         builder.addOutputSlot(
             OUTPUT_X,
             OUTPUT_Y
-        ).add(
-            recipe.result()
-        );
+        ).addItemStack(recipe.result());
     }
 
     @Override
