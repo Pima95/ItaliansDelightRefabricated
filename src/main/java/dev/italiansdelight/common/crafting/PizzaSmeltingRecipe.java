@@ -1,68 +1,32 @@
 package dev.italiansdelight.common.crafting;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.pizza.PizzaBaking;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.RecipeBookCategory;
-import net.minecraft.world.item.crafting.RecipeBookCategories;
+import net.minecraft.world.item.crafting.SimpleCookingSerializer;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 
-/**
- * Vanilla furnace recipe with a dynamic pizza output.
- * The ordinary SmeltingRecipe output template would discard toppings,
- * quarter masks and the data-derived name.
- */
+/** Dynamic cooking result retains the pizza's original composition. */
 public final class PizzaSmeltingRecipe extends AbstractCookingRecipe {
-    public static final MapCodec<PizzaSmeltingRecipe> CODEC =
-            AbstractCookingRecipe.cookingMapCodec(PizzaSmeltingRecipe::new);
-    public static final StreamCodec<RegistryFriendlyByteBuf, PizzaSmeltingRecipe> STREAM_CODEC =
-            AbstractCookingRecipe.cookingStreamCodec(PizzaSmeltingRecipe::new);
     public static final RecipeSerializer<PizzaSmeltingRecipe> SERIALIZER =
-            new RecipeSerializer<>(CODEC, STREAM_CODEC);
+        new SimpleCookingSerializer<>(PizzaSmeltingRecipe::new, 200);
 
-    public PizzaSmeltingRecipe(Recipe.CommonInfo info,
-                               AbstractCookingRecipe.CookingBookInfo book,
-                               Ingredient ingredient, ItemStackTemplate result,
-                               float experience, int cookingTime) {
-        super(info, book, ingredient, result, experience, cookingTime);
+    public PizzaSmeltingRecipe(String group, CookingBookCategory category,
+            Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
+        super(RecipeType.SMELTING, group, category, ingredient, result, experience, cookingTime);
     }
 
-    @Override
-    public ItemStack assemble(SingleRecipeInput input) {
+    @Override public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider registries) {
         return PizzaBaking.previewCookedPizza(input.item());
     }
 
-    @Override
-    protected Item furnaceIcon() {
-        return Items.FURNACE;
-    }
+    @Override public ItemStack getToastSymbol() { return new ItemStack(Items.FURNACE); }
 
-    @Override
-    public RecipeType<? extends AbstractCookingRecipe> getType() {
-        return RecipeType.SMELTING;
-    }
-
-    @Override
-    public RecipeBookCategory recipeBookCategory() {
-        return switch (category()) {
-            case BLOCKS -> RecipeBookCategories.FURNACE_BLOCKS;
-            case FOOD -> RecipeBookCategories.FURNACE_FOOD;
-            case MISC -> RecipeBookCategories.FURNACE_MISC;
-        };
-    }
-
-    @Override
-    public RecipeSerializer<PizzaSmeltingRecipe> getSerializer() {
-        return SERIALIZER;
-    }
+    @Override public RecipeSerializer<PizzaSmeltingRecipe> getSerializer() { return SERIALIZER; }
 }

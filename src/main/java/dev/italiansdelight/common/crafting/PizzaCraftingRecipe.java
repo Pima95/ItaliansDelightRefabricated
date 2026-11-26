@@ -1,6 +1,5 @@
 package dev.italiansdelight.common.crafting;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.pizza.PizzaComposition;
 import dev.italiansdelight.common.pizza.PizzaCompositionOperations;
 import dev.italiansdelight.common.pizza.PizzaBaking;
@@ -13,8 +12,9 @@ import dev.italiansdelight.common.registry.ModItems;
 import java.util.Optional;
 import net.minecraft.world.item.Items;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
@@ -34,15 +34,16 @@ import net.minecraft.world.level.Level;
  * continue to return them at baking. A persistent flag prevents double refunds.
  */
 public final class PizzaCraftingRecipe extends CustomRecipe {
-    private static final PizzaCraftingRecipe INSTANCE = new PizzaCraftingRecipe();
-
-    public static final MapCodec<PizzaCraftingRecipe> CODEC = MapCodec.unit(INSTANCE);
-    public static final StreamCodec<RegistryFriendlyByteBuf, PizzaCraftingRecipe> STREAM_CODEC =
-            StreamCodec.unit(INSTANCE);
     public static final RecipeSerializer<PizzaCraftingRecipe> SERIALIZER =
-            new RecipeSerializer<>(CODEC, STREAM_CODEC);
+            new SimpleCraftingRecipeSerializer<>(PizzaCraftingRecipe::new);
 
-    private PizzaCraftingRecipe() {
+    public PizzaCraftingRecipe(CraftingBookCategory category) {
+        super(category);
+    }
+
+    @Override
+    public boolean canCraftInDimensions(int width, int height) {
+        return width * height >= 2;
     }
 
     @Override
@@ -51,7 +52,7 @@ public final class PizzaCraftingRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input) {
+    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
         Optional<PizzaComposition> composition = compose(input);
         if (composition.isEmpty()) {
             return ItemStack.EMPTY;

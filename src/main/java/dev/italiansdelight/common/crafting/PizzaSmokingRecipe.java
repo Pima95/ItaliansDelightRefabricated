@@ -1,60 +1,32 @@
 package dev.italiansdelight.common.crafting;
 
-import com.mojang.serialization.MapCodec;
 import dev.italiansdelight.common.pizza.PizzaBaking;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.RecipeBookCategory;
-import net.minecraft.world.item.crafting.RecipeBookCategories;
+import net.minecraft.world.item.crafting.SimpleCookingSerializer;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 
-/** Smoker counterpart of PizzaSmeltingRecipe, with the same lossless result. */
+/** Dynamic cooking result retains the pizza's original composition. */
 public final class PizzaSmokingRecipe extends AbstractCookingRecipe {
-    public static final MapCodec<PizzaSmokingRecipe> CODEC =
-            AbstractCookingRecipe.cookingMapCodec(PizzaSmokingRecipe::new);
-    public static final StreamCodec<RegistryFriendlyByteBuf, PizzaSmokingRecipe> STREAM_CODEC =
-            AbstractCookingRecipe.cookingStreamCodec(PizzaSmokingRecipe::new);
     public static final RecipeSerializer<PizzaSmokingRecipe> SERIALIZER =
-            new RecipeSerializer<>(CODEC, STREAM_CODEC);
+        new SimpleCookingSerializer<>(PizzaSmokingRecipe::new, 100);
 
-    public PizzaSmokingRecipe(Recipe.CommonInfo info,
-                              AbstractCookingRecipe.CookingBookInfo book,
-                              Ingredient ingredient, ItemStackTemplate result,
-                              float experience, int cookingTime) {
-        super(info, book, ingredient, result, experience, cookingTime);
+    public PizzaSmokingRecipe(String group, CookingBookCategory category,
+            Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
+        super(RecipeType.SMOKING, group, category, ingredient, result, experience, cookingTime);
     }
 
-    @Override
-    public ItemStack assemble(SingleRecipeInput input) {
+    @Override public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider registries) {
         return PizzaBaking.previewCookedPizza(input.item());
     }
 
-    @Override
-    protected Item furnaceIcon() {
-        return Items.SMOKER;
-    }
+    @Override public ItemStack getToastSymbol() { return new ItemStack(Items.SMOKER); }
 
-    @Override
-    public RecipeType<? extends AbstractCookingRecipe> getType() {
-        return RecipeType.SMOKING;
-    }
-
-    @Override
-    public RecipeBookCategory recipeBookCategory() {
-        return RecipeBookCategories.SMOKER_FOOD;
-    }
-
-    @Override
-    public RecipeSerializer<PizzaSmokingRecipe> getSerializer() {
-        return SERIALIZER;
-    }
+    @Override public RecipeSerializer<PizzaSmokingRecipe> getSerializer() { return SERIALIZER; }
 }
