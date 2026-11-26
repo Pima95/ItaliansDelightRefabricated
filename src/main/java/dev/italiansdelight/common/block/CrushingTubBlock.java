@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import dev.italiansdelight.common.block.entity.CrushingTubBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import java.util.ArrayList;
@@ -9,7 +11,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -80,13 +81,10 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    @Override protected BlockState updateShape(BlockState state, LevelReader level,
-            ScheduledTickAccess ticks, BlockPos pos, Direction direction,
-            BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+    @Override protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED))
-            ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        return super.updateShape(state, level, ticks, pos, direction,
-            neighborPos, neighborState, random);
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CrushingTubBlockEntity(pos, state);
@@ -99,7 +97,17 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
         return SHAPE;
     }
 
-    @Override protected InteractionResult useItemOn(
+    @Override protected net.minecraft.world.ItemInteractionResult useItemOn(
+        ItemStack held, BlockState state, Level level, BlockPos pos, Player player,
+        InteractionHand hand, BlockHitResult hit
+    ) {
+        InteractionResult result = interactWithItem(held, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(
         ItemStack held, BlockState state, Level level, BlockPos pos, Player player,
         InteractionHand hand, BlockHitResult hit
     ) {
@@ -112,12 +120,12 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
         if (!bottle && !bucket && !ingredient) {
             if (level.getBlockEntity(pos) instanceof CrushingTubBlockEntity contents
                     && !contents.getInput().isEmpty()) {
-                if (!level.isClientSide()) returnInputs(level, pos, player, contents);
+                if (!level.isClientSide) returnInputs(level, pos, player, contents);
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.PASS;
         }
-        if (level.isClientSide()) return InteractionResult.SUCCESS;
+        if (level.isClientSide) return InteractionResult.SUCCESS;
         if (!(level.getBlockEntity(pos) instanceof CrushingTubBlockEntity tub))
             return InteractionResult.FAIL;
 
@@ -145,7 +153,7 @@ public final class CrushingTubBlock extends BaseEntityBlock implements SimpleWat
     ) {
         if (state.getValue(WATERLOGGED)) return InteractionResult.SUCCESS;
         if (player.isSpectator()) return InteractionResult.PASS;
-        if (level.isClientSide()) return InteractionResult.SUCCESS;
+        if (level.isClientSide) return InteractionResult.SUCCESS;
         if (!(level.getBlockEntity(pos) instanceof CrushingTubBlockEntity tub))
             return InteractionResult.FAIL;
         // Always return the unprocessed input on right-click. Only when

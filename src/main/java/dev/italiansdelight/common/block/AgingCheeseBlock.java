@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import java.util.List;
 
 
@@ -8,7 +10,6 @@ import dev.italiansdelight.common.aging.CheeseShapes;
 import dev.italiansdelight.common.block.entity.AgingCheeseBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -19,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -141,16 +141,7 @@ public final class AgingCheeseBlock
     }
 
     @Override
-    protected BlockState updateShape(
-        BlockState state,
-        LevelReader level,
-        ScheduledTickAccess ticks,
-        BlockPos pos,
-        Direction directionToNeighbour,
-        BlockPos neighbourPos,
-        BlockState neighbourState,
-        RandomSource random
-    ) {
+    protected BlockState updateShape(BlockState state, Direction directionToNeighbour, BlockState neighbourState, LevelAccessor level, BlockPos pos, BlockPos neighbourPos) {
         if (
             directionToNeighbour
                 == Direction.DOWN
@@ -162,19 +153,10 @@ public final class AgingCheeseBlock
         ) {
             // Deferring destruction preserves the BlockEntity through loot
             // evaluation. Immediate AIR replacement can lose a cheese wheel.
-            ticks.scheduleTick(pos, this, 1);
+            level.scheduleTick(pos, this, 1);
         }
 
-        return super.updateShape(
-            state,
-            level,
-            ticks,
-            pos,
-            directionToNeighbour,
-            neighbourPos,
-            neighbourState,
-            random
-        );
+        return super.updateShape(state, directionToNeighbour, neighbourState, level, pos, neighbourPos);
     }
 
     @Override
@@ -194,7 +176,7 @@ public final class AgingCheeseBlock
         Player player,
         BlockHitResult hit
     ) {
-        if (level.isClientSide()) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
 
@@ -215,7 +197,7 @@ public final class AgingCheeseBlock
             if (level.removeBlock(pos, false)
                     && !player.addItem(pickup)
                     && !pickup.isEmpty()) {
-                player.drop(pickup, false, Prediction.SERVER_ONLY);
+                player.drop(pickup, false);
             }
         }
 

@@ -1,12 +1,13 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import dev.italiansdelight.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -49,9 +50,7 @@ public final class HorizontalRopeBlock extends Block {
                     axis == Direction.Axis.X ? pos.east() : pos.south())));
     }
 
-    @Override protected BlockState updateShape(BlockState state, LevelReader level,
-            ScheduledTickAccess ticks, BlockPos pos, Direction direction, BlockPos neighborPos,
-            BlockState neighbor, RandomSource random) {
+    @Override protected BlockState updateShape(BlockState state, Direction direction, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         Direction.Axis axis = state.getValue(AXIS);
         if ((axis == Direction.Axis.X && direction == Direction.WEST)
                 || (axis == Direction.Axis.Z && direction == Direction.NORTH))

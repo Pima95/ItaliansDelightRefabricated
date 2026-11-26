@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import dev.italiansdelight.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -7,7 +9,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -63,10 +64,8 @@ public final class CropStakeBlock extends RotatedPillarBlock {
             isRopeTied(ctx.getLevel(), ctx.getClickedPos()));
     }
 
-    @Override protected BlockState updateShape(BlockState state, LevelReader level,
-            ScheduledTickAccess ticks, BlockPos pos, Direction side,
-            BlockPos neighborPos, BlockState neighbor, RandomSource random) {
-        return super.updateShape(state, level, ticks, pos, side, neighborPos, neighbor, random)
+    @Override protected BlockState updateShape(BlockState state, Direction side, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        return super.updateShape(state, side, neighbor, level, pos, neighborPos)
             .setValue(ROPE_TIED, isRopeTied(level, pos));
     }
 

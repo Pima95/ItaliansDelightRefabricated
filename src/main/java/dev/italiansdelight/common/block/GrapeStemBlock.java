@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import dev.italiansdelight.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,8 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
-import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Block;
@@ -76,15 +76,12 @@ public final class GrapeStemBlock extends CropBlock {
 
     // A ripe grapevine must react when a player adds the dedicated horizontal
     // rope afterwards, not only when the random-tick scheduler selects it.
-    @Override protected BlockState updateShape(BlockState state, LevelReader level,
-            ScheduledTickAccess ticks, BlockPos pos, Direction direction,
-            BlockPos neighborPos, BlockState neighbor, RandomSource random) {
+    @Override protected BlockState updateShape(BlockState state, Direction direction, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (direction == Direction.UP && state.getValue(AGE) == MAX_AGE
                 && ropeAxis(neighbor) != null) {
-            ticks.scheduleTick(pos, this, 1);
+            level.scheduleTick(pos, this, 1);
         }
-        return super.updateShape(state, level, ticks, pos, direction,
-            neighborPos, neighbor, random);
+        return super.updateShape(state, direction, neighbor, level, pos, neighborPos);
     }
 
     @Override public void tick(BlockState state, ServerLevel level,
@@ -102,14 +99,14 @@ public final class GrapeStemBlock extends CropBlock {
     }
 
     @Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos,
-            BlockState state, BonemealSource source) {
+            BlockState state) {
         if (!isMaxAge(state)) return true;
         return ropeAxis(level.getBlockState(pos.above())) != null;
     }
 
     @Override public void performBonemeal(ServerLevel level, RandomSource random,
-            BlockPos pos, BlockState state, BonemealSource source) {
-        if (!isMaxAge(state)) super.performBonemeal(level, random, pos, state, source);
+            BlockPos pos, BlockState state) {
+        if (!isMaxAge(state)) super.performBonemeal(level, random, pos, state);
         tryGrowCanopy(level, pos, level.getBlockState(pos));
     }
 }

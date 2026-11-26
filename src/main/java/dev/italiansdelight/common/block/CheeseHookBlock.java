@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block;
 
+import net.minecraft.world.level.LevelAccessor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,6 @@ import dev.italiansdelight.common.block.entity.CheeseHookBlockEntity;
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModBlocks;
 
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -26,7 +27,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
@@ -192,7 +192,22 @@ private static final VoxelShape HOOK_SHAPE =
     }
 
     @Override
-    protected InteractionResult useItemOn(
+    protected net.minecraft.world.ItemInteractionResult useItemOn(
+        ItemStack stack,
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        BlockHitResult hit
+    ) {
+        InteractionResult result = interactWithItem(stack, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(
         ItemStack stack,
         BlockState state,
         Level level,
@@ -205,7 +220,7 @@ private static final VoxelShape HOOK_SHAPE =
             state.getValue(CHEESE);
 
         if (!current.isEmpty()) {
-            if (level.isClientSide()) {
+            if (level.isClientSide) {
                 return InteractionResult.SUCCESS;
             }
 
@@ -234,7 +249,7 @@ private static final VoxelShape HOOK_SHAPE =
             return InteractionResult.PASS;
         }
 
-        if (level.isClientSide()) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
 
@@ -266,7 +281,7 @@ private static final VoxelShape HOOK_SHAPE =
             return InteractionResult.PASS;
         }
 
-        if (level.isClientSide()) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
 
@@ -295,7 +310,7 @@ private static final VoxelShape HOOK_SHAPE =
             && !player.addItem(stack)
         ) {
             player.drop(
-                stack, false, Prediction.SERVER_ONLY
+                stack, false
             );
         }
     }
@@ -314,7 +329,7 @@ private static final VoxelShape HOOK_SHAPE =
         player.getInventory()
             .placeItemBackInInventory(
                 stack
-            , Prediction.SERVER_ONLY);
+            );
     }
 
     @Override
@@ -335,16 +350,7 @@ private static final VoxelShape HOOK_SHAPE =
     }
 
     @Override
-    protected BlockState updateShape(
-        BlockState state,
-        LevelReader level,
-        ScheduledTickAccess ticks,
-        BlockPos pos,
-        Direction directionToNeighbour,
-        BlockPos neighbourPos,
-        BlockState neighbourState,
-        RandomSource random
-    ) {
+    protected BlockState updateShape(BlockState state, Direction directionToNeighbour, BlockState neighbourState, LevelAccessor level, BlockPos pos, BlockPos neighbourPos) {
         if (
             directionToNeighbour == Direction.UP
             && !canSurvive(
@@ -355,19 +361,10 @@ private static final VoxelShape HOOK_SHAPE =
         ) {
             // Keep the occupied hook and its BlockEntity until vanilla
             // destruction collects the hanging product and the hook itself.
-            ticks.scheduleTick(pos, this, 1);
+            level.scheduleTick(pos, this, 1);
         }
 
-        return super.updateShape(
-            state,
-            level,
-            ticks,
-            pos,
-            directionToNeighbour,
-            neighbourPos,
-            neighbourState,
-            random
-        );
+        return super.updateShape(state, directionToNeighbour, neighbourState, level, pos, neighbourPos);
     }
 
     @Override
