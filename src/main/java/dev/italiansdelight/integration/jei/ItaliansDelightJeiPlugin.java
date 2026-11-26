@@ -218,27 +218,15 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
         IRecipeCatalystRegistration registration
     ) {
         // The Pizza Oven is the first workstation in Creative and JEI.
-        registration.addCraftingStation(
-            PizzaBakingJeiRecipeTypes.PIZZA_BAKING,
-            new ItemStack(ModBlocks.PIZZA_OVEN)
-        );
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.PIZZA_OVEN), PizzaBakingJeiRecipeTypes.PIZZA_BAKING);
 
-        registration.addCraftingStation(
-            CheeseVatJeiRecipeTypes.CHEESE_VAT,
-            new ItemStack(ModBlocks.CHEESE_VAT)
-        );
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.CHEESE_VAT), CheeseVatJeiRecipeTypes.CHEESE_VAT);
 
-        registration.addCraftingStation(
-            CheeseAgingJeiRecipeTypes.CHEESE_AGING,
-            new ItemStack(
+        registration.addRecipeCatalyst(new ItemStack(
                 ModBlocks.OAK_CHEESE_AGING_RACK
-            )
-        );
+            ), CheeseAgingJeiRecipeTypes.CHEESE_AGING);
 
-        registration.addCraftingStation(
-            CheeseAgingJeiRecipeTypes.HANGING_AGING_DRYING,
-            new ItemStack(ModBlocks.CHEESE_HOOK)
-        );
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.CHEESE_HOOK), CheeseAgingJeiRecipeTypes.HANGING_AGING_DRYING);
 
         // Every supported Crushing Tub variant handles
         // the same recipes. They must all open the JEI category via Uses (U).
@@ -258,10 +246,7 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
             ModBlocks.ALMOND_CRUSHING_TUB,
             ModBlocks.FRUIT_CHERRY_CRUSHING_TUB
         }) {
-            registration.addCraftingStation(
-                CrushingTubJeiRecipeTypes.CRUSHING_TUB,
-                new ItemStack(tub)
-            );
+            registration.addRecipeCatalyst(new ItemStack(tub), CrushingTubJeiRecipeTypes.CRUSHING_TUB);
         }
 
         // All wood variants expose the same actual brewing recipes in JEI.
@@ -282,31 +267,16 @@ public class ItaliansDelightJeiPlugin implements IModPlugin {
                     ModBlocks.ALMOND_BREWING_BARREL,
                     ModBlocks.FRUIT_CHERRY_BREWING_BARREL
                 }) {
-            registration.addCraftingStation(
-                BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE,
-                new ItemStack(barrel)
-            );
+            registration.addRecipeCatalyst(new ItemStack(barrel), BrewingBarrelJeiRecipeTypes.BARREL_GUI_GUIDE);
         }
 
-        registration.addCraftingStation(
-            SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION,
-            new ItemStack(net.minecraft.world.level.block.Blocks.CAULDRON)
-        );
+        registration.addRecipeCatalyst(new ItemStack(net.minecraft.world.level.block.Blocks.CAULDRON), SaltEvaporationJeiRecipeTypes.SALT_EVAPORATION);
 
-        registration.addCraftingStation(
-            PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES,
-            new ItemStack(net.minecraft.world.level.block.Blocks.CRAFTING_TABLE)
-        );
+        registration.addRecipeCatalyst(new ItemStack(net.minecraft.world.level.block.Blocks.CRAFTING_TABLE), PizzaCraftingJeiRecipeTypes.PIZZA_CRAFTING_EXAMPLES);
 
-        registration.addCraftingStation(
-            PizzaCuttingJeiRecipeTypes.PIZZA_CUTTING,
-            new ItemStack(vectorwing.farmersdelight.common.registry.ModItems.CUTTING_BOARD.get())
-        );
+        registration.addRecipeCatalyst(new ItemStack(vectorwing.farmersdelight.common.registry.ModItems.CUTTING_BOARD.get()), PizzaCuttingJeiRecipeTypes.PIZZA_CUTTING);
 
-        registration.addCraftingStation(
-            PizzaWorldJeiRecipeTypes.WORLD_PREPARATION,
-            new ItemStack(ModItems.ROLLING_PIN)
-        );
+        registration.addRecipeCatalyst(new ItemStack(ModItems.ROLLING_PIN), PizzaWorldJeiRecipeTypes.WORLD_PREPARATION);
     }
 
     @Override

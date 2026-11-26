@@ -65,8 +65,13 @@ dependencies {
     if (providers.gradleProperty('with_jei').orElse('false').get().toBoolean()) {
         localRuntime "mezz.jei:jei-1.21.1-neoforge:${project.jei_version}"
     }
-    // Optional Serene Seasons API; runtime testing will require compatible GlitchCore.
+    // Optional Serene Seasons and its required API dependency.
     compileOnly "curse.maven:serene-seasons-291874:${project.serene_seasons_file_id}"
+    compileOnly "curse.maven:glitchcore-955399:${project.glitchcore_file_id}"
+    if (providers.gradleProperty('with_serene_seasons').orElse('false').get().toBoolean()) {
+        localRuntime "curse.maven:serene-seasons-291874:${project.serene_seasons_file_id}"
+        localRuntime "curse.maven:glitchcore-955399:${project.glitchcore_file_id}"
+    }
     // Thirst/automation integrations are data-driven unless the port audit proves otherwise.
     // Do not install Fabric artifacts or make optional integrations mandatory.
 }

@@ -23,7 +23,7 @@ public final class PizzaWorldJeiRecipes {
     private PizzaWorldJeiRecipes() {}
 
     public static List<PizzaWorldJeiRecipe> createExamples() {
-        ItemStack dough = new ItemStack(BuiltInRegistries.ITEM.getValue(DOUGH));
+        ItemStack dough = new ItemStack(BuiltInRegistries.ITEM.get(DOUGH));
         List<PizzaWorldJeiRecipe> all = new ArrayList<>(
                 PizzaDisplayNames.allPresets().size() * PizzaWorldJeiRecipe.Step.values().length);
         for (Map.Entry<java.util.Set<ResourceLocation>, String> preset
