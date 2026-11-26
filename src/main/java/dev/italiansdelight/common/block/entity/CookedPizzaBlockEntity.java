@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block.entity;
 
+import dev.italiansdelight.common.persistence.PortNbt;
+
 import dev.italiansdelight.common.pizza.PizzaItemData;
 import dev.italiansdelight.common.pizza.PizzaSliceData;
 import dev.italiansdelight.common.pizza.PizzaComposition;
@@ -17,8 +19,6 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import java.util.Objects;
 
 /**
@@ -183,22 +183,22 @@ public final class CookedPizzaBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        pizza = input.read("CookedPizza", PizzaItemData.CODEC)
+    protected void loadAdditional(CompoundTag input, HolderLookup.Provider registries) {
+        super.loadAdditional(input, registries);
+        pizza = PortNbt.read(input, registries, "CookedPizza", PizzaItemData.CODEC)
                 .orElseGet(PizzaItemData::empty);
-        servedEver = input.getBooleanOr("ServedEver", false);
-        insertedSlices = List.copyOf(input.read("InsertedSlices", PizzaSliceData.CODEC.listOf())
+        servedEver = input.getBoolean("ServedEver");
+        insertedSlices = List.copyOf(PortNbt.read(input, registries, "InsertedSlices", PizzaSliceData.CODEC.listOf())
                 .orElse(List.of()));
         cachedRenderComposition = null;
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
-        output.store("CookedPizza", PizzaItemData.CODEC, pizza);
+    protected void saveAdditional(CompoundTag output, HolderLookup.Provider registries) {
+        super.saveAdditional(output, registries);
+        PortNbt.write(output, registries, "CookedPizza", PizzaItemData.CODEC, pizza);
         output.putBoolean("ServedEver", servedEver);
-        output.store("InsertedSlices", PizzaSliceData.CODEC.listOf(), insertedSlices);
+        PortNbt.write(output, registries, "InsertedSlices", PizzaSliceData.CODEC.listOf(), insertedSlices);
     }
 
     @Override

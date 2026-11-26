@@ -1,5 +1,9 @@
 package dev.italiansdelight.common.block.entity;
 
+import net.minecraft.core.HolderLookup;
+
+import net.minecraft.nbt.CompoundTag;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +24,6 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 
 /**
  * Stores the two independent aging processes of a Cheese Aging Rack.
@@ -324,61 +326,43 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
 
     @Override
     protected void loadAdditional(
-        ValueInput input
+        CompoundTag input, HolderLookup.Provider registries
     ) {
-        super.loadAdditional(input);
+        super.loadAdditional(input, registries);
         needsVisualSync = true;
 
         cheeseTypes[LOWER_SLOT] =
             typeFromOrdinal(
-                input.getIntOr(
-                    "LowerType",
-                    -1
-                )
+                (input.contains("LowerType", net.minecraft.nbt.Tag.TAG_ANY_NUMERIC) ? input.getInt("LowerType") : -1)
             );
 
         elapsedTicks[LOWER_SLOT] =
             Math.max(
                 0,
-                input.getIntOr(
-                    "LowerElapsedTicks",
-                    0
-                )
+                (input.contains("LowerElapsedTicks", net.minecraft.nbt.Tag.TAG_ANY_NUMERIC) ? input.getInt("LowerElapsedTicks") : 0)
             );
 
         mature[LOWER_SLOT] =
-            input.getBooleanOr(
-                "LowerMature",
-                false
-            );
+            input.getBoolean("LowerMature");
 
         cheeseTypes[UPPER_SLOT] =
             typeFromOrdinal(
-                input.getIntOr(
-                    "UpperType",
-                    -1
-                )
+                (input.contains("UpperType", net.minecraft.nbt.Tag.TAG_ANY_NUMERIC) ? input.getInt("UpperType") : -1)
             );
 
         elapsedTicks[UPPER_SLOT] =
             Math.max(
                 0,
-                input.getIntOr(
-                    "UpperElapsedTicks",
-                    0
-                )
+                (input.contains("UpperElapsedTicks", net.minecraft.nbt.Tag.TAG_ANY_NUMERIC) ? input.getInt("UpperElapsedTicks") : 0)
             );
 
         mature[UPPER_SLOT] =
-            input.getBooleanOr(
-                "UpperMature",
-                false
-            );
+            input.getBoolean("UpperMature");
     }
 
     @Override
     protected void saveAdditional(
-        ValueOutput output
+        CompoundTag output, HolderLookup.Provider registries
     ) {
         output.putInt(
             "LowerType",
@@ -414,6 +398,6 @@ public final class CheeseAgingRackBlockEntity extends BlockEntity {
             mature[UPPER_SLOT]
         );
 
-        super.saveAdditional(output);
+        super.saveAdditional(output, registries);
     }
 }

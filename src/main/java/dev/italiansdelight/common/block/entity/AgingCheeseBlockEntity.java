@@ -1,5 +1,9 @@
 package dev.italiansdelight.common.block.entity;
 
+import net.minecraft.core.HolderLookup;
+
+import net.minecraft.nbt.CompoundTag;
+
 import java.util.Optional;
 
 import dev.italiansdelight.common.aging.AgingCheeseType;
@@ -17,8 +21,6 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 
 /**
  * World-side aging progress for one cheese wheel placed on a flat surface.
@@ -176,29 +178,26 @@ public final class AgingCheeseBlockEntity
 
     @Override
     protected void loadAdditional(
-        ValueInput input
+        CompoundTag input, HolderLookup.Provider registries
     ) {
-        super.loadAdditional(input);
+        super.loadAdditional(input, registries);
 
         elapsedTicks =
             Math.max(
                 0,
-                input.getIntOr(
-                    "ElapsedTicks",
-                    0
-                )
+                (input.contains("ElapsedTicks", net.minecraft.nbt.Tag.TAG_ANY_NUMERIC) ? input.getInt("ElapsedTicks") : 0)
             );
     }
 
     @Override
     protected void saveAdditional(
-        ValueOutput output
+        CompoundTag output, HolderLookup.Provider registries
     ) {
         output.putInt(
             "ElapsedTicks",
             elapsedTicks
         );
 
-        super.saveAdditional(output);
+        super.saveAdditional(output, registries);
     }
 }

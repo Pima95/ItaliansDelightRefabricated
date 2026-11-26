@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block.entity;
 
+import dev.italiansdelight.common.persistence.PortNbt;
+
 import dev.italiansdelight.common.pizza.PizzaComposition;
 import dev.italiansdelight.common.block.PizzaDoughBlock;
 import net.minecraft.core.Direction;
@@ -9,8 +11,6 @@ import java.util.Objects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -87,16 +87,16 @@ public final class PizzaDoughBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        composition = input.read("PizzaComposition", PizzaComposition.CODEC)
+    protected void loadAdditional(CompoundTag input, HolderLookup.Provider registries) {
+        super.loadAdditional(input, registries);
+        composition = PortNbt.read(input, registries, "PizzaComposition", PizzaComposition.CODEC)
                 .orElseGet(PizzaComposition::empty);
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
-        output.store("PizzaComposition", PizzaComposition.CODEC, composition);
+    protected void saveAdditional(CompoundTag output, HolderLookup.Provider registries) {
+        super.saveAdditional(output, registries);
+        PortNbt.write(output, registries, "PizzaComposition", PizzaComposition.CODEC, composition);
     }
 
     /**

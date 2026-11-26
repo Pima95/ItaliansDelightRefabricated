@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block.entity;
 
+import dev.italiansdelight.common.persistence.PortNbt;
+
 import dev.italiansdelight.common.block.CrushingTubRecipes;
 import dev.italiansdelight.common.block.CrushingTubBlock;
 import java.util.HashMap;
@@ -21,8 +23,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 
 /**
  * Rustic Crushing Tub: one ingredient stack (64), one fluid (8000 mB),
@@ -156,18 +156,18 @@ public final class CrushingTubBlockEntity extends BlockEntity {
         }
     }
 
-    @Override protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
-        if (!input.isEmpty()) output.store("Input", ItemStack.CODEC, input);
+    @Override protected void saveAdditional(CompoundTag output, HolderLookup.Provider registries) {
+        super.saveAdditional(output, registries);
+        if (!input.isEmpty()) PortNbt.write(output, registries, "Input", ItemStack.CODEC, input);
         output.putString("FluidId", fluidId);
         output.putInt("Amount", amount);
     }
-    @Override protected void loadAdditional(ValueInput inputData) {
-        super.loadAdditional(inputData);
-        input = inputData.read("Input", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+    @Override protected void loadAdditional(CompoundTag inputData, HolderLookup.Provider registries) {
+        super.loadAdditional(inputData, registries);
+        input = PortNbt.read(inputData, registries, "Input", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         if (input.getCount() > MAX_ITEMS) input.setCount(MAX_ITEMS);
-        amount = Math.clamp(inputData.getIntOr("Amount", 0), 0, CAPACITY);
-        fluidId = inputData.getStringOr("FluidId", "");
+        amount = Math.clamp((inputData.contains("Amount", net.minecraft.nbt.Tag.TAG_ANY_NUMERIC) ? inputData.getInt("Amount") : 0), 0, CAPACITY);
+        fluidId = inputData.getString("FluidId");
         if (amount == 0 || fluidId.isBlank()) { amount = 0; fluidId = ""; }
     }
 
