@@ -1,272 +1,130 @@
 package dev.italiansdelight;
 
-import net.fabricmc.api.ClientModInitializer;
-import dev.italiansdelight.common.registry.ModBlocks;
-import dev.italiansdelight.common.registry.ModFluids;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
-import net.minecraft.client.renderer.block.FluidModel;
-import net.minecraft.client.resources.model.sprite.Material;
-import net.minecraft.util.ARGB;
-import java.util.List;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
-import net.minecraft.client.color.block.BlockTintSource;
-import net.minecraft.client.color.block.BlockTintSources;
-import net.minecraft.core.BlockPos;
-import net.minecraft.client.renderer.block.BlockAndTintGetter;
-import net.minecraft.world.level.block.state.BlockState;
-
-import dev.italiansdelight.client.gui.CheeseVatScreen;
-import dev.italiansdelight.client.gui.BrewingBarrelScreen;
-import dev.italiansdelight.client.gui.PizzaOvenScreen;
+import dev.italiansdelight.client.gui.*;
+import dev.italiansdelight.client.render.*;
 import dev.italiansdelight.client.particle.WhiteBubblePopParticle;
-import dev.italiansdelight.client.render.PizzaDivisionOverlay;
-import dev.italiansdelight.client.render.PizzaToppingRenderer;
-import dev.italiansdelight.client.render.CookedPizzaRenderer;
-import dev.italiansdelight.client.render.BarrelFluidRenderer;
-import dev.italiansdelight.client.render.CrushingTubFluidRenderer;
-import dev.italiansdelight.client.render.FluidCauldronRenderer;
-import dev.italiansdelight.client.render.PizzaPeelItemModel;
-import dev.italiansdelight.common.registry.ModRegistries;
-import dev.italiansdelight.common.registry.ModBoats;
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import dev.italiansdelight.common.registry.ModBlockEntities;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import dev.italiansdelight.common.registry.ModMenuTypes;
-import dev.italiansdelight.common.registry.ModParticles;
-
-import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
-
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+import dev.italiansdelight.common.registry.*;
+import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.ChestBoatModel;
+import net.minecraft.client.model.ListModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.entity.BoatRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.datafixers.util.Pair;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.extensions.common.*;
 
-/**
- * Client-only entrypoint for Italian's Delight.
- * Screens, renderers, and other client-side features are registered here and
- * must never be initialized on a dedicated server.
- */
-public class ItaliansDelightClient implements ClientModInitializer {
-
-    // The layer IDs are also the relative paths of the existing entity art:
-    // textures/entity/boat/olive.png and textures/entity/chest_boat/olive.png.
-    private static final ModelLayerLocation OLIVE_BOAT_LAYER =
-        new ModelLayerLocation(ModRegistries.id("boat/olive"), "main");
-    private static final ModelLayerLocation OLIVE_CHEST_BOAT_LAYER =
-        new ModelLayerLocation(ModRegistries.id("chest_boat/olive"), "main");
-    private static final ModelLayerLocation ALMOND_BOAT_LAYER =
-        new ModelLayerLocation(ModRegistries.id("boat/almond"), "main");
-    private static final ModelLayerLocation ALMOND_CHEST_BOAT_LAYER =
-        new ModelLayerLocation(ModRegistries.id("chest_boat/almond"), "main");
-    private static final ModelLayerLocation FRUIT_CHERRY_BOAT_LAYER =
-        new ModelLayerLocation(ModRegistries.id("boat/fruit_cherry"), "main");
-    private static final ModelLayerLocation FRUIT_CHERRY_CHEST_BOAT_LAYER =
-        new ModelLayerLocation(ModRegistries.id("chest_boat/fruit_cherry"), "main");
-
-
-    /**
-     * Soft biome variation only for Almond leaves. Keep the original approved
-     * green texture; a 30% vanilla foliage influence gives restrained warm
-     * savanna foliage and cooler greens in cold biomes rather than turning
-     * the six-color art into a dark, fully multiplied oak-style texture.
-     */
-    private static final BlockTintSource ALMOND_BIOME_FOLIAGE = new BlockTintSource() {
-        @Override
-        public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
-            int biome = BlockTintSources.foliage().colorInWorld(state, level, pos);
-            return softenAlmondTint(biome);
-        }
-
-        @Override
-        public int color(BlockState state) {
-            return 0xFFFFFFFF; // Inventory keeps the approved leaf color.
-        }
-    };
-
-    private static int softenAlmondTint(int biome) {
-        int red = (255 * 7 + ((biome >>> 16) & 255) * 3) / 10;
-        int green = (255 * 7 + ((biome >>> 8) & 255) * 3) / 10;
-        int blue = (255 * 7 + (biome & 255) * 3) / 10;
-        return 0xFF000000 | red << 16 | green << 8 | blue;
+@EventBusSubscriber(modid = ItaliansDelight.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public final class ItaliansDelightClient {
+    private static ModelLayerLocation layer(String wood, boolean chest) {
+        return new ModelLayerLocation(ModRegistries.id((chest ? "chest_boat/" : "boat/") + wood), "main");
     }
 
-    /**
-     * Fruit Cherry: vanilla foliage-biome colors blended into the original
-     * subdued leaf sprites. Keep the approved sapling completely untinted.
-     * A 50% biome contribution is clearer than Almond's 30% soft variation.
-     * This is a client-only BlockTintSource: no server-side color code.
-     */
-    private static final BlockTintSource FRUIT_CHERRY_BIOME_FOLIAGE = new BlockTintSource() {
-        @Override
-        public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
-            // Every growth stage uses the SAME canopy biome tint.
-            // Stage models render petals and fruit as separate untinted quads.
-            int biome = BlockTintSources.foliage().colorInWorld(state, level, pos);
-            return softenFruitCherryTint(biome);
-        }
-
-        @Override
-        public int color(BlockState state) {
-            return 0xFFFFFFFF; // Inventory has its consistent untinted base palette.
-        }
-    };
-
-    private static int softenFruitCherryTint(int biome) {
-        int red = (255 * 5 + ((biome >>> 16) & 255) * 5) / 10;
-        int green = (255 * 5 + ((biome >>> 8) & 255) * 5) / 10;
-        int blue = (255 * 5 + (biome & 255) * 5) / 10;
-        return 0xFF000000 | red << 16 | green << 8 | blue;
+    @SubscribeEvent public static void layers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(layer("olive", false), BoatModel::createBodyModel);
+        event.registerLayerDefinition(layer("olive", true), ChestBoatModel::createBodyModel);
+        event.registerLayerDefinition(layer("almond", false), BoatModel::createBodyModel);
+        event.registerLayerDefinition(layer("almond", true), ChestBoatModel::createBodyModel);
+        event.registerLayerDefinition(layer("fruit_cherry", false), BoatModel::createBodyModel);
+        event.registerLayerDefinition(layer("fruit_cherry", true), ChestBoatModel::createBodyModel);
     }
 
-    /**
-     * Loader-specific JEI/Fabric fluid display adapter: one animated atlas
-     * sprite is enough for a storage-only Fluid; no liquid block is required.
-     */
-    private static void registerContainedFluid(
-            net.minecraft.world.level.material.Fluid fluid,
-            net.minecraft.resources.ResourceLocation stillSprite) {
-        Material material = new Material(stillSprite);
-        FluidRenderingRegistry.register(fluid, new FluidModel.Unbaked(
-            material, material, material,
-            BlockTintSources.constant(ARGB.opaque(0xFFFFFF))));
+    private static BoatRenderer boatRenderer(EntityRendererProvider.Context context, String wood, boolean chest) {
+        ListModel<Boat> model = chest ? new ChestBoatModel(context.bakeLayer(layer(wood, true))) :
+                new BoatModel(context.bakeLayer(layer(wood, false)));
+        ResourceLocation texture = ModRegistries.id("textures/entity/" + (chest ? "chest_boat/" : "boat/") + wood + ".png");
+        return new BoatRenderer(context, chest) {
+            @Override public Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(Boat boat) {
+                return Pair.of(texture, model);
+            }
+        };
     }
 
-    @Override
-    public void onInitializeClient() {
-        // The authored Rustic oil frames are already under textures/block/fluids.
-        FluidRenderingRegistry.register(
-            ModFluids.OLIVE_OIL_STILL,
-            ModFluids.OLIVE_OIL_FLOWING,
-            new FluidModel.Unbaked(
-                new Material(ModRegistries.id("block/fluids/olive_oil_still")),
-                new Material(ModRegistries.id("block/fluids/olive_oil_flow")),
-                new Material(ModRegistries.id("block/fluids/olive_oil_overlay")),
-                BlockTintSources.constant(ARGB.opaque(0xFFFFFF))
-            )
-        );
-        FluidRenderingRegistry.register(
-            ModFluids.APPLE_JUICE_STILL,
-            ModFluids.APPLE_JUICE_FLOWING,
-            new FluidModel.Unbaked(
-                new Material(ModRegistries.id("block/fluids/apple_juice_still")),
-                new Material(ModRegistries.id("block/fluids/apple_juice_flow")),
-                new Material(ModRegistries.id("block/fluids/apple_juice_overlay")),
-                BlockTintSources.constant(ARGB.opaque(0xFFFFFF))
-            )
-        );
-        // These four fluids do not flow in the world, but JEI and every
-        // Fabric fluid ingredient renderer still need an explicit fluid model.
-        // Reuse the SAME animated still sprites already used by our Barrel and
-        // cauldron, so JEI does not display a missing-texture checkerboard.
-        registerContainedFluid(ModFluids.SHEEP_MILK,
-            ModRegistries.id("block/fluids/sheep_milk_still"));
-        registerContainedFluid(ModFluids.WHEY,
-            ModRegistries.id("block/fluids/whey_still"));
-        registerContainedFluid(ModFluids.RENNET,
-            ModRegistries.id("block/fluids/rennet_still"));
-        registerContainedFluid(ModFluids.APPLE_CIDER_VINEGAR,
-            ModRegistries.id("block/fluids/booze/cider_still"));
-        // The Rustic Golden Apple Juice still sprite is already present.
-        // Keep its authored animation and texture; non-placeable fluid for JEI.
-        registerContainedFluid(ModFluids.GOLDEN_APPLE_JUICE,
-            ModRegistries.id("block/fluids/golden_apple_juice_still"));
+    @SubscribeEvent public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ModBoats.OLIVE_BOAT_ENTITY, ctx -> boatRenderer(ctx, "olive", false));
+        event.registerEntityRenderer(ModBoats.OLIVE_CHEST_BOAT_ENTITY, ctx -> boatRenderer(ctx, "olive", true));
+        event.registerEntityRenderer(ModBoats.ALMOND_BOAT_ENTITY, ctx -> boatRenderer(ctx, "almond", false));
+        event.registerEntityRenderer(ModBoats.ALMOND_CHEST_BOAT_ENTITY, ctx -> boatRenderer(ctx, "almond", true));
+        event.registerEntityRenderer(ModBoats.FRUIT_CHERRY_BOAT_ENTITY, ctx -> boatRenderer(ctx, "fruit_cherry", false));
+        event.registerEntityRenderer(ModBoats.FRUIT_CHERRY_CHEST_BOAT_ENTITY, ctx -> boatRenderer(ctx, "fruit_cherry", true));
+        event.registerBlockEntityRenderer(ModBlockEntities.PIZZA_DOUGH, PizzaToppingRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.COOKED_PIZZA, CookedPizzaRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.BARREL, BarrelFluidRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.CRUSHING_TUB, CrushingTubFluidRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.FLUID_CAULDRON, FluidCauldronRenderer::new);
+    }
 
-        registerContainedFluid(ModFluids.GRAPE_JUICE,
-            ModRegistries.id("block/fluids/grape_juice_still"));
-        registerContainedFluid(ModFluids.WHITE_GRAPE_JUICE,
-            ModRegistries.id("block/fluids/white_grape_juice_still"));
-        registerContainedFluid(ModFluids.WINE,
-            ModRegistries.id("block/fluids/booze/wine_still"));
-        // Every non-world fermentation Fluid used by JEI needs its OWN
-        // FluidModel. A GUI atlas entry alone does not register a fluid
-        // renderer; without this JEI draws a magenta/black checkerboard.
-        registerContainedFluid(ModFluids.CHERRY_JUICE,
-            ModRegistries.id("block/fluids/booze/cherry_juice_still"));
-        registerContainedFluid(ModFluids.WHITE_WINE,
-            ModRegistries.id("block/fluids/booze/white_wine_still"));
-        registerContainedFluid(ModFluids.CHERRY_WINE,
-            ModRegistries.id("block/fluids/booze/cherry_wine_still"));
-        // Honey is a registered storage-only fluid. Its JEI entry was purple/black
-        // because, unlike mead, it had no client fluid sprite mapping.
-        // Rustic's golden mead sheet is reused for the honey-colored liquid.
-        registerContainedFluid(ModFluids.HONEY,
-            ModRegistries.id("block/fluids/booze/mead_still"));
-        registerContainedFluid(ModFluids.MEAD,
-            ModRegistries.id("block/fluids/booze/mead_still"));
-        registerContainedFluid(ModFluids.CIDER,
-            ModRegistries.id("block/fluids/booze/cider_still"));
-        registerContainedFluid(ModFluids.RED_WINE_VINEGAR,
-            ModRegistries.id("block/fluids/booze/red_wine_vinegar_still"));
-        // Almond and Fruit Cherry react to foliage biome colors independently.
-        // Olive, both saplings, and the rest of the orchard art remain untinted.
-        BlockColorRegistry.register(List.of(ALMOND_BIOME_FOLIAGE), ModBlocks.ALMOND_LEAVES);
-        BlockColorRegistry.register(List.of(FRUIT_CHERRY_BIOME_FOLIAGE), ModBlocks.FRUIT_CHERRY_LEAVES);
-        // Rustic's grape-leaf models already tint every oak-leaf face (index 0)
-        // but GRAPE_LEAVES is a separate block ID with no inherited color.
-        // The vanilla foliage source uses the biome's foliage resolver; if
-        // Serene Seasons is installed it replaces that resolver with its
-        // seasonal version. Do not directly link optional Serene classes here.
-        // Register the FULL biome tint, not the softened orchard-tree palettes.
-        BlockColorRegistry.register(List.of(BlockTintSources.foliage()),
-            ModBlocks.GRAPE_LEAVES, ModBlocks.WHITE_GRAPE_LEAVES);
+    @SubscribeEvent public static void screens(RegisterMenuScreensEvent event) {
+        event.register(ModMenuTypes.CHEESE_VAT, CheeseVatScreen::new);
+        event.register(ModMenuTypes.BREWING_BARREL, BrewingBarrelScreen::new);
+        event.register(ModMenuTypes.PIZZA_OVEN, PizzaOvenScreen::new);
+    }
 
-        ModelLayerRegistry.registerModelLayer(
-            OLIVE_BOAT_LAYER, BoatModel::createBoatModel);
-        ModelLayerRegistry.registerModelLayer(
-            OLIVE_CHEST_BOAT_LAYER, BoatModel::createChestBoatModel);
-        EntityRenderers.register(ModBoats.OLIVE_BOAT_ENTITY,
-            context -> new BoatRenderer(context, OLIVE_BOAT_LAYER));
-        EntityRenderers.register(ModBoats.OLIVE_CHEST_BOAT_ENTITY,
-            context -> new BoatRenderer(context, OLIVE_CHEST_BOAT_LAYER));
-        ModelLayerRegistry.registerModelLayer(ALMOND_BOAT_LAYER, BoatModel::createBoatModel);
-        ModelLayerRegistry.registerModelLayer(ALMOND_CHEST_BOAT_LAYER, BoatModel::createChestBoatModel);
-        EntityRenderers.register(ModBoats.ALMOND_BOAT_ENTITY,
-            context -> new BoatRenderer(context, ALMOND_BOAT_LAYER));
-        EntityRenderers.register(ModBoats.ALMOND_CHEST_BOAT_ENTITY,
-            context -> new BoatRenderer(context, ALMOND_CHEST_BOAT_LAYER));
-        ModelLayerRegistry.registerModelLayer(FRUIT_CHERRY_BOAT_LAYER, BoatModel::createBoatModel);
-        ModelLayerRegistry.registerModelLayer(FRUIT_CHERRY_CHEST_BOAT_LAYER, BoatModel::createChestBoatModel);
-        EntityRenderers.register(ModBoats.FRUIT_CHERRY_BOAT_ENTITY,
-            context -> new BoatRenderer(context, FRUIT_CHERRY_BOAT_LAYER));
-        EntityRenderers.register(ModBoats.FRUIT_CHERRY_CHEST_BOAT_ENTITY,
-            context -> new BoatRenderer(context, FRUIT_CHERRY_CHEST_BOAT_LAYER));
+    @SubscribeEvent public static void particles(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ModParticles.WHITE_BUBBLE_POP, WhiteBubblePopParticle.Provider::new);
+    }
 
-        // Wrap ONLY the already-baked peel item model; keep its 3D geometry
-        // and all approved transforms. On loaded peels the wrapper appends
-        // the exact ItemStack model from the serialized cargo component.
-        ModelLoadingPlugin.register(context ->
-                context.modifyItemModelAfterBake().register((model, details) ->
-                        details.itemId().equals(ModRegistries.id("pizza_peel"))
-                                ? new PizzaPeelItemModel(model) : model));
+    private static int soften(int color, int weight) {
+        int red = (255 * (10-weight) + ((color >>> 16) & 255)*weight)/10;
+        int green = (255 * (10-weight) + ((color >>> 8) & 255)*weight)/10;
+        int blue = (255 * (10-weight) + (color & 255)*weight)/10;
+        return red << 16 | green << 8 | blue;
+    }
 
-        PizzaDivisionOverlay.register();
-        BlockEntityRenderers.register(ModBlockEntities.PIZZA_DOUGH, PizzaToppingRenderer::new);
-        BlockEntityRenderers.register(ModBlockEntities.COOKED_PIZZA, CookedPizzaRenderer::new);
-        BlockEntityRenderers.register(ModBlockEntities.BARREL, BarrelFluidRenderer::new);
-        BlockEntityRenderers.register(ModBlockEntities.CRUSHING_TUB, CrushingTubFluidRenderer::new);
-        BlockEntityRenderers.register(ModBlockEntities.FLUID_CAULDRON, FluidCauldronRenderer::new);
-        // Links the server-synchronized MenuType to the client-side screen.
-        MenuScreens.register(
-            ModMenuTypes.CHEESE_VAT,
-            CheeseVatScreen::new
-        );
+    @SubscribeEvent public static void colors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, level, pos, tint) -> level == null || pos == null ? 0xFFFFFF :
+            soften(BiomeColors.getAverageFoliageColor(level,pos), 3), ModBlocks.ALMOND_LEAVES);
+        event.register((state, level, pos, tint) -> level == null || pos == null ? 0xFFFFFF :
+            soften(BiomeColors.getAverageFoliageColor(level,pos), 5), ModBlocks.FRUIT_CHERRY_LEAVES);
+        event.register((state, level, pos, tint) -> level == null || pos == null ? 0xFFFFFF :
+            BiomeColors.getAverageFoliageColor(level,pos), ModBlocks.GRAPE_LEAVES, ModBlocks.WHITE_GRAPE_LEAVES);
+    }
 
-        MenuScreens.register(
-            ModMenuTypes.BREWING_BARREL,
-            BrewingBarrelScreen::new
-        );
+    private static void fluid(RegisterClientExtensionsEvent event, Fluid fluid, String still, String flow, String overlay) {
+        event.registerFluidType(new IClientFluidTypeExtensions() {
+            @Override public ResourceLocation getStillTexture() { return ModRegistries.id(still); }
+            @Override public ResourceLocation getFlowingTexture() { return ModRegistries.id(flow); }
+            @Override public ResourceLocation getOverlayTexture() { return overlay == null ? null : ModRegistries.id(overlay); }
+        }, fluid.getFluidType());
+    }
 
-        // Dedicated pizza-only screen, no vanilla furnace recipe book.
-        MenuScreens.register(
-            ModMenuTypes.PIZZA_OVEN,
-            PizzaOvenScreen::new
-        );
+    @SubscribeEvent public static void fluids(RegisterClientExtensionsEvent event) {
+        fluid(event, ModFluids.OLIVE_OIL_STILL, "block/fluids/olive_oil_still", "block/fluids/olive_oil_flow", "block/fluids/olive_oil_overlay");
+        fluid(event, ModFluids.APPLE_JUICE_STILL, "block/fluids/apple_juice_still", "block/fluids/apple_juice_flow", "block/fluids/apple_juice_overlay");
+        fluid(event, ModFluids.SHEEP_MILK, "block/fluids/sheep_milk_still", "block/fluids/sheep_milk_still", null);
+        fluid(event, ModFluids.WHEY, "block/fluids/whey_still", "block/fluids/whey_still", null);
+        fluid(event, ModFluids.RENNET, "block/fluids/rennet_still", "block/fluids/rennet_still", null);
+        fluid(event, ModFluids.APPLE_CIDER_VINEGAR, "block/fluids/booze/cider_still", "block/fluids/booze/cider_still", null);
+        fluid(event, ModFluids.GOLDEN_APPLE_JUICE, "block/fluids/golden_apple_juice_still", "block/fluids/golden_apple_juice_still", null);
+        fluid(event, ModFluids.GRAPE_JUICE, "block/fluids/grape_juice_still", "block/fluids/grape_juice_still", null);
+        fluid(event, ModFluids.WHITE_GRAPE_JUICE, "block/fluids/white_grape_juice_still", "block/fluids/white_grape_juice_still", null);
+        fluid(event, ModFluids.WINE, "block/fluids/booze/wine_still", "block/fluids/booze/wine_still", null);
+        fluid(event, ModFluids.CHERRY_JUICE, "block/fluids/booze/cherry_juice_still", "block/fluids/booze/cherry_juice_still", null);
+        fluid(event, ModFluids.WHITE_WINE, "block/fluids/booze/white_wine_still", "block/fluids/booze/white_wine_still", null);
+        fluid(event, ModFluids.CHERRY_WINE, "block/fluids/booze/cherry_wine_still", "block/fluids/booze/cherry_wine_still", null);
+        fluid(event, ModFluids.HONEY, "block/fluids/booze/mead_still", "block/fluids/booze/mead_still", null);
+        fluid(event, ModFluids.MEAD, "block/fluids/booze/mead_still", "block/fluids/booze/mead_still", null);
+        fluid(event, ModFluids.CIDER, "block/fluids/booze/cider_still", "block/fluids/booze/cider_still", null);
+        fluid(event, ModFluids.RED_WINE_VINEGAR, "block/fluids/booze/red_wine_vinegar_still", "block/fluids/booze/red_wine_vinegar_still", null);
+    }
 
-        ParticleProviderRegistry.getInstance().register(
-            ModParticles.WHITE_BUBBLE_POP,
-            WhiteBubblePopParticle.Provider::new
-        );
+    @SubscribeEvent public static void setup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.OLIVE_OIL_STILL, RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.OLIVE_OIL_FLOWING, RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.APPLE_JUICE_STILL, RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.APPLE_JUICE_FLOWING, RenderType.translucent());
+            PizzaDivisionOverlay.register();
+        });
     }
 }

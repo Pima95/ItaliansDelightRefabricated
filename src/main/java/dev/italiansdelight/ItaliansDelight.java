@@ -55,6 +55,7 @@ public class ItaliansDelight {
         modBus.addListener(ModFluids::onRegister);
         modBus.addListener(ModItemGroups::onRegister);
         modBus.addListener(ModWorldGeneration::onRegister);
+        modBus.addListener(ModBoats::onRegister);
         modBus.addListener(ModItems::onRegister);
         modBus.addListener(ModBlocks::onRegister);
         modBus.addListener(ModBlockEntities::onRegister);
@@ -77,7 +78,6 @@ public class ItaliansDelight {
         // This ensures BlockEntities, menus, recipes, and events can already find
         // all registered items and blocks when they are configured.
         ModBlocks.register();
-        ModBoats.register();
         // Pure, read-only registry. The toppings will be wired to pizza interactions later.
         PizzaToppingCatalog.register();
         // Datapack equivalences are loaded on server data reload, never per tick.

@@ -3,10 +3,10 @@ package dev.italiansdelight.client.particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.RandomSource;
 
 /**
  * White variant of Minecraft's short bubble-pop animation.
@@ -14,7 +14,7 @@ import net.minecraft.util.RandomSource;
  * The movement and lifetime intentionally mirror vanilla BubblePopParticle;
  * only the sprite set differs.
  */
-public final class WhiteBubblePopParticle extends SingleQuadParticle {
+public final class WhiteBubblePopParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
 
@@ -35,8 +35,7 @@ public final class WhiteBubblePopParticle extends SingleQuadParticle {
             z,
             xa,
             ya,
-            za,
-            sprites.first()
+            za
         );
 
         this.sprites = sprites;
@@ -75,8 +74,8 @@ public final class WhiteBubblePopParticle extends SingleQuadParticle {
     }
 
     @Override
-    public Layer getLayer() {
-        return Layer.OPAQUE;
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
     public static final class Provider
@@ -99,8 +98,7 @@ public final class WhiteBubblePopParticle extends SingleQuadParticle {
             double z,
             double xa,
             double ya,
-            double za,
-            RandomSource random
+            double za
         ) {
             return new WhiteBubblePopParticle(
                 level,
