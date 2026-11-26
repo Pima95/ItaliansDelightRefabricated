@@ -605,5 +605,7 @@
   "item.italiansdelight.mushroom_bruschetta": "Mushroom Bruschetta",
   "item.italiansdelight.prosciutto_bruschetta": "Prosciutto Bruschetta",
   "jei.italiansdelight.antipasti.board": "Place %s and interact to retrieve the eight original ingredients one at a time, without using extra bowls. Breaking a partly served or empty board returns the bowl.",
-  "item.italiansdelight.cooked_potato_slice": "Cooked Potato Slices"
+  "item.italiansdelight.cooked_potato_slice": "Cooked Potato Slices",
+  "painting.italiansdelight.italianflag.title": "Italian Flag",
+  "painting.italiansdelight.italianflag.author": "Italian's Delight Refabricated"
 }

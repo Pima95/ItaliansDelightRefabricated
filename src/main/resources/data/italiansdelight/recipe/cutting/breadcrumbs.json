@@ -3,7 +3,7 @@
   "ingredients": [
     "minecraft:bread"
   ],
-  "tool": "#c:tools/knife",
+  "tool": "italiansdelight:cheese_grater",
   "result": [
     {
       "item": {
@@ -11,5 +11,6 @@
         "count": 2
       }
     }
-  ]
+  ],
+  "sound": "minecraft:item.axe.scrape"
 }
