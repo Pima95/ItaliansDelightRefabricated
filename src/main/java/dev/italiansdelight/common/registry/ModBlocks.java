@@ -1227,7 +1227,7 @@ public final class ModBlocks {
         FRUIT_CHERRY_CROP_STAKE = registerCropStakeVariant("fruit_cherry");
         HORIZONTAL_ROPE = registerBlockOnly(HORIZONTAL_ROPE_KEY,
         new HorizontalRopeBlock(Block.Properties.of()
-            .noCollision().noOcclusion()
+            .noCollission().noOcclusion()
             .instabreak().sound(SoundType.WOOL)));
         STAKED_TOMATOES = registerBlockOnly(STAKED_TOMATOES_KEY,
         new StakedTomatoBlock(Block.Properties.of()
@@ -1247,25 +1247,25 @@ public final class ModBlocks {
             .noOcclusion().randomTicks(), true));
         BUDDING_CHILI = registerBlockOnly(BUDDING_CHILI_KEY,
         new BuddingChiliBlock(Block.Properties.of()
-            .noCollision().noOcclusion().forceSolidOff()
+            .noCollission().noOcclusion().forceSolidOff()
             .randomTicks().instabreak().sound(SoundType.CROP)));
         CHILI_CROP = registerBlockOnly(CHILI_CROP_KEY,
         new ChiliCropBlock(Block.Properties.of()
-            .noOcclusion().noCollision().forceSolidOff()
+            .noOcclusion().noCollission().forceSolidOff()
             .randomTicks().instabreak().sound(SoundType.CROP)));
         CHILI_ON_ROPE = registerBlockOnly(CHILI_ON_ROPE_KEY,
         new HangingChiliBlock(Block.Properties.of()
-            .noCollision().noOcclusion()
+            .noCollission().noOcclusion()
             .randomTicks().instabreak().sound(SoundType.CROP)));
         PIZZA_DOUGH = registerBlockOnly(
         PIZZA_DOUGH_KEY,
         new PizzaDoughBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
-            .noCollision().noOcclusion().strength(0.2F))
+            .noCollission().noOcclusion().strength(0.2F))
     );
         COOKED_PIZZA = registerBlockOnly(
         COOKED_PIZZA_KEY,
         new CookedPizzaBlock(Block.Properties.ofFullCopy(Blocks.CAKE)
-            .noCollision().noOcclusion().strength(0.2F)));
+            .noCollission().noOcclusion().strength(0.2F)));
         PIZZA_OVEN = register(
         PIZZA_OVEN_KEY,
         new PizzaOvenBlock(Block.Properties.ofFullCopy(Blocks.FURNACE)
@@ -1363,7 +1363,7 @@ public final class ModBlocks {
                     .ofFullCopy(Blocks.IRON_BLOCK)
                     
                     .noOcclusion()
-                    .noCollision()
+                    .noCollission()
                     .sound(SoundType.LANTERN)
                     .strength(3.0F, 6.0F)
             )
@@ -1374,7 +1374,7 @@ public final class ModBlocks {
                 Block.Properties
                     .ofFullCopy(Blocks.IRON_BLOCK)
                     
-                    .noCollision()
+                    .noCollission()
                     .noOcclusion()
                     .noTerrainParticles()
                     .noLootTable()

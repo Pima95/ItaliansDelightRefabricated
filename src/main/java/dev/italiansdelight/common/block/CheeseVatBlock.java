@@ -425,4 +425,13 @@ public class CheeseVatBlock extends BaseEntityBlock {
 
         return null;
     }
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState next, boolean movedByPiston) {
+        if (!state.is(next.getBlock()) && !level.isClientSide
+                && level.getBlockEntity(pos) instanceof CheeseVatBlockEntity machine) {
+            machine.dropOnRemoval(pos, state);
+            level.updateNeighbourForOutputSignal(pos, this);
+        }
+        super.onRemove(state, level, pos, next, movedByPiston);
+    }
 }

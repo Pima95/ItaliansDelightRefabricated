@@ -34,6 +34,8 @@ import net.minecraft.world.phys.BlockHitResult;
  * without changing its inventory, direction, blockstate or save format.
  */
 public final class PizzaOvenBlock extends BaseEntityBlock {
+    public static final com.mojang.serialization.MapCodec<PizzaOvenBlock> CODEC = simpleCodec(PizzaOvenBlock::new);
+    @Override protected com.mojang.serialization.MapCodec<PizzaOvenBlock> codec() { return CODEC; }
 public static final EnumProperty<Direction> FACING =
             BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -73,7 +75,7 @@ public static final EnumProperty<Direction> FACING =
     private static InteractionResult open(
             Level level, BlockPos pos, Player player
     ) {
-        if (!level.isClientSide()
+        if (!level.isClientSide
                 && level.getBlockEntity(pos) instanceof PizzaOvenBlockEntity oven) {
             player.openMenu(oven);
         }
@@ -89,7 +91,17 @@ public static final EnumProperty<Direction> FACING =
     }
 
     @Override
-    protected InteractionResult useItemOn(
+    protected net.minecraft.world.ItemInteractionResult useItemOn(
+            ItemStack stack, BlockState state, Level level, BlockPos pos,
+            Player player, InteractionHand hand, BlockHitResult hit
+    ) {
+        InteractionResult result = interactWithItem(stack, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(
             ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit
     ) {
@@ -154,5 +166,14 @@ public static final EnumProperty<Direction> FACING =
                                     server, pos, current, oven));
         }
         return null;
+    }
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState next, boolean movedByPiston) {
+        if (!state.is(next.getBlock()) && !level.isClientSide
+                && level.getBlockEntity(pos) instanceof PizzaOvenBlockEntity machine) {
+            machine.dropOnRemoval(pos, state);
+            level.updateNeighbourForOutputSignal(pos, this);
+        }
+        super.onRemove(state, level, pos, next, movedByPiston);
     }
 }

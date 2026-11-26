@@ -2,7 +2,6 @@ package dev.italiansdelight.common.block;
 
 import dev.italiansdelight.common.registry.ModItems;
 
-import net.minecraft.util.Prediction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -57,12 +56,7 @@ private static final int MIN_SALT_DROP = 3;
      * already represented by the italiansdelight:salt_cauldron block id.
      */
     @Override
-    protected ItemStack getCloneItemStack(
-        LevelReader level,
-        BlockPos pos,
-        BlockState state,
-        boolean includeData
-    ) {
+    public ItemStack getCloneItemStack(net.minecraft.world.level.LevelReader level, BlockPos pos, BlockState state) {
         return new ItemStack(this);
     }
 
@@ -82,7 +76,22 @@ private static final int MIN_SALT_DROP = 3;
     }
 
     @Override
-    protected InteractionResult useItemOn(
+    protected net.minecraft.world.ItemInteractionResult useItemOn(
+        ItemStack itemStack,
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        BlockHitResult hit
+    ) {
+        InteractionResult result = interactWithItem(itemStack, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(
         ItemStack itemStack,
         BlockState state,
         Level level,
@@ -103,7 +112,7 @@ private static final int MIN_SALT_DROP = 3;
         BlockPos pos,
         Player player
     ) {
-        if (level.isClientSide()) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
 
@@ -135,7 +144,7 @@ private static final int MIN_SALT_DROP = 3;
 
         if (!player.addItem(salt)) {
             player.drop(
-                salt, false, Prediction.SERVER_ONLY
+                salt, false
             );
         }
 

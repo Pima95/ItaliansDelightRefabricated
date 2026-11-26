@@ -264,7 +264,7 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
             case INPUT -> stack.is(ModItems.RAW_PIZZA)
                     && stack.get(ModDataComponents.PIZZA_CONTENTS) != null
                     && items.get(RESULT).isEmpty();
-            case FUEL -> stack.has(DataComponents.COOKING_FUEL);
+            case FUEL -> stack.getBurnTime(net.minecraft.world.item.crafting.RecipeType.SMELTING) > 0;
             default -> false;
         };
     }
@@ -353,11 +353,9 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
         super.saveAdditional(output, registries);
     }
 
-    @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+    public void dropOnRemoval(BlockPos pos, BlockState state) {
         if (level != null && !level.isClientSide()) {
             Containers.dropContents(level, pos, this);
         }
-        super.preRemoveSideEffects(pos, state);
     }
 }

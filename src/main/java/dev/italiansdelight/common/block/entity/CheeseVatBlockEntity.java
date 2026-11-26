@@ -515,7 +515,7 @@ public class CheeseVatBlockEntity
         }
 
         for (RecipeHolder<CheeseVatRecipe> holder :
-                recipeManager.getAllOfType(ModRecipes.CHEESE_VAT_TYPE)) {
+                recipeManager.getAllRecipesFor(ModRecipes.CHEESE_VAT_TYPE)) {
             CheeseVatRecipe recipe = holder.value();
             if (recipe.getWheyAmount() > 0
                     && canSupplyWhey(recipe, input, wheyItemSlot)) {
@@ -853,8 +853,7 @@ public class CheeseVatBlockEntity
         }
     }
 
-    @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+    public void dropOnRemoval(BlockPos pos, BlockState state) {
         if (level instanceof ServerLevel serverLevel) {
             // Vanilla terrain particles are disabled for the vat itself so we
             // can emit a smaller burst. Use vanilla cauldron particles to keep
@@ -876,7 +875,8 @@ public class CheeseVatBlockEntity
         }
 
         awardExperience();
-        super.preRemoveSideEffects(pos, state);
+        if (level != null && !level.isClientSide)
+            net.minecraft.world.Containers.dropContents(level, pos, this);
     }
 
     private void consumeContainer(ItemStack required) {

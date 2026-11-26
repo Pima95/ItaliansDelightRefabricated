@@ -40,6 +40,8 @@ import net.minecraft.world.phys.BlockHitResult;
  * menu. Quality is retained on the output tank and on each wine vessel.
  */
 public final class BrewingBarrelBlock extends BaseEntityBlock {
+    public static final com.mojang.serialization.MapCodec<BrewingBarrelBlock> CODEC = simpleCodec(BrewingBarrelBlock::new);
+    @Override protected com.mojang.serialization.MapCodec<BrewingBarrelBlock> codec() { return CODEC; }
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public BrewingBarrelBlock(Properties properties) {
@@ -82,14 +84,22 @@ public final class BrewingBarrelBlock extends BaseEntityBlock {
 
     private static InteractionResult openMenu(Level level, BlockPos pos, Player player) {
         if (player.isSpectator()) return InteractionResult.PASS;
-        if (!level.isClientSide()
+        if (!level.isClientSide
                 && level.getBlockEntity(pos) instanceof BrewingBarrelBlockEntity barrel) {
             player.openMenu(barrel);
         }
         return InteractionResult.SUCCESS;
     }
 
-    @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state,
+    @Override protected net.minecraft.world.ItemInteractionResult useItemOn(ItemStack stack, BlockState state,
+            Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        InteractionResult result = interactWithItem(stack, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(ItemStack stack, BlockState state,
             Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         return openMenu(level, pos, player);
     }

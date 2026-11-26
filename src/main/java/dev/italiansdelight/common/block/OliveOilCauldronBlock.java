@@ -43,12 +43,19 @@ public final class OliveOilCauldronBlock extends Block {
                                                   CollisionContext ctx) { return SHAPE; }
 
     // Backward compatibility with filled cauldrons saved by earlier mod builds.
-    @Override protected ItemStack getCloneItemStack(
-            LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+    @Override public ItemStack getCloneItemStack(net.minecraft.world.level.LevelReader level, BlockPos pos, BlockState state) {
         return new ItemStack(Items.CAULDRON);
     }
 
-    @Override protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level,
+    @Override protected net.minecraft.world.ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level,
+            BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        InteractionResult result = interactWithItem(held, state, level, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(ItemStack held, BlockState state, Level level,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (player.isSpectator()) return InteractionResult.PASS;
         boolean inBottle = held.is(ModItems.OLIVE_OIL_BOTTLE);
@@ -60,7 +67,7 @@ public final class OliveOilCauldronBlock extends Block {
         boolean deposit = inBottle || inBucket;
         int delta = inBucket || outBucket ? 4 : 1;
         if (deposit ? current + delta > 4 : current < delta) return InteractionResult.SUCCESS;
-        if (level.isClientSide()) return InteractionResult.SUCCESS;
+        if (level.isClientSide) return InteractionResult.SUCCESS;
 
         int next = current + (deposit ? delta : -delta);
         BlockState changed = next == 0 ? Blocks.CAULDRON.defaultBlockState() : state.setValue(LEVEL, next);

@@ -33,6 +33,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * All fluids share this ONE technical block and its vanilla iron model.
  */
 public final class FluidCauldronBlock extends BaseEntityBlock {
+    public static final com.mojang.serialization.MapCodec<FluidCauldronBlock> CODEC = simpleCodec(FluidCauldronBlock::new);
+    @Override protected com.mojang.serialization.MapCodec<FluidCauldronBlock> codec() { return CODEC; }
     public static final IntegerProperty LEVEL = IntegerProperty.create("level", 1, 4);
     private static final VoxelShape SHAPE =
         Blocks.CAULDRON.defaultBlockState().getShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO);
@@ -58,16 +60,23 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
 
     // Middle-click on the filled state must return the NORMAL vanilla cauldron
     // item; this technical block has no BlockItem and must never return air.
-    @Override protected ItemStack getCloneItemStack(
-            LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+    @Override public ItemStack getCloneItemStack(net.minecraft.world.level.LevelReader level, BlockPos pos, BlockState state) {
         return new ItemStack(Items.CAULDRON);
     }
 
-    @Override protected InteractionResult useItemOn(ItemStack held, BlockState state, Level world,
+    @Override protected net.minecraft.world.ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level world,
+            BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        InteractionResult result = interactWithItem(held, state, world, pos, player, hand, hit);
+        if (result == InteractionResult.PASS) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (result == InteractionResult.FAIL) return net.minecraft.world.ItemInteractionResult.FAIL;
+        return net.minecraft.world.ItemInteractionResult.sidedSuccess(world.isClientSide);
+    }
+
+    private InteractionResult interactWithItem(ItemStack held, BlockState state, Level world,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (player.isSpectator()) return InteractionResult.PASS;
         if (FluidTransferBridge.itemStorage(player, hand) != null) {
-            if (world.isClientSide()) return InteractionResult.SUCCESS;
+            if (world.isClientSide) return InteractionResult.SUCCESS;
             if (!(world.getBlockEntity(pos) instanceof FluidCauldronBlockEntity storage))
                 return InteractionResult.FAIL;
             if (FluidTransferBridge.transfer(player, hand, storage.getFluidStorage()))
@@ -82,7 +91,7 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
         boolean emptyBottle = held.is(Items.GLASS_BOTTLE);
         if (fluid == null && !emptyBucket && !emptyBottle)
             return InteractionResult.PASS;
-        if (world.isClientSide()) return InteractionResult.SUCCESS;
+        if (world.isClientSide) return InteractionResult.SUCCESS;
         if (!(world.getBlockEntity(pos) instanceof FluidCauldronBlockEntity tank))
             return InteractionResult.FAIL;
         boolean deposit = fluid != null;
