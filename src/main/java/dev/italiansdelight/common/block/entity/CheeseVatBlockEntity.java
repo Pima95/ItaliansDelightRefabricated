@@ -1,5 +1,9 @@
 package dev.italiansdelight.common.block.entity;
 
+import dev.italiansdelight.common.persistence.PortNbt;
+
+import net.minecraft.nbt.CompoundTag;
+
 import java.util.Optional;
 
 import dev.italiansdelight.common.block.CheeseVatBlock;
@@ -17,11 +21,10 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
@@ -40,9 +43,6 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
@@ -112,7 +112,7 @@ public class CheeseVatBlockEntity
     // cookTime advances only when a valid recipe, heat, and output space are available.
     private int cookTime = 0;
     private int cookTimeTotal = 200;
-    private ResourceKey<Recipe<?>> cookingRecipe;
+    private ResourceLocation cookingRecipe;
     private int pendingBatchSize = 1;
     private float storedExperience;
 
@@ -326,7 +326,7 @@ public class CheeseVatBlockEntity
         // RecipeManager maintains a typed view that is rebuilt automatically
         // on datapack reload. Avoid scanning every vanilla/mod recipe per tick.
         for (RecipeHolder<CheeseVatRecipe> holder :
-                recipeManager.getAllOfType(ModRecipes.CHEESE_VAT_TYPE)) {
+                recipeManager.getAllRecipesFor(ModRecipes.CHEESE_VAT_TYPE)) {
             CheeseVatRecipe recipe = holder.value();
             if (
                 recipe.getWheyAmount() > 0
@@ -698,8 +698,8 @@ public class CheeseVatBlockEntity
         pendingItems.set(PREVIEW_SLOT, items.get(PREVIEW_SLOT).copy());
         pendingItems.set(PENDING_CONTAINER_SLOT, items.get(PENDING_CONTAINER_SLOT).copy());
 
-        TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
-        ContainerHelper.saveAllItems(output, pendingItems);
+        CompoundTag output = new CompoundTag();
+        ContainerHelper.saveAllItems(output, pendingItems, registries);
         output.putInt("PendingBatchSize", pendingBatchSize);
         output.putInt("WheySlotLayout", WHEY_SLOT_LAYOUT_VERSION);
         BlockItem.setBlockEntityData(vatStack, getType(), output);
@@ -1390,21 +1390,18 @@ public class CheeseVatBlockEntity
     // -------------------- World data persistence --------------------
     @Override
     protected void loadAdditional(
-        ValueInput input
+        CompoundTag input, HolderLookup.Provider registries
     ) {
-        super.loadAdditional(input);
+        super.loadAdditional(input, registries);
 
         items.clear();
-        ContainerHelper.loadAllItems(
-            input,
-            items
-        );
+        ContainerHelper.loadAllItems(input, items, registries);
 
         // Before the whey-container slot existed, the hidden preview and its
         // pending container occupied slots 5 and 6. Move those legacy values
         // to 6 and 7 exactly once so old vats keep their pending servings.
         if (
-            input.getIntOr(
+            PortNbt.intOr(input, 
                 "WheySlotLayout",
                 0
             ) < WHEY_SLOT_LAYOUT_VERSION
@@ -1432,40 +1429,37 @@ public class CheeseVatBlockEntity
         }
 
         cookTime =
-            input.getIntOr(
+            PortNbt.intOr(input, 
                 "CookTime",
                 0
             );
 
         cookTimeTotal =
-            input.getIntOr(
+            PortNbt.intOr(input, 
                 "CookTimeTotal",
                 200
             );
 
-        cookingRecipe = input.read("CookingRecipe", Recipe.KEY_CODEC).orElse(null);
+        cookingRecipe = input.contains("CookingRecipe") ? ResourceLocation.tryParse(input.getString("CookingRecipe")) : null;
         // Legacy saves held one whole batch in the preview.
-        pendingBatchSize = Math.max(1, input.getIntOr("PendingBatchSize",
+        pendingBatchSize = Math.max(1, PortNbt.intOr(input, "PendingBatchSize",
             items.get(PREVIEW_SLOT).getCount()));
-        storedExperience = Math.max(0.0F, input.getFloatOr("StoredExperience", 0.0F));
-        wheyFlowEnabled = input.getBooleanOr("WheyFlowEnabled", true);
+        storedExperience = Math.max(0.0F, PortNbt.floatOr(input, "StoredExperience", 0.0F));
+        wheyFlowEnabled = PortNbt.booleanOr(input, "WheyFlowEnabled", true);
         wheyAmount = Math.max(
             0,
             Math.min(
                 WHEY_TANK_CAPACITY,
-                input.getIntOr("WheyAmount", 0)
+                PortNbt.intOr(input, "WheyAmount", 0)
             )
         );
     }
 
     @Override
     protected void saveAdditional(
-        ValueOutput output
+        CompoundTag output, HolderLookup.Provider registries
     ) {
-        ContainerHelper.saveAllItems(
-            output,
-            items
-        );
+        ContainerHelper.saveAllItems(output, items, registries);
 
         output.putInt(
             "CookTime",
@@ -1477,14 +1471,14 @@ public class CheeseVatBlockEntity
             cookTimeTotal
         );
 
-        output.storeNullable("CookingRecipe", Recipe.KEY_CODEC, cookingRecipe);
+        if (cookingRecipe != null) output.putString("CookingRecipe", cookingRecipe.toString());
         output.putInt("PendingBatchSize", pendingBatchSize);
         output.putFloat("StoredExperience", storedExperience);
         output.putBoolean("WheyFlowEnabled", wheyFlowEnabled);
         output.putInt("WheyAmount", wheyAmount);
         output.putInt("WheySlotLayout", WHEY_SLOT_LAYOUT_VERSION);
 
-        super.saveAdditional(output);
+        super.saveAdditional(output, registries);
     }
 
     // -------------------- Menu opening --------------------

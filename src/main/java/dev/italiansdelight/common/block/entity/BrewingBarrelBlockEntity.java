@@ -1,5 +1,7 @@
 package dev.italiansdelight.common.block.entity;
 
+import dev.italiansdelight.common.persistence.PortNbt;
+
 import dev.italiansdelight.common.registry.ModBlockEntities;
 import dev.italiansdelight.common.registry.ModDataComponents;
 import dev.italiansdelight.common.registry.ModItems;
@@ -21,15 +23,11 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.TagValueOutput;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 
 /**
  * Rustic-inspired closed fermenter with persistent input/output tanks.
@@ -486,8 +484,8 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
 
     public void preserveContents(ItemStack stack, HolderLookup.Provider registries) {
         if (isEmpty() && juiceAmount == 0 && wineAmount == 0 && cultureAmount == 0 && progress == 0) return;
-        TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
-        saveAdditional(output);
+        CompoundTag output = new CompoundTag();
+        saveAdditional(output, registries);
         BlockItem.setBlockEntityData(stack, getType(), output);
     }
 
@@ -507,9 +505,9 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    @Override protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
-        ContainerHelper.saveAllItems(output, items);
+    @Override protected void saveAdditional(CompoundTag output, HolderLookup.Provider registries) {
+        super.saveAdditional(output, registries);
+        ContainerHelper.saveAllItems(output, items, registries);
         output.putInt("JuiceAmount", juiceAmount);
         output.putInt("JuiceKind", juiceKind);
         output.putInt("OutputKind", outputKind);
@@ -521,25 +519,25 @@ public final class BrewingBarrelBlockEntity extends BlockEntity implements Conta
         output.putInt("BrewTime", progress);
     }
 
-    @Override protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
+    @Override protected void loadAdditional(CompoundTag input, HolderLookup.Provider registries) {
+        super.loadAdditional(input, registries);
         items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(input, items);
-        juiceKind = Math.clamp(input.getIntOr("JuiceKind", JUICE_PURPLE), JUICE_PURPLE, JUICE_CIDER);
-        outputKind = Math.clamp(input.getIntOr("OutputKind", OUTPUT_WINE),
+        ContainerHelper.loadAllItems(input, items, registries);
+        juiceKind = Math.clamp(PortNbt.intOr(input, "JuiceKind", JUICE_PURPLE), JUICE_PURPLE, JUICE_CIDER);
+        outputKind = Math.clamp(PortNbt.intOr(input, "OutputKind", OUTPUT_WINE),
             OUTPUT_WINE, OUTPUT_WINE_VINEGAR);
-        juiceAmount = Math.clamp(input.getIntOr("JuiceAmount", 0), 0, CAPACITY);
-        wineAmount = Math.clamp(input.getIntOr("WineAmount", 0), 0, CAPACITY);
-        wineQuality = Math.clamp(input.getIntOr("WineQuality", 0), 0, 100);
-        cultureQuality = Math.clamp(input.getIntOr("CultureQuality", -1), -1, 100);
-        cultureWineKind = Math.clamp(input.getIntOr("CultureWineKind", 0), 0, 2);
+        juiceAmount = Math.clamp(PortNbt.intOr(input, "JuiceAmount", 0), 0, CAPACITY);
+        wineAmount = Math.clamp(PortNbt.intOr(input, "WineAmount", 0), 0, CAPACITY);
+        wineQuality = Math.clamp(PortNbt.intOr(input, "WineQuality", 0), 0, 100);
+        cultureQuality = Math.clamp(PortNbt.intOr(input, "CultureQuality", -1), -1, 100);
+        cultureWineKind = Math.clamp(PortNbt.intOr(input, "CultureWineKind", 0), 0, 2);
         // Older saved barrels stored only the quality of a 250 mB culture
         // bottle. Migrate it without discarding the player's existing wine.
-        cultureAmount = Math.clamp(input.getIntOr("CultureAmount",
+        cultureAmount = Math.clamp(PortNbt.intOr(input, "CultureAmount",
             cultureQuality >= 0 ? BOTTLE_AMOUNT : 0), 0, CULTURE_CAPACITY);
         if (cultureAmount == 0) cultureQuality = -1;
         if (cultureAmount > 0 && cultureQuality < 0) cultureAmount = 0;
-        progress = Math.clamp(input.getIntOr("BrewTime", 0), 0, BREW_TIME - 1);
+        progress = Math.clamp(PortNbt.intOr(input, "BrewTime", 0), 0, BREW_TIME - 1);
         if (wineAmount == 0) wineQuality = 0;
         if (!hasMatchingRecipe()) progress = 0;
     }

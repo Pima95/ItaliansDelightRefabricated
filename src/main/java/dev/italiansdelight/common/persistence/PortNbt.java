@@ -12,6 +12,18 @@ import java.util.Optional;
 public final class PortNbt {
     private PortNbt() {}
 
+    public static int intOr(CompoundTag tag, String key, int fallback) {
+        return tag.contains(key, Tag.TAG_ANY_NUMERIC) ? tag.getInt(key) : fallback;
+    }
+
+    public static float floatOr(CompoundTag tag, String key, float fallback) {
+        return tag.contains(key, Tag.TAG_ANY_NUMERIC) ? tag.getFloat(key) : fallback;
+    }
+
+    public static boolean booleanOr(CompoundTag tag, String key, boolean fallback) {
+        return tag.contains(key, Tag.TAG_ANY_NUMERIC) ? tag.getBoolean(key) : fallback;
+    }
+
     public static <T> Optional<T> read(CompoundTag tag, HolderLookup.Provider registries, String key, Codec<T> codec) {
         Tag value = tag.get(key);
         if (value == null) return Optional.empty();

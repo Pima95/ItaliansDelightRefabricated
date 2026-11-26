@@ -1,5 +1,11 @@
 package dev.italiansdelight.common.block.entity;
 
+import dev.italiansdelight.common.persistence.PortNbt;
+
+import net.minecraft.nbt.CompoundTag;
+
+import net.minecraft.core.HolderLookup;
+
 import dev.italiansdelight.common.block.PizzaOvenBlock;
 import dev.italiansdelight.common.block.entity.container.PizzaOvenMenu;
 import dev.italiansdelight.common.pizza.PizzaBaking;
@@ -23,13 +29,9 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.CookingFuel;
-import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 
 /**
  * Pizza-only furnace with vanilla furnace cooking and fuel behavior.
@@ -119,9 +121,7 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
 
         if (canCook && oven.energyRemaining == 0) {
             ItemStack fuel = oven.items.get(FUEL);
-            int duration = ResolvableInt.getFromItem(fuel,
-                    DataComponents.COOKING_FUEL, CookingFuel::burnTime,
-                    oven.getLootContext(level), 0);
+            int duration = fuel.getBurnTime(net.minecraft.world.item.crafting.RecipeType.SMELTING);
             if (duration > 0) {
                 oven.energyRemaining = duration;
                 oven.fuelTotal = duration;
@@ -332,25 +332,25 @@ public final class PizzaOvenBlockEntity extends BaseContainerBlockEntity
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
+    protected void loadAdditional(CompoundTag input, HolderLookup.Provider registries) {
+        super.loadAdditional(input, registries);
         items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(input, items);
-        energyRemaining = Math.max(0, input.getIntOr("EnergyRemaining", 0));
-        fuelTotal = Math.max(0, input.getIntOr("FuelTotal", 0));
+        ContainerHelper.loadAllItems(input, items, registries);
+        energyRemaining = Math.max(0, PortNbt.intOr(input, "EnergyRemaining", 0));
+        fuelTotal = Math.max(0, PortNbt.intOr(input, "FuelTotal", 0));
         cookingProgress = Math.clamp(
-                input.getIntOr("CookTime", 0), 0, PizzaBaking.MAX_PROGRESS);
+                PortNbt.intOr(input, "CookTime", 0), 0, PizzaBaking.MAX_PROGRESS);
         // Older oven saves placed progress on the raw pizza, not in the oven:
         // their missing CookTime correctly defaults to 0, just as a new input.
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        ContainerHelper.saveAllItems(output, items);
+    protected void saveAdditional(CompoundTag output, HolderLookup.Provider registries) {
+        ContainerHelper.saveAllItems(output, items, registries);
         output.putInt("EnergyRemaining", energyRemaining);
         output.putInt("FuelTotal", fuelTotal);
         output.putInt("CookTime", cookingProgress);
-        super.saveAdditional(output);
+        super.saveAdditional(output, registries);
     }
 
     @Override
