@@ -10,17 +10,13 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.TagValueOutput;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.neoforged.neoforge.fluids.FluidStack;
 
-/** 16 buckets: registered Fabric fluids retain components; legacy milk/whey retain IDs. */
+/** 16 buckets: registered NeoForge fluids retain components; legacy milk/whey retain IDs. */
 public final class BarrelBlockEntity extends BlockEntity {
     public static final int CAPACITY = 16_000;
     public static final int BUCKET_AMOUNT = 1_000;
@@ -34,7 +30,7 @@ public final class BarrelBlockEntity extends BlockEntity {
         super(ModBlockEntities.BARREL, pos, state);
     }
     public CompatibleFluidTank getFluidStorage() { return tank; }
-    public FluidVariant getFluidVariant() { return tank.currentVariant(); }
+    public FluidStack getFluidVariant() { return tank.currentVariant(); }
     public int getAmount() { return tank.amountMb(); }
     public String getFluidId() { return tank.id(); }
     public boolean isEmpty() { return tank.isEmptyTank(); }
@@ -43,8 +39,8 @@ public final class BarrelBlockEntity extends BlockEntity {
 
     public void preserveContents(ItemStack stack, HolderLookup.Provider registries) {
         if (tank.isEmptyTank()) return;
-        TagValueOutput data = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
-        tank.save(data);
+        CompoundTag data = new CompoundTag();
+        tank.save(data, registries);
         BlockItem.setBlockEntityData(stack, getType(), data);
     }
     private void changedAndSync() {
@@ -60,12 +56,12 @@ public final class BarrelBlockEntity extends BlockEntity {
     @Override public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
-    @Override protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
-        tank.save(output);
+    @Override protected void saveAdditional(CompoundTag output, HolderLookup.Provider registries) {
+        super.saveAdditional(output, registries);
+        tank.save(output, registries);
     }
-    @Override protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        tank.load(input, true);
+    @Override protected void loadAdditional(CompoundTag input, HolderLookup.Provider registries) {
+        super.loadAdditional(input, registries);
+        tank.load(input, registries, true);
     }
 }

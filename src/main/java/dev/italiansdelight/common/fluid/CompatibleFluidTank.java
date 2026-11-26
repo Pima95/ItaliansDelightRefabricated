@@ -1,153 +1,140 @@
 package dev.italiansdelight.common.fluid;
 
 import java.util.function.BooleanSupplier;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
-/**
- * One component-aware Fabric fluid tank. The historic virtual fields remain
- * only as a recovery path for missing/unregistered fluids and old saved worlds.
- * Registered dairy and condiment liquids now travel as FluidVariant.
- *
- * Registered fluids from ANY Fabric mod use FluidVariant, including component
- * data from custom tanks/buckets. 81 droplets equal 1 mB.
+/** Native NeoForge tank; amounts are millibuckets. Unknown legacy fluids
+ * remain isolated in the virtual ID store and never enter capabilities.
  */
-public final class CompatibleFluidTank extends SingleFluidStorage {
-    private static final long PER_MB = FluidConstants.BUCKET / 1000L;
-    private final long limit;
+public final class CompatibleFluidTank extends FluidTank {
     private final Runnable onChanged;
     private final BooleanSupplier enabled;
     private final boolean quarterSteps;
     private String virtualId = "";
-    private long virtualAmount = 0;
+    private int virtualAmount;
 
     public CompatibleFluidTank(int capacityMb, boolean quarterSteps,
             BooleanSupplier enabled, Runnable onChanged) {
-        this.limit = capacityMb * PER_MB;
+        super(capacityMb);
         this.quarterSteps = quarterSteps;
         this.enabled = enabled;
         this.onChanged = onChanged;
     }
 
-    @Override protected long getCapacity(FluidVariant resource) { return limit; }
-    @Override protected boolean canInsert(FluidVariant resource) {
-        return virtualAmount == 0 && enabled.getAsBoolean()
-            && resource.getFluid() != Fluids.LAVA;
+    private int allowed(int requested) {
+        int n = Math.max(0, requested);
+        return quarterSteps ? n / 250 * 250 : n;
     }
-    @Override protected boolean canExtract(FluidVariant resource) {
-        return enabled.getAsBoolean();
-    }
-    @Override public long insert(FluidVariant variant, long requested, TransactionContext tx) {
-        long allowed = quarterSteps ? requested / FluidConstants.BOTTLE * FluidConstants.BOTTLE : requested;
-        return allowed <= 0 ? 0 : super.insert(variant, allowed, tx);
-    }
-    @Override public long extract(FluidVariant variant, long requested, TransactionContext tx) {
-        long allowed = quarterSteps ? requested / FluidConstants.BOTTLE * FluidConstants.BOTTLE : requested;
-        return allowed <= 0 ? 0 : super.extract(variant, allowed, tx);
-    }
-    @Override protected void onFinalCommit() { onChanged.run(); }
 
-    public FluidVariant currentVariant() { return getResource(); }
+    @Override public boolean isFluidValid(FluidStack resource) {
+        return !hasVirtualFluid() && enabled.getAsBoolean()
+            && !resource.isEmpty() && resource.getFluid() != Fluids.LAVA
+            && resource.getFluid() != Fluids.FLOWING_LAVA;
+    }
+
+    @Override public int fill(FluidStack resource, FluidAction action) {
+        if (!isFluidValid(resource)) return 0;
+        int n = allowed(Math.min(resource.getAmount(), capacity - getFluidAmount()));
+        return n > 0 ? super.fill(resource.copyWithAmount(n), action) : 0;
+    }
+
+    @Override public FluidStack drain(int requested, FluidAction action) {
+        if (!enabled.getAsBoolean() || hasVirtualFluid()) return FluidStack.EMPTY;
+        int n = allowed(Math.min(requested, getFluidAmount()));
+        return n > 0 ? super.drain(n, action) : FluidStack.EMPTY;
+    }
+
+    @Override public FluidStack drain(FluidStack resource, FluidAction action) {
+        if (resource.isEmpty() || !FluidStack.isSameFluidSameComponents(resource, fluid))
+            return FluidStack.EMPTY;
+        return drain(resource.getAmount(), action);
+    }
+
+    @Override protected void onContentsChanged() { onChanged.run(); }
+
+    public FluidStack currentVariant() { return fluid.copy(); }
     public boolean hasVirtualFluid() { return virtualAmount > 0; }
-    public long amountDroplets() { return hasVirtualFluid() ? virtualAmount : amount; }
-    public int amountMb() { return (int) (amountDroplets() / PER_MB); }
-    public boolean isEmptyTank() { return amountDroplets() == 0; }
+    public int amountMb() { return hasVirtualFluid() ? virtualAmount : getFluidAmount(); }
+    public boolean isEmptyTank() { return amountMb() == 0; }
+
     public String id() {
         if (hasVirtualFluid()) return virtualId;
-        if (variant.isBlank()) return "";
-        ResourceLocation key = BuiltInRegistries.FLUID.getKey(variant.getFluid());
-        return key == null ? "" : key.toString();
+        if (fluid.isEmpty()) return "";
+        return BuiltInRegistries.FLUID.getKey(fluid.getFluid()).toString();
     }
 
-    private static FluidVariant known(String fluidId) {
-        if (fluidId == null || fluidId.isBlank()) return FluidVariant.blank();
+    private static FluidStack known(String fluidId, int amount) {
+        if (fluidId == null || fluidId.isBlank() || amount <= 0) return FluidStack.EMPTY;
         ResourceLocation id = ResourceLocation.tryParse(fluidId);
-        if (id == null || !BuiltInRegistries.FLUID.containsKey(id))
-            return FluidVariant.blank();
-        Fluid value = BuiltInRegistries.FLUID.getValue(id);
-        return value == null || value == Fluids.EMPTY ? FluidVariant.blank() : FluidVariant.of(value);
+        if (id == null || !BuiltInRegistries.FLUID.containsKey(id)) return FluidStack.EMPTY;
+        Fluid value = BuiltInRegistries.FLUID.get(id);
+        return value == null || value == Fluids.EMPTY ? FluidStack.EMPTY : new FluidStack(value, amount);
     }
 
-    /** Used by existing in-game bottle/bucket mechanics (mB, not droplets). */
     public boolean insertMb(String id, int volume) {
-        if (!enabled.getAsBoolean() || id == null || id.isBlank() ||
-            volume <= 0 || (long) volume * PER_MB > limit - amountDroplets()) return false;
-        FluidVariant fluid = known(id);
-        if (!fluid.isBlank()) {
-            if (hasVirtualFluid()) return false;
-            long value = volume * PER_MB;
-            try (Transaction tx = Transaction.openOuter()) {
-                if (insert(fluid, value, tx) != value) return false;
-                tx.commit();
-                return true;
-            }
+        if (!enabled.getAsBoolean() || id == null || id.isBlank()
+            || volume <= 0 || volume > capacity - amountMb() || allowed(volume) != volume)
+            return false;
+        FluidStack incoming = known(id, volume);
+        if (!incoming.isEmpty()) {
+            if (fill(incoming, FluidAction.SIMULATE) != volume) return false;
+            return fill(incoming, FluidAction.EXECUTE) == volume;
         }
-        if (amount > 0 || (virtualAmount > 0 && !virtualId.equals(id))) return false;
+        if (!fluid.isEmpty() || (hasVirtualFluid() && !virtualId.equals(id))) return false;
         virtualId = id;
-        virtualAmount += volume * PER_MB;
+        virtualAmount += volume;
         onChanged.run();
         return true;
     }
 
     public boolean extractMb(int volume) {
-        long value = (long) volume * PER_MB;
-        if (!enabled.getAsBoolean() || value <= 0 || value > amountDroplets()) return false;
+        if (!enabled.getAsBoolean() || volume <= 0 || volume > amountMb() || allowed(volume) != volume)
+            return false;
         if (hasVirtualFluid()) {
-            virtualAmount -= value;
+            virtualAmount -= volume;
             if (virtualAmount == 0) virtualId = "";
             onChanged.run();
             return true;
         }
-        if (variant.isBlank()) return false;
-        try (Transaction tx = Transaction.openOuter()) {
-            if (extract(variant, value, tx) != value) return false;
-            tx.commit();
-            return true;
-        }
+        if (drain(volume, FluidAction.SIMULATE).getAmount() != volume) return false;
+        return drain(volume, FluidAction.EXECUTE).getAmount() == volume;
     }
 
-    public void save(ValueOutput output) {
+    public void save(CompoundTag output, HolderLookup.Provider registries) {
         output.putString("FluidId", id());
-        output.putInt("Amount", amountMb()); // legacy compatibility
-        output.putLong("AmountDroplets", amountDroplets());
-        if (!variant.isBlank() && amount > 0)
-            output.store("FluidVariant", FluidVariant.CODEC, variant);
+        output.putInt("Amount", amountMb());
+        if (!fluid.isEmpty()) output.put("Fluid", fluid.save(registries));
     }
 
-    public void load(ValueInput input, boolean oliveLegacy) {
-        // Backwards-compatible reads for all 1.1.0 world and dropped-block NBT.
-        int original = input.getIntOr("Amount",
-            oliveLegacy ? input.getIntOr("OliveOilAmount", 0) : 0);
-        long requested = input.getLongOr("AmountDroplets", Math.max(0, original) * PER_MB);
-        requested = Math.clamp(requested, 0L, limit);
-        String fallback = oliveLegacy && original > 0 ? "italiansdelight:olive_oil" : "";
-        String id = input.getStringOr("FluidId", fallback);
-        // Only undo the briefly introduced non-vanilla cow_milk ID from the
-        // previous development build. Never rewrite the historical
-        // "minecraft:milk" identifier in existing world saves.
+    public void load(CompoundTag input, HolderLookup.Provider registries, boolean oliveLegacy) {
+        // Legacy amounts were droplets (81 per mB); 1.21.1 NeoForge stores mB.
+        int original = input.contains("Amount", Tag.TAG_ANY_NUMERIC)
+            ? input.getInt("Amount") : oliveLegacy ? input.getInt("OliveOilAmount") : 0;
+        long requested = input.contains("AmountDroplets", Tag.TAG_ANY_NUMERIC)
+            ? input.getLong("AmountDroplets") / 81L : original;
+        int volume = (int) Math.clamp(requested, 0L, (long) capacity);
+        String id = input.contains("FluidId", Tag.TAG_STRING) ? input.getString("FluidId")
+            : oliveLegacy && original > 0 ? "italiansdelight:olive_oil" : "";
         if ("italiansdelight:cow_milk".equals(id)) id = "minecraft:milk";
-        FluidVariant found = input.read("FluidVariant", FluidVariant.CODEC)
-            .orElse(FluidVariant.blank());
-        if (found.isBlank()) found = known(id);
-        if (!found.isBlank() && requested > 0) {
-            variant = found;
-            amount = requested;
-            virtualAmount = 0;
-            virtualId = "";
+        FluidStack loaded = input.contains("Fluid")
+            ? FluidStack.parse(registries, input.get("Fluid")).orElse(FluidStack.EMPTY)
+            : FluidStack.EMPTY;
+        if (!loaded.isEmpty()) {
+            volume = Math.min(capacity, loaded.getAmount());
         } else {
-            variant = FluidVariant.blank();
-            amount = 0;
-            virtualAmount = id.isBlank() ? 0 : requested;
-            virtualId = virtualAmount == 0 ? "" : id;
+            // Recover known legacy IDs. Downgrading 26.3 worlds is not supported.
+            loaded = known(id, volume);
         }
+        setFluid(loaded.isEmpty() ? FluidStack.EMPTY : loaded.copyWithAmount(volume));
+        virtualAmount = loaded.isEmpty() && !id.isBlank() ? volume : 0;
+        virtualId = virtualAmount > 0 ? id : "";
     }
 }

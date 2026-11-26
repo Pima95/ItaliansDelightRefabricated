@@ -1,7 +1,7 @@
 package dev.italiansdelight.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockTintSources;
@@ -45,7 +45,7 @@ public final class BarrelFluidRenderer
     }
     public static final class State extends BlockEntityRenderState {
         private String fluidId = "";
-        private FluidVariant fluid = FluidVariant.blank();
+        private FluidStack fluid = FluidStack.EMPTY;
         private int amount;
         private int waterTint = 0xFF3F76E4;
     }

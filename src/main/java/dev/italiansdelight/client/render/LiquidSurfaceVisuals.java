@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.Minecraft;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -104,12 +104,12 @@ public final class LiquidSurfaceVisuals {
         float z0, float z1, float minY, float maxY, int waterTint,
         int packedLight, PoseStack stack, SubmitNodeCollector queue
     ) {
-        submit(fluidId, FluidVariant.blank(), amount, capacity, x0, x1,
+        submit(fluidId, FluidStack.EMPTY, amount, capacity, x0, x1,
             z0, z1, minY, maxY, waterTint, packedLight, stack, queue);
     }
 
     public static void submit(
-        String fluidId, FluidVariant variant, int amount, int capacity,
+        String fluidId, FluidStack variant, int amount, int capacity,
         float x0, float x1, float z0, float z1, float minY, float maxY,
         int waterTint, int packedLight, PoseStack stack, SubmitNodeCollector queue
     ) {
@@ -124,8 +124,8 @@ public final class LiquidSurfaceVisuals {
         boolean water = "minecraft:water".equals(fluidId);
         int color = water ? (0xFF000000 | (waterTint & 0xFFFFFF))
             : known != null ? known.tint()
-            : (!variant.isBlank()
-                ? FluidVariantRendering.getColor(variant, Minecraft.getInstance().level, null)
+            : (!variant.isEmpty()
+                ? IClientFluidTypeExtensions.of(variant.getFluid()).getTintColor(variant)
                 : 0xFFFFFFFF);
         // Preserve alpha supplied by other mods, plus vanilla water's alpha.
         if ((color >>> 24) == 0) color |= 0xFF000000;

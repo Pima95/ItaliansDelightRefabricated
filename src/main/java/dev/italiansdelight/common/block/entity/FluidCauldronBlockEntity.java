@@ -13,9 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 /** Four 250mB levels in the original vanilla-iron shell. */
 public final class FluidCauldronBlockEntity extends BlockEntity {
@@ -29,7 +27,7 @@ public final class FluidCauldronBlockEntity extends BlockEntity {
     }
 
     public CompatibleFluidTank getFluidStorage() { return tank; }
-    public FluidVariant getFluidVariant() { return tank.currentVariant(); }
+    public FluidStack getFluidVariant() { return tank.currentVariant(); }
     public int getAmount() { return tank.amountMb(); }
     public String getFluidId() { return tank.id(); }
     public boolean insert(String fluid, int volume) { return tank.insertMb(fluid, volume); }
@@ -50,13 +48,13 @@ public final class FluidCauldronBlockEntity extends BlockEntity {
             }
         }
     }
-    @Override protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
-        tank.save(output);
+    @Override protected void saveAdditional(CompoundTag output, HolderLookup.Provider registries) {
+        super.saveAdditional(output, registries);
+        tank.save(output, registries);
     }
-    @Override protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        tank.load(input, false);
+    @Override protected void loadAdditional(CompoundTag input, HolderLookup.Provider registries) {
+        super.loadAdditional(input, registries);
+        tank.load(input, registries, false);
     }
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider lookup) {
         return saveWithoutMetadata(lookup);

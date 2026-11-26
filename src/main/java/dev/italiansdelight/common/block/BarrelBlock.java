@@ -105,8 +105,8 @@ public final class BarrelBlock extends BaseEntityBlock implements SimpleWaterlog
                 return InteractionResult.SUCCESS;
             // A registered fluid-bearing container must not fall through into
             // the legacy ID-only path, which would lose its component patch.
-            if (!FluidTransferBridge.heldSource(player, hand).isBlank()
-                || storage.getFluidVariant().hasComponents())
+            if (!FluidTransferBridge.heldSource(player, hand).isEmpty()
+                || !storage.getFluidVariant().isComponentsPatchEmpty())
                 return InteractionResult.SUCCESS;
             // Empty bucket/bottle + legacy virtual fluid: let the original
             // 250/1000 mB item-specific logic fill that container.

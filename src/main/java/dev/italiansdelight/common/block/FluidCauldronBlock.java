@@ -72,8 +72,8 @@ public final class FluidCauldronBlock extends BaseEntityBlock {
                 return InteractionResult.FAIL;
             if (FluidTransferBridge.transfer(player, hand, storage.getFluidStorage()))
                 return InteractionResult.SUCCESS;
-            if (!FluidTransferBridge.heldSource(player, hand).isBlank()
-                || storage.getFluidVariant().hasComponents())
+            if (!FluidTransferBridge.heldSource(player, hand).isEmpty()
+                || !storage.getFluidVariant().isComponentsPatchEmpty())
                 return InteractionResult.SUCCESS;
             // Empty vanilla container + virtual fluid uses the legacy adapter.
         }
