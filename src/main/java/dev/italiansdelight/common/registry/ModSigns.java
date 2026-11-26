@@ -1,6 +1,8 @@
 package dev.italiansdelight.common.registry;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
@@ -17,64 +19,66 @@ public final class ModSigns {
 
     public static final ResourceKey<Item> OLIVE_SIGN_KEY =
         ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_sign"));
-    public static final Item OLIVE_SIGN = Registry.register(
-        BuiltInRegistries.ITEM, OLIVE_SIGN_KEY,
-        new StandingAndWallBlockItem(ModBlocks.OLIVE_SIGN, ModBlocks.OLIVE_WALL_SIGN, Direction.DOWN,
-            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
-                .setId(OLIVE_SIGN_KEY))
-    );
+    public static Item OLIVE_SIGN;
 
     public static final ResourceKey<Item> OLIVE_HANGING_SIGN_KEY =
         ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("olive_hanging_sign"));
-    public static final Item OLIVE_HANGING_SIGN = Registry.register(
-        BuiltInRegistries.ITEM, OLIVE_HANGING_SIGN_KEY,
-        new HangingSignItem(ModBlocks.OLIVE_HANGING_SIGN,
-            ModBlocks.OLIVE_WALL_HANGING_SIGN,
-            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
-                .setId(OLIVE_HANGING_SIGN_KEY))
-    );
+    public static Item OLIVE_HANGING_SIGN;
 
     public static final ResourceKey<Item> ALMOND_SIGN_KEY =
         ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("almond_sign"));
-    public static final Item ALMOND_SIGN = Registry.register(
-        BuiltInRegistries.ITEM, ALMOND_SIGN_KEY,
-        new StandingAndWallBlockItem(ModBlocks.ALMOND_SIGN, ModBlocks.ALMOND_WALL_SIGN, Direction.DOWN,
-            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
-                .setId(ALMOND_SIGN_KEY))
-    );
+    public static Item ALMOND_SIGN;
 
     public static final ResourceKey<Item> ALMOND_HANGING_SIGN_KEY =
         ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("almond_hanging_sign"));
-    public static final Item ALMOND_HANGING_SIGN = Registry.register(
-        BuiltInRegistries.ITEM, ALMOND_HANGING_SIGN_KEY,
-        new HangingSignItem(ModBlocks.ALMOND_HANGING_SIGN,
-            ModBlocks.ALMOND_WALL_HANGING_SIGN,
-            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
-                .setId(ALMOND_HANGING_SIGN_KEY))
-    );
+    public static Item ALMOND_HANGING_SIGN;
 
 
     // Both signs place their standing/wall counterparts with one inventory item.
     public static final ResourceKey<Item> FRUIT_CHERRY_SIGN_KEY =
         ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("fruit_cherry_sign"));
-    public static final Item FRUIT_CHERRY_SIGN = Registry.register(
-        BuiltInRegistries.ITEM, FRUIT_CHERRY_SIGN_KEY,
-        new StandingAndWallBlockItem(ModBlocks.FRUIT_CHERRY_SIGN, ModBlocks.FRUIT_CHERRY_WALL_SIGN, Direction.DOWN,
-            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
-                .setId(FRUIT_CHERRY_SIGN_KEY))
-    );
+    public static Item FRUIT_CHERRY_SIGN;
 
     public static final ResourceKey<Item> FRUIT_CHERRY_HANGING_SIGN_KEY =
         ResourceKey.create(BuiltInRegistries.ITEM.key(), ModRegistries.id("fruit_cherry_hanging_sign"));
-    public static final Item FRUIT_CHERRY_HANGING_SIGN = Registry.register(
-        BuiltInRegistries.ITEM, FRUIT_CHERRY_HANGING_SIGN_KEY,
-        new HangingSignItem(ModBlocks.FRUIT_CHERRY_HANGING_SIGN,
-            ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN,
-            new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
-                .setId(FRUIT_CHERRY_HANGING_SIGN_KEY))
-    );
+    public static Item FRUIT_CHERRY_HANGING_SIGN;
 
 
-    public static void register() {
+    public static void onRegister(RegisterEvent event) {
+        if (event.getRegistryKey().equals(Registries.ITEM)) {
+            OLIVE_SIGN = Registry.register(
+                    BuiltInRegistries.ITEM, OLIVE_SIGN_KEY.location(),
+                    new StandingAndWallBlockItem(ModBlocks.OLIVE_SIGN, ModBlocks.OLIVE_WALL_SIGN, Direction.DOWN,
+                        new Item.Properties().stacksTo(16))
+                );
+            OLIVE_HANGING_SIGN = Registry.register(
+                    BuiltInRegistries.ITEM, OLIVE_HANGING_SIGN_KEY.location(),
+                    new HangingSignItem(ModBlocks.OLIVE_HANGING_SIGN,
+                        ModBlocks.OLIVE_WALL_HANGING_SIGN,
+                        new Item.Properties().stacksTo(16))
+                );
+            ALMOND_SIGN = Registry.register(
+                    BuiltInRegistries.ITEM, ALMOND_SIGN_KEY.location(),
+                    new StandingAndWallBlockItem(ModBlocks.ALMOND_SIGN, ModBlocks.ALMOND_WALL_SIGN, Direction.DOWN,
+                        new Item.Properties().stacksTo(16))
+                );
+            ALMOND_HANGING_SIGN = Registry.register(
+                    BuiltInRegistries.ITEM, ALMOND_HANGING_SIGN_KEY.location(),
+                    new HangingSignItem(ModBlocks.ALMOND_HANGING_SIGN,
+                        ModBlocks.ALMOND_WALL_HANGING_SIGN,
+                        new Item.Properties().stacksTo(16))
+                );
+            FRUIT_CHERRY_SIGN = Registry.register(
+                    BuiltInRegistries.ITEM, FRUIT_CHERRY_SIGN_KEY.location(),
+                    new StandingAndWallBlockItem(ModBlocks.FRUIT_CHERRY_SIGN, ModBlocks.FRUIT_CHERRY_WALL_SIGN, Direction.DOWN,
+                        new Item.Properties().stacksTo(16))
+                );
+            FRUIT_CHERRY_HANGING_SIGN = Registry.register(
+                    BuiltInRegistries.ITEM, FRUIT_CHERRY_HANGING_SIGN_KEY.location(),
+                    new HangingSignItem(ModBlocks.FRUIT_CHERRY_HANGING_SIGN,
+                        ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN,
+                        new Item.Properties().stacksTo(16))
+                );
+        }
     }
 }

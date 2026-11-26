@@ -1,33 +1,19 @@
 package dev.italiansdelight.common.registry;
 
-import dev.italiansdelight.ItaliansDelight;
-
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
-/**
- * Registers custom particle types used by Italian's Delight.
- */
 public final class ModParticles {
+    public static SimpleParticleType WHITE_BUBBLE_POP;
+    private ModParticles() {}
 
-    public static final SimpleParticleType WHITE_BUBBLE_POP =
-        FabricParticleTypes.simple();
-
-    private ModParticles() {
-    }
-
-    public static void register() {
-        Registry.register(
-            BuiltInRegistries.PARTICLE_TYPE,
-            ModRegistries.id("white_bubble_pop"),
-            WHITE_BUBBLE_POP
-        );
-
-        ItaliansDelight.LOGGER.info(
-            "[Italian's Delight] Registrata particella white_bubble_pop."
-        );
+    public static void onRegister(RegisterEvent event) {
+        if (event.getRegistryKey().equals(Registries.PARTICLE_TYPE)) {
+            WHITE_BUBBLE_POP = Registry.register(BuiltInRegistries.PARTICLE_TYPE,
+                    ModRegistries.id("white_bubble_pop"), new SimpleParticleType(false));
+        }
     }
 }

@@ -46,6 +46,12 @@ public class ItaliansDelight {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public ItaliansDelight(IEventBus modBus) {
+        modBus.addListener(ModDataComponents::onRegister);
+        modBus.addListener(ModMenuTypes::onRegister);
+        modBus.addListener(ModParticles::onRegister);
+        modBus.addListener(ModRecipes::onRegister);
+        modBus.addListener(ModTreePlacers::onRegister);
+        modBus.addListener(ModSigns::onRegister);
         modBus.addListener(ModBlocks::onRegister);
         modBus.addListener(ModBlockEntities::onRegister);
         modBus.addListener(ModBlockEntities::addValidBlocks);
@@ -66,11 +72,9 @@ public class ItaliansDelight {
         // Registries are initialized before the systems that depend on them.
         // This ensures BlockEntities, menus, recipes, and events can already find
         // all registered items and blocks when they are configured.
-        ModDataComponents.register();
         ModFluids.register();
         ModItems.register();
         ModBlocks.register();
-        ModSigns.register();
         ModBoats.register();
         // Pure, read-only registry. The toppings will be wired to pizza interactions later.
         PizzaToppingCatalog.register();
@@ -79,11 +83,7 @@ public class ItaliansDelight {
         PizzaDoughPlacement.register();
         PizzaDivisionSync.register();
         ModCompostables.register();
-        ModMenuTypes.register();
-        ModRecipes.register();
-        ModParticles.register();
         ModItemGroups.register();
-        ModTreePlacers.register();
         ModWorldGeneration.register();
 
         SaltCauldronManager.register();
