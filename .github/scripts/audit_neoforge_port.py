@@ -20,12 +20,21 @@ for p in sorted(root.rglob("*")):
                 json.loads(content)
             except ValueError as exc:
                 errors.append(f"{p}: {exc}")
-        if p.suffix == ".java" and re.search(r"net\\.fabricmc\\.", content):
+        if p.suffix == ".java" and "net.fabricmc." in content:
             fabric.append(str(p))
 print("Remaining Java files with Fabric API imports:", len(fabric))
 for p in fabric:
     print("PORT PENDING:", p)
-print("Modern item definitions pending review:", len(list(root.glob("resources/assets/italiansdelight/items/*.json"))))
+assets = root / "resources/assets/italiansdelight"
+modern_items = sorted((assets / "items").glob("*.json"))
+print("Modern item definitions pending review:", len(modern_items))
+for item in modern_items:
+    if not (assets / "models/item" / item.name).is_file():
+        errors.append(str(item) + ": missing legacy inventory model")
+    model = json.loads(item.read_text(encoding="utf-8")).get("model", {})
+    if model.get("type") != "minecraft:model" or set(model) != {"type", "model"}:
+        print("DYNAMIC MODEL PORT PENDING:", item.name)
+print("Remaining static inventory model coverage:", len(modern_items))
 for e in errors:
     print("ERROR:", e)
 assert not errors, "Static content audit failed"

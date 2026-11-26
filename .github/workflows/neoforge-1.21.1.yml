@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: neoforge-port-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   audit:
     runs-on: ubuntu-latest
