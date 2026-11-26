@@ -6,11 +6,12 @@ import java.util.Map;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.italiansdelight.common.registry.ModRegistries;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.world.level.saveddata.SavedDataType;
 
 /**
  * Persistent per-dimension progress for salt evaporation in vanilla water
@@ -52,14 +53,26 @@ public final class SaltCauldronProgressData extends SavedData {
             )
         );
 
-    @SuppressWarnings("DataFlowIssue")
-    public static final SavedDataType<SaltCauldronProgressData> TYPE =
-        new SavedDataType<>(
-            ModRegistries.id("salt_cauldron_progress"),
-            SaltCauldronProgressData::new,
-            CODEC,
-            null
-        );
+    private static final String DATA_NAME = "italiansdelight_salt_cauldron_progress";
+    private static final SavedData.Factory<SaltCauldronProgressData> FACTORY =
+        new SavedData.Factory<>(SaltCauldronProgressData::new,
+            SaltCauldronProgressData::load, null);
+
+    private static SaltCauldronProgressData load(CompoundTag tag, HolderLookup.Provider registries) {
+        return CODEC.parse(registries.createSerializationContext(NbtOps.INSTANCE), tag)
+            .getOrThrow();
+    }
+
+    @Override
+    public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+        var encoded = CODEC.encodeStart(registries.createSerializationContext(NbtOps.INSTANCE), this)
+            .getOrThrow();
+        if (!(encoded instanceof CompoundTag compound)) {
+            throw new IllegalStateException("Salt cauldron progress must encode as a compound");
+        }
+        tag.merge(compound);
+        return tag;
+    }
 
     // Runtime map: cauldron position -> accumulated useful ticks.
     private final Map<Long, Integer> progressByPosition =
@@ -85,7 +98,7 @@ public final class SaltCauldronProgressData extends SavedData {
         ServerLevel level
     ) {
         return level.getDataStorage()
-            .computeIfAbsent(TYPE);
+            .computeIfAbsent(FACTORY, DATA_NAME);
     }
 
     Map<Long, Integer> progressByPosition() {

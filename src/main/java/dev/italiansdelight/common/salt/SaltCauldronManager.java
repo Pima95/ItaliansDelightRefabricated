@@ -5,8 +5,9 @@ import java.util.Map;
 
 import dev.italiansdelight.common.registry.ModBlocks;
 
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.level.ChunkEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -34,16 +35,18 @@ public final class SaltCauldronManager {
     // Registers the two system entry points: dimension ticks and loaded-chunk
     // scanning used to recover cauldrons that already exist.
     public static void register() {
-        ServerTickEvents.END_LEVEL_TICK.register(
-            SaltCauldronManager::tickLevel
-        );
+        NeoForge.EVENT_BUS.addListener(SaltCauldronManager::afterLevelTick);
+        NeoForge.EVENT_BUS.addListener(SaltCauldronManager::chunkLoaded);
+    }
 
-        // Also discovers full cauldrons that already existed before the mod
-        // started tracking them. Sections whose palettes cannot contain a full
-        // water cauldron are skipped without scanning their 4096 block states.
-        ServerChunkEvents.CHUNK_LOAD.register(
-            SaltCauldronManager::onChunkLoad
-        );
+    private static void afterLevelTick(LevelTickEvent.Post event) {
+        if (event.getLevel() instanceof ServerLevel level) tickLevel(level);
+    }
+
+    private static void chunkLoaded(ChunkEvent.Load event) {
+        if (event.getLevel() instanceof ServerLevel level && event.getChunk() instanceof LevelChunk chunk) {
+            onChunkLoad(level, chunk);
+        }
     }
 
     /**
@@ -95,8 +98,7 @@ public final class SaltCauldronManager {
      */
     private static void onChunkLoad(
         ServerLevel level,
-        LevelChunk chunk,
-        boolean generated
+        LevelChunk chunk
     ) {
         SaltCauldronProgressData data =
             SaltCauldronProgressData.get(level);
@@ -201,7 +203,7 @@ public final class SaltCauldronManager {
         // These conditions are level-wide, so evaluate them once per tick
         // instead of once for every tracked cauldron.
         boolean environmentAllowsProgress =
-            level.isBrightOutside()
+            level.isDay()
             && !level.isRaining()
             && !level.isThundering();
 
