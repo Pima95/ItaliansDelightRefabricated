@@ -86,3 +86,7 @@ The `ragu.png` and `custard.png` item textures retain the original bowl pixels f
 - Upstream revision: [1b85d66f5e2aba88592d7f4fb203d582f4d3cbe3](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/tree/1b85d66f5e2aba88592d7f4fb203d582f4d3cbe3/src/main/resources/assets/farmersdelight/textures/item), branch `fabric/latest/26.3`.
 - Source tomato sauce blob: `0d5c9334ebdf5b28b78df3a467a4d0f337d29268`.
 - MIT License, Copyright (c) 2020 vectorwing. The full verbatim copyright, permission and disclaimer are preserved in `docs/FDR_CRATES_LICENSE.md`, also included in the distributed JAR under `META-INF/`.
+
+## Farmer's Delight Refabricated — 2.0.0 sandwich artwork
+
+The four textures `mortadella_sandwich.png`, `prosciutto_sandwich.png`, `salame_sandwich.png`, and `speck_sandwich.png` are adaptations of the original [bacon_sandwich.png](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/699c451161249b1bb2d4244b7de6bb10890a44a8/src/main/resources/assets/farmersdelight/textures/item/bacon_sandwich.png) (source Git blob `a6d40455226c464e1f1700505d81bab325bbf681`). All original bread pixels and the alpha silhouette are retained; only filling pixels are changed to reflect the actual recipe ingredients. MIT License, Copyright (c) 2020 vectorwing. The full MIT notice is retained in `docs/FDR_CRATES_LICENSE.md` and packaged in META-INF. The street-food artwork is original pixel art using photographs solely as visual references, not copied photographic pixels.
