@@ -1,0 +1,13 @@
+{
+  "asset_id": "italiansdelight:italianflag_small",
+  "author": {
+    "color": "gray",
+    "translate": "painting.italiansdelight.italianflag.author"
+  },
+  "height": 1,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.italiansdelight.italianflag_small.title"
+  },
+  "width": 2
+}
