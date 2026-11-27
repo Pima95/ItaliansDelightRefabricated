@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "italiansdelight:grissini",
+    "italiansdelight:prosciutto_crudo_slice"
+  ],
+  "result": {
+    "id": "italiansdelight:grissini_with_prosciutto",
+    "count": 1
+  }
+}

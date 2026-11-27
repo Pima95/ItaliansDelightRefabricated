@@ -270,3 +270,7 @@ Quattro panini implementati con ricette shapeless, tag `#c:foods/bread`, salumi 
 ## 2.0.0 – Street food: frittura e forno
 
 Approvati panzerotto (fritto e al forno), calzone, arancini al ragù e prosciutto, taralli e grissini. Sei preparazioni crude non commestibili, sette risultati commestibili. Frittura esclusivamente nel Cooking Pot FDR: preparazione cruda + una bottiglia di olio d'oliva; nessuna ciotola richiesta. Il Cooking Pot FDR gestisce i contenitori degli ingredienti. Cottura al forno esclusivamente tramite ricette smelting. Panzerotto e calzone usano impasto di grano FDR, mozzarella e salsa di pomodoro; il calzone aggiunge prosciutto crudo. Gli arancini usano riso cotto, mozzarella, pangrattato e il ripieno corrispondente. I taralli usano impasto, olio e vino bianco; i grissini impasto, olio e sale. Le ultime due ricette producono tre preparazioni crude, ciascuna da cuocere singolarmente. Valori nutrizionali iniziali e texture da verificare in gioco. Nessuna nuova macchina. Corrette le sagome del pane dei quattro panini senza alterare i pixel dei ripieni.
+
+### Street food – grissini con prosciutto crudo
+
+Implementati: grissini cotti + una fetta di prosciutto crudo (crafting shapeless, un risultato, 6 punti fame, modificatore 0.65). Texture 16×16, nessun recipiente. Ridisegnati panzerotti e taralli crudi/cotti. Nomi dei 14 risotti uniformati in IT/EN senza modificare gli ID registrati.

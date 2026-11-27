@@ -501,6 +501,7 @@ public final class ModItemGroups {
                 output.accept(ModItems.TARALLI);
                 output.accept(ModItems.RAW_GRISSINI);
                 output.accept(ModItems.GRISSINI);
+                output.accept(ModItems.GRISSINI_WITH_PROSCIUTTO);
 
                 // SAVOURY SALADS AND COLD DISHES.
                 output.accept(ModItems.MOZZARELLA_SALAD);

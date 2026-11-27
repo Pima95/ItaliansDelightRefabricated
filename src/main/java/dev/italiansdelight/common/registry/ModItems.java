@@ -1166,6 +1166,7 @@ public final class ModItems {
         public static final Item TARALLI = registerFoodItem("taralli", 3, 0.45f);
         public static final Item RAW_GRISSINI = registerSimpleItem("raw_grissini", 64);
         public static final Item GRISSINI = registerFoodItem("grissini", 3, 0.4f);
+        public static final Item GRISSINI_WITH_PROSCIUTTO = registerFoodItem("grissini_with_prosciutto", 6, 0.65f);
 
         public static final Item ALMOND_BISCUITS = registerFoodItem("almond_biscuits", 3, 0.3f);
 
