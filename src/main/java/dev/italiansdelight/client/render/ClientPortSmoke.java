@@ -54,7 +54,15 @@ public final class ClientPortSmoke {
                 ModBlocks.OLIVE_SAPLING, ModBlocks.ALMOND_SAPLING, ModBlocks.FRUIT_CHERRY_SAPLING,
                 ModBlocks.POTTED_OLIVE_SAPLING, ModBlocks.POTTED_ALMOND_SAPLING, ModBlocks.POTTED_FRUIT_CHERRY_SAPLING,
                 ModBlocks.GRAPE_STEM, ModBlocks.WHITE_GRAPE_STEM,
-                ModBlocks.GRAPE_LEAVES, ModBlocks.WHITE_GRAPE_LEAVES}) {
+                ModBlocks.GRAPE_LEAVES, ModBlocks.WHITE_GRAPE_LEAVES,
+                ModBlocks.CARDOON, ModBlocks.POTTED_CARDOON, ModBlocks.CULTIVATED_CARDOON,
+                ModBlocks.BASIL, ModBlocks.WILD_BASIL, ModBlocks.WILD_CHILI,
+                ModBlocks.WILD_GRAPE_VINE, ModBlocks.WILD_WHITE_GRAPE_VINE,
+                ModBlocks.BUDDING_CHILI, ModBlocks.CHILI_CROP, ModBlocks.CHILI_ON_ROPE,
+                ModBlocks.STAKED_TOMATOES, ModBlocks.HORIZONTAL_ROPE,
+                ModBlocks.OLIVE_DOOR, ModBlocks.OLIVE_TRAPDOOR,
+                ModBlocks.ALMOND_DOOR, ModBlocks.ALMOND_TRAPDOOR,
+                ModBlocks.FRUIT_CHERRY_DOOR, ModBlocks.FRUIT_CHERRY_TRAPDOOR}) {
             for (var state : block.getStateDefinition().getPossibleStates()) {
                 var model = mc.getBlockRenderer().getBlockModel(state);
                 require(model != missing, "Missing transparent plant model: " + state);

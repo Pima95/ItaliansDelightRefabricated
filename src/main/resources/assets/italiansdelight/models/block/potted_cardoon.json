@@ -1,4 +1,7 @@
 {
   "parent": "minecraft:block/flower_pot_cross",
-  "textures": { "plant": "italiansdelight:block/cardoon" }
+  "textures": {
+    "plant": "italiansdelight:block/cardoon"
+  },
+  "render_type": "minecraft:cutout"
 }
