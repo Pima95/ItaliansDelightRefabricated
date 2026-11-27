@@ -85,6 +85,16 @@ jobs:
       - name: Require successful model checks and expected JEI presence
         run: |
           grep -E 'IDR_CLIENT_SMOKE_PASS states=[1-9][0-9]* jei=${{ matrix.jei }}' run-neoforge/client/logs/latest.log
+      - name: Reject missing IDR models and textures
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          log = Path("run-neoforge/client/logs/latest.log")
+          lines = log.read_text(encoding="utf-8", errors="replace").splitlines()
+          errors = [line for line in lines if "italiansdelight:" in line and any(message in line for message in (
+              "Unable to load model:", "missing model for variant:", "Using missing texture", "Missing textures in model"))]
+          assert not errors, "\n".join(errors)
+          PY
       - name: Upload client diagnostics
         if: always()
         uses: actions/upload-artifact@v4

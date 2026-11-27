@@ -111,6 +111,9 @@ public final class ItaliansDelightClient {
             ItemBlockRenderTypes.setRenderLayer(ModFluids.OLIVE_OIL_FLOWING, RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(ModFluids.APPLE_JUICE_STILL, RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(ModFluids.APPLE_JUICE_FLOWING, RenderType.translucent());
+            net.minecraft.client.renderer.Sheets.addWoodType(ModBlocks.OLIVE_WOOD_TYPE);
+            net.minecraft.client.renderer.Sheets.addWoodType(ModBlocks.ALMOND_WOOD_TYPE);
+            net.minecraft.client.renderer.Sheets.addWoodType(ModBlocks.FRUIT_CHERRY_WOOD_TYPE);
             PizzaDivisionOverlay.register();
             if (Boolean.getBoolean("italiansdelight.portClientSmoke")) {
                 net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ClientPortSmoke::tick);

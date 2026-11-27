@@ -37,7 +37,10 @@ public final class ClientPortSmoke {
                 ModBlocks.OAK_CHEESE_AGING_RACK, ModBlocks.BARREL,
                 ModBlocks.BREWING_BARREL, ModBlocks.CRUSHING_TUB,
                 ModBlocks.OLIVE_LEAVES, ModBlocks.ALMOND_LEAVES,
-                ModBlocks.FRUIT_CHERRY_LEAVES, ModBlocks.GRAPE_LEAVES}) {
+                ModBlocks.FRUIT_CHERRY_LEAVES, ModBlocks.GRAPE_LEAVES,
+                ModBlocks.OLIVE_SIGN, ModBlocks.OLIVE_WALL_SIGN, ModBlocks.OLIVE_HANGING_SIGN, ModBlocks.OLIVE_WALL_HANGING_SIGN,
+                ModBlocks.ALMOND_SIGN, ModBlocks.ALMOND_WALL_SIGN, ModBlocks.ALMOND_HANGING_SIGN, ModBlocks.ALMOND_WALL_HANGING_SIGN,
+                ModBlocks.FRUIT_CHERRY_SIGN, ModBlocks.FRUIT_CHERRY_WALL_SIGN, ModBlocks.FRUIT_CHERRY_HANGING_SIGN, ModBlocks.FRUIT_CHERRY_WALL_HANGING_SIGN}) {
             for (var state : block.getStateDefinition().getPossibleStates()) {
                 require(mc.getBlockRenderer().getBlockModel(state) != missing,
                     "Missing baked block model: " + state);
@@ -53,6 +56,20 @@ public final class ClientPortSmoke {
                 ModItems.GRAPE_JUICE_BOTTLE, ModItems.WINE_BOTTLE}) {
             require(mc.getItemRenderer().getModel(new ItemStack(item), null, null, 0) != missing,
                 "Missing baked item model: " + item);
+        }
+        var atlas = manager.getAtlas(net.minecraft.client.renderer.texture.TextureAtlas.LOCATION_BLOCKS);
+        for (String sprite : new String[]{"block/liquid_surface/whey", "block/fluids/whey_still",
+                "block/fluids/olive_oil_still", "block/fluids/olive_oil_flow",
+                "block/fluids/apple_juice_still", "block/fluids/apple_juice_flow"}) {
+            var id = dev.italiansdelight.common.registry.ModRegistries.id(sprite);
+            require(atlas.getSprite(id).contents().name().equals(id), "Missing fluid sprite: " + id);
+        }
+        for (String wood : new String[]{"olive", "almond", "fruit_cherry"}) {
+            for (String prefix : new String[]{"entity/signs/", "entity/signs/hanging/"}) {
+                var id = dev.italiansdelight.common.registry.ModRegistries.id(prefix + wood);
+                var signAtlas = manager.getAtlas(net.minecraft.client.renderer.Sheets.SIGN_SHEET);
+                require(signAtlas.getSprite(id).contents().name().equals(id), "Missing sign sprite: " + id);
+            }
         }
         boolean expectedJei = Boolean.getBoolean("italiansdelight.portClientSmokeJei");
         require(ModList.get().isLoaded("jei") == expectedJei, "Unexpected JEI runtime presence");
