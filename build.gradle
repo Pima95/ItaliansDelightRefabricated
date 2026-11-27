@@ -128,17 +128,20 @@ processResources {
     inputs.property('legacyIngredientSchema', 2)
     inputs.property('legacyAdvancementSchema', 1)
     inputs.property('legacyLootSchema', 1)
-    inputs.property('legacyClientTextures', 1)
+    inputs.property('legacyClientTextures', 2)
     doLast {
 
-        // Re-encode the old whey sprite with the Java PNG writer. The 1.21.1
-        // native decoder rejected a PNG chunk in this asset; retain its pixels.
+        // The legacy static whey PNG cannot be decoded by STB or ImageIO.
+        // Recreate only that legacy alias from frame zero of the approved,
+        // working animated whey texture. The animated asset stays unchanged.
         def whey = new File(destinationDir, 'assets/italiansdelight/textures/block/liquid_surface/whey.png')
-        def wheyImage = javax.imageio.ImageIO.read(whey)
-        if (wheyImage == null) throw new GradleException('Unreadable whey sprite')
-        def rgba = new java.awt.image.BufferedImage(wheyImage.width, wheyImage.height, java.awt.image.BufferedImage.TYPE_INT_ARGB)
-        rgba.setRGB(0, 0, wheyImage.width, wheyImage.height,
-            wheyImage.getRGB(0, 0, wheyImage.width, wheyImage.height, null, 0, wheyImage.width), 0, wheyImage.width)
+        def wheyImage = javax.imageio.ImageIO.read(new File(destinationDir,
+            'assets/italiansdelight/textures/block/fluids/whey_still.png'))
+        if (wheyImage == null || wheyImage.height < wheyImage.width)
+            throw new GradleException('Unreadable animated whey source')
+        def rgba = new java.awt.image.BufferedImage(wheyImage.width, wheyImage.width, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+        rgba.setRGB(0, 0, wheyImage.width, wheyImage.width,
+            wheyImage.getRGB(0, 0, wheyImage.width, wheyImage.width, null, 0, wheyImage.width), 0, wheyImage.width)
         if (!javax.imageio.ImageIO.write(rgba, 'PNG', whey)) throw new GradleException('PNG writer unavailable')
 
         // No legacy almond entity UV sprite was present. Prefer the approved
