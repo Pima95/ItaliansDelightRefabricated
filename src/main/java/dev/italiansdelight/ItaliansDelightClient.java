@@ -112,6 +112,9 @@ public final class ItaliansDelightClient {
             ItemBlockRenderTypes.setRenderLayer(ModFluids.APPLE_JUICE_STILL, RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(ModFluids.APPLE_JUICE_FLOWING, RenderType.translucent());
             PizzaDivisionOverlay.register();
+            if (Boolean.getBoolean("italiansdelight.portClientSmoke")) {
+                net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ClientPortSmoke::tick);
+            }
         });
     }
 }

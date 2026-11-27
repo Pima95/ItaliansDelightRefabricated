@@ -51,6 +51,10 @@ neoForge {
         client {
             client()
             gameDirectory = project.file('run-neoforge/client')
+            if (providers.gradleProperty('portClientSmoke').orElse('false').get().toBoolean()) {
+                systemProperty 'italiansdelight.portClientSmoke', 'true'
+                systemProperty 'italiansdelight.portClientSmokeJei', providers.gradleProperty('with_jei').orElse('false').get()
+            }
         }
         server {
             server()
