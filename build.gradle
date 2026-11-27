@@ -46,6 +46,7 @@ repositories {
 }
 
 // Mutually exclusive optional thirst integrations for development/CI only.
+def withCreate = providers.gradleProperty('with_create').orElse('false').get().toBoolean()
 def thirstProfile = providers.gradleProperty('portThirst').orElse('none').get()
 if (!(thirstProfile in ['none', 'twt', 'twt2', 'tan'])) {
     throw new GradleException("Unknown portThirst profile: " + thirstProfile)
@@ -74,6 +75,7 @@ neoForge {
         configureEach {
             systemProperty 'neoforge.enabledGameTestNamespaces', 'italiansdelight'
             systemProperty 'italiansdelight.portThirst', thirstProfile
+            systemProperty 'italiansdelight.portCreate', withCreate.toString()
         }
     }
     mods {
@@ -110,6 +112,11 @@ dependencies {
         if (!providers.gradleProperty('with_serene_seasons').orElse('false').get().toBoolean()) {
             localRuntime "curse.maven:glitchcore-955399:${project.glitchcore_file_id}"
         }
+    }
+    // Official Create distribution includes its bundled dependencies. The
+    // profile is runtime-only; no Create classes in production code.
+    if (withCreate) {
+        localRuntime "curse.maven:create-328085:${project.create_file_id}"
     }
     // Thirst/automation integrations are data-driven unless the port audit proves otherwise.
     // Do not install Fabric artifacts or make optional integrations mandatory.

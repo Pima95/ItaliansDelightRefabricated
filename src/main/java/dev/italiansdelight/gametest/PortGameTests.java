@@ -342,6 +342,91 @@ public final class PortGameTests {
         helper.succeed();
     }
 
+    @GameTest(template = "port_empty", timeoutTicks = 100)
+    public static void optionalCreateFluidEndpoint(GameTestHelper helper) {
+        if (!Boolean.getBoolean("italiansdelight.portCreate")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(net.neoforged.fml.ModList.get().isLoaded("create"),
+            "Create integration profile must load the actual mod");
+        var level = helper.getLevel();
+        var blocks = net.minecraft.core.registries.BuiltInRegistries.BLOCK;
+        var pipeId = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("create", "fluid_pipe");
+        var tankId = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("create", "fluid_tank");
+        helper.assertTrue(blocks.containsKey(pipeId) && blocks.containsKey(tankId), "Create blocks not registered");
+        var barrelRelative = new BlockPos(1, 1, 1);
+        var pipeRelative = new BlockPos(2, 1, 1);
+        var tankRelative = new BlockPos(1, 1, 2);
+        var barrelPos = helper.absolutePos(barrelRelative);
+        var pipePos = helper.absolutePos(pipeRelative);
+        var tankPos = helper.absolutePos(tankRelative);
+        helper.setBlock(barrelRelative, ModBlocks.BARREL);
+        helper.setBlock(pipeRelative, blocks.get(pipeId));
+        helper.setBlock(tankRelative, blocks.get(tankId));
+        helper.runAfterDelay(10, () -> {
+            var cap = net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK;
+            var up = net.minecraft.core.Direction.UP;
+            var side = net.minecraft.core.Direction.WEST;
+            var barrel = level.getCapability(cap, barrelPos, side.getOpposite());
+            var target = level.getCapability(cap, tankPos, up);
+            var pipe = level.getBlockEntity(pipePos);
+            helper.assertTrue(barrel != null && target != null && pipe != null,
+                "IDR barrel/Create pipe/tank failed to initialize");
+            var juice = new FluidStack(ModFluids.GRAPE_JUICE, 1000);
+            helper.assertTrue(barrel.fill(juice, FluidAction.EXECUTE) == 1000, "Seed barrel");
+            try {
+                // Reflection is confined to this opt-in test, not gameplay.
+                // Exercise Create's actual pipe endpoint discovery and 1 mB
+                // source probe rather than merely checking the mod list.
+                var propagator = Class.forName("com.simibubi.create.content.fluids.FluidPropagator");
+                var endpoint = propagator.getMethod("hasFluidCapability",
+                    net.minecraft.world.level.BlockGetter.class, BlockPos.class, net.minecraft.core.Direction.class);
+                helper.assertTrue(Boolean.TRUE.equals(endpoint.invoke(null, level, barrelPos, side.getOpposite())),
+                    "Create does not recognize the IDR barrel as a fluid endpoint");
+                var faceType = Class.forName("net.createmod.catnip.math.BlockFace");
+                var face = faceType.getConstructor(BlockPos.class, net.minecraft.core.Direction.class)
+                    .newInstance(pipePos, side);
+                var sourceType = Class.forName("com.simibubi.create.content.fluids.FlowSource$FluidHandler");
+                var source = sourceType.getConstructor(faceType).newInstance(face);
+                sourceType.getMethod("manageSource", net.minecraft.world.level.Level.class,
+                    net.minecraft.world.level.block.entity.BlockEntity.class).invoke(source, level, pipe);
+                java.util.function.Predicate<FluidStack> filter = stack -> stack.is(ModFluids.GRAPE_JUICE);
+                var probe = (FluidStack) sourceType.getMethod("provideFluid", java.util.function.Predicate.class)
+                    .invoke(source, filter);
+                helper.assertTrue(probe.is(ModFluids.GRAPE_JUICE) && probe.getAmount() == 1
+                    && barrel.getFluidInTank(0).getAmount() == 1000, "Create source probe must not consume fluid");
+                var provider = sourceType.getMethod("provideHandler").invoke(source);
+                helper.assertTrue(provider != null, "Create endpoint cache missing");
+                var providerType = Class.forName("com.simibubi.create.foundation.ICapabilityProvider");
+                var sourceHandler = (net.neoforged.neoforge.fluids.capability.IFluidHandler)
+                    providerType.getMethod("getCapability").invoke(provider);
+                helper.assertTrue(sourceHandler != null, "Create endpoint cannot obtain IDR handler");
+                // Real Create tank as destination, transfer using the native
+                // simulate/execute handshake. This does not claim pump kinetics.
+                var simulated = FluidUtil.tryFluidTransfer(target, sourceHandler, 375, false);
+                helper.assertTrue(simulated.is(ModFluids.GRAPE_JUICE) && simulated.getAmount() == 375
+                    && barrel.getFluidInTank(0).getAmount() == 1000 && target.getFluidInTank(0).isEmpty(),
+                    "Simulation changed the tanks or rejected a partial amount");
+                var moved = FluidUtil.tryFluidTransfer(target, sourceHandler, 375, true);
+                helper.assertTrue(moved.is(ModFluids.GRAPE_JUICE) && moved.getAmount() == 375
+                    && barrel.getFluidInTank(0).getAmount() == 625
+                    && target.getFluidInTank(0).is(ModFluids.GRAPE_JUICE)
+                    && target.getFluidInTank(0).getAmount() == 375,
+                    "IDR to Create transfer lost fluid");
+                helper.assertTrue(target.fill(new FluidStack(ModFluids.WHITE_GRAPE_JUICE, 1),
+                    FluidAction.SIMULATE) == 0, "Create tank mixed distinct juices");
+                var returned = FluidUtil.tryFluidTransfer(sourceHandler, target, 375, true);
+                helper.assertTrue(returned.getAmount() == 375 && target.getFluidInTank(0).isEmpty()
+                    && barrel.getFluidInTank(0).getAmount() == 1000, "Create to IDR return lost fluid");
+            } catch (ReflectiveOperationException e) {
+                throw new IllegalStateException("Create endpoint API changed", e);
+            }
+            dev.italiansdelight.ItaliansDelight.LOGGER.info("IDR_CREATE_ENDPOINT_PASS volume=1000");
+            helper.succeed();
+        });
+    }
+
     @GameTest(template = "port_empty")
     public static void barrelRegistration(GameTestHelper helper) {
         BlockPos pos = new BlockPos(1, 1, 1);

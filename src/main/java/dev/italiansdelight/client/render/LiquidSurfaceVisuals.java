@@ -159,7 +159,13 @@ public final class LiquidSurfaceVisuals {
             TextureAtlas atlas) {
         if (!variant.isEmpty()) {
             ResourceLocation still = IClientFluidTypeExtensions.of(variant.getFluid()).getStillTexture(variant);
-            if (still != null) return atlas.getSprite(still);
+            if (still != null) {
+                TextureAtlasSprite sprite = atlas.getSprite(still);
+                // Some external mods advertise a sprite that is not stitched
+                // into the block atlas. Continue to the conventional lookup
+                // rather than displaying the missing-texture checkerboard.
+                if (sprite.contents().name().equals(still)) return sprite;
+            }
         }
         // A texture-pack reload can recreate sprites without changing fluid IDs.
         // Checking the water sprite identity also handles atlases reused in place.
