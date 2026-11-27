@@ -37,6 +37,7 @@ for p in sorted(root.rglob("*")):
         if p.suffix == ".java" and "net.fabricmc." in content:
             fabric.append(str(p))
 print("Remaining Java files with Fabric API imports:", len(fabric))
+assert not fabric, "Fabric API import remains in NeoForge source"
 for p in fabric:
     print("PORT PENDING:", p)
 assets = root / "resources/assets/italiansdelight"

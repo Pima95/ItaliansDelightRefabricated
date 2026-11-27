@@ -283,6 +283,8 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         if (
             id == TOGGLE_WHEY_FLOW_BUTTON
             && container instanceof CheeseVatBlockEntity vat
+            && !player.level().isClientSide()
+            && stillValid(player)
         ) {
             vat.toggleWheyFlow();
             return true;
@@ -300,6 +302,7 @@ public class CheeseVatMenu extends AbstractContainerMenu {
         Player player,
         int slotIndex
     ) {
+        if (slotIndex < 0 || slotIndex >= this.slots.size()) return ItemStack.EMPTY;
         Slot slot =
             this.slots.get(slotIndex);
 

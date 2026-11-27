@@ -159,6 +159,12 @@ public final class PortGameTests {
     }
 
     @GameTest(template = "port_empty")
+    public static void vanillaNetworkRoundTrips(GameTestHelper helper) {
+        NetworkPortChecks.run(helper);
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
     public static void nativeFluidContainersAndPersistence(GameTestHelper helper) {
         var fluid = new FluidStack(ModFluids.GRAPE_JUICE, 1000);
         var bottle = FluidUtil.getFluidHandler(new ItemStack(Items.GLASS_BOTTLE)).orElseThrow();

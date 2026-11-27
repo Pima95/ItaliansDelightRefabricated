@@ -13,7 +13,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 /**
  * Persisted and automatically network-synchronized item components.
  *
- * <p>Minecraft 26.2 derives a network codec from the persistent codec when
+ * <p>Minecraft 1.21.1 derives a network codec from the persistent codec when
  * none is provided explicitly. The same value survives world saves,
  * inventory drops/pickups and server-client item synchronization.
  */

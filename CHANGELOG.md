@@ -1,6 +1,26 @@
 # Changelog
 
-All notable changes to Italian's Delight Refabricated are documented here. The latest published version is **1.1.0**. Version **1.2.0** is in release-candidate preparation on the existing branch. See the [1.2.0 overview](docs/vineyard-chili-1.2.0/README.md).
+This branch records the native NeoForge port. The Fabric sections below are historical development notes, not the current publication status of the Fabric project.
+
+## 1.2.0-mc1.21.1-neoforge — Native NeoForge port (unpublished candidate)
+
+**Minecraft 1.21.1 · NeoForge · Java 21 · Farmer's Delight 1.3.4**
+
+### Porting and compatibility
+- Native NeoForge registrations, lifecycle, menus, client rendering, item components, persistence, fluid capabilities, world generation and events. No Fabric runtime dependency.
+- Retained all supported source-snapshot recipes: 270 of 283. Removed 10 wood-variant recipes and 3 orchard shelf recipes because their base blocks do not exist in this Minecraft version.
+- Converted modern model definitions, data codecs and datapack formats to 1.21.1; preserved source recipe data and retained source textures.
+- Added native orchard boats and signs, fixed missing block render shapes, liquid sprites, transparent plants/doors/trapdoors and the Margherita mod icon. Restored constant potion overlay colors from the Fabric source (new automated tint check pending).
+- JEI verified by the author; automated Serene Seasons calendar, greenhouse and foliage tests passed. Optional thirst integration has preliminary tests. Create support is deferred, despite successful endpoint/tank transfer tests.
+
+### Validation and release limitations
+- Prior CI [46052322543](https://github.com/Pima95/ItaliansDelightRefabricated/actions/runs/46052322543): 11/11 jobs passed, including 14 required GameTests with Serene Seasons installed.
+- Added vanilla packet/component roundtrip and menu checks, and final source parity/metadata checks; new CI results must be recorded before packaging the release.
+- Real multi-player session not tested; no claim of full multiplayer compatibility. No downgrade support for Minecraft 26.x worlds.
+- Version/name and distribution require author approval. No final JAR or tag is published in this preparation stage.
+- Original code/artwork Apache-2.0; third-party credits and licenses retained; unresolved legacy asset provenance documented.
+
+See [release readiness](docs/NEOFORGE_1.21.1_RELEASE.md) and [porting log](docs/NEOFORGE_1.21.1_PORTING.md).
 
 ## 1.2.0 — Vineyard & Chili Update (release candidate, NOT YET PUBLISHED)
 

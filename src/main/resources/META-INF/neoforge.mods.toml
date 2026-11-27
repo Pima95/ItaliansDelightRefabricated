@@ -12,7 +12,7 @@ displayURL="https://github.com/Pima95/ItaliansDelightRefabricated"
 logoFile="assets/italiansdelight/textures/item/pizza_margherita.png"
 logoBlur=false
 authors="Piergiuseppe"
-description="Italian cuisine, ingredients, farming, cheese making and food production systems for Farmer's Delight."
+description="A native NeoForge add-on for Farmer's Delight featuring Italian cuisine, customizable pizzas, cheese making, orchards, vineyards and fermentation."
 
 [[mixins]]
 config="italiansdelight.mixins.json"

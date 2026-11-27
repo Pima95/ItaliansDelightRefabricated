@@ -1,68 +1,57 @@
-# Italian's Delight Refabricated
+# Italian's Delight — NeoForge 1.21.1
 
 <p align="center">
-  <img src="src/main/resources/assets/italiansdelight/textures/italians_delight_refabricated.png" alt="Italian's Delight Refabricated" width="50%">
+  <img src="src/main/resources/assets/italiansdelight/textures/item/pizza_margherita.png" alt="Margherita pizza" width="96" style="image-rendering: pixelated">
 </p>
 
-**Italian's Delight Refabricated** è un add-on per [Farmer's Delight Refabricated](https://github.com/MehVahdJukaar/FarmersDelightRefabricated) su **Fabric**. Aggiunge lavorazioni e piatti della tradizione italiana, integrati con Cooking Pot, Cutting Board, JEI e le altre meccaniche di Farmer's Delight.
+Italian's Delight is an independent add-on for [Farmer's Delight](https://github.com/vectorwing/FarmersDelight), bringing Italian cuisine, agriculture and food processing to Minecraft. This branch is the **native NeoForge port for Minecraft 1.21.1** of Italian's Delight Refabricated. No Fabric API, Fabric Loader or compatibility layer is required.
 
-## Guida rapida
-
-- **[Documentazione e indice per argomenti](docs/README.md)** — installazione, funzionalità, guide tecniche e test.
-- **[Crediti degli autori](CREDIT.md)** — chi ha contribuito e provenienza degli asset.
-- **[Prompt approvati e regole grafiche](docs/PROMPTS.md)** — istruzioni originali da rispettare nello sviluppo.
-- **[Licenza e attribuzioni](LICENSE)** · [NOTICE](NOTICE) · [Materiali di terzi](THIRD_PARTY_NOTICES.md) · [Licenza crate FDR](docs/FDR_CRATES_LICENSE.md).
-- **[Changelog](CHANGELOG.md)** · [Release e download](https://github.com/Pima95/ItaliansDelightRefabricated/releases) · [Segnalazioni](https://github.com/Pima95/ItaliansDelightRefabricated/issues).
+**Status:** release preparation; not yet published. Proposed version: `1.2.0-mc1.21.1-neoforge`. The final version identifier and publication require author approval. See [release readiness](docs/NEOFORGE_1.21.1_RELEASE.md), [changelog](CHANGELOG.md) and [technical porting log](docs/NEOFORGE_1.21.1_PORTING.md).
 
 ## Versioni e installazione
 
-| Versione | Stato | Minecraft | Principali novità |
-| --- | --- | --- | --- |
-| [1.0.0 — Pizza Update](docs/pizza-1.0.0/CHANGELOG.md) | Pubblicata il 23/10/2026 | 26.2 | Pizze interattive, forno, pala, spicchi e JEI |
-| [1.1.0 — Orchard Update](docs/orchards-1.1.0/CHANGELOG.md) | **Ultima release pubblica** (11/11/2026) | 26.2 | Ulivi, mandorli, ciliegi da frutto, legni, frutta e Crushing Tub |
-| [1.2.0 — Vineyard & Chili](docs/vineyard-chili-1.2.0/README.md) | **Candidata al rilascio**, in collaudo sul branch esistente | **26.3** | Uva, peperoncini, fermentazione, bevande, nuovi piatti e pizze |
+| Requirement | Tested configuration |
+| --- | --- |
+| Minecraft | 1.21.1 |
+| Java | 21 |
+| NeoForge | 21.1.267 (metadata range 21.1.219 to before 21.2) |
+| Farmer's Delight | Original NeoForge 1.3.4 (required; metadata range 1.3.4 to before 1.4) |
+| JEI | 19.51.0.418 (optional) |
+| Serene Seasons / GlitchCore | 10.1.0.3 / 2.1.0.2 (optional) |
 
-### Installare una versione pubblicata
+1. Create a Minecraft 1.21.1 NeoForge installation with Java 21.
+2. Install the original [Farmer's Delight](https://www.curseforge.com/minecraft/mc-mods/farmers-delight) for NeoForge and the matching Italian's Delight JAR in `mods/`.
+3. Install optional mods separately if desired. On a dedicated server, use matching mod/loader versions on both sides, except client-only additions as documented by their authors.
 
-1. Installa **Minecraft** nella versione richiesta dalla release scelta e **Fabric Loader** compatibile.
-2. Aggiungi alla cartella `mods` la **Fabric API**, **Farmer's Delight Refabricated** e il JAR di **Italian's Delight Refabricated** corretti per quella versione. JEI e le integrazioni opzionali possono essere aggiunti separatamente.
-3. Usa **Java 25**, avvia Minecraft e controlla l'elenco delle mod. Non confondere i JAR `sources` o `dev` con il JAR utilizzabile nel gioco.
+Use the playable JAR, not the sources JAR. Existing Fabric downloads are separate builds: consult [the Fabric branch](https://github.com/Pima95/ItaliansDelightRefabricated/tree/main) and the [published releases](https://github.com/Pima95/ItaliansDelightRefabricated/releases).
 
-Le versioni delle dipendenze per la **1.0.0** e la **1.1.0** sono specificate nei rispettivi [changelog](docs/README.md) e nella [pagina delle release pubblicate](https://github.com/Pima95/ItaliansDelightRefabricated/releases).
+**World compatibility:** make backups. Downgrading worlds made on Minecraft 26.x to 1.21.1 is not supported. Start a new 1.21.1 world.
 
-**La 1.2.0 non è ancora pubblicata.** Sul branch esistente si prepara il JAR completo `italiansdelight-1.2.0-mc26.3.jar` per i test. Dopo l'esito della [CI](https://github.com/Pima95/ItaliansDelightRefabricated/actions/workflows/vineyard-chili-1.2.0.yml) si possono scaricare il JAR candidato e `SHA256SUMS` dall'artifact della stessa esecuzione. Consultare la [documentazione 1.2.0](docs/vineyard-chili-1.2.0/README.md) e i [test manuali](docs/vineyard-chili-1.2.0/TESTING.md); un build riuscito non sostituisce la prova in gioco. Nessun tag o pubblicazione è stato effettuato.
+## Features
 
-## Funzionalità
+- Interactive pizzas: independent quarters, toppings, pizza peel, oven, slicing and recombination.
+- Cheese Vat, dairy products, cheese aging racks, hooks, cured meats and Italian dishes.
+- Olive, almond and fruit cherry trees, wood families, fruiting cycles and juice extraction.
+- Basil, cardoon, wild and cultivated grapevines, white/red grapes, stakes, ropes and chili peppers.
+- Crushing tubs, barrels, cauldrons, liquid containers, brewing barrels, wines, mead, cider, juices and vinegars.
+- Integration with Farmer's Delight Cooking Pot and Cutting Board; recipe viewing with optional JEI.
 
-- Produzione e stagionatura dei formaggi (mozzarella, ricotta, burrata, mascarpone, Parmigiano, Pecorino, Gorgonzola, Provolone e Scamorza), Cheese Vat, grattugia, rastrelliere e uncini.
-- Preparazione e stagionatura dei salumi: prosciutto crudo, salame, mortadella, pancetta, guanciale, bresaola, coppa e speck.
-- Coltivazione di cardo e basilico, sale da evaporazione, cucina italiana con pasta e risotti.
-- Pizze personalizzabili con condimenti su quarti indipendenti, forno, pala, spicchi e guide JEI.
-- Nella 1.1.0: tre specie di alberi da frutto con legni e derivati, estrazione con Crushing Tub, bottiglie e secchi per i liquidi.
-- Nel branch 1.2.0: vitigni, peperoncini, Brewing Barrel, bevande fermentate, ricette e gusti aggiuntivi.
+Minecraft 1.21.1 lacks pale oak, poplar and wooden shelves from the source snapshot. Only the corresponding wood variants and shelves have been omitted. This is not the separate 2.0.0 development update.
 
-## Sviluppo
+## Optional integrations and validation
 
-Per il branch **1.2.0**: **Minecraft 26.3**, **Java 25**, **Fabric Loader 0.20.1**, **Fabric API 0.166.0+26.3** e **Farmer's Delight Refabricated 26.3-3.6.30+refabricated**. Consultare `gradle.properties` per la configurazione effettiva.
+JEI and the corrected plant rendering were checked in-game by the author. Automated tests with Serene Seasons cover the orchard calendar, greenhouse behavior, crop tags and foliage states. Thirst Was Taken 2 and Tough As Nails have API/tag tests; original Thirst Was Taken has startup/presence coverage only. Actual drinking behavior for all optional thirst mods has not yet been comprehensively tested.
 
-```bash
-./gradlew build
-```
+Create is deferred by author decision. Prior endpoint and tank transfer tests passed, but pump networks and full automation are not certified. Dedicated GameTest server startup has passed; a real multi-player session has not been tested. See the [release readiness report](docs/NEOFORGE_1.21.1_RELEASE.md) for precise limitations.
 
-Su Windows: `./gradlew.bat build`. I JAR vengono generati in `build/libs/`.
+## Development
 
-Per i requisiti delle versioni pubblicate 1.0.0 e 1.1.0, consultare le rispettive [release GitHub](https://github.com/Pima95/ItaliansDelightRefabricated/releases) e i changelog sopra indicati.
+Use Java 21 and the included Gradle wrapper. Linux/macOS: `./gradlew build`; Windows: `.\gradlew.bat build`. Output is in `build/libs/` on Linux/macOS or `build-neoforge/libs/` on Windows. The separate `run-neoforge/` directory keeps test worlds away from Fabric installations.
 
-## Documentazione e contributi
+Optional dev profiles: `-Pwith_jei=true`, `-Pwith_serene_seasons=true`, `-PportThirst=twt|twt2|tan` (one at a time). See [CI](https://github.com/Pima95/ItaliansDelightRefabricated/actions/workflows/neoforge-1.21.1.yml) and the [documentation index](docs/README.md).
 
-- [Indice della documentazione](docs/README.md)
-- [Changelog generale](CHANGELOG.md)
-- [Segnalazione problemi e regressioni](https://github.com/Pima95/ItaliansDelightRefabricated/issues)
+## Credits and licensing
 
-Segnalazioni di problemi e pull request sono benvenute.
+Original contributions are licensed under [Apache-2.0](LICENSE); existing third-party material retains its applicable terms. See [NOTICE](NOTICE), [CREDIT](CREDIT.md), [third-party notices](THIRD_PARTY_NOTICES.md) and [Farmer's Delight crate license](docs/FDR_CRATES_LICENSE.md). The original Italian's Delight project and Rustic/Alcocraft are separately credited. This port is not an official continuation of those projects. Some legacy artwork attribution remains unresolved; a successful JAR packaging check is not an asset-by-asset rights clearance.
 
-## Licenze e crediti
-
-Il progetto contiene contributi originali distribuiti sotto [Apache License 2.0](LICENSE) a partire dalla 1.1.0. La 1.0.0 precedentemente distribuita conserva i suoi termini MIT. I materiali di terzi conservano le condizioni e attribuzioni proprie.
-
-Consultare [NOTICE](NOTICE), [CREDIT](CREDIT.md), [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md) e la [licenza MIT delle texture crate derivate da Farmer's Delight](docs/FDR_CRATES_LICENSE.md). La documentazione di provenienza degli asset delle versioni precedenti è recuperabile nella cronologia Git; le attribuzioni individuali di alcuni sprite legacy restano da verificare.
+[Issues and feedback](https://github.com/Pima95/ItaliansDelightRefabricated/issues).

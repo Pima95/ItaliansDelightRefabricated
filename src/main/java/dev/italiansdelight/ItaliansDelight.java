@@ -62,8 +62,7 @@ public class ItaliansDelight {
         modBus.addListener(ModBlockEntities::addValidBlocks);
         modBus.addListener(FluidTransferBridge::register);
         modBus.addListener(NeoForgeFluidItemContainers::register);
-        // Registry lifecycle is being migrated in separate commits; do not
-        // treat this constructor as a runnable port until that is complete.
+        // Common initialization runs after all registry events.
         modBus.addListener(this::onCommonSetup);
     }
 

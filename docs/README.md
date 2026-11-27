@@ -1,35 +1,18 @@
-# Documentazione — Italian's Delight Refabricated
+# Documentation — Italian's Delight (NeoForge 1.21.1)
 
-**Da dove cominciare?** Tutta la documentazione corrente è raggiungibile da questa pagina. Le release precedenti hanno un solo changelog ciascuna, mentre la versione in sviluppo ha tre documenti: panoramica, funzionamento tecnico e collaudo.
+This branch is the native NeoForge 1.21.1 port. The Fabric release documentation below is retained for historical feature and design reference; its toolchain and publication status are not authoritative for NeoForge.
 
-| Sto cercando… | Dove leggere |
+| Topic | Document |
 | --- | --- |
-| **Come sviluppare il porting NeoForge 1.21.1?** | [Guida permanente e registro del porting](NEOFORGE_1.21.1_PORTING.md) |
-| **Cos'è la mod e quali versioni sono disponibili?** | [README del progetto](../README.md) |
-| **Come installarla?** | [Versioni e requisiti](../README.md#versioni-e-installazione) · [Release pubblicate](https://github.com/Pima95/ItaliansDelightRefabricated/releases) |
-| **Che cosa contiene la 1.2.0?** | [Vineyard & Chili — panoramica](vineyard-chili-1.2.0/README.md) |
-| **Come funzionano uva, peperoncini, liquidi, barili e pizze?** | [Riferimento tecnico 1.2.0](vineyard-chili-1.2.0/TECHNICAL.md) |
-| **Come compilarla e provarla prima della pubblicazione?** | [Checklist test 1.2.0](vineyard-chili-1.2.0/TESTING.md) |
-| **Dove sono i prompt e le regole approvate per le texture?** | [Prompt approvati](PROMPTS.md) |
-| **Che cosa è cambiato nel tempo?** | [Changelog generale](../CHANGELOG.md) |
-| **Chi ha realizzato la mod e le risorse?** | [Crediti e provenienza](../CREDIT.md) |
-| **Quali licenze e attribuzioni si applicano?** | [LICENSE](../LICENSE) · [NOTICE](../NOTICE) · [Materiale di terzi](../THIRD_PARTY_NOTICES.md) · [MIT texture crate FDR](FDR_CRATES_LICENSE.md) |
-| **Come segnalare un problema?** | [Issue GitHub](https://github.com/Pima95/ItaliansDelightRefabricated/issues) |
+| Installation and mod requirements | [README](../README.md) |
+| Release readiness, scope, limitations, draft distribution description | [NeoForge release readiness](NEOFORGE_1.21.1_RELEASE.md) |
+| Porting decisions, tests and technical history | [Permanent porting log](NEOFORGE_1.21.1_PORTING.md) |
+| Changelog | [CHANGELOG](../CHANGELOG.md) |
+| CI | [NeoForge workflow](../.github/workflows/neoforge-1.21.1.yml) |
+| Vineyard and Chili features (historical Fabric reference) | [Overview](vineyard-chili-1.2.0/README.md) · [Technical reference](vineyard-chili-1.2.0/TECHNICAL.md) · [Testing](vineyard-chili-1.2.0/TESTING.md) |
+| Orchard update (historical) | [Changelog](orchards-1.1.0/CHANGELOG.md) |
+| Pizza update (historical) | [Changelog](pizza-1.0.0/CHANGELOG.md) |
+| Approved design rules | [PROMPTS](PROMPTS.md) |
+| Licensing and credit | [LICENSE](../LICENSE) · [NOTICE](../NOTICE) · [CREDIT](../CREDIT.md) · [Third-party notices](../THIRD_PARTY_NOTICES.md) · [Crate license](FDR_CRATES_LICENSE.md) |
 
-## Versioni
-
-- [**1.0.0 — Pizza Update**](pizza-1.0.0/CHANGELOG.md) — pubblicata il **23 ottobre 2026** per Minecraft 26.2.
-- [**1.1.0 — Orchard Update**](orchards-1.1.0/CHANGELOG.md) — pubblicata l'**11 novembre 2026** per Minecraft 26.2; è l'ultima release pubblica.
-- **1.2.0 — Vineyard & Chili** — **candidata al rilascio, in collaudo**, per Minecraft 26.3 sul branch `feature/vineyard-chili-1.2.0`. Non è ancora una release.
-
-## Per chi sviluppa
-
-Per la 1.2.0 consulta in ordine [panoramica](vineyard-chili-1.2.0/README.md), [riferimento tecnico](vineyard-chili-1.2.0/TECHNICAL.md) e [collaudo](vineyard-chili-1.2.0/TESTING.md). Il codice e `gradle.properties` restano la fonte autorevole per API, versioni e funzionamento.
-
-La [CI del branch](../.github/workflows/vineyard-chili-1.2.0.yml) compila ed esegue i controlli statici; il [test server](../.github/workflows/vineyard-chili-server.yml) verifica avvio e riapertura di un mondo di prova. I due workflow **non** certificano la grafica e le interazioni nel client.
-
-## Documentazione storica
-
-I vecchi audit, piani provvisori, prove per singola texture e annotazioni sui prototipi sono stati eliminati **solo dal branch di sviluppo attuale**: si recuperano nei [commit precedenti alla riorganizzazione](https://github.com/Pima95/ItaliansDelightRefabricated/tree/3801dd9762312c30706137bf06da88023f0ad6a3/docs). Non sono stati cancellati dalla cronologia Git, né dalle release già pubblicate.
-
-I documenti di licenza effettivamente necessari alla distribuzione rimangono presenti nel repository e nel JAR. Non confondere le vecchie note di progetto con le funzioni realmente disponibili nella 1.2.0.
+Report issues at [GitHub](https://github.com/Pima95/ItaliansDelightRefabricated/issues). No release, tag or publication has been made for the NeoForge candidate.

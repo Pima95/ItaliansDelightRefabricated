@@ -13,7 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - run: python3 .github/scripts/audit_neoforge_port.py
+      - run: python3 .github/scripts/check_neoforge_source_parity.py
   compile:
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -38,6 +41,27 @@ jobs:
                         "META-INF/THIRD_PARTY_NOTICES.md", "META-INF/CREDIT.md", "META-INF/FDR_CRATES_LICENSE.md"):
                   assert p in z.namelist(), p
               assert "fabric.mod.json" not in z.namelist()
+              import tomllib
+              meta = tomllib.loads(z.read("META-INF/neoforge.mods.toml").decode())
+              assert meta["modLoader"] == "javafml" and meta["license"] == "Apache-2.0"
+              mod = meta["mods"][0]
+              assert mod["modId"] == "italiansdelight" and mod["displayName"] == "Italian's Delight"
+              assert mod["logoFile"] == "assets/italiansdelight/textures/item/pizza_margherita.png"
+              assert mod["logoBlur"] is False
+              assert z.read(mod["logoFile"]) == Path("src/main/resources", mod["logoFile"]).read_bytes()
+              assert mod["enumExtensions"] in z.namelist()
+              assert "${" not in mod["version"]
+              deps = {d["modId"]: d for d in meta["dependencies"]["italiansdelight"]}
+              assert {k for k,v in deps.items() if v["type"] == "required"} == {"minecraft", "neoforge", "farmersdelight"}
+              assert deps["minecraft"]["versionRange"] == "[1.21.1]"
+              assert deps["farmersdelight"]["versionRange"] == "[1.3.4,1.4)"
+              assert deps["jei"]["type"] == deps["sereneseasons"]["type"] == "optional"
+              for src, dst in {
+                  "LICENSE": "LICENSE_italiansdelight", "NOTICE": "META-INF/NOTICE",
+                  "CREDIT.md": "META-INF/CREDIT.md", "THIRD_PARTY_NOTICES.md": "META-INF/THIRD_PARTY_NOTICES.md",
+                  "docs/FDR_CRATES_LICENSE.md": "META-INF/FDR_CRATES_LICENSE.md",
+              }.items():
+                  assert Path(src).read_bytes() == z.read(dst), f"Legal notice mismatch: {src}"
               major = int.from_bytes(z.read("dev/italiansdelight/ItaliansDelight.class")[6:8], "big")
               assert major == 65, f"Expected Java 21 classfile major 65, got {major}"
           PY
@@ -85,6 +109,7 @@ jobs:
       - name: Require successful model checks and expected JEI presence
         run: |
           grep -E 'IDR_CLIENT_SMOKE_PASS states=[1-9][0-9]* jei=${{ matrix.jei }}' run-neoforge/client/logs/latest.log
+          grep -F 'IDR_POTION_TINT_PASS items=10' run-neoforge/client/logs/latest.log
       - name: Reject missing IDR models and textures
         run: |
           python3 - <<'PY'
@@ -173,6 +198,8 @@ jobs:
         run: bash ./gradlew runGameTestServer -Pwith_serene_seasons=${{ matrix.serene }} --no-daemon --max-workers=2 --console=plain
       - name: Require actual optional season checks
         run: grep -F 'IDR_SEASON_PROFILE_PASS installed=${{ matrix.serene }}' run-neoforge/gametest/logs/latest.log
+      - name: Require actual vanilla network codec checks
+        run: grep -F 'IDR_NETWORK_PORT_PASS items=5 block_entities=6 menus=3' run-neoforge/gametest/logs/latest.log
       - name: Reject silently skipped datapack resources
         run: |
           python3 - <<'PY'

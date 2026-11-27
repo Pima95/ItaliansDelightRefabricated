@@ -59,6 +59,21 @@ public final class ItaliansDelightClient {
             BiomeColors.getAverageFoliageColor(level,pos), ModBlocks.GRAPE_LEAVES, ModBlocks.WHITE_GRAPE_LEAVES);
     }
 
+    // The post-1.21.1 item definitions contain constant potion tints.
+    // Backport their exact RGB values to the native ItemColor registry.
+    @SubscribeEvent public static void itemColors(RegisterColorHandlersEvent.Item event) {
+        event.register((stack, index) -> index == 0 ? 0xB07139 : -1, ModItems.APPLE_CIDER_VINEGAR);
+        event.register((stack, index) -> index == 0 ? 0xD49A2C : -1, ModItems.APPLE_JUICE_BOTTLE);
+        event.register((stack, index) -> index == 0 ? 0xC98B36 : -1, ModItems.CIDER_BOTTLE);
+        event.register((stack, index) -> index == 0 ? 0xF2BD54 : -1, ModItems.GOLDEN_APPLE_JUICE_BOTTLE);
+        event.register((stack, index) -> index == 0 ? 0x813F9C : -1, ModItems.GRAPE_JUICE_BOTTLE);
+        event.register((stack, index) -> index == 0 ? 0xDBA746 : -1, ModItems.MEAD_BOTTLE);
+        event.register((stack, index) -> index == 0 ? 0xB7A93D : -1, ModItems.OLIVE_OIL_BOTTLE);
+        event.register((stack, index) -> index == 0 ? 0xB26447 : -1, ModItems.RED_WINE_VINEGAR_BOTTLE);
+        event.register((stack, index) -> index == 0 ? 0xDAC59C : -1, ModItems.RENNET);
+        event.register((stack, index) -> index == 0 ? 0xD4E59E : -1, ModItems.WHITE_GRAPE_JUICE_BOTTLE);
+    }
+
     private static void fluid(RegisterClientExtensionsEvent event, Fluid fluid, String still, String flow, String overlay) {
         event.registerFluidType(new IClientFluidTypeExtensions() {
             @Override public ResourceLocation getStillTexture() { return ModRegistries.id(still); }

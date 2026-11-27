@@ -99,6 +99,30 @@ public final class ClientPortSmoke {
                 require(signAtlas.getSprite(id).contents().name().equals(id), "Missing sign sprite: " + id);
             }
         }
+        // Constant potion overlay tints must match the approved Fabric art;
+        // the glass/cork layer must remain untinted.
+        var colors = mc.getItemColors();
+        require(colors.getColor(new ItemStack(ModItems.APPLE_CIDER_VINEGAR), 0) == 0xB07139
+            && colors.getColor(new ItemStack(ModItems.APPLE_CIDER_VINEGAR), 1) == -1, "Missing potion tint: APPLE_CIDER_VINEGAR");
+        require(colors.getColor(new ItemStack(ModItems.APPLE_JUICE_BOTTLE), 0) == 0xD49A2C
+            && colors.getColor(new ItemStack(ModItems.APPLE_JUICE_BOTTLE), 1) == -1, "Missing potion tint: APPLE_JUICE_BOTTLE");
+        require(colors.getColor(new ItemStack(ModItems.CIDER_BOTTLE), 0) == 0xC98B36
+            && colors.getColor(new ItemStack(ModItems.CIDER_BOTTLE), 1) == -1, "Missing potion tint: CIDER_BOTTLE");
+        require(colors.getColor(new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BOTTLE), 0) == 0xF2BD54
+            && colors.getColor(new ItemStack(ModItems.GOLDEN_APPLE_JUICE_BOTTLE), 1) == -1, "Missing potion tint: GOLDEN_APPLE_JUICE_BOTTLE");
+        require(colors.getColor(new ItemStack(ModItems.GRAPE_JUICE_BOTTLE), 0) == 0x813F9C
+            && colors.getColor(new ItemStack(ModItems.GRAPE_JUICE_BOTTLE), 1) == -1, "Missing potion tint: GRAPE_JUICE_BOTTLE");
+        require(colors.getColor(new ItemStack(ModItems.MEAD_BOTTLE), 0) == 0xDBA746
+            && colors.getColor(new ItemStack(ModItems.MEAD_BOTTLE), 1) == -1, "Missing potion tint: MEAD_BOTTLE");
+        require(colors.getColor(new ItemStack(ModItems.OLIVE_OIL_BOTTLE), 0) == 0xB7A93D
+            && colors.getColor(new ItemStack(ModItems.OLIVE_OIL_BOTTLE), 1) == -1, "Missing potion tint: OLIVE_OIL_BOTTLE");
+        require(colors.getColor(new ItemStack(ModItems.RED_WINE_VINEGAR_BOTTLE), 0) == 0xB26447
+            && colors.getColor(new ItemStack(ModItems.RED_WINE_VINEGAR_BOTTLE), 1) == -1, "Missing potion tint: RED_WINE_VINEGAR_BOTTLE");
+        require(colors.getColor(new ItemStack(ModItems.RENNET), 0) == 0xDAC59C
+            && colors.getColor(new ItemStack(ModItems.RENNET), 1) == -1, "Missing potion tint: RENNET");
+        require(colors.getColor(new ItemStack(ModItems.WHITE_GRAPE_JUICE_BOTTLE), 0) == 0xD4E59E
+            && colors.getColor(new ItemStack(ModItems.WHITE_GRAPE_JUICE_BOTTLE), 1) == -1, "Missing potion tint: WHITE_GRAPE_JUICE_BOTTLE");
+        ItaliansDelight.LOGGER.info("IDR_POTION_TINT_PASS items=10");
         boolean expectedJei = Boolean.getBoolean("italiansdelight.portClientSmokeJei");
         require(ModList.get().isLoaded("jei") == expectedJei, "Unexpected JEI runtime presence");
         ItaliansDelight.LOGGER.info("IDR_CLIENT_SMOKE_PASS states={} jei={}", checked, expectedJei);
