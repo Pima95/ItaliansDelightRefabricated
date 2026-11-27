@@ -234,6 +234,64 @@ public final class PortGameTests {
     }
 
     @GameTest(template = "port_empty")
+    public static void optionalThirstIntegration(GameTestHelper helper) {
+        String profile = System.getProperty("italiansdelight.portThirst", "none");
+        var mods = net.neoforged.fml.ModList.get();
+        if (profile.equals("none")) {
+            helper.succeed();
+            return;
+        }
+        String modId = switch (profile) {
+            case "twt" -> "thirst";
+            case "twt2" -> "thirstwastaken2";
+            case "tan" -> "toughasnails";
+            default -> throw new IllegalStateException("Unknown thirst profile: " + profile);
+        };
+        helper.assertTrue(mods.isLoaded(modId), "Expected optional mod missing: " + modId);
+        ItemStack[] beverages = {
+            new ItemStack(ModItems.APPLE_JUICE_BOTTLE),
+            new ItemStack(ModItems.GRAPE_JUICE_BOTTLE),
+            new ItemStack(ModItems.WHITE_GRAPE_JUICE_BOTTLE),
+            new ItemStack(ModItems.SHEEP_MILK_BOTTLE),
+            new ItemStack(ModItems.WINE_BOTTLE)
+        };
+        int[] thirst = {6, 6, 6, 4, 2};
+        int[] quenched = {4, 4, 4, 0, 0};
+        try {
+            if (profile.equals("twt2")) {
+                var api = Class.forName("com.thirstwastaken2.api.ThirstApi");
+                var values = api.getMethod("thirstValues", ItemStack.class);
+                for (int i = 0; i < beverages.length; i++) {
+                    int[] result = (int[]) values.invoke(null, beverages[i]);
+                    helper.assertTrue(result != null && result.length >= 2
+                        && result[0] == thirst[i] && result[1] == quenched[i],
+                        "Unexpected TW2 hydration: " + beverages[i]);
+                }
+                int[] oil = (int[]) values.invoke(null, new ItemStack(ModItems.OLIVE_OIL_BOTTLE));
+                helper.assertTrue(oil == null || oil[0] == 0, "Oil must not hydrate");
+            } else if (profile.equals("tan")) {
+                var tags = Class.forName("toughasnails.init.ModTags$Items");
+                var values = tags.getMethod("getThirstRestored", ItemStack.class);
+                for (int i = 0; i < beverages.length; i++) {
+                    int result = (Integer) values.invoke(null, beverages[i]);
+                    helper.assertTrue(result == thirst[i], "Unexpected TAN thirst: " + beverages[i]);
+                    var hydration = net.minecraft.tags.TagKey.create(
+                        net.minecraft.core.registries.Registries.ITEM,
+                        net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("toughasnails",
+                            "hydration/" + thirst[i] * 10 + "_hydration_drinks"));
+                    helper.assertTrue(beverages[i].is(hydration), "Missing TAN hydration tag: " + beverages[i]);
+                }
+            }
+            // TWT 2.1.5 has no matching public upstream 1.21.1 source on the
+            // original repository; do not pretend its drink resolution is tested.
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Optional thirst API incompatible: " + modId, e);
+        }
+        dev.italiansdelight.ItaliansDelight.LOGGER.info("IDR_THIRST_PROFILE_PASS profile={}", profile);
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
     public static void barrelRegistration(GameTestHelper helper) {
         BlockPos pos = new BlockPos(1, 1, 1);
         helper.setBlock(pos, ModBlocks.BARREL);

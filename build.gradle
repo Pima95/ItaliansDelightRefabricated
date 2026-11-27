@@ -45,6 +45,12 @@ repositories {
     }
 }
 
+// Mutually exclusive optional thirst integrations for development/CI only.
+def thirstProfile = providers.gradleProperty('portThirst').orElse('none').get()
+if (!(thirstProfile in ['none', 'twt', 'twt2', 'tan'])) {
+    throw new GradleException("Unknown portThirst profile: " + thirstProfile)
+}
+
 neoForge {
     version = project.neo_version
     runs {
@@ -67,6 +73,7 @@ neoForge {
         }
         configureEach {
             systemProperty 'neoforge.enabledGameTestNamespaces', 'italiansdelight'
+            systemProperty 'italiansdelight.portThirst', thirstProfile
         }
     }
     mods {
@@ -93,6 +100,16 @@ dependencies {
     if (providers.gradleProperty('with_serene_seasons').orElse('false').get().toBoolean()) {
         localRuntime "curse.maven:serene-seasons-291874:${project.serene_seasons_file_id}"
         localRuntime "curse.maven:glitchcore-955399:${project.glitchcore_file_id}"
+    }
+    if (thirstProfile == 'twt') {
+        localRuntime "curse.maven:thirst-was-taken-679270:${project.twt_file_id}"
+    } else if (thirstProfile == 'twt2') {
+        localRuntime "curse.maven:thirst-was-taken-2-1700787:${project.twt2_file_id}"
+    } else if (thirstProfile == 'tan') {
+        localRuntime "curse.maven:tough-as-nails-246391:${project.tan_file_id}"
+        if (!providers.gradleProperty('with_serene_seasons').orElse('false').get().toBoolean()) {
+            localRuntime "curse.maven:glitchcore-955399:${project.glitchcore_file_id}"
+        }
     }
     // Thirst/automation integrations are data-driven unless the port audit proves otherwise.
     // Do not install Fabric artifacts or make optional integrations mandatory.
