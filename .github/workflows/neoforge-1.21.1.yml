@@ -171,6 +171,8 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Boot NeoForge GameTest server and verify port
         run: bash ./gradlew runGameTestServer -Pwith_serene_seasons=${{ matrix.serene }} --no-daemon --max-workers=2 --console=plain
+      - name: Require actual optional season checks
+        run: grep -F 'IDR_SEASON_PROFILE_PASS installed=${{ matrix.serene }}' run-neoforge/gametest/logs/latest.log
       - name: Reject silently skipped datapack resources
         run: |
           python3 - <<'PY'

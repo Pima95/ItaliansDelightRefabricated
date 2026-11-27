@@ -76,6 +76,7 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', 'italiansdelight'
             systemProperty 'italiansdelight.portThirst', thirstProfile
             systemProperty 'italiansdelight.portCreate', withCreate.toString()
+            systemProperty 'italiansdelight.portSerene', providers.gradleProperty('with_serene_seasons').orElse('false').get()
         }
     }
     mods {

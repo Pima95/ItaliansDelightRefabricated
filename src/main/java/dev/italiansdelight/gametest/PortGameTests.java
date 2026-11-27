@@ -32,6 +32,28 @@ public final class PortGameTests {
     private PortGameTests() {}
 
     @GameTest(template = "port_empty")
+    public static void orchardSeasonCompatibility(GameTestHelper helper) {
+        boolean expected = Boolean.getBoolean("italiansdelight.portSerene");
+        boolean installed = net.neoforged.fml.ModList.get().isLoaded("sereneseasons");
+        helper.assertTrue(expected == installed, "Unexpected Serene Seasons runtime presence");
+        if (installed) {
+            SeasonPortChecks.run(helper);
+        } else {
+            var level = helper.getLevel();
+            var pos = helper.absolutePos(new BlockPos(1, 1, 1));
+            for (var fruit : dev.italiansdelight.common.orchard.OrchardSeasonPolicy.Fruit.values()) {
+                int ripe = fruit == dev.italiansdelight.common.orchard.OrchardSeasonPolicy.Fruit.CHERRY ? 5 : 4;
+                helper.assertTrue(dev.italiansdelight.common.orchard.OrchardSeasonPolicy.maxStage(level, pos, fruit, ripe) == ripe,
+                    "Orchard without Serene Seasons must not be restricted");
+                helper.assertTrue(dev.italiansdelight.common.orchard.OrchardSeasonPolicy.foliagePhase(level, pos, fruit) == 0,
+                    "Orchard without Serene Seasons must remain green");
+            }
+            dev.italiansdelight.ItaliansDelight.LOGGER.info("IDR_SEASON_PROFILE_PASS installed=false");
+        }
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
     public static void recipeReload(GameTestHelper helper) {
         var recipes = helper.getLevel().getRecipeManager();
         for (String id : new String[] {
