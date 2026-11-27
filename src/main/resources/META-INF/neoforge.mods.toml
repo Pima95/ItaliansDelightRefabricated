@@ -9,7 +9,8 @@ enumExtensions="META-INF/enumextensions.json"
 version="${version}"
 displayName="Italian's Delight"
 displayURL="https://github.com/Pima95/ItaliansDelightRefabricated"
-logoFile="assets/italiansdelight/textures/icon.png"
+logoFile="assets/italiansdelight/textures/item/pizza_margherita.png"
+logoBlur=false
 authors="Piergiuseppe"
 description="Italian cuisine, ingredients, farming, cheese making and food production systems for Farmer's Delight."
 

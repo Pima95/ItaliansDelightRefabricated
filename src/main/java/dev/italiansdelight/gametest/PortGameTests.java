@@ -292,6 +292,48 @@ public final class PortGameTests {
     }
 
     @GameTest(template = "port_empty")
+    public static void nativeWorldFluidCapabilities(GameTestHelper helper) {
+        var level = helper.getLevel();
+        var relative = new BlockPos(1, 1, 1);
+        var pos = helper.absolutePos(relative);
+        var cap = net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK;
+        var side = net.minecraft.core.Direction.UP;
+        // Test actual world capability lookups, as used by NeoForge pipe mods,
+        // rather than only testing a detached tank.
+        for (var block : new net.minecraft.world.level.block.Block[]{ModBlocks.BARREL, ModBlocks.OLIVE_BARREL}) {
+            helper.setBlock(relative, block);
+            var handler = level.getCapability(cap, pos, side);
+            helper.assertTrue(handler != null, "Missing barrel fluid capability");
+            helper.assertTrue(handler.getTankCapacity(0) == 16000, "Barrel capacity");
+            var juice = new FluidStack(ModFluids.GRAPE_JUICE, 1000);
+            helper.assertTrue(handler.fill(juice, FluidAction.SIMULATE) == 1000
+                && handler.getFluidInTank(0).isEmpty(), "Pipe simulation must not mutate barrel");
+            helper.assertTrue(handler.fill(juice, FluidAction.EXECUTE) == 1000, "Pipe fill");
+            helper.assertTrue(handler.fill(new FluidStack(ModFluids.WHITE_GRAPE_JUICE, 250), FluidAction.EXECUTE) == 0,
+                "Pipe cannot mix grape juice variants");
+            helper.assertTrue(handler.drain(250, FluidAction.SIMULATE).getAmount() == 250
+                && handler.getFluidInTank(0).getAmount() == 1000, "Pipe drain simulation");
+            var extracted = handler.drain(250, FluidAction.EXECUTE);
+            helper.assertTrue(extracted.is(ModFluids.GRAPE_JUICE) && extracted.getAmount() == 250
+                && handler.getFluidInTank(0).getAmount() == 750, "Pipe extraction");
+            helper.setBlock(relative, net.minecraft.world.level.block.Blocks.AIR);
+            helper.assertTrue(level.getCapability(cap, pos, side) == null, "Removed barrel must expose no capability");
+        }
+        helper.setBlock(relative, ModBlocks.FLUID_CAULDRON);
+        var cauldron = level.getCapability(cap, pos, side);
+        helper.assertTrue(cauldron != null && cauldron.getTankCapacity(0) == 1000, "Cauldron capability");
+        helper.assertTrue(cauldron.fill(new FluidStack(ModFluids.GRAPE_JUICE, 799), FluidAction.EXECUTE) == 750,
+            "Cauldron rounds to quarter buckets");
+        helper.assertTrue(level.getBlockState(pos).getValue(dev.italiansdelight.common.block.FluidCauldronBlock.LEVEL) == 3,
+            "Pipe fill updates cauldron level");
+        helper.assertTrue(cauldron.drain(750, FluidAction.EXECUTE).getAmount() == 750,
+            "Pipe empties cauldron");
+        helper.assertTrue(level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.CAULDRON)
+            && level.getCapability(cap, pos, side) == null, "Empty cauldron restores vanilla block and invalidates capability");
+        helper.succeed();
+    }
+
+    @GameTest(template = "port_empty")
     public static void barrelRegistration(GameTestHelper helper) {
         BlockPos pos = new BlockPos(1, 1, 1);
         helper.setBlock(pos, ModBlocks.BARREL);

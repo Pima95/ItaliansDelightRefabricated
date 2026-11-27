@@ -2,6 +2,6 @@
   "parent": "minecraft:block/flower_pot_cross",
   "textures": {
     "plant": "italiansdelight:block/olive_sapling"
-  }
+  },
+  "render_type": "minecraft:cutout"
 }
-

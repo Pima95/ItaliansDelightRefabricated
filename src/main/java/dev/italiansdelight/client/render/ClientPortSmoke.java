@@ -47,6 +47,26 @@ public final class ClientPortSmoke {
                 checked++;
             }
         }
+        // A baked model can exist but still render its transparent pixels as black
+        // if it falls back to the solid chunk layer. Check every multipart state.
+        int cutoutStates = 0;
+        for (Block block : new Block[]{
+                ModBlocks.OLIVE_SAPLING, ModBlocks.ALMOND_SAPLING, ModBlocks.FRUIT_CHERRY_SAPLING,
+                ModBlocks.POTTED_OLIVE_SAPLING, ModBlocks.POTTED_ALMOND_SAPLING, ModBlocks.POTTED_FRUIT_CHERRY_SAPLING,
+                ModBlocks.GRAPE_STEM, ModBlocks.WHITE_GRAPE_STEM,
+                ModBlocks.GRAPE_LEAVES, ModBlocks.WHITE_GRAPE_LEAVES}) {
+            for (var state : block.getStateDefinition().getPossibleStates()) {
+                var model = mc.getBlockRenderer().getBlockModel(state);
+                require(model != missing, "Missing transparent plant model: " + state);
+                var layers = model.getRenderTypes(state, net.minecraft.util.RandomSource.create(42L),
+                    net.neoforged.neoforge.client.model.data.ModelData.EMPTY);
+                require(layers.contains(net.minecraft.client.renderer.RenderType.cutout())
+                    && !layers.contains(net.minecraft.client.renderer.RenderType.solid()),
+                    "Plant model must use cutout, not solid: " + state);
+                cutoutStates++;
+            }
+        }
+        ItaliansDelight.LOGGER.info("IDR_CUTOUT_SMOKE_PASS states={}", cutoutStates);
         require(manager.getModel(PizzaPeelItemModel.BASE) instanceof PizzaPeelItemModel,
             "Pizza peel custom model not installed");
         require(manager.getModel(PizzaPeelItemModel.LOADED) != missing,
