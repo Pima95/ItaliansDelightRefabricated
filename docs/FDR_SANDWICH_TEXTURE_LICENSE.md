@@ -36,3 +36,5 @@ https://github.com/neoforged/NeoForge/blob/1.21.x/LICENSE.txt
 Some files may include others' licenses. Please read the top of the file
 for information on other licenses.
 =============================================================================
+
+The `mozzarella_in_carrozza.png` sprite also preserves the bread pixels of [FDR's bacon_sandwich.png](https://github.com/MehVahdJukaar/FarmersDelightRefabricated/blob/1b85d66f5e2aba88592d7f4fb203d582f4d3cbe3/src/main/resources/assets/farmersdelight/textures/item/bacon_sandwich.png), replacing the filling with mozzarella and fried breading colors. The same upstream MIT license applies.

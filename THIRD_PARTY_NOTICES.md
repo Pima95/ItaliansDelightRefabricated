@@ -90,3 +90,5 @@ The `ragu.png` and `custard.png` item textures retain the original bowl pixels f
 ## Farmer's Delight Refabricated — sandwich bread pixels
 
 Four sandwich textures reuse the original chicken sandwich bread pixels with replacement fillings. Source revision and MIT license: [docs/FDR_SANDWICH_TEXTURE_LICENSE.md](docs/FDR_SANDWICH_TEXTURE_LICENSE.md).
+
+The mozzarella in carrozza sprite also reuses bread pixels from FDR's bacon sandwich; see the same license and source references above.
