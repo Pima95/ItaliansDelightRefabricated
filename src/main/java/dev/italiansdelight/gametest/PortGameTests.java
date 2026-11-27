@@ -329,7 +329,16 @@ public final class PortGameTests {
         helper.assertTrue(cauldron.drain(750, FluidAction.EXECUTE).getAmount() == 750,
             "Pipe empties cauldron");
         helper.assertTrue(level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.CAULDRON)
-            && level.getCapability(cap, pos, side) == null, "Empty cauldron restores vanilla block and invalidates capability");
+            && level.getBlockEntity(pos) == null, "Empty cauldron restores vanilla block");
+        // NeoForge 1.21.1 registers its own CauldronWrapper for empty vanilla
+        // cauldrons. It must replace the IDR BE capability, not disappear.
+        var vanilla = level.getCapability(cap, pos, side);
+        helper.assertTrue(vanilla != null && vanilla != cauldron
+            && vanilla.getFluidInTank(0).isEmpty(), "Empty vanilla cauldron replaces IDR handler");
+        helper.assertTrue(vanilla.fill(new FluidStack(Fluids.WATER, 1000), FluidAction.SIMULATE) == 1000,
+            "Vanilla water automation remains available");
+        helper.assertTrue(level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.CAULDRON),
+            "Simulation must not change vanilla block");
         helper.succeed();
     }
 
