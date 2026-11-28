@@ -136,7 +136,7 @@ Tutte le nove ricette sono shapeless nella Crafting Table, con ingredienti esist
 | Piatto | Ingredienti principali | Difficoltà | Decisione |
 | --- | --- | --- | --- |
 | Cannoli siciliani | Impasto, ricotta, zucchero, cacao | Facile | Implementato |
-| Panna cotta | Panna, zucchero | Facile | Implementato |
+| Panna cotta | Panna, zucchero | Facile | Rinviato – texture conservata, possibile update di Natale |
 | Panna cotta alle ciliegie | Panna, zucchero, marmellata di ciliegie | Facile | Da valutare |
 | Panna cotta al cioccolato | Panna, cacao, zucchero | Facile | Da valutare |
 | Cantucci | Impasto, mandorle, uova, zucchero | Facile | Da valutare |
@@ -277,4 +277,4 @@ Implementati: grissini cotti + una fetta di prosciutto crudo (crafting shapeless
 
 ### 2.0.0 – Dolci approvati
 
-Solo cannoli siciliani, panna cotta classica e biscotti alle ciliegie. Cialda del cannolo cruda (impasto di grano FDR, cacao, zucchero, resa 2), frittura nel Cooking Pot con una bottiglia di olio e farcitura shapeless con ricotta, zucchero e cacao. Panna cotta nel Cooking Pot con panna e zucchero, servita in ciotola; nessuna gelatina aggiunta. Biscotti alle ciliegie ottenuti direttamente con crafting shapeless (impasto, zucchero, marmellata, resa 4), senza preparazione cruda né cottura separata. Cinque texture originali 16×16: il contorno dei biscotti alle mandorle è conservato, con frolla e bordo tostato distinti; panna cotta ridisegnata come dessert sformato in ciotola. Valori nutrizionali iniziali: cannolo 7/0.65, panna cotta 6/0.55, biscotti 3/0.35. Nessun altro dolce implementato.
+Solo cannoli siciliani e biscotti alle ciliegie; panna cotta rinviata. Cialda del cannolo cruda (impasto di grano FDR, cacao, zucchero, resa 2), frittura nel Cooking Pot con una bottiglia di olio e farcitura shapeless con ricotta, zucchero e cacao. Biscotti alle ciliegie ottenuti direttamente con crafting shapeless (impasto, zucchero, marmellata, resa 4), senza preparazione cruda né cottura separata. Cinque texture originali 16×16, di cui quattro attive e una conservata per un aggiornamento futuro: il contorno dei biscotti alle mandorle è conservato, con frolla e bordo tostato distinti e marmellata ripristinata pixel per pixel dalla prima versione. La panna cotta non è registrata: resta soltanto il PNG, da riprendere eventualmente nell'update di Natale. Valori nutrizionali iniziali: cannolo 7/0.65, biscotti 3/0.35. Nessun altro dolce implementato.

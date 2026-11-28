@@ -521,7 +521,6 @@ public final class ModItemGroups {
                 output.accept(ModItems.RAW_CANNOLI_SHELL);
                 output.accept(ModItems.FRIED_CANNOLI_SHELL);
                 output.accept(ModItems.SICILIAN_CANNOLI);
-                output.accept(ModItems.PANNA_COTTA);
             })
             .build();
 
