@@ -1174,7 +1174,6 @@ public final class ModItems {
         public static final Item FRIED_CANNOLI_SHELL = registerSimpleItem("fried_cannoli_shell", 64);
         public static final Item SICILIAN_CANNOLI = registerFoodItem("sicilian_cannoli", 7, 0.65f);
         public static final Item PANNA_COTTA = registerBowlFoodItem("panna_cotta", 6, 0.55f, Consumables.DEFAULT_FOOD);
-        public static final Item RAW_CHERRY_BISCUITS = registerSimpleItem("raw_cherry_biscuits", 64);
         public static final Item CHERRY_BISCUITS = registerFoodItem("cherry_biscuits", 3, 0.35f);
 
         public static final Item CHERRIES = registerFoodItem("cherries", 2, 0.2f);
