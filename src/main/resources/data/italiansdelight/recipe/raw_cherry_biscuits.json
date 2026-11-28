@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "farmersdelight:wheat_dough",
+    "minecraft:sugar",
+    "italiansdelight:cherry_jam_bottle"
+  ],
+  "result": {
+    "id": "italiansdelight:raw_cherry_biscuits",
+    "count": 4
+  }
+}

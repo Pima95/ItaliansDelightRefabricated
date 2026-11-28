@@ -626,5 +626,11 @@
   "item.italiansdelight.taralli": "Taralli",
   "item.italiansdelight.raw_grissini": "Grissini crudi",
   "item.italiansdelight.grissini": "Grissini",
-  "item.italiansdelight.grissini_with_prosciutto": "Grissini con prosciutto crudo"
+  "item.italiansdelight.grissini_with_prosciutto": "Grissini con prosciutto crudo",
+  "item.italiansdelight.raw_cannoli_shell": "Cialda del cannolo cruda",
+  "item.italiansdelight.fried_cannoli_shell": "Cialda del cannolo fritta",
+  "item.italiansdelight.sicilian_cannoli": "Cannolo siciliano",
+  "item.italiansdelight.panna_cotta": "Panna cotta",
+  "item.italiansdelight.raw_cherry_biscuits": "Biscotti alle ciliegie crudi",
+  "item.italiansdelight.cherry_biscuits": "Biscotti alle ciliegie"
 }

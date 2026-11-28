@@ -135,8 +135,8 @@ Tutte le nove ricette sono shapeless nella Crafting Table, con ingredienti esist
 
 | Piatto | Ingredienti principali | Difficoltà | Decisione |
 | --- | --- | --- | --- |
-| Cannoli siciliani | Impasto, ricotta, zucchero, cacao | Facile | Da valutare |
-| Panna cotta | Panna, zucchero | Facile | Da valutare |
+| Cannoli siciliani | Impasto, ricotta, zucchero, cacao | Facile | Implementato |
+| Panna cotta | Panna, zucchero | Facile | Implementato |
 | Panna cotta alle ciliegie | Panna, zucchero, marmellata di ciliegie | Facile | Da valutare |
 | Panna cotta al cioccolato | Panna, cacao, zucchero | Facile | Da valutare |
 | Cantucci | Impasto, mandorle, uova, zucchero | Facile | Da valutare |
@@ -144,7 +144,7 @@ Tutte le nove ricette sono shapeless nella Crafting Table, con ingredienti esist
 | Struffoli | Impasto, uova, miele | Facile | Da valutare |
 | Salame di cioccolato | Biscotti, cacao, zucchero | Facile | Da valutare |
 | Biscotti al vino | Impasto, vino, zucchero, olio | Facile | Da valutare |
-| Biscotti alle ciliegie | Impasto, zucchero, marmellata | Facile | Da valutare |
+| Biscotti alle ciliegie | Impasto, zucchero, marmellata | Facile | Implementato |
 | Biscotti ripieni di ricotta | Impasto, ricotta, zucchero | Facile | Da valutare |
 | Torta di ricotta | Impasto, ricotta, zucchero, uova | Facile | Da valutare |
 | Torta della nonna | Impasto, crema pasticcera, mandorle | Intermedio (adattamento) | Da valutare |
@@ -274,3 +274,7 @@ Approvati panzerotto (fritto e al forno), calzone, arancini al ragù e prosciutt
 ### Street food – grissini con prosciutto crudo
 
 Implementati: grissini cotti + una fetta di prosciutto crudo (crafting shapeless, un risultato, 6 punti fame, modificatore 0.65). Texture 16×16, nessun recipiente. Ridisegnati panzerotti e taralli crudi/cotti. Nomi dei 14 risotti uniformati in IT/EN senza modificare gli ID registrati.
+
+### 2.0.0 – Dolci approvati
+
+Solo cannoli siciliani, panna cotta classica e biscotti alle ciliegie. Cialda del cannolo cruda (impasto di grano FDR, cacao, zucchero, resa 2), frittura nel Cooking Pot con una bottiglia di olio e farcitura shapeless con ricotta, zucchero e cacao. Panna cotta nel Cooking Pot con panna e zucchero, servita in ciotola; nessuna gelatina aggiunta. Biscotti crudi (impasto, zucchero, marmellata, resa 4) e cottura al forno. Sei texture originali 16×16, con contorno dei biscotti alle mandorle riutilizzato per i biscotti alle ciliegie. Valori nutrizionali iniziali: cannolo 7/0.65, panna cotta 6/0.55, biscotti 3/0.35. Nessun altro dolce implementato.

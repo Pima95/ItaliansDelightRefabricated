@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "italiansdelight:fried_cannoli_shell",
+    "italiansdelight:ricotta",
+    "minecraft:sugar",
+    "minecraft:cocoa_beans"
+  ],
+  "result": {
+    "id": "italiansdelight:sicilian_cannoli",
+    "count": 1
+  }
+}

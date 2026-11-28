@@ -517,6 +517,12 @@ public final class ModItemGroups {
                 output.accept(ModBlocks.CHERRY_TART);
                 output.accept(ModItems.CHERRY_TART_SLICE);
                 output.accept(ModItems.ALMOND_BISCUITS);
+                output.accept(ModItems.RAW_CHERRY_BISCUITS);
+                output.accept(ModItems.CHERRY_BISCUITS);
+                output.accept(ModItems.RAW_CANNOLI_SHELL);
+                output.accept(ModItems.FRIED_CANNOLI_SHELL);
+                output.accept(ModItems.SICILIAN_CANNOLI);
+                output.accept(ModItems.PANNA_COTTA);
             })
             .build();
 
